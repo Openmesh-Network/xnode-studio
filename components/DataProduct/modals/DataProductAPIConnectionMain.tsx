@@ -46,7 +46,7 @@ const DataProductAPIConnectionMain = ({ dataProductId }: ModalI) => {
     )
   }
 
-    // Aiven API connection
+    // Aiven API connection here
     if (dataProductId === '31e30a64-a2c4-4bbe-b4ec-8cc4416c8494') {
       return (
         <div>
