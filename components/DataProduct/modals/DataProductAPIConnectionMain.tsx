@@ -46,26 +46,26 @@ const DataProductAPIConnectionMain = ({ dataProductId }: ModalI) => {
     )
   }
 
-    // Aiven API connection here
-    if (dataProductId === '31e30a64-a2c4-4bbe-b4ec-8cc4416c8494') {
-      return (
-        <div>
-          <div className="mt-[20px] text-[8px] font-bold  text-[#959595]  md:mt-[36px]  md:text-[10px] lg:mt-[42px] lg:text-[12px] lg:!leading-[19px] 2xl:mt-[52px]  2xl:text-[16px]">
-            API connection
-          </div>
-  
-          <div className="mt-[20px] grid gap-y-[35px] 2xl:gap-y-[45px]">
-            <DataProductAPIConnection
-              connectionEndpoint="connectAivenAPI"
-              helpLink="https://aiven.io/docs/integrations"
-              title="Connect your Aiven Account"
-              userApiKey="aivenAPIKey"
-              imageSrc=""
-            />
-          </div>
+  // Aiven API connection here
+  if (dataProductId === '31e30a64-a2c4-4bbe-b4ec-8cc4416c8494') {
+    return (
+      <div>
+        <div className="mt-[20px] text-[8px] font-bold  text-[#959595]  md:mt-[36px]  md:text-[10px] lg:mt-[42px] lg:text-[12px] lg:!leading-[19px] 2xl:mt-[52px]  2xl:text-[16px]">
+          API connection
         </div>
-      )
-    }
+
+        <div className="mt-[20px] grid gap-y-[35px] 2xl:gap-y-[45px]">
+          <DataProductAPIConnection
+            connectionEndpoint="connectAivenAPI"
+            helpLink="https://aiven.io/docs/integrations"
+            title="Connect your Aiven Account"
+            userApiKey="aivenAPIKey"
+            imageSrc=""
+          />
+        </div>
+      </div>
+    )
+  }
   return <div></div>
 }
 
