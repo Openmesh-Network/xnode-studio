@@ -33,6 +33,20 @@ const SubBarUtility = ({ onValueChange }) => {
       type: 'Observability',
     },
     {
+      title: 'Aiven',
+      desc: 'Data Infrastructure',
+      link: 'Power your dApps, web and mobile applications',
+      linkRef:
+        'https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/use-cases',
+      src: '/images/subNavBarUtility/aiven.svg',
+      pageRef: '/data-product/31e30a64-a2c4-4bbe-b4ec-8cc4416c8494',
+      style: '2xl:w-[21px] xl:w-[17px] lg:w-[14.5px] md:w-[12.6px] w-[10.5px]',
+      isFree: true,
+      enabled: true,
+      thirdParty: false,
+      type: 'Observability',
+    },
+    {
       title: 'Prometheus',
       desc: 'A node service provider, that provides.',
       link: 'Arbitrum, BNB Chain, Ethereum, Polygon, Multichain, Solana',
