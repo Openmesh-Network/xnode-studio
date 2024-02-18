@@ -772,6 +772,9 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
       <ReactFlow
         nodes={nodesAmounts}
         edges={edgesWithUpdatedTypes}
+        proOptions={{
+          hideAttribution: true,
+        }}
         onNodesChange={(value) => {
           console.log('chamado fuii')
           console.log(nodesAmounts)
