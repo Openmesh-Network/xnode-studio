@@ -33,7 +33,7 @@ const SubBarUtility = ({ onValueChange }) => {
       type: 'Observability',
     },
     {
-      title: 'Aiven',
+      title: 'Aiven - Grafana',
       desc: 'Data Infrastructure',
       link: 'Power your dApps, web and mobile applications',
       linkRef:

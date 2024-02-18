@@ -9,6 +9,8 @@ export interface UserProps {
   equinixAPIKey: string
   validationCloudAPIKeyEthereum: string
   validationCloudAPIKeyPolygon: string
+  aivenAPIKey: string
+  aivenAPIServiceUriParams: string
   companyName: string
   foundingYear: number
   location: string

@@ -205,6 +205,11 @@ const DataProductAPIConnection = ({
                 >
                   Edit
                 </div>
+                {userApiKey === 'aivenAPIKey' && (
+                  <div className="mt-[25px]">
+                    {user.aivenAPIServiceUriParams}
+                  </div>
+                )}
               </div>
             )}
           </div>
