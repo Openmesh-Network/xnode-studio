@@ -38,7 +38,7 @@ const SubBarUtility = ({ onValueChange }) => {
       link: 'Power your dApps, web and mobile applications',
       linkRef:
         'https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/use-cases',
-      src: '/images/subNavBarUtility/aiven.svg',
+      src: '/images/subNavBarUtility/aiven.png',
       pageRef: '/data-product/31e30a64-a2c4-4bbe-b4ec-8cc4416c8494',
       style: '2xl:w-[21px] xl:w-[17px] lg:w-[14.5px] md:w-[12.6px] w-[10.5px]',
       isFree: true,
@@ -199,12 +199,18 @@ const SubBarUtility = ({ onValueChange }) => {
                 )}
                 <div
                   onClick={() => {
-                    setChangeNodes({
-                      title: type,
-                      type: 'utility',
-                      name: option.title,
-                      icon: option.src,
-                    })
+                    option.title === 'ValidationCloud'
+                      ? setChangeNodes({
+                          type: 'utility',
+                          name: option.title,
+                          icon: option.src,
+                          chain: 'Ethereum',
+                        })
+                      : setChangeNodes({
+                          type: 'utility',
+                          name: option.title,
+                          icon: option.src,
+                        })
                   }}
                   className={`absolute ${
                     option.enabled
