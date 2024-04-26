@@ -88,7 +88,9 @@ const Template = (id: any) => {
                     System requirements
                   </div>
                   <div className="mt-[15px] flex gap-x-[30px] border-[0.7px] border-[#CDCDCD] py-[8px] px-[20px] font-medium lg:gap-x-0">
-                    <div className="lg:w-[50%]">Min requirements</div>
+                    <div className="md:w-[40%] lg:w-[50%]">
+                      Min requirements
+                    </div>
                     <div className="lg:w-[50%]">Recommended requirements</div>
                   </div>
                   <div className="mt-[15px] flex gap-x-[10px] px-[20px] font-normal lg:gap-x-0">
@@ -145,7 +147,7 @@ const Template = (id: any) => {
               </div>
             </div>
             <div className="mt-[40px] mb-[50px] h-fit border-[0.6px] border-[#CFCFCF] px-[56px] pt-[60px] pb-[37px] lg:mb-0">
-              <div className="flex gap-x-[14px]">
+              <div className="flex justify-center gap-x-[14px]">
                 <div className="mt-[3px] h-[19px] w-[19px] cursor-pointer rounded-full border-[1px] border-[#D1D1D1] bg-[#12AD50]"></div>
                 <div className="text-[16px] ">
                   <div className="font-bold">Bare metal</div>
@@ -170,7 +172,7 @@ const Template = (id: any) => {
                   />
                 </div>
               </div>
-              <div className="mt-[100px] flex gap-x-[14px]">
+              <div className="mx-auto mt-[100px] flex justify-center gap-x-[14px]">
                 <div className="mt-[3px] h-[19px] w-[19px] cursor-pointer rounded-full border-[3px] border-[#D1D1D1] bg-[#fff]"></div>
                 <div className="text-[16px] ">
                   <div className="font-bold">Public Clouds</div>
@@ -191,7 +193,7 @@ const Template = (id: any) => {
                   />
                 </div>
               </div>
-              <div className="mx-auto mt-[113px] rounded-[5px] bg-[#0354EC] px-[120px] py-[10px] text-[16px] font-medium text-[#fff]">
+              <div className="mx-auto mt-[80px] w-fit rounded-[5px] bg-[#0354EC] px-[120px] py-[10px] text-[16px] font-medium text-[#fff] lg:mt-[113px]">
                 Deploy
               </div>
             </div>
