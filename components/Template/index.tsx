@@ -83,7 +83,7 @@ const Template = (id: any) => {
                   of methods that applications can rely on regardless of the
                   specific node or client implementation.
                 </div>
-                <div className="mt-[40px] max-w-[703px] lg:mt-[59px]">
+                <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[14px] lg:mt-[59px]">
                   <div className="text-[18px] font-semibold">
                     System requirements
                   </div>
@@ -105,11 +105,11 @@ const Template = (id: any) => {
                   </div>
                   <div className="mt-[30px] border-b-[1px] border-[#DDDDDD]"></div>
                 </div>
-                <div className="mt-[40px] max-w-[703px] lg:mt-[59px]">
+                <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[14px] lg:mt-[59px]">
                   <div className="text-[18px] font-semibold">
                     What’s included{' '}
                   </div>
-                  <div className="mt-[15px] flex border-[0.7px] border-[#CDCDCD] py-[8px] px-[20px] font-medium">
+                  <div className="mt-[15px] flex border-[0.7px] border-[#CDCDCD] py-[8px] px-[5px] font-medium lg:px-[20px] ">
                     <div className="w-[30%]">Product Name</div>
                     <div className="w-[30%]">Description</div>
                     <div className="w-[25%]">Tags</div>
@@ -146,7 +146,7 @@ const Template = (id: any) => {
                 </div>
               </div>
             </div>
-            <div className="mt-[40px] mb-[50px] h-fit border-[0.6px] border-[#CFCFCF] px-[56px] pt-[60px] pb-[37px] lg:mb-0">
+            <div className="mt-[40px] mb-[50px] h-fit border-[0.6px] border-[#CFCFCF] px-[10px] pt-[60px] pb-[37px] lg:mb-0 lg:px-[56px]">
               <div className="flex justify-center gap-x-[14px]">
                 <div className="mt-[3px] h-[19px] w-[19px] cursor-pointer rounded-full border-[1px] border-[#D1D1D1] bg-[#12AD50]"></div>
                 <div className="text-[16px] ">
@@ -193,7 +193,7 @@ const Template = (id: any) => {
                   />
                 </div>
               </div>
-              <div className="mx-auto mt-[80px] w-fit rounded-[5px] bg-[#0354EC] px-[120px] py-[10px] text-[16px] font-medium text-[#fff] lg:mt-[113px]">
+              <div className="mx-auto mt-[80px] w-fit rounded-[5px] bg-[#0354EC] px-[30px] py-[10px] text-[16px] font-medium text-[#fff] lg:mt-[113px] lg:px-[120px]">
                 Deploy
               </div>
             </div>
