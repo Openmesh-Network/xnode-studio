@@ -21,6 +21,26 @@ export async function getDatasets(type?: string) {
   return dado
 }
 
+export async function getAPI(url: string) {
+  const config = {
+    method: 'get' as 'get',
+    url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}${url}`,
+    headers: {
+      'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+    },
+  }
+
+  let dado
+
+  await axios(config).then(function (response) {
+    if (response.data) {
+      dado = response.data
+    }
+  })
+
+  return dado
+}
+
 export async function getData(id: any) {
   const data = {
     id,

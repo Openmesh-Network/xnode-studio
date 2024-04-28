@@ -40,3 +40,27 @@ export type DataProvider = {
   linkLinkedin?: string
   linkGithub?: string
 }
+
+export type TemplatesProducts = {
+  id: string
+  providerName?: string
+  productName?: string
+  location?: string
+  cpuCores?: string
+  cpuThreads?: string
+  cpuGHZ?: string
+  hasSGX?: string
+  ram?: string
+  numberDrives?: string
+  avgSizeDrive?: string
+  storageTotal?: string
+  gpuType?: string
+  gpuMemory?: string
+  bandwidthNetwork?: string
+  network?: string
+  priceHour?: string
+  priceMonth?: string
+  availability?: string
+  source?: string
+  unit?: string
+}
