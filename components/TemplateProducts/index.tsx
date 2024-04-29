@@ -169,23 +169,25 @@ const TemplateProducts = () => {
                   />
                 </div>
               </div>
-              <div className="mt-[20px]">
-                <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/template/loading.svg`}
-                  alt="image"
-                  className="w-[20px] animate-spin"
-                />
-                <div className="mt-[10px] h-[10px] w-full rounded-[50px] border-[1px] border-[#E4E5E8] bg-[#fff]">
-                  <div
-                    style={{ width: `${progressLoadingBar}%` }}
-                    className="h-full rounded-full bg-[#0059ff] transition-all duration-300"
-                  ></div>
+              {isLoading && (
+                <div className="mt-[20px]">
+                  <img
+                    src={`${
+                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                        ? process.env.NEXT_PUBLIC_BASE_PATH
+                        : ''
+                    }/images/template/loading.svg`}
+                    alt="image"
+                    className="w-[20px] animate-spin"
+                  />
+                  <div className="mt-[10px] h-[10px] w-full rounded-[50px] border-[1px] border-[#E4E5E8] bg-[#fff]">
+                    <div
+                      style={{ width: `${progressLoadingBar}%` }}
+                      className="h-full rounded-full bg-[#0059ff] transition-all duration-300"
+                    ></div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             <div className="mt-[25px] grid w-full gap-y-[38px]">
               {templates.map((tmp, index) => (
