@@ -73,7 +73,11 @@ const Dropdown = ({
         </div>
         <img
           alt="ethereum avatar"
-          src="/images/header/line.svg"
+          src={`${
+            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+              ? process.env.NEXT_PUBLIC_BASE_PATH
+              : ''
+          }/images/header/line.svg`}
           className={`transition-transform duration-200 ${
             isOpen && 'rotate-180'
           }`}
