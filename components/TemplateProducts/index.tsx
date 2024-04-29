@@ -20,6 +20,13 @@ export const optionsNetwork = [
   },
 ]
 
+export const providerNameToLogo = {
+  Equinix: {
+    src: 'new-equinix.png',
+    width: 'w-[50px]',
+  },
+}
+
 const TemplateProducts = () => {
   const [templates, setTemplates] = useState<TemplatesProducts[]>([])
   const [page, setPage] = useState<number>(1)
@@ -27,7 +34,10 @@ const TemplateProducts = () => {
   const [hasMorePages, setHasMorePages] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isLoadingMoreTemplates, setIsLoadingMoreTemplates] = useState(false)
+  const [progressLoadingBar, setProgressLoadingBar] = useState(0)
   const [selected, setSelected] = useState<ValueObject>()
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
   async function getData() {
     setIsLoading(true)
@@ -40,6 +50,33 @@ const TemplateProducts = () => {
     } catch (err) {
       toast.error('Something occured')
     }
+
+    // doing it gradually as requested by Ashton
+    const firstStep = data.products.slice(0, 1)
+    setTemplates(firstStep)
+    setProgressLoadingBar(20)
+    await delay(2000)
+
+    const secondStep = data.products.slice(0, 3)
+    setTemplates(secondStep)
+    setProgressLoadingBar(33)
+    await delay(2000)
+
+    const thirdStep = data.products.slice(0, 3)
+    setTemplates(thirdStep)
+    setProgressLoadingBar(53)
+    await delay(2000)
+
+    const fourStep = data.products.slice(0, 10)
+    setTemplates(fourStep)
+    setProgressLoadingBar(65)
+    await delay(2000)
+
+    const fiveStep = data.products.slice(0, 25)
+    setTemplates(fiveStep)
+    setProgressLoadingBar(100)
+    await delay(2000)
+
     setIsLoading(false)
     setTemplates(data.products)
     setHasMorePages(data.hasMorePages)
@@ -68,24 +105,8 @@ const TemplateProducts = () => {
     getData()
   }, [])
 
-  if (isLoading) {
-    return (
-      <section className="bg-white pl-[30px] pr-[30px] pt-[46px] pb-[50px] text-[#000] md:pl-[90px] md:pr-[130px]">
-        <div className="container hidden h-60 animate-pulse px-0 pb-12 md:flex">
-          <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
-          <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
-        </div>
-        <div className="container h-60 animate-pulse px-0 pb-12 md:hidden">
-          <div className="mt-[10px] h-10 w-full animate-pulse bg-[#dfdfdf]"></div>
-          <div className="mt-[10px] h-10 w-full animate-pulse bg-[#dfdfdf]"></div>
-          <div className="mt-[20px] h-32 w-full animate-pulse bg-[#dfdfdf]"></div>
-        </div>
-      </section>
-    )
-  }
-
   return (
-    <section className="relative z-10 pt-[30px] lg:pt-0">
+    <section className="relative z-10 pt-[30px] pb-[200px] lg:pt-0">
       <div className="mx-auto max-w-[1380px] px-[20px]  text-[14px] font-normal text-[#000]">
         <div className="flex">
           <div className="">
@@ -148,6 +169,23 @@ const TemplateProducts = () => {
                   />
                 </div>
               </div>
+              <div className="mt-[20px]">
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }/images/template/loading.svg`}
+                  alt="image"
+                  className="w-[20px] animate-spin"
+                />
+                <div className="mt-[10px] h-[10px] w-full rounded-[50px] border-[1px] border-[#E4E5E8] bg-[#fff]">
+                  <div
+                    style={{ width: `${progressLoadingBar}%` }}
+                    className="h-full rounded-full bg-[#0059ff] transition-all duration-300"
+                  ></div>
+                </div>
+              </div>
             </div>
             <div className="mt-[25px] grid w-full gap-y-[38px]">
               {templates.map((tmp, index) => (
@@ -156,7 +194,23 @@ const TemplateProducts = () => {
                   className="flex items-center rounded-[8px] border-[1px] border-[#E4E5E8] py-[30px] pl-[24px] pr-[62px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]"
                 >
                   <div className="mr-[40px]">
-                    <div>{tmp.providerName}</div>
+                    {providerNameToLogo[tmp.providerName] ? (
+                      <img
+                        src={`${
+                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                            ? process.env.NEXT_PUBLIC_BASE_PATH
+                            : ''
+                        }/images/template/${
+                          providerNameToLogo[tmp.providerName].src
+                        }`}
+                        alt="image"
+                        className={`${
+                          providerNameToLogo[tmp.providerName].width
+                        } mx-auto mb-[15px]`}
+                      />
+                    ) : (
+                      <div>{tmp.providerName}</div>
+                    )}
                     <div>Public Cloud</div>
                   </div>
                   <div className="max-w-[309px]">
@@ -171,16 +225,17 @@ const TemplateProducts = () => {
                         <span className="underline">Blockchain Apps</span>
                       </div>
                       <div className="mt-[15px]">
-                        CPU, 8-Core (16-Thread), RAM, 12GB DDR4 ; Storage, 500GB
-                        SSD
+                        {tmp.cpuGHZ} GHZ, {tmp.cpuCores} CPU cores,{' '}
+                        {tmp.cpuThreads} Threads, {tmp.ram} RAM,{' '}
+                        {tmp.storageTotal} GB, {tmp.network} Gbps
                       </div>
                     </div>
                   </div>
                   <div className="ml-auto grid gap-y-[9px] text-center">
                     <div className="mx-auto w-fit text-[18px] font-medium line-through">
-                      Est $260 p/m
+                      Est {tmp.priceMonth} p/m
                     </div>
-                    <div className="cursor-pointer rounded-[12px] bg-[#0059ff] px-[58.5px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff]">
+                    <div className="cursor-pointer rounded-[12px] bg-[#0059ff] px-[58.5px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]">
                       Deploy
                     </div>
                     <div className="text-[16px] font-bold text-[#0059ff]">
@@ -194,6 +249,7 @@ const TemplateProducts = () => {
                   onClick={() => {
                     loadMoreTemplates()
                   }}
+                  className="mx-auto cursor-pointer rounded-[5px] border-[1px] border-[#cfd3d8] py-[5px] px-[15px]"
                 >
                   Show more
                 </div>
