@@ -82,6 +82,9 @@ interface CreateUserContextProps {
   tagXnode: any
   setTagXnode: (value: any) => void
 
+  indexerDeployerStep: any
+  setIndexerDeployerStep: (value: any) => void
+
   changeNodes: any
   setChangeNodes: (value: any) => void
 
@@ -99,6 +102,7 @@ export default function AccountContextProvider({
 }: CreateContextProps) {
   const [user, setUser] = useState<UserProps>()
   const [changeNodes, setChangeNodes] = useState()
+  const [indexerDeployerStep, setIndexerDeployerStep] = useState(0)
   const [removeNodes, setRemoveNodes] = useState()
   const [selectionSideNavBar, setSelectionSideNavBar] =
     useState<string>('Start here')
@@ -151,6 +155,8 @@ export default function AccountContextProvider({
         setSignup,
         tagXnode,
         setTagXnode,
+        indexerDeployerStep,
+        setIndexerDeployerStep,
         finalNodes,
         setFinalNodes,
         isWorkspace,
