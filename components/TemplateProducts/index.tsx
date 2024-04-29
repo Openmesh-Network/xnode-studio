@@ -21,6 +21,12 @@ export const optionsNetwork = [
   },
 ]
 
+type dataAPI = {
+  products: TemplatesProducts[]
+  hasMorePages: boolean
+  totalProducts: number
+}
+
 export const providerNameToLogo = {
   Equinix: {
     src: 'new-equinix.png',
@@ -35,24 +41,28 @@ const TemplateProducts = () => {
   const [page, setPage] = useState<number>(1)
   const [searchInput, setSearchInput] = useState<string>()
   const [hasMorePages, setHasMorePages] = useState<boolean>(false)
+  const [totalResults, setTotalResults] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingMoreTemplates, setIsLoadingMoreTemplates] = useState(false)
   const [progressLoadingBar, setProgressLoadingBar] = useState(0)
   const [progressLoadingText, setProgressLoadingText] = useState(
     'Checking 19 providers',
   )
-  const [selected, setSelected] = useState<ValueObject>()
+  const [selected, setSelected] = useState<ValueObject | null>(null)
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-  async function getData() {
+  async function getData(withoutFilter?: boolean) {
     setIsLoading(true)
 
-    let data: { products: TemplatesProducts[]; hasMorePages: boolean }
+    let url = `/openmesh-data/functions/templateProducts?page=${page}`
+    if (searchInput?.length > 0 && !withoutFilter) {
+      url = `${url}&searchBarFilter=${searchInput}`
+    }
+
+    let data: dataAPI
     try {
-      data = await getAPI(
-        `/openmesh-data/functions/templateProducts?page=${page}`,
-      )
+      data = await getAPI(url)
     } catch (err) {
       toast.error('Something occured')
     }
@@ -89,16 +99,19 @@ const TemplateProducts = () => {
     setIsLoading(false)
     setTemplates(data.products)
     setHasMorePages(data.hasMorePages)
+    setTotalResults(String(data.totalProducts))
   }
 
   async function loadMoreTemplates() {
     setIsLoadingMoreTemplates(true)
 
-    let data: { products: TemplatesProducts[]; hasMorePages: boolean }
+    let data: dataAPI
+    let url = `/openmesh-data/functions/templateProducts?page=${page + 1}`
+    if (searchInput?.length > 0) {
+      url = `${url}&searchBarFilter=${searchInput}`
+    }
     try {
-      data = await getAPI(
-        `/openmesh-data/functions/templateProducts?page=${page + 1}`,
-      )
+      data = await getAPI(url)
     } catch (err) {
       toast.error('Something occured')
     }
@@ -107,8 +120,6 @@ const TemplateProducts = () => {
     setTemplates([...templates, ...data.products])
     setHasMorePages(data.hasMorePages)
   }
-
-  const options = ['test', 'test2']
 
   useEffect(() => {
     getData()
@@ -136,7 +147,16 @@ const TemplateProducts = () => {
                     <input
                       value={searchInput}
                       placeholder="Search"
-                      onChange={(e) => setSearchInput(e.target.value)}
+                      onChange={(e) => {
+                        if (e.target.value.length < 10000) {
+                          setSearchInput(e.target.value)
+                        }
+                      }}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && searchInput?.length > 0) {
+                          getData()
+                        }
+                      }}
                       className="w-[364px] bg-[#fff] text-[16px] placeholder:text-[#6B7280]"
                     />
                     <img
@@ -163,11 +183,21 @@ const TemplateProducts = () => {
                     }}
                   />
                 </div>
-                <div className="my-auto flex h-fit cursor-pointer items-center justify-center gap-x-[12px] rounded-[90px] bg-[#0059ff] py-[16px] px-[24px] hover:bg-[#014cd7]">
+                <div
+                  onClick={() => {
+                    getData()
+                  }}
+                  className="my-auto flex h-fit cursor-pointer items-center justify-center gap-x-[12px] rounded-[90px] bg-[#0059ff] py-[16px] px-[24px] hover:bg-[#014cd7]"
+                >
                   <div className="text-[16px] font-bold text-[#fff]">
                     Filter
                   </div>
                   <img
+                    onClick={() => {
+                      setSearchInput('')
+                      setSelected(null)
+                      getData(true)
+                    }}
                     src={`${
                       process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                         ? process.env.NEXT_PUBLIC_BASE_PATH
@@ -201,7 +231,7 @@ const TemplateProducts = () => {
                   </div>
                 </div>
               ) : (
-                <div className="mt-[25px]">2386 results</div>
+                <div className="mt-[25px]">{totalResults} results</div>
               )}
             </div>
             <div className="mt-[25px] grid w-full gap-y-[38px]">
@@ -252,7 +282,12 @@ const TemplateProducts = () => {
                     <div className="mx-auto w-fit text-[18px] font-medium line-through">
                       Est {tmp.priceMonth} p/m
                     </div>
-                    <div className="cursor-pointer rounded-[12px] bg-[#0059ff] px-[58.5px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]">
+                    <div
+                      onClick={() => {
+                        setTemplateSelected(tmp)
+                      }}
+                      className="cursor-pointer rounded-[12px] bg-[#0059ff] px-[58.5px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
+                    >
                       Deploy
                     </div>
                     <div className="text-[16px] font-bold text-[#0059ff]">
@@ -284,7 +319,7 @@ const TemplateProducts = () => {
               )}
             </div>
           </div>
-          <div className="w-[384px] rounded-[8px] border-[1px] border-[#cfd3d8] p-[32px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]">
+          <div className="h-fit rounded-[8px] border-[1px] border-[#cfd3d8] p-[32px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]">
             <div className="flex items-center justify-between">
               <div className=" text-[24px] font-bold !leading-[40px]">
                 Your progress
@@ -362,10 +397,18 @@ const TemplateProducts = () => {
                   <div className="text-[28px] font-bold text-[#0059ff]">
                     {templateSelected?.priceMonth}
                   </div>
-                  <div className="text-[12px] font-normal">
-                    That's about {templateSelected?.priceHour} hourly
-                  </div>
+                  {templateSelected?.priceHour && (
+                    <div className="text-[12px] font-normal">
+                      That's about {templateSelected?.priceHour} hourly
+                    </div>
+                  )}
                 </div>
+              </div>
+              <div
+                onClick={() => {}}
+                className="cursor-pointer rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
+              >
+                Deploy
               </div>
             </div>
           </div>

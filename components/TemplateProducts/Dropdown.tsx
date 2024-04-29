@@ -44,22 +44,18 @@ const Dropdown = ({
 
   return (
     <div
-      className={`relative ${
-        isOpen && 'border-primary'
-      } my-auto w-[256px] rounded-[5px] border-[1px] border-[#cfd3d8] px-[12px]  py-[15px] text-[16px] font-medium`}
+      onClick={() => {
+        if (isDisable) {
+          return
+        }
+        setIsOpen(!isOpen)
+      }}
+      className={`relative ${isOpen && 'border-primary'} my-auto w-[256px] ${
+        !isDisable && 'cursor-pointer'
+      } rounded-[5px] border-[1px] border-[#cfd3d8] px-[12px]  py-[15px] text-[16px] font-medium`}
       ref={dropdownRef}
     >
-      <div
-        onClick={() => {
-          if (isDisable) {
-            return
-          }
-          setIsOpen(!isOpen)
-        }}
-        className={`flex items-center justify-between ${
-          !isDisable && 'cursor-pointer'
-        }`}
-      >
+      <div className={`flex items-center justify-between `}>
         <div className="flex justify-between gap-x-[10px]">
           {optionSelected?.imageSrc && (
             <img
@@ -85,7 +81,7 @@ const Dropdown = ({
       </div>
 
       {isOpen && (
-        <div className="absolute left-0 top-0  z-50 w-full translate-y-[55px] rounded-[5px] border-[1px] border-[#cfd3d8]  bg-[#fff] transition">
+        <div className="absolute left-0 top-0  z-50 w-full translate-y-[60px] rounded-[5px] border-[1px] border-[#cfd3d8]  bg-[#fff] transition">
           <div className="grid gap-y-[5px] px-1 py-1">
             {options?.map((option, index) => (
               <div
