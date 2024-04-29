@@ -234,7 +234,7 @@ const TemplateProducts = () => {
                 <div className="mt-[25px]">{totalResults} results</div>
               )}
             </div>
-            <div className="mt-[25px] grid w-full gap-y-[38px]">
+            <div className="mt-[25px] grid max-h-[700px] w-full gap-y-[38px] overflow-y-auto pr-[10px] scrollbar-thin scrollbar-track-[#F9F9F9] scrollbar-thumb-[#c5c4c4]">
               {templates.map((tmp, index) => (
                 <div
                   key={index}
@@ -336,7 +336,23 @@ const TemplateProducts = () => {
             </div>
             <div className="mt-[32px] grid gap-y-[32px]">
               <div className="flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div
+                  className={`flex h-[48px] w-[48px] rounded-full  ${
+                    templateSelected ? 'bg-[#0059ff]' : 'bg-[#e5eefc]'
+                  }`}
+                >
+                  {templateSelected && (
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/check.svg`}
+                      alt="image"
+                      className="mx-auto my-auto"
+                    />
+                  )}
+                </div>
                 <div className="text-[18px] font-semibold">
                   Select a template
                 </div>
@@ -344,7 +360,7 @@ const TemplateProducts = () => {
               <div className="flex items-center gap-x-[20px]">
                 <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
                 <div className="text-[18px] font-semibold">
-                  Select a template
+                  Select a provider{' '}
                 </div>
               </div>
             </div>
@@ -388,8 +404,10 @@ const TemplateProducts = () => {
                 <div>Price</div>
               </div>
               <div className="mt-[30px] flex justify-between border-b-[1px] border-[#D4D4D4] px-[18px] pb-[5px] text-[14px]">
-                <div className="font-medium text-[#959595]">Service</div>
-                <div className="font-bold">XX</div>
+                <div className="font-medium text-[#959595]">
+                  {templateSelected?.productName}
+                </div>
+                <div className="font-bold">{templateSelected?.priceMonth}</div>
               </div>
               <div className="mt-[26px] flex justify-between">
                 <div className="text-[16px] font-medium">Total</div>
@@ -406,9 +424,27 @@ const TemplateProducts = () => {
               </div>
               <div
                 onClick={() => {}}
-                className="cursor-pointer rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
+                className="mt-[30px] cursor-pointer rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
               >
                 Deploy
+              </div>
+              <div className="mt-[30px] flex items-center gap-x-[20px]">
+                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="text-[18px] font-semibold text-[#959595]">
+                  Choose your configuration{' '}
+                </div>
+              </div>
+              <div className="mt-[34px] flex items-center gap-x-[20px]">
+                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="text-[18px] font-semibold text-[#959595]">
+                  Performing connection{' '}
+                </div>
+              </div>
+              <div className="mt-[34px] flex items-center gap-x-[20px]">
+                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="text-[18px] font-semibold text-[#959595]">
+                  Service deployed{' '}
+                </div>
               </div>
             </div>
           </div>
