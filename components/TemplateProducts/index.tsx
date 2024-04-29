@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 'use client'
 /* eslint-disable no-unused-vars */
@@ -29,12 +30,17 @@ export const providerNameToLogo = {
 
 const TemplateProducts = () => {
   const [templates, setTemplates] = useState<TemplatesProducts[]>([])
+  const [templateSelected, setTemplateSelected] =
+    useState<TemplatesProducts | null>()
   const [page, setPage] = useState<number>(1)
   const [searchInput, setSearchInput] = useState<string>()
   const [hasMorePages, setHasMorePages] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [isLoadingMoreTemplates, setIsLoadingMoreTemplates] = useState(false)
   const [progressLoadingBar, setProgressLoadingBar] = useState(0)
+  const [progressLoadingText, setProgressLoadingText] = useState(
+    'Checking 19 providers',
+  )
   const [selected, setSelected] = useState<ValueObject>()
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -55,6 +61,7 @@ const TemplateProducts = () => {
     const firstStep = data.products.slice(0, 1)
     setTemplates(firstStep)
     setProgressLoadingBar(20)
+    setProgressLoadingText('Searching Equinix')
     await delay(2000)
 
     const secondStep = data.products.slice(0, 3)
@@ -65,11 +72,13 @@ const TemplateProducts = () => {
     const thirdStep = data.products.slice(0, 3)
     setTemplates(thirdStep)
     setProgressLoadingBar(53)
+    setProgressLoadingText('Checking CPUs')
     await delay(2000)
 
     const fourStep = data.products.slice(0, 10)
     setTemplates(fourStep)
     setProgressLoadingBar(65)
+    setProgressLoadingText('Searching Vultr')
     await delay(2000)
 
     const fiveStep = data.products.slice(0, 25)
@@ -108,7 +117,7 @@ const TemplateProducts = () => {
   return (
     <section className="relative z-10 pt-[30px] pb-[200px] lg:pt-0">
       <div className="mx-auto max-w-[1380px] px-[20px]  text-[14px] font-normal text-[#000]">
-        <div className="flex">
+        <div className="flex justify-between gap-x-[95px]">
           <div className="">
             <div className="mb-[12.5px] text-[64px] font-semibold">Title</div>
             <div className="border-t-[1px] border-t-[#cfd3d8] pt-[32px]">
@@ -169,17 +178,21 @@ const TemplateProducts = () => {
                   />
                 </div>
               </div>
-              {isLoading && (
+              {isLoading ? (
                 <div className="mt-[20px]">
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/loading.svg`}
-                    alt="image"
-                    className="w-[20px] animate-spin"
-                  />
+                  <div className="flex gap-x-[10px]">
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/loading.svg`}
+                      alt="image"
+                      className="w-[20px] animate-spin"
+                    />
+                    <div>{progressLoadingText}</div>
+                  </div>
+
                   <div className="mt-[10px] h-[10px] w-full rounded-[50px] border-[1px] border-[#E4E5E8] bg-[#fff]">
                     <div
                       style={{ width: `${progressLoadingBar}%` }}
@@ -187,6 +200,8 @@ const TemplateProducts = () => {
                     ></div>
                   </div>
                 </div>
+              ) : (
+                <div className="mt-[25px]">2386 results</div>
               )}
             </div>
             <div className="mt-[25px] grid w-full gap-y-[38px]">
@@ -256,7 +271,102 @@ const TemplateProducts = () => {
                   Show more
                 </div>
               )}
-              {isLoadingMoreTemplates && <div> loading </div>}
+              {isLoadingMoreTemplates && (
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }/images/template/loading.svg`}
+                  alt="image"
+                  className="mx-auto w-[20px] animate-spin"
+                />
+              )}
+            </div>
+          </div>
+          <div className="w-[384px] rounded-[8px] border-[1px] border-[#cfd3d8] p-[32px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]">
+            <div className="flex items-center justify-between">
+              <div className=" text-[24px] font-bold !leading-[40px]">
+                Your progress
+              </div>
+              <img
+                src={`${
+                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                    ? process.env.NEXT_PUBLIC_BASE_PATH
+                    : ''
+                }/images/template/close-gray.svg`}
+                alt="image"
+                className="my-auto w-[24px] cursor-pointer pt-[2px]"
+              />
+            </div>
+            <div className="mt-[32px] grid gap-y-[32px]">
+              <div className="flex items-center gap-x-[20px]">
+                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="text-[18px] font-semibold">
+                  Select a template
+                </div>
+              </div>
+              <div className="flex items-center gap-x-[20px]">
+                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="text-[18px] font-semibold">
+                  Select a template
+                </div>
+              </div>
+            </div>
+            <div className="mt-[25px] px-[8px]">
+              <div className="grid gap-y-[10px]">
+                <div className="flex items-center gap-x-[7px]">
+                  <img
+                    src={`${
+                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                        ? process.env.NEXT_PUBLIC_BASE_PATH
+                        : ''
+                    }/images/template/mini-equinix.svg`}
+                    alt="image"
+                    className=""
+                  />
+                  <div className="text-[14px] font-extralight">
+                    Bare metal Provider
+                  </div>
+                </div>
+                <div className="flex items-center gap-x-[5px]">
+                  <img
+                    src={`${
+                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                        ? process.env.NEXT_PUBLIC_BASE_PATH
+                        : ''
+                    }/images/template/australia.svg`}
+                    alt="image"
+                    className=""
+                  />
+                  <div className="text-[14px] font-extralight">
+                    Country & Region{' '}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-[26px] text-[12px] font-bold">
+                {templateSelected?.cpuCores} vCPU + {templateSelected?.ram} GB
+                memory
+              </div>
+              <div className="mt-[19px] flex justify-between bg-[#e5eefc] py-[13px] px-[18px] text-[14px] font-normal">
+                <div>Item</div>
+                <div>Price</div>
+              </div>
+              <div className="mt-[30px] flex justify-between border-b-[1px] border-[#D4D4D4] px-[18px] pb-[5px] text-[14px]">
+                <div className="font-medium text-[#959595]">Service</div>
+                <div className="font-bold">XX</div>
+              </div>
+              <div className="mt-[26px] flex justify-between">
+                <div className="text-[16px] font-medium">Total</div>
+                <div className="text-end">
+                  <div className="text-[28px] font-bold text-[#0059ff]">
+                    {templateSelected?.priceMonth}
+                  </div>
+                  <div className="text-[12px] font-normal">
+                    That's about {templateSelected?.priceHour} hourly
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
