@@ -37,8 +37,6 @@ export const providerNameToLogo = {
 
 const TemplateProducts = () => {
   const [templates, setTemplates] = useState<TemplatesProducts[]>([])
-  const [templateSelected, setTemplateSelected] =
-    useState<TemplatesProducts | null>()
   const [page, setPage] = useState<number>(1)
   const [searchInput, setSearchInput] = useState<string>()
   const [hasMorePages, setHasMorePages] = useState<boolean>(false)
@@ -51,7 +49,8 @@ const TemplateProducts = () => {
   )
   const [selected, setSelected] = useState<ValueObject | null>(null)
 
-  const { setIndexerDeployerStep } = useContext(AccountContext)
+  const { setIndexerDeployerStep, templateSelected, setTemplateSelected } =
+    useContext(AccountContext)
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
