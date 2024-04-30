@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-useless-return */
 /* eslint-disable no-unused-vars */
 import { useContext, useState, useEffect } from 'react'
@@ -304,10 +305,7 @@ const LateralNav = ({ onValueChange }) => {
   if (!isOpen) {
     return (
       <>
-        <div
-          onMouseEnter={() => setIsOpen(true)}
-          className="z-50 h-full shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)]"
-        >
+        <div className="z-50 h-full shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)]">
           <div className="flex w-[42px]  flex-col items-center justify-center px-[15px] pb-[45px] pt-[49px] md:w-[51px] md:px-[11.5px] md:pb-[54px] md:pt-[58.8px] lg:w-[60px] lg:px-[13.5px] lg:pb-[63px] lg:pt-[68.5px] xl:w-[68px] xl:px-[15px] xl:pb-[72px] xl:pt-[78.4px] 2xl:w-[85px] 2xl:px-[15px] 2xl:pb-[90px] 2xl:pt-[98px]">
             <div
               className={`absolute top-[14px] mb-[29px] w-[10.5px] md:top-[16.8px] md:mb-[35px] md:w-[12.9px] lg:top-[19.6px] lg:mb-[40px]  lg:w-[15.05px] xl:top-[22.4px] xl:mb-[47px] xl:w-[17.2px] 2xl:top-[28px] 2xl:mb-[58px] 2xl:w-[21.5px] `}
@@ -320,6 +318,7 @@ const LateralNav = ({ onValueChange }) => {
                     : ''
                 }/images/lateralNavBar/nav.svg`}
                 alt="image"
+                className="cursor-pointer"
               />
             </div>
             <ul className="flex flex-col items-center gap-[20px] md:gap-[24px] lg:gap-[28px] xl:gap-[32px] 2xl:gap-[40px]">
@@ -360,10 +359,7 @@ const LateralNav = ({ onValueChange }) => {
 
   return (
     <>
-      <div
-        onMouseLeave={() => setIsOpen(false)}
-        className="relative z-50 h-full max-w-[109px] pb-[200px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] md:w-full md:max-w-[130px]  md:pb-[600px] lg:max-w-[152px] xl:max-w-[180px] 2xl:max-w-[230px]"
-      >
+      <div className="relative z-50 h-full max-w-[109px] pb-[200px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] md:w-full md:max-w-[130px]  md:pb-[600px] lg:max-w-[152px] xl:max-w-[180px] 2xl:max-w-[230px]">
         <div className="flex  flex-col items-start">
           <div className="mb-[14.5px] mt-[24.5px] ml-[16px]  flex flex-row items-center  justify-between md:mt-[29.4px] md:mb-[17.4px] md:ml-[19.2px] lg:mt-[34.3px] lg:mb-[20.3px] lg:ml-[22.4px] xl:mt-[39.2px] xl:mb-[21.2px] xl:ml-[25.6px] 2xl:mt-[49px] 2xl:mb-[29px] 2xl:ml-[32px]">
             <div className="absolute top-[14px] flex w-[10.5px] cursor-pointer flex-col items-center md:top-[16.8px] md:w-[12.9px] lg:top-[19.6px] lg:w-[15.05px] xl:top-[22.4px]  xl:w-[17.2px] 2xl:top-[28px] 2xl:w-[21.5px]">
@@ -375,6 +371,7 @@ const LateralNav = ({ onValueChange }) => {
                     : ''
                 }/images/lateralNavBar/nav.svg`}
                 alt="image"
+                className="rotate-90 cursor-pointer transition-transform duration-300"
               />
               <a
                 href={`${
