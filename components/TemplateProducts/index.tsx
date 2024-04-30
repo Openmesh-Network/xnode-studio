@@ -16,6 +16,8 @@ import Dropdown, { ValueObject } from './Dropdown'
 import { AccountContext } from '@/contexts/AccountContext'
 import TemplateProducts from './FirstStep'
 import Configuration from './SecondStep'
+import Signup from '../Signup'
+import FinalBuild from '../FinalBuild'
 
 const IndexerDeployer = () => {
   const { indexerDeployerStep } = useContext(AccountContext)
@@ -25,6 +27,24 @@ const IndexerDeployer = () => {
   }
   if (indexerDeployerStep === 1) {
     return <Configuration />
+  }
+  if (indexerDeployerStep === 2) {
+    return (
+      <>
+        <div className="mx-auto rounded-[10px] bg-[#F9F9F9] xl:w-[1200px] 2xl:w-[1500px] ">
+          <Signup />
+        </div>
+      </>
+    )
+  }
+  if (indexerDeployerStep === 3) {
+    return (
+      <>
+        <div className="mx-auto rounded-[10px] xl:w-[1200px] 2xl:w-[1500px]">
+          <FinalBuild />
+        </div>
+      </>
+    )
   }
 }
 
