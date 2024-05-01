@@ -18,10 +18,14 @@ import TemplateProducts from './FirstStep'
 import Configuration from './SecondStep'
 import Signup from '../Signup'
 import FinalBuild from '../FinalBuild'
+import TemplateStep from './TemplateStep'
 
 const IndexerDeployer = () => {
   const { indexerDeployerStep } = useContext(AccountContext)
 
+  if (indexerDeployerStep === -1) {
+    return <TemplateStep />
+  }
   if (indexerDeployerStep === 0) {
     return <TemplateProducts />
   }

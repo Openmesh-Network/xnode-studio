@@ -325,13 +325,14 @@ const LateralNav = ({ onValueChange }) => {
               {sideBarOptions.map((option, index) => (
                 <li className="relative" key={index}>
                   <img
+                    onClick={() => setIsOpen(true)}
                     src={`${
                       process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                         ? process.env.NEXT_PUBLIC_BASE_PATH
                         : ''
                     }${option.icon}`}
                     alt="image"
-                    className={`${option.iconStyle}`}
+                    className={`${option.iconStyle} cursor-pointer`}
                   />
                   <img
                     src={`${

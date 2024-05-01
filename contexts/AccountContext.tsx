@@ -106,7 +106,7 @@ export default function AccountContextProvider({
 }: CreateContextProps) {
   const [user, setUser] = useState<UserProps>()
   const [changeNodes, setChangeNodes] = useState()
-  const [indexerDeployerStep, setIndexerDeployerStep] = useState(0)
+  const [indexerDeployerStep, setIndexerDeployerStep] = useState(-1)
   const [templateSelected, setTemplateSelected] =
     useState<TemplatesProducts | null>()
   const [removeNodes, setRemoveNodes] = useState()

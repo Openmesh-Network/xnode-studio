@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-unused-vars */
 import Image from 'next/image'
 import Link from 'next/link'
@@ -411,7 +412,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="top-0 left-0 z-40 mx-0 w-full items-center bg-[#fff] px-[17px] pt-[10px]  text-[#000000] md:px-[20px] lg:px-[23px] xl:px-[26px] 2xl:px-[33px]">
+      <header className="top-0 left-0 z-40 mx-0 w-full items-center bg-[#fff] px-[17px] py-[20px]  text-[#000000] md:px-[20px] lg:px-[23px] xl:px-[26px] 2xl:px-[33px]">
         <div className="flex">
           <div className="w-full justify-between py-[20px] px-[20px] md:px-[33px] lg:hidden">
             <div className="">

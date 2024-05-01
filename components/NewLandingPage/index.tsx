@@ -16,6 +16,8 @@ import { AccountContext } from '@/contexts/AccountContext'
 import Footer from '../Footer'
 
 const NewLandingPage = () => {
+  const { push } = useRouter()
+
   return (
     <section className="relative z-10 pt-[30px] lg:pt-[155px]">
       <div className="mx-auto max-w-[1380px] px-[20px] text-center text-[14px] font-normal text-[#000]">
@@ -28,7 +30,18 @@ const NewLandingPage = () => {
           <br /> Data Ecosystems in minutes,{' '}
           <span className="italic">instead of weeks.</span>
         </div>
-        <div className="mx-auto mt-[46px] w-fit rounded-[12px] bg-[#0059ff] px-[38.5px] py-[13px] text-[16px] font-bold leading-[150%] text-[#fff]">
+        <div
+          onClick={() => {
+            push(
+              `${
+                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                  ? `/xnode/start-here`
+                  : `/start-here`
+              }`,
+            )
+          }}
+          className="mx-auto mt-[46px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[38.5px] py-[13px] text-[16px] font-bold leading-[150%] text-[#fff] hover:bg-[#014cd7]"
+        >
           Try for free
         </div>
         <div className="mt-[119px] text-[28px] font-bold">
@@ -185,7 +198,18 @@ const NewLandingPage = () => {
                 Build with Speed
               </span>
             </div>
-            <div className="h-fit rounded-[12px] bg-[#0059ff] px-[38.5px] py-[13px] text-[16px] font-bold leading-[150%]">
+            <div
+              onClick={() => {
+                push(
+                  `${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? `/xnode/start-here`
+                      : `/start-here`
+                  }`,
+                )
+              }}
+              className="h-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[38.5px] py-[13px] text-[16px] font-bold leading-[150%] hover:bg-[#014cd7]"
+            >
               Try for free
             </div>
           </div>
