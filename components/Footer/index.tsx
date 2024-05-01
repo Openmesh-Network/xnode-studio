@@ -11,7 +11,7 @@ const Footer = () => {
     <>
       <section
         id="home"
-        className="bg-white px-[30px] pt-[36px]  pb-[57px] text-[#000000] md:px-[70px] md:pt-[43px] md:pb-[68px]  lg:px-[157px] lg:pt-[50px] lg:pb-[80px] xl:px-[180px] xl:pt-[58px] xl:pb-[91px] 2xl:px-[225px] 2xl:pt-[73px] 2xl:pb-[114px]"
+        className="bg-[#fafafa] px-[30px] pt-[36px]  pb-[57px] text-[#000000] md:px-[70px] md:pt-[43px] md:pb-[68px]  lg:px-[157px] lg:pt-[50px] lg:pb-[80px] xl:px-[180px] xl:pt-[58px] xl:pb-[91px] 2xl:px-[225px] 2xl:pt-[73px] 2xl:pb-[114px]"
       >
         <div className="justify-center  md:flex md:gap-x-[30px] lg:gap-x-[157px] xl:gap-x-[180px] 2xl:gap-x-[225px]">
           <div className="lg:max-w-[615px]">

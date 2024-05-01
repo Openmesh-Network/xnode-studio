@@ -411,7 +411,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="top-0 left-0 z-40 mx-0 w-full items-center bg-[#fff] px-[17px] pt-[7px]  text-[#000000] md:px-[20px] md:pt-[8px]  lg:px-[23px] lg:pt-[9px] xl:px-[26px] xl:pt-[10.5px] xl:pb-[27.8px] 2xl:px-[33px] 2xl:pt-[13px] 2xl:pb-[46px]">
+      <header className="top-0 left-0 z-40 mx-0 w-full items-center bg-[#fff] px-[17px] pt-[10px]  text-[#000000] md:px-[20px] lg:px-[23px] xl:px-[26px] 2xl:px-[33px]">
         <div className="flex">
           <div className="w-full justify-between py-[20px] px-[20px] md:px-[33px] lg:hidden">
             <div className="">
@@ -663,7 +663,7 @@ const Header = () => {
               </div>
             </nav>
           </div>
-          <div className="relative mx-auto mb-[20px] hidden h-full w-full max-w-[1800px] items-center  justify-between lg:flex">
+          <div className="relative mx-auto hidden h-full w-full max-w-[1800px] items-center  justify-between lg:flex">
             {pathname.includes('/workspace') && !reviewYourBuild && (
               <div className="flex items-center">
                 <img
