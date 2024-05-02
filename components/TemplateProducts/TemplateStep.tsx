@@ -395,9 +395,9 @@ const TemplateStep = () => {
               {selectedTemplate && (
                 <div
                   onClick={() => {
-                    setIndexerDeployerStep(1)
+                    setIndexerDeployerStep(0)
                   }}
-                  className="mt-[30px] cursor-pointer rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
+                  className="mt-[10px] cursor-pointer whitespace-nowrap rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold  text-[#fff] hover:bg-[#014cd7]"
                 >
                   Next step
                 </div>
