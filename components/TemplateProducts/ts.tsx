@@ -34,7 +34,7 @@ const Configuration = () => {
       <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-[#000]">
         <div className="flex justify-between gap-x-[50px]">
           <div className="pb-[50px]">
-            <div className="mb-[12.5px] text-[48px] font-semibold leading-[64px] -tracking-[1.9px]">
+            <div className="mb-[12.5px] text-[48px] font-semibold -tracking-[1.9px]">
               Choose your configuration
             </div>
             <div className="pt-[40.5px]">
@@ -84,9 +84,6 @@ const Configuration = () => {
                     {templateSelected?.providerName}
                   </div>
                   <img
-                    onClick={() => {
-                      setIndexerDeployerStep(0)
-                    }}
                     src={`${
                       process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                         ? process.env.NEXT_PUBLIC_BASE_PATH
@@ -104,9 +101,6 @@ const Configuration = () => {
                     {templateSelected?.location}
                   </div>
                   <img
-                    onClick={() => {
-                      setIndexerDeployerStep(0)
-                    }}
                     src={`${
                       process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                         ? process.env.NEXT_PUBLIC_BASE_PATH
@@ -124,9 +118,6 @@ const Configuration = () => {
                     {templateSelected?.availability}
                   </div>
                   <img
-                    onClick={() => {
-                      setIndexerDeployerStep(0)
-                    }}
                     src={`${
                       process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                         ? process.env.NEXT_PUBLIC_BASE_PATH
@@ -145,9 +136,6 @@ const Configuration = () => {
                       Building a decentralized data infrastructure
                     </div>
                     <img
-                      onClick={() => {
-                        setIndexerDeployerStep(0)
-                      }}
                       src={`${
                         process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                           ? process.env.NEXT_PUBLIC_BASE_PATH
@@ -488,7 +476,7 @@ const Configuration = () => {
                 Choose your configuration
               </div>
             </div>
-            <div className="ml-[92px] mt-[17px]">
+            <div className="ml-[68px] mt-[17px]">
               <div className="border-b-[1px] border-[#fafafa] pb-[5px]">
                 <div className="text-[14px] font-medium text-[#959595]">
                   Service
@@ -572,21 +560,9 @@ const Configuration = () => {
                   Estimated monthly price*
                 </div>
                 <div className="text-[18px] font-bold text-[#0059ff]">
-                  {templateSelected?.priceMonth} / month{' '}
+                  $42 / month{' '}
                 </div>
               </div>
-            </div>
-            <div
-              onClick={() => {
-                window.scrollTo({
-                  top: 0,
-                  behavior: 'smooth',
-                })
-                setIndexerDeployerStep(2)
-              }}
-              className="mx-auto mt-[30px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[50px] py-[15px] text-center text-[16px] font-bold leading-[22px] text-[#fff] hover:bg-[#014cd7]"
-            >
-              Create service and deploy
             </div>
             <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
               <img
