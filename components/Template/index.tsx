@@ -37,7 +37,7 @@ const Template = (id: any) => {
   return (
     <>
       <section className="relative z-10 pt-[30px] lg:pt-0">
-        <div className="mx-auto max-w-[1380px] px-[20px]  text-[14px] font-normal text-[#000]">
+        <div className="mx-auto max-w-[1380px] pl-[20px]  text-[14px] font-normal text-[#000]">
           <div className="justify-between gap-x-[50px] lg:flex">
             <div className="pb-[20px] lg:pb-[300px]">
               <div className="flex items-center gap-x-[9px]">
@@ -146,53 +146,52 @@ const Template = (id: any) => {
                 </div>
               </div>
             </div>
-            <div className="mt-[40px] mb-[50px] h-fit border-[0.6px] border-[#CFCFCF] px-[10px] pt-[60px] pb-[37px] lg:mb-0 lg:px-[56px]">
-              <div className="flex justify-center gap-x-[14px]">
-                <div className="mt-[3px] h-[19px] w-[19px] cursor-pointer rounded-full border-[1px] border-[#D1D1D1] bg-[#12AD50]"></div>
-                <div className="text-[16px] ">
-                  <div className="font-bold">Bare metal</div>
-                  <div className="mt-[11px] font-medium">
-                    Starting from{' '}
-                    <span className="font-bold text-[#12AD50] line-through">
-                      $14.31
-                    </span>{' '}
-                    p/m
-                  </div>
-                  <div className="mt-[12px] font-normal text-[#0059FF]">
-                    1,475.43 Monthly saving
-                  </div>
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/bare-metal.png`}
-                    alt="image"
-                    className={`mt-[16px]`}
-                  />
+            <div className="mt-[40px] w-full border-[0.6px] border-[#d1d5da] py-[10px] lg:mb-0 lg:w-[386px] lg:py-[32px]">
+              <div className="flex justify-between px-[32px]">
+                <div className="text-[18px] font-bold leading-[40px]">
+                  Your progress
+                </div>
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }/images/template/x-new.svg`}
+                  alt="image"
+                  className={``}
+                />
+              </div>
+              <div className="mt-[22px] flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-[#e5eefc] py-[10px] px-[32px]">
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }/images/template/circled-dashed.svg`}
+                  alt="image"
+                  className={``}
+                />
+                <div className="text-[16px] font-semibold leading-[36px] text-[#000]">
+                  Select a template
                 </div>
               </div>
-              <div className="mx-auto mt-[100px] flex justify-center gap-x-[14px]">
-                <div className="mt-[3px] h-[19px] w-[19px] cursor-pointer rounded-full border-[3px] border-[#D1D1D1] bg-[#fff]"></div>
-                <div className="text-[16px] ">
-                  <div className="font-bold">Public Clouds</div>
-                  <div className="mt-[11px] font-medium">
-                    Starting from <span className="font-bold">$20.31</span> p/m
-                  </div>
-                  <div className="mt-[12px] font-normal text-[#0059FF]">
-                    1,475.43 Monthly saving
-                  </div>
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/aws.png`}
-                    alt="image"
-                    className={`mt-[16px]`}
-                  />
+              <div className="mx-[79px] mt-[28px]">
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }/images/template/bare-metal.svg`}
+                  alt="image"
+                  className={``}
+                />
+              </div>
+              <div>
+                <div className="text-[16px] font-medium text-[#000]">
+                  Starting from <span className="">$14.31 pm</span>
                 </div>
               </div>
+
               <div className="mx-auto mt-[80px] w-fit rounded-[5px] bg-[#0354EC] px-[30px] py-[10px] text-[16px] font-medium text-[#fff] lg:mt-[113px] lg:px-[120px]">
                 Deploy
               </div>

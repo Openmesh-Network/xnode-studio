@@ -372,7 +372,7 @@ const LateralNav = ({ onValueChange }) => {
                     : ''
                 }/images/lateralNavBar/nav.svg`}
                 alt="image"
-                className="rotate-90 cursor-pointer transition-transform duration-300"
+                className="cursor-pointer transition-transform duration-300"
               />
               <a
                 href={`${

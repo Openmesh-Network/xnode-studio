@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 'use client'
@@ -6,7 +7,7 @@ import { useEffect, useState, useContext } from 'react'
 import { getAPI, getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { TemplatesProducts } from '@/types/dataProvider'
+import { TemplatesData, TemplatesProducts } from '@/types/dataProvider'
 import { SmileySad } from 'phosphor-react'
 import Filter from '@/components/Filter'
 import { TextField, Autocomplete } from '@mui/material'
@@ -22,11 +23,18 @@ export const optionsNetwork = [
   },
 ]
 
-type dataAPI = {
-  products: TemplatesProducts[]
-  hasMorePages: boolean
-  totalProducts: number
+const obj = {
+  name: 'Openmesh Core',
+  desc: 'CPU, 8-Core (16-Thread)',
+  tags: 'Core app',
+  infraId: '#262343',
 }
+export const optionsCreator = [
+  {
+    name: 'Openmesh',
+    value: 'Openmesh',
+  },
+]
 
 export const providerNameToLogo = {
   Equinix: {
@@ -36,7 +44,8 @@ export const providerNameToLogo = {
 }
 
 const TemplateStep = () => {
-  const [templates, setTemplates] = useState<TemplatesProducts[]>([])
+  const [templatesData, setTemplatesData] = useState<TemplatesData[]>([])
+  const [filteredTemplatesData, setFilteredTemplatesData] = useState<TemplatesData[]>([])
   const [selectedTemplate, setSelectedTemplate] = useState<string>('')
   const [displayToggle, setDisplayToggle] = useState<string>('list')
   const [categoryOpen, setCategoryOpen] = useState<boolean>(true)
@@ -44,88 +53,30 @@ const TemplateStep = () => {
   const [searchInput, setSearchInput] = useState<string>()
   const [filterSelection, setFilterSelection] =
     useState<string>('All Templates')
-  const [hasMorePages, setHasMorePages] = useState<boolean>(false)
-  const [totalResults, setTotalResults] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
-  const [isLoadingMoreTemplates, setIsLoadingMoreTemplates] = useState(false)
-  const [progressLoadingBar, setProgressLoadingBar] = useState(0)
-  const [progressLoadingText, setProgressLoadingText] = useState(
-    'Checking 19 providers',
-  )
   const [selected, setSelected] = useState<ValueObject | null>(null)
+  const [selectedCreator, setSelectedCreator] = useState<ValueObject | null>(
+    null,
+  )
 
   const { setIndexerDeployerStep, templateSelected, setTemplateSelected } =
     useContext(AccountContext)
 
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-
-  async function getData(withoutFilter?: boolean) {
+  async function getData() {
     setIsLoading(true)
 
-    let url = `/openmesh-data/functions/templateProducts?page=${page}`
-    if (searchInput?.length > 0 && !withoutFilter) {
-      url = `${url}&searchBarFilter=${searchInput}`
-    }
+    const url = `/openmesh-data/functions/getTemplatesData`
 
-    let data: dataAPI
+    let data: TemplatesData[]
     try {
       data = await getAPI(url)
     } catch (err) {
       toast.error('Something occured')
     }
 
-    // doing it gradually as requested by Ashton
-    const firstStep = data.products.slice(0, 1)
-    setTemplates(firstStep)
-    setProgressLoadingBar(20)
-    setProgressLoadingText('Searching Equinix')
-    await delay(2000)
-
-    const secondStep = data.products.slice(0, 3)
-    setTemplates(secondStep)
-    setProgressLoadingBar(33)
-    await delay(2000)
-
-    const thirdStep = data.products.slice(0, 3)
-    setTemplates(thirdStep)
-    setProgressLoadingBar(53)
-    setProgressLoadingText('Checking CPUs')
-    await delay(2000)
-
-    const fourStep = data.products.slice(0, 10)
-    setTemplates(fourStep)
-    setProgressLoadingBar(65)
-    setProgressLoadingText('Searching Vultr')
-    await delay(2000)
-
-    const fiveStep = data.products.slice(0, 25)
-    setTemplates(fiveStep)
-    setProgressLoadingBar(100)
-    await delay(2000)
-
+    setTemplatesData(data)
+    setFilteredTemplatesData(data)
     setIsLoading(false)
-    setTemplates(data.products)
-    setHasMorePages(data.hasMorePages)
-    setTotalResults(String(data.totalProducts))
-  }
-
-  async function loadMoreTemplates() {
-    setIsLoadingMoreTemplates(true)
-
-    let data: dataAPI
-    let url = `/openmesh-data/functions/templateProducts?page=${page + 1}`
-    if (searchInput?.length > 0) {
-      url = `${url}&searchBarFilter=${searchInput}`
-    }
-    try {
-      data = await getAPI(url)
-    } catch (err) {
-      toast.error('Something occured')
-    }
-    setPage(page + 1)
-    setIsLoadingMoreTemplates(false)
-    setTemplates([...templates, ...data.products])
-    setHasMorePages(data.hasMorePages)
   }
 
   useEffect(() => {
@@ -157,6 +108,7 @@ const TemplateStep = () => {
                 <div
                   onClick={() => {
                     setFilterSelection('All Templates')
+                    setFilteredTemplatesData(templatesData)
                   }}
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'All Templates'
@@ -169,6 +121,10 @@ const TemplateStep = () => {
                 <div
                   onClick={() => {
                     setFilterSelection('Openmesh')
+                    const newData = [...templatesData]
+
+                    const fdata = newData.filter(vl => vl.source === 'openmesh')
+                    setFilteredTemplatesData(fdata)
                   }}
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'Openmesh'
@@ -181,6 +137,10 @@ const TemplateStep = () => {
                 <div
                   onClick={() => {
                     setFilterSelection('Community')
+                    const newData = [...templatesData]
+
+                    const fdata = newData.filter(vl => vl.source === 'community')
+                    setFilteredTemplatesData(fdata)
                   }}
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'Community'
@@ -231,6 +191,36 @@ const TemplateStep = () => {
                     />
                     <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
                       Validator Node (1)
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-[29px] h-[1px] w-full bg-[#E6E8EC]"></div>
+                <div className="mt-[24px] text-start">
+                  <div className="text-[16px] font-medium leading-[12px] text-[#000]">
+                    Creator
+                  </div>
+                  <div className="mt-[12px]">
+                    <Dropdown
+                      optionSelected={selectedCreator}
+                      options={optionsCreator}
+                      placeholder="Filter"
+                      onValueChange={(value) => {
+                        setSelectedCreator(value)
+                      }}
+                    />
+                  </div>
+                  <div className="mt-[24px] flex cursor-pointer gap-x-[10px]">
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/remove.svg`}
+                      alt="image"
+                      className=""
+                    />
+                    <div className="text-[16px] font-normal text-[#4d4d4d] hover:text-[#3b3b3b]">
+                      Reset filter
                     </div>
                   </div>
                 </div>
@@ -314,118 +304,69 @@ const TemplateStep = () => {
                   <div className="text-[18px] font-medium leading-[28px] text-[#000]">
                     Featured
                   </div>
-                  <div
-                    onClick={() => {
-                      setSelectedTemplate('first')
-                    }}
-                    className={`${
-                      selectedTemplate === 'first'
-                        ? 'border-[2px] border-[#0059ff] bg-[#e5eefc]'
-                        : 'hover:bg-[#fafafa6b]'
-                    } mt-[17px] w-fit cursor-pointer rounded-[8px] border-[1px] border-[#fafafa]  py-[27px] px-[22px] shadow-md`}
-                  >
-                    <div className="flex gap-x-[75px]">
-                      <img
-                        src={`${
-                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                            ? process.env.NEXT_PUBLIC_BASE_PATH
-                            : ''
-                        }/images/template/xnode-circle.svg`}
-                        alt="image"
-                        className="h-[33px] w-[33px]"
-                      />
-                      <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-[#fff] px-[12px] py-[4px]">
-                        <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
-                        <div className="text-[14px] font-bold leading-[24px] text-[#0059ff]">
-                          Category
-                        </div>
+                  {isLoading ? (
+                    <div className='grid-cols-3 grid'>
+                      {[1, 2, 3].map((tmp, index) => (
+                      <div
+                        key={index}
+                        className={`mt-[17px] rounded-[8px] animate-pulse bg-[#e5e5e5] border-[#fafafa] w-[270px] h-[202px] shadow-md`}
+                      >
+                      
                       </div>
+                      ))}
                     </div>
-                    <div className="mt-[20px]">
-                      <div className="text-[18px] font-medium text-[#000]">
-                        Validator Node
+                  ) : (
+                    <div className=''>
+                      {filteredTemplatesData.length > 0 ? (
+                        <div className='grid-cols-3 grid'>
+                        {filteredTemplatesData.map((tmp, index) => (
+                          <a key={index} href={`${
+                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                              ? `/xnode/template-products/${tmp.id}`
+                              : `template-products/${tmp.id}`
+                          }`}>
+                          <div
+                            key={index}
+                            className={` mt-[17px] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
+                          >
+                            <div className="flex gap-x-[75px]">
+                              <img
+                                src={`${
+                                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                                    ? process.env.NEXT_PUBLIC_BASE_PATH
+                                    : ''
+                                }/images/template/xnode-circle.svg`}
+                                alt="image"
+                                className="h-[33px] w-[33px]"
+                              />
+                              <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-[#fff] px-[12px] py-[4px]">
+                                <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
+                                <div className="text-[14px] font-bold leading-[24px] text-[#0059ff]">
+                                  Category
+                                </div>
+                              </div>
+                            </div>
+                            <div className="mt-[20px]">
+                              <div className="text-[18px] font-medium text-[#000] line-clamp-1 overflow-hidden">
+                                {tmp.name}
+                              </div>
+                              <div className="mt-[6px] line-clamp-3 overflow-hidden text-[16px] font-normal leading-[20px] text-[#959595]">
+                                {tmp.description}
+                              </div>
+                            </div>
+                          </div>
+                          </a>
+                        ))}
                       </div>
-                      <div className="mt-[6px] text-[16px] font-normal leading-[20px] text-[#959595]">
-                        A bit of context on what <br /> this template helps with
+                      ) : (
+                        <div className="mt-[17.5px] text-center mx-auto w-full items-center justify-center md:mt-[21px] lg:mt-[24.5px] xl:mt-[28px] 2xl:mt-[35px]">
+                        <SmileySad size={32} className="text-blue-500 mb-2 mx-auto flex" />
+                        <span className="">No data found</span>
                       </div>
+                      )}
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="h-fit w-[533px] rounded-[8px] border-[1px] border-[#cfd3d8] p-[32px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]">
-            <div className="flex items-center justify-between">
-              <div className=" text-[24px] font-bold !leading-[40px]">
-                Your progress
-              </div>
-              <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/close-gray.svg`}
-                alt="image"
-                className="my-auto w-[24px] cursor-pointer pt-[2px]"
-              />
-            </div>
-            <div className="mt-[32px] grid gap-y-[32px]">
-              <div className="flex items-center gap-x-[20px]">
-                <div
-                  className={`flex h-[48px] w-[48px] rounded-full  ${
-                    selectedTemplate ? 'bg-[#0059ff]' : 'bg-[#e5eefc]'
-                  }`}
-                >
-                  {selectedTemplate && (
-                    <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/check.svg`}
-                      alt="image"
-                      className="mx-auto my-auto"
-                    />
                   )}
-                </div>
-                <div className="text-[18px] font-semibold">
-                  Select a template
-                </div>
-              </div>
-              {selectedTemplate && (
-                <div
-                  onClick={() => {
-                    setIndexerDeployerStep(0)
-                  }}
-                  className="mt-[10px] cursor-pointer whitespace-nowrap rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold  text-[#fff] hover:bg-[#014cd7]"
-                >
-                  Next step
-                </div>
-              )}
-              <div className="flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
-                <div className="text-[18px] font-semibold text-[#959595]">
-                  Select a provider{' '}
-                </div>
-              </div>
-            </div>
-            <div className="mt-[25px]">
-              <div className="mt-[30px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
-                <div className="text-[18px] font-semibold text-[#959595]">
-                  Choose your configuration{' '}
-                </div>
-              </div>
-              <div className="mt-[34px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
-                <div className="text-[18px] font-semibold text-[#959595]">
-                  Performing connection{' '}
-                </div>
-              </div>
-              <div className="mt-[34px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
-                <div className="text-[18px] font-semibold text-[#959595]">
-                  Service deployed{' '}
+                  
                 </div>
               </div>
             </div>

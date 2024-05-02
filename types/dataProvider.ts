@@ -64,3 +64,15 @@ export type TemplatesProducts = {
   source?: string
   unit?: string
 }
+
+export type TemplatesData = {
+  id: string
+  name?: string
+  description?: string
+  tags?: string[]
+  systemMinRequirements?: string
+  systemRecommendedRequirements?: string
+  productsIncluded?: string[]
+  techDiagrams?: string
+  source?: string
+}

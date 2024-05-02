@@ -153,7 +153,7 @@ export const categoriesOptions = [
     ],
   },
   {
-    title: 'Descentralized Finance (DeFi)',
+    title: 'Decentralized Finance (DeFi)',
     isFree: true,
     enabled: true,
     dataOptions: [
