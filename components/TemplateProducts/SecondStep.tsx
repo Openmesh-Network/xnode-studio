@@ -585,13 +585,13 @@ const Configuration = () => {
                 Create service and deploy
               </div>
               <div className="mt-[34px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
                 <div className="text-[18px] font-semibold text-[#959595]">
                   Performing connection{' '}
                 </div>
               </div>
               <div className="mt-[34px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
                 <div className="text-[18px] font-semibold text-[#959595]">
                   Service deployed{' '}
                 </div>

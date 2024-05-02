@@ -341,7 +341,27 @@ const TemplateProducts = () => {
             <div className="mt-[32px] grid gap-y-[32px]">
               <div className="flex items-center gap-x-[20px]">
                 <div
-                  className={`flex h-[48px] w-[48px] rounded-full  ${
+                  className={`flex h-[48px] w-[48px] rounded-full bg-[#0059ff]`}
+                >
+                  {
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/check.svg`}
+                      alt="image"
+                      className="mx-auto my-auto"
+                    />
+                  }
+                </div>
+                <div className="text-[18px] font-semibold">
+                  Select a template
+                </div>
+              </div>
+              <div className="flex items-center gap-x-[20px]">
+                <div
+                  className={`flex h-[48px] w-[48px] rounded-full ${
                     templateSelected ? 'bg-[#0059ff]' : 'bg-[#e5eefc]'
                   }`}
                 >
@@ -358,96 +378,97 @@ const TemplateProducts = () => {
                   )}
                 </div>
                 <div className="text-[18px] font-semibold">
-                  Select a template
-                </div>
-              </div>
-              <div className="flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
-                <div className="text-[18px] font-semibold">
                   Select a provider{' '}
                 </div>
               </div>
             </div>
             <div className="mt-[25px] px-[8px]">
-              <div className="grid gap-y-[10px]">
-                <div className="flex items-center gap-x-[7px]">
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/mini-equinix.svg`}
-                    alt="image"
-                    className=""
-                  />
-                  <div className="text-[14px] font-extralight">
-                    Bare metal Provider
-                  </div>
-                </div>
-                <div className="flex items-center gap-x-[5px]">
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/australia.svg`}
-                    alt="image"
-                    className=""
-                  />
-                  <div className="text-[14px] font-extralight">
-                    Country & Region{' '}
-                  </div>
-                </div>
-              </div>
-              <div className="mt-[26px] text-[12px] font-bold">
-                {templateSelected?.cpuCores} vCPU + {templateSelected?.ram} GB
-                memory
-              </div>
-              <div className="mt-[19px] flex justify-between bg-[#e5eefc] py-[13px] px-[18px] text-[14px] font-normal">
-                <div>Item</div>
-                <div>Price</div>
-              </div>
-              <div className="mt-[30px] flex justify-between border-b-[1px] border-[#D4D4D4] px-[18px] pb-[5px] text-[14px]">
-                <div className="font-medium text-[#959595]">
-                  {templateSelected?.productName}
-                </div>
-                <div className="font-bold">{templateSelected?.priceMonth}</div>
-              </div>
-              <div className="mt-[26px] flex justify-between">
-                <div className="text-[16px] font-medium">Total</div>
-                <div className="text-end">
-                  <div className="text-[28px] font-bold text-[#0059ff]">
-                    {templateSelected?.priceMonth}
-                  </div>
-                  {templateSelected?.priceHour && (
-                    <div className="text-[12px] font-normal">
-                      That's about {templateSelected?.priceHour} hourly
+              {templateSelected && (
+                <>
+                  <div className="grid gap-y-[10px]">
+                    <div className="flex items-center gap-x-[7px]">
+                      <img
+                        src={`${
+                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                            ? process.env.NEXT_PUBLIC_BASE_PATH
+                            : ''
+                        }/images/template/mini-equinix.svg`}
+                        alt="image"
+                        className=""
+                      />
+                      <div className="text-[14px] font-extralight">
+                        Bare metal Provider
+                      </div>
                     </div>
-                  )}
-                </div>
-              </div>
-              <div
-                onClick={() => {
-                  setIndexerDeployerStep(1)
-                }}
-                className="mt-[30px] cursor-pointer rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
-              >
-                Deploy
-              </div>
+                    <div className="flex items-center gap-x-[5px]">
+                      <img
+                        src={`${
+                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                            ? process.env.NEXT_PUBLIC_BASE_PATH
+                            : ''
+                        }/images/template/australia.svg`}
+                        alt="image"
+                        className=""
+                      />
+                      <div className="text-[14px] font-extralight">
+                        Country & Region{' '}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-[26px] text-[12px] font-bold">
+                    {templateSelected?.cpuCores} vCPU + {templateSelected?.ram}{' '}
+                    GB memory
+                  </div>
+                  <div className="mt-[19px] flex justify-between bg-[#e5eefc] py-[13px] px-[18px] text-[14px] font-normal">
+                    <div>Item</div>
+                    <div>Price</div>
+                  </div>
+                  <div className="mt-[30px] flex justify-between border-b-[1px] border-[#D4D4D4] px-[18px] pb-[5px] text-[14px]">
+                    <div className="font-medium text-[#959595]">
+                      {templateSelected?.productName}
+                    </div>
+                    <div className="font-bold">
+                      {templateSelected?.priceMonth}
+                    </div>
+                  </div>
+                  <div className="mt-[26px] flex justify-between">
+                    <div className="text-[16px] font-medium">Total</div>
+                    <div className="text-end">
+                      <div className="text-[28px] font-bold text-[#0059ff]">
+                        {templateSelected?.priceMonth}
+                      </div>
+                      {templateSelected?.priceHour && (
+                        <div className="text-[12px] font-normal">
+                          That's about {templateSelected?.priceHour} hourly
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div
+                    onClick={() => {
+                      setIndexerDeployerStep(1)
+                    }}
+                    className="mt-[30px] cursor-pointer rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
+                  >
+                    Deploy
+                  </div>
+                </>
+              )}
+
               <div className="mt-[30px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
                 <div className="text-[18px] font-semibold text-[#959595]">
                   Choose your configuration{' '}
                 </div>
               </div>
               <div className="mt-[34px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
                 <div className="text-[18px] font-semibold text-[#959595]">
                   Performing connection{' '}
                 </div>
               </div>
               <div className="mt-[34px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
                 <div className="text-[18px] font-semibold text-[#959595]">
                   Service deployed{' '}
                 </div>
