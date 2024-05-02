@@ -37,32 +37,49 @@ const Template = (id: any) => {
   return (
     <>
       <section className="relative z-10 pt-[30px] lg:pt-0">
-        <div className="mx-auto max-w-[1380px] pl-[20px]  text-[14px] font-normal text-[#000]">
+        <div className="mx-auto max-w-[1380px] pl-[85px]  text-[14px] font-normal text-[#000]">
           <div className="justify-between gap-x-[50px] lg:flex">
-            <div className="pb-[20px] lg:pb-[300px]">
-              <div className="flex items-center gap-x-[9px]">
-                <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/template/line.svg`}
-                  alt="image"
-                  className={`w-[48px]`}
-                />
-                <div className="text-[26px] font-semibold">
-                  Ethereum RPC Node
+            <div className="mt-[60px] pb-[20px] lg:pb-[300px]">
+              <div className="flex justify-between gap-x-[10px]">
+                <div className="flex items-center gap-x-[9px]">
+                  <img
+                    src={`${
+                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                        ? process.env.NEXT_PUBLIC_BASE_PATH
+                        : ''
+                    }/images/template/line.svg`}
+                    alt="image"
+                    className={`w-[48px]`}
+                  />
+                  <div className="text-[48px] font-semibold leading-[64px]">
+                    Ethereum RPC Node
+                  </div>
+                  <img
+                    src={`${
+                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                        ? process.env.NEXT_PUBLIC_BASE_PATH
+                        : ''
+                    }/images/template/check.svg`}
+                    alt="image"
+                    className={`w-[20px]`}
+                  />
                 </div>
-                <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/template/check.svg`}
-                  alt="image"
-                  className={`w-[20px]`}
-                />
+                <div
+                  onClick={() => {
+                    push(
+                      `${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? `/xnode/template-products`
+                          : `template-products`
+                      }`,
+                    )
+                  }}
+                  className="h-fit cursor-pointer text-[16px] font-normal text-[#0354EC] underline underline-offset-2 hover:text-[#014cd7]"
+                >
+                  Edit
+                </div>
               </div>
+
               <div className="ml-[10px] mt-[24px]">
                 <div className="text-[12px] text-[#0354EC] ">
                   <span className="underline underline-offset-2">
@@ -146,7 +163,7 @@ const Template = (id: any) => {
                 </div>
               </div>
             </div>
-            <div className="mt-[40px] w-full border-[0.6px] border-[#d1d5da] py-[10px] lg:mb-0 lg:w-[386px] lg:py-[32px]">
+            <div className="mt-[10px] w-full border-[0.6px] border-[#d1d5da] py-[10px] lg:mb-0 lg:w-[386px] lg:py-[32px]">
               <div className="flex justify-between px-[32px]">
                 <div className="text-[18px] font-bold leading-[40px]">
                   Your progress
@@ -186,14 +203,73 @@ const Template = (id: any) => {
                   className={``}
                 />
               </div>
-              <div>
+              <div className="ml-[92px] mt-[26px]">
                 <div className="text-[16px] font-medium text-[#000]">
-                  Starting from <span className="">$14.31 pm</span>
+                  Starting from{' '}
+                  <span className="text-[#0354EC] line-through">$14.31 pm</span>
+                </div>
+                <div className="text-[16px] font-bold text-[#0354EC]">
+                  $1,475.43 Monthly savings{' '}
                 </div>
               </div>
-
-              <div className="mx-auto mt-[80px] w-fit rounded-[5px] bg-[#0354EC] px-[30px] py-[10px] text-[16px] font-medium text-[#fff] lg:mt-[113px] lg:px-[120px]">
-                Deploy
+              <div className="mx-auto mt-[27px] w-fit cursor-pointer rounded-[12px] bg-[#0354EC] px-[133px] py-[15px] text-[16px] font-bold text-[#fff] hover:bg-[#014cd7]">
+                Select
+              </div>
+              <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }/images/template/circled-dashed-gray.svg`}
+                  alt="image"
+                  className={``}
+                />
+                <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                  Select a provider
+                </div>
+              </div>
+              <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }/images/template/circled-dashed-gray.svg`}
+                  alt="image"
+                  className={``}
+                />
+                <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                  Choose your configuration
+                </div>
+              </div>
+              <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }/images/template/circled-dashed-gray.svg`}
+                  alt="image"
+                  className={``}
+                />
+                <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                  Performing connection
+                </div>
+              </div>
+              <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }/images/template/circled-dashed-gray.svg`}
+                  alt="image"
+                  className={``}
+                />
+                <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                  Service deployed
+                </div>
               </div>
             </div>
           </div>
