@@ -30,6 +30,15 @@ import {
   findServerDefaultValueLocation,
 } from '../FinalBuild'
 import { CoreServices } from '@/types/node'
+import {
+  useWeb3ModalTheme,
+  Web3NetworkSwitch,
+  Web3Button,
+} from '@web3modal/react'
+import { useAccount, useNetwork } from 'wagmi'
+import axios from 'axios'
+import { signMessage, disconnect } from '@wagmi/core'
+import { hashObject } from '@/utils/functions'
 
 /* eslint-disable react/no-unescaped-entities */
 const Signup = () => {
@@ -50,6 +59,9 @@ const Signup = () => {
     xnodeType,
     setUser,
   } = useContext(AccountContext)
+
+  const cookies = parseCookies()
+  const userHasAnyCookie = cookies.userSessionToken
 
   function logPayload() {
     const savedNodes = localStorage.getItem('nodes')
@@ -83,6 +95,28 @@ const Signup = () => {
     console.log(finalData)
   }
 
+  async function getUserNonce(userAddress: string) {
+    const config = {
+      method: 'post' as 'post',
+      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/openmesh-experts/functions/getUserNonce`,
+      headers: {
+        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        address: userAddress,
+      },
+    }
+    let dado
+
+    await axios(config).then(function (response) {
+      if (response.data) {
+        dado = response.data
+      }
+    })
+    return dado
+  }
+
   function handleFinalBuild() {
     if (!user) {
       toast.error('Please log in before proceeding')
@@ -106,6 +140,59 @@ const Signup = () => {
     }
   }
 
+  async function loginWeb3User(userAddress: string, signature: string) {
+    const config = {
+      method: 'post' as 'post',
+      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/openmesh-experts/functions/loginByWeb3Address`,
+      headers: {
+        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+      },
+      data: {
+        address: userAddress,
+        signature,
+      },
+    }
+
+    let dado
+
+    await axios(config).then(function (response) {
+      if (response.data) {
+        dado = response.data
+      }
+    })
+
+    return dado
+  }
+
+  const { address } = useAccount()
+
+  useEffect(() => {
+    async function getWeb3Login() {
+      if (address && !user && !userHasAnyCookie) {
+        // trying web3 login
+        try {
+          let nonceUser = await getUserNonce(address)
+          nonceUser = nonceUser || '0'
+          const hash = hashObject(`${address}-${nonceUser}`)
+          console.log('message to hash')
+          console.log(hash)
+          const finalHash = `0x${hash}`
+          const signature = await signMessage({
+            message: finalHash,
+          })
+          const res = await loginWeb3User(address, signature)
+          setCookie(null, 'userSessionToken', res.sessionToken)
+          nookies.set(null, 'userSessionToken', res.sessionToken)
+          setUser(res)
+        } catch (err) {
+          toast.error(err)
+          console.log('error loging user')
+        }
+      }
+    }
+    getWeb3Login()
+  }, [address])
+
   return (
     <>
       <section
@@ -114,9 +201,16 @@ const Signup = () => {
       >
         <div>
           <div className="text-[18px]  font-bold -tracking-[2%] text-[#000000] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
-            Signup for Xnode
+            Connect your wallet
           </div>
-          <div className="mt-[25px] text-[18px] font-normal -tracking-[2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
+          <div className="mb-[30px]">
+            <Web3Button />
+          </div>{' '}
+          <div className="my-[30px] text-[#000]">or</div>
+          <div className="text-[18px]  font-bold -tracking-[2%] text-[#000000] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
+            Signin for Xnode
+          </div>
+          <div className="mt-[15px] text-[18px] font-normal -tracking-[2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
             Finalise your integrations easy
           </div>
           <div className="mt-[15px]">
