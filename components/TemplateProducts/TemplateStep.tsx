@@ -37,9 +37,13 @@ export const providerNameToLogo = {
 
 const TemplateStep = () => {
   const [templates, setTemplates] = useState<TemplatesProducts[]>([])
+  const [selectedTemplate, setSelectedTemplate] = useState<string>('')
+  const [displayToggle, setDisplayToggle] = useState<string>('list')
+  const [categoryOpen, setCategoryOpen] = useState<boolean>(true)
   const [page, setPage] = useState<number>(1)
   const [searchInput, setSearchInput] = useState<string>()
-  const [filterSelection, setFilterSelection] = useState<string>('')
+  const [filterSelection, setFilterSelection] =
+    useState<string>('All Templates')
   const [hasMorePages, setHasMorePages] = useState<boolean>(false)
   const [totalResults, setTotalResults] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
@@ -157,7 +161,7 @@ const TemplateStep = () => {
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'All Templates'
                       ? 'bg-[#4d4d4d] font-bold text-[#fff]'
-                      : ''
+                      : 'hover:text-[#252525]'
                   }`}
                 >
                   All Templates
@@ -169,7 +173,7 @@ const TemplateStep = () => {
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'Openmesh'
                       ? 'bg-[#4d4d4d] font-bold text-[#fff]'
-                      : ''
+                      : 'hover:text-[#252525]'
                   }`}
                 >
                   Openmesh
@@ -181,7 +185,7 @@ const TemplateStep = () => {
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'Community'
                       ? 'bg-[#4d4d4d] font-bold text-[#fff]'
-                      : ''
+                      : 'hover:text-[#252525]'
                   }`}
                 >
                   Community
@@ -189,8 +193,168 @@ const TemplateStep = () => {
               </div>
             </div>
             <div className="mt-[34px] h-[1px] w-full bg-[#E6E8EC]"></div>
+            <div className="mt-[30px] flex gap-x-[70px]">
+              <div>
+                <div className="w-[256px] rounded-[5px] border-[1px] border-[#d1d5da] px-[16px] pt-[15px] pb-[25px]">
+                  <div className="flex items-center justify-between gap-x-[4px]">
+                    <div className="text-[16px] font-medium leading-[24px] text-[#000]">
+                      Category
+                    </div>
+                    <img
+                      onClick={() => {
+                        setCategoryOpen(!categoryOpen)
+                      }}
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/arrow-top.svg`}
+                      alt="image"
+                      className={`${
+                        !categoryOpen && 'rotate-180'
+                      } cursor-pointer transition-all duration-300`}
+                    />
+                  </div>
+                  <div
+                    className={`${
+                      !categoryOpen && 'hidden'
+                    } mt-[30px] flex gap-x-[6px]`}
+                  >
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/xnode-circle.svg`}
+                      alt="image"
+                      className=""
+                    />
+                    <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
+                      Validator Node (1)
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full">
+                <div className="flex justify-end gap-x-[20px]">
+                  <Dropdown
+                    optionSelected={selected}
+                    options={optionsNetwork}
+                    placeholder="Sort By"
+                    onValueChange={(value) => {
+                      setSelected(value)
+                    }}
+                  />
+                  <div className="flex">
+                    <div
+                      onClick={() => {
+                        setDisplayToggle('list')
+                      }}
+                      className={`${
+                        displayToggle === 'list' ? 'bg-[#0059ff]' : 'bg-[#fff]'
+                      } cursor-pointer rounded-l-[5px] border-[1px] border-r-0 border-[#d1d5da] p-[16px]`}
+                    >
+                      {displayToggle === 'list' ? (
+                        <img
+                          src={`${
+                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                              ? process.env.NEXT_PUBLIC_BASE_PATH
+                              : ''
+                          }/images/template/list.svg`}
+                          alt="image"
+                          className=""
+                        />
+                      ) : (
+                        <img
+                          src={`${
+                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                              ? process.env.NEXT_PUBLIC_BASE_PATH
+                              : ''
+                          }/images/template/list-cinza.svg`}
+                          alt="image"
+                          className=""
+                        />
+                      )}
+                    </div>
+                    <div
+                      onClick={() => {
+                        setDisplayToggle('quadrados')
+                      }}
+                      className={`${
+                        displayToggle === 'quadrados'
+                          ? 'bg-[#0059ff]'
+                          : 'bg-[#fff]'
+                      } cursor-pointer rounded-r-[5px] border-[1px] border-l-0 border-[#d1d5da] p-[16px]`}
+                    >
+                      {displayToggle === 'quadrados' ? (
+                        <img
+                          src={`${
+                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                              ? process.env.NEXT_PUBLIC_BASE_PATH
+                              : ''
+                          }/images/template/quadrados.svg`}
+                          alt="image"
+                          className=""
+                        />
+                      ) : (
+                        <img
+                          src={`${
+                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                              ? process.env.NEXT_PUBLIC_BASE_PATH
+                              : ''
+                          }/images/template/quadrados-cinza.svg`}
+                          alt="image"
+                          className=""
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-[42px] text-start">
+                  <div className="text-[18px] font-medium leading-[28px] text-[#000]">
+                    Featured
+                  </div>
+                  <div
+                    onClick={() => {
+                      setSelectedTemplate('first')
+                    }}
+                    className={`${
+                      selectedTemplate === 'first'
+                        ? 'border-[2px] border-[#0059ff] bg-[#e5eefc]'
+                        : 'hover:bg-[#fafafa6b]'
+                    } mt-[17px] w-fit cursor-pointer rounded-[8px] border-[1px] border-[#fafafa]  py-[27px] px-[22px] shadow-md`}
+                  >
+                    <div className="flex gap-x-[75px]">
+                      <img
+                        src={`${
+                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                            ? process.env.NEXT_PUBLIC_BASE_PATH
+                            : ''
+                        }/images/template/xnode-circle.svg`}
+                        alt="image"
+                        className="h-[33px] w-[33px]"
+                      />
+                      <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-[#fff] px-[12px] py-[4px]">
+                        <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
+                        <div className="text-[14px] font-bold leading-[24px] text-[#0059ff]">
+                          Category
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-[20px]">
+                      <div className="text-[18px] font-medium text-[#000]">
+                        Validator Node
+                      </div>
+                      <div className="mt-[6px] text-[16px] font-normal leading-[20px] text-[#959595]">
+                        A bit of context on what <br /> this template helps with
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="h-fit rounded-[8px] border-[1px] border-[#cfd3d8] p-[32px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]">
+          <div className="h-fit w-[533px] rounded-[8px] border-[1px] border-[#cfd3d8] p-[32px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]">
             <div className="flex items-center justify-between">
               <div className=" text-[24px] font-bold !leading-[40px]">
                 Your progress
@@ -209,10 +373,10 @@ const TemplateStep = () => {
               <div className="flex items-center gap-x-[20px]">
                 <div
                   className={`flex h-[48px] w-[48px] rounded-full  ${
-                    templateSelected ? 'bg-[#0059ff]' : 'bg-[#e5eefc]'
+                    selectedTemplate ? 'bg-[#0059ff]' : 'bg-[#e5eefc]'
                   }`}
                 >
-                  {templateSelected && (
+                  {selectedTemplate && (
                     <img
                       src={`${
                         process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -228,93 +392,38 @@ const TemplateStep = () => {
                   Select a template
                 </div>
               </div>
+              {selectedTemplate && (
+                <div
+                  onClick={() => {
+                    setIndexerDeployerStep(1)
+                  }}
+                  className="mt-[30px] cursor-pointer rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
+                >
+                  Next step
+                </div>
+              )}
               <div className="flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
-                <div className="text-[18px] font-semibold">
+                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
+                <div className="text-[18px] font-semibold text-[#959595]">
                   Select a provider{' '}
                 </div>
               </div>
             </div>
-            <div className="mt-[25px] px-[8px]">
-              <div className="grid gap-y-[10px]">
-                <div className="flex items-center gap-x-[7px]">
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/mini-equinix.svg`}
-                    alt="image"
-                    className=""
-                  />
-                  <div className="text-[14px] font-extralight">
-                    Bare metal Provider
-                  </div>
-                </div>
-                <div className="flex items-center gap-x-[5px]">
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/australia.svg`}
-                    alt="image"
-                    className=""
-                  />
-                  <div className="text-[14px] font-extralight">
-                    Country & Region{' '}
-                  </div>
-                </div>
-              </div>
-              <div className="mt-[26px] text-[12px] font-bold">
-                {templateSelected?.cpuCores} vCPU + {templateSelected?.ram} GB
-                memory
-              </div>
-              <div className="mt-[19px] flex justify-between bg-[#e5eefc] py-[13px] px-[18px] text-[14px] font-normal">
-                <div>Item</div>
-                <div>Price</div>
-              </div>
-              <div className="mt-[30px] flex justify-between border-b-[1px] border-[#D4D4D4] px-[18px] pb-[5px] text-[14px]">
-                <div className="font-medium text-[#959595]">
-                  {templateSelected?.productName}
-                </div>
-                <div className="font-bold">{templateSelected?.priceMonth}</div>
-              </div>
-              <div className="mt-[26px] flex justify-between">
-                <div className="text-[16px] font-medium">Total</div>
-                <div className="text-end">
-                  <div className="text-[28px] font-bold text-[#0059ff]">
-                    {templateSelected?.priceMonth}
-                  </div>
-                  {templateSelected?.priceHour && (
-                    <div className="text-[12px] font-normal">
-                      That's about {templateSelected?.priceHour} hourly
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div
-                onClick={() => {
-                  setIndexerDeployerStep(1)
-                }}
-                className="mt-[30px] cursor-pointer rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
-              >
-                Deploy
-              </div>
+            <div className="mt-[25px]">
               <div className="mt-[30px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
                 <div className="text-[18px] font-semibold text-[#959595]">
                   Choose your configuration{' '}
                 </div>
               </div>
               <div className="mt-[34px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
                 <div className="text-[18px] font-semibold text-[#959595]">
                   Performing connection{' '}
                 </div>
               </div>
               <div className="mt-[34px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#e5eefc]"></div>
+                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
                 <div className="text-[18px] font-semibold text-[#959595]">
                   Service deployed{' '}
                 </div>
