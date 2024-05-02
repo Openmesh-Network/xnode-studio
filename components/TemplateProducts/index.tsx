@@ -20,7 +20,7 @@ import Signup from '../Signup'
 import FinalBuild from '../FinalBuild'
 import TemplateStep from './TemplateStep'
 
-const IndexerDeployer = () => {
+const IndexerDeployer = (id: any) => {
   const { indexerDeployerStep } = useContext(AccountContext)
 
   if (indexerDeployerStep === -1) {

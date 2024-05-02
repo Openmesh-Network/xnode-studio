@@ -128,12 +128,12 @@ const TemplateProducts = () => {
   }, [])
 
   return (
-    <section className="relative z-10 pt-[30px] pb-[200px] lg:pt-0">
-      <div className="mx-auto max-w-[1380px] px-[20px]  text-[14px] font-normal text-[#000]">
-        <div className="flex justify-between gap-x-[95px]">
+    <section className="relative z-10 pt-[30px] lg:pt-0">
+      <div className="mx-auto max-w-[1380px] pl-[85px]  text-[14px] font-normal text-[#000]">
+        <div className="flex justify-between gap-x-[50px]">
           <div className="">
-            <div className="mb-[12.5px] text-[64px] font-semibold">
-              Templates
+            <div className="mb-[12.5px] text-[48px] font-semibold leading-[64px]">
+              Select a provider
             </div>
             <div className="border-t-[1px] border-t-[#cfd3d8] pt-[32px]">
               <div className="flex">
@@ -189,27 +189,23 @@ const TemplateProducts = () => {
                 </div>
                 <div
                   onClick={() => {
-                    getData()
+                    setSearchInput('')
+                    setSelected(null)
                   }}
-                  className="my-auto flex h-fit cursor-pointer items-center justify-center gap-x-[12px] rounded-[90px] bg-[#0059ff] py-[16px] px-[24px] hover:bg-[#014cd7]"
+                  className="my-auto flex w-full cursor-pointer items-center gap-x-[10px]"
                 >
-                  <div className="text-[16px] font-bold text-[#fff]">
-                    Filter
-                  </div>
                   <img
-                    onClick={() => {
-                      setSearchInput('')
-                      setSelected(null)
-                      getData(true)
-                    }}
                     src={`${
                       process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                         ? process.env.NEXT_PUBLIC_BASE_PATH
                         : ''
-                    }/images/template/close.svg`}
+                    }/images/template/remove.svg`}
                     alt="image"
-                    className=""
+                    className="w-[24px]"
                   />
+                  <div className="text-[16px] font-normal text-[#4d4d4d] hover:text-[#3b3b3b]">
+                    Reset filter
+                  </div>
                 </div>
               </div>
               {isLoading ? (
@@ -282,19 +278,23 @@ const TemplateProducts = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="ml-auto grid gap-y-[9px] text-center">
-                    <div className="mx-auto w-fit text-[18px] font-medium line-through">
+                  <div className="ml-auto grid text-center">
+                    <div className="mx-auto w-fit text-[16px] font-medium leading-[20px] line-through">
                       Est {tmp.priceMonth} p/m
                     </div>
                     <div
                       onClick={() => {
                         setTemplateSelected(tmp)
                       }}
-                      className="cursor-pointer rounded-[12px] bg-[#0059ff] px-[58.5px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
+                      className={`mt-[15px] cursor-pointer border-[1px] border-[#0059ff] ${
+                        tmp?.id === templateSelected?.id
+                          ? 'bg-[#0059ff]  text-[#fff]'
+                          : 'bg-[#fff] text-[#0059ff] hover:bg-[#f1f1f15e]'
+                      } w-[174px] rounded-[12px]  py-[13px] text-[16px] font-bold !leading-[150%]  `}
                     >
-                      Deploy
+                      {tmp?.id === templateSelected?.id ? 'Selected' : 'Select'}
                     </div>
-                    <div className="text-[16px] font-bold text-[#0059ff]">
+                    <div className="mt-[11px] text-[16px] font-bold text-[#0059ff]">
                       Cashback $200
                     </div>
                   </div>
@@ -323,9 +323,9 @@ const TemplateProducts = () => {
               )}
             </div>
           </div>
-          <div className="h-fit rounded-[8px] border-[1px] border-[#cfd3d8] p-[32px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]">
-            <div className="flex items-center justify-between">
-              <div className=" text-[24px] font-bold !leading-[40px]">
+          <div className="mt-[10px] w-full border-[0.6px] border-[#d1d5da] py-[10px] lg:mb-0 lg:w-[386px] lg:py-[32px]">
+            <div className="flex justify-between px-[32px]">
+              <div className="text-[18px] font-bold leading-[40px]">
                 Your progress
               </div>
               <img
@@ -333,145 +333,150 @@ const TemplateProducts = () => {
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                     ? process.env.NEXT_PUBLIC_BASE_PATH
                     : ''
-                }/images/template/close-gray.svg`}
+                }/images/template/x-new.svg`}
                 alt="image"
-                className="my-auto w-[24px] cursor-pointer pt-[2px]"
+                className={``}
               />
             </div>
-            <div className="mt-[32px] grid gap-y-[32px]">
-              <div className="flex items-center gap-x-[20px]">
-                <div
-                  className={`flex h-[48px] w-[48px] rounded-full bg-[#0059ff]`}
-                >
-                  {
-                    <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/check.svg`}
-                      alt="image"
-                      className="mx-auto my-auto"
-                    />
-                  }
-                </div>
-                <div className="text-[18px] font-semibold">
-                  Select a template
-                </div>
-              </div>
-              <div className="flex items-center gap-x-[20px]">
-                <div
-                  className={`flex h-[48px] w-[48px] rounded-full ${
-                    templateSelected ? 'bg-[#0059ff]' : 'bg-[#e5eefc]'
-                  }`}
-                >
-                  {templateSelected && (
-                    <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/check.svg`}
-                      alt="image"
-                      className="mx-auto my-auto"
-                    />
-                  )}
-                </div>
-                <div className="text-[18px] font-semibold">
-                  Select a provider{' '}
-                </div>
+            <div className="mt-[22px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+              <img
+                src={`${
+                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                    ? process.env.NEXT_PUBLIC_BASE_PATH
+                    : ''
+                }/images/template/circle-dashed-complete.svg`}
+                alt="image"
+                className={``}
+              />
+              <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                Select a template
               </div>
             </div>
-            <div className="mt-[25px] px-[8px]">
-              {templateSelected && (
-                <>
-                  <div className="grid gap-y-[10px]">
-                    <div className="flex items-center gap-x-[7px]">
-                      <img
-                        src={`${
-                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                            ? process.env.NEXT_PUBLIC_BASE_PATH
-                            : ''
-                        }/images/template/mini-equinix.svg`}
-                        alt="image"
-                        className=""
-                      />
-                      <div className="text-[14px] font-extralight">
-                        Bare metal Provider
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-x-[5px]">
-                      <img
-                        src={`${
-                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                            ? process.env.NEXT_PUBLIC_BASE_PATH
-                            : ''
-                        }/images/template/australia.svg`}
-                        alt="image"
-                        className=""
-                      />
-                      <div className="text-[14px] font-extralight">
-                        Country & Region{' '}
-                      </div>
+            <div className="mt-[31px] flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-[#e5eefc] py-[10px] px-[32px]">
+              <img
+                src={`${
+                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                    ? process.env.NEXT_PUBLIC_BASE_PATH
+                    : ''
+                }/images/template/circled-dashed.svg`}
+                alt="image"
+                className={``}
+              />
+              <div className="text-[16px] font-semibold leading-[36px] text-[#000]">
+                Select a provider
+              </div>
+            </div>
+            {templateSelected && (
+              <>
+                <div className="ml-[92px] mt-[21px] grid gap-y-[10px]">
+                  <div className="flex items-center gap-x-[7px]">
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/mini-equinix.svg`}
+                      alt="image"
+                      className=""
+                    />
+                    <div className="text-[14px] font-extralight">
+                      Bare metal Provider
                     </div>
                   </div>
-                  <div className="mt-[26px] text-[12px] font-bold">
-                    {templateSelected?.cpuCores} vCPU + {templateSelected?.ram}{' '}
-                    GB memory
-                  </div>
-                  <div className="mt-[19px] flex justify-between bg-[#e5eefc] py-[13px] px-[18px] text-[14px] font-normal">
-                    <div>Item</div>
-                    <div>Price</div>
-                  </div>
-                  <div className="mt-[30px] flex justify-between border-b-[1px] border-[#D4D4D4] px-[18px] pb-[5px] text-[14px]">
-                    <div className="font-medium text-[#959595]">
-                      {templateSelected?.productName}
+                  <div className="flex items-center gap-x-[5px]">
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/australia.svg`}
+                      alt="image"
+                      className=""
+                    />
+                    <div className="text-[14px] font-extralight">
+                      Country & Region{' '}
                     </div>
-                    <div className="font-bold">
+                  </div>
+                </div>
+                <div className="mt-[18px] ml-[92px] text-[16px] font-bold">
+                  {templateSelected?.cpuCores} vCPU + {templateSelected?.ram} GB
+                  memory
+                </div>
+                <div className="mx-[36px] mt-[26px] flex justify-between bg-[#e5eefc] py-[13px] px-[18px] text-[14px] font-normal">
+                  <div>Item</div>
+                  <div>Price</div>
+                </div>
+                <div className="mx-[36px] mt-[30px] flex justify-between border-b-[1px] border-[#D4D4D4] px-[18px] pb-[5px] text-[14px]">
+                  <div className="font-medium text-[#959595]">
+                    {templateSelected?.productName}
+                  </div>
+                  <div className="font-bold">
+                    {templateSelected?.priceMonth}
+                  </div>
+                </div>
+                <div className="mx-[36px] mt-[26px] flex justify-between">
+                  <div className="text-[16px] font-medium">Total</div>
+                  <div className="text-end">
+                    <div className="text-[28px] font-bold text-[#0059ff]">
                       {templateSelected?.priceMonth}
                     </div>
-                  </div>
-                  <div className="mt-[26px] flex justify-between">
-                    <div className="text-[16px] font-medium">Total</div>
-                    <div className="text-end">
-                      <div className="text-[28px] font-bold text-[#0059ff]">
-                        {templateSelected?.priceMonth}
+                    {templateSelected?.priceHour && (
+                      <div className="text-[12px] font-normal">
+                        That's about {templateSelected?.priceHour} hourly
                       </div>
-                      {templateSelected?.priceHour && (
-                        <div className="text-[12px] font-normal">
-                          That's about {templateSelected?.priceHour} hourly
-                        </div>
-                      )}
-                    </div>
+                    )}
                   </div>
-                  <div
-                    onClick={() => {
-                      setIndexerDeployerStep(1)
-                    }}
-                    className="mt-[30px] cursor-pointer rounded-[12px] bg-[#0059ff] px-[125px] py-[13px] text-[16px] font-bold !leading-[150%] text-[#fff] hover:bg-[#014cd7]"
-                  >
-                    Deploy
-                  </div>
-                </>
-              )}
-
-              <div className="mt-[30px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
-                <div className="text-[18px] font-semibold text-[#959595]">
-                  Choose your configuration{' '}
                 </div>
+                <div
+                  onClick={() => {
+                    setIndexerDeployerStep(1)
+                  }}
+                  className="mx-auto mt-[30px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[133px] py-[15px] text-center text-[16px] font-bold leading-[22px] text-[#fff] hover:bg-[#014cd7]"
+                >
+                  Deploy
+                </div>
+              </>
+            )}
+            <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+              <img
+                src={`${
+                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                    ? process.env.NEXT_PUBLIC_BASE_PATH
+                    : ''
+                }/images/template/circled-dashed-gray.svg`}
+                alt="image"
+                className={``}
+              />
+              <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                Choose your configuration
               </div>
-              <div className="mt-[34px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
-                <div className="text-[18px] font-semibold text-[#959595]">
-                  Performing connection{' '}
-                </div>
+            </div>
+            <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+              <img
+                src={`${
+                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                    ? process.env.NEXT_PUBLIC_BASE_PATH
+                    : ''
+                }/images/template/circled-dashed-gray.svg`}
+                alt="image"
+                className={``}
+              />
+              <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                Performing connection
               </div>
-              <div className="mt-[34px] flex items-center gap-x-[20px]">
-                <div className="h-[48px] w-[48px] rounded-full bg-[#E6E8EC]"></div>
-                <div className="text-[18px] font-semibold text-[#959595]">
-                  Service deployed{' '}
-                </div>
+            </div>
+            <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+              <img
+                src={`${
+                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                    ? process.env.NEXT_PUBLIC_BASE_PATH
+                    : ''
+                }/images/template/circled-dashed-gray.svg`}
+                alt="image"
+                className={``}
+              />
+              <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                Service deployed
               </div>
             </div>
           </div>

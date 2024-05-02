@@ -72,7 +72,7 @@ export type TemplatesData = {
   tags?: string[]
   systemMinRequirements?: string
   systemRecommendedRequirements?: string
-  productsIncluded?: string[]
+  productsIncluded?: any[]
   techDiagrams?: string
   source?: string
 }
