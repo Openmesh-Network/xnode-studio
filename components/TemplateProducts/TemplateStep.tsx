@@ -45,6 +45,7 @@ export const providerNameToLogo = {
 
 const TemplateStep = () => {
   const [templatesData, setTemplatesData] = useState<TemplatesData[]>([])
+  const [hoverTemplate, setHoverTemplate] = useState<TemplatesData | null>()
   const [filteredTemplatesData, setFilteredTemplatesData] = useState<TemplatesData[]>([])
   const [selectedTemplate, setSelectedTemplate] = useState<string>('')
   const [displayToggle, setDisplayToggle] = useState<string>('list')
@@ -380,6 +381,8 @@ const TemplateStep = () => {
                               : `template-products/${tmp.id}`
                           }`}>
                           <div
+                            onMouseEnter={()=> setHoverTemplate(tmp)}
+                            onMouseLeave={() => setHoverTemplate(null)}
                             key={index}
                             className={` mt-[17px] bg-[#f1f1f17c] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
                           >
@@ -397,7 +400,7 @@ const TemplateStep = () => {
                                 alt="image"
                                 className="h-[33px] w-[33px]"
                               />)}
-                              <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-[#fff] px-[12px] py-[4px]">
+                              <div className={`flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] ${hoverTemplate?.id === tmp.id ? 'bg-[#fff]' : 'bg-[#e5eefc]'}`}>
                                 <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
                                 <div className="text-[14px] font-bold leading-[24px] text-[#0059ff]">
                                   Category
@@ -451,6 +454,8 @@ const TemplateStep = () => {
                               : `template-products/${tmp.id}`
                           }`}>
                           <div
+                            onMouseEnter={()=> setHoverTemplate(tmp)}
+                            onMouseLeave={() => setHoverTemplate(null)}
                             key={index}
                             className={` mt-[17px] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
                           >
@@ -468,7 +473,7 @@ const TemplateStep = () => {
                                 alt="image"
                                 className="h-[33px] w-[33px]"
                               />)}
-                              <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-[#fff] px-[12px] py-[4px]">
+                              <div className={`flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] ${hoverTemplate?.id === tmp.id ? 'bg-[#fff]' : 'bg-[#e5eefc]'}`}>
                                 <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
                                 <div className="text-[14px] font-bold leading-[24px] text-[#0059ff]">
                                   Category
