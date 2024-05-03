@@ -190,7 +190,61 @@ const TemplateStep = () => {
                       className=""
                     />
                     <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
-                      Validator Node ({filteredTemplatesData?.length})
+                      Validator Node (5)
+                    </div>
+                  </div>
+                  <div
+                    className={`${
+                      !categoryOpen && 'hidden'
+                    } mt-[20px] flex gap-x-[6px]`}
+                  >
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/xnode-circle.svg`}
+                      alt="image"
+                      className=""
+                    />
+                    <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
+                      Database (1)
+                    </div>
+                  </div>
+                  <div
+                    className={`${
+                      !categoryOpen && 'hidden'
+                    } mt-[20px] flex gap-x-[6px]`}
+                  >
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/xnode-circle.svg`}
+                      alt="image"
+                      className=""
+                    />
+                    <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
+                      Server (1)
+                    </div>
+                  </div>
+                  <div
+                    className={`${
+                      !categoryOpen && 'hidden'
+                    } mt-[20px] flex gap-x-[6px]`}
+                  >
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/xnode-circle.svg`}
+                      alt="image"
+                      className=""
+                    />
+                    <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
+                      Compute (0)
                     </div>
                   </div>
                 </div>
@@ -327,7 +381,7 @@ const TemplateStep = () => {
                           }`}>
                           <div
                             key={index}
-                            className={` mt-[17px] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
+                            className={` mt-[17px] bg-[#f1f1f17c] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
                           >
                             <div className="flex gap-x-[75px]">
                               {tmp?.logoUrl ? (<img
