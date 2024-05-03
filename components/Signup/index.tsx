@@ -203,14 +203,14 @@ const Signup = () => {
           <div className="text-[18px]  font-bold -tracking-[2%] text-[#000000] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Connect your wallet
           </div>
-          <div className="mb-[30px]">
+          <div className="mb-[30px] mt-[15px]">
             <Web3Button />
           </div>{' '}
           <div className="my-[30px] text-[#000]">or</div>
           <div className="text-[18px]  font-bold -tracking-[2%] text-[#000000] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Signin for Xnode
           </div>
-          <div className="mt-[15px] text-[18px] font-normal -tracking-[2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
+          <div className="mt-[15px] text-[18px] font-normal -tracking-[2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[15px] 2xl:text-[32px]">
             Finalise your integrations easy
           </div>
           <div className="mt-[15px]">

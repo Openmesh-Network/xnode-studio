@@ -18,8 +18,8 @@ import { AccountContext } from '@/contexts/AccountContext'
 
 export const optionsNetwork = [
   {
-    name: 'testing',
-    value: 'testing',
+    name: 'Created date',
+    value: 'Created date',
   },
 ]
 
@@ -190,7 +190,7 @@ const TemplateStep = () => {
                       className=""
                     />
                     <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
-                      Validator Node (1)
+                      Validator Node ({filteredTemplatesData?.length})
                     </div>
                   </div>
                 </div>
@@ -320,7 +320,7 @@ const TemplateStep = () => {
                       {filteredTemplatesData.length > 0 ? (
                         <div className='grid-cols-3 grid'>
                         {filteredTemplatesData.map((tmp, index) => (
-                          <a key={index} href={`${
+                          <a key={index} className={`${tmp?.featured ? '' : 'hidden'}`} href={`${
                             process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                               ? `/xnode/template-products/${tmp.id}`
                               : `template-products/${tmp.id}`
@@ -330,7 +330,11 @@ const TemplateStep = () => {
                             className={` mt-[17px] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
                           >
                             <div className="flex gap-x-[75px]">
-                              <img
+                              {tmp?.logoUrl ? (<img
+                                src={tmp.logoUrl}
+                                alt="image"
+                                className="max-h-[33px] max-w-[33px] w-[33px] h-[33px]"
+                              />) : (<img
                                 src={`${
                                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                                     ? process.env.NEXT_PUBLIC_BASE_PATH
@@ -338,7 +342,7 @@ const TemplateStep = () => {
                                 }/images/template/xnode-circle.svg`}
                                 alt="image"
                                 className="h-[33px] w-[33px]"
-                              />
+                              />)}
                               <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-[#fff] px-[12px] py-[4px]">
                                 <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
                                 <div className="text-[14px] font-bold leading-[24px] text-[#0059ff]">
@@ -366,7 +370,77 @@ const TemplateStep = () => {
                       )}
                     </div>
                   )}
-                  
+                </div>
+                <div className="mt-[42px] text-start">
+                  <div className="text-[18px] font-medium leading-[28px] text-[#000]">
+                    {filteredTemplatesData?.length} Results
+                  </div>
+                  {isLoading ? (
+                    <div className='grid-cols-3 grid'>
+                      {[1, 2, 3].map((tmp, index) => (
+                      <div
+                        key={index}
+                        className={`mt-[17px] rounded-[8px] animate-pulse bg-[#e5e5e5] border-[#fafafa] w-[270px] h-[202px] shadow-md`}
+                      >
+                      
+                      </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className=''>
+                      {filteredTemplatesData.length > 0 ? (
+                        <div className='grid-cols-3 grid gap-y-[10px]'>
+                        {filteredTemplatesData.map((tmp, index) => (
+                          <a key={index} href={`${
+                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                              ? `/xnode/template-products/${tmp.id}`
+                              : `template-products/${tmp.id}`
+                          }`}>
+                          <div
+                            key={index}
+                            className={` mt-[17px] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
+                          >
+                            <div className="flex gap-x-[75px]">
+                              {tmp?.logoUrl ? (<img
+                                src={tmp.logoUrl}
+                                alt="image"
+                                className="max-h-[33px] max-w-[33px] w-[33px] h-[33px]"
+                              />) : (<img
+                                src={`${
+                                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                                    ? process.env.NEXT_PUBLIC_BASE_PATH
+                                    : ''
+                                }/images/template/xnode-circle.svg`}
+                                alt="image"
+                                className="h-[33px] w-[33px]"
+                              />)}
+                              <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-[#fff] px-[12px] py-[4px]">
+                                <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
+                                <div className="text-[14px] font-bold leading-[24px] text-[#0059ff]">
+                                  Category
+                                </div>
+                              </div>
+                            </div>
+                            <div className="mt-[20px]">
+                              <div className="text-[18px] font-medium text-[#000] line-clamp-1 overflow-hidden">
+                                {tmp.name}
+                              </div>
+                              <div className="mt-[6px] line-clamp-3 overflow-hidden text-[16px] font-normal leading-[20px] text-[#959595]">
+                                {tmp.description}
+                              </div>
+                            </div>
+                          </div>
+                          </a>
+                        ))}
+                      </div>
+                      ) : (
+                        <div className="mt-[17.5px] text-center mx-auto w-full items-center justify-center md:mt-[21px] lg:mt-[24.5px] xl:mt-[28px] 2xl:mt-[35px]">
+                        <SmileySad size={32} className="text-blue-500 mb-2 mx-auto flex" />
+                        <span className="">No data found</span>
+                      </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

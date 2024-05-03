@@ -387,7 +387,7 @@ const LateralNav = ({ onValueChange }) => {
                     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                       ? process.env.NEXT_PUBLIC_BASE_PATH
                       : ''
-                  }/images/logo/xnode-logo.svg`}
+                  }/images/logo/xnode-new-logo.svg`}
                   alt="image"
                   className="w-[40px] md:w-[80px] lg:w-[120px] xl:w-[160px] 2xl:w-[200px]"
                 />

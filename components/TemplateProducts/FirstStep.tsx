@@ -17,8 +17,12 @@ import { AccountContext } from '@/contexts/AccountContext'
 
 export const optionsNetwork = [
   {
-    name: 'testing',
-    value: 'testing',
+    name: 'Equinix',
+    value: 'Equinix',
+  },
+  {
+    name: 'Vultr',
+    value: 'Vultr',
   },
 ]
 
@@ -280,7 +284,7 @@ const TemplateProducts = () => {
                   </div>
                   <div className="ml-auto grid text-center">
                     <div className="mx-auto w-fit text-[16px] font-medium leading-[20px] line-through">
-                      Est {tmp.priceMonth} p/m
+                      Est {tmp.priceMonth} /mo
                     </div>
                     <div
                       onClick={() => {

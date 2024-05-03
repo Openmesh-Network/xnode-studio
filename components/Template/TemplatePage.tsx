@@ -53,6 +53,10 @@ const Template = (id: any) => {
     setIsLoading(false)
   }
 
+  function gerarNumeroAleatorio() {
+    return Math.floor(1000 + Math.random() * 9000)
+  }
+
   useEffect(() => {
     setIsLoading(true)
     window.scrollTo({
@@ -120,18 +124,12 @@ const Template = (id: any) => {
               </div>
 
               <div className="ml-[10px] mt-[24px]">
-                <div className="text-[12px] text-[#0354EC] ">
-                  <span className="underline underline-offset-2">
-                    RPC Nodes
-                  </span>
-                  ,{' '}
-                  <span className="underline underline-offset-2">
-                    Web3 Infrastructure
-                  </span>
-                  ,{' '}
-                  <span className="underline underline-offset-2">
-                    Blockchain Apps
-                  </span>
+                <div className="flex gap-x-[4px] text-[12px] text-[#0354EC]">
+                  {data?.tags?.map((item, index) => (
+                    <div key={index} className="underline underline-offset-2">
+                      {item},
+                    </div>
+                  ))}
                 </div>
                 <div className="mt-[23px] max-w-[735px] text-[16px] leading-[22px]">
                   {data?.description}
@@ -147,7 +145,7 @@ const Template = (id: any) => {
                     <div className="lg:w-[50%]">Recommended requirements</div>
                   </div>
                   <div className="mt-[15px] flex gap-x-[10px] px-[20px] font-normal lg:gap-x-0">
-                    <div className="lg:mr-[64px] lg:w-[70%]">
+                    <div className="lg:w-[50%]">
                       {data?.systemMinRequirements}
                     </div>
                     <div>{data?.systemRecommendedRequirements}</div>
@@ -165,17 +163,23 @@ const Template = (id: any) => {
                     <div className="w-[15%]">Infra ID</div>
                   </div>
                   <div className="mt-[15px] flex px-[20px] font-normal">
-                    <div className="w-[30%]">Ethereum node core</div>
-                    <div className="w-[30%]">CPU, 8-Core (16-Thread) </div>
+                    <div className="w-[30%] max-w-[30%] overflow-hidden">
+                      Core
+                    </div>
+                    <div className="w-[30%]">
+                      500MB ram, 1 cpu, 10GB storage
+                    </div>
                     <div className="w-[25%]">Bare metal </div>
-                    <div className="w-[15%]">#26343</div>
+                    <div className="w-[15%]">#1</div>
                   </div>
                   <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
                   <div className="mt-[8px] flex px-[20px] font-normal">
-                    <div className="w-[30%]">Ethereum node core</div>
-                    <div className="w-[30%]">CPU, 8-Core (16-Thread) </div>
+                    <div className="w-[30%] max-w-[30%] overflow-hidden">
+                      {data?.name}
+                    </div>
+                    <div className="w-[30%]">CPU, 8-Core (16-Thread)</div>
                     <div className="w-[25%]">Bare metal </div>
-                    <div className="w-[15%]">#26343</div>
+                    <div className="w-[15%]">#{gerarNumeroAleatorio()}</div>
                   </div>
                   <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
                 </div>
@@ -238,7 +242,9 @@ const Template = (id: any) => {
               <div className="ml-[92px] mt-[26px]">
                 <div className="text-[16px] font-medium text-[#000]">
                   Starting from{' '}
-                  <span className="text-[#0354EC] line-through">$14.31 pm</span>
+                  <span className="text-[#0354EC] line-through">
+                    ${data?.price} /mo
+                  </span>
                 </div>
                 <div className="text-[16px] font-bold text-[#0354EC]">
                   $1,475.43 Monthly savings{' '}

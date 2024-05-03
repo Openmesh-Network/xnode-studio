@@ -105,16 +105,20 @@ const Header = () => {
 
   const headerItens = [
     {
+      label: 'Xnode Innovation',
+      href: `https://docs.openmesh.network/products/xnode`,
+    },
+    {
       label: 'About',
       href: `https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/openmesh-overview`,
     },
     {
       label: 'Use cases',
-      href: `https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/use-cases`,
+      href: `https://docs.openmesh.network/products/xnode`,
     },
     {
       label: 'Innovation',
-      href: `https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/vision-and-roadmap`,
+      href: `https://docs.openmesh.network/products/xnode`,
     },
     {
       label: 'Docs',
@@ -599,7 +603,7 @@ const Header = () => {
                             : 'border border-[#0354EC] bg-[#fff] text-[#0354EC] hover:text-[#203b6e]'
                         } rounded-[5px]  py-[6.2px] px-[11px] text-center md:py-[7.5px] md:px-[12.5px]    lg:py-[8.75px]  lg:px-[14.5px]  xl:py-[10px] xl:px-[17px]  2xl:gap-x-[10px] 2xl:py-[10px] 2xl:px-[21px]`}
                       >
-                        <div>Create service and deploy</div>
+                        <div>Create and deploy</div>
                       </div>
                     )}
                     {user?.sessionToken ? (
@@ -841,7 +845,7 @@ const Header = () => {
                       alt="image"
                       className={`w-[5px] md:w-[6px] lg:w-[7px] xl:w-[8px] 2xl:w-[10px]`}
                     />
-                    <div>Create service and deploy</div>
+                    <div>Create and deploy</div>
                   </div>
                 )}
               </div>

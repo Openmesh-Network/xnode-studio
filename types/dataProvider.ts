@@ -69,10 +69,13 @@ export type TemplatesData = {
   id: string
   name?: string
   description?: string
+  price?: string
+  logoUrl?: string
   tags?: string[]
   systemMinRequirements?: string
   systemRecommendedRequirements?: string
   productsIncluded?: any[]
   techDiagrams?: string
   source?: string
+  featured?: boolean
 }
