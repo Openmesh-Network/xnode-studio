@@ -372,9 +372,9 @@ const TemplateStep = () => {
                     </div>
                   ) : (
                     <div className=''>
-                      {filteredTemplatesData.length > 0 ? (
+                      {filteredTemplatesData?.length > 0 ? (
                         <div className='grid-cols-3 grid'>
-                        {filteredTemplatesData.map((tmp, index) => (
+                        {filteredTemplatesData?.map((tmp, index) => (
                           <a key={index} className={`${tmp?.featured ? '' : 'hidden'}`} href={`${
                             process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                               ? `/xnode/template-products/${tmp.id}`
@@ -445,7 +445,7 @@ const TemplateStep = () => {
                     </div>
                   ) : (
                     <div className=''>
-                      {filteredTemplatesData.length > 0 ? (
+                      {filteredTemplatesData?.length > 0 ? (
                         <div className='grid-cols-3 grid gap-y-[10px]'>
                         {filteredTemplatesData.map((tmp, index) => (
                           <a key={index} href={`${
