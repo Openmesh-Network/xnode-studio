@@ -93,7 +93,7 @@ const Configuration = () => {
                 <div className="text-[18px] font-semibold !leading-[36px]">
                   Review and build your solution
                 </div>
-                <div className="mt-[8px] flex bg-[#e5eefc] px-[24px] py-[12px] text-[16px] font-normal !leading-[24px]">
+                <div className="mt-[8px] flex bg-[#d1d5db] px-[24px] py-[12px] text-[16px] font-normal !leading-[24px]">
                   <div className="w-full max-w-[283px]">Steps</div>
                   <div className="w-full max-w-[406px]">Description</div>
                   <div>Edit</div>
