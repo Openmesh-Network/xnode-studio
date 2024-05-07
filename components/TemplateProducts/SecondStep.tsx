@@ -44,13 +44,13 @@ const Configuration = () => {
     <section className="relative z-10 pt-[30px] lg:pt-0">
       <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-[#000]">
         <div className="flex justify-between gap-x-[50px]">
-          <div className="pb-[50px]">
+          <div className="pb-[50px] pt-[44px]">
             <div className="mb-[12.5px] text-[48px] font-semibold leading-[64px] -tracking-[1.9px]">
               Choose your configuration
             </div>
             <div className="pt-[40.5px]">
               <div className="">
-                <div className="flex h-[40px] w-[570px]">
+                <div className="flex h-[25px] w-[570px]">
                   <div
                     style={{ width: `${(40 / (40 + 33 + freeSpace)) * 100}%` }}
                     className={`mr-[2px] rounded-l-[8px] bg-[#000]`}
@@ -63,7 +63,7 @@ const Configuration = () => {
                     style={{
                       width: `${(freeSpace / (40 + 33 + freeSpace)) * 100}%`,
                     }}
-                    className={`flex items-center justify-center rounded-r-[8px] bg-[#e5eefc] text-[16px] font-medium`}
+                    className={`flex items-center justify-center rounded-r-[8px] bg-[#e5eefc] text-[12px] font-light`}
                   >
                     available to rent and get paid
                   </div>

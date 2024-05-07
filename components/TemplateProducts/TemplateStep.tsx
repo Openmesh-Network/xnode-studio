@@ -191,7 +191,7 @@ const TemplateStep = () => {
                       className=""
                     />
                     <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
-                      Validator Node (5)
+                      Blockchain ({templatesData?.filter((data) => data.category === 'blockchain').length})
                     </div>
                   </div>
                   <div
@@ -209,7 +209,7 @@ const TemplateStep = () => {
                       className=""
                     />
                     <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
-                      Database (1)
+                      Data ({templatesData?.filter((data) => data.category === 'data').length})
                     </div>
                   </div>
                   <div
@@ -227,7 +227,7 @@ const TemplateStep = () => {
                       className=""
                     />
                     <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
-                      Server (1)
+                      Developer ({templatesData?.filter((data) => data.category === 'developer').length})
                     </div>
                   </div>
                   <div
@@ -245,7 +245,25 @@ const TemplateStep = () => {
                       className=""
                     />
                     <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
-                      Compute (0)
+                      Server ({templatesData?.filter((data) => data.category === 'server').length})
+                    </div>
+                  </div>
+                  <div
+                    className={`${
+                      !categoryOpen && 'hidden'
+                    } mt-[20px] flex gap-x-[6px]`}
+                  >
+                    <img
+                      src={`${
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? process.env.NEXT_PUBLIC_BASE_PATH
+                          : ''
+                      }/images/template/xnode-circle.svg`}
+                      alt="image"
+                      className=""
+                    />
+                    <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
+                     Validator Node ({templatesData?.filter((data) => data.category === 'validatorNode').length})
                     </div>
                   </div>
                 </div>

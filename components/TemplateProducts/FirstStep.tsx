@@ -135,7 +135,7 @@ const TemplateProducts = () => {
     <section className="relative z-10 pt-[30px] lg:pt-0">
       <div className="mx-auto max-w-[1380px] pl-[85px]  text-[14px] font-normal text-[#000]">
         <div className="flex justify-between gap-x-[50px]">
-          <div className="">
+          <div className="pt-[44px]">
             <div className="mb-[12.5px] text-[48px] font-semibold leading-[64px]">
               Select a provider
             </div>

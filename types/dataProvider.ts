@@ -78,4 +78,5 @@ export type TemplatesData = {
   techDiagrams?: string
   source?: string
   featured?: boolean
+  category?: string
 }
