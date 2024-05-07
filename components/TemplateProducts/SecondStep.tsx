@@ -20,6 +20,7 @@ const Configuration = () => {
   const [templates, setTemplates] = useState<TemplatesProducts[]>([])
   const [page, setPage] = useState<number>(1)
   const [searchInput, setSearchInput] = useState<string>()
+  const [freeSpace, setFreeSpace] = useState<number>(600)
   const [includedServices, setIncludeServices] = useState<any>({})
   const [addPythiaToDeployment, setAddPythiaToDeployment] =
     useState<boolean>(false)
@@ -28,6 +29,16 @@ const Configuration = () => {
     useContext(AccountContext)
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+  useEffect(() => {
+    if (
+      templateSelected?.storageTotal &&
+      Number(templateSelected.storageTotal) > 0
+    ) {
+      const freeSpace = Number(templateSelected.storageTotal) - 40 - 33
+      setFreeSpace(freeSpace)
+    }
+  }, [templateSelected])
 
   return (
     <section className="relative z-10 pt-[30px] lg:pt-0">
@@ -39,10 +50,21 @@ const Configuration = () => {
             </div>
             <div className="pt-[40.5px]">
               <div className="">
-                <div className="flex h-[40px]">
-                  <div className="mr-[2px] w-[61px] rounded-l-[8px] bg-[#000]"></div>
-                  <div className="w-[250px] bg-[#0059ff]"></div>
-                  <div className="flex w-[259px] items-center justify-center rounded-r-[8px] bg-[#e5eefc] text-[16px] font-medium">
+                <div className="flex h-[40px] w-[570px]">
+                  <div
+                    style={{ width: `${(40 / (40 + 33 + freeSpace)) * 100}%` }}
+                    className={`mr-[2px] rounded-l-[8px] bg-[#000]`}
+                  ></div>
+                  <div
+                    style={{ width: `${(33 / (40 + 33 + freeSpace)) * 100}%` }}
+                    className={` bg-[#0059ff]`}
+                  ></div>
+                  <div
+                    style={{
+                      width: `${(freeSpace / (40 + 33 + freeSpace)) * 100}%`,
+                    }}
+                    className={`flex items-center justify-center rounded-r-[8px] bg-[#e5eefc] text-[16px] font-medium`}
+                  >
                     available to rent and get paid
                   </div>
                 </div>
@@ -50,7 +72,7 @@ const Configuration = () => {
                   <div className="flex items-center gap-x-[8px]">
                     <div className="h-[13px] w-[13px] rounded-full bg-[#000]"></div>
                     <div className="text-[16px] font-normal">
-                      Openmesh core (1.96 TB)
+                      Openmesh core (40 GB)
                     </div>
                   </div>
                   <div className="flex items-center gap-x-[8px]">
@@ -62,7 +84,7 @@ const Configuration = () => {
                   <div className="flex items-center gap-x-[8px]">
                     <div className="h-[13px] w-[13px] rounded-full bg-[#e5eefc]"></div>
                     <div className="text-[16px] font-normal">
-                      Free (220.9 MB){' '}
+                      Free ({freeSpace} GB){' '}
                     </div>
                   </div>
                 </div>
