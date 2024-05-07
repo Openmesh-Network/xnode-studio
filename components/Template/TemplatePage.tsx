@@ -199,7 +199,7 @@ const Template = (id: any) => {
                 </div>
               </div>
             </div>
-            <div className="mt-[10px] w-full border-[0.6px] border-[#d1d5da] py-[10px] lg:mb-0 lg:w-[386px] lg:py-[32px]">
+            <div className="mt-[10px] w-full border-[0.6px] border-[#d1d5da] bg-[#fafafa] py-[10px] lg:mb-0 lg:w-[386px] lg:py-[32px]">
               <div className="flex justify-between px-[32px]">
                 <div className="text-[18px] font-bold leading-[40px]">
                   Your progress
