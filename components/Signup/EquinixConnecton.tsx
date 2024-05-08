@@ -17,7 +17,7 @@ type EquinixAPIForm = {
 const EquinixConnection = () => {
   const [showTooltipCloudProvider, setShowTooltipCloudProvider] =
     useState<boolean>(false)
-  const { setConnections } = useContext(AccountContext)
+  const { setConnections, templateSelected } = useContext(AccountContext)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const { user, setUser } = useContext(AccountContext)
@@ -88,8 +88,9 @@ const EquinixConnection = () => {
       <div className="relative rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] pb-[60px] pr-[100px] text-[#000] md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[20px] xl:pb-[80px] xl:pr-[192px] 2xl:px-[20px] 2xl:py-[25px] 2xl:pb-[100px] 2xl:pr-[240px]">
         <div className="relative flex gap-x-[10px]">
           <div className="text-[10px] font-bold md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
-            You will also need to connect to Equinix 3rd party service to deploy
-            the application.
+            You will also need to connect to{' '}
+            {templateSelected ? templateSelected?.providerName : 'Equinix'} 3rd
+            party service to deploy the application.
           </div>
           <img
             src={`${
@@ -200,8 +201,9 @@ const EquinixConnection = () => {
     <div className="relative rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] pb-[60px] pr-[100px] text-[#000] md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[20px] xl:pb-[80px] xl:pr-[192px] 2xl:px-[20px] 2xl:py-[25px] 2xl:pb-[100px] 2xl:pr-[240px]">
       <div className="relative flex gap-x-[10px]">
         <div className="text-[10px] font-bold md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
-          You will also need to connect to Equinix 3rd party service to deploy
-          the application.
+          You will also need to connect to{' '}
+          {templateSelected ? templateSelected?.providerName : 'Equinix'} 3rd
+          party service to deploy the application.
         </div>
         <img
           src={`${
@@ -222,15 +224,21 @@ const EquinixConnection = () => {
       </div>
       <div className="mt-[25px] md:mt-[35px] md:ml-[70px]  lg:mt-[42px] lg:ml-[90px] xl:mt-[56px] xl:ml-[112px] 2xl:mt-[70px] 2xl:ml-[140px]">
         <div className="flex gap-x-[50px]">
-          <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/signup/equinix-xnode.svg`}
-            alt="image"
-            className="w-[145px] md:w-[174px] lg:w-[203px] xl:w-[232px] 2xl:w-[290px]"
-          />{' '}
+          <div className="flex items-center">
+            <img
+              src={`${
+                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                  ? process.env.NEXT_PUBLIC_BASE_PATH
+                  : ''
+              }/images/signup/xnode-conn.svg`}
+              alt="image"
+              className=""
+            />{' '}
+            <div className="ml-[11px] pt-[5px] text-[16px]">
+              {templateSelected ? templateSelected?.providerName : 'Equinix'}
+            </div>
+          </div>
+
           <div
             onClick={() => {
               setIsCreatingNewChannel(true)
