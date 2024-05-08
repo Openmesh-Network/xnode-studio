@@ -79,4 +79,5 @@ export type TemplatesData = {
   source?: string
   featured?: boolean
   category?: string
+  createdAt?: string
 }

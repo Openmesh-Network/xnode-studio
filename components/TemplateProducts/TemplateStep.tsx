@@ -18,8 +18,12 @@ import { AccountContext } from '@/contexts/AccountContext'
 
 export const optionsNetwork = [
   {
-    name: 'Created date',
-    value: 'Created date',
+    name: 'Date Created',
+    value: 'Date Created',
+  },
+  {
+    name: 'Template Name',
+    value: 'Template Name',
   },
 ]
 
@@ -49,6 +53,8 @@ const TemplateStep = () => {
   const [filteredTemplatesData, setFilteredTemplatesData] = useState<TemplatesData[]>([])
   const [selectedTemplate, setSelectedTemplate] = useState<string>('')
   const [displayToggle, setDisplayToggle] = useState<string>('list')
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([])
+
   const [categoryOpen, setCategoryOpen] = useState<boolean>(true)
   const [page, setPage] = useState<number>(1)
   const [searchInput, setSearchInput] = useState<string>()
@@ -80,6 +86,52 @@ const TemplateStep = () => {
     setIsLoading(false)
   }
 
+  function handleCategoryFilter(ct: string) {
+    let newFilter = [...categoryFilter]
+    if (newFilter.includes(ct)) {
+      newFilter = newFilter.filter((data) => data !== ct)
+    } else {
+      newFilter.push(ct)
+    }
+    setCategoryFilter(newFilter)
+    handleNewFilteredTemplatesData(newFilter, filterSelection)
+  }
+
+  function handleNewFilteredTemplatesData(categories: string[], source: string) {
+    // first filtering by the source
+    let newFilteredTemplate = [...templatesData]
+    if (source !== 'All Templates') {
+      newFilteredTemplate = newFilteredTemplate.filter(vl => vl.source === source)
+    }
+
+    if (categories.length > 0) {
+      newFilteredTemplate = newFilteredTemplate.filter((ft) => categories.includes(ft.category))
+    }
+
+    setFilteredTemplatesData(newFilteredTemplate)
+  }
+
+  function handleSortByFilter(value: string) {
+    console.log('entrei handle')
+    if (value === 'Date Created') {
+      const newFilteredTemplates = [...filteredTemplatesData]
+
+      newFilteredTemplates.sort((a, b) => {
+        // Convert dates to timestamps and compare
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
+  
+      setFilteredTemplatesData(newFilteredTemplates);
+    }
+    if (value === 'Template Name') {
+      console.log('entrei aqui yes sir')
+      const newFilteredTemplates = [...filteredTemplatesData]
+
+      newFilteredTemplates.sort((a, b) => a.name.localeCompare(b.name));
+      setFilteredTemplatesData(newFilteredTemplates);
+    }
+  }
+
   useEffect(() => {
     getData()
   }, [])
@@ -109,7 +161,7 @@ const TemplateStep = () => {
                 <div
                   onClick={() => {
                     setFilterSelection('All Templates')
-                    setFilteredTemplatesData(templatesData)
+                    handleNewFilteredTemplatesData(categoryFilter, 'All Templates')
                   }}
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'All Templates'
@@ -121,14 +173,11 @@ const TemplateStep = () => {
                 </div>
                 <div
                   onClick={() => {
-                    setFilterSelection('Openmesh')
-                    const newData = [...templatesData]
-
-                    const fdata = newData.filter(vl => vl.source === 'openmesh')
-                    setFilteredTemplatesData(fdata)
+                    setFilterSelection('openmesh')
+                    handleNewFilteredTemplatesData(categoryFilter, 'openmesh')
                   }}
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
-                    filterSelection === 'Openmesh'
+                    filterSelection === 'openmesh'
                       ? 'bg-[#4d4d4d] font-bold text-[#fff]'
                       : 'hover:text-[#252525]'
                   }`}
@@ -137,14 +186,11 @@ const TemplateStep = () => {
                 </div>
                 <div
                   onClick={() => {
-                    setFilterSelection('Community')
-                    const newData = [...templatesData]
-
-                    const fdata = newData.filter(vl => vl.source === 'community')
-                    setFilteredTemplatesData(fdata)
+                    setFilterSelection('community')
+                    handleNewFilteredTemplatesData(categoryFilter, 'community')
                   }}
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
-                    filterSelection === 'Community'
+                    filterSelection === 'community'
                       ? 'bg-[#4d4d4d] font-bold text-[#fff]'
                       : 'hover:text-[#252525]'
                   }`}
@@ -190,7 +236,9 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
+                    <div onClick={() => {
+                      handleCategoryFilter('blockchain')
+                    }} className={`cursor-pointer text-[16px] font-normal leading-[20px] ${categoryFilter.includes('blockchain') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
                       Blockchain ({templatesData?.filter((data) => data.category === 'blockchain').length})
                     </div>
                   </div>
@@ -208,7 +256,9 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
+                    <div onClick={() => {
+                      handleCategoryFilter('data')
+                    }} className={`cursor-pointer text-[16px] font-normal leading-[20px] ${categoryFilter.includes('data') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
                       Data ({templatesData?.filter((data) => data.category === 'data').length})
                     </div>
                   </div>
@@ -226,7 +276,9 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
+                    <div onClick={() => {
+                      handleCategoryFilter('developer')
+                    }} className={`cursor-pointer text-[16px] font-normal leading-[20px] ${categoryFilter.includes('developer') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
                       Developer ({templatesData?.filter((data) => data.category === 'developer').length})
                     </div>
                   </div>
@@ -244,7 +296,9 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
+                    <div onClick={() => {
+                      handleCategoryFilter('server')
+                    }} className={`cursor-pointer text-[16px] font-normal leading-[20px] ${categoryFilter.includes('server') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
                       Server ({templatesData?.filter((data) => data.category === 'server').length})
                     </div>
                   </div>
@@ -262,7 +316,9 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div className="cursor-pointer text-[16px] font-normal leading-[20px] text-[#959595]">
+                    <div onClick={() => {
+                      handleCategoryFilter('validatorNode')
+                    }} className={`cursor-pointer text-[16px] font-normal leading-[20px] ${categoryFilter.includes('validatorNode') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
                      Validator Node ({templatesData?.filter((data) => data.category === 'validatorNode').length})
                     </div>
                   </div>
@@ -282,7 +338,11 @@ const TemplateStep = () => {
                       }}
                     />
                   </div>
-                  <div className="mt-[24px] flex cursor-pointer gap-x-[10px]">
+                  <div onClick={() => {
+                    setCategoryFilter([])
+                    setFilterSelection('All Templates')
+                    handleNewFilteredTemplatesData([], 'All Templates')
+                  }} className="mt-[24px] flex cursor-pointer gap-x-[10px]">
                     <img
                       src={`${
                         process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -306,6 +366,7 @@ const TemplateStep = () => {
                     placeholder="Sort By"
                     onValueChange={(value) => {
                       setSelected(value)
+                      handleSortByFilter(value.value)
                     }}
                   />
                   <div className="flex">
@@ -374,9 +435,11 @@ const TemplateStep = () => {
                   </div>
                 </div>
                 <div className="mt-[42px] text-start">
-                  <div className="text-[18px] font-medium leading-[28px] text-[#000]">
+                  {filteredTemplatesData?.findIndex((vl) => vl.featured) !== -1 && (
+                    <div className="text-[18px] font-medium leading-[28px] text-[#000]">
                     Featured
                   </div>
+                  )}
                   {isLoading ? (
                     <div className='grid-cols-3 grid'>
                       {[1, 2, 3].map((tmp, index) => (
@@ -438,10 +501,7 @@ const TemplateStep = () => {
                         ))}
                       </div>
                       ) : (
-                        <div className="mt-[17.5px] text-center mx-auto w-full items-center justify-center md:mt-[21px] lg:mt-[24.5px] xl:mt-[28px] 2xl:mt-[35px]">
-                        <SmileySad size={32} className="text-blue-500 mb-2 mx-auto flex" />
-                        <span className="">No data found</span>
-                      </div>
+                        <div> </div>
                       )}
                     </div>
                   )}
