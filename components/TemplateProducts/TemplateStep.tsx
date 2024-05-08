@@ -52,7 +52,7 @@ const TemplateStep = () => {
   const [hoverTemplate, setHoverTemplate] = useState<TemplatesData | null>()
   const [filteredTemplatesData, setFilteredTemplatesData] = useState<TemplatesData[]>([])
   const [selectedTemplate, setSelectedTemplate] = useState<string>('')
-  const [displayToggle, setDisplayToggle] = useState<string>('list')
+  const [displayToggle, setDisplayToggle] = useState<string>('square')
   const [categoryFilter, setCategoryFilter] = useState<string[]>([])
 
   const [categoryOpen, setCategoryOpen] = useState<boolean>(true)
@@ -372,11 +372,10 @@ const TemplateStep = () => {
                   <div className="flex">
                     <div
                       onClick={() => {
-                        setDisplayToggle('list')
                       }}
                       className={`${
                         displayToggle === 'list' ? 'bg-[#0059ff]' : 'bg-[#fff]'
-                      } cursor-pointer rounded-l-[5px] border-[1px] border-r-0 border-[#d1d5da] p-[16px]`}
+                      } rounded-l-[5px] border-[1px] border-r-0 border-[#d1d5da] p-[16px]`}
                     >
                       {displayToggle === 'list' ? (
                         <img
@@ -402,15 +401,15 @@ const TemplateStep = () => {
                     </div>
                     <div
                       onClick={() => {
-                        setDisplayToggle('quadrados')
+                        setDisplayToggle('square')
                       }}
                       className={`${
-                        displayToggle === 'quadrados'
+                        displayToggle === 'square'
                           ? 'bg-[#0059ff]'
                           : 'bg-[#fff]'
                       } cursor-pointer rounded-r-[5px] border-[1px] border-l-0 border-[#d1d5da] p-[16px]`}
                     >
-                      {displayToggle === 'quadrados' ? (
+                      {displayToggle === 'square' ? (
                         <img
                           src={`${
                             process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
