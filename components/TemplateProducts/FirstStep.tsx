@@ -24,6 +24,34 @@ export const optionsNetwork = [
     name: 'Vultr',
     value: 'Vultr',
   },
+  {
+    name: 'OneProvider',
+    value: 'OneProvider',
+  },
+  {
+    name: 'Heficed',
+    value: 'Heficed',
+  },
+  {
+    name: 'Latitude.sh',
+    value: 'Latitude.sh',
+  },
+  {
+    name: 'PhoenixNap',
+    value: 'PhoenixNap',
+  },
+  {
+    name: 'Fasthosts',
+    value: 'Fasthosts',
+  },
+  {
+    name: 'Colohouse',
+    value: 'Colohouse',
+  },
+  {
+    name: 'AMD House',
+    value: 'AMD House',
+  },
 ]
 
 type dataAPI = {
@@ -58,12 +86,15 @@ const TemplateProducts = () => {
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-  async function getData(withoutFilter?: boolean) {
+  async function getData(withoutFilter?: boolean, category?: string) {
     setIsLoading(true)
 
     let url = `/openmesh-data/functions/templateProducts?page=${page}`
     if (searchInput?.length > 0 && !withoutFilter) {
       url = `${url}&searchBarFilter=${searchInput}`
+    }
+    if (category && !withoutFilter) {
+      url = `${url}&categoryFilter=${category}`
     }
 
     let data: dataAPI
@@ -188,6 +219,7 @@ const TemplateProducts = () => {
                     placeholder="Category"
                     onValueChange={(value) => {
                       setSelected(value)
+                      getData(false, value.value)
                     }}
                   />
                 </div>
@@ -195,6 +227,7 @@ const TemplateProducts = () => {
                   onClick={() => {
                     setSearchInput('')
                     setSelected(null)
+                    getData(true)
                   }}
                   className="my-auto flex w-full cursor-pointer items-center gap-x-[10px]"
                 >
