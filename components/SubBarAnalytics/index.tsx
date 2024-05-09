@@ -43,6 +43,18 @@ const SubBarAnalytics = ({ onValueChange }) => {
       thirdParty: false,
     },
     {
+      title: 'Google BigQuery',
+      desc: 'A fully managed, AI-ready data analytics platform',
+      link: 'Data analytics, AI, Database',
+      linkRef:
+        'https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/use-cases',
+      src: '/images/subNavBarAnalytics/google_bigquery.svg',
+      style: '2xl:w-[27px] xl:w-[21.6px] lg:w-[19px] md:w-[16.2px] w-[13px]',
+      isFree: true,
+      enabled: true,
+      thirdParty: true,
+    },
+    {
       title: 'Snowflake',
       desc: 'One-stop blockchain infrastructure and service provider.',
       link: 'Ethereum, Polygon, Avalanche, BNB Chain, Optimism, Arbitrum, Solana',
