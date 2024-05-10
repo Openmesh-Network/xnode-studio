@@ -49,6 +49,18 @@ const Template = (id: any) => {
     }
 
     console.log(data)
+    if (data.category === 'scratch') {
+      data.name = ''
+      data.description = ''
+      data.productsIncluded = [
+        { name: 'Ethereum', description: 'Blockchain node', tags: 'Web3' },
+        {
+          name: 'Google BigQuery',
+          description: 'Data analytics',
+          tags: 'Analytics',
+        },
+      ]
+    }
     setTemplateData(data)
     setIsLoading(false)
   }
@@ -94,9 +106,18 @@ const Template = (id: any) => {
                     alt="image"
                     className={`w-[48px]`}
                   />
-                  <div className="text-[48px] font-semibold leading-[64px]">
-                    {data?.name}
-                  </div>
+                  <input
+                    value={data?.name}
+                    placeholder="Input a name"
+                    onChange={(e) => {
+                      if (e.target.value.length < 1000) {
+                        const newData = { ...data }
+                        newData.name = e.target.value
+                        setTemplateData(newData)
+                      }
+                    }}
+                    className="w-full bg-[#fff] text-[48px] font-semibold leading-[64px] placeholder:text-[#6B7280]"
+                  />
                   <img
                     src={`${
                       process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -131,9 +152,18 @@ const Template = (id: any) => {
                     </div>
                   ))}
                 </div>
-                <div className="mt-[23px] max-w-[735px] text-[16px] leading-[22px]">
-                  {data?.description}
-                </div>
+                <textarea
+                  value={data?.description}
+                  placeholder="Input a description"
+                  onChange={(e) => {
+                    if (e.target.value.length < 1000) {
+                      const newData = { ...data }
+                      newData.description = e.target.value
+                      setTemplateData(newData)
+                    }
+                  }}
+                  className="mt-[23px] h-[100px] max-h-[100px] w-full  max-w-[735px] bg-[#fff] text-[16px] leading-[22px] placeholder:text-[#6B7280]"
+                />
                 <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[14px] lg:mt-[59px]">
                   <div className="text-[18px] font-semibold">
                     System requirements
@@ -172,6 +202,27 @@ const Template = (id: any) => {
                     <div className="w-[25%]">Bare metal </div>
                     <div className="w-[15%]">#1</div>
                   </div>
+                  {data?.productsIncluded && (
+                    <div>
+                      {data?.productsIncluded?.map((item, index) => (
+                        <div key={index}>
+                          <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
+                          <div className="mt-[8px] flex px-[20px] font-normal">
+                            <div className="w-[30%] max-w-[30%] overflow-hidden">
+                              {item?.name}
+                            </div>
+                            <div className="w-[30%]">
+                              CPU, 8-Core (16-Thread)
+                            </div>
+                            <div className="w-[25%]">{item?.tags}</div>
+                            <div className="w-[15%]">
+                              #{gerarNumeroAleatorio()}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
                   <div className="mt-[8px] flex px-[20px] font-normal">
                     <div className="w-[30%] max-w-[30%] overflow-hidden">
@@ -252,9 +303,13 @@ const Template = (id: any) => {
               </div>
               <div
                 onClick={() => {
-                  setIndexerDeployerStep(0)
+                  if (data?.name?.length > 0) {
+                    setIndexerDeployerStep(0)
+                  }
                 }}
-                className="mx-auto mt-[27px] w-fit cursor-pointer rounded-[12px] bg-[#0354EC] px-[133px] py-[15px] text-[16px] font-bold text-[#fff] hover:bg-[#014cd7]"
+                className={`mx-auto mt-[27px] w-fit ${
+                  data?.name?.length > 0 && 'cursor-pointer'
+                }  rounded-[12px] bg-[#0354EC] px-[133px] py-[15px] text-[16px] font-bold text-[#fff] hover:bg-[#014cd7]`}
               >
                 Select
               </div>

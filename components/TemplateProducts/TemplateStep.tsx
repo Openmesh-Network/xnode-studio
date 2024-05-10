@@ -529,7 +529,7 @@ const TemplateStep = () => {
                             process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                               ? `/xnode/template-products/${tmp.id}`
                               : `template-products/${tmp.id}`
-                          }`}>
+                          }`} className={`${tmp?.category === 'scratch' && 'hidden'}`}>
                           <div
                             onMouseEnter={()=> setHoverTemplate(tmp)}
                             onMouseLeave={() => setHoverTemplate(null)}

@@ -14,7 +14,7 @@ type EquinixAPIForm = {
   apiKey: string
 }
 
-const EquinixConnection = () => {
+const NewIntegrationConn = () => {
   const [showTooltipCloudProvider, setShowTooltipCloudProvider] =
     useState<boolean>(false)
   const { setConnections, templateSelected } = useContext(AccountContext)
@@ -305,4 +305,4 @@ const EquinixConnection = () => {
   )
 }
 
-export default EquinixConnection
+export default NewIntegrationConn

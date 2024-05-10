@@ -65,6 +65,13 @@ export type TemplatesProducts = {
   unit?: string
 }
 
+export type IncludedProducts = {
+  name?: string
+  description?: string
+  tags?: string
+  infraId?: string
+}
+
 export type TemplatesData = {
   id: string
   name?: string
@@ -80,4 +87,5 @@ export type TemplatesData = {
   featured?: boolean
   category?: string
   createdAt?: string
+  includedProducts?: IncludedProducts[]
 }

@@ -142,6 +142,11 @@ const LateralNav = ({ onValueChange }) => {
       title: 'Workspace',
     },
     {
+      icon: '/images/lateralNavBar/new-apps.svg',
+      iconStyle: 'w-[12px] md:w-[14.5px] lg:w-[17px] xl:w-[20px] 2xl:w-[20px]',
+      title: 'Templates',
+    },
+    {
       icon: '/images/lateralNavBar/new-servers.svg',
       iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
       title: 'Servers',
@@ -194,7 +199,7 @@ const LateralNav = ({ onValueChange }) => {
       title: 'ML/LLMs',
     },
     {
-      icon: '/images/lateralNavBar/new-apps.svg',
+      icon: '/images/lateralNavBar/new-utility.svg',
       iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
       title: 'Apps',
     },
@@ -234,6 +239,16 @@ const LateralNav = ({ onValueChange }) => {
           process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
             ? `/xnode/docs`
             : `/docs`
+        }`,
+      )
+      setSelectionSideNavBar('Docs')
+    }
+    if (title === 'Templates') {
+      push(
+        `${
+          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+            ? `/xnode/template-products`
+            : `/template-products`
         }`,
       )
       setSelectionSideNavBar('Docs')
@@ -344,7 +359,8 @@ const LateralNav = ({ onValueChange }) => {
                     className={` ${
                       option.title === 'Home' ||
                       option.title === 'Dashboard' ||
-                      option.title === 'Workspace'
+                      option.title === 'Workspace' ||
+                      option.title === 'Templates'
                         ? 'hidden'
                         : ''
                     } absolute top-[2.5px] right-[14px] w-[4px] md:top-[3px] md:right-[16.8px] md:w-[4.8px] lg:top-[3.5px] lg:right-[19.6px] lg:w-[5.6px] xl:top-[4px] xl:right-[22.4px] xl:w-[6.4px] 2xl:top-[5px] 2xl:right-[28px] 2xl:w-[8px]`}
@@ -444,7 +460,8 @@ const LateralNav = ({ onValueChange }) => {
                 className={` ${
                   option.title === 'Home' ||
                   option.title === 'Dashboard' ||
-                  option.title === 'Workspace'
+                  option.title === 'Workspace' ||
+                  option.title === 'Templates'
                     ? 'hidden'
                     : ''
                 } absolute top-[12.5px] left-[7px] w-[4px] md:top-[15px] md:left-[10.2px] md:w-[4.8px] lg:top-[17.5px] lg:left-[12px] lg:w-[5.6px] xl:top-[20px] xl:left-[13.6px] xl:w-[6.4px] 2xl:top-[25px] 2xl:left-[17px] 2xl:w-[8px]`}

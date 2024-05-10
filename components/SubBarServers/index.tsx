@@ -18,9 +18,7 @@ const SubBarServers = ({ onValueChange }) => {
     setChangeNodes,
   } = useContext(AccountContext)
   const [selectionSubBar, setSelectionSubBar] = useState<string>('')
-  const [cloudProvider, setCloudProvider] = useState<string>(
-    'Equinix (Decentralized)',
-  )
+  const [cloudProvider, setCloudProvider] = useState<string>('Equinix')
 
   const [smallServerNumber, setSmallServerNumber] = useState<number>(0)
   const [mediumServerNumber, setMediumServerNumber] = useState<number>(0)
@@ -40,7 +38,7 @@ const SubBarServers = ({ onValueChange }) => {
 
   const categoriesOptions = [
     {
-      title: 'Equinix (Decentralized)',
+      title: 'Equinix',
       enabled: true,
       src: '/images/subNavBarServers/equinix.svg',
       pageRef: '/data-product/30e53394-407d-44fc-ae23-c45951b77024',
@@ -55,21 +53,21 @@ const SubBarServers = ({ onValueChange }) => {
       style: '2xl:w-[22px] xl:w-[17.5px] lg:w-[15.5px]  md:w-[13.2px] w-[11px]',
     },
     {
-      title: 'AWS (Centralized)',
+      title: 'AWS',
       enabled: false,
       src: '/images/subNavBarServers/aws.svg',
       pageRef: '/data-product/2e762548-ec51-48c8-aa07-10b9eae87ee4',
       style: '2xl:w-[22px] xl:w-[17.5px] lg:w-[15.5px]  md:w-[13.2px] w-[11px]',
     },
     {
-      title: 'Azure (Centralized)',
+      title: 'Azure',
       enabled: false,
       src: '/images/subNavBarServers/azure.svg',
       pageRef: '/data-product',
       style: '2xl:w-[17px] xl:w-[13.5px] lg:w-[12px]  md:w-[10.2px] w-[8.5px]',
     },
     {
-      title: 'GCP (Centralized)',
+      title: 'GCP',
       enabled: false,
       src: '/images/subNavBarServers/gcp.svg',
       pageRef: '/data-product',
