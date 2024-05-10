@@ -52,6 +52,11 @@ const LateralNav = ({ onValueChange }) => {
       title: 'Workspace',
     },
     {
+      icon: '/images/lateralNavBar/new-apps.svg',
+      iconStyle: 'w-[12px] md:w-[14.5px] lg:w-[17px] xl:w-[20px] 2xl:w-[20px]',
+      title: 'Templates',
+    },
+    {
       icon: '/images/lateralNavBar/new-dashboard.svg',
       iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
       title: 'Dashboard',
@@ -109,7 +114,7 @@ const LateralNav = ({ onValueChange }) => {
       title: 'ML/LLMs',
     },
     {
-      icon: '/images/lateralNavBar/new-apps.svg',
+      icon: '/images/lateralNavBar/new-utility.svg',
       iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
       title: 'Apps',
     },
