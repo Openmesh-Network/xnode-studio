@@ -458,17 +458,16 @@ const TemplateStep = () => {
                         {filteredTemplatesData?.map((tmp, index) => (
                           <a onClick={() => {
                             if (tmp.category === 'scratch') {
-                              setFinalNodes([])
-                              localStorage.clear()
-                              setIsEditingXnode(false)
-                              setNextFromScratch(true)
-                              setNext(false)
-                              window.scrollTo({ top: 0, behavior: 'smooth' })
                               push(
                                 process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                                   ? `/xnode/start-here`
                                   : `start-here`
                               )
+                              setFinalNodes([])
+                              localStorage.clear()
+                              setIsEditingXnode(false)
+                              setNextFromScratch(true)
+                              window.scrollTo({ top: 0, behavior: 'smooth' })
                             } else {
                               push(
                                 process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
