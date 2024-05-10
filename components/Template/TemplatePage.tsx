@@ -29,7 +29,13 @@ import { AccountContext } from '@/contexts/AccountContext'
 const Template = (id: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [data, setTemplateData] = useState<TemplatesData>()
-  const { user, setUser, setIndexerDeployerStep } = useContext(AccountContext)
+  const {
+    user,
+    setUser,
+    setIndexerDeployerStep,
+    templateDataSelected,
+    setTemplateDataSelected,
+  } = useContext(AccountContext)
 
   const { push } = useRouter()
 
@@ -212,7 +218,9 @@ const Template = (id: any) => {
                               {item?.name}
                             </div>
                             <div className="w-[30%]">
-                              CPU, 8-Core (16-Thread)
+                              {item.name === 'Google BigQuery'
+                                ? 'Analytics'
+                                : 'CPU, 8-Core (16-Thread)'}
                             </div>
                             <div className="w-[25%]">{item?.tags}</div>
                             <div className="w-[15%]">

@@ -46,6 +46,13 @@ const SubBarServers = ({ onValueChange }) => {
         '2xl:w-[31px] xl:w-[25px] lg:w-[22px]  md:w-[19px] w-[16px] !-left-[10px]',
     },
     {
+      title: 'GCP',
+      enabled: false,
+      src: '/images/subNavBarServers/gcp.svg',
+      pageRef: '/data-product',
+      style: '2xl:w-[17px] xl:w-[13.5px] lg:w-[12px]  md:w-[10.2px] w-[8.5px]',
+    },
+    {
       title: 'Local (Coming soon...)',
       enabled: false,
       src: '/images/subNavBarServers/local.svg',
@@ -63,13 +70,6 @@ const SubBarServers = ({ onValueChange }) => {
       title: 'Azure',
       enabled: false,
       src: '/images/subNavBarServers/azure.svg',
-      pageRef: '/data-product',
-      style: '2xl:w-[17px] xl:w-[13.5px] lg:w-[12px]  md:w-[10.2px] w-[8.5px]',
-    },
-    {
-      title: 'GCP',
-      enabled: false,
-      src: '/images/subNavBarServers/gcp.svg',
       pageRef: '/data-product',
       style: '2xl:w-[17px] xl:w-[13.5px] lg:w-[12px]  md:w-[10.2px] w-[8.5px]',
     },

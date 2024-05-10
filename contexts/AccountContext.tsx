@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { TemplatesProducts } from '@/types/dataProvider'
+import { TemplatesData, TemplatesProducts } from '@/types/dataProvider'
 import React, { createContext, useState } from 'react'
 
 export interface UserProps {
@@ -52,6 +52,9 @@ interface CreateUserContextProps {
 
   templateSelected: TemplatesProducts | null
   setTemplateSelected: (value: TemplatesProducts | null) => void
+
+  templateDataSelected: TemplatesData | null
+  setTemplateDataSelected: (value: TemplatesData | null) => void
 
   updateDataNode: string
   setUpdateDataNode: (value: string) => void
@@ -109,6 +112,8 @@ export default function AccountContextProvider({
   const [indexerDeployerStep, setIndexerDeployerStep] = useState(-1)
   const [templateSelected, setTemplateSelected] =
     useState<TemplatesProducts | null>()
+  const [templateDataSelected, setTemplateDataSelected] =
+    useState<TemplatesData | null>()
   const [removeNodes, setRemoveNodes] = useState()
   const [selectionSideNavBar, setSelectionSideNavBar] =
     useState<string>('Start here')
@@ -144,6 +149,8 @@ export default function AccountContextProvider({
         selectCurrentMenuDataType,
         templateSelected,
         setTemplateSelected,
+        templateDataSelected,
+        setTemplateDataSelected,
         isEditingXnode,
         setIsEditingXnode,
         setselectCurrentMenuDataType,

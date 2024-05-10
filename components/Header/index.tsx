@@ -551,9 +551,13 @@ const Header = () => {
                     {isEditingXnode ? (
                       <div
                         onClick={async () => {
-                          if (!isLoadingUpdate) {
-                            await saveEditingXnode()
-                          }
+                          push(
+                            `${
+                              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                                ? `/xnode/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                                : `/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                            }`,
+                          )
                         }}
                         className={`flex h-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] ${
                           isLoadingUpdate
@@ -575,27 +579,13 @@ const Header = () => {
                     ) : (
                       <div
                         onClick={() => {
-                          if (
-                            pathname.includes('/workspace') &&
-                            !reviewYourBuild
-                          ) {
-                            setUpdateDataNode('hey')
-                            push(
-                              `${
-                                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                  ? `/xnode/review-your-build`
-                                  : `/review-your-build`
-                              }`,
-                            )
-                          } else {
-                            push(
-                              `${
-                                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                  ? `/xnode/start-here`
-                                  : `/start-here`
-                              }`,
-                            )
-                          }
+                          push(
+                            `${
+                              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                                ? `/xnode/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                                : `/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                            }`,
+                          )
                         }}
                         className={`flex h-fit cursor-pointer justify-center gap-x-[8px] ${
                           pathname.includes('/workspace') && !reviewYourBuild
@@ -808,23 +798,13 @@ const Header = () => {
                 ) : (
                   <div
                     onClick={() => {
-                      if (pathname.includes('/workspace') && !reviewYourBuild) {
-                        push(
-                          `${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? `/xnode/review-your-build`
-                              : `/review-your-build`
-                          }`,
-                        )
-                      } else {
-                        push(
-                          `${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? `/xnode/start-here`
-                              : `/start-here`
-                          }`,
-                        )
-                      }
+                      push(
+                        `${
+                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                            ? `/xnode/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                            : `/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                        }`,
+                      )
                     }}
                     className={`flex h-fit cursor-pointer justify-center gap-x-[8px] ${
                       pathname.includes('/workspace') && !reviewYourBuild

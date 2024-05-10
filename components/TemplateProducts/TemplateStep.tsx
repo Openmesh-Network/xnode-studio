@@ -66,7 +66,7 @@ const TemplateStep = () => {
     null,
   )
 
-  const { setIndexerDeployerStep, templateSelected, setTemplateSelected } =
+  const { setIndexerDeployerStep, templateSelected, setTemplateSelected, setIsEditingXnode, setNextFromScratch, setFinalNodes } =
     useContext(AccountContext)
 
   async function getData() {
@@ -110,6 +110,7 @@ const TemplateStep = () => {
 
     setFilteredTemplatesData(newFilteredTemplate)
   }
+  const { push } = useRouter()
 
   function handleSortByFilter(value: string) {
     console.log('entrei handle')
@@ -455,11 +456,27 @@ const TemplateStep = () => {
                       {filteredTemplatesData?.length > 0 ? (
                         <div className='grid-cols-3 grid'>
                         {filteredTemplatesData?.map((tmp, index) => (
-                          <a key={index} className={`${tmp?.featured ? '' : 'hidden'}`} href={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? `/xnode/template-products/${tmp.id}`
-                              : `template-products/${tmp.id}`
-                          }`}>
+                          <a onClick={() => {
+                            if (tmp.category === 'scratch') {
+                              setFinalNodes([])
+                              localStorage.clear()
+                              setIsEditingXnode(false)
+                              setNextFromScratch(true)
+                              window.scrollTo({ top: 0, behavior: 'smooth' })
+                              push(
+                                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                                  ? `/xnode/start-here`
+                                  : `start-here`
+                              )
+                            } else {
+                              push(
+                                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                                  ? `/xnode/template-products/${tmp.id}`
+                                  : `template-products/${tmp.id}`
+                              )
+                            }
+                              
+                          }} key={index} className={`${tmp?.featured ? '' : 'hidden'}`}>
                           <div
                             onMouseEnter={()=> setHoverTemplate(tmp)}
                             onMouseLeave={() => setHoverTemplate(null)}
