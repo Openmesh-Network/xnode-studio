@@ -66,7 +66,7 @@ const TemplateStep = () => {
     null,
   )
 
-  const { setIndexerDeployerStep, templateSelected, setTemplateSelected, setIsEditingXnode, setNextFromScratch, setFinalNodes } =
+  const { setIndexerDeployerStep, templateSelected, setTemplateSelected, setIsEditingXnode, setNextFromScratch, setFinalNodes, setNext } =
     useContext(AccountContext)
 
   async function getData() {
@@ -462,6 +462,7 @@ const TemplateStep = () => {
                               localStorage.clear()
                               setIsEditingXnode(false)
                               setNextFromScratch(true)
+                              setNext(false)
                               window.scrollTo({ top: 0, behavior: 'smooth' })
                               push(
                                 process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
