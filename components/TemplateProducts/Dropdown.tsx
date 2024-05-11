@@ -52,7 +52,7 @@ const Dropdown = ({
       }}
       className={`relative ${isOpen && 'border-primary'} my-auto w-[256px] ${
         !isDisable && 'cursor-pointer'
-      } rounded-[5px] border-[1px] border-[#cfd3d8] px-[12px]  py-[15px] text-[16px] font-medium`}
+      } rounded-[5px] border-[1px] border-[#cfd3d8] px-[12px]  py-[15px] text-[13px] font-medium 2xl:text-[16px]`}
       ref={dropdownRef}
     >
       <div className={`flex items-center justify-between `}>

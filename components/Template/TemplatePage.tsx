@@ -98,7 +98,7 @@ const Template = (id: any) => {
   return (
     <>
       <section className="relative z-10 pt-[30px] lg:pt-0">
-        <div className="mx-auto max-w-[1380px] pl-[85px]  text-[14px] font-normal text-[#000]">
+        <div className="mx-auto max-w-[1380px] pl-[85px]  text-[12px] font-normal text-[#000] 2xl:text-[14px]">
           <div className="justify-between gap-x-[50px] lg:flex">
             <div className="mt-[60px] pb-[20px] lg:pb-[300px]">
               <div className="flex justify-between gap-x-[10px]">
@@ -122,7 +122,7 @@ const Template = (id: any) => {
                         setTemplateData(newData)
                       }
                     }}
-                    className="w-full bg-[#fff] text-[48px] font-semibold leading-[64px] placeholder:text-[#6B7280]"
+                    className="w-full bg-[#fff] text-[44px] font-semibold leading-[64px] placeholder:text-[#6B7280] 2xl:text-[48px]"
                   />
                   <img
                     src={`${
@@ -144,14 +144,14 @@ const Template = (id: any) => {
                       }`,
                     )
                   }}
-                  className="h-fit cursor-pointer text-[16px] font-normal text-[#0354EC] underline underline-offset-2 hover:text-[#014cd7]"
+                  className="h-fit cursor-pointer text-[14px] font-normal text-[#0354EC] underline underline-offset-2 hover:text-[#014cd7] 2xl:text-[16px]"
                 >
                   Edit
                 </div>
               </div>
 
               <div className="ml-[10px] mt-[24px]">
-                <div className="flex gap-x-[4px] text-[12px] text-[#0354EC]">
+                <div className="flex gap-x-[4px] text-[11px] text-[#0354EC] 2xl:text-[12px]">
                   {data?.tags?.map((item, index) => (
                     <div key={index} className="underline underline-offset-2">
                       {item},
@@ -168,10 +168,10 @@ const Template = (id: any) => {
                       setTemplateData(newData)
                     }
                   }}
-                  className="mt-[23px] h-[100px] max-h-[100px] w-full  max-w-[735px] bg-[#fff] text-[16px] leading-[22px] placeholder:text-[#6B7280]"
+                  className="mt-[23px] h-[100px] max-h-[100px] w-full  max-w-[735px] bg-[#fff] text-[14px] leading-[22px] placeholder:text-[#6B7280] 2xl:text-[16px]"
                 />
-                <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[14px] lg:mt-[59px]">
-                  <div className="text-[18px] font-semibold">
+                <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[12px] lg:mt-[59px] 2xl:text-[14px]">
+                  <div className="text-[16px] font-semibold 2xl:text-[18px]">
                     System requirements
                   </div>
                   <div className="mt-[15px] flex gap-x-[30px] border-[0.7px] border-[#CDCDCD] py-[8px] px-[20px] font-medium lg:gap-x-0">
@@ -188,8 +188,8 @@ const Template = (id: any) => {
                   </div>
                   <div className="mt-[30px] border-b-[1px] border-[#DDDDDD]"></div>
                 </div>
-                <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[14px] lg:mt-[59px]">
-                  <div className="text-[18px] font-semibold">
+                <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[12px] lg:mt-[59px] 2xl:text-[14px]">
+                  <div className="text-[16px] font-semibold 2xl:text-[18px]">
                     What’s included{' '}
                   </div>
                   <div className="mt-[15px] flex border-[0.7px] border-[#CDCDCD] py-[8px] px-[5px] font-medium lg:px-[20px] ">
@@ -243,7 +243,7 @@ const Template = (id: any) => {
                   <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
                 </div>
                 <div className="mt-[50px] max-w-[703px] lg:mt-[62px]">
-                  <div className="text-[18px] font-semibold">
+                  <div className="text-[16px] font-semibold 2xl:text-[18px]">
                     Technical diagrams{' '}
                   </div>
                   <img
@@ -260,7 +260,7 @@ const Template = (id: any) => {
             </div>
             <div className="mt-[10px] w-full border-[0.6px] border-[#d1d5da] bg-[#fafafa] py-[10px] lg:mb-0 lg:w-[386px] lg:py-[32px]">
               <div className="flex justify-between px-[32px]">
-                <div className="text-[18px] font-bold leading-[40px]">
+                <div className="text-[16px] font-bold leading-[40px] 2xl:text-[18px]">
                   Your progress
                 </div>
                 <img
@@ -283,7 +283,7 @@ const Template = (id: any) => {
                   alt="image"
                   className={``}
                 />
-                <div className="text-[16px] font-semibold leading-[36px] text-[#000]">
+                <div className="text-[14px] font-semibold leading-[36px] text-[#000] 2xl:text-[16px]">
                   Select a template
                 </div>
               </div>
@@ -299,13 +299,13 @@ const Template = (id: any) => {
                 />
               </div>
               <div className="ml-[92px] mt-[26px]">
-                <div className="text-[16px] font-medium text-[#000]">
+                <div className="text-[14px] font-medium text-[#000] 2xl:text-[16px]">
                   Starting from{' '}
                   <span className="text-[#0354EC] line-through">
                     ${data?.price} /mo
                   </span>
                 </div>
-                <div className="text-[16px] font-bold text-[#0354EC]">
+                <div className="text-[14px] font-bold text-[#0354EC] 2xl:text-[16px]">
                   $1,475.43 Monthly savings{' '}
                 </div>
               </div>
@@ -317,7 +317,7 @@ const Template = (id: any) => {
                 }}
                 className={`mx-auto mt-[27px] w-fit ${
                   data?.name?.length > 0 && 'cursor-pointer'
-                }  rounded-[12px] bg-[#0354EC] px-[133px] py-[15px] text-[16px] font-bold text-[#fff] hover:bg-[#014cd7]`}
+                }  rounded-[12px] bg-[#0354EC] px-[133px] py-[15px] text-[14px] font-bold text-[#fff] hover:bg-[#014cd7] 2xl:text-[16px]`}
               >
                 Select
               </div>
@@ -331,7 +331,7 @@ const Template = (id: any) => {
                   alt="image"
                   className={``}
                 />
-                <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                <div className="text-[14px] font-semibold leading-[36px] text-[#959595] 2xl:text-[16px]">
                   Select a provider
                 </div>
               </div>
@@ -345,7 +345,7 @@ const Template = (id: any) => {
                   alt="image"
                   className={``}
                 />
-                <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                <div className="text-[14px] font-semibold leading-[36px] text-[#959595] 2xl:text-[16px]">
                   Choose your configuration
                 </div>
               </div>
@@ -359,7 +359,7 @@ const Template = (id: any) => {
                   alt="image"
                   className={``}
                 />
-                <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                <div className="text-[14px] font-semibold leading-[36px] text-[#959595] 2xl:text-[16px]">
                   Performing connection
                 </div>
               </div>
@@ -373,7 +373,7 @@ const Template = (id: any) => {
                   alt="image"
                   className={``}
                 />
-                <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
+                <div className="text-[14px] font-semibold leading-[36px] text-[#959595] 2xl:text-[16px]">
                   Service deployed
                 </div>
               </div>

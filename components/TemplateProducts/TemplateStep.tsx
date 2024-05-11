@@ -139,13 +139,13 @@ const TemplateStep = () => {
 
   return (
     <section className="relative z-10 pt-[30px] pb-[200px] lg:pt-0">
-      <div className="mx-auto max-w-[1380px] px-[20px]  text-[14px] font-normal text-[#000]">
+      <div className="mx-auto max-w-[1380px] px-[20px]  2xl:text-[14px] text-[12px] font-normal text-[#000]">
         <div className="flex justify-between gap-x-[95px]">
           <div className="w-full text-center ">
-            <div className="mx-auto mb-[12.5px] text-[48px] font-semibold leading-[64px]">
+            <div className="mx-auto mb-[12.5px] 2xl:text-[48px] text-[42px] font-semibold leading-[64px]">
               Find your <span className="text-[#0059ff]">Template</span>
             </div>
-            <div className="mt-[7px] text-[16px] font-normal leading-[32px] text-[#4d4d4d]">
+            <div className="mt-[7px] 2xl:text-[16px] text-[14px] font-normal leading-[32px] text-[#4d4d4d]">
               Jumpstart your development process with our pre-built templates
             </div>
             <div className="relative mt-[48px]">
@@ -158,7 +158,7 @@ const TemplateStep = () => {
                 alt="image"
                 className="absolute -top-[10px] left-0"
               />
-              <div className="mx-auto flex w-fit gap-x-[12px] text-[16px] font-normal leading-[16px] text-[#4d4d4d]">
+              <div className="mx-auto flex w-fit gap-x-[12px] 2xl:text-[16px] text-[14px] font-normal leading-[16px] text-[#4d4d4d]">
                 <div
                   onClick={() => {
                     setFilterSelection('All Templates')
@@ -205,7 +205,7 @@ const TemplateStep = () => {
               <div>
                 <div className="w-[256px] rounded-[5px] border-[1px] border-[#d1d5da] px-[16px] pt-[15px] pb-[25px]">
                   <div className="flex items-center justify-between gap-x-[4px]">
-                    <div className="text-[16px] font-medium leading-[24px] text-[#000]">
+                    <div className="2xl:text-[16px] text-[14px] font-medium leading-[24px] text-[#000]">
                       Category
                     </div>
                     <img
@@ -239,7 +239,7 @@ const TemplateStep = () => {
                     />
                     <div onClick={() => {
                       handleCategoryFilter('blockchain')
-                    }} className={`cursor-pointer text-[16px] font-normal leading-[20px] ${categoryFilter.includes('blockchain') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
+                    }} className={`cursor-pointer 2xl:text-[16px] text-[14px] font-normal leading-[20px] ${categoryFilter.includes('blockchain') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
                       Blockchain ({templatesData?.filter((data) => data.category === 'blockchain').length})
                     </div>
                   </div>
@@ -259,7 +259,7 @@ const TemplateStep = () => {
                     />
                     <div onClick={() => {
                       handleCategoryFilter('data')
-                    }} className={`cursor-pointer text-[16px] font-normal leading-[20px] ${categoryFilter.includes('data') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
+                    }} className={`cursor-pointer 2xl:text-[16px] text-[14px] font-normal leading-[20px] ${categoryFilter.includes('data') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
                       Data ({templatesData?.filter((data) => data.category === 'data').length})
                     </div>
                   </div>
@@ -279,7 +279,7 @@ const TemplateStep = () => {
                     />
                     <div onClick={() => {
                       handleCategoryFilter('developer')
-                    }} className={`cursor-pointer text-[16px] font-normal leading-[20px] ${categoryFilter.includes('developer') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
+                    }} className={`cursor-pointer 2xl:text-[16px] text-[14px] font-normal leading-[20px] ${categoryFilter.includes('developer') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
                       Developer ({templatesData?.filter((data) => data.category === 'developer').length})
                     </div>
                   </div>
@@ -299,7 +299,7 @@ const TemplateStep = () => {
                     />
                     <div onClick={() => {
                       handleCategoryFilter('server')
-                    }} className={`cursor-pointer text-[16px] font-normal leading-[20px] ${categoryFilter.includes('server') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
+                    }} className={`cursor-pointer 2xl:text-[16px] text-[14px] font-normal leading-[20px] ${categoryFilter.includes('server') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
                       Server ({templatesData?.filter((data) => data.category === 'server').length})
                     </div>
                   </div>
@@ -319,14 +319,14 @@ const TemplateStep = () => {
                     />
                     <div onClick={() => {
                       handleCategoryFilter('validatorNode')
-                    }} className={`cursor-pointer text-[16px] font-normal leading-[20px] ${categoryFilter.includes('validatorNode') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
+                    }} className={`cursor-pointer 2xl:text-[16px] text-[14px] font-normal leading-[20px] ${categoryFilter.includes('validatorNode') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
                      Validator Node ({templatesData?.filter((data) => data.category === 'validatorNode').length})
                     </div>
                   </div>
                 </div>
                 <div className="mt-[29px] h-[1px] w-full bg-[#E6E8EC]"></div>
                 <div className="mt-[24px] text-start">
-                  <div className="text-[16px] font-medium leading-[12px] text-[#000]">
+                  <div className="2xl:text-[16px] text-[14px] font-medium leading-[12px] text-[#000]">
                     Creator
                   </div>
                   <div className="mt-[12px]">
@@ -353,7 +353,7 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div className="text-[16px] font-normal text-[#4d4d4d] hover:text-[#3b3b3b]">
+                    <div className="2xl:text-[16px] text-[14px] font-normal text-[#4d4d4d] hover:text-[#3b3b3b]">
                       Reset filter
                     </div>
                   </div>
@@ -436,7 +436,7 @@ const TemplateStep = () => {
                 </div>
                 <div className="mt-[42px] text-start">
                   {filteredTemplatesData?.findIndex((vl) => vl.featured) !== -1 && (
-                    <div className="text-[18px] font-medium leading-[28px] text-[#000]">
+                    <div className="2xl:text-[18px] text-[16px] font-medium leading-[28px] text-[#000]">
                     Featured
                   </div>
                   )}
@@ -499,16 +499,16 @@ const TemplateStep = () => {
                               />)}
                               <div className={`flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] ${hoverTemplate?.id === tmp.id ? 'bg-[#fff]' : 'bg-[#e5eefc]'}`}>
                                 <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
-                                <div className="text-[14px] font-bold leading-[24px] text-[#0059ff]">
+                                <div className="2xl:text-[14px] text-[12px] font-bold leading-[24px] text-[#0059ff]">
                                   Category
                                 </div>
                               </div>
                             </div>
                             <div className="mt-[20px]">
-                              <div className="text-[18px] font-medium text-[#000] line-clamp-1 overflow-hidden">
+                              <div className="2xl:text-[18px] text-[16px] font-medium text-[#000] line-clamp-1 overflow-hidden">
                                 {tmp.name}
                               </div>
-                              <div className="mt-[6px] line-clamp-3 overflow-hidden text-[16px] font-normal leading-[20px] text-[#959595]">
+                              <div className="mt-[6px] line-clamp-3 overflow-hidden 2xl:text-[16px] text-[14px] font-normal leading-[20px] text-[#959595]">
                                 {tmp.description}
                               </div>
                             </div>
@@ -523,7 +523,7 @@ const TemplateStep = () => {
                   )}
                 </div>
                 <div className="mt-[42px] text-start">
-                  <div className="text-[18px] font-medium leading-[28px] text-[#000]">
+                  <div className="2xl:text-[18px] text-[16px] font-medium leading-[28px] text-[#000]">
                     {filteredTemplatesData?.length} Results
                   </div>
                   {isLoading ? (
@@ -569,16 +569,16 @@ const TemplateStep = () => {
                               />)}
                               <div className={`flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] ${hoverTemplate?.id === tmp.id ? 'bg-[#fff]' : 'bg-[#e5eefc]'}`}>
                                 <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
-                                <div className="text-[14px] font-bold leading-[24px] text-[#0059ff]">
+                                <div className="2xl:text-[14px] text-[12px] font-bold leading-[24px] text-[#0059ff]">
                                   Category
                                 </div>
                               </div>
                             </div>
                             <div className="mt-[20px]">
-                              <div className="text-[18px] font-medium text-[#000] line-clamp-1 overflow-hidden">
+                              <div className="2xl:text-[18px] text-[16px] font-medium text-[#000] line-clamp-1 overflow-hidden">
                                 {tmp.name}
                               </div>
-                              <div className="mt-[6px] line-clamp-3 overflow-hidden text-[16px] font-normal leading-[20px] text-[#959595]">
+                              <div className="mt-[6px] line-clamp-3 overflow-hidden text-[14px] 2xl:text-[16px] font-normal leading-[20px] text-[#959595]">
                                 {tmp.description}
                               </div>
                             </div>
