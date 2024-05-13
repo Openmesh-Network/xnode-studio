@@ -6,7 +6,7 @@ import TemplateProducts from '@/components/TemplateProducts'
 import TemplateStep from '@/components/TemplateProducts/TemplateStep'
 import Testing from '@/components/Testing'
 import { Inter } from '@next/font/google'
-// import NewTask from '@/components/NewTask'
+// import NewTas k from '@/components/NewTask'
 
 // eslint-disable-next-line no-unused-vars
 const inter = Inter({ subsets: ['latin'] })
