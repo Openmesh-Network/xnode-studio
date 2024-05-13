@@ -105,11 +105,11 @@ const SubBarData = ({ onValueChange }) => {
   }, [currentDataMenuSelect])
   return (
     <>
-      <div className="z-100 relative bg-[#fff] px-[18px] py-[29px] pr-[33px] text-[#000] shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[34.5px] md:pr-[40px] lg:px-[23px] lg:py-[40px] lg:pr-[47px] xl:px-[27px] xl:py-[45.5px] xl:pr-[54px] 2xl:py-[57px] 2xl:pl-[33px] 2xl:pr-[67px]">
+      <div className="z-100 relative min-w-[300px] bg-[#fff] px-[18px] py-[29px] pr-[33px] text-[#000] shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[34.5px] md:pr-[40px] lg:px-[23px] lg:py-[40px] lg:pr-[47px] xl:px-[27px] xl:py-[45.5px] xl:pr-[54px] 2xl:min-w-[370px] 2xl:py-[57px] 2xl:pl-[33px] 2xl:pr-[67px]">
         {/* <div className="text-[9px] font-bold md:text-[11px] lg:text-[12.5px] xl:text-[14.5px] 2xl:text-[18px]">
           Categories
         </div> */}
-        <div className="flex h-[40px] w-full flex-row  ">
+        <div className="flex w-full flex-row  text-[12px] 2xl:text-[16px]">
           <button
             onClick={(e) => {
               if (e.target instanceof HTMLElement) {
@@ -262,7 +262,7 @@ const SubBarData = ({ onValueChange }) => {
             View More
           </div>
         </a>
-        <div className="mt-[15px] pl-[5px] text-[8px] text-[#000] md:mt-[14px] md:w-fit md:text-[10px] lg:mt-[16px] lg:text-[11px] xl:mt-[18px] xl:text-[13px] 2xl:mt-[23px] 2xl:text-[16px]">
+        {/* <div className="mt-[15px] pl-[5px] text-[8px] text-[#000] md:mt-[14px] md:w-fit md:text-[10px] lg:mt-[16px] lg:text-[11px] xl:mt-[18px] xl:text-[13px] 2xl:mt-[23px] 2xl:text-[16px]">
           <div className="font-bold ">Use Cases</div>
           <div className="mt-[7.5px] grid font-normal md:mt-[9px] lg:mt-[10.5px] lg:!leading-[300%] xl:mt-[12px] 2xl:mt-[15px]">
             {Object.entries(dataUseCase).map(([key, value], index, array) => (
@@ -278,7 +278,7 @@ const SubBarData = ({ onValueChange }) => {
               </a>
             ))}
           </div>
-        </div>
+        </div> */}
         <div className="mt-[21px] max-w-[110px] text-[9px] md:mt-[25px] md:max-w-[132px] md:text-[10px] lg:mt-[30px]  lg:max-w-[154px]  lg:text-[11px]  xl:mt-[34px] xl:max-w-[176px] xl:text-[13px] 2xl:mt-[43px] 2xl:max-w-[220px] 2xl:text-[16px]">
           <div className="border-b-[1px] border-t-[1px] border-[#D9D9D9] pb-[8px]  pt-[7.5px]  md:pt-[9px] lg:pb-[12px] lg:pt-[10.5px] xl:pt-[12px] 2xl:pb-[15px] 2xl:pt-[15px]">
             <div className="pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">

@@ -115,7 +115,7 @@ const Login = () => {
   return (
     <>
       <section className="mt-12 mb-[0px] px-[20px] pt-[50px]  text-[11px] font-medium !leading-[17px] text-[#000000] lg:mb-24 lg:px-[100px]  lg:text-[14px]">
-        <div className="mx-auto flex w-fit justify-center rounded-[8px] border border-[#cacaca] p-[100px]">
+        <div className="mx-auto flex w-fit justify-center rounded-[8px] p-[10px] md:border md:border-[#cacaca] md:p-[50px] lg:p-[100px]">
           <form onSubmit={handleSubmit(onSubmit)} className="">
             <div className="">
               <div>
@@ -129,7 +129,7 @@ const Login = () => {
                     </span>
                     <input
                       disabled={isLoading}
-                      className="mt-[10px] h-[50px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                      className="mt-[10px] h-[50px] w-[180px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 md:w-[280px] lg:w-[500px]"
                       type="text"
                       maxLength={500}
                       placeholder=""
@@ -146,7 +146,7 @@ const Login = () => {
                     <div className="flex">
                       <input
                         disabled={isLoading}
-                        className="mt-[10px] mr-[20px] h-[50px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                        className="mt-[10px] mr-[20px] h-[50px] w-[180px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 md:w-[280px] lg:w-[500px]"
                         type={passwordVisibility ? 'password' : 'text'}
                         maxLength={500}
                         placeholder=""
@@ -204,7 +204,7 @@ const Login = () => {
                 </button>
               </div>
             )}
-            <div className="lg:mt-[50px]">
+            <div className="mt-[30px] md:mt-[40px] lg:mt-[50px]">
               Does not have an account yet?{' '}
               <a
                 target="_blank"
@@ -215,7 +215,7 @@ const Login = () => {
                 Create account
               </a>
             </div>
-            <div className="lg:mt-[20px]">
+            <div className="mt-[10px] lg:mt-[20px]">
               Forgot your password?{' '}
               <a
                 href={`https://www.openmesh.network/oec/recover-password`}

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-unused-vars */
 import Image from 'next/image'
 import Link from 'next/link'
@@ -104,16 +105,20 @@ const Header = () => {
 
   const headerItens = [
     {
+      label: 'Xnode Innovation',
+      href: `https://docs.openmesh.network/products/xnode`,
+    },
+    {
       label: 'About',
       href: `https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/openmesh-overview`,
     },
     {
       label: 'Use cases',
-      href: `https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/use-cases`,
+      href: `https://docs.openmesh.network/products/xnode`,
     },
     {
       label: 'Innovation',
-      href: `https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/vision-and-roadmap`,
+      href: `https://docs.openmesh.network/products/xnode`,
     },
     {
       label: 'Docs',
@@ -411,7 +416,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="top-0 left-0 z-40 mx-0 w-full items-center bg-[#fff] px-[17px] pt-[7px]  text-[#000000] md:px-[20px] md:pt-[8px]  lg:px-[23px] lg:pt-[9px] xl:px-[26px] xl:pt-[10.5px] xl:pb-[27.8px] 2xl:px-[33px] 2xl:pt-[13px] 2xl:pb-[46px]">
+      <header className="top-0 left-0 z-40 mx-0 w-full items-center bg-[#fff] px-[17px] py-[20px]  text-[#000000] md:px-[20px] lg:px-[23px] xl:px-[26px] 2xl:px-[33px]">
         <div className="flex">
           <div className="w-full justify-between py-[20px] px-[20px] md:px-[33px] lg:hidden">
             <div className="">
@@ -546,9 +551,13 @@ const Header = () => {
                     {isEditingXnode ? (
                       <div
                         onClick={async () => {
-                          if (!isLoadingUpdate) {
-                            await saveEditingXnode()
-                          }
+                          push(
+                            `${
+                              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                                ? `/xnode/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                                : `/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                            }`,
+                          )
                         }}
                         className={`flex h-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] ${
                           isLoadingUpdate
@@ -570,27 +579,13 @@ const Header = () => {
                     ) : (
                       <div
                         onClick={() => {
-                          if (
-                            pathname.includes('/workspace') &&
-                            !reviewYourBuild
-                          ) {
-                            setUpdateDataNode('hey')
-                            push(
-                              `${
-                                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                  ? `/xnode/review-your-build`
-                                  : `/review-your-build`
-                              }`,
-                            )
-                          } else {
-                            push(
-                              `${
-                                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                  ? `/xnode/start-here`
-                                  : `/start-here`
-                              }`,
-                            )
-                          }
+                          push(
+                            `${
+                              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                                ? `/xnode/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                                : `/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                            }`,
+                          )
                         }}
                         className={`flex h-fit cursor-pointer justify-center gap-x-[8px] ${
                           pathname.includes('/workspace') && !reviewYourBuild
@@ -598,7 +593,7 @@ const Header = () => {
                             : 'border border-[#0354EC] bg-[#fff] text-[#0354EC] hover:text-[#203b6e]'
                         } rounded-[5px]  py-[6.2px] px-[11px] text-center md:py-[7.5px] md:px-[12.5px]    lg:py-[8.75px]  lg:px-[14.5px]  xl:py-[10px] xl:px-[17px]  2xl:gap-x-[10px] 2xl:py-[10px] 2xl:px-[21px]`}
                       >
-                        <div>Create service and deploy</div>
+                        <div>Create and deploy</div>
                       </div>
                     )}
                     {user?.sessionToken ? (
@@ -663,7 +658,7 @@ const Header = () => {
               </div>
             </nav>
           </div>
-          <div className="relative mx-auto mb-[20px] hidden h-full w-full max-w-[1800px] items-center  justify-between lg:flex">
+          <div className="relative mx-auto hidden h-full w-full max-w-[1800px] items-center  justify-between lg:flex">
             {pathname.includes('/workspace') && !reviewYourBuild && (
               <div className="flex items-center">
                 <img
@@ -803,23 +798,13 @@ const Header = () => {
                 ) : (
                   <div
                     onClick={() => {
-                      if (pathname.includes('/workspace') && !reviewYourBuild) {
-                        push(
-                          `${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? `/xnode/review-your-build`
-                              : `/review-your-build`
-                          }`,
-                        )
-                      } else {
-                        push(
-                          `${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? `/xnode/start-here`
-                              : `/start-here`
-                          }`,
-                        )
-                      }
+                      push(
+                        `${
+                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                            ? `/xnode/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                            : `/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                        }`,
+                      )
                     }}
                     className={`flex h-fit cursor-pointer justify-center gap-x-[8px] ${
                       pathname.includes('/workspace') && !reviewYourBuild
@@ -840,7 +825,7 @@ const Header = () => {
                       alt="image"
                       className={`w-[5px] md:w-[6px] lg:w-[7px] xl:w-[8px] 2xl:w-[10px]`}
                     />
-                    <div>Create service and deploy</div>
+                    <div>Create and deploy</div>
                   </div>
                 )}
               </div>

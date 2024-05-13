@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useContext } from 'react'
 import { Handle, useReactFlow, useStoreApi, Position } from 'reactflow'
 import withProps from './withProps'
+import { AccountContext } from '@/contexts/AccountContext'
 
 const options = [
   {
@@ -63,16 +64,36 @@ function Select({ value, handleId, nodeId }) {
   )
 }
 
-function Options({ handleId, name, optionsSelection }) {
+function Options({ handleId, optionsSelection, nodeId }) {
   const { setNodes } = useReactFlow()
   const store = useStoreApi()
-  const [selected, setSelected] = useState<any>()
+  const [selected, setSelected] = useState<any>('Ethereum')
+  const { finalNodes, setFinalNodes } = useContext(AccountContext)
+
+  function handleSelection(value: string) {
+    setSelected(value)
+    const savedNodes = JSON.parse(localStorage.getItem('nodes') || '[]')
+    const updatedNodes = savedNodes.map((node) => {
+      if (node.id === nodeId) {
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            chain: value,
+          },
+        }
+      }
+      return node
+    })
+    localStorage.setItem('nodes', JSON.stringify(updatedNodes))
+    setFinalNodes(updatedNodes)
+  }
 
   return (
     <div className="">
       <select
-        className="nodrag min-w-[85px] rounded-[6px] bg-[#D9D9D9] font-normal md:min-w-[104px] lg:min-w-[120px] xl:min-w-[138px] 2xl:min-w-[172px]"
-        onChange={(option) => setSelected(option.target.value)}
+        className="nodrag mt-[15px] min-w-[85px] rounded-[6px] bg-[#D9D9D9] font-normal md:min-w-[104px] lg:min-w-[120px] xl:min-w-[138px] 2xl:min-w-[172px]"
+        onChange={(option) => handleSelection(option.target.value)}
         value={selected}
       >
         {optionsSelection.map((option) => (
@@ -96,7 +117,7 @@ function UtilityNode({ id, data, handleNodeRemove }) {
           onClick={() => {
             handleClick()
           }}
-          className="absolute top-2 right-[5px] font-bold md:right-[6px] lg:right-[7px] xl:right-[8px] 2xl:right-[10px]"
+          className="absolute top-3 right-[5px] font-bold md:right-[6px] lg:right-[7px] xl:right-[8px] 2xl:right-[10px]"
         >
           X
         </button>
@@ -106,18 +127,18 @@ function UtilityNode({ id, data, handleNodeRemove }) {
               process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                 ? process.env.NEXT_PUBLIC_BASE_PATH
                 : ''
-            }/images/lateralNavBar/settings.svg`}
+            }/images/lateralNavBar/node.svg`}
             alt="image"
             className={
-              'w-[16px] md:w-[19px] lg:w-[22.5px] xl:w-[25px] 2xl:w-[32px]'
+              'h-[20] w-[20px] md:w-[19px] lg:w-[22.5px] xl:w-[25px] 2xl:w-[32px]'
             }
           />
           <div className="mt-[5px] font-medium md:mt-[6px] lg:mt-[7px] lg:!leading-[19px] xl:mt-[8px] 2xl:mt-[10px]">
-            {data.title}
+            Utility
           </div>
         </div>
         <div className="absolute left-0 h-[0.5px] w-full bg-[#C1C1C1] lg:mt-[10px] 2xl:mt-[12px]"></div>
-        <div className="mt-[7px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal  md:text-[8.5px] lg:mt-[20px] lg:text-[10px] xl:mt-[24px]  xl:text-[11.2px] 2xl:mt-[30px] 2xl:text-[14px]">
+        <div className="mt-[7px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal  md:text-[8.5px] lg:mt-[20px] lg:text-[10px]  xl:mt-[24px]  xl:text-[11.2px] 2xl:mt-[30px] 2xl:text-[14px]">
           <img
             src={`${
               process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -129,7 +150,14 @@ function UtilityNode({ id, data, handleNodeRemove }) {
           />
           <div className="cursor-pointer">{data.name}</div>
         </div>
-        <Handle type="source" position={Position.Top} id={'1'} />
+        {/* {data.name === 'Aiven' && (
+          <Options
+            handleId={1}
+            optionsSelection={['Ethereum', 'Polygon']}
+            nodeId={id}
+          />
+        )} */}
+        <Handle type="source" position={Position.Right} id={'1'} />
       </div>
     </>
   )

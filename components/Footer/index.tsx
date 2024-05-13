@@ -11,7 +11,7 @@ const Footer = () => {
     <>
       <section
         id="home"
-        className="bg-white px-[30px] pt-[36px]  pb-[57px] text-[#000000] md:px-[70px] md:pt-[43px] md:pb-[68px]  lg:px-[157px] lg:pt-[50px] lg:pb-[80px] xl:px-[180px] xl:pt-[58px] xl:pb-[91px] 2xl:px-[225px] 2xl:pt-[73px] 2xl:pb-[114px]"
+        className="bg-[#fafafa] px-[30px] pt-[36px]  pb-[57px] text-[#000000] md:px-[70px] md:pt-[43px] md:pb-[68px]  lg:px-[157px] lg:pt-[50px] lg:pb-[80px] xl:px-[180px] xl:pt-[58px] xl:pb-[91px] 2xl:px-[225px] 2xl:pt-[73px] 2xl:pb-[114px]"
       >
         <div className="justify-center  md:flex md:gap-x-[30px] lg:gap-x-[157px] xl:gap-x-[180px] 2xl:gap-x-[225px]">
           <div className="lg:max-w-[615px]">
@@ -34,12 +34,17 @@ const Footer = () => {
                 </div>
                 <div className="grid grid-cols-2 justify-between gap-y-[5px] md:block md:!leading-[160%] lg:!leading-[220%]">
                   {useCasesOptions.map((useCase, index) => (
-                    <div
+                    <a
+                      href={'https://www.openmesh.network/xnode/data-products'}
                       key={index}
-                      className={`cursor-pointer text-[#000] hover:text-[#757575]`}
                     >
-                      {useCase}
-                    </div>
+                      <div
+                        key={index}
+                        className={`cursor-pointer text-[#000] hover:text-[#757575]`}
+                      >
+                        {useCase}
+                      </div>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -50,7 +55,12 @@ const Footer = () => {
                   Suggest a new feature
                 </div>
                 <div className=" lg:!leading-[150%]">
-                  <a className="border-b-[1px] font-medium text-[#0354EC]">
+                  <a
+                    href={'https://www.openmesh.network/oec/register'}
+                    target="_blank"
+                    className="border-b-[1px] font-medium text-[#0354EC]"
+                    rel="noreferrer"
+                  >
                     Join our community and let us know what you’d like to add!
                   </a>
                 </div>
@@ -61,7 +71,12 @@ const Footer = () => {
                 </div>
                 <div className=" lg:!leading-[150%]">
                   {' '}
-                  <a className="border-b-[1px] font-medium text-[#0354EC]">
+                  <a
+                    href={'https://calendly.com/openmesh/30min'}
+                    target="_blank"
+                    className="border-b-[1px] font-medium text-[#0354EC]"
+                    rel="noreferrer"
+                  >
                     Schedule a call with an Openmesh Expert
                   </a>
                 </div>

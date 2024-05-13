@@ -1,6 +1,7 @@
 export type CoreServices = {
   name: string
   isFree: boolean
+  chain: string
   description: string
 }
 

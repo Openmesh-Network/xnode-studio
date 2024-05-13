@@ -18,9 +18,7 @@ const SubBarServers = ({ onValueChange }) => {
     setChangeNodes,
   } = useContext(AccountContext)
   const [selectionSubBar, setSelectionSubBar] = useState<string>('')
-  const [cloudProvider, setCloudProvider] = useState<string>(
-    'Equinix (Decentralized)',
-  )
+  const [cloudProvider, setCloudProvider] = useState<string>('Equinix')
 
   const [smallServerNumber, setSmallServerNumber] = useState<number>(0)
   const [mediumServerNumber, setMediumServerNumber] = useState<number>(0)
@@ -40,12 +38,19 @@ const SubBarServers = ({ onValueChange }) => {
 
   const categoriesOptions = [
     {
-      title: 'Equinix (Decentralized)',
+      title: 'Equinix',
       enabled: true,
       src: '/images/subNavBarServers/equinix.svg',
-      pageRef: '/data-product/93508535-ba9c-453e-af19-aa331e1d36f7',
+      pageRef: '/data-product/30e53394-407d-44fc-ae23-c45951b77024',
       style:
         '2xl:w-[31px] xl:w-[25px] lg:w-[22px]  md:w-[19px] w-[16px] !-left-[10px]',
+    },
+    {
+      title: 'GCP',
+      enabled: false,
+      src: '/images/subNavBarServers/gcp.svg',
+      pageRef: '/data-product',
+      style: '2xl:w-[17px] xl:w-[13.5px] lg:w-[12px]  md:w-[10.2px] w-[8.5px]',
     },
     {
       title: 'Local (Coming soon...)',
@@ -55,23 +60,16 @@ const SubBarServers = ({ onValueChange }) => {
       style: '2xl:w-[22px] xl:w-[17.5px] lg:w-[15.5px]  md:w-[13.2px] w-[11px]',
     },
     {
-      title: 'AWS (Centralized)',
+      title: 'AWS',
       enabled: false,
       src: '/images/subNavBarServers/aws.svg',
       pageRef: '/data-product/2e762548-ec51-48c8-aa07-10b9eae87ee4',
       style: '2xl:w-[22px] xl:w-[17.5px] lg:w-[15.5px]  md:w-[13.2px] w-[11px]',
     },
     {
-      title: 'Azure (Centralized)',
+      title: 'Azure',
       enabled: false,
       src: '/images/subNavBarServers/azure.svg',
-      pageRef: '/data-product',
-      style: '2xl:w-[17px] xl:w-[13.5px] lg:w-[12px]  md:w-[10.2px] w-[8.5px]',
-    },
-    {
-      title: 'GCP (Centralized)',
-      enabled: false,
-      src: '/images/subNavBarServers/gcp.svg',
       pageRef: '/data-product',
       style: '2xl:w-[17px] xl:w-[13.5px] lg:w-[12px]  md:w-[10.2px] w-[8.5px]',
     },
@@ -186,7 +184,7 @@ const SubBarServers = ({ onValueChange }) => {
 
   function renderChooseYourServerOptions() {
     return (
-      <div className="mt-[11px] grid gap-y-[22px] md:mt-[13px] md:gap-y-[27px] lg:mt-[15.5px] lg:gap-y-[31px] xl:mt-[17.5px] xl:gap-y-[35px]  2xl:mt-[22px]  2xl:gap-y-[44px] ">
+      <div className="mt-[11px] grid gap-y-[22px] md:mt-[13px] md:gap-y-[27px] lg:mt-[15.5px] lg:gap-y-[31px] xl:mt-[17.5px] xl:gap-y-[35px] 2xl:mt-[22px]  2xl:min-w-[290px]  2xl:gap-y-[44px] ">
         {chooseYourServerOptions.map((option, index) => (
           <div key={index} className="relative">
             <div className="relative flex gap-x-[8px] text-[#000] md:gap-x-[9.6px] lg:gap-x-[11.2px] xl:gap-x-[13px] 2xl:gap-x-[16px]">

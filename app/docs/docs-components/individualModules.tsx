@@ -40,11 +40,7 @@ export default function IndividualModules(props: IndividualModulesProps) {
               {listItem.map((item, index) => (
                 <li key={index}>
                   <a
-                    href={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? `/xnode/${item.href}`
-                        : `${item.href}`
-                    }`}
+                    href={`${item.href}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-justify font-inter text-[16px] font-medium leading-[24px]"

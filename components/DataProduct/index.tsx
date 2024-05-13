@@ -23,11 +23,14 @@ import { format } from 'sql-formatter'
 import Prism from 'prismjs'
 import 'prismjs/themes/prism.css'
 import { formatDistanceToNow, differenceInDays } from 'date-fns'
+import { AccountContext } from '@/contexts/AccountContext'
+import DataProductAPIConnectionMain from './modals/DataProductAPIConnectionMain'
 
 const DataProduct = (id: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [data, setData] = useState<DataProvider>()
   const [tasksSearchBar, setTasksSearchBar] = useState('')
+  const { user, setUser } = useContext(AccountContext)
 
   const { push } = useRouter()
 
@@ -182,7 +185,7 @@ const DataProduct = (id: any) => {
 
   const copyToClipboard = () => {
     if (data) {
-      navigator.clipboard.writeText(data.sql)
+      navigator.clipboard.writeText(data?.sql)
     }
   }
 
@@ -288,9 +291,9 @@ const DataProduct = (id: any) => {
           <div className="pl-[10px] md:pl-[12px] lg:pl-[14px] xl:pl-[16px] 2xl:pl-[20px]">
             <div className="flex gap-x-[11px] pt-[40px] md:gap-x-[13px] md:pt-[56px] lg:gap-x-[16px] lg:pt-[65px] xl:gap-x-[18px] xl:pt-[74px] 2xl:gap-x-[23px] 2xl:pt-[94px]">
               <div className="">
-                {data.logoURL ? (
+                {data?.logoURL ? (
                   <img
-                    src={`${data.logoURL}`}
+                    src={`${data?.logoURL}`}
                     alt="image"
                     className={`mx-auto flex h-[30px] w-[30px] rounded-[5px] p-[3px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] lg:h-[40px] lg:w-[40px] lg:p-[7px] 2xl:h-[77px] 2xl:w-[77px]`}
                   />
@@ -305,7 +308,7 @@ const DataProduct = (id: any) => {
                     className={`mx-auto flex h-[30px] w-[30px] rounded-[5px] p-[3px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] lg:h-[40px] lg:w-[40px] lg:p-[7px] 2xl:h-[77px] 2xl:w-[77px]`}
                   />
                 )}
-                {data.isThirdParty && (
+                {data?.isThirdParty && (
                   <div className="mx-auto mt-[7px] flex justify-center xl:mt-[12px] 2xl:mt-[15px]">
                     <img
                       src={`${
@@ -318,7 +321,7 @@ const DataProduct = (id: any) => {
                     />
                   </div>
                 )}
-                {data.free && (
+                {data?.free && (
                   <div className="mx-auto mt-[7px] flex justify-center text-[7px] font-semibold text-[#12AD50] lg:!leading-[17px] xl:mt-[12px] xl:text-[11px] 2xl:mt-[15px] 2xl:text-[14px]">
                     Free
                   </div>
@@ -328,29 +331,29 @@ const DataProduct = (id: any) => {
                 <div>
                   <div className="flex gap-x-[10px] pt-[4px] text-[#313131] lg:gap-x-[12px] lg:pt-[6px] 2xl:gap-x-[23px] 2xl:pt-[8px]">
                     <div className="text-[12px] font-bold md:text-[14px] lg:text-[16px] xl:text-[19px] xl:!leading-[29px]  2xl:text-[24px]">
-                      {data.name}
+                      {data?.name}
                     </div>
-                    {isNew(data.createdAt) && (
+                    {isNew(data?.createdAt) && (
                       <div className="mt-auto mb-[2px] h-fit rounded-[5px] border-[1px] border-[#FFC946] bg-[#FFE9B2] px-[4px] py-[2px] text-[5px]  font-semibold text-[#000] lg:px-[5px] lg:text-[6px] xl:mt-0 xl:py-[4px] xl:text-[8px] 2xl:px-[7px] 2xl:py-[5px] 2xl:text-[10px] 2xl:!leading-[12px]">
                         NEW!
                       </div>
                     )}
                   </div>
                   <div className="mt-[2px] text-[8px] font-semibold text-[#505050] md:text-[11px] lg:text-[11px] lg:!leading-[19px] xl:mt-[6px] xl:text-[13px] 2xl:mt-[7px] 2xl:text-[16px]">
-                    {data.company}
+                    {data?.company}
                   </div>
                 </div>
               </div>
             </div>
             <div className="mt-[18px] max-w-[357px] text-[8px]  font-medium  text-[#959595] md:mt-[26px] md:max-w-[430px] md:text-[10px] lg:mt-[29px] lg:max-w-[500px] lg:text-[11px]  lg:!leading-[19px] xl:max-w-[572px] xl:text-[13px] 2xl:mt-[37px] 2xl:max-w-[715px] 2xl:text-[16px]">
-              {data.description}
+              {data?.description}
             </div>
             <div className="mt-[20px] text-[8px] font-bold  text-[#959595]  md:mt-[37px]  md:text-[10px] lg:mt-[43px] lg:text-[12px] lg:!leading-[19px] 2xl:mt-[54px]  2xl:text-[16px]">
               Tags
             </div>
             <div className="mt-[10px] flex max-w-[800px] flex-wrap gap-x-[5px] gap-y-[3px] md:mt-[14px] lg:mt-[16px] lg:gap-x-[10px] lg:gap-y-[10px] 2xl:mt-[20px]">
-              {data.tags &&
-                data.tags.map((tag, index) => (
+              {data?.tags &&
+                data?.tags.map((tag, index) => (
                   <div
                     key={index}
                     className=" w-fit max-w-[500px]  rounded-[20px] border-[1px] border-[#D9D9D9] bg-[#F6F6F6] px-[7px] py-[4px] text-[5px] font-medium text-[#575757] md:text-[8px] lg:px-[12px] lg:py-[6px] lg:!leading-[12px] 2xl:py-[7px] 2xl:px-[15px]  2xl:text-[10px]"
@@ -363,8 +366,8 @@ const DataProduct = (id: any) => {
               Use cases
             </div>
             <div className="mt-[10px] flex max-w-[800px] flex-wrap gap-x-[5px] gap-y-[3px] md:mt-[14px] lg:mt-[16px] lg:gap-x-[10px] lg:gap-y-[10px] 2xl:mt-[20px]">
-              {data.useCases &&
-                data.useCases.map((useCase, index) => (
+              {data?.useCases &&
+                data?.useCases.map((useCase, index) => (
                   <div
                     key={index}
                     className=" w-fit max-w-[500px]  rounded-[20px] border-[1px] border-[#D9D9D9] bg-[#F6F6F6] px-[7px] py-[4px] text-[5px] font-medium text-[#575757] md:text-[8px] lg:px-[12px] lg:py-[6px] lg:!leading-[12px] 2xl:py-[7px] 2xl:px-[15px]  2xl:text-[10px]"
@@ -373,7 +376,8 @@ const DataProduct = (id: any) => {
                   </div>
                 ))}
             </div>
-            {data.specification && (
+            {user && <DataProductAPIConnectionMain dataProductId={data?.id} />}
+            {data?.specification && (
               <>
                 <div className="mt-[26px] text-[8px] font-bold  text-[#959595]  md:mt-[36px]  md:text-[10px] lg:mt-[42px] lg:text-[12px] lg:!leading-[19px] 2xl:mt-[52px]  2xl:text-[16px]">
                   Specification
@@ -406,7 +410,7 @@ const DataProduct = (id: any) => {
                 </div>
               </>
             )}
-            {data.details && (
+            {data?.details && (
               <>
                 <div className="mt-[35px] text-[8px] font-bold  text-[#959595]  md:mt-[53px]  md:text-[10px] lg:mt-[60px] lg:text-[12px] lg:!leading-[19px] 2xl:mt-[76px]  2xl:text-[16px]">
                   Details
@@ -450,7 +454,7 @@ const DataProduct = (id: any) => {
               </>
             )}
 
-            {data.sql && (
+            {data?.sql && (
               <div className="">
                 <div className="mt-[35px] flex justify-between text-[8px] font-bold  text-[#959595]  md:mt-[53px]  md:text-[10px] lg:mt-[60px] lg:text-[12px] lg:!leading-[19px] 2xl:mt-[76px]  2xl:text-[16px]">
                   <div className="">Query</div>
@@ -478,7 +482,7 @@ const DataProduct = (id: any) => {
         </div>
         <div className="pt-[35px] md:pt-[96px] lg:pt-[112px] xl:pt-[128px] 2xl:pt-[160px]">
           <div className="grid gap-y-[35px] md:gap-y-[25px]">
-            {data.download && (
+            {data?.download && (
               <div className="items-center rounded-[5px] border-[0.5px] border-[#D9D9D9] px-[27px] pt-[15px] pb-[16px] text-center shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] md:px-[10px] md:pt-[21px] md:pb-[26px] lg:px-[20px] lg:pt-[24px] lg:pb-[32px] xl:px-[40px] xl:pb-[52px] 2xl:px-[58px] 2xl:pt-[30px] 2xl:pb-[66px]">
                 <div className="flex justify-center gap-x-[7px]">
                   <img
@@ -522,12 +526,12 @@ const DataProduct = (id: any) => {
                 </a>
               </div>
             )}
-            {data.isThirdParty && (
+            {data?.isThirdParty && (
               <div className="items-center rounded-[5px] border-[0.5px] border-[#D9D9D9] px-[15px] pt-[33px] pb-[47px] text-center shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] md:px-[21px] md:pt-[40px] md:pb-[56px] lg:px-[20px] lg:pt-[46px] lg:pb-[65px] xl:px-[48px] xl:pt-[53px] xl:pb-[75px]  2xl:px-[60px] 2xl:pt-[66px] 2xl:pb-[93px]">
                 <div className="text-[7px] font-semibold text-[#B7B7B7]  md:text-[10px]  lg:text-[12px] lg:!leading-[17px] 2xl:text-[14px]">
                   3rd Party Intergration
                 </div>
-                {data.addToXnodeMessage === 'Add to Xnode' ? (
+                {data?.addToXnodeMessage === 'Add to Xnode' ? (
                   <a
                     href={`${
                       process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -556,14 +560,14 @@ const DataProduct = (id: any) => {
                   </div>
                 )}
 
-                <a href={`${data.website}`} target="_blank" rel="noreferrer">
+                <a href={`${data?.website}`} target="_blank" rel="noreferrer">
                   <div className="mt-[12.5px] text-[7px] font-semibold text-[#B7B7B7] underline underline-offset-1 hover:text-[#a3a3a3] md:mt-[17.5px] md:text-[10px] lg:mt-[20px] lg:text-[12px] lg:!leading-[17px] 2xl:mt-[25px] 2xl:text-[14px]">
                     Website
                   </div>
                 </a>
               </div>
             )}
-            {data.live && (
+            {data?.live && (
               <div className="items-center rounded-[5px] border-[0.5px] border-[#D9D9D9] px-[15px] pt-[15px] pb-[16px] text-center shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] md:px-[21px] md:pt-[21px] md:pb-[26px] lg:px-[20px] lg:pt-[24px] lg:pb-[32px] xl:px-[40px] xl:pb-[52px]  2xl:px-[30px] 2xl:pt-[30px] 2xl:pb-[66px]">
                 <div className="flex justify-center gap-x-[7px]">
                   <img
@@ -610,7 +614,7 @@ const DataProduct = (id: any) => {
             )}
           </div>
           <div className="mt-[35px] justify-center text-[7px] font-medium text-[#959595] md:mt-[35px] md:text-[10px] lg:mt-[40px] lg:text-[11px] lg:!leading-[17px] 2xl:mt-[51px] 2xl:text-[14px]">
-            {data.dataCloudName && data.dataCloudName && (
+            {data?.dataCloudName && data?.dataCloudName && (
               <a
                 href={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'

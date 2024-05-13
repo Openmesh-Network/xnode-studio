@@ -348,7 +348,12 @@ const ProductsList = ({ dataTestimonial }: ProductsListProps) => {
               Suggest a new data
             </div>
             <div className=" lg:!leading-[150%]">
-              <a className="border-b-[1px] font-medium text-[#0354EC]">
+              <a
+                href={'https://www.openmesh.network/oec/register'}
+                target="_blank"
+                className="border-b-[1px] font-medium text-[#0354EC]"
+                rel="noreferrer"
+              >
                 Join our community and let us know what you’d like to add!
               </a>
             </div>

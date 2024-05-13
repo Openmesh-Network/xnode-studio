@@ -95,7 +95,7 @@ const SubBarAPIs = ({ onValueChange }) => {
 
   function renderSubOptions(option: any) {
     return (
-      <div className="mt-[6.5px] mb-[25px] grid gap-y-[15px] pl-[19px] md:mt-[7.5px] md:mb-[30px] md:gap-y-[18px] md:pl-[22px] lg:mt-[8.5px] lg:mb-[35px] lg:gap-y-[21px] lg:pl-[27px] xl:mt-[10px] xl:mb-[40px] xl:gap-y-[24px] xl:pl-[30px]  2xl:mt-[12px]  2xl:mb-[50px]  2xl:gap-y-[30px] 2xl:pl-[38px]">
+      <div className="mt-[6.5px]  mb-[25px] grid gap-y-[15px] pl-[19px] md:mt-[7.5px] md:mb-[30px] md:gap-y-[18px] md:pl-[22px] lg:mt-[8.5px] lg:mb-[35px] lg:gap-y-[21px] lg:pl-[27px] xl:mt-[10px] xl:mb-[40px] xl:gap-y-[24px] xl:pl-[30px]  2xl:mt-[12px]  2xl:mb-[50px]  2xl:gap-y-[30px] 2xl:pl-[38px]">
         {option.dataOptions.map((option, index) => (
           <div key={index} className="relative flex text-[#000]">
             <div className="flex gap-x-[9px]">
@@ -137,7 +137,7 @@ const SubBarAPIs = ({ onValueChange }) => {
 
   return (
     <>
-      <div className="z-100 relative bg-[#fff] py-[21px] px-[16px] text-[#000]  shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:py-[26px] md:px-[20px] lg:py-[30px] lg:px-[23px] xl:py-[35px] xl:px-[26.5px] 2xl:py-[43px] 2xl:px-[33px]">
+      <div className="z-100 relative min-w-[260px] bg-[#fff] py-[21px] px-[16px] text-[#000] shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)]  md:py-[26px] md:px-[20px] lg:py-[30px] lg:px-[23px] xl:py-[35px] xl:px-[26.5px] 2xl:min-w-[330px] 2xl:py-[43px] 2xl:px-[33px]">
         <img
           src={`${
             process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'

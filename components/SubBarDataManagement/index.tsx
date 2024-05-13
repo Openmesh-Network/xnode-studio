@@ -7,6 +7,18 @@ import { AccountContext } from '@/contexts/AccountContext'
 
 export const categoriesOptionsRPC = [
   {
+    title: 'Google BigQuery',
+    desc: 'A fully managed, AI-ready data analytics platform',
+    link: 'Data analytics, AI, Database',
+    linkRef:
+      'https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/use-cases',
+    src: '/images/subNavBarAnalytics/google_bigquery.svg',
+    style: '2xl:w-[27px] xl:w-[21.6px] lg:w-[19px] md:w-[16.2px] w-[13px]',
+    isFree: true,
+    enabled: true,
+    thirdParty: true,
+  },
+  {
     title: 'The Graph',
     desc: 'The Graph is an indexing protocol for organizing and accessing data from blockchains and storage networks.',
     link: 'Blockchain Indexing, Decentralized Querying, Web3 APIs, Open-Source Protocols, Ethereum Data Access',
@@ -113,7 +125,7 @@ const SubBarDataManagement = ({ onValueChange }) => {
 
   function renderOptions(type: boolean) {
     return (
-      <div className="mt-[40px] grid gap-y-[39px] md:mt-[48px] md:gap-y-[48px] lg:mt-[56px] lg:gap-y-[44px] xl:mt-[64px] xl:gap-y-[51px] 2xl:mt-[80px] 2xl:gap-y-[64px]">
+      <div className="mt-[40px] grid min-w-[220px] gap-y-[39px] md:mt-[48px] md:gap-y-[48px] lg:mt-[56px] lg:gap-y-[44px] xl:mt-[64px] xl:gap-y-[51px] 2xl:mt-[80px] 2xl:min-w-[290px] 2xl:gap-y-[64px]">
         {categoriesOptionsRPC
           .filter((option) => option.thirdParty === type)
           .map((option, index) => (

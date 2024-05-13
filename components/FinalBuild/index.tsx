@@ -28,6 +28,65 @@ import {
   optionsServerNumberToValue,
 } from '@/utils/constants'
 
+export function findServerDefaultType(array) {
+  const serverObject = array.find((item) => item.type === 'server')
+  return serverObject?.data?.defaultValueServerType || null
+}
+
+export function findServerDefaultValueLocation(array) {
+  const serverObject = array.find((item) => item.type === 'server')
+  return serverObject?.data?.defaultValueLocation || null
+}
+
+export function findAPIisWebsocket(array) {
+  const apiObject = array.find((item) => item.type === 'api')
+  if (apiObject?.data?.name === 'WebSocket API') {
+    return true
+  } else {
+    return false
+  }
+}
+
+export function findFeatures(array) {
+  const dataObject = array.find((item) => item.type === 'dataStreaming')
+  const finalFeatures = []
+  for (let i = 0; i < dataObject?.data?.lists?.length; i++) {
+    // eslint-disable-next-line prettier/prettier
+    if (optionsFeature.includes(dataObject?.data?.lists[i]?.title?.toLowerCase())) {
+      finalFeatures.push(dataObject?.data?.lists[i]?.title?.toLowerCase())
+    }
+  }
+  return finalFeatures
+}
+
+export const coreServicesType = ['utility', 'rpc', 'analytics']
+export const nameToDesc = {
+  ValidationCloud: 'Enterprise-grade staking and node infrastructure',
+  NodeReal: 'One-stop blockchain infrastructure and service provider.',
+  Grafana: 'Data Streaming service',
+  Prometheus: 'A node service provider, that provides.',
+  Ascend:
+    "Data Pipeline Automation for building the world's most intelligent data pipelines.",
+  Databricks:
+    'Combines data warehouses & data lakes into a lakehouse architecture.',
+  InfraAdmin: 'One-stop blockchain infrastructure and service provider.',
+  'Pythia Pro': 'Data Streaming service',
+  Pythia: 'A node service provider, that provides.',
+  Snowflake: 'One-stop blockchain infrastructure and service provider.',
+}
+export const nameToFree = {
+  ValidationCloud: false,
+  NodeReal: false,
+  Grafana: true,
+  Prometheus: true,
+  Ascend: true,
+  Databricks: false,
+  InfraAdmin: false,
+  'Pythia Pro': true,
+  Pythia: true,
+  Snowflake: true,
+}
+
 /* eslint-disable react/no-unescaped-entities */
 const ReviewYourBuild = () => {
   const [cloudProvider, setCloudProvider] = useState<string>()
@@ -55,79 +114,12 @@ const ReviewYourBuild = () => {
     xnodeType,
   } = useContext(AccountContext)
 
-  const coreServicesType = ['utility', 'rpc', 'analytics']
-  const nameToDesc = {
-    ValidationCloud: 'Enterprise-grade staking and node infrastructure',
-    NodeReal: 'One-stop blockchain infrastructure and service provider.',
-    Grafana: 'Data Streaming service',
-    Prometheus: 'A node service provider, that provides.',
-    Ascend:
-      "Data Pipeline Automation for building the world's most intelligent data pipelines.",
-    Databricks:
-      'Combines data warehouses & data lakes into a lakehouse architecture.',
-    InfraAdmin: 'One-stop blockchain infrastructure and service provider.',
-    'Pythia Pro': 'Data Streaming service',
-    Pythia: 'A node service provider, that provides.',
-    Snowflake: 'One-stop blockchain infrastructure and service provider.',
-  }
-  const nameToFree = {
-    ValidationCloud: false,
-    NodeReal: false,
-    Grafana: true,
-    Prometheus: true,
-    Ascend: true,
-    Databricks: false,
-    InfraAdmin: false,
-    'Pythia Pro': true,
-    Pythia: true,
-    Snowflake: true,
-  }
-
   const { push } = useRouter()
-
-  function findServerDefaultType(array) {
-    console.log('o server aqui')
-    const serverObject = array.find((item) => item.type === 'server')
-    console.log(serverObject)
-    return serverObject?.data?.defaultValueServerType || null
-  }
-
-  function findServerDefaultValueLocation(array) {
-    console.log('o server aqui')
-    const serverObject = array.find((item) => item.type === 'server')
-    console.log(serverObject)
-    return serverObject?.data?.defaultValueLocation || null
-  }
-
-  function findAPIisWebsocket(array) {
-    const apiObject = array.find((item) => item.type === 'api')
-    if (apiObject?.data?.name === 'WebSocket API') {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  function findFeatures(array) {
-    const dataObject = array.find((item) => item.type === 'data')
-    const finalFeatures = []
-    for (let i = 0; i < dataObject?.data?.lists?.length; i++) {
-      // eslint-disable-next-line prettier/prettier
-      if (optionsFeature.includes(dataObject?.data?.lists[i]?.title?.toLowerCase())) {
-        finalFeatures.push(dataObject?.data?.lists[i]?.title?.toLowerCase())
-      }
-    }
-    return finalFeatures
-  }
 
   async function createXnode() {
     setIsDeploying(true)
     const savedNodes = localStorage.getItem('nodes')
     const savedEdges = localStorage.getItem('edges')
-
-    console.log('o service region')
-    console.log(serviceRegion)
-    console.log(optionsServerLocationToValue)
 
     const serverLoc =
       optionsServerLocationToValue[
@@ -137,9 +129,6 @@ const ReviewYourBuild = () => {
       optionsServerNumberToValue[findServerDefaultType(JSON.parse(savedNodes))]
 
     const features = findFeatures(JSON.parse(savedNodes))
-
-    console.log('o retorno do server loc')
-    console.log(serverLoc)
 
     const websocketEnabled = findAPIisWebsocket(JSON.parse(savedNodes))
     const finalData = {
@@ -270,7 +259,7 @@ const ReviewYourBuild = () => {
     <>
       <section
         id="home"
-        className={`w-full  px-[30px] pb-[200px] pt-[25px] md:px-[36px] md:pt-[30px] lg:px-[42px] lg:pt-[35px] xl:px-[48px] xl:pt-[40px] 2xl:px-[60px] 2xl:pt-[50px]`}
+        className={`w-full  px-[30px] pb-[100px] pt-[25px] md:px-[36px] md:pt-[30px] lg:px-[42px] lg:pt-[35px] xl:px-[48px] xl:pt-[40px] 2xl:px-[60px] 2xl:pt-[50px]`}
       >
         <div>
           <div className="text-[18px]  font-bold -tracking-[2%] text-[#000000] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">

@@ -88,7 +88,7 @@ const SubBarAnalytics = ({ onValueChange }) => {
 
   function renderOptions(type: boolean) {
     return (
-      <div className="mt-[32px] grid gap-y-[35px] md:mt-[38px] md:gap-y-[48px] lg:mt-[45px] lg:gap-y-[40px] xl:mt-[51px] xl:gap-y-[47px] 2xl:mt-[64px] 2xl:gap-y-[58px]">
+      <div className="mt-[32px] grid min-w-[220px] gap-y-[35px] md:mt-[38px] md:gap-y-[48px] lg:mt-[45px] lg:gap-y-[40px] xl:mt-[51px] xl:gap-y-[47px] 2xl:mt-[64px] 2xl:min-w-[290px] 2xl:gap-y-[58px]">
         {categoriesOptions
           .filter((option) => option.thirdParty === type)
           .map((option, index) => (

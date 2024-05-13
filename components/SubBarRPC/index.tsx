@@ -79,7 +79,7 @@ const SubBarRPC = ({ onValueChange }) => {
 
   function renderOptions(type: boolean) {
     return (
-      <div className="mt-[40px] grid gap-y-[39px] md:mt-[48px] md:gap-y-[48px] lg:mt-[56px] lg:gap-y-[44px] xl:mt-[64px] xl:gap-y-[51px] 2xl:mt-[80px] 2xl:gap-y-[64px]">
+      <div className="mt-[40px] grid min-w-[220px] gap-y-[39px] md:mt-[48px] md:gap-y-[48px] lg:mt-[56px] lg:gap-y-[44px] xl:mt-[64px] xl:gap-y-[51px] 2xl:mt-[80px] 2xl:min-w-[290px] 2xl:gap-y-[64px]">
         {categoriesOptionsRPC
           .filter((option) => option.thirdParty === type)
           .map((option, index) => (
@@ -154,11 +154,18 @@ const SubBarRPC = ({ onValueChange }) => {
                 )}
                 <div
                   onClick={() => {
-                    setChangeNodes({
-                      type: 'rpc',
-                      name: option.title,
-                      icon: option.src,
-                    })
+                    option.title === 'ValidationCloud'
+                      ? setChangeNodes({
+                          type: 'rpc',
+                          name: option.title,
+                          icon: option.src,
+                          chain: 'Ethereum',
+                        })
+                      : setChangeNodes({
+                          type: 'rpc',
+                          name: option.title,
+                          icon: option.src,
+                        })
                   }}
                   className={`absolute ${
                     option.enabled

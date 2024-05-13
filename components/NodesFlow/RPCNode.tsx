@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useContext } from 'react'
 import { Handle, useReactFlow, useStoreApi, Position } from 'reactflow'
 import withProps from './withProps'
+import { AccountContext } from '@/contexts/AccountContext'
 
 const options = [
   {
@@ -63,16 +64,36 @@ function Select({ value, handleId, nodeId }) {
   )
 }
 
-function Options({ handleId, name, optionsSelection }) {
+function Options({ handleId, optionsSelection, nodeId }) {
   const { setNodes } = useReactFlow()
   const store = useStoreApi()
-  const [selected, setSelected] = useState<any>()
+  const [selected, setSelected] = useState<any>('Ethereum')
+  const { finalNodes, setFinalNodes } = useContext(AccountContext)
+
+  function handleSelection(value: string) {
+    setSelected(value)
+    const savedNodes = JSON.parse(localStorage.getItem('nodes') || '[]')
+    const updatedNodes = savedNodes.map((node) => {
+      if (node.id === nodeId) {
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            chain: value,
+          },
+        }
+      }
+      return node
+    })
+    localStorage.setItem('nodes', JSON.stringify(updatedNodes))
+    setFinalNodes(updatedNodes)
+  }
 
   return (
     <div className="">
       <select
-        className="nodrag min-w-[85px] rounded-[6px] bg-[#D9D9D9] font-normal md:min-w-[104px] lg:min-w-[120px] xl:min-w-[138px] 2xl:min-w-[172px]"
-        onChange={(option) => setSelected(option.target.value)}
+        className="nodrag mt-[15px] min-w-[85px] rounded-[6px] bg-[#D9D9D9] font-normal md:min-w-[104px] lg:min-w-[120px] xl:min-w-[138px] 2xl:min-w-[172px]"
+        onChange={(option) => handleSelection(option.target.value)}
         value={selected}
       >
         {optionsSelection.map((option) => (
@@ -129,6 +150,13 @@ function RPCNode({ id, data, handleNodeRemove }) {
           />
           <div className="cursor-pointer">{data.name}</div>
         </div>
+        {data.name === 'ValidationCloud' && (
+          <Options
+            handleId={1}
+            optionsSelection={['Ethereum', 'Polygon']}
+            nodeId={id}
+          />
+        )}
         <Handle type="source" position={Position.Right} id={'1'} />
       </div>
     </>

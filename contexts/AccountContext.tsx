@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { TemplatesData, TemplatesProducts } from '@/types/dataProvider'
 import React, { createContext, useState } from 'react'
 
 export interface UserProps {
@@ -7,6 +8,10 @@ export interface UserProps {
   lastName: string
   email: string
   equinixAPIKey: string
+  validationCloudAPIKeyEthereum: string
+  validationCloudAPIKeyPolygon: string
+  aivenAPIKey: string
+  aivenAPIServiceUriParams: string
   companyName: string
   foundingYear: number
   location: string
@@ -45,6 +50,12 @@ interface CreateUserContextProps {
   xnodeType: string
   setXnodeType: (value: string) => void
 
+  templateSelected: TemplatesProducts | null
+  setTemplateSelected: (value: TemplatesProducts | null) => void
+
+  templateDataSelected: TemplatesData | null
+  setTemplateDataSelected: (value: TemplatesData | null) => void
+
   updateDataNode: string
   setUpdateDataNode: (value: string) => void
 
@@ -78,6 +89,9 @@ interface CreateUserContextProps {
   tagXnode: any
   setTagXnode: (value: any) => void
 
+  indexerDeployerStep: any
+  setIndexerDeployerStep: (value: any) => void
+
   changeNodes: any
   setChangeNodes: (value: any) => void
 
@@ -95,6 +109,11 @@ export default function AccountContextProvider({
 }: CreateContextProps) {
   const [user, setUser] = useState<UserProps>()
   const [changeNodes, setChangeNodes] = useState()
+  const [indexerDeployerStep, setIndexerDeployerStep] = useState(-1)
+  const [templateSelected, setTemplateSelected] =
+    useState<TemplatesProducts | null>()
+  const [templateDataSelected, setTemplateDataSelected] =
+    useState<TemplatesData | null>()
   const [removeNodes, setRemoveNodes] = useState()
   const [selectionSideNavBar, setSelectionSideNavBar] =
     useState<string>('Start here')
@@ -128,6 +147,10 @@ export default function AccountContextProvider({
         setProjectDescription,
         projectDescription,
         selectCurrentMenuDataType,
+        templateSelected,
+        setTemplateSelected,
+        templateDataSelected,
+        setTemplateDataSelected,
         isEditingXnode,
         setIsEditingXnode,
         setselectCurrentMenuDataType,
@@ -147,6 +170,8 @@ export default function AccountContextProvider({
         setSignup,
         tagXnode,
         setTagXnode,
+        indexerDeployerStep,
+        setIndexerDeployerStep,
         finalNodes,
         setFinalNodes,
         isWorkspace,

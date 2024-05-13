@@ -29,7 +29,7 @@ const LandingPage = () => {
   return (
     <>
       <div className="flex w-full flex-col items-center rounded-[10px] bg-[#F9F9F9] p-[20px] pt-[45px] pb-[20px] md:pl-[102px] md:pr-[158px] md:pt-[54px] md:pb-[213px] lg:pl-[119px] lg:pr-[184px] lg:pt-[63px] lg:pb-[248px] xl:max-w-[1800px] xl:pl-[136px] xl:pr-[211px] xl:pt-[72px] xl:pb-[284px] 2xl:pl-[170px] 2xl:pr-[264px] 2xl:pt-[90px] 2xl:pb-[355px]">
-        <div className="flex flex-col items-center  ">
+        <div className="flex flex-col items-center">
           <div className="mt-[30px] md:w-[564px] lg:w-[658px] xl:mt-[48px] xl:w-[752px] 2xl:mt-[60px] 2xl:w-[939px]">
             <h1 className="text-center text-[35px] font-bold tracking-[-5%] text-[#000000] md:text-[66px] lg:text-[77px] xl:text-[88px] xl:leading-[100px] 2xl:text-[110px]">
               Revolution Has Started!
@@ -73,8 +73,7 @@ const LandingPage = () => {
             </div>
           </div>
           <CostSaving></CostSaving>
-          <div></div>
-          <div className="mt-[100px] flex flex-col  items-center  md:w-[250px]  lg:w-[290px]  xl:w-[333px] 2xl:w-[417px]">
+          <div className="mt-[300px] flex flex-col items-center  md:mt-[100px]  md:w-[250px]  lg:w-[290px]  xl:w-[333px] 2xl:w-[417px]">
             <h2 className="text-[20px] font-normal leading-[110px] text-[#000] md:text-[24px] lg:text-[28px] xl:text-[32px] 2xl:text-[40px]">
               Play around it now
             </h2>
@@ -97,11 +96,11 @@ const LandingPage = () => {
               Data Cloud Management
             </h1>
             <p className="mt-[25px] text-start text-[10px] font-normal leading-[24.2px] text-[#5A5A5A] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
-              Cryptocurrency arbitrage detection, DeFi yield forecasting, GameFi
-              engagement analytics, metaverse asset valuation, medical research
-              data sharing, financial trend analysis, weather pattern trading
-              strategies, cross-disciplinary scientific data management, cancer
-              research outcome predictions.
+              Create your infrastructure quickly with our drag-and-drop design
+              framework. Instead of spending weeks coding and integrating
+              services and applications, you can now build your infrastructure
+              in the region of your choice, with the workloads and applications
+              you need, all in just minutes.
             </p>
           </div>
           <div className="flex flex-col items-center gap-y-5 md:gap-y-16 xl:gap-y-16 2xl:gap-y-20">
@@ -144,7 +143,7 @@ const LandingPage = () => {
                 <div className="ml-[5px] flex flex-col gap-y-5 md:ml-[24px] lg:ml-[28px] xl:ml-[32px] 2xl:ml-[40px]">
                   <div className=" flex flex-row items-center ">
                     <h1 className="text-[8px] font-bold  text-black  md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
-                      27X
+                      6X
                     </h1>
                     <p className="ml-[7px] text-[6px] font-normal text-black md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                       Cost Saving
@@ -200,11 +199,12 @@ const LandingPage = () => {
               Explore possibilites
             </h1>
             <p className="mt-[25px] text-start text-[10px] font-normal leading-[24.2px] text-[#5A5A5A] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
-              Cryptocurrency arbitrage detection, DeFi yield forecasting, GameFi
-              engagement analytics, metaverse asset valuation, medical research
-              data sharing, financial trend analysis, weather pattern trading
-              strategies, cross-disciplinary scientific data management, cancer
-              research outcome predictions.
+              Our modularized design allows you to quickly design, combine, and
+              provision web2 and web3 infrastructure products. This includes
+              connecting to data feeds, building APIs, linking to blockchains
+              (RPC nodes), and accessing compute, storage, databases, analytics,
+              and developer tools. Deploy in seconds and only pay for compute
+              and storage, saving thousands.
             </p>
           </div>
           <div className="grid w-full grid-cols-1 pt-[30px] md:grid-cols-3 lg:grid-cols-3 ">
@@ -222,7 +222,7 @@ const LandingPage = () => {
                 Blockchain and Smart Contracts
               </p>
               <h1 className="text-[12px] font-bold leading-[30px] text-black md:text-[14.4px] lg:text-[17px] xl:text-[19.2px] 2xl:text-[24px]">
-                On-chain Query Execution for Blockchain Applications.
+                Democratizing Data: Free Immutable Data to the World
               </h1>
             </div>
             <div className="mt-[30px] flex flex-col  gap-y-[10px] md:mt-0 md:w-[204px] md:p-[12px]  lg:w-[238px] lg:p-[14px]  xl:w-[272px] xl:p-[20px] 2xl:w-[340px] 2xl:p-[16px]">
@@ -236,10 +236,10 @@ const LandingPage = () => {
                 }/images/landingPage/cube.svg`}
               ></img>
               <p className="text-[9px] font-normal leading-[30px] text-black md:text-[10.8px] lg:text-[12.5px] xl:text-[14.5px] 2xl:text-[18px]">
-                Blockchain and Smart Contracts
+                Many Integrations. Endless Possibilities
               </p>
               <h1 className="text-[12px] font-bold leading-[30px] text-black md:text-[14.4px] lg:text-[17px] xl:text-[19.2px] 2xl:text-[24px]">
-                On-chain Query Execution for Blockchain Applications.
+                Xnode's modularized design and SDKs{' '}
               </h1>
             </div>
             <div className="mt-[30px] flex flex-col  items-start  text-[#0354EC]  md:mt-0  md:w-[204px] lg:w-[238px] xl:w-[272px]   2xl:w-[340px]">
@@ -247,12 +247,12 @@ const LandingPage = () => {
                 className="font-inter text-[9px] font-bold leading-[18px] md:ml-[5px] md:text-[10px] lg:text-[11.2px] xl:text-[13px] 2xl:text-[16px]"
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/openmesh-overview"
+                href="https://docs.openmesh.network/products/xnode"
               >
                 Understanding Xnode
               </a>
               <a
-                href="https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/openmesh-overview"
+                href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-[4px] text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
@@ -265,12 +265,12 @@ const LandingPage = () => {
                 className="mt-[15px] font-inter text-[9px] font-bold leading-[18px] md:ml-[5px] md:mt-[30px] md:text-[10px] lg:mt-[35px] lg:text-[11.2px] xl:mt-[40px] xl:text-[13px] 2xl:mt-[50px] 2xl:text-[16px]"
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/openmesh-overview"
+                href="https://docs.openmesh.network/products/xnode"
               >
                 Setting Up
               </a>
               <a
-                href="https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/openmesh-overview"
+                href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-[1px] text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
@@ -278,7 +278,7 @@ const LandingPage = () => {
                 Step-by-step guide to deploying an xNode.
               </a>
               <a
-                href="https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/openmesh-overview"
+                href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-[1px] text-justify font-inter text-[8px] font-medium  leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
@@ -286,7 +286,7 @@ const LandingPage = () => {
                 Technical design
               </a>
               <a
-                href="https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/openmesh-overview"
+                href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-[15px] text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
@@ -294,7 +294,7 @@ const LandingPage = () => {
                 Developer support and resources
               </a>
               <a
-                href="https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/openmesh-overview"
+                href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-[1px] text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
