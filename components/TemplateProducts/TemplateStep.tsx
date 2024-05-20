@@ -460,7 +460,7 @@ const TemplateStep = () => {
                             if (tmp.category === 'scratch') {
                               push(
                                 process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                  ? `/xnode/start-here`
+                                  ? `/xnode/start-here` // XXX: Do not redirect here anymore. We should get rid of all the Xnode V1 pages.
                                   : `start-here`
                               )
                               setFinalNodes([])

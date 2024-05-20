@@ -42,7 +42,7 @@ const NewLandingPage = () => {
           }}
           className="mx-auto mt-[46px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[38.5px] py-[13px] text-[16px] font-bold leading-[150%] text-[#fff] hover:bg-[#014cd7]"
         >
-          Try for free
+          Start now
         </div>
         <div className="mt-[119px] text-[28px] font-bold">
           Maximize Efficiency & Savings
@@ -210,7 +210,7 @@ const NewLandingPage = () => {
               }}
               className="h-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[38.5px] py-[13px] text-[16px] font-bold leading-[150%] hover:bg-[#014cd7]"
             >
-              Try for free
+              Start now
             </div>
           </div>
           <div className="flex gap-x-[115px] text-[14px] text-[#000]">
