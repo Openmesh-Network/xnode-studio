@@ -7,7 +7,9 @@ Using npm to install the dependecies (at the moment there is depeencies conflict
 ```shell
 npm install --force
 ```
-
+</br>
+</br>
+</br>
 
 When in dev mode, make sure to comment the  ```shell  assetPrefix: process.env.NEXT_PUBLIC_API_ASSET_PREFIX, ``` at ```next.config.js```.
 As Xnode studio use Vercel Routing to intantiate its paths, the production environment need to have this assetPrefix set to work succesfully, but during the development (localhost) it`s not needed. https://github.com/Openmesh-Network/urlPathL3A
