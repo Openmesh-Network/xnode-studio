@@ -11,7 +11,7 @@ npm install --force
 </br>
 When in development mode, make sure to comment out the following line in next.config.js: `assetPrefix: process.env.NEXT_PUBLIC_API_ASSET_PREFIX,`
 As Xnode studio uses Vercel Routing to instantiate its paths, the production environment needs to have this assetPrefix set to work successfully. However, it is not needed during development (localhost). For more information, visit: https://github.com/Openmesh-Network/urlPathL3A
-
+</br>
 <img src="https://github.com/Openmesh-Network/xnode-console-frontend/assets/82957886/22ed0294-65a7-4b2f-92f9-60461e4cf790" alt="drawing" style="width:500px;"/>
 
 </br>
