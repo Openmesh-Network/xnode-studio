@@ -452,9 +452,11 @@ const TemplateStep = () => {
                       ))}
                     </div>
                   ) : (
+                  // NOTE: Here we iterate through all the featured templates and draw them one by one.
                     <div className=''>
                       {filteredTemplatesData?.length > 0 ? (
                         <div className='grid-cols-3 grid'>
+
                         {filteredTemplatesData?.map((tmp, index) => (
                           <a onClick={() => {
                             if (tmp.category === 'scratch') {
@@ -481,7 +483,7 @@ const TemplateStep = () => {
                             onMouseEnter={()=> setHoverTemplate(tmp)}
                             onMouseLeave={() => setHoverTemplate(null)}
                             key={index}
-                            className={` mt-[17px] bg-[#f1f1f17c] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
+                            className={` mt-[17px] bg-[#f1f1f17c] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md group border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
                           >
                             <div className="flex gap-x-[75px]">
                               {tmp?.logoUrl ? (<img
@@ -497,7 +499,7 @@ const TemplateStep = () => {
                                 alt="image"
                                 className="h-[33px] w-[33px]"
                               />)}
-                              <div className={`flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] ${hoverTemplate?.id === tmp.id ? 'bg-[#fff]' : 'bg-[#e5eefc]'}`}>
+                              <div className={`flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] group-hover:bg-[#fff] bg-[#e5eefc]`}>
                                 <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
                                 <div className="2xl:text-[14px] text-[12px] font-bold leading-[24px] text-[#0059ff]">
                                   Category
@@ -538,6 +540,7 @@ const TemplateStep = () => {
                       ))}
                     </div>
                   ) : (
+                  // XXX: Code duplication here. Refactor into component?
                     <div className=''>
                       {filteredTemplatesData?.length > 0 ? (
                         <div className='grid-cols-3 grid gap-y-[10px]'>
@@ -551,7 +554,7 @@ const TemplateStep = () => {
                             onMouseEnter={()=> setHoverTemplate(tmp)}
                             onMouseLeave={() => setHoverTemplate(null)}
                             key={index}
-                            className={` mt-[17px] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
+                            className={` mt-[17px] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md group border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
                           >
                             <div className="flex gap-x-[75px]">
                               {tmp?.logoUrl ? (<img
@@ -567,7 +570,7 @@ const TemplateStep = () => {
                                 alt="image"
                                 className="h-[33px] w-[33px]"
                               />)}
-                              <div className={`flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] ${hoverTemplate?.id === tmp.id ? 'bg-[#fff]' : 'bg-[#e5eefc]'}`}>
+                              <div className={`flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] group-hover:bg-[#fff] bg-[#e5eefc] `}>
                                 <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
                                 <div className="2xl:text-[14px] text-[12px] font-bold leading-[24px] text-[#0059ff]">
                                   Category
