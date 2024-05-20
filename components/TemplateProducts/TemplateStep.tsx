@@ -49,7 +49,6 @@ export const providerNameToLogo = {
 
 const TemplateStep = () => {
   const [templatesData, setTemplatesData] = useState<TemplatesData[]>([])
-  const [hoverTemplate, setHoverTemplate] = useState<TemplatesData | null>()
   const [filteredTemplatesData, setFilteredTemplatesData] = useState<TemplatesData[]>([])
   const [selectedTemplate, setSelectedTemplate] = useState<string>('')
   const [displayToggle, setDisplayToggle] = useState<string>('square')
@@ -480,8 +479,6 @@ const TemplateStep = () => {
                               
                           }} key={index} className={`${tmp?.featured ? '' : 'hidden'}`}>
                           <div
-                            onMouseEnter={()=> setHoverTemplate(tmp)}
-                            onMouseLeave={() => setHoverTemplate(null)}
                             key={index}
                             className={` mt-[17px] bg-[#f1f1f17c] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md group border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
                           >
@@ -551,8 +548,6 @@ const TemplateStep = () => {
                               : `template-products/${tmp.id}`
                           }`} className={`${tmp?.category === 'scratch' && 'hidden'}`}>
                           <div
-                            onMouseEnter={()=> setHoverTemplate(tmp)}
-                            onMouseLeave={() => setHoverTemplate(null)}
                             key={index}
                             className={` mt-[17px] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md group border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
                           >
