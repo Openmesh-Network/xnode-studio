@@ -4,6 +4,7 @@
 
 Using npm to install the dependecies (at the moment there is depeencies conflicts that will need to be resolved, so use --force)
 </br>
+</br>
 
 ```shell
 npm install --force
