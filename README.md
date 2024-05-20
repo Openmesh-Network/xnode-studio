@@ -1,4 +1,3 @@
-![IMG_20230817_091714](https://github.com/Openmesh-Network/xnode-console-frontend/assets/82957886/38dd031c-88b1-47d7-9a31-c044286bd7c4)
 # Xnode Studio
 
 ## Installation and dev environment
