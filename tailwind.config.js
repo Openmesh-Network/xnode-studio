@@ -19,8 +19,12 @@ module.exports = {
       black: '#000000',
       dark: '#1D2144',
       primary: '#4A6CF7',
+
       yellow: '#FBB040',
       'body-color': '#959CB1',
+      darkGray: '#4D4D4D',
+
+      blue500: '#0059FF',
     },
 
     extend: {
@@ -43,8 +47,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/line-clamp'),
-    require('tailwind-scrollbar')({ nocompatible: true }),
-  ],
+  plugins: [require('@tailwindcss/line-clamp')],
 }

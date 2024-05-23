@@ -1,18 +1,8 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
 'use client'
-/* eslint-disable no-unused-vars */
-import { useEffect, useState, useContext } from 'react'
-import { getAPI, getDatasets } from '@/utils/data'
-import { toast } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { TemplatesProducts } from '@/types/dataProvider'
-import { SmileySad } from 'phosphor-react'
-import Filter from '@/components/Filter'
-import { TextField, Autocomplete } from '@mui/material'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import ProductsList from '../ProductsList'
-import { AccountContext } from '@/contexts/AccountContext'
+import { useRouter } from 'next/navigation'
+
 import Footer from '../Footer'
 
 const NewLandingPage = () => {
@@ -181,7 +171,7 @@ const NewLandingPage = () => {
                     Many Integrations. <br /> Endless Possibilities{' '}
                   </div>
                   <div className="mt-[3px] text-[12px] font-light leading-[20px] text-[#4d4d4d]">
-                    Xnode's modularized design <br /> and SDKs{' '}
+                    {"Xnode's"} modularized design <br /> and SDKs{' '}
                   </div>
                 </div>
               </div>
@@ -189,7 +179,7 @@ const NewLandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full bg-[#fff] px-[20px] pt-[60px] pb-[111px]">
+      <div className="w-full bg-[#fff] px-[20px] pb-[111px] pt-[60px]">
         <div className="mx-auto flex max-w-[1380px] justify-center gap-x-[132px]">
           <div className="flex gap-x-[56px]">
             <div className="text-[28px] font-bold leading-[38px]  text-[#000]">
@@ -219,8 +209,8 @@ const NewLandingPage = () => {
                 Understanding Xnode
               </div>
               <div className="text-[14px] font-normal leading-[20px] text-[#0059ff]">
-                An introduction to xNode's role in <br /> decentralizing data
-                infrastructure.
+                An introduction to {"xNode's"} role in <br /> decentralizing
+                data infrastructure.
               </div>
             </div>
             <div>

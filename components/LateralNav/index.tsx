@@ -1,3 +1,5 @@
+'use client'
+
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-useless-return */
 /* eslint-disable no-unused-vars */
@@ -20,7 +22,7 @@ import SubBarCompute from '../SubBarCompute'
 import SubBarTrading from '../SubBarTrading'
 
 /* eslint-disable react/no-unescaped-entities */
-const LateralNav = ({ onValueChange }) => {
+const LateralNav = () => {
   const [categoriesOptions, setCategoriesOptions] = useState([])
   const [presetId, setPresetId] = useState(0)
   const {
@@ -324,67 +326,51 @@ const LateralNav = ({ onValueChange }) => {
 
   if (!isOpen) {
     return (
-      <>
-        <div className="z-50 h-full shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)]">
-          <div className="flex w-[42px]  flex-col items-center justify-center px-[15px] pb-[45px] pt-[49px] md:w-[51px] md:px-[11.5px] md:pb-[54px] md:pt-[58.8px] lg:w-[60px] lg:px-[13.5px] lg:pb-[63px] lg:pt-[68.5px] xl:w-[68px] xl:px-[15px] xl:pb-[72px] xl:pt-[78.4px] 2xl:w-[85px] 2xl:px-[15px] 2xl:pb-[90px] 2xl:pt-[98px]">
-            <div
-              className={`absolute top-[14px] mb-[29px] w-[10.5px] md:top-[16.8px] md:mb-[35px] md:w-[12.9px] lg:top-[19.6px] lg:mb-[40px]  lg:w-[15.05px] xl:top-[22.4px] xl:mb-[47px] xl:w-[17.2px] 2xl:top-[28px] 2xl:mb-[58px] 2xl:w-[21.5px] `}
-            >
-              <img
-                onClick={() => setIsOpen(true)}
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/lateralNavBar/nav.svg`}
-                alt="image"
-                className="cursor-pointer"
-              />
-            </div>
-            <ul className="flex flex-col items-center gap-[20px] md:gap-[24px] lg:gap-[28px] xl:gap-[32px] 2xl:gap-[40px]">
-              {sideBarOptions.map((option, index) => (
-                <li className="relative" key={index}>
-                  <img
-                    onClick={() => setIsOpen(true)}
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }${option.icon}`}
-                    alt="image"
-                    className={`${option.iconStyle} cursor-pointer`}
-                  />
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/lateralNavBar/new-arrow.svg`}
-                    alt="image"
-                    className={` ${
-                      option.title === 'Home' ||
-                      option.title === 'Dashboard' ||
-                      option.title === 'Workspace' ||
-                      option.title === 'Templates'
-                        ? 'hidden'
-                        : ''
-                    } absolute top-[2.5px] right-[14px] w-[4px] md:top-[3px] md:right-[16.8px] md:w-[4.8px] lg:top-[3.5px] lg:right-[19.6px] lg:w-[5.6px] xl:top-[4px] xl:right-[22.4px] xl:w-[6.4px] 2xl:top-[5px] 2xl:right-[28px] 2xl:w-[8px]`}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className="h-full shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)]">
+        <div className="flex w-[42px]  flex-col items-center justify-center px-[15px] pb-[45px] pt-[49px] md:w-[51px] md:px-[11.5px] md:pb-[54px] md:pt-[58.8px] lg:w-[60px] lg:px-[13.5px] lg:pb-[63px] lg:pt-[68.5px] xl:w-[68px] xl:px-[15px] xl:pb-[72px] xl:pt-[78.4px] 2xl:w-[85px] 2xl:px-[15px] 2xl:pb-[90px] 2xl:pt-[98px]">
+          <ul className="flex flex-col items-center gap-[20px] md:gap-[24px] lg:gap-[28px] xl:gap-[32px] 2xl:gap-[40px]">
+            {sideBarOptions.map((option, index) => (
+              <li className="relative" key={index}>
+                <img
+                  onClick={() => setIsOpen(true)}
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }${option.icon}`}
+                  alt="image"
+                  className={`${option.iconStyle} cursor-pointer`}
+                />
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }/images/lateralNavBar/new-arrow.svg`}
+                  alt="image"
+                  className={` ${
+                    option.title === 'Home' ||
+                    option.title === 'Dashboard' ||
+                    option.title === 'Workspace' ||
+                    option.title === 'Templates'
+                      ? 'hidden'
+                      : ''
+                  } absolute right-[14px] top-[2.5px] w-[4px] md:right-[16.8px] md:top-[3px] md:w-[4.8px] lg:right-[19.6px] lg:top-[3.5px] lg:w-[5.6px] xl:right-[22.4px] xl:top-[4px] xl:w-[6.4px] 2xl:right-[28px] 2xl:top-[5px] 2xl:w-[8px]`}
+                />
+              </li>
+            ))}
+          </ul>
         </div>
-      </>
+      </div>
     )
   }
 
   return (
     <>
-      <div className="relative z-50 h-full max-w-[109px] pb-[200px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] md:w-full md:max-w-[130px]  md:pb-[600px] lg:max-w-[152px] xl:max-w-[180px] 2xl:max-w-[230px]">
+      <div className="z-50 h-full max-w-[109px] pb-[200px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] md:w-full md:max-w-[130px]  md:pb-[600px] lg:max-w-[152px] xl:max-w-[180px] 2xl:max-w-[230px]">
         <div className="flex  flex-col items-start">
-          <div className="mb-[14.5px] mt-[24.5px] ml-[16px]  flex flex-row items-center  justify-between md:mt-[29.4px] md:mb-[17.4px] md:ml-[19.2px] lg:mt-[34.3px] lg:mb-[20.3px] lg:ml-[22.4px] xl:mt-[39.2px] xl:mb-[21.2px] xl:ml-[25.6px] 2xl:mt-[49px] 2xl:mb-[29px] 2xl:ml-[32px]">
-            <div className="absolute top-[14px] flex w-[10.5px] cursor-pointer flex-col items-center md:top-[16.8px] md:w-[12.9px] lg:top-[19.6px] lg:w-[15.05px] xl:top-[22.4px]  xl:w-[17.2px] 2xl:top-[28px] 2xl:w-[21.5px]">
+          <div className="mb-[14.5px] ml-[16px] mt-[24.5px]  flex flex-row items-center  justify-between md:mb-[17.4px] md:ml-[19.2px] md:mt-[29.4px] lg:mb-[20.3px] lg:ml-[22.4px] lg:mt-[34.3px] xl:mb-[21.2px] xl:ml-[25.6px] xl:mt-[39.2px] 2xl:mb-[29px] 2xl:ml-[32px] 2xl:mt-[49px]">
+            <div className="flex w-[10.5px] cursor-pointer flex-col items-center md:top-[16.8px] md:w-[12.9px] lg:top-[19.6px] lg:w-[15.05px] xl:top-[22.4px]  xl:w-[17.2px] 2xl:top-[28px] 2xl:w-[21.5px]">
               <img
                 onClick={() => setIsOpen(false)}
                 src={`${
@@ -449,7 +435,7 @@ const LateralNav = ({ onValueChange }) => {
                   }/images/lateralNavBar/green-ellipse.svg`}
                   alt="green dot"
                   style={{ opacity: greenDotOpacity }}
-                  className="absolute top-2 right-2 h-3 w-3 transition-opacity duration-500"
+                  className="absolute right-2 top-2 h-3 w-3 transition-opacity duration-500"
                 />
               )}
               <div className=" flex w-full items-center text-start font-inter text-[9px] font-medium !-tracking-[2%] text-[#000]  md:text-[8.4px] lg:text-[10px] xl:text-[11.2px]  2xl:text-[14px] 2xl:!leading-[19px]">
@@ -469,31 +455,31 @@ const LateralNav = ({ onValueChange }) => {
                   option.title === 'Templates'
                     ? 'hidden'
                     : ''
-                } absolute top-[12.5px] left-[7px] w-[4px] md:top-[15px] md:left-[10.2px] md:w-[4.8px] lg:top-[17.5px] lg:left-[12px] lg:w-[5.6px] xl:top-[20px] xl:left-[13.6px] xl:w-[6.4px] 2xl:top-[25px] 2xl:left-[17px] 2xl:w-[8px]`}
+                } absolute left-[7px] top-[12.5px] w-[4px] md:left-[10.2px] md:top-[15px] md:w-[4.8px] lg:left-[12px] lg:top-[17.5px] lg:w-[5.6px] xl:left-[13.6px] xl:top-[20px] xl:w-[6.4px] 2xl:left-[17px] 2xl:top-[25px] 2xl:w-[8px]`}
               />
             </div>
           ))}
           {hoveredIcon === 'Data' && (
-            <div className="absolute top-[80px] right-0 translate-x-[100%] transform">
+            <div className="absolute right-0 top-[80px] translate-x-[100%] transform">
               <SubBarData onValueChange={console.log('')} />
             </div>
           )}
         </div>
 
         {hoveredIcon === 'Servers' && (
-          <div className="absolute top-[80px] right-0 translate-x-[100%] transform">
+          <div className="absolute right-0 top-[80px] translate-x-[100%] transform">
             <SubBarServers onValueChange={console.log('')} />
           </div>
         )}
         {hoveredIcon === 'APIs' && (
-          <div className="absolute top-[80px] right-0 translate-x-[100%] transform">
+          <div className="absolute right-0 top-[80px] translate-x-[100%] transform">
             <SubBarAPIs onValueChange={console.log('')} />
           </div>
         )}
         {hoveredIcon === 'Analytics' && (
           <div
             onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
+            className="absolute right-0 top-[80px] translate-x-[100%] transform"
           >
             <SubBarAnalytics onValueChange={console.log('')} />
           </div>
@@ -501,7 +487,7 @@ const LateralNav = ({ onValueChange }) => {
         {hoveredIcon === 'RPC' && (
           <div
             onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
+            className="absolute right-0 top-[80px] translate-x-[100%] transform"
           >
             <SubBarRPC onValueChange={console.log('')} />
           </div>
@@ -509,7 +495,7 @@ const LateralNav = ({ onValueChange }) => {
         {hoveredIcon === 'ML/LLMs' && (
           <div
             onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
+            className="absolute right-0 top-[80px] translate-x-[100%] transform"
           >
             <SubBarML onValueChange={console.log('')} />
           </div>
@@ -517,7 +503,7 @@ const LateralNav = ({ onValueChange }) => {
         {hoveredIcon === 'Storage' && (
           <div
             onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
+            className="absolute right-0 top-[80px] translate-x-[100%] transform"
           >
             <SubBarStorage onValueChange={console.log('')} />
           </div>
@@ -525,7 +511,7 @@ const LateralNav = ({ onValueChange }) => {
         {hoveredIcon === 'Data management' && (
           <div
             onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
+            className="absolute right-0 top-[80px] translate-x-[100%] transform"
           >
             <SubBarDataManagement onValueChange={console.log('')} />
           </div>
@@ -533,7 +519,7 @@ const LateralNav = ({ onValueChange }) => {
         {hoveredIcon === 'Compute' && (
           <div
             onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
+            className="absolute right-0 top-[80px] translate-x-[100%] transform"
           >
             <SubBarCompute onValueChange={console.log('')} />
           </div>
@@ -541,13 +527,13 @@ const LateralNav = ({ onValueChange }) => {
         {hoveredIcon === 'Trading' && (
           <div
             onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%]"
+            className="absolute right-0 top-[80px] translate-x-[100%]"
           >
             <SubBarTrading onValueChange={console.log('')} />
           </div>
         )}
         {hoveredIcon === 'Utility' ? (
-          <div className="absolute top-[80px] right-0 translate-x-[100%] transform">
+          <div className="absolute right-0 top-[80px] translate-x-[100%] transform">
             <SubBarUtility onValueChange={console.log('')} />
           </div>
         ) : null}
