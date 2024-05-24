@@ -203,8 +203,8 @@ const NewLandingPage = () => {
                 push(
                   `${
                     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? `/xnode/start-here`
-                      : `/start-here`
+                      ? `/xnode/template-products`
+                      : `/template-products`
                   }`,
                 )
               }}

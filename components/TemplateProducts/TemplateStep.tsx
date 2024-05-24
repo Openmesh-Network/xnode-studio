@@ -74,6 +74,7 @@ const TemplateStep = () => {
     const url = `/openmesh-data/functions/getTemplatesData`
 
     let data: TemplatesData[]
+
     try {
       data = await getAPI(url)
     } catch (err) {
@@ -461,8 +462,8 @@ const TemplateStep = () => {
                             if (tmp.category === 'scratch') {
                               push(
                                 process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                  ? `/xnode/start-here` // XXX: Do not redirect here anymore. We should get rid of all the Xnode V1 pages.
-                                  : `start-here`
+                                  ? `/xnode/` // XXX: Do not redirect here anymore. We should get rid of all the Xnode V1 pages.
+                                  : `/`
                               )
                               setFinalNodes([])
                               localStorage.clear()

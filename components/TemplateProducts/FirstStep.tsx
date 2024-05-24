@@ -365,15 +365,6 @@ const TemplateProducts = () => {
               <div className="text-[18px] font-bold leading-[40px]">
                 Your progress
               </div>
-              <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/x-new.svg`}
-                alt="image"
-                className={``}
-              />
             </div>
             <div className="mt-[22px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
               <img

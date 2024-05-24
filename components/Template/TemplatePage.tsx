@@ -25,6 +25,7 @@ import Prism from 'prismjs'
 import 'prismjs/themes/prism.css'
 import { formatDistanceToNow, differenceInDays } from 'date-fns'
 import { AccountContext } from '@/contexts/AccountContext'
+import ServiceDefinitions from '/utils/service-definitions.json'
 
 const Template = (id: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -44,30 +45,14 @@ const Template = (id: any) => {
 
     console.log('o id q vai chamar')
     console.log(id)
-    const url = `/openmesh-data/functions/getTemplateData?id=${id.id}`
 
-    let data: TemplatesData
-    try {
-      data = await getAPI(url)
-      console.log('recebi dados')
-    } catch (err) {
-      toast.error('Something occured')
-    }
+    let data: TemplatesData 
+
+    data = ServiceDefinitions
 
     console.log(data)
-    if (data.category === 'scratch') {
-      data.name = ''
-      data.description = ''
-      data.productsIncluded = [
-        { name: 'Ethereum', description: 'Blockchain node', tags: 'Web3' },
-        {
-          name: 'Google BigQuery',
-          description: 'Data analytics',
-          tags: 'Analytics',
-        },
-      ]
-    }
-    setTemplateData(data)
+
+    setTemplateData(data[0])
     setIsLoading(false)
   }
 
@@ -124,29 +109,6 @@ const Template = (id: any) => {
                     }}
                     className="w-full bg-[#fff] text-[44px] font-semibold leading-[64px] placeholder:text-[#6B7280] 2xl:text-[48px]"
                   />
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/check.svg`}
-                    alt="image"
-                    className={`w-[20px]`}
-                  />
-                </div>
-                <div
-                  onClick={() => {
-                    push(
-                      `${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? `/xnode/template-products`
-                          : `template-products`
-                      }`,
-                    )
-                  }}
-                  className="h-fit cursor-pointer text-[14px] font-normal text-[#0354EC] underline underline-offset-2 hover:text-[#014cd7] 2xl:text-[16px]"
-                >
-                  Edit
                 </div>
               </div>
 
@@ -258,22 +220,8 @@ const Template = (id: any) => {
                 </div>
               </div>
             </div>
-            <div className="mt-[10px] w-full border-[0.6px] border-[#d1d5da] bg-[#fafafa] py-[10px] lg:mb-0 lg:w-[386px] lg:py-[32px]">
-              <div className="flex justify-between px-[32px]">
-                <div className="text-[16px] font-bold leading-[40px] 2xl:text-[18px]">
-                  Your progress
-                </div>
-                <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/template/x-new.svg`}
-                  alt="image"
-                  className={``}
-                />
-              </div>
-              <div className="mt-[22px] flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-[#e5eefc] py-[10px] px-[32px]">
+            <div className="w-full border-[0.6px] border-[#d1d5da] bg-[#fafafa] py-[5px] lg:mb-0 lg:w-[386px]">
+              <div className="flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-[#e5eefc] py-[10px] px-[32px]">
                 <img
                   src={`${
                     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'

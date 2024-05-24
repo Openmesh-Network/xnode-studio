@@ -399,57 +399,6 @@ const Configuration = () => {
                   </div>
                 </div>
               </div>
-              <div className="mt-[58px]">
-                <div className="text-[18px] font-medium">
-                  Openmesh Add-on Apps{' '}
-                </div>
-                <div className="mt-[9px] text-[16px] font-medium text-[#959595]">
-                  Available applications that you can add to your deployment
-                  (optional)
-                </div>
-                <div className="mt-[20px] flex w-fit rounded-[8px] border-[1px] border-[#cfd3d8] p-[30px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]">
-                  <div className="mr-[25px] text-center">
-                    <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/pythia.svg`}
-                      alt="image"
-                      className=""
-                    />
-                    <div className="mt-[7px] text-[14px] font-semibold text-[#12AD50]">
-                      Free
-                    </div>
-                  </div>
-                  <div className="mr-[42px]">
-                    <div className="flex gap-x-[10px]">
-                      <div className="text-[18px] font-bold">Pythia Search</div>
-                      <div className="rounded-[5px] border-[1px] border-[#FFC946] bg-[#FFE9B2] py-[5px] px-[7px] text-[10px] font-semibold">
-                        POPULAR ADD-ON
-                      </div>
-                    </div>
-                    <div className="mt-[15px] max-w-[435px] text-[14px] font-normal text-[#4d4d4d]">
-                      A single endpoint for all crypto & web3 data, accessible
-                      to anyone, anywhere, always free. No license, no
-                      registration, no setup fees{' '}
-                    </div>
-                  </div>
-                  <div className="flex gap-x-[15px]">
-                    <div className="text-[16px] font-medium text-[#4d4d4d]">
-                      Add to deployment
-                    </div>
-                    <div
-                      onClick={() => {
-                        setAddPythiaToDeployment(!addPythiaToDeployment)
-                      }}
-                      className={`h-[20px] w-[20px] ${
-                        addPythiaToDeployment ? 'bg-[#0059ff]' : 'bg-[#fff]'
-                      } cursor-pointer rounded-[5px] border-[1px] border-[#cfd3d8]`}
-                    ></div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 

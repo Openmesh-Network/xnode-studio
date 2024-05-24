@@ -24,12 +24,16 @@ export default function RootLayout({
 
       <body className="max-w-screen w-full bg-white">
         <Providers>
-          <div className="flex">
-            <div className="z-50 flex-shrink-0">
+          <div className="mx-auto">
+            <Header />
+          </div>
+
+          <div className="w-full max-w-screen flex">
+            <div className="z-50 min-w-[180px] float-left bg-[#F4F4F4]">
               <LateralNav onValueChange={console.log('')} />
             </div>
-            <div className="mx-auto flex-grow">
-              <Header />
+
+            <div className="p-5 w-fit m-auto">
               {children}
             </div>
           </div>

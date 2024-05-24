@@ -23,7 +23,7 @@ const Footer = () => {
               Web3 data
             </div>
             <div className="mt-[16px] text-[8px] font-normal   md:mt-[68px]  md:text-[9px] lg:mt-[80px] lg:text-[11px]  lg:!leading-[19px] xl:mt-[91px] xl:text-[13px] 2xl:mt-[114px] 2xl:text-[16px]">
-              Openmesh, 2023
+              Openmesh, 2024
             </div>
           </div>
           <div className="gap-x-[20px] text-[9px] font-normal text-[#959595] md:flex md:gap-x-[24px] md:text-[10px] lg:gap-x-[28px] lg:text-[11px] lg:!leading-[150%] xl:gap-x-[32px] xl:text-[13px] 2xl:gap-x-[40px] 2xl:text-[16px]">
