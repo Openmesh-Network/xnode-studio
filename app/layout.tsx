@@ -6,6 +6,16 @@ import { Providers } from './providers'
 import { Header } from '@/components/Header'
 import LateralNav from '@/components/LateralNav'
 
+import { Inter } from '@next/font/google'
+// import NewTask from '@/components/NewTask'
+
+// eslint-disable-next-line no-unused-vars
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+})
+
 export default function RootLayout({
   children,
 }: {
@@ -15,19 +25,19 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <head />
 
-      <body className="max-w-screen w-full bg-white">
-        <Providers>
+      <Providers>
+        <body className={`w-full bg-white ${inter.className}`}>
           <div className="flex flex-col">
             <Header />
-            <div className="flex items-stretch">
+            <div className="flex h-full w-full items-stretch">
               <LateralNav />
               {children}
             </div>
           </div>
 
           <ScrollToTop />
-        </Providers>
-      </body>
+        </body>
+      </Providers>
     </html>
   )
 }

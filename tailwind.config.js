@@ -25,6 +25,8 @@ module.exports = {
       darkGray: '#4D4D4D',
 
       blue500: '#0059FF',
+      gray200: '#e5eefc',
+      gray100: '#FAFAFA',
     },
 
     extend: {
