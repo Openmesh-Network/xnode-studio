@@ -1,0 +1,26 @@
+[
+  {
+    "ui-name": "Minecraft",
+    "ui-description": "Server for Minecraft java edition",
+    "ui-logo": "<URL to image>",
+    "ui-tags": "Game,Server",
+    "requirements": "<cpu-cores?>-<ram-mb>-<storage-mb>",
+    "nix-name": "minecraft-server-java",
+    "options": [
+      {
+        "ui-name": "Maximum players",
+        "ui-description": "How many people can play total.",
+        "nix-name": "maxplay",
+        "type": "int",
+        "value": "1000"
+      },
+      {
+        "ui-name": "Blacklist",
+        "ui-description": "Blacklist",
+        "nix-name": "blacklist",
+        "type": "string",
+        "value": ""
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Xnode Validator",
+    "description": "Computer pre-configured with Openmesh's services.",
+    "services": [
+      "core",
+      "openapis"
+    ]
+  }
+]
