@@ -6,11 +6,11 @@ import Link from 'next/link'
 export function HomeHero() {
   return (
     <section className="relative w-full">
-      <div className="ml-0 flex max-w-[725px] flex-col items-start gap-y-12 p-8 lg:ml-24 lg:pt-32">
-        <h1 className="text-left text-[5.5rem] font-bold leading-[80px] text-black">
+      <div className="ml-0 flex max-w-[800px] flex-col items-start gap-y-6 px-8 pt-12 lg:ml-24 lg:gap-y-12 lg:pt-32">
+        <h1 className="text-left text-[2rem] font-bold leading-[90%] text-black lg:text-[5.5rem]">
           Accelerate Your Infrastructure Development.
         </h1>
-        <p className="max-w-[550px] text-base font-medium text-darkGray">
+        <p className="max-w-[550px] text-sm font-medium text-darkGray lg:text-base">
           Unleash the Power of Xnode: Your Gateway to Building Personalized Data
           Ecosystems in minutes, instead of weeks.
         </p>
