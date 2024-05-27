@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import ScrollUp from '@/components/Common/ScrollUp'
-import Console from '@/components/Console'
+// import Console from '@/components/Console'
 import Dashboard from '@/components/Dashboard'
 import DataProducts from '@/components/DataProducts'
 import Testing from '@/components/Testing'

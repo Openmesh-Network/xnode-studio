@@ -7,7 +7,7 @@ import { Inter } from '@next/font/google'
 import { useRef } from 'react'
 import FirstStep from '@/components/FirstStep'
 import Footer from '@/components/Footer'
-import Console from '@/components/Console'
+// import Console from '@/components/Console'
 import LandingPage from '@/components/LandingPage'
 import NewLandingPage from '@/components/NewLandingPage'
 

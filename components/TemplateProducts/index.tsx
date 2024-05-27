@@ -20,6 +20,10 @@ import Signup from '../Signup'
 import FinalBuild from '../FinalBuild'
 import TemplateStep from './TemplateStep'
 
+import { TemplateData, ServiceData } from '@/types/dataProvider'
+import ServiceDefinitions from 'utils/service-definitions.json'
+import TemplateDefinitions from 'utils/template-definitions.json'
+
 const IndexerDeployer = (id: any) => {
   const { indexerDeployerStep } = useContext(AccountContext)
 

@@ -7,7 +7,6 @@ import { useEffect, useState, useContext } from 'react'
 import { getAPI, getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { TemplatesData, TemplatesProducts } from '@/types/dataProvider'
 import { SmileySad } from 'phosphor-react'
 import Filter from '@/components/Filter'
 import { TextField, Autocomplete } from '@mui/material'
@@ -15,6 +14,11 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import ProductsList from '../ProductsList'
 import Dropdown, { ValueObject } from './Dropdown'
 import { AccountContext } from '@/contexts/AccountContext'
+
+import { TemplateData, ServiceData } from '@/types/dataProvider'
+import ServiceDefinitions from 'utils/service-definitions.json'
+import TemplateDefinitions from 'utils/template-definitions.json'
+
 
 export const optionsNetwork = [
   {
@@ -48,8 +52,8 @@ export const providerNameToLogo = {
 }
 
 const TemplateStep = () => {
-  const [templatesData, setTemplatesData] = useState<TemplatesData[]>([])
-  const [filteredTemplatesData, setFilteredTemplatesData] = useState<TemplatesData[]>([])
+  const [templatesData, setTemplatesData] = useState<TemplateData[]>([])
+  const [filteredTemplatesData, setFilteredTemplatesData] = useState<TemplateData[]>([])
   const [selectedTemplate, setSelectedTemplate] = useState<string>('')
   const [displayToggle, setDisplayToggle] = useState<string>('square')
   const [categoryFilter, setCategoryFilter] = useState<string[]>([])
@@ -69,21 +73,11 @@ const TemplateStep = () => {
     useContext(AccountContext)
 
   async function getData() {
-    setIsLoading(true)
-
-    const url = `/openmesh-data/functions/getTemplatesData`
-
-    let data: TemplatesData[]
-
-    try {
-      data = await getAPI(url)
-    } catch (err) {
-      toast.error('Something occured')
-    }
+    let data: TemplateData[]
+    data = TemplateDefinitions
 
     setTemplatesData(data)
     setFilteredTemplatesData(data)
-    setIsLoading(false)
   }
 
   function handleCategoryFilter(ct: string) {
@@ -119,7 +113,7 @@ const TemplateStep = () => {
 
       newFilteredTemplates.sort((a, b) => {
         // Convert dates to timestamps and compare
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        return new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime();
       });
   
       setFilteredTemplatesData(newFilteredTemplates);
@@ -434,166 +428,34 @@ const TemplateStep = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-[42px] text-start">
-                  {filteredTemplatesData?.findIndex((vl) => vl.featured) !== -1 && (
-                    <div className="2xl:text-[18px] text-[16px] font-medium leading-[28px] text-[#000]">
-                    Featured
-                  </div>
-                  )}
-                  {isLoading ? (
-                    <div className='grid-cols-3 grid'>
-                      {[1, 2, 3].map((tmp, index) => (
-                      <div
-                        key={index}
-                        className={`mt-[17px] rounded-[8px] animate-pulse bg-[#e5e5e5] border-[#fafafa] w-[270px] h-[202px] shadow-md`}
-                      >
-                      
-                      </div>
-                      ))}
-                    </div>
-                  ) : (
-                  // NOTE: Here we iterate through all the featured templates and draw them one by one.
-                    <div className=''>
-                      {filteredTemplatesData?.length > 0 ? (
-                        <div className='grid-cols-3 grid'>
 
-                        {filteredTemplatesData?.map((tmp, index) => (
-                          <a onClick={() => {
-                            if (tmp.category === 'scratch') {
-                              push(
-                                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                  ? `/xnode/` // XXX: Do not redirect here anymore. We should get rid of all the Xnode V1 pages.
-                                  : `/`
-                              )
-                              setFinalNodes([])
-                              localStorage.clear()
-                              setIsEditingXnode(false)
-                              setNextFromScratch(true)
-                              window.scrollTo({ top: 0, behavior: 'smooth' })
-                            } else {
-                              push(
-                                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                  ? `/xnode/template-products/${tmp.id}`
-                                  : `template-products/${tmp.id}`
-                              )
-                            }
-                              
-                          }} key={index} className={`${tmp?.featured ? '' : 'hidden'}`}>
-                          <div
-                            key={index}
-                            className={` mt-[17px] bg-[#f1f1f17c] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md group border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
-                          >
-                            <div className="flex gap-x-[75px]">
-                              {tmp?.logoUrl ? (<img
-                                src={tmp.logoUrl}
-                                alt="image"
-                                className="max-h-[33px] max-w-[33px] w-[33px] h-[33px]"
-                              />) : (<img
-                                src={`${
-                                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                                    : ''
-                                }/images/template/xnode-circle.svg`}
-                                alt="image"
-                                className="h-[33px] w-[33px]"
-                              />)}
-                              <div className={`flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] group-hover:bg-[#fff] bg-[#e5eefc]`}>
-                                <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
-                                <div className="2xl:text-[14px] text-[12px] font-bold leading-[24px] text-[#0059ff]">
-                                  Category
-                                </div>
-                              </div>
-                            </div>
-                            <div className="mt-[20px]">
-                              <div className="2xl:text-[18px] text-[16px] font-medium text-[#000] line-clamp-1 overflow-hidden">
-                                {tmp.name}
-                              </div>
-                              <div className="mt-[6px] line-clamp-3 overflow-hidden 2xl:text-[16px] text-[14px] font-normal leading-[20px] text-[#959595]">
-                                {tmp.description}
-                              </div>
-                            </div>
-                          </div>
-                          </a>
-                        ))}
+
+                {/* XXX: Code duplication here. Refactor into component? */}
+                <div className="flex h-full w-full flex-wrap">
+                {filteredTemplatesData.map((element) => (
+                  <a href={
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ?
+                    '/xnode/template-products/' + element.id
+                    : '/template-products/' + element.id
+                    }> 
+                    <div className="text-start mx-5 mt-[17px] max-w-[270px] min-h-[250px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]">
+                      <div className="flex gap-x-[75px]">
+                        <img src={ element.logo } alt="image" className="max-h-[33px] max-w-[33px] w-[33px] h-[33px]">
+                        </img>
+                        <div className="flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] bg-[#e5eefc]">
+                          <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
+                          <div className="2xl:text-[14px] text-[12px] font-bold leading-[24px] text-[#0059ff]">Category</div>
+                        </div>
                       </div>
-                      ) : (
-                        <div> </div>
-                      )}
+                      <div className="mt-[20px]">
+                        <div className="2xl:text-[18px] text-[16px] font-medium text-[#000] line-clamp-1 overflow-hidden">{element.name}</div>
+                        <div className="mt-[6px] line-clamp-3 overflow-hidden text-[14px] 2xl:text-[16px] font-normal leading-[20px] text-[#959595]">{element.desc}</div>
+                      </div>
                     </div>
-                  )}
+                  </a>
+                ))}
                 </div>
-                <div className="mt-[42px] text-start">
-                  <div className="2xl:text-[18px] text-[16px] font-medium leading-[28px] text-[#000]">
-                    {filteredTemplatesData?.length} Results
-                  </div>
-                  {isLoading ? (
-                    <div className='grid-cols-3 grid'>
-                      {[1, 2, 3].map((tmp, index) => (
-                      <div
-                        key={index}
-                        className={`mt-[17px] rounded-[8px] animate-pulse bg-[#e5e5e5] border-[#fafafa] w-[270px] h-[202px] shadow-md`}
-                      >
-                      
-                      </div>
-                      ))}
-                    </div>
-                  ) : (
-                  // XXX: Code duplication here. Refactor into component?
-                    <div className=''>
-                      {filteredTemplatesData?.length > 0 ? (
-                        <div className='grid-cols-3 grid gap-y-[10px]'>
-                        {filteredTemplatesData.map((tmp, index) => (
-                          <a key={index} href={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? `/xnode/template-products/${tmp.id}`
-                              : `template-products/${tmp.id}`
-                          }`} className={`${tmp?.category === 'scratch' && 'hidden'}`}>
-                          <div
-                            key={index}
-                            className={` mt-[17px] max-w-[270px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md group border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]`}
-                          >
-                            <div className="flex gap-x-[75px]">
-                              {tmp?.logoUrl ? (<img
-                                src={tmp.logoUrl}
-                                alt="image"
-                                className="max-h-[33px] max-w-[33px] w-[33px] h-[33px]"
-                              />) : (<img
-                                src={`${
-                                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                                    : ''
-                                }/images/template/xnode-circle.svg`}
-                                alt="image"
-                                className="h-[33px] w-[33px]"
-                              />)}
-                              <div className={`flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] group-hover:bg-[#fff] bg-[#e5eefc] `}>
-                                <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
-                                <div className="2xl:text-[14px] text-[12px] font-bold leading-[24px] text-[#0059ff]">
-                                  Category
-                                </div>
-                              </div>
-                            </div>
-                            <div className="mt-[20px]">
-                              <div className="2xl:text-[18px] text-[16px] font-medium text-[#000] line-clamp-1 overflow-hidden">
-                                {tmp.name}
-                              </div>
-                              <div className="mt-[6px] line-clamp-3 overflow-hidden text-[14px] 2xl:text-[16px] font-normal leading-[20px] text-[#959595]">
-                                {tmp.description}
-                              </div>
-                            </div>
-                          </div>
-                          </a>
-                        ))}
-                      </div>
-                      ) : (
-                        <div className="mt-[17.5px] text-center mx-auto w-full items-center justify-center md:mt-[21px] lg:mt-[24.5px] xl:mt-[28px] 2xl:mt-[35px]">
-                        <SmileySad size={32} className="text-blue-500 mb-2 mx-auto flex" />
-                        <span className="">No data found</span>
-                      </div>
-                      )}
-                    </div>
-                  )}
-                </div>
+                
               </div>
             </div>
           </div>

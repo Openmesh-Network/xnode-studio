@@ -33,7 +33,7 @@ export default function RootLayout({
               <LateralNav onValueChange={console.log('')} />
             </div>
 
-            <div className="p-5 w-fit m-auto">
+            <div className="p-5 w-full m-auto">
               {children}
             </div>
           </div>

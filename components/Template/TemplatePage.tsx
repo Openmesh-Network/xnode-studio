@@ -11,13 +11,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Eye, EyeSlash } from 'phosphor-react'
 import * as Yup from 'yup'
 import axios from 'axios'
-import Checkbox from '@material-ui/core/Checkbox'
-import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-quill/dist/quill.snow.css' // import styles
 import 'react-datepicker/dist/react-datepicker.css'
 import { getAPI, getData } from '@/utils/data'
-import { DataProvider, TemplatesData } from '@/types/dataProvider'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { format } from 'sql-formatter'
@@ -25,11 +22,16 @@ import Prism from 'prismjs'
 import 'prismjs/themes/prism.css'
 import { formatDistanceToNow, differenceInDays } from 'date-fns'
 import { AccountContext } from '@/contexts/AccountContext'
-import ServiceDefinitions from '/utils/service-definitions.json'
+
+import { TemplateData, Specs, ServiceData, TemplateFromId, ServiceFromName, TemplateGetSpecs } from '@/types/dataProvider'
+import ServiceDefinitions from '../../utils/service-definitions.json'
+import TemplateDefinitions from '../../utils/template-definitions.json'
 
 const Template = (id: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [data, setTemplateData] = useState<TemplatesData>()
+  const [data, setTemplateData] = useState<TemplateData>()
+  const [services, setServices] = useState<ServiceData[]>()
+  const [templateSpecs, setTemplateSpecs] = useState<Specs>()
   const {
     user,
     setUser,
@@ -38,21 +40,33 @@ const Template = (id: any) => {
     setTemplateDataSelected,
   } = useContext(AccountContext)
 
-  const { push } = useRouter()
-
   async function getData(id: any) {
     setIsLoading(true)
 
     console.log('o id q vai chamar')
     console.log(id)
 
-    let data: TemplatesData 
+    // let data: TemplatesData 
 
-    data = ServiceDefinitions
+    console.log("Aca viene la data!")
+    let data = TemplateFromId(id.id)
 
     console.log(data)
 
-    setTemplateData(data[0])
+    if (data) {
+      let svs: ServiceData[] = []
+
+      for (let i = 0; i < data.serviceNames.length; i++) { 
+        let s = ServiceFromName(data.serviceNames[i])
+        if (s) {
+          svs.push(s)
+        }
+      }
+
+      setTemplateData(data)
+      setServices(svs)
+      setTemplateSpecs(TemplateGetSpecs(data))
+    }
     setIsLoading(false)
   }
 
@@ -99,7 +113,7 @@ const Template = (id: any) => {
                   />
                   <input
                     value={data?.name}
-                    placeholder="Input a name"
+                    placeholder=""
                     onChange={(e) => {
                       if (e.target.value.length < 1000) {
                         const newData = { ...data }
@@ -121,12 +135,12 @@ const Template = (id: any) => {
                   ))}
                 </div>
                 <textarea
-                  value={data?.description}
-                  placeholder="Input a description"
+                  value={data?.desc}
+                  placeholder=""
                   onChange={(e) => {
                     if (e.target.value.length < 1000) {
                       const newData = { ...data }
-                      newData.description = e.target.value
+                      newData.desc = e.target.value
                       setTemplateData(newData)
                     }
                   }}
@@ -144,9 +158,9 @@ const Template = (id: any) => {
                   </div>
                   <div className="mt-[15px] flex gap-x-[10px] px-[20px] font-normal lg:gap-x-0">
                     <div className="lg:w-[50%]">
-                      {data?.systemMinRequirements}
+                      {templateSpecs?.ram}
                     </div>
-                    <div>{data?.systemRecommendedRequirements}</div>
+                    <div>{templateSpecs?.ram}</div>
                   </div>
                   <div className="mt-[30px] border-b-[1px] border-[#DDDDDD]"></div>
                 </div>
@@ -155,36 +169,30 @@ const Template = (id: any) => {
                     What’s included{' '}
                   </div>
                   <div className="mt-[15px] flex border-[0.7px] border-[#CDCDCD] py-[8px] px-[5px] font-medium lg:px-[20px] ">
-                    <div className="w-[30%]">Product Name</div>
-                    <div className="w-[30%]">Description</div>
+                    <div className="w-[15%]">Name</div>
+                    <div className="w-[20%]">Description</div>
+                    <div className="w-[15%]">Specs</div>
                     <div className="w-[25%]">Tags</div>
                     <div className="w-[15%]">Infra ID</div>
                   </div>
-                  <div className="mt-[15px] flex px-[20px] font-normal">
-                    <div className="w-[30%] max-w-[30%] overflow-hidden">
-                      Core
-                    </div>
-                    <div className="w-[30%]">
-                      500MB ram, 1 cpu, 10GB storage
-                    </div>
-                    <div className="w-[25%]">Bare metal </div>
-                    <div className="w-[15%]">#1</div>
-                  </div>
-                  {data?.productsIncluded && (
+                  {data?.serviceNames && (
                     <div>
-                      {data?.productsIncluded?.map((item, index) => (
+                      {services?.map((item, index) => (
                         <div key={index}>
                           <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
                           <div className="mt-[8px] flex px-[20px] font-normal">
-                            <div className="w-[30%] max-w-[30%] overflow-hidden">
+                            <div className="w-[15%] max-w-[30%] overflow-hidden">
                               {item?.name}
                             </div>
-                            <div className="w-[30%]">
-                              {item.name === 'Google BigQuery'
-                                ? 'Analytics'
-                                : 'CPU, 8-Core (16-Thread)'}
+                            <div className="w-[20%]">
+                              {item.desc}
                             </div>
-                            <div className="w-[25%]">{item?.tags}</div>
+
+                            <div className="w-[15%]">
+                              {'CPU, 1-Core'}
+                            </div>
+
+                            <div className="w-[25%]">{item?.tags.join(', ')}</div>
                             <div className="w-[15%]">
                               #{gerarNumeroAleatorio()}
                             </div>
@@ -194,29 +202,6 @@ const Template = (id: any) => {
                     </div>
                   )}
                   <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
-                  <div className="mt-[8px] flex px-[20px] font-normal">
-                    <div className="w-[30%] max-w-[30%] overflow-hidden">
-                      {data?.name}
-                    </div>
-                    <div className="w-[30%]">CPU, 8-Core (16-Thread)</div>
-                    <div className="w-[25%]">Bare metal </div>
-                    <div className="w-[15%]">#{gerarNumeroAleatorio()}</div>
-                  </div>
-                  <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
-                </div>
-                <div className="mt-[50px] max-w-[703px] lg:mt-[62px]">
-                  <div className="text-[16px] font-semibold 2xl:text-[18px]">
-                    Technical diagrams{' '}
-                  </div>
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/dash.png`}
-                    alt="image"
-                    className={`mt-[22px]`}
-                  />
                 </div>
               </div>
             </div>
@@ -250,7 +235,8 @@ const Template = (id: any) => {
                 <div className="text-[14px] font-medium text-[#000] 2xl:text-[16px]">
                   Starting from{' '}
                   <span className="text-[#0354EC] line-through">
-                    ${data?.price} /mo
+                    {/* ${data?.price} /mo */}
+                    PLACEHOLDER THIS SHOULDn't be here
                   </span>
                 </div>
                 <div className="text-[14px] font-bold text-[#0354EC] 2xl:text-[16px]">

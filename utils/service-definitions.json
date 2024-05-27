@@ -1,25 +1,55 @@
 [
   {
-    "ui-name": "Minecraft",
-    "ui-description": "Server for Minecraft java edition",
-    "ui-logo": "<URL to image>",
-    "ui-tags": "Game,Server",
-    "requirements": "<cpu-cores?>-<ram-mb>-<storage-mb>",
-    "nix-name": "minecraft-server-java",
+    "name": "Minecraft",
+    "desc": "Server for Minecraft java edition",
+    "logo": "<URL to image>",
+    "tags": [ "Game", "Server"],
+    "specs": {
+      "ram": 1024,
+      "storage": 1024
+    },
+    "nixName": "minecraft-server-java",
     "options": [
       {
-        "ui-name": "Maximum players",
-        "ui-description": "How many people can play total.",
-        "nix-name": "maxplay",
+        "name": "Maximum players",
+        "desc": "How many people can play total.",
+        "nixName": "maxplay",
         "type": "int",
         "value": "1000"
       },
       {
-        "ui-name": "Blacklist",
-        "ui-description": "Blacklist",
-        "nix-name": "blacklist",
-        "type": "string",
-        "value": ""
+        "name": "Maximum players",
+        "desc": "How many people can play total.",
+        "nixName": "maxplay",
+        "type": "int",
+        "value": "1000"
+      },
+      {
+        "name": "Port",
+        "desc": "Server port.",
+        "nixName": "port",
+        "type": "int",
+        "value": "100"
+      }
+    ]
+  },
+  {
+    "name": "Grafanner",
+    "desc": "Tool to use view usage",
+    "logo": "<URL to image>",
+    "tags": [ "Observability", "Tool"],
+    "specs": {
+      "ram": 256,
+      "storage": 200
+    },
+    "nixName": "graffener-pro",
+    "options": [
+      {
+        "name": "Port",
+        "desc": "Port where the server is exposed publically",
+        "nixName": "port",
+        "type": "int",
+        "value": "1000"
       }
     ]
   }
