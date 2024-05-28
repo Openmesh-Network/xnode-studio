@@ -34,7 +34,7 @@ export function LateralNavListCollapsableItem({
         className="flex w-full items-center justify-between"
       >
         <div
-          className={`relative flex h-10 w-full items-center${
+          className={`relative flex h-12 w-full items-center${
             isActive ? 'bg-[#E5EEFC]' : 'bg-transparent'
           }`}
         >
@@ -66,7 +66,7 @@ export function LateralNavListCollapsableItem({
         </div>
       </Accordion.Trigger>
       <Accordion.Content className="w-full overflow-hidden text-darkGray data-[state=closed]:animate-slideUp data-[state=open]:animate-slideDown">
-        <div className="flex w-full flex-col gap-y-2 px-12">
+        <div className="flex w-full flex-col gap-y-2 px-12 pb-2">
           {subItems.map(({ href, label }) => {
             return (
               <Link key={label} href={href}>

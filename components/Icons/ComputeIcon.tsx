@@ -1,6 +1,6 @@
 import { IconProps } from '@/utils/icons'
 
-export function FAQIcon({ fill = '#4D4D4D', ...rest }: IconProps) {
+export function ComputeIcon({ fill = '#4D4D4D', ...rest }: IconProps) {
   return (
     <svg
       width="20"
@@ -8,6 +8,7 @@ export function FAQIcon({ fill = '#4D4D4D', ...rest }: IconProps) {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...rest}
     >
       <rect width="20" height="20" fill="url(#pattern0_2272_14425)" />
       <defs>

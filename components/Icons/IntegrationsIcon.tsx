@@ -1,6 +1,6 @@
 import { IconProps } from '@/utils/icons'
 
-export function ProfileIcon({ fill = '#4D4D4D', ...rest }: IconProps) {
+export function IntegrationsIcon({ fill = '#4D4D4D', ...rest }: IconProps) {
   return (
     <svg
       width="20"

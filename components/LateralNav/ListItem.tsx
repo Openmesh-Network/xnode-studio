@@ -13,7 +13,7 @@ export function LateralNavListItem({
 }: LateralNavListItemProps) {
   return (
     <div
-      className={`relative flex h-10 w-full items-center ${
+      className={`relative flex h-12 w-full items-center ${
         isActive ? 'bg-[#E5EEFC]' : 'bg-transparent'
       }`}
     >
