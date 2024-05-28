@@ -1,332 +1,130 @@
 'use client'
+import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { CaretDown, HouseLine } from 'phosphor-react'
+import Link from 'next/link'
 
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable no-useless-return */
-/* eslint-disable no-unused-vars */
-import { useContext, useState, useEffect } from 'react'
-import Dropdown from '../Dropdown'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import LatencySelector from '../LatencySelector'
-import { title } from 'process'
-import { AccountContext } from '@/contexts/AccountContext'
-import SubBarData from '../SubBarData'
-import SubBarServers from '../SubBarServers'
-import SubBarAPIs from '../SubBarAPIs'
-import SubBarAnalytics from '../SubBarAnalytics'
-import SubBarRPC from '../SubBarRPC'
-import SubBarUtility from '../SubBarUtility'
-import SubBarML from '../SubBarML'
-import SubBarStorage from '../SubBarStorage'
-import SubBarDataManagement from '../SubBarDataManagement'
-import SubBarCompute from '../SubBarCompute'
-import SubBarTrading from '../SubBarTrading'
+import * as Accordion from '@radix-ui/react-accordion'
 
-/* eslint-disable react/no-unescaped-entities */
-const LateralNav = () => {
-  const [categoriesOptions, setCategoriesOptions] = useState([])
-  const [presetId, setPresetId] = useState(0)
-  const {
-    selectionSideNavBar,
-    setSelectionSideNavBar,
-    next,
-    setNext,
-    nextFromScratch,
-    setNextFromScratch,
-    setReviewYourBuild,
-    setFinalBuild,
-    setSignup,
-    user,
-  } = useContext(AccountContext)
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [greenDotOpacity, setGreenDotOpacity] = useState(0)
-  const { push } = useRouter()
-  const [hoveredIcon, setHoveredIcon] = useState(null)
+export function LateralNav() {
+  const [expandedItem, setExpandedItem] = useState<string>('')
 
-  const preSetsOptionsUser = [
+  const navItems = [
     {
-      icon: '/images/lateralNavBar/new-home.png',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Home',
+      label: 'Home',
+      href: '/',
+      icon: <HouseLine size={20} weight="regular" color="#4D4D4D" />,
+      activeIcon: <HouseLine size={20} weight="regular" color="#0059FF" />,
+      collapsable: false,
+      subItems: [],
     },
     {
-      icon: '/images/lateralNavBar/workspace.svg',
-      iconStyle: 'w-[12px] md:w-[14.5px] lg:w-[17px] xl:w-[20px] 2xl:w-[20px]',
-      title: 'Workspace',
-    },
-    {
-      icon: '/images/lateralNavBar/new-apps.svg',
-      iconStyle: 'w-[12px] md:w-[14.5px] lg:w-[17px] xl:w-[20px] 2xl:w-[20px]',
-      title: 'Templates',
-    },
-    {
-      icon: '/images/lateralNavBar/new-dashboard.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Dashboard',
-    },
-    {
-      icon: '/images/lateralNavBar/new-servers.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Servers',
-    },
-    {
-      icon: '/images/lateralNavBar/new-data.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Data',
-    },
-    {
-      icon: '/images/lateralNavBar/new-apis.png',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'APIs',
-    },
-    {
-      icon: '/images/lateralNavBar/new-rpc.png',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'RPC',
-    },
-    {
-      icon: '/images/lateralNavBar/new-analytics.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Analytics',
-    },
-    {
-      icon: '/images/lateralNavBar/new-data-management.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Data management',
-    },
-    {
-      icon: '/images/lateralNavBar/new-storage.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Storage',
-    },
-    {
-      icon: '/images/lateralNavBar/new-compute.svg',
-      iconStyle:
-        'w-[11px] md:w-[13.2px] lg:w-[15.5px] xl:w-[18px] 2xl:w-[22px]',
-      title: 'Compute',
-    },
-    {
-      icon: '/images/lateralNavBar/new-trading.svg',
-      iconStyle: 'w-[9px] md:w-[11px] lg:w-[12.6px] xl:w-[14.4px] 2xl:w-[18px]',
-      title: 'Trading',
-    },
-    {
-      icon: '/images/lateralNavBar/new-ai.svg',
-      iconStyle:
-        'w-[11px] md:w-[13.2px] lg:w-[15.5px] xl:w-[17.6px] 2xl:w-[22px]',
-      title: 'ML/LLMs',
-    },
-    {
-      icon: '/images/lateralNavBar/new-utility.svg',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Apps',
-    },
-    {
-      icon: '/images/lateralNavBar/new-utility.svg',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Utility',
-    },
-    {
-      icon: '/images/lateralNavBar/new-docs.svg',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Docs',
-    },
-    {
-      icon: '/images/lateralNavBar/new-profile.png',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Profile',
+      label: 'Workspace',
+      href: '/workspace',
+      icon: <HouseLine size={20} weight="regular" color="#4D4D4D" />,
+      activeIcon: <HouseLine size={20} weight="regular" color="#0059FF" />,
+      collapsable: true,
+      subItems: [],
     },
   ]
 
-  const preSetsOptions = [
-    {
-      icon: '/images/lateralNavBar/new-home.png',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Home',
-    },
-    {
-      icon: '/images/lateralNavBar/workspace.svg',
-      iconStyle: 'w-[12px] md:w-[14.5px] lg:w-[17px] xl:w-[20px] 2xl:w-[20px]',
-      title: 'Workspace',
-    },
-    {
-      icon: '/images/lateralNavBar/new-apps.svg',
-      iconStyle: 'w-[12px] md:w-[14.5px] lg:w-[17px] xl:w-[20px] 2xl:w-[20px]',
-      title: 'Templates',
-    },
-    {
-      icon: '/images/lateralNavBar/new-servers.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Servers',
-    },
-    {
-      icon: '/images/lateralNavBar/new-data.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Data',
-    },
-    {
-      icon: '/images/lateralNavBar/new-apis.png',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'APIs',
-    },
-    {
-      icon: '/images/lateralNavBar/new-rpc.png',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'RPC',
-    },
-    {
-      icon: '/images/lateralNavBar/new-analytics.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Analytics',
-    },
-    {
-      icon: '/images/lateralNavBar/new-data-management.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Data management',
-    },
-    {
-      icon: '/images/lateralNavBar/new-storage.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Storage',
-    },
-    {
-      icon: '/images/lateralNavBar/new-compute.svg',
-      iconStyle:
-        'w-[11px] md:w-[13.2px] lg:w-[15.5px] xl:w-[18px] 2xl:w-[22px]',
-      title: 'Compute',
-    },
-    {
-      icon: '/images/lateralNavBar/new-trading.svg',
-      iconStyle: 'w-[9px] md:w-[11px] lg:w-[12.6px] xl:w-[14.4px] 2xl:w-[18px]',
-      title: 'Trading',
-    },
-    {
-      icon: '/images/lateralNavBar/new-ai.svg',
-      iconStyle:
-        'w-[11px] md:w-[13.2px] lg:w-[15.5px] xl:w-[17.6px] 2xl:w-[22px]',
-      title: 'ML/LLMs',
-    },
-    {
-      icon: '/images/lateralNavBar/new-utility.svg',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Apps',
-    },
-    {
-      icon: '/images/lateralNavBar/new-utility.svg',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Utility',
-    },
-    {
-      icon: '/images/lateralNavBar/new-docs.svg',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Docs',
-    },
-  ]
-
-  const [sideBarOptions, setSideBarOptions] = useState<any>(preSetsOptions)
-
-  function handleButtonClick(title: string) {
-    if (title === 'Workspace') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/workspace`
-            : `/workspace`
-        }`,
-      )
-      setNext(true)
-      setReviewYourBuild(false)
-      setFinalBuild(false)
-      setSignup(false)
-      setSelectionSideNavBar('Workspace')
-      return
-    }
-    if (title === 'Docs') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/docs`
-            : `/docs`
-        }`,
-      )
-      setSelectionSideNavBar('Docs')
-    }
-    if (title === 'Templates') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/template-products`
-            : `/template-products`
-        }`,
-      )
-      setSelectionSideNavBar('Docs')
-    }
-    if (title === 'Profile') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/profile`
-            : `/profile`
-        }`,
-      )
-      setSelectionSideNavBar('Profile')
-    }
-    if (title === 'Dashboard') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/dashboard`
-            : `/dashboard`
-        }`,
-      )
-      setSelectionSideNavBar('Dashboard')
-    }
-    if (title === 'Home') {
-      setNextFromScratch(false)
-      console.log('set next false yes')
-      setNext(false)
-      setReviewYourBuild(false)
-      setSelectionSideNavBar('Home')
-      setFinalBuild(false)
-      setSignup(false)
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/start-here`
-            : `/start-here`
-        }`,
-      )
-      return
-    }
-    // if (!next && !nextFromScratch && title !== 'Home' && !user) {
-    //   setGreenDotOpacity(1) // Mostrar a bolinha verde com opacidade total
-    //   setTimeout(() => setGreenDotOpacity(0), 1000) // Esconder a bolinha verde após 5 segundos
-    // } else {
-    //   setSelectionSideNavBar(title)
-    // }
-    setSelectionSideNavBar(title)
-    setHoveredIcon(title)
-  }
-
-  function handleButtonHover(title: string) {
-    // if (!next && !nextFromScratch && title !== 'Home' && !user) {
-    //   return
-    // } else {
-    //   setHoveredIcon(title)
-    // }
-    setHoveredIcon(title)
-  }
-
-  useEffect(() => {
-    if (user) {
-      setSideBarOptions(preSetsOptionsUser)
-    } else {
-      setSideBarOptions(preSetsOptions)
-    }
-  }, [user])
+  const pathname = usePathname()
 
   return (
     <aside className="flex-grow-1 hidden w-[280px] flex-col border-r border-[#D1D5DB] bg-gray100 lg:flex">
-      <div></div>
+      <div>
+        <span className="block px-6 py-4 text-xs font-medium uppercase text-darkGray">
+          STUDIO
+        </span>
+
+        <ul>
+          {navItems.map(
+            ({ activeIcon, collapsable, href, icon, label, subItems }) => {
+              const isActive = pathname.includes(href)
+
+              const currentIcon = isActive ? activeIcon : icon
+
+              if (collapsable)
+                return (
+                  <Accordion.Root
+                    key={href}
+                    type="single"
+                    defaultValue="item-1"
+                    collapsible
+                  >
+                    <Accordion.Item
+                      value="label"
+                      className={`relative flex flex-col items-center ${
+                        isActive ? 'bg-[#E5EEFC]' : 'bg-transparent'
+                      }`}
+                    >
+                      <Accordion.Trigger className="flex w-full items-center justify-between">
+                        <div
+                          className={`relative flex h-10 w-full items-center${
+                            isActive ? 'bg-[#E5EEFC]' : 'bg-transparent'
+                          }`}
+                        >
+                          {isActive ? (
+                            <div className="absolute bottom-0 left-0 top-0 w-1 bg-blue500" />
+                          ) : null}
+                          <div className="flex w-full items-center justify-between px-6">
+                            <div className="flex items-center gap-x-3">
+                              {currentIcon}
+                              <strong
+                                className={
+                                  isActive
+                                    ? 'text-sm font-bold text-darkGray'
+                                    : 'text-sm font-medium text-darkGray'
+                                }
+                              >
+                                {label}
+                              </strong>
+                            </div>
+                            <CaretDown
+                              weight="bold"
+                              size={16}
+                              color="#4D4D4D"
+                            />
+                          </div>
+                        </div>
+                        <CaretDown size={20} />
+                      </Accordion.Trigger>
+                      <Accordion.Content>Mock content here</Accordion.Content>
+                    </Accordion.Item>
+                  </Accordion.Root>
+                )
+
+              return (
+                <li key={label}>
+                  <Link href={href}>
+                    <div
+                      className={`relative flex h-10 w-full items-center${
+                        isActive ? 'bg-[#E5EEFC]' : 'bg-transparent'
+                      }`}
+                    >
+                      {isActive ? (
+                        <div className="absolute bottom-0 left-0 top-0 w-1 bg-blue500" />
+                      ) : null}
+                      <div className="flex items-center gap-x-3 px-6">
+                        {currentIcon}
+                        <strong
+                          className={
+                            isActive
+                              ? 'text-sm font-bold text-darkGray'
+                              : 'text-sm font-medium text-darkGray'
+                          }
+                        >
+                          {label}
+                        </strong>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              )
+            },
+          )}
+        </ul>
+      </div>
     </aside>
   )
 

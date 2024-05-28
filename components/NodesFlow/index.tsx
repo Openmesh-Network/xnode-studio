@@ -3,28 +3,16 @@
 /* eslint-disable no-unused-vars */
 'use client'
 
-import {
-  useEffect,
-  useState,
-  useCallback,
-  ChangeEvent,
-  FC,
-  useContext,
-  useMemo,
-} from 'react'
+import { useEffect, useState, useCallback, useContext, useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { AccountContext } from '@/contexts/AccountContext'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import ReactFlow, {
   Controls,
   Background,
-  applyNodeChanges,
-  applyEdgeChanges,
   MiniMap,
   addEdge,
   useNodesState,
   useEdgesState,
-  NodeTypes,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import {
@@ -97,10 +85,6 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
   }
 
   const {
-    selectionSideNavBar,
-    setSelectionSideNavBar,
-    next,
-    setNext,
     changeNodes,
     setFinalNodes,
     finalNodes,
@@ -801,7 +785,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
         <div className="absolute right-0 top-[75px] md:top-[90px] lg:top-[105px] xl:top-[120px] 2xl:top-[150px]">
           <MiniMap style={minimapStyle} zoomable pannable />
         </div>
-        <div className="absolute top-[80px] left-[25px] md:top-[96px] md:left-[30px] lg:top-[112px] lg:left-[35px] xl:top-[128px] xl:left-[40px] 2xl:top-[160px] 2xl:left-[50px]">
+        <div className="absolute left-[25px] top-[80px] md:left-[30px] md:top-[96px] lg:left-[35px] lg:top-[112px] xl:left-[40px] xl:top-[128px] 2xl:left-[50px] 2xl:top-[160px]">
           <Controls />
         </div>
         <Background color="#aaa" gap={16} />
