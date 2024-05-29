@@ -173,7 +173,6 @@ const Template = (id: any) => {
                     <div className="w-[20%]">Description</div>
                     <div className="w-[15%]">Specs</div>
                     <div className="w-[25%]">Tags</div>
-                    <div className="w-[15%]">Infra ID</div>
                   </div>
                   {data?.serviceNames && (
                     <div>
@@ -193,9 +192,25 @@ const Template = (id: any) => {
                             </div>
 
                             <div className="w-[25%]">{item?.tags.join(', ')}</div>
-                            <div className="w-[15%]">
-                              #{gerarNumeroAleatorio()}
+
+                            <button className={`w-[15%] bg-[#0354EC] inline-block data-modal-target="${ item.name }" data-modal-toggle="${ item.name }"`}>
+                              Edit
+                            </button>
+
+                            {
+                              // TODO: Save a record of the state here? Since it's where the services' configuration will be changed.
+                              // Could maybe have each service find inself on the list of modified services and modify that?
+                              // Might need a way to tell the user what's up with their config?
+
+                            }
+
+                            <div id={item.name} aria-hidden={true} tabIndex={-1} className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                              <div className="relative p-4 w-full max-w-2xl max-h-full">
+                                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                </div>
+                              </div>
                             </div>
+
                           </div>
                         </div>
                       ))}
@@ -240,6 +255,7 @@ const Template = (id: any) => {
                   </span>
                 </div>
                 <div className="text-[14px] font-bold text-[#0354EC] 2xl:text-[16px]">
+                  { /* XXX: UMM LIE??? */ } 
                   $1,475.43 Monthly savings{' '}
                 </div>
               </div>
