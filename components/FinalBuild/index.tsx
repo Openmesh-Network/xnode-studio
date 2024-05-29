@@ -22,6 +22,7 @@ import AddOns2 from './AddOns2'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { DeploymentConfiguration, ServiceFromName } from '@/types/dataProvider'
 import {
   optionsFeature,
   optionsServerLocationToValue,
@@ -116,43 +117,20 @@ const ReviewYourBuild = () => {
 
   const { push } = useRouter()
 
-  async function createXnode() {
+  async function createXnode(config: DeploymentConfiguration) {
     setIsDeploying(true)
 
-
-    // TODO:
-    //  - Load latest "draft"?
-    //  - Send as a message to dpl.
-
-    const savedNodes = localStorage.getItem('nodes')
-    const savedEdges = localStorage.getItem('edges')
-
-    const serverLoc =
-      optionsServerLocationToValue[
-        findServerDefaultValueLocation(JSON.parse(savedNodes))
-      ]
-    const serverNumber =
-      optionsServerNumberToValue[findServerDefaultType(JSON.parse(savedNodes))]
-
-    const features = findFeatures(JSON.parse(savedNodes))
-
-    const websocketEnabled = findAPIisWebsocket(JSON.parse(savedNodes))
-    const finalData = {
-      name: projectName,
-      description: 'This is my xnode',
-      useCase: tagXnode,
-      status: 'Running',
-      location: findServerDefaultValueLocation(JSON.parse(savedNodes)),
-      consoleNodes: savedNodes,
-      consoleEdges: savedEdges,
-      type: xnodeType,
-      serverLoc,
-      serverNumber,
-      websocketEnabled,
-      features,
+    const payload = {
+      name: config.name,
+      location: config.location,
+      description: config.desc,
+      provider: config.provider,
+      isUnit: config.isUnit,
+      services: JSON.stringify(config.services)
     }
-    console.log('final data aq')
-    console.log(finalData)
+
+    console.log('Payload: ')
+    console.log(payload)
 
     if (user.sessionToken) {
       const config = {
@@ -163,7 +141,7 @@ const ReviewYourBuild = () => {
           'X-Parse-Session-Token': user.sessionToken,
           'Content-Type': 'application/json',
         },
-        data: finalData,
+        data: payload,
       }
 
       try {
@@ -192,62 +170,88 @@ const ReviewYourBuild = () => {
   }
 
   useEffect(() => {
-    const savedNodes = localStorage.getItem('nodes')
+    let draft = localStorage.getItem('draft')
 
-    if (savedNodes) {
-      const final = JSON.parse(savedNodes)
-      // Setting the server flow
-      const existingServerIndex = final.findIndex(
-        (node) => node.type === 'server',
-      )
-      console.log(existingServerIndex)
-      if (existingServerIndex !== -1) {
-        setServiceRegion(final[existingServerIndex].data.defaultValueLocation)
-        setCloudProvider(
-          final[existingServerIndex].data.defaultValueCloudProvider,
-        )
+    {
+      // XXX: Delete this. It's just here for testing purposes.
+      let config: DeploymentConfiguration = {
+        name: "My Minecraft Server",
+        desc: "This is my favourite videogame, so I'm running it on my Xnode!",
+        location: "ny",
+        provider: "Unit",
+        isUnit: true,
+        services: [ ServiceFromName("Minecraft") ]
       }
 
-      // Setting the core services flow
-      const coreServicesArray = []
-      const coreServiceDataArray = []
-      const coreServiceApiArray = []
-
-      for (let i = 0; i < final.length; i++) {
-        const node = final[i]
-
-        if (coreServicesType.includes(node.type)) {
-          console.log(node.data)
-          coreServicesArray.push({
-            name: node.data.name,
-            description: nameToDesc[node.data.name] || '',
-            isFree: nameToFree[node.data.name] || false,
-          })
-        } else if (node.type === 'dataStreaming') {
-          for (let j = 0; j < node.data?.lists.length; j++) {
-            if (node.data.lists[j].title !== 'dataOption.title') {
-              coreServiceDataArray.push(node.data.lists[j].title)
-            }
-          }
-        } else if (node.type === 'dataHistorical') {
-          for (let j = 0; j < node.data?.lists.length; j++) {
-            if (node.data.lists[j].title !== 'dataOption.title') {
-              coreServiceDataArray.push(node.data.lists[j].title)
-            }
-          }
-        } else if (node.type === 'api') {
-          coreServiceApiArray.push(node.data.name)
-        }
-      }
-      setCoreServices(coreServicesArray)
-      setCoreServicesData(coreServiceDataArray)
-      setCoreServicesApi(coreServiceApiArray)
-
-      console.log(coreServicesArray)
-      console.log(coreServiceDataArray)
-      console.log(coreServiceApiArray)
-      createXnode()
+      draft = JSON.stringify(config)
     }
+
+    if (draft) {
+      console.log("Draft exists! Creating Xnode.")
+      // Take the services from draft or whatever.
+
+      const config = JSON.parse(draft) as DeploymentConfiguration
+
+      createXnode(config)
+    }
+
+    // XXX: OLD GARBAGE
+    // if (savedNodes) {
+    //   const final = JSON.parse(savedNodes)
+    //   // Setting the server flow
+    //   const existingServerIndex = final.findIndex(
+    //     (node) => node.type === 'server',
+    //   )
+    //   console.log(existingServerIndex)
+    //   if (existingServerIndex !== -1) {
+    //     setServiceRegion(final[existingServerIndex].data.defaultValueLocation)
+    //     setCloudProvider(
+    //       final[existingServerIndex].data.defaultValueCloudProvider,
+    //     )
+    //   }
+
+    //   // XXX: NOPE!!!
+    //   // // Setting the core services flow
+    //   // const coreServicesArray = []
+    //   // const coreServiceDataArray = []
+    //   // const coreServiceApiArray = []
+
+    //   // for (let i = 0; i < final.length; i++) {
+    //   //   const node = final[i]
+
+    //   //   if (coreServicesType.includes(node.type)) {
+    //   //     console.log(node.data)
+    //   //     coreServicesArray.push({
+    //   //       name: node.data.name,
+    //   //       description: nameToDesc[node.data.name] || '',
+    //   //       isFree: nameToFree[node.data.name] || false,
+    //   //     })
+    //   //   } else if (node.type === 'dataStreaming') {
+    //   //     for (let j = 0; j < node.data?.lists.length; j++) {
+    //   //       if (node.data.lists[j].title !== 'dataOption.title') {
+    //   //         coreServiceDataArray.push(node.data.lists[j].title)
+    //   //       }
+    //   //     }
+    //   //   } else if (node.type === 'dataHistorical') {
+    //   //     for (let j = 0; j < node.data?.lists.length; j++) {
+    //   //       if (node.data.lists[j].title !== 'dataOption.title') {
+    //   //         coreServiceDataArray.push(node.data.lists[j].title)
+    //   //       }
+    //   //     }
+    //   //   } else if (node.type === 'api') {
+    //   //     coreServiceApiArray.push(node.data.name)
+    //   //   }
+    //   // }
+    //   // setCoreServices(coreServicesArray)
+    //   // setCoreServicesData(coreServiceDataArray)
+    //   // setCoreServicesApi(coreServiceApiArray)
+
+    //   // console.log(coreServicesArray)
+    //   // console.log(coreServiceDataArray)
+    //   // console.log(coreServiceApiArray)
+
+    //   createXnode()
+    // }
   }, [])
 
   if (!isDeploying) {

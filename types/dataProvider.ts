@@ -99,6 +99,17 @@ export type OldTemplatesData = {
   includedIntegrations?: IncludedIntegrations[]
 }
 
+export type DeploymentConfiguration = {
+  name: string,
+  desc: string;
+  location: string,
+  isUnit: boolean,
+  provider: string,
+
+  // An array to all the service ids being looked at.
+  services: ServiceData[]
+}
+
 export type ServiceOption = {
   name: string
   desc: string
