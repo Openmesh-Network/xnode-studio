@@ -71,7 +71,8 @@ const NewIntegrationConn = () => {
       ...data,
     }
     try {
-      const res = await connectEquinix(finalData)
+      // TODO: Actually implement this later ofc. Removing now for testing internally.
+      // const res = await connectEquinix(finalData)
       toast.success('Success')
       const finalUser = user
       finalUser.equinixAPIKey = data.apiKey

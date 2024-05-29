@@ -5,11 +5,10 @@
     "name": "Minecraft Server",
     "desc": "A minecraft game server",
     "category": "Server",
-    "tags": [ "test" ],
+    "tags": [ "Game", "Server", "Multiplayer" ],
     "dateAdded": "2024-09-27T18:25:43.511Z",
     "serviceNames": [
-      "Minecraft",
-      "Grafanner"
+      "Minecraft"    
     ]
   },
   {

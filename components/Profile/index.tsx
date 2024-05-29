@@ -308,6 +308,7 @@ const Profile = () => {
     const data = await response.blob()
     return new File([data], filename, { type: mimeType })
   }
+
   function getProfile() {
     // setValue('name', user.name, {
     //   shouldValidate: true,

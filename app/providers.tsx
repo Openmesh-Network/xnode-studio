@@ -5,43 +5,85 @@
 import AccountContextProvider from '@/contexts/AccountContext'
 import { ThemeProvider } from 'next-themes'
 import { ToastContainer } from 'react-toastify'
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
-import { Web3Modal, useWeb3ModalTheme } from '@web3modal/react'
-import { configureChains, createConfig, WagmiConfig } from 'wagmi'
+
+import { createWeb3Modal } from '@web3modal/wagmi/react'
+import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
+import {
+  createConfig,
+  createStorage,
+  cookieStorage,
+  State,
+  WagmiProvider,
+  cookieToInitialState,
+} from 'wagmi'
 import { arbitrum, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const chain =
   process.env.NEXT_PUBLIC_WALLET_ENVIRONMENT === 'Polygon'
     ? polygon
-    : polygonMumbai
-const chains = [chain]
+    // : polygonMumbai
+    : polygon
+
+const chains = [chain] as const
+
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
 
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
-  publicClient,
-})
-const ethereumClient = new EthereumClient(wagmiConfig, chains)
+const metadata = {
+  name: 'Web3Modal',
+  description: 'Web3Modal Example',
+  url: 'https://web3modal.com', // origin must match your domain & subdomain
+  icons: ['https://avatars.githubusercontent.com/u/37784886'],
+}
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export const config = defaultWagmiConfig({
+  chains,
+  projectId,
+  metadata,
+  ssr: true,
+  storage: createStorage({
+    storage: cookieStorage,
+  }),
+})
+
+// const initialState = cookieToInitialState(config, headers().get('cookie'))
+
+createWeb3Modal({
+  wagmiConfig: config,
+  projectId,
+  enableAnalytics: true, // Optional - defaults to your Cloud configuration
+  enableOnramp: true, // Optional - false as default
+})
+
+export function Providers({
+  children,
+  initialState,
+}: {
+  children: React.ReactNode
+  initialState?: State
+}) {
   return (
     <>
       <AccountContextProvider>
-        <WagmiConfig config={wagmiConfig}>
-          <ThemeProvider
-            attribute="class"
-            enableSystem={false}
-            defaultTheme="dark"
-          >
-            {children}
-          </ThemeProvider>
-        </WagmiConfig>
+        <WagmiProvider config={config} initialState={initialState}>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider
+              attribute="class"
+              enableSystem={false}
+              defaultTheme="dark"
+            >
+              {children}
+            </ThemeProvider>
+          </QueryClientProvider>
+        </WagmiProvider>
       </AccountContextProvider>
 
       <ToastContainer />
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
     </>
   )
 }
+
+// Get projectId at https://cloud.walletconnect.com

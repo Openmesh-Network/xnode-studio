@@ -1,469 +1,555 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable no-useless-return */
-/* eslint-disable no-unused-vars */
-import { useContext, useState, useEffect } from 'react'
-import Dropdown from '../Dropdown'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import LatencySelector from '../LatencySelector'
-import { title } from 'process'
-import { AccountContext } from '@/contexts/AccountContext'
-import SubBarData from '../SubBarData'
-import SubBarServers from '../SubBarServers'
-import SubBarAPIs from '../SubBarAPIs'
-import SubBarAnalytics from '../SubBarAnalytics'
-import SubBarRPC from '../SubBarRPC'
-import SubBarUtility from '../SubBarUtility'
-import SubBarML from '../SubBarML'
-import SubBarStorage from '../SubBarStorage'
-import SubBarDataManagement from '../SubBarDataManagement'
-import SubBarCompute from '../SubBarCompute'
-import SubBarTrading from '../SubBarTrading'
+'use client'
+import { ReactElement, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
-/* eslint-disable react/no-unescaped-entities */
-const LateralNav = ({ onValueChange }) => {
-  const [categoriesOptions, setCategoriesOptions] = useState([])
-  const [presetId, setPresetId] = useState(0)
-  const {
-    selectionSideNavBar,
-    setSelectionSideNavBar,
-    next,
-    setNext,
-    nextFromScratch,
-    setNextFromScratch,
-    setReviewYourBuild,
-    setFinalBuild,
-    setSignup,
-    user,
-  } = useContext(AccountContext)
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [greenDotOpacity, setGreenDotOpacity] = useState(0)
-  const { push } = useRouter()
-  const [hoveredIcon, setHoveredIcon] = useState(null)
+import * as Accordion from '@radix-ui/react-accordion'
 
-  const preSetsOptionsUser = [
+import { LateralNavListItem } from './ListItem'
+import { LateralNavListCollapsableItem } from './CollapsableListItem'
+
+import {
+  IntegrationsIcon,
+  ServersIcon,
+  APIIcon,
+  AnalyticsIcon,
+  CommunityIcon,
+  ComputeIcon,
+  DataIcon,
+  DocumentationIcon,
+  FAQIcon,
+  HomeIcon,
+  RPCIcon,
+  SettingsIcon,
+  StorageIcon,
+  TradingIcon,
+  WorkspaceIcon,
+  MachineLearningIcon,
+} from '../Icons'
+import { ProfileIcon } from '../Icons/ProfileIcon'
+
+export interface NavItemsProps {
+  label: string
+  href: string
+  icon?: ReactElement
+  activeIcon?: ReactElement
+  collapsable?: boolean
+  subItems?: NavItemsProps[]
+}
+
+export function LateralNav() {
+  const [expandedItem, setExpandedItem] = useState<string>('')
+
+  const studioItems: NavItemsProps[] = [
     {
-      icon: '/images/lateralNavBar/new-home.png',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Home',
+      label: 'Home',
+      href: '/',
+      icon: <HomeIcon />,
+      activeIcon: <HomeIcon />,
+      collapsable: false,
+      subItems: [],
     },
     {
-      icon: '/images/lateralNavBar/workspace.svg',
-      iconStyle: 'w-[12px] md:w-[14.5px] lg:w-[17px] xl:w-[20px] 2xl:w-[20px]',
-      title: 'Workspace',
+      label: 'Workspace',
+      href: '/workspace',
+      icon: <WorkspaceIcon />,
+      activeIcon: <WorkspaceIcon />,
+      collapsable: false,
+      subItems: [],
     },
     {
-      icon: '/images/lateralNavBar/new-apps.svg',
-      iconStyle: 'w-[12px] md:w-[14.5px] lg:w-[17px] xl:w-[20px] 2xl:w-[20px]',
-      title: 'Templates',
+      label: 'Templates',
+      href: '/template-products',
+      icon: <WorkspaceIcon />,
+      activeIcon: <WorkspaceIcon />,
+      collapsable: false,
+      subItems: [],
     },
     {
-      icon: '/images/lateralNavBar/new-dashboard.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Dashboard',
+      label: 'Servers',
+      href: '/servers',
+      icon: <ServersIcon />,
+      activeIcon: <ServersIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/servers',
+        },
+        {
+          label: 'Servers',
+          href: '/servers',
+        },
+        {
+          label: 'Documentation',
+          href: '/servers',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-servers.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Servers',
+      label: 'Data',
+      href: '/data',
+      icon: <DataIcon />,
+      activeIcon: <DataIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/data',
+        },
+        {
+          label: 'Data',
+          href: '/data',
+        },
+        {
+          label: 'Documentation',
+          href: '/data',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-data.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Data',
+      label: 'APIs',
+      href: '/apis',
+      icon: <APIIcon />,
+      activeIcon: <APIIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/apis',
+        },
+        {
+          label: 'APIs',
+          href: '/apis',
+        },
+        {
+          label: 'Documentation',
+          href: '/apis',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-apis.png',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'APIs',
+      label: 'RPC',
+      href: '/RPC',
+      icon: <RPCIcon />,
+      activeIcon: <RPCIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/RPC',
+        },
+        {
+          label: 'RPC',
+          href: '/RPC',
+        },
+        {
+          label: 'Documentation',
+          href: '/RPC',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-rpc.png',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'RPC',
+      label: 'Analytics',
+      href: '/analytics',
+      icon: <AnalyticsIcon />,
+      activeIcon: <AnalyticsIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/analytics',
+        },
+        {
+          label: 'Analytics',
+          href: '/analytics',
+        },
+        {
+          label: 'Documentation',
+          href: '/analytics',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-analytics.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Analytics',
+      label: 'Data Management',
+      href: '/data-management',
+      icon: <AnalyticsIcon />,
+      activeIcon: <AnalyticsIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/data-management',
+        },
+        {
+          label: 'Data Management',
+          href: '/data-management',
+        },
+        {
+          label: 'Documentation',
+          href: '/data-management',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-data-management.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Data management',
+      label: 'Storage',
+      href: '/storage',
+      icon: <StorageIcon />,
+      activeIcon: <StorageIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/storage',
+        },
+        {
+          label: 'Storage',
+          href: '/storage',
+        },
+        {
+          label: 'Documentation',
+          href: '/storage',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-storage.svg',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Storage',
+      label: 'Compute',
+      href: '/compute',
+      icon: <ComputeIcon />,
+      activeIcon: <ComputeIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/compute',
+        },
+        {
+          label: 'Compute',
+          href: '/compute',
+        },
+        {
+          label: 'Documentation',
+          href: '/compute',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-compute.svg',
-      iconStyle:
-        'w-[11px] md:w-[13.2px] lg:w-[15.5px] xl:w-[18px] 2xl:w-[22px]',
-      title: 'Compute',
+      label: 'Trading',
+      href: '/trading',
+      icon: <TradingIcon />,
+      activeIcon: <TradingIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/trading',
+        },
+        {
+          label: 'Trading',
+          href: '/trading',
+        },
+        {
+          label: 'Documentation',
+          href: '/trading',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-trading.svg',
-      iconStyle: 'w-[9px] md:w-[11px] lg:w-[12.6px] xl:w-[14.4px] 2xl:w-[18px]',
-      title: 'Trading',
+      label: 'Machine Learning',
+      href: '/machine-learning',
+      icon: <MachineLearningIcon />,
+      activeIcon: <MachineLearningIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/machine-learning',
+        },
+        {
+          label: 'Machine Learning',
+          href: '/machine-learning',
+        },
+        {
+          label: 'Documentation',
+          href: '/machine-learning',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-ai.svg',
-      iconStyle:
-        'w-[11px] md:w-[13.2px] lg:w-[15.5px] xl:w-[17.6px] 2xl:w-[22px]',
-      title: 'ML/LLMs',
-    },
-    {
-      icon: '/images/lateralNavBar/new-utility.svg',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Apps',
-    },
-    {
-      icon: '/images/lateralNavBar/new-utility.svg',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Utility',
-    },
-    {
-      icon: '/images/lateralNavBar/new-docs.svg',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Docs',
-    },
-    {
-      icon: '/images/lateralNavBar/new-profile.png',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Profile',
+      label: 'Integrations',
+      href: '/integrations',
+      icon: <IntegrationsIcon />,
+      activeIcon: <IntegrationsIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/integrations',
+        },
+        {
+          label: 'Integrations',
+          href: '/integrations',
+        },
+        {
+          label: 'Documentation',
+          href: '/integrations',
+        },
+      ],
     },
   ]
 
-  const preSetsOptions = [
+  const pageItems: NavItemsProps[] = [
     {
-      icon: '/images/lateralNavBar/new-home.png',
-      iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Home',
+      label: 'Profile',
+      href: '/profile',
+      icon: <ProfileIcon />,
+      activeIcon: <ProfileIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/profile',
+        },
+        {
+          label: 'Profile',
+          href: '/profile',
+        },
+        {
+          label: 'Documentation',
+          href: '/profile',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/workspace.svg',
-      iconStyle: 'w-[12px] md:w-[14.5px] lg:w-[17px] xl:w-[20px] 2xl:w-[20px]',
-      title: 'Workspace',
+      label: 'Settings',
+      href: '/settings',
+      icon: <SettingsIcon />,
+      activeIcon: <SettingsIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/settings',
+        },
+        {
+          label: 'Settings',
+          href: '/settings',
+        },
+        {
+          label: 'Documentation',
+          href: '/settings',
+        },
+      ],
     },
     {
-      icon: '/images/lateralNavBar/new-apps.svg',
-      iconStyle: 'w-[12px] md:w-[14.5px] lg:w-[17px] xl:w-[20px] 2xl:w-[20px]',
-      title: 'Templates',
-    },
-    // {
-    //   icon: '/images/lateralNavBar/new-servers.svg',
-    //   iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-    //   title: 'Servers',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-data.svg',
-    //   iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-    //   title: 'Data',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-apis.png',
-    //   iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-    //   title: 'APIs',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-rpc.png',
-    //   iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-    //   title: 'RPC',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-analytics.svg',
-    //   iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-    //   title: 'Analytics',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-data-management.svg',
-    //   iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-    //   title: 'Data management',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-storage.svg',
-    //   iconStyle: 'w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-    //   title: 'Storage',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-compute.svg',
-    //   iconStyle:
-    //     'w-[11px] md:w-[13.2px] lg:w-[15.5px] xl:w-[18px] 2xl:w-[22px]',
-    //   title: 'Compute',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-trading.svg',
-    //   iconStyle: 'w-[9px] md:w-[11px] lg:w-[12.6px] xl:w-[14.4px] 2xl:w-[18px]',
-    //   title: 'Trading',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-ai.svg',
-    //   iconStyle:
-    //     'w-[11px] md:w-[13.2px] lg:w-[15.5px] xl:w-[17.6px] 2xl:w-[22px]',
-    //   title: 'ML/LLMs',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-utility.svg',
-    //   iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-    //   title: 'Apps',
-    // },
-    // {
-    //   icon: '/images/lateralNavBar/new-utility.svg',
-    //   iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-    //   title: 'Utility',
-    // },
-    {
-      icon: '/images/lateralNavBar/new-docs.svg',
-      iconStyle: 'w-[10px]  md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]',
-      title: 'Docs',
+      label: 'FAQs',
+      href: '/faqs',
+      icon: <FAQIcon />,
+      activeIcon: <FAQIcon />,
+      collapsable: false,
+      subItems: [],
     },
   ]
 
-  const [sideBarOptions, setSideBarOptions] = useState<any>(preSetsOptions)
+  const supportItems: NavItemsProps[] = [
+    {
+      label: 'Documentation',
+      href: '/documentation',
+      icon: <DocumentationIcon />,
+      activeIcon: <DocumentationIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/documentation',
+        },
+        {
+          label: 'Documentation',
+          href: '/documentation',
+        },
+        {
+          label: 'Documentation',
+          href: '/documentation',
+        },
+      ],
+    },
+    {
+      label: 'Community',
+      href: '/community',
+      icon: <CommunityIcon />,
+      activeIcon: <CommunityIcon />,
+      collapsable: true,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/community',
+        },
+        {
+          label: 'Community',
+          href: '/community',
+        },
+        {
+          label: 'Documentation',
+          href: '/community',
+        },
+      ],
+    },
+    {
+      label: 'FAQs',
+      href: '/faqs',
+      icon: <FAQIcon />,
+      activeIcon: <FAQIcon />,
+      collapsable: false,
+      subItems: [
+        {
+          label: 'Overview',
+          href: '/FAQs',
+        },
+        {
+          label: 'FAQs',
+          href: '/FAQs',
+        },
+        {
+          label: 'Documentation',
+          href: '/FAQs',
+        },
+      ],
+    },
+  ]
 
-  function handleButtonClick(title: string) {
-    if (title === 'Workspace') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/workspace`
-            : `/workspace`
-        }`,
-      )
-      setNext(true)
-      setReviewYourBuild(false)
-      setFinalBuild(false)
-      setSignup(false)
-      setSelectionSideNavBar('Workspace')
-      return
-    }
-    if (title === 'Docs') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/docs`
-            : `/docs`
-        }`,
-      )
-      setSelectionSideNavBar('Docs')
-    }
-    if (title === 'Templates') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/template-products`
-            : `/template-products`
-        }`,
-      )
-      setSelectionSideNavBar('Docs')
-    }
-    if (title === 'Profile') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/profile`
-            : `/profile`
-        }`,
-      )
-      setSelectionSideNavBar('Profile')
-    }
-    if (title === 'Dashboard') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/dashboard`
-            : `/dashboard`
-        }`,
-      )
-      setSelectionSideNavBar('Dashboard')
-    }
-    if (title === 'Home') {
-      setNextFromScratch(false)
-      console.log('set next false yes')
-      setNext(false)
-      setReviewYourBuild(false)
-      setSelectionSideNavBar('Home')
-      setFinalBuild(false)
-      setSignup(false)
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/`
-            : `/`
-        }`,
-      )
-      return
-    }
-    // if (!next && !nextFromScratch && title !== 'Home' && !user) {
-    //   setGreenDotOpacity(1) // Mostrar a bolinha verde com opacidade total
-    //   setTimeout(() => setGreenDotOpacity(0), 1000) // Esconder a bolinha verde após 5 segundos
-    // } else {
-    //   setSelectionSideNavBar(title)
-    // }
-    setSelectionSideNavBar(title)
-    setHoveredIcon(title)
-  }
-
-  function handleButtonHover(title: string) {
-    // if (!next && !nextFromScratch && title !== 'Home' && !user) {
-    //   return
-    // } else {
-    //   setHoveredIcon(title)
-    // }
-    setHoveredIcon(title)
-  }
-
-  useEffect(() => {
-    if (user) {
-      setSideBarOptions(preSetsOptionsUser)
-    } else {
-      setSideBarOptions(preSetsOptions)
-    }
-  }, [user])
+  const pathname = usePathname()
 
   return (
-    <>
-      <div className="relative z-50 min-h-[100vh] h-full shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)]">
-        <div className="flex  flex-col items-start">
-          {sideBarOptions.map((option, index) => (
-            <div
-              key={index}
-              onMouseEnter={() => handleButtonHover(option.title)}
-              onClick={() => {
-                handleButtonClick(option.title)
-                window.scrollTo({ top: 0, behavior: 'smooth' })
-              }}
-              className={`relative flex w-full flex-row items-center justify-between gap-[7.5px] px-[13px] py-[10px] md:gap-[9px] lg:gap-[10.5px] xl:gap-[12px] 2xl:gap-[15px] ${
-                // !next &&
-                // !nextFromScratch &&
-                // option.title !== 'Home' && option.title !== 'Workspace' && !user
-                //   ? 'w-full opacity-50 hover:bg-[#fff]':
-                'cursor-pointer hover:bg-[#E6EEFC]'
-              } ${selectionSideNavBar === option.title ? 'bg-[#E6EEFC] border-l-4 border-[#0059FF]' : ''}`}
-            >
-              <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }${option.icon}`}
-                alt="image"
-                className={`${option.iconStyle}  mx-auto`}
-              />
-              {option.title === 'Home' && (
-                <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/lateralNavBar/green-ellipse.svg`}
-                  alt="green dot"
-                  style={{ opacity: greenDotOpacity }}
-                  className="absolute top-2 right-2 h-3 w-3 transition-opacity duration-500"
-                />
-              )}
-              <div className=" flex w-full items-center text-start font-inter text-sm font-medium !-tracking-[2%] text-[#000] 2xl:!leading-[19px]">
-                {option.title}
-              </div>
-              <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/lateralNavBar/new-arrow.svg`}
-                alt="image"
-                className={` ${
-                  option.title === 'Home' ||
-                  option.title === 'Dashboard' ||
-                  option.title === 'Workspace' ||
-                  option.title === 'Templates'
-                    ? 'hidden'
-                    : ''
-                } absolute top-[12.5px] left-[7px] w-[4px] md:top-[15px] md:left-[10.2px] md:w-[4.8px] lg:top-[17.5px] lg:left-[12px] lg:w-[5.6px] xl:top-[20px] xl:left-[13.6px] xl:w-[6.4px] 2xl:top-[25px] 2xl:left-[17px] 2xl:w-[8px]`}
-              />
-            </div>
-          ))}
-          {hoveredIcon === 'Data' && (
-            <div className="absolute top-[80px] right-0 translate-x-[100%] transform">
-              <SubBarData onValueChange={console.log('')} />
-            </div>
-          )}
-        </div>
+    <aside className="flex-grow-1 hidden w-full max-w-[280px] flex-col border-r border-[#D1D5DB] bg-gray100 lg:flex">
+      <div className="flex flex-col py-4">
+        <span className="block px-6 pb-2 text-xs font-medium uppercase text-darkGray">
+          STUDIO
+        </span>
 
-        {hoveredIcon === 'Servers' && (
-          <div className="absolute top-[80px] right-0 translate-x-[100%] transform">
-            <SubBarServers onValueChange={console.log('')} />
-          </div>
-        )}
-        {hoveredIcon === 'APIs' && (
-          <div className="absolute top-[80px] right-0 translate-x-[100%] transform">
-            <SubBarAPIs onValueChange={console.log('')} />
-          </div>
-        )}
-        {hoveredIcon === 'Analytics' && (
-          <div
-            onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
-          >
-            <SubBarAnalytics onValueChange={console.log('')} />
-          </div>
-        )}
-        {hoveredIcon === 'RPC' && (
-          <div
-            onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
-          >
-            <SubBarRPC onValueChange={console.log('')} />
-          </div>
-        )}
-        {hoveredIcon === 'ML/LLMs' && (
-          <div
-            onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
-          >
-            <SubBarML onValueChange={console.log('')} />
-          </div>
-        )}
-        {hoveredIcon === 'Storage' && (
-          <div
-            onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
-          >
-            <SubBarStorage onValueChange={console.log('')} />
-          </div>
-        )}
-        {hoveredIcon === 'Data management' && (
-          <div
-            onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
-          >
-            <SubBarDataManagement onValueChange={console.log('')} />
-          </div>
-        )}
-        {hoveredIcon === 'Compute' && (
-          <div
-            onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%] transform"
-          >
-            <SubBarCompute onValueChange={console.log('')} />
-          </div>
-        )}
-        {hoveredIcon === 'Trading' && (
-          <div
-            onMouseLeave={() => setHoveredIcon(null)}
-            className="absolute top-[80px] right-0 translate-x-[100%]"
-          >
-            <SubBarTrading onValueChange={console.log('')} />
-          </div>
-        )}
-        {hoveredIcon === 'Utility' ? (
-          <div className="absolute top-[80px] right-0 translate-x-[100%] transform">
-            <SubBarUtility onValueChange={console.log('')} />
-          </div>
-        ) : null}
+        <Accordion.Root type="single" defaultValue="item-1" collapsible>
+          <ul>
+            {studioItems.map(
+              ({ activeIcon, collapsable, href, icon, label, subItems }) => {
+                const isActive = pathname.includes(href)
+
+                const currentIcon = isActive ? activeIcon : icon
+                const isExpanded = expandedItem === label
+
+                if (collapsable)
+                  return (
+                    <LateralNavListCollapsableItem
+                      subItems={subItems}
+                      key={label}
+                      icon={currentIcon}
+                      isActive={isActive}
+                      isExpanded={isExpanded}
+                      label={label}
+                      onExpand={() => {
+                        if (isExpanded) {
+                          setExpandedItem('')
+                        } else setExpandedItem(label)
+                      }}
+                    />
+                  )
+
+                return (
+                  <li key={label}>
+                    <Link href={href}>
+                      <LateralNavListItem
+                        icon={currentIcon}
+                        isActive={isActive}
+                        label={label}
+                      />
+                    </Link>
+                  </li>
+                )
+              },
+            )}
+          </ul>
+        </Accordion.Root>
       </div>
-    </>
+
+      <div className="flex flex-col py-4">
+        <span className="block px-6 pb-2 text-xs font-medium uppercase text-darkGray">
+          PAGES
+        </span>
+
+        <Accordion.Root type="single" defaultValue="item-1" collapsible>
+          <ul>
+            {pageItems.map(
+              ({ activeIcon, collapsable, href, icon, label, subItems }) => {
+                const isActive = pathname.includes(href)
+
+                const currentIcon = isActive ? activeIcon : icon
+                const isExpanded = expandedItem === label
+
+                if (collapsable)
+                  return (
+                    <LateralNavListCollapsableItem
+                      subItems={subItems}
+                      key={label}
+                      icon={currentIcon}
+                      isActive={isActive}
+                      isExpanded={isExpanded}
+                      label={label}
+                      onExpand={() => {
+                        if (isExpanded) {
+                          setExpandedItem('')
+                        } else setExpandedItem(label)
+                      }}
+                    />
+                  )
+
+                return (
+                  <li key={label}>
+                    <Link href={href}>
+                      <LateralNavListItem
+                        icon={currentIcon}
+                        isActive={isActive}
+                        label={label}
+                      />
+                    </Link>
+                  </li>
+                )
+              },
+            )}
+          </ul>
+        </Accordion.Root>
+      </div>
+
+      <div className="flex flex-col py-4">
+        <span className="block px-6 pb-2 text-xs font-medium uppercase text-darkGray">
+          SUPPORT
+        </span>
+
+        <Accordion.Root type="single" defaultValue="item-1" collapsible>
+          <ul>
+            {supportItems.map(({ activeIcon, href, icon, label, subItems }) => {
+              const isActive = pathname.includes(href)
+
+              const currentIcon = isActive ? activeIcon : icon
+              const isExpanded = expandedItem === label
+
+              return (
+                <LateralNavListCollapsableItem
+                  subItems={subItems}
+                  key={label}
+                  icon={currentIcon}
+                  isActive={isActive}
+                  isExpanded={isExpanded}
+                  label={label}
+                  onExpand={() => {
+                    if (isExpanded) {
+                      setExpandedItem('')
+                    } else setExpandedItem(label)
+                  }}
+                />
+              )
+            })}
+          </ul>
+        </Accordion.Root>
+      </div>
+    </aside>
   )
 }
 

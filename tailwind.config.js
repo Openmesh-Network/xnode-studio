@@ -19,8 +19,14 @@ module.exports = {
       black: '#000000',
       dark: '#1D2144',
       primary: '#4A6CF7',
+
       yellow: '#FBB040',
       'body-color': '#959CB1',
+      darkGray: '#4D4D4D',
+
+      blue500: '#0059FF',
+      gray200: '#e5eefc',
+      gray100: '#FAFAFA',
     },
 
     extend: {
@@ -41,10 +47,22 @@ module.exports = {
       fontFamily: {
         inter: ['Inter', 'sans'],
       },
+
+      keyframes: {
+        slideDown: {
+          from: { height: '0px' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        slideUp: {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0px' },
+        },
+      },
+      animation: {
+        slideDown: 'slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)',
+        slideUp: 'slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)',
+      },
     },
   },
-  plugins: [
-    require('@tailwindcss/line-clamp'),
-    require('tailwind-scrollbar')({ nocompatible: true }),
-  ],
+  plugins: [require('@tailwindcss/line-clamp')],
 }

@@ -23,6 +23,7 @@ import 'prismjs/themes/prism.css'
 import { formatDistanceToNow, differenceInDays } from 'date-fns'
 import { AccountContext } from '@/contexts/AccountContext'
 
+
 import { TemplateData, Specs, ServiceData, TemplateFromId, ServiceFromName, TemplateGetSpecs } from '@/types/dataProvider'
 import ServiceDefinitions from '../../utils/service-definitions.json'
 import TemplateDefinitions from '../../utils/template-definitions.json'
@@ -146,6 +147,9 @@ const Template = (id: any) => {
                   }}
                   className="mt-[23px] h-[100px] max-h-[100px] w-full  max-w-[735px] bg-[#fff] text-[14px] leading-[22px] placeholder:text-[#6B7280] 2xl:text-[16px]"
                 />
+
+
+
                 <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[12px] lg:mt-[59px] 2xl:text-[14px]">
                   <div className="text-[16px] font-semibold 2xl:text-[18px]">
                     System requirements
@@ -193,7 +197,7 @@ const Template = (id: any) => {
 
                             <div className="w-[25%]">{item?.tags.join(', ')}</div>
 
-                            <button className={`w-[15%] bg-[#0354EC] inline-block data-modal-target="${ item.name }" data-modal-toggle="${ item.name }"`}>
+                            <button data-modal-target="idname" type="button" data-modal-toggle="idname">
                               Edit
                             </button>
 
@@ -201,12 +205,34 @@ const Template = (id: any) => {
                               // TODO: Save a record of the state here? Since it's where the services' configuration will be changed.
                               // Could maybe have each service find inself on the list of modified services and modify that?
                               // Might need a way to tell the user what's up with their config?
-
                             }
 
-                            <div id={item.name} aria-hidden={true} tabIndex={-1} className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div id="idname" aria-hidden={true} tabIndex={-1} className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-1000 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                               <div className="relative p-4 w-full max-w-2xl max-h-full">
                                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                  <div className="flex items-center justify-between p-3 md:p-5 border-b rounded-t dark:border-gray-600">
+                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                                      Terms of Service
+                                    </h3>
+                                    <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                                      <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                      </svg>
+                                      <span className="sr-only">Close modal</span>
+                                    </button>
+                                  </div>
+                                  <div className="p-4 md:p-5 space-y-4">
+                                    <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                      With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
+                                    </p>
+                                    <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                      The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
+                                    </p>
+                                  </div>
+                                  <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                    <button data-modal-hide="default-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+                                    <button data-modal-hide="default-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -220,6 +246,34 @@ const Template = (id: any) => {
                 </div>
               </div>
             </div>
+
+            {/* <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button"> */}
+            {/*   Toggle modal */}
+            {/* </button> */}
+
+            {/* <div id="popup-modal" tabIndex={-1} className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"> */}
+            {/*   <div className="relative p-4 w-full max-w-md max-h-full"> */}
+            {/*     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700"> */}
+            {/*       <button type="button" className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal"> */}
+            {/*         <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"> */}
+            {/*           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/> */}
+            {/*         </svg> */}
+            {/*         <span className="sr-only">Close modal</span> */}
+            {/*       </button> */}
+            {/*       <div className="p-4 md:p-5 text-center"> */}
+            {/*         <svg className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"> */}
+            {/*           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/> */}
+            {/*         </svg> */}
+            {/*         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3> */}
+            {/*         <button data-modal-hide="popup-modal" type="button" className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"> */}
+            {/*           Yes, I'm sure */}
+            {/*         </button> */}
+            {/*         <button data-modal-hide="popup-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button> */}
+            {/*       </div> */}
+            {/*     </div> */}
+            {/*   </div> */}
+            {/* </div> */}
+
             <div className="w-full border-[0.6px] border-[#d1d5da] bg-[#fafafa] py-[5px] lg:mb-0 lg:w-[386px]">
               <div className="flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-[#e5eefc] py-[10px] px-[32px]">
                 <img

@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 
-import Footer from '../Footer'
+import Footer from '../Homepage/Footer'
 import CostSaving from './lp-components/CostSaving'
 import { useEffect, useState } from 'react'
 

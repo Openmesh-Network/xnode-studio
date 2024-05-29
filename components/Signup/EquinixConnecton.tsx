@@ -70,7 +70,8 @@ const EquinixConnection = () => {
       ...data,
     }
     try {
-      const res = await connectEquinix(finalData)
+      // TODO: reintroduce this at some point OFC!
+      // const res = await connectEquinix(finalData)
       toast.success('Success')
       const finalUser = user
       finalUser.equinixAPIKey = data.apiKey

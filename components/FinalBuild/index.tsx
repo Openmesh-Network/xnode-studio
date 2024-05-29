@@ -118,6 +118,12 @@ const ReviewYourBuild = () => {
 
   async function createXnode() {
     setIsDeploying(true)
+
+
+    // TODO:
+    //  - Load latest "draft"?
+    //  - Send as a message to dpl.
+
     const savedNodes = localStorage.getItem('nodes')
     const savedEdges = localStorage.getItem('edges')
 
@@ -181,6 +187,7 @@ const ReviewYourBuild = () => {
         }`,
       )
     }
+
     // setIsDeploying(false)
   }
 
