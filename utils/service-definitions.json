@@ -3,53 +3,94 @@
     "name": "Minecraft",
     "desc": "Server for Minecraft java edition",
     "logo": "<URL to image>",
-    "tags": [ "Game", "Server"],
+    "tags": [ "Game", "Server", "Proprietary"],
     "specs": {
       "ram": 1024,
       "storage": 1024
     },
-    "nixName": "minecraft-server-java",
+    "nixName": "minecraft-server",
     "options": [
       {
-        "name": "Maximum players",
-        "desc": "How many people can play total.",
-        "nixName": "maxplay",
-        "type": "int",
-        "value": "1000"
+        "name": "EULA",
+        "desc": "Whether you agree to Mojangs EULA. This option must be set to true to run Minecraft server.",
+        "nixName": "eula",
+        "type": "boolean",
+        "value": "true"
+      },
+      {
+        "name": "Declarative",
+        "desc": "Use declarative server configuration to alter serverProperties or the whitelist.",
+        "nixName": "declarative",
+        "type": "boolean",
+        "value": "true"
+      },
+      {
+        "name": "Firewall",
+        "desc": "Open ports in the firewall for the server.",
+        "nixName": "openFirewall",
+        "type": "boolean",
+        "value": "true"
       },
       {
         "name": "Maximum players",
-        "desc": "How many people can play total.",
-        "nixName": "maxplay",
-        "type": "int",
-        "value": "1000"
-      },
-      {
-        "name": "Port",
-        "desc": "Server port.",
-        "nixName": "port",
+        "desc": "Number of players who can join the server.",
+        "nixName": "serverProperties.max-players",
         "type": "int",
         "value": "100"
       }
     ]
   },
   {
-    "name": "Grafanner",
-    "desc": "Tool to use view usage",
+    "name": "Openssh",
+    "desc": "SSH tunnel for manual tweaking and access to your machine. Warning: If you break the Xnode-Admin service you will need to fix it yourself or factory reset to regain control from the Studio.",
     "logo": "<URL to image>",
-    "tags": [ "Observability", "Tool"],
+    "tags": [ "Administration", "Access-control" ],
     "specs": {
-      "ram": 256,
-      "storage": 200
+      "ram": 0,
+      "storage": 0
     },
-    "nixName": "graffener-pro",
+    "nixName": "openssh",
     "options": [
       {
-        "name": "Port",
-        "desc": "Port where the server is exposed publically",
-        "nixName": "port",
+        "name": "Password login",
+        "desc": "Whether ssh can be accessed using a password.",
+        "nixName": "settings.PasswordAuthentication",
+        "type": "boolean",
+        "value": "false"
+      },
+      {
+        "name": "Keyboard interactive login",
+        "desc": "Whether ssh can be accessed using a keyboard interactive login.",
+        "nixName": "settings.KbdInteractiveAuthentication",
+        "type": "boolean",
+        "value": "false"
+      }
+    ]
+  },
+  {
+    "name": "Ollama",
+    "desc": "Play around with AI!",
+    "logo": "<URL to image>",
+    "tags": [ "AI", "LLM", "GPU", "Open-source" ],
+    "specs": {
+      "ram": 0,
+      "storage": 0
+    },
+    "nixName": "ollama",
+    "options": [
+      {
+        "name": "models",
+        "desc": "Run ollama3 model as a REST API.",
+        "nixName": "",
         "type": "int",
         "value": "1000"
+      },
+      {
+        "name": "Cuda GPU",
+        "desc": "Enable cuda acceleration",
+        "nixName": "cuda",
+        "type": "boolean",
+        "value": "true"
       }
     ]
   }
