@@ -49,38 +49,6 @@ const Signup = () => {
   const cookies = parseCookies()
   const userHasAnyCookie = cookies.userSessionToken
 
-  function logPayload() {
-    const savedNodes = localStorage.getItem('nodes')
-    const savedEdges = localStorage.getItem('edges')
-
-    const serverLoc =
-      optionsServerLocationToValue[
-        findServerDefaultValueLocation(JSON.parse(savedNodes))
-      ]
-    const serverNumber =
-      optionsServerNumberToValue[findServerDefaultType(JSON.parse(savedNodes))]
-
-    const features = findFeatures(JSON.parse(savedNodes))
-
-    const websocketEnabled = findAPIisWebsocket(JSON.parse(savedNodes))
-    const finalData = {
-      name: projectName,
-      description: 'This is my xnode',
-      useCase: tagXnode,
-      status: 'Running',
-      location: findServerDefaultValueLocation(JSON.parse(savedNodes)),
-      consoleNodes: savedNodes,
-      consoleEdges: savedEdges,
-      type: xnodeType,
-      serverLoc,
-      serverNumber,
-      websocketEnabled,
-      features,
-    }
-    console.log('final payload')
-    console.log(finalData)
-  }
-
   async function getUserNonce(userAddress: string) {
     const config = {
       method: 'post' as const,
@@ -110,7 +78,7 @@ const Signup = () => {
         top: 0,
         behavior: 'smooth',
       })
-    } else if (!user.equinixAPIKey) {
+    } else if (!user.apiKey) {
       toast.error('Please connect your equinix api before proceeding')
       window.scrollTo({
         top: 40,
@@ -177,6 +145,7 @@ const Signup = () => {
         }
       }
     }
+
     getWeb3Login()
   }, [address])
 
@@ -251,14 +220,6 @@ const Signup = () => {
               />
               <div>Deploy</div>
             </div>
-          </div>
-          <div
-            onClick={() => {
-              logPayload()
-            }}
-            className="mt-[20px] w-fit cursor-pointer rounded-md bg-[#787d86] p-[5px] text-[12px]"
-          >
-            Log the payload
           </div>
         </div>
       </section>

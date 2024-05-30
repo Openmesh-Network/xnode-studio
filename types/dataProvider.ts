@@ -134,7 +134,7 @@ export type ServiceData = {
   specs: Specs;
   desc: string
   // Url to the logo.
-  logo: string
+  logo?: string
 
   nixName: string
   options: ServiceOption[]

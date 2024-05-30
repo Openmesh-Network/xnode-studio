@@ -2,41 +2,40 @@
   {
     "name": "Minecraft",
     "desc": "Server for Minecraft java edition",
-    "logo": "<URL to image>",
     "tags": [ "Game", "Server"],
     "specs": {
       "ram": 1024,
       "storage": 1024
     },
-    "nixName": "minecraft-server-java",
+    "nixName": "minecraft-server",
     "options": [
       {
-        "name": "Maximum players",
-        "desc": "How many people can play total.",
-        "nixName": "maxplay",
-        "type": "int",
-        "value": "1000"
+        "name": "Eula",
+        "desc": "Do you agree with the Mojang's terms and condititons?",
+        "nixName": "eula",
+        "type": "boolean",
+        "value": "true"
       },
       {
-        "name": "Maximum players",
-        "desc": "How many people can play total.",
-        "nixName": "maxplay",
-        "type": "int",
-        "value": "1000"
-      },
-      {
-        "name": "Port",
-        "desc": "Server port.",
-        "nixName": "port",
-        "type": "int",
-        "value": "100"
+        "name": "Eula",
+        "desc": "Do you agree with the Mojang's terms and condititons?",
+        "nixName": "eula",
+        "type": "options",
+        "value": [
+          {
+            "name": "",
+            "desc": "",
+            "nixName": "",
+            "type": "",
+            "value": ""
+          }
+        ]
       }
     ]
   },
   {
     "name": "Grafanner",
     "desc": "Tool to use view usage",
-    "logo": "<URL to image>",
     "tags": [ "Observability", "Tool"],
     "specs": {
       "ram": 256,
