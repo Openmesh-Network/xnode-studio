@@ -58,8 +58,8 @@ export function Header() {
           <Link
             href={`${
               process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? `/xnode/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
-                : `/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
+                ? `/xnode/template-products/`
+                : `/template-products/`
             }`}
             className="flex h-[65px] items-center gap-x-[10px] bg-blue500 px-9 transition-colors duration-300 hover:bg-blue500/80"
           >

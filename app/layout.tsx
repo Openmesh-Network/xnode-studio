@@ -33,7 +33,7 @@ export default function RootLayout({
 
           <div className="w-full max-w-screen flex">
             <div className="z-50 min-w-[180px] float-left bg-[#F4F4F4]">
-              <LateralNav onValueChange={console.log('')} />
+              <LateralNav />
             </div>
 
             <div className="p-5 w-full m-auto">

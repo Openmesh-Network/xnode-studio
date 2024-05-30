@@ -145,6 +145,7 @@ export type TemplateData = {
   name: string;
   desc: string;
   tags: string[];
+  source?: string;
 
   // Url to image.
   logo: string;

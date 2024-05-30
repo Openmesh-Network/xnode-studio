@@ -190,12 +190,6 @@ const Dashboard = () => {
               </th>
               <th
                 scope="col"
-                className="text-left text-[8px] font-bold  tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
-              >
-                Use Case
-              </th>
-              <th
-                scope="col"
                 className="text-left text-[8px] font-bold tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
               >
                 Creation Date
@@ -205,12 +199,6 @@ const Dashboard = () => {
                 className="text-left  text-[8px] font-bold  tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
               >
                 Average Cost
-              </th>
-              <th
-                scope="col"
-                className="text-left  text-[8px] font-bold  tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
-              >
-                Status
               </th>
             </tr>
           </thead>
@@ -261,12 +249,13 @@ const Dashboard = () => {
                     </div>
                   )}
                 </td>
-                <td className={commonClasses}>{node.useCase}</td>
                 <td className={commonClasses}>
                   {new Date(node.createdAt).toLocaleDateString()}
                 </td>
-                <td className={commonClasses}>381.89 P/m</td>
-                <td className={commonClasses}>{node.status}</td>
+                { 
+                  // XXX: Find an actual good value here? 
+                }
+                <td className={commonClasses}>??? P/m</td>
                 <td className="pb-[17.5px] text-[7px] font-medium text-[#0354EC] underline underline-offset-2  md:pb-[21px] md:text-[8.4px]  lg:pb-[24.5px] lg:text-[9.8px] xl:pb-[28px] xl:text-[11.2px] 2xl:pb-[35px] 2xl:text-[14px]">
                   {/* <div
                     className=" cursor-pointer "

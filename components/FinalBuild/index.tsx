@@ -28,6 +28,7 @@ import {
   optionsServerLocationToValue,
   optionsServerNumberToValue,
 } from '@/utils/constants'
+import { Timer } from 'phosphor-react'
 
 export function findServerDefaultType(array) {
   const serverObject = array.find((item) => item.type === 'server')
@@ -96,6 +97,7 @@ const ReviewYourBuild = () => {
   const [coreServices, setCoreServices] = useState<CoreServices[]>([])
   const [coreServicesData, setCoreServicesData] = useState<string[]>([])
   const [coreServicesApi, setCoreServicesApi] = useState<string[]>([])
+  const [sentRequest, setSentRequest] = useState<boolean>(false)
   const [isDeploying, setIsDeploying] = useState<boolean>(false)
   const [isLoadingFeatures, setIsLoadingFeatures] = useState<boolean>(false)
 
@@ -113,6 +115,7 @@ const ReviewYourBuild = () => {
     setProjectName,
     setSignup,
     xnodeType,
+    draft
   } = useContext(AccountContext)
 
   const { push } = useRouter()
@@ -165,93 +168,35 @@ const ReviewYourBuild = () => {
         }`,
       )
     }
-
-    // setIsDeploying(false)
   }
 
   useEffect(() => {
-    let draft = localStorage.getItem('draft')
+    // let draft = localStorage.getItem('draft')
 
-    {
-      // XXX: Delete this. It's just here for testing purposes.
-      let config: DeploymentConfiguration = {
-        name: "My Minecraft Server",
-        desc: "This is my favourite videogame, so I'm running it on my Xnode!",
-        location: "ny",
-        provider: "Unit",
-        isUnit: true,
-        services: [ ServiceFromName("Minecraft") ]
-      }
-
-      draft = JSON.stringify(config)
-    }
-
-    if (draft) {
-      console.log("Draft exists! Creating Xnode.")
-      // Take the services from draft or whatever.
-
-      const config = JSON.parse(draft) as DeploymentConfiguration
-
-      createXnode(config)
-    }
-
-    // XXX: OLD GARBAGE
-    // if (savedNodes) {
-    //   const final = JSON.parse(savedNodes)
-    //   // Setting the server flow
-    //   const existingServerIndex = final.findIndex(
-    //     (node) => node.type === 'server',
-    //   )
-    //   console.log(existingServerIndex)
-    //   if (existingServerIndex !== -1) {
-    //     setServiceRegion(final[existingServerIndex].data.defaultValueLocation)
-    //     setCloudProvider(
-    //       final[existingServerIndex].data.defaultValueCloudProvider,
-    //     )
+    // {
+    //   // XXX: This is just here for testing purposes.
+    //   let config: DeploymentConfiguration = {
+    //     name: "My Minecraft Server",
+    //     desc: "This is my favourite videogame, so I'm running it on my Xnode!",
+    //     location: "ny",
+    //     provider: "Unit",
+    //     isUnit: true,
+    //     services: [ ServiceFromName("Minecraft") ]
     //   }
 
-    //   // XXX: NOPE!!!
-    //   // // Setting the core services flow
-    //   // const coreServicesArray = []
-    //   // const coreServiceDataArray = []
-    //   // const coreServiceApiArray = []
-
-    //   // for (let i = 0; i < final.length; i++) {
-    //   //   const node = final[i]
-
-    //   //   if (coreServicesType.includes(node.type)) {
-    //   //     console.log(node.data)
-    //   //     coreServicesArray.push({
-    //   //       name: node.data.name,
-    //   //       description: nameToDesc[node.data.name] || '',
-    //   //       isFree: nameToFree[node.data.name] || false,
-    //   //     })
-    //   //   } else if (node.type === 'dataStreaming') {
-    //   //     for (let j = 0; j < node.data?.lists.length; j++) {
-    //   //       if (node.data.lists[j].title !== 'dataOption.title') {
-    //   //         coreServiceDataArray.push(node.data.lists[j].title)
-    //   //       }
-    //   //     }
-    //   //   } else if (node.type === 'dataHistorical') {
-    //   //     for (let j = 0; j < node.data?.lists.length; j++) {
-    //   //       if (node.data.lists[j].title !== 'dataOption.title') {
-    //   //         coreServiceDataArray.push(node.data.lists[j].title)
-    //   //       }
-    //   //     }
-    //   //   } else if (node.type === 'api') {
-    //   //     coreServiceApiArray.push(node.data.name)
-    //   //   }
-    //   // }
-    //   // setCoreServices(coreServicesArray)
-    //   // setCoreServicesData(coreServiceDataArray)
-    //   // setCoreServicesApi(coreServiceApiArray)
-
-    //   // console.log(coreServicesArray)
-    //   // console.log(coreServiceDataArray)
-    //   // console.log(coreServiceApiArray)
-
-    //   createXnode()
+    //   draft = JSON.stringify(config)
     // }
+
+    // XXX: This runs twice for some reason!!
+    //  - Some nextjs config that runs all effects twice.
+    //  - Maybe component is included/rendered twice?
+
+    console.log('Effect has been run')
+    console.log(draft)
+    if (draft && !sentRequest) {
+      console.log("Draft exists! Creating Xnode.", sentRequest)
+      createXnode(draft)
+    }
   }, [])
 
   if (!isDeploying) {
@@ -277,6 +222,7 @@ const ReviewYourBuild = () => {
             Your progress
           </div>
           <div className="mt-[25px] text-[18px] font-normal -tracking-[2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
+            {/* XXX: Incorrect! */}
             Estimate time to deployment ~ 31 min
           </div>
           <div className="mt-[15px] grid gap-y-[10px] md:mt-[18px] md:gap-y-[12px] lg:mt-[21px] lg:gap-y-[14px]  2xl:mt-[30px] 2xl:gap-y-[20px]">

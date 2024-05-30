@@ -23,64 +23,84 @@ import 'prismjs/themes/prism.css'
 import { formatDistanceToNow, differenceInDays } from 'date-fns'
 import { AccountContext } from '@/contexts/AccountContext'
 
-
-import { TemplateData, Specs, ServiceData, TemplateFromId, ServiceFromName, TemplateGetSpecs } from '@/types/dataProvider'
+import { TemplateData, Specs, ServiceData, TemplateFromId, ServiceFromName, TemplateGetSpecs, DeploymentConfiguration } from '@/types/dataProvider'
 import ServiceDefinitions from '../../utils/service-definitions.json'
 import TemplateDefinitions from '../../utils/template-definitions.json'
 
 const Template = (id: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [data, setTemplateData] = useState<TemplateData>()
-  const [services, setServices] = useState<ServiceData[]>()
+  // const [data, setTemplateData] = useState<TemplateData>()
+  const [data, setDeployConfig] = useState<DeploymentConfiguration>()
   const [templateSpecs, setTemplateSpecs] = useState<Specs>()
   const {
     user,
     setUser,
     setIndexerDeployerStep,
-    templateDataSelected,
-    setTemplateDataSelected,
+    draft,
+    setDraft
   } = useContext(AccountContext)
 
   async function getData(id: any) {
     setIsLoading(true)
 
-    console.log('o id q vai chamar')
-    console.log(id)
-
-    // let data: TemplatesData 
-
-    console.log("Aca viene la data!")
-    let data = TemplateFromId(id.id)
-
-    console.log(data)
-
-    if (data) {
-      let svs: ServiceData[] = []
-
-      for (let i = 0; i < data.serviceNames.length; i++) { 
-        let s = ServiceFromName(data.serviceNames[i])
-        if (s) {
-          svs.push(s)
-        }
+    // XXX: Not sure if this is the best place to put this but whatever.
+    if (id.id == 'edit') {
+      // Problem with this is the draft contains extra info like the location or whatever.
+      if (draft) {
+        setDeployConfig(draft)
+      } else {
+        setDeployConfig(JSON.parse(localStorage.getItem('draft')) as DeploymentConfiguration)
       }
+    } else {
+      // Generate the config from the template id.
+      console.log('o id q vai chamar')
+      console.log(id)
 
-      setTemplateData(data)
-      setServices(svs)
-      setTemplateSpecs(TemplateGetSpecs(data))
+      console.log("Aca viene la data!")
+      let template = TemplateFromId(id.id)
+
+      console.log(template)
+
+      if (template) {
+        let svs: ServiceData[] = []
+
+        for (let i = 0; i < template.serviceNames.length; i++) { 
+          let s = ServiceFromName(template.serviceNames[i])
+          if (s) {
+            svs.push(s)
+          }
+        }
+
+        const d: DeploymentConfiguration = {
+          name: template.name,
+          desc: template.desc,
+          location: "",
+          services: svs,
+          // XXX: Actually check from AccountContext.
+          isUnit: false,
+          provider: ""
+        }
+
+        setDeployConfig(d)
+        setTemplateSpecs(TemplateGetSpecs(template))
+      } else {
+        // XXX:
+        // NUCLEAR APOCALIPSE TIER!
+        // Should just redirect probably.
+      }
     }
-    setIsLoading(false)
-  }
 
-  function gerarNumeroAleatorio() {
-    return Math.floor(1000 + Math.random() * 9000)
+    setIsLoading(false)
   }
 
   useEffect(() => {
     setIsLoading(true)
+    // When anything is clicked?
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     })
+
     if (id) {
       getData(id.id)
     }
@@ -119,7 +139,7 @@ const Template = (id: any) => {
                       if (e.target.value.length < 1000) {
                         const newData = { ...data }
                         newData.name = e.target.value
-                        setTemplateData(newData)
+                        setDeployConfig(newData)
                       }
                     }}
                     className="w-full bg-[#fff] text-[44px] font-semibold leading-[64px] placeholder:text-[#6B7280] 2xl:text-[48px]"
@@ -129,7 +149,7 @@ const Template = (id: any) => {
 
               <div className="ml-[10px] mt-[24px]">
                 <div className="flex gap-x-[4px] text-[11px] text-[#0354EC] 2xl:text-[12px]">
-                  {data?.tags?.map((item, index) => (
+                  {TemplateFromId(id)?.tags?.map((item, index) => (
                     <div key={index} className="underline underline-offset-2">
                       {item},
                     </div>
@@ -142,13 +162,11 @@ const Template = (id: any) => {
                     if (e.target.value.length < 1000) {
                       const newData = { ...data }
                       newData.desc = e.target.value
-                      setTemplateData(newData)
+                      setDeployConfig(newData)
                     }
                   }}
                   className="mt-[23px] h-[100px] max-h-[100px] w-full  max-w-[735px] bg-[#fff] text-[14px] leading-[22px] placeholder:text-[#6B7280] 2xl:text-[16px]"
                 />
-
-
 
                 <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[12px] lg:mt-[59px] 2xl:text-[14px]">
                   <div className="text-[16px] font-semibold 2xl:text-[18px]">
@@ -178,9 +196,9 @@ const Template = (id: any) => {
                     <div className="w-[15%]">Specs</div>
                     <div className="w-[25%]">Tags</div>
                   </div>
-                  {data?.serviceNames && (
+                  {data?.services && (
                     <div>
-                      {services?.map((item, index) => (
+                      {data.services?.map((item, index) => (
                         <div key={index}>
                           <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
                           <div className="mt-[8px] flex px-[20px] font-normal">
@@ -318,6 +336,10 @@ const Template = (id: any) => {
                   if (data?.name?.length > 0) {
                     setIndexerDeployerStep(0)
                   }
+
+                  setDeployConfig(data)
+                  setDraft(data)
+                  localStorage.setItem('draft', JSON.stringify(data))
                 }}
                 className={`mx-auto mt-[27px] w-fit ${
                   data?.name?.length > 0 && 'cursor-pointer'

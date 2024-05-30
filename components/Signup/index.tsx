@@ -118,7 +118,7 @@ const Signup = () => {
       })
     } else {
       setFinalBuild(true)
-      setIndexerDeployerStep(3)
+      setIndexerDeployerStep(2)
       window.scrollTo({
         top: 0,
         behavior: 'smooth',
@@ -249,7 +249,7 @@ const Signup = () => {
                 alt="image"
                 className={`w-[5px] md:w-[6px] lg:w-[7px] xl:w-[8px] 2xl:w-[10px]`}
               />
-              <div>Finalize the deployment</div>
+              <div>Deploy</div>
             </div>
           </div>
           <div

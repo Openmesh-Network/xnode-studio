@@ -28,10 +28,10 @@ const IndexerDeployer = (id: any) => {
   if (indexerDeployerStep === 0) {
     return <TemplateProducts />
   }
+  // if (indexerDeployerStep === 1) {
+  //   return <Configuration />
+  // }
   if (indexerDeployerStep === 1) {
-    return <Configuration />
-  }
-  if (indexerDeployerStep === 2) {
     return (
       <>
         <div className="mx-auto rounded-[10px] bg-[#F9F9F9] xl:w-[1200px] 2xl:w-[1500px] ">
@@ -40,7 +40,7 @@ const IndexerDeployer = (id: any) => {
       </>
     )
   }
-  if (indexerDeployerStep === 3) {
+  if (indexerDeployerStep === 2) {
     return (
       <>
         <div className="mx-auto rounded-[10px] xl:w-[1200px] 2xl:w-[1500px]">

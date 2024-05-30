@@ -81,7 +81,7 @@ const TemplateProducts = () => {
   )
   const [selected, setSelected] = useState<ValueObject | null>(null)
 
-  const { setIndexerDeployerStep, templateSelected, setTemplateSelected } =
+  const { setIndexerDeployerStep, templateSelected, setTemplateSelected, draft, setDraft } =
     useContext(AccountContext)
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -322,6 +322,11 @@ const TemplateProducts = () => {
                     <div
                       onClick={() => {
                         setTemplateSelected(tmp)
+
+                        let d = draft;
+                        d.location = tmp.location
+                        d.isUnit = false
+                        d.provider = tmp.providerName
                       }}
                       className={`mt-[15px] cursor-pointer border-[1px] border-[#0059ff] ${
                         tmp?.id === templateSelected?.id

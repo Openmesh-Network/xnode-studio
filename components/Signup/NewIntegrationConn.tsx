@@ -17,7 +17,7 @@ type EquinixAPIForm = {
 const NewIntegrationConn = () => {
   const [showTooltipCloudProvider, setShowTooltipCloudProvider] =
     useState<boolean>(false)
-  const { setConnections, templateSelected, templateDataSelected } =
+  const { setConnections, templateSelected } =
     useContext(AccountContext)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
