@@ -316,7 +316,7 @@ const TemplateProducts = () => {
                     </div>
                   </div>
                   <div className="ml-auto grid text-center">
-                    <div className="mx-auto w-fit text-[16px] font-medium leading-[20px] line-through">
+                    <div className="mx-auto w-fit text-[16px] font-medium leading-[20px]">
                       Est {tmp.priceMonth} /mo
                     </div>
                     <div
@@ -335,9 +335,6 @@ const TemplateProducts = () => {
                       } w-[174px] rounded-[12px]  py-[13px] text-[16px] font-bold !leading-[150%]  `}
                     >
                       {tmp?.id === templateSelected?.id ? 'Selected' : 'Select'}
-                    </div>
-                    <div className="mt-[11px] text-[16px] font-bold text-[#0059ff]">
-                      Cashback $200
                     </div>
                   </div>
                 </div>
