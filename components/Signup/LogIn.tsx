@@ -45,7 +45,7 @@ const LogIn = () => {
 
   async function loginUser(data: any) {
     const config = {
-      method: 'post' as 'post',
+      method: 'post',
       url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/openmesh-experts/functions/loginOpenRD`,
       headers: {
         'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
@@ -146,7 +146,7 @@ const LogIn = () => {
         )}
       </div>
       <div className="grid gap-y-[20px] md:flex md:gap-x-[30px] lg:gap-x-[60px] xl:gap-x-[120px] 2xl:gap-x-[200px]">
-        <div className="mt-[30px] md:mt-[35px] md:ml-[50px] lg:mt-[40px] lg:ml-[70px] xl:mt-[56px] xl:ml-[112px] 2xl:mt-[70px] 2xl:ml-[140px]">
+        <div className="mt-[30px] md:ml-[50px] md:mt-[35px] lg:ml-[70px] lg:mt-[40px] xl:ml-[112px] xl:mt-[56px] 2xl:ml-[140px] 2xl:mt-[70px]">
           <form onSubmit={handleSubmit(onSubmit)} className="">
             <div className="">
               <div>
@@ -207,13 +207,13 @@ const LogIn = () => {
               {!isLoading && (
                 <div
                   onClick={handleSubmit(onSubmit)}
-                  className="mt-[41px] flex h-fit w-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] py-[6.2px] px-[11px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#0e2e69] md:mt-[49px] md:py-[7.5px] md:px-[12.5px] md:text-[8.4px] lg:mt-[57px] lg:py-[8.75px]  lg:px-[42px] lg:text-[10px]   xl:mt-[65px] xl:py-[10px]    xl:px-[48px]  xl:text-[11.2px]  2xl:mt-[82px] 2xl:gap-x-[10px]  2xl:py-[12.5px] 2xl:px-[60px] 2xl:text-[14px]"
+                  className="mt-[41px] flex h-fit w-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#0e2e69] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[42px]  lg:py-[8.75px] lg:text-[10px]   xl:mt-[65px] xl:px-[48px]    xl:py-[10px]  xl:text-[11.2px]  2xl:mt-[82px] 2xl:gap-x-[10px]  2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]"
                 >
                   <div>Sign in</div>
                 </div>
               )}
               {isLoading && (
-                <div className="mt-[41px] flex h-fit w-fit justify-center gap-x-[8px] rounded-[5px] bg-[#719be9] py-[6.2px] px-[11px] text-center text-[7px] font-medium text-[#fff] md:mt-[49px] md:py-[7.5px] md:px-[12.5px] md:text-[8.4px] lg:mt-[57px] lg:py-[8.75px]  lg:px-[42px] lg:text-[10px]   xl:mt-[65px] xl:py-[10px]    xl:px-[48px]  xl:text-[11.2px]  2xl:mt-[82px] 2xl:gap-x-[10px]  2xl:py-[12.5px] 2xl:px-[60px] 2xl:text-[14px]">
+                <div className="mt-[41px] flex h-fit w-fit justify-center gap-x-[8px] rounded-[5px] bg-[#719be9] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[42px]  lg:py-[8.75px] lg:text-[10px]   xl:mt-[65px] xl:px-[48px]    xl:py-[10px]  xl:text-[11.2px]  2xl:mt-[82px] 2xl:gap-x-[10px]  2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]">
                   <div>Sign in</div>
                 </div>
               )}
@@ -238,7 +238,7 @@ const LogIn = () => {
             rel="noreferrer"
             className="my-auto"
           >
-            <div className="my-auto flex h-fit w-[125px] cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] py-[6.2px] px-[11px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#0e2e69] md:w-[150px] md:py-[7.5px] md:px-[12.5px] md:text-[8.4px] lg:w-[175px] lg:py-[8.75px] lg:px-[42px] lg:text-[10px]  xl:w-[200px] xl:py-[10px]  xl:px-[48px]  xl:text-[11.2px]  2xl:w-[250px] 2xl:gap-x-[10px]  2xl:py-[12.5px] 2xl:px-[60px] 2xl:text-[14px]">
+            <div className="my-auto flex h-fit w-[125px] cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#0e2e69] md:w-[150px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:w-[175px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px]  xl:w-[200px] xl:px-[48px]  xl:py-[10px]  xl:text-[11.2px]  2xl:w-[250px] 2xl:gap-x-[10px]  2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -248,7 +248,7 @@ const LogIn = () => {
                 alt="image"
                 className={`w-[5px] md:w-[6px] lg:w-[7px] xl:w-[8px] 2xl:w-[10px]`}
               />
-              <div onClick={() => {}}>Sign up</div>
+              <div>Sign up</div>
             </div>
           </a>
         </div>

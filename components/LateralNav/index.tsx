@@ -422,7 +422,7 @@ export function LateralNav() {
           <ul>
             {studioItems.map(
               ({ activeIcon, collapsable, href, icon, label, subItems }) => {
-                const isActive = pathname.includes(href)
+                const isActive = pathname === href
 
                 const currentIcon = isActive ? activeIcon : icon
                 const isExpanded = expandedItem === label
@@ -470,7 +470,7 @@ export function LateralNav() {
           <ul>
             {pageItems.map(
               ({ activeIcon, collapsable, href, icon, label, subItems }) => {
-                const isActive = pathname.includes(href)
+                const isActive = pathname === href
 
                 const currentIcon = isActive ? activeIcon : icon
                 const isExpanded = expandedItem === label
@@ -517,7 +517,7 @@ export function LateralNav() {
         <Accordion.Root type="single" defaultValue="item-1" collapsible>
           <ul>
             {supportItems.map(({ activeIcon, href, icon, label, subItems }) => {
-              const isActive = pathname.includes(href)
+              const isActive = pathname === href
 
               const currentIcon = isActive ? activeIcon : icon
               const isExpanded = expandedItem === label

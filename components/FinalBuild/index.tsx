@@ -1,17 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState, useContext } from 'react'
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
-import Presets from '../Presets'
-import CostEstimator from '../CostEstimator'
-import ServerProvision from '../ServerProvision'
-import IncludedServices from '../IncludedServices'
-import AddOns from './AddOns'
-import SelectCloudProvider from '../SelectCloudProvider'
-import SelectServiceRegion from '../SelectServiceRegion'
-import SelectLatencyPreference from '../SelectLatencyPreference'
-import SelectUseCase from '../SelectUseCase'
-import Hero from '../Hero'
 import { useRouter } from 'next/navigation'
 import CloudProvider from './CloudProvider'
 import { AccountContext } from '@/contexts/AccountContext'
@@ -52,7 +40,9 @@ export function findFeatures(array) {
   const finalFeatures = []
   for (let i = 0; i < dataObject?.data?.lists?.length; i++) {
     // eslint-disable-next-line prettier/prettier
-    if (optionsFeature.includes(dataObject?.data?.lists[i]?.title?.toLowerCase())) {
+    if (
+      optionsFeature.includes(dataObject?.data?.lists[i]?.title?.toLowerCase())
+    ) {
       finalFeatures.push(dataObject?.data?.lists[i]?.title?.toLowerCase())
     }
   }
@@ -98,21 +88,8 @@ const ReviewYourBuild = () => {
   const [isDeploying, setIsDeploying] = useState<boolean>(false)
   const [isLoadingFeatures, setIsLoadingFeatures] = useState<boolean>(false)
 
-  const {
-    selectionSideNavBar,
-    setSelectionSideNavBar,
-    next,
-    setNext,
-    reviewYourBuild,
-    setReviewYourBuild,
-    finalNodes,
-    tagXnode,
-    user,
-    projectName,
-    setProjectName,
-    setSignup,
-    xnodeType,
-  } = useContext(AccountContext)
+  const { setReviewYourBuild, tagXnode, user, projectName, xnodeType } =
+    useContext(AccountContext)
 
   const { push } = useRouter()
 
@@ -150,7 +127,7 @@ const ReviewYourBuild = () => {
 
     if (user.sessionToken) {
       const config = {
-        method: 'post' as 'post',
+        method: 'post' as const,
         url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/createXnode`,
         headers: {
           'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
@@ -185,6 +162,8 @@ const ReviewYourBuild = () => {
   }
 
   useEffect(() => {
+    console.log('called')
+
     const savedNodes = localStorage.getItem('nodes')
 
     if (savedNodes) {

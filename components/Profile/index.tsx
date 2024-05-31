@@ -19,6 +19,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { AccountContext } from '../../contexts/AccountContext'
 
 import { TextField, Autocomplete } from '@mui/material'
+import { baseURL } from '@/utils/baseUrls'
 
 type RegisterForm = {
   firstName: string
@@ -51,7 +52,27 @@ const Profile = () => {
   const [isPageLoading, setIsPageLoading] = useState<boolean>(false)
   const [logoProfileHadChange, setLogoProfileHadChange] =
     useState<boolean>(false)
-  const { user, setUser } = useContext(AccountContext)
+  const { user } = useContext(AccountContext)
+
+  async function onFetchUser() {
+    const config = {
+      method: 'post',
+      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/openmesh-experts/functions/loginOpenRD`,
+      headers: {
+        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+      },
+    }
+
+    await axios(config).then((res) => {
+      console.log('response', res)
+    })
+  }
+
+  useEffect(() => {
+    onFetchUser()
+  }, [])
+
+  console.log('user', user)
 
   const cookies = parseCookies()
   const userHasAnyCookie = cookies.userSessionToken
@@ -113,7 +134,7 @@ const Profile = () => {
     return (
       <ul className="mt-4 max-h-[190px] max-w-[300px] overflow-y-auto text-[#000000]">
         {files.map((file, index) => (
-          <li key={`selected-${index}`} className="mb-2 mr-2 ml-4 flex">
+          <li key={`selected-${index}`} className="mb-2 ml-4 mr-2 flex">
             <img
               src={`${
                 process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -169,43 +190,6 @@ const Profile = () => {
     }
   }
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const newFiles = Array.from(event.target.files)
-      let validFiles = true
-      const allowedMimeTypes = ['image/jpeg', 'image/png']
-      const maxFileSize = 10 * 1024 * 1024 // 10 MB
-
-      if (newFiles.length > 1) {
-        toast.error(`Only 1 file per task for the MVP.`)
-        return
-      }
-
-      newFiles.forEach((file) => {
-        if (!allowedMimeTypes.includes(file.type)) {
-          validFiles = false
-          toast.error(`Only JPG, JPEG, PNG allowed for the MVP.`)
-          return
-        }
-        if (file.size > maxFileSize) {
-          validFiles = false
-          toast.error(`The file ${file.name} is too heavy. Max of 10 MB.`)
-          return
-        }
-        const combinedFiles = [...selectedFiles, ...newFiles].slice(0, 15)
-        setSelectedFiles(combinedFiles)
-        const imageURL = URL.createObjectURL(event.target.files[0])
-        console.log(imageURL)
-        setImagePreview(imageURL)
-        setLogoProfileHadChange(true)
-      })
-    }
-  }
-  const removeFile = (index: number) => {
-    setSelectedFiles(selectedFiles.filter((_, i) => i !== index))
-    setLogoProfileHadChange(true)
-  }
-
   async function handleFileUploadIPFS() {
     const file = selectedFiles[0]
     const formData = new FormData()
@@ -232,7 +216,7 @@ const Profile = () => {
   async function updateUser(data: any) {
     const { userSessionToken } = parseCookies()
     const config = {
-      method: 'post' as 'post',
+      method: 'post' as const,
       url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/openmesh-experts/functions/updateUser`,
       headers: {
         'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
@@ -285,11 +269,7 @@ const Profile = () => {
       toast.success('Account updated succesfully')
       await new Promise((resolve) => setTimeout(resolve, 2500))
       setIsLoading(false)
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/oec` : `/oec`
-        }`,
-      )
+      // push(`${baseURL}/oec`)
     } catch (err) {
       console.log(err)
       if (err.response.data.message === 'Email already in use') {
@@ -308,39 +288,11 @@ const Profile = () => {
     const data = await response.blob()
     return new File([data], filename, { type: mimeType })
   }
-  function getProfile() {
-    // setValue('name', user.name, {
-    //   shouldValidate: true,
-    //   shouldDirty: true,
-    // })
-    setValue('firstName', user.firstName)
-    setValue('lastName', user.lastName)
-    setValue('companyName', user.companyName)
-    setValue('foundingYear', user.foundingYear)
-    setValue('website', user.website)
-    setValue('description', user.description)
-    setValue('location', user.location)
-    setValue('scheduleCalendlyLink', user.calendly)
-    setValue('tags', user.tags)
-    setValue('githubLink', user.githubLink)
-    setValue('personalBlog', user.personalBlog)
-    // reset({
-    //   name: user.name,
-    //   email: user.email,
-    //   companyName: user.companyName,
-    //   foundingYear: user.foundingYear,
-    //   website: user.website,
-    //   description: user.description,
-    //   location: user.location,
-    //   scheduleCalendlyLink: user.calendly,
-    //   tags: user.tags,
-    // })
-  }
+
   useEffect(() => {
     setIsPageLoading(true)
     if (userHasAnyCookie) {
       if (user) {
-        getProfile()
         if (user.profilePictureHash) {
           const mimeType = 'image/jpeg'
           urlToFile(
@@ -354,19 +306,21 @@ const Profile = () => {
         }
       }
     } else {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/oec` : `/oec`
-        }`,
-      )
+      // push(
+      //   `${
+      //     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/oec` : `/oec`
+      //   }`,
+      // )
     }
 
     setIsPageLoading(false)
   }, [user])
 
+  const isCompany = true
+
   if (isPageLoading) {
     return (
-      <section className="py-16 px-32 text-black md:py-20 lg:pt-40">
+      <section className="px-32 py-16 text-black md:py-20 lg:pt-40">
         <div className="container flex h-60 animate-pulse px-0 pb-12">
           <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
           <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
@@ -376,34 +330,67 @@ const Profile = () => {
     )
   }
 
-  if (user && !isPageLoading) {
-    return (
-      <>
-        <section className="border-b border-[#CFCFCF] px-32 pb-[33px] pt-[50px]">
-          <div className="container">
-            <div className="-mx-4 flex flex-wrap items-start">
-              <div className="w-full px-4 lg:w-2/3">
-                <div className="mb-1">
-                  <h3 className="text-[15px] font-bold !leading-[150%] text-[#000000] lg:text-[24px]">
-                    Update account
-                  </h3>
-                </div>
-                <div className="mt-[20px] text-[#000]">{user.email}</div>
+  // if (user && !isPageLoading) {
+  return (
+    <>
+      <section className="border-b border-[#CFCFCF] px-32 pb-[33px] pt-[50px]">
+        <div className="container">
+          <div className="-mx-4 flex flex-wrap items-start">
+            <div className="w-full px-4 lg:w-2/3">
+              <div className="mb-1">
+                <h3 className="text-[15px] font-bold !leading-[150%] text-[#000000] lg:text-[24px]">
+                  Update account
+                </h3>
               </div>
+              <div className="mt-[20px] text-[#000]">{'email here'}</div>
             </div>
           </div>
-        </section>
-        <section className="mt-12 mb-[0px] px-[20px] pt-[15px] text-[11px]  font-medium !leading-[17px] text-[#000000] lg:mb-24 lg:px-[100px] lg:pt-[30px]  lg:text-[14px]">
-          <div className="flex gap-x-[70px] lg:gap-x-[200px] lg:px-[150px]">
-            <form onSubmit={handleSubmit(onSubmit)} className="">
-              <div className="">
-                <div>
-                  <div id="emailId" className="">
+        </div>
+      </section>
+      <section className="mb-[0px] mt-12 px-[20px] pt-[15px] text-[11px]  font-medium !leading-[17px] text-[#000000] lg:mb-24 lg:px-[100px] lg:pt-[30px]  lg:text-[14px]">
+        <div className="flex gap-x-[70px] lg:gap-x-[200px] lg:px-[150px]">
+          <form onSubmit={handleSubmit(onSubmit)} className="">
+            <div className="">
+              <div>
+                <div id="emailId" className="">
+                  <div className="mt-[20px]">
+                    <span className="flex flex-row">
+                      First name
+                      <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        {errors.firstName?.message}
+                      </p>
+                    </span>
+                    <input
+                      disabled={isLoading}
+                      className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                      type="text"
+                      maxLength={100}
+                      placeholder={'firstname'}
+                      {...register('firstName')}
+                    />
+                  </div>
+                  <div className="mt-[20px]">
+                    <span className="flex flex-row">
+                      Last name
+                      <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        {errors.lastName?.message}
+                      </p>
+                    </span>
+                    <input
+                      disabled={isLoading}
+                      className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                      type="text"
+                      maxLength={100}
+                      placeholder={''}
+                      {...register('lastName')}
+                    />
+                  </div>
+                  {isCompany && (
                     <div className="mt-[20px]">
                       <span className="flex flex-row">
-                        First name
+                        Company name
                         <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-                          {errors.firstName?.message}
+                          {errors.companyName?.message}
                         </p>
                       </span>
                       <input
@@ -411,242 +398,45 @@ const Profile = () => {
                         className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
                         type="text"
                         maxLength={100}
-                        placeholder={user.firstName}
-                        {...register('firstName')}
+                        placeholder=""
+                        {...register('companyName')}
                       />
                     </div>
+                  )}
+                  {isCompany && (
                     <div className="mt-[20px]">
                       <span className="flex flex-row">
-                        Last name
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-                          {errors.lastName?.message}
-                        </p>
-                      </span>
-                      <input
-                        disabled={isLoading}
-                        className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
-                        type="text"
-                        maxLength={100}
-                        placeholder={user.lastName}
-                        {...register('lastName')}
-                      />
-                    </div>
-                    {user.isCompany && (
-                      <div className="mt-[20px]">
-                        <span className="flex flex-row">
-                          Company name
-                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-                            {errors.companyName?.message}
-                          </p>
-                        </span>
-                        <input
-                          disabled={isLoading}
-                          className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
-                          type="text"
-                          maxLength={100}
-                          placeholder=""
-                          {...register('companyName')}
-                        />
-                      </div>
-                    )}
-                    {user.isCompany && (
-                      <div className="mt-[20px]">
-                        <span className="flex flex-row">
-                          Founding year
-                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
-                            {errors.foundingYear?.message}
-                          </p>
-                        </span>
-                        <Controller
-                          name="foundingYear"
-                          control={control}
-                          defaultValue={null}
-                          rules={{ required: 'Founding year is required' }}
-                          render={({ field }) => (
-                            <Autocomplete
-                              {...field}
-                              options={years}
-                              disableClearable
-                              getOptionLabel={(option) => option.toString()}
-                              onChange={(e, newValue) =>
-                                field.onChange(newValue)
-                              }
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  variant="outlined"
-                                  placeholder="Select a year"
-                                  error={Boolean(errors.foundingYear)}
-                                  helperText={errors.foundingYear?.message}
-                                  sx={{
-                                    width: isSmallScreen ? '280px' : '500px',
-                                    fieldset: {
-                                      height: '50px',
-                                      borderColor: '#D4D4D4',
-                                      borderRadius: '10px',
-                                      marginTop: '7px',
-                                    },
-                                    input: { color: 'black' },
-                                  }}
-                                />
-                              )}
-                            />
-                          )}
-                        />
-                      </div>
-                    )}
-                    <div id="tagsId" className="mt-[20px]">
-                      <span className="flex flex-row">
-                        Location
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-                          {errors.location?.message}
-                        </p>
-                      </span>
-                      <input
-                        disabled={isLoading}
-                        className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
-                        type="text"
-                        maxLength={100}
-                        placeholder="new york, us"
-                        {...register('location')}
-                      />
-                    </div>
-                    {user.isCompany && (
-                      <div className="mt-[20px]">
-                        <span className="flex flex-row">
-                          Website
-                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-                            {errors.website?.message}
-                          </p>
-                        </span>
-                        <input
-                          disabled={isLoading}
-                          className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
-                          type="text"
-                          maxLength={100}
-                          placeholder=""
-                          {...register('website')}
-                        />
-                      </div>
-                    )}
-                    {!user.isCompany && (
-                      <div className="mt-[20px]">
-                        <span className="flex flex-row">
-                          Personal blog
-                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-                            {errors.personalBlog?.message}
-                          </p>
-                        </span>
-                        <input
-                          disabled={isLoading}
-                          className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
-                          type="text"
-                          maxLength={100}
-                          placeholder=""
-                          {...register('personalBlog')}
-                        />
-                      </div>
-                    )}
-                    {!user.isCompany && (
-                      <div className="mt-[20px]">
-                        <span className="flex flex-row">
-                          Github
-                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-                            {errors.githubLink?.message}
-                          </p>
-                        </span>
-                        <input
-                          disabled={isLoading}
-                          className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
-                          type="text"
-                          maxLength={100}
-                          placeholder=""
-                          {...register('githubLink')}
-                        />
-                      </div>
-                    )}
-                    <div className="mt-[20px]">
-                      <span className="flex flex-row">
-                        Calendly link
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-                          {errors.scheduleCalendlyLink?.message}
-                        </p>
-                      </span>
-                      <div className="relative flex items-center">
-                        <span className="absolute left-3 top-[25px] self-center text-[17px] font-normal">
-                          calendly.com/
-                        </span>
-                        <input
-                          disabled={isLoading}
-                          className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white pl-[123px] pr-[10px] text-[17px] font-normal outline-0 lg:w-[500px]"
-                          type="text"
-                          maxLength={100}
-                          placeholder=""
-                          {...register('scheduleCalendlyLink')}
-                        />
-                      </div>
-                    </div>
-                    <div className={`mt-[20px]`}>
-                      <span className="flex flex-row">
-                        Service tags
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-                          {errors.tags?.message}
+                        Founding year
+                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
+                          {errors.foundingYear?.message}
                         </p>
                       </span>
                       <Controller
-                        name="tags"
+                        name="foundingYear"
                         control={control}
-                        defaultValue={[]}
-                        rules={{
-                          required: 'At least three tags are required',
-                          validate: (value) =>
-                            value.length >= 3 ||
-                            'At least three tags are required',
-                        }}
+                        defaultValue={null}
+                        rules={{ required: 'Founding year is required' }}
                         render={({ field }) => (
                           <Autocomplete
                             {...field}
-                            multiple
-                            disabled={isLoading}
-                            className="mt-[10px]"
-                            options={skillOptions}
-                            size="small"
-                            getOptionLabel={(option) => `${option}`}
-                            filterOptions={(options, state) =>
-                              options.filter((option) =>
-                                option
-                                  .toLowerCase()
-                                  .includes(state.inputValue.toLowerCase()),
-                              )
-                            }
-                            onChange={(e, newValue) => {
-                              if (newValue.length <= 5) {
-                                field.onChange(newValue)
-                              } else {
-                                toast.error('Only 5 tags', {
-                                  position: toast.POSITION.TOP_RIGHT,
-                                })
-                              }
-                            }}
+                            options={years}
+                            disableClearable
+                            getOptionLabel={(option) => option.toString()}
+                            onChange={(e, newValue) => field.onChange(newValue)}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
                                 variant="outlined"
-                                id="margin-none"
+                                placeholder="Select a year"
+                                error={Boolean(errors.foundingYear)}
+                                helperText={errors.foundingYear?.message}
                                 sx={{
                                   width: isSmallScreen ? '280px' : '500px',
-                                  marginBottom: `${
-                                    field.value.length >= 2 ? '50px' : ''
-                                  }`,
-                                  height: `${
-                                    field.value.length >= 2 ? '100px' : '45px'
-                                  }`,
                                   fieldset: {
-                                    height: `${
-                                      field.value.length >= 2 ? '100px' : '45px'
-                                    }`,
+                                    height: '50px',
                                     borderColor: '#D4D4D4',
                                     borderRadius: '10px',
+                                    marginTop: '7px',
                                   },
                                   input: { color: 'black' },
                                 }}
@@ -656,60 +446,222 @@ const Profile = () => {
                         )}
                       />
                     </div>
+                  )}
+                  <div id="tagsId" className="mt-[20px]">
+                    <span className="flex flex-row">
+                      Location
+                      <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        {errors.location?.message}
+                      </p>
+                    </span>
+                    <input
+                      disabled={isLoading}
+                      className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                      type="text"
+                      maxLength={100}
+                      placeholder="new york, us"
+                      {...register('location')}
+                    />
+                  </div>
+                  {isCompany && (
                     <div className="mt-[20px]">
                       <span className="flex flex-row">
-                        {!user.isCompany
-                          ? 'Provide a short description about yourself'
-                          : 'Provide a short description about your organization'}
+                        Website
                         <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-                          {errors.description?.message}
+                          {errors.website?.message}
                         </p>
                       </span>
-                      <textarea
+                      <input
                         disabled={isLoading}
-                        className="mt-[10px] h-[200px] w-[380px] rounded-[10px] border border-[#D4D4D4] bg-white py-[25px] px-[20px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                        className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                        type="text"
                         maxLength={100}
                         placeholder=""
-                        {...register('description')}
+                        {...register('website')}
+                      />
+                    </div>
+                  )}
+                  {!isCompany && (
+                    <div className="mt-[20px]">
+                      <span className="flex flex-row">
+                        Personal blog
+                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                          {errors.personalBlog?.message}
+                        </p>
+                      </span>
+                      <input
+                        disabled={isLoading}
+                        className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                        type="text"
+                        maxLength={100}
+                        placeholder=""
+                        {...register('personalBlog')}
+                      />
+                    </div>
+                  )}
+                  {!isCompany && (
+                    <div className="mt-[20px]">
+                      <span className="flex flex-row">
+                        Github
+                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                          {errors.githubLink?.message}
+                        </p>
+                      </span>
+                      <input
+                        disabled={isLoading}
+                        className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                        type="text"
+                        maxLength={100}
+                        placeholder=""
+                        {...register('githubLink')}
+                      />
+                    </div>
+                  )}
+                  <div className="mt-[20px]">
+                    <span className="flex flex-row">
+                      Calendly link
+                      <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        {errors.scheduleCalendlyLink?.message}
+                      </p>
+                    </span>
+                    <div className="relative flex items-center">
+                      <span className="absolute left-3 top-[25px] self-center text-[17px] font-normal">
+                        calendly.com/
+                      </span>
+                      <input
+                        disabled={isLoading}
+                        className="mt-[10px] h-[45px] w-[280px] rounded-[10px] border border-[#D4D4D4] bg-white pl-[123px] pr-[10px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                        type="text"
+                        maxLength={100}
+                        placeholder=""
+                        {...register('scheduleCalendlyLink')}
                       />
                     </div>
                   </div>
+                  <div className={`mt-[20px]`}>
+                    <span className="flex flex-row">
+                      Service tags
+                      <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        {errors.tags?.message}
+                      </p>
+                    </span>
+                    <Controller
+                      name="tags"
+                      control={control}
+                      defaultValue={[]}
+                      rules={{
+                        required: 'At least three tags are required',
+                        validate: (value) =>
+                          value.length >= 3 ||
+                          'At least three tags are required',
+                      }}
+                      render={({ field }) => (
+                        <Autocomplete
+                          {...field}
+                          multiple
+                          disabled={isLoading}
+                          className="mt-[10px]"
+                          options={skillOptions}
+                          size="small"
+                          getOptionLabel={(option) => `${option}`}
+                          filterOptions={(options, state) =>
+                            options.filter((option) =>
+                              option
+                                .toLowerCase()
+                                .includes(state.inputValue.toLowerCase()),
+                            )
+                          }
+                          onChange={(e, newValue) => {
+                            if (newValue.length <= 5) {
+                              field.onChange(newValue)
+                            } else {
+                              toast.error('Only 5 tags', {
+                                position: toast.POSITION.TOP_RIGHT,
+                              })
+                            }
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              variant="outlined"
+                              id="margin-none"
+                              sx={{
+                                width: isSmallScreen ? '280px' : '500px',
+                                marginBottom: `${
+                                  field.value.length >= 2 ? '50px' : ''
+                                }`,
+                                height: `${
+                                  field.value.length >= 2 ? '100px' : '45px'
+                                }`,
+                                fieldset: {
+                                  height: `${
+                                    field.value.length >= 2 ? '100px' : '45px'
+                                  }`,
+                                  borderColor: '#D4D4D4',
+                                  borderRadius: '10px',
+                                },
+                                input: { color: 'black' },
+                              }}
+                            />
+                          )}
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className="mt-[20px]">
+                    <span className="flex flex-row">
+                      {!isCompany
+                        ? 'Provide a short description about yourself'
+                        : 'Provide a short description about your organization'}
+                      <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        {errors.description?.message}
+                      </p>
+                    </span>
+                    <textarea
+                      disabled={isLoading}
+                      className="mt-[10px] h-[200px] w-[380px] rounded-[10px] border border-[#D4D4D4] bg-white px-[20px] py-[25px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                      maxLength={100}
+                      placeholder=""
+                      {...register('description')}
+                    />
+                  </div>
                 </div>
               </div>
-              {isLoading ? (
-                <div className="mt-[60px] flex pb-[10px] lg:pb-60">
-                  <button
-                    disabled={true}
-                    className=" mr-[15px] h-[50px] w-[250px] rounded-[10px] bg-[#7a89a5] py-[12px] px-[25px] text-[12px] font-bold text-white  lg:text-[16px]"
-                    onClick={handleSubmit(onSubmit)}
-                  >
-                    <span className="">Update account</span>
-                  </button>
-                  <svg
-                    className="mt-1 animate-spin"
-                    height="40px"
-                    id="Icons"
-                    version="1.1"
-                    viewBox="0 0 80 80"
-                    width="40px"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M58.385,34.343V21.615L53.77,26.23C50.244,22.694,45.377,20.5,40,20.5c-10.752,0-19.5,8.748-19.5,19.5S29.248,59.5,40,59.5  c7.205,0,13.496-3.939,16.871-9.767l-4.326-2.496C50.035,51.571,45.358,54.5,40,54.5c-7.995,0-14.5-6.505-14.5-14.5  S32.005,25.5,40,25.5c3.998,0,7.617,1.632,10.239,4.261l-4.583,4.583H58.385z" />
-                  </svg>
-                </div>
-              ) : (
-                <div className="mt-[60px] pb-60">
-                  <button
-                    type="submit"
-                    onClick={handleSubmit(onSubmit)}
-                    className={`h-[50px] w-[250px] rounded-[10px] border border-[#0354EC] py-[12px] px-[25px] text-[12px] font-bold text-[#0354EC] hover:bg-[#0354EC] hover:text-[#fff] lg:text-[16px]`}
-                  >
-                    <span className="">Update account</span>
-                  </button>
-                </div>
-              )}
-            </form>
-            {/* <div className="flex h-fit">
+            </div>
+            {isLoading ? (
+              <div className="mt-[60px] flex pb-[10px] lg:pb-60">
+                <button
+                  disabled={true}
+                  className=" mr-[15px] h-[50px] w-[250px] rounded-[10px] bg-[#7a89a5] px-[25px] py-[12px] text-[12px] font-bold text-white  lg:text-[16px]"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  <span className="">Update account</span>
+                </button>
+                <svg
+                  className="mt-1 animate-spin"
+                  height="40px"
+                  id="Icons"
+                  version="1.1"
+                  viewBox="0 0 80 80"
+                  width="40px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M58.385,34.343V21.615L53.77,26.23C50.244,22.694,45.377,20.5,40,20.5c-10.752,0-19.5,8.748-19.5,19.5S29.248,59.5,40,59.5  c7.205,0,13.496-3.939,16.871-9.767l-4.326-2.496C50.035,51.571,45.358,54.5,40,54.5c-7.995,0-14.5-6.505-14.5-14.5  S32.005,25.5,40,25.5c3.998,0,7.617,1.632,10.239,4.261l-4.583,4.583H58.385z" />
+                </svg>
+              </div>
+            ) : (
+              <div className="mt-[60px] pb-60">
+                <button
+                  type="submit"
+                  onClick={handleSubmit(onSubmit)}
+                  className={`h-[50px] w-[250px] rounded-[10px] border border-[#0354EC] px-[25px] py-[12px] text-[12px] font-bold text-[#0354EC] hover:bg-[#0354EC] hover:text-[#fff] lg:text-[16px]`}
+                >
+                  <span className="">Update account</span>
+                </button>
+              </div>
+            )}
+          </form>
+          {/* <div className="flex h-fit">
               {selectedFiles.length === 0 ? (
                 <label className="">
                   <div className="">
@@ -741,11 +693,11 @@ const Profile = () => {
                 <div> </div>
               )}
             </div> */}
-          </div>
-        </section>
-      </>
-    )
-  }
+        </div>
+      </section>
+    </>
+  )
+  // }
 }
 
 export default Profile
