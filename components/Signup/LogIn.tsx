@@ -4,7 +4,7 @@
 'use client'
 import { useState, useContext } from 'react'
 import * as Yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { Eye, EyeSlash } from 'phosphor-react'
@@ -35,12 +35,10 @@ const LogIn = () => {
   const {
     register,
     handleSubmit,
-    setValue,
-    control,
-    reset,
+
     formState: { errors },
   } = useForm<LoginForm>({
-    resolver: yupResolver<any>(validSchema),
+    resolver: zodResolver<any>(validSchema),
   })
 
   async function loginUser(data: any) {

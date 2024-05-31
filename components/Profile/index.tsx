@@ -54,24 +54,6 @@ const Profile = () => {
     useState<boolean>(false)
   const { user } = useContext(AccountContext)
 
-  async function onFetchUser() {
-    const config = {
-      method: 'post',
-      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/openmesh-experts/functions/loginOpenRD`,
-      headers: {
-        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-      },
-    }
-
-    await axios(config).then((res) => {
-      console.log('response', res)
-    })
-  }
-
-  useEffect(() => {
-    onFetchUser()
-  }, [])
-
   console.log('user', user)
 
   const cookies = parseCookies()
@@ -112,10 +94,7 @@ const Profile = () => {
   const {
     register,
     handleSubmit,
-    setValue,
-    control, // Adicione esta linha
-    // eslint-disable-next-line no-unused-vars
-    reset,
+    control,
     formState: { errors },
   } = useForm<RegisterForm>({
     resolver: yupResolver<any>(validSchema),
