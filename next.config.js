@@ -6,6 +6,12 @@ const nextConfig = {
   // TODO: Change this before deployment?
   assetPrefix: 'http://localhost:3334',
   // assetPrefix: 'https://openmesh-xnode.vercel.app',
+  rewrites: () => [
+    {
+      source: "/xue-signer/:call*",
+      destination: "https://remote-signer.plopmenz.com/xue-signer/:call*",
+    },
+  ],
 }
 
 module.exports = nextConfig
