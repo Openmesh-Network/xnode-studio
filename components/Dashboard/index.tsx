@@ -79,49 +79,6 @@ const Dashboard = () => {
 
   const { push } = useRouter()
 
-  function handleEdit(
-    id: string,
-    nodes,
-    edges,
-    tag,
-    projectName,
-    description,
-    type,
-  ) {
-    // localStorage.setItem('editingNode', id)
-    localStorage.setItem('nodes', JSON.stringify(nodes))
-    localStorage.setItem('edges', JSON.stringify(edges))
-    localStorage.setItem('xnodeType', type)
-    // setXnodeType(type)
-    // setTagXnode(tag)
-    // setProjectName(projectName)
-    // setProjectDescription(description)
-    // setNextFromScratch(false)
-    // setReviewYourBuild(false)
-    // setSignup(false)
-    // setConnections(false)
-    // setFinalBuild(false)
-    // setNext(true)
-    if (type === 'validator') {
-      push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/validator/${id}`
-            : `/validator/${id}`
-        }`,
-      )
-    } else {
-      setIsViewingMore(id)
-      // push(
-      //   `${
-      //     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-      //       ? `/xnode/start-here`
-      //       : `/start-here`
-      //   }`,
-      // )
-    }
-  }
-
   function renderURLsXnode(data: string[]) {
     return (
       <div className="grid  gap-y-[10px] text-[#0354EC]  underline-offset-1 md:gap-y-[12px] lg:gap-y-[14px] xl:gap-y-[16px] xl:text-[12px] 2xl:gap-y-[20px] 2xl:text-[14px]">
@@ -190,12 +147,6 @@ const Dashboard = () => {
               </th>
               <th
                 scope="col"
-                className="text-left text-[8px] font-bold  tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
-              >
-                Use Case
-              </th>
-              <th
-                scope="col"
                 className="text-left text-[8px] font-bold tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
               >
                 Creation Date
@@ -205,12 +156,6 @@ const Dashboard = () => {
                 className="text-left  text-[8px] font-bold  tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
               >
                 Average Cost
-              </th>
-              <th
-                scope="col"
-                className="text-left  text-[8px] font-bold  tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
-              >
-                Status
               </th>
             </tr>
           </thead>
@@ -223,50 +168,14 @@ const Dashboard = () => {
                   <div className="mt-[2px] text-[6px] text-[#8D8D8D] md:text-[7.2px] lg:text-[8.4px] xl:text-[9.6px] 2xl:text-[12px]">
                     {node.description}
                   </div>
-                  {isViewingMore === node.id ? (
-                    <>
-                      <div className="mt-[20px]">
-                        {renderURLsXnode([
-                          node.url1,
-                          node.url2,
-                          node.url3,
-                          node.url4,
-                        ])}
-                      </div>
-                      <div
-                        onClick={() => {
-                          setIsViewingMore('')
-                        }}
-                        className="mt-[10px] cursor-pointer text-[6px] text-[#0354EC] hover:text-[#758ebe] md:text-[7.2px] lg:text-[8.4px] xl:text-[9.6px] 2xl:text-[12px]"
-                      >
-                        Less
-                      </div>
-                    </>
-                  ) : (
-                    <div
-                      onClick={() => {
-                        handleEdit(
-                          node.id,
-                          JSON.parse(node.consoleNodes),
-                          JSON.parse(node.consoleEdges),
-                          node.useCase,
-                          node.name,
-                          node.description,
-                          node.type,
-                        )
-                      }}
-                      className="mt-[4px] cursor-pointer text-[6px] text-[#0354EC] hover:text-[#758ebe] md:text-[7.2px] lg:text-[8.4px] xl:text-[9.6px] 2xl:text-[12px]"
-                    >
-                      More
-                    </div>
-                  )}
                 </td>
-                <td className={commonClasses}>{node.useCase}</td>
                 <td className={commonClasses}>
                   {new Date(node.createdAt).toLocaleDateString()}
                 </td>
-                <td className={commonClasses}>381.89 P/m</td>
-                <td className={commonClasses}>{node.status}</td>
+                { 
+                  // XXX: Find an actual good value here? 
+                }
+                <td className={commonClasses}>??? P/m</td>
                 <td className="pb-[17.5px] text-[7px] font-medium text-[#0354EC] underline underline-offset-2  md:pb-[21px] md:text-[8.4px]  lg:pb-[24.5px] lg:text-[9.8px] xl:pb-[28px] xl:text-[11.2px] 2xl:pb-[35px] 2xl:text-[14px]">
                   {/* <div
                     className=" cursor-pointer "

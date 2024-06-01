@@ -10,11 +10,13 @@ import AddOns2 from './AddOns2'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { DeploymentConfiguration, ServiceFromName } from '@/types/dataProvider'
 import {
   optionsFeature,
   optionsServerLocationToValue,
   optionsServerNumberToValue,
 } from '@/utils/constants'
+import { Timer } from 'phosphor-react'
 
 export function findServerDefaultType(array) {
   const serverObject = array.find((item) => item.type === 'server')
@@ -85,45 +87,29 @@ const ReviewYourBuild = () => {
   const [coreServices, setCoreServices] = useState<CoreServices[]>([])
   const [coreServicesData, setCoreServicesData] = useState<string[]>([])
   const [coreServicesApi, setCoreServicesApi] = useState<string[]>([])
+  const [sentRequest, setSentRequest] = useState<boolean>(false)
   const [isDeploying, setIsDeploying] = useState<boolean>(false)
   const [isLoadingFeatures, setIsLoadingFeatures] = useState<boolean>(false)
 
-  const { setReviewYourBuild, tagXnode, user, projectName, xnodeType } =
+  const { setReviewYourBuild, tagXnode, user, projectName, xnodeType, draft } =
     useContext(AccountContext)
 
   const { push } = useRouter()
 
-  async function createXnode() {
+  async function createXnode(config: DeploymentConfiguration) {
     setIsDeploying(true)
-    const savedNodes = localStorage.getItem('nodes')
-    const savedEdges = localStorage.getItem('edges')
 
-    const serverLoc =
-      optionsServerLocationToValue[
-        findServerDefaultValueLocation(JSON.parse(savedNodes))
-      ]
-    const serverNumber =
-      optionsServerNumberToValue[findServerDefaultType(JSON.parse(savedNodes))]
-
-    const features = findFeatures(JSON.parse(savedNodes))
-
-    const websocketEnabled = findAPIisWebsocket(JSON.parse(savedNodes))
-    const finalData = {
-      name: projectName,
-      description: 'This is my xnode',
-      useCase: tagXnode,
-      status: 'Running',
-      location: findServerDefaultValueLocation(JSON.parse(savedNodes)),
-      consoleNodes: savedNodes,
-      consoleEdges: savedEdges,
-      type: xnodeType,
-      serverLoc,
-      serverNumber,
-      websocketEnabled,
-      features,
+    const payload = {
+      name: config.name,
+      location: config.location,
+      description: config.desc,
+      provider: config.provider,
+      isUnit: config.isUnit,
+      services: JSON.stringify(config.services)
     }
-    console.log('final data aq')
-    console.log(finalData)
+
+    console.log('Payload: ')
+    console.log(payload)
 
     if (user.sessionToken) {
       const config = {
@@ -134,7 +120,7 @@ const ReviewYourBuild = () => {
           'X-Parse-Session-Token': user.sessionToken,
           'Content-Type': 'application/json',
         },
-        data: finalData,
+        data: payload,
       }
 
       try {
@@ -153,72 +139,36 @@ const ReviewYourBuild = () => {
       push(
         `${
           process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/start-here`
-            : `/start-here`
+            ? `/xnode/`
+            : `/`
         }`,
       )
     }
-    // setIsDeploying(false)
   }
 
   useEffect(() => {
-    console.log('called')
+    // {
+    //   // XXX: This is just here for testing purposes.
+    //   let config: DeploymentConfiguration = {
+    //     name: "My Minecraft Server",
+    //     desc: "This is my favourite videogame, so I'm running it on my Xnode!",
+    //     location: "ny",
+    //     provider: "Unit",
+    //     isUnit: true,
+    //     services: [ ServiceFromName("Minecraft") ]
+    //   }
+    //   draft = JSON.stringify(config)
+    // }
 
-    const savedNodes = localStorage.getItem('nodes')
+    // XXX: This runs twice for some reason!!
+    //  - Some nextjs config that runs all effects twice.
+    //  - Maybe component is included/rendered twice?
 
-    if (savedNodes) {
-      const final = JSON.parse(savedNodes)
-      // Setting the server flow
-      const existingServerIndex = final.findIndex(
-        (node) => node.type === 'server',
-      )
-      console.log(existingServerIndex)
-      if (existingServerIndex !== -1) {
-        setServiceRegion(final[existingServerIndex].data.defaultValueLocation)
-        setCloudProvider(
-          final[existingServerIndex].data.defaultValueCloudProvider,
-        )
-      }
-
-      // Setting the core services flow
-      const coreServicesArray = []
-      const coreServiceDataArray = []
-      const coreServiceApiArray = []
-
-      for (let i = 0; i < final.length; i++) {
-        const node = final[i]
-
-        if (coreServicesType.includes(node.type)) {
-          console.log(node.data)
-          coreServicesArray.push({
-            name: node.data.name,
-            description: nameToDesc[node.data.name] || '',
-            isFree: nameToFree[node.data.name] || false,
-          })
-        } else if (node.type === 'dataStreaming') {
-          for (let j = 0; j < node.data?.lists.length; j++) {
-            if (node.data.lists[j].title !== 'dataOption.title') {
-              coreServiceDataArray.push(node.data.lists[j].title)
-            }
-          }
-        } else if (node.type === 'dataHistorical') {
-          for (let j = 0; j < node.data?.lists.length; j++) {
-            if (node.data.lists[j].title !== 'dataOption.title') {
-              coreServiceDataArray.push(node.data.lists[j].title)
-            }
-          }
-        } else if (node.type === 'api') {
-          coreServiceApiArray.push(node.data.name)
-        }
-      }
-      setCoreServices(coreServicesArray)
-      setCoreServicesData(coreServiceDataArray)
-      setCoreServicesApi(coreServiceApiArray)
-
-      console.log(coreServicesArray)
-      console.log(coreServiceDataArray)
-      console.log(coreServiceApiArray)
-      createXnode()
+    console.log('Effect has been run')
+    console.log(draft)
+    if (draft && !sentRequest) {
+      console.log("Draft exists! Creating Xnode.", sentRequest)
+      createXnode(draft)
     }
   }, [])
 
@@ -245,6 +195,9 @@ const ReviewYourBuild = () => {
             Your progress
           </div>
           <div className="mt-[25px] text-[18px] font-normal -tracking-[2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
+            { 
+              /* XXX: Incorrect! */ 
+            }
             Estimate time to deployment ~ 31 min
           </div>
           <div className="mt-[15px] grid gap-y-[10px] md:mt-[18px] md:gap-y-[12px] lg:mt-[21px] lg:gap-y-[14px]  2xl:mt-[30px] 2xl:gap-y-[20px]">

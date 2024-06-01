@@ -25,7 +25,8 @@ const queryClient = new QueryClient()
 const chain =
   process.env.NEXT_PUBLIC_WALLET_ENVIRONMENT === 'Polygon'
     ? polygon
-    : polygonMumbai
+    // : polygonMumbai
+    : polygon
 
 const chains = [chain] as const
 

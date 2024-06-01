@@ -81,7 +81,7 @@ const TemplateProducts = () => {
   )
   const [selected, setSelected] = useState<ValueObject | null>(null)
 
-  const { setIndexerDeployerStep, templateSelected, setTemplateSelected } =
+  const { setIndexerDeployerStep, templateSelected, setTemplateSelected, draft, setDraft } =
     useContext(AccountContext)
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -151,6 +151,7 @@ const TemplateProducts = () => {
       data = await getAPI(url)
     } catch (err) {
       toast.error('Something occured')
+      console.log('Request failed.')
     }
     setPage(page + 1)
     setIsLoadingMoreTemplates(false)
@@ -316,12 +317,17 @@ const TemplateProducts = () => {
                     </div>
                   </div>
                   <div className="ml-auto grid text-center">
-                    <div className="mx-auto w-fit text-[16px] font-medium leading-[20px] line-through">
+                    <div className="mx-auto w-fit text-[16px] font-medium leading-[20px]">
                       Est {tmp.priceMonth} /mo
                     </div>
                     <div
                       onClick={() => {
                         setTemplateSelected(tmp)
+
+                        let d = draft;
+                        d.location = tmp.location
+                        d.isUnit = false
+                        d.provider = tmp.providerName
                       }}
                       className={`mt-[15px] cursor-pointer border-[1px] border-[#0059ff] ${
                         tmp?.id === templateSelected?.id
@@ -330,9 +336,6 @@ const TemplateProducts = () => {
                       } w-[174px] rounded-[12px]  py-[13px] text-[16px] font-bold !leading-[150%]  `}
                     >
                       {tmp?.id === templateSelected?.id ? 'Selected' : 'Select'}
-                    </div>
-                    <div className="mt-[11px] text-[16px] font-bold text-[#0059ff]">
-                      Cashback $200
                     </div>
                   </div>
                 </div>
@@ -365,15 +368,6 @@ const TemplateProducts = () => {
               <div className="text-[18px] font-bold leading-[40px]">
                 Your progress
               </div>
-              <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/x-new.svg`}
-                alt="image"
-                className={``}
-              />
             </div>
             <div className="mt-[22px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
               <img

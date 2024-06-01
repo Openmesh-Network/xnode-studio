@@ -1,0 +1,27 @@
+[
+  {
+    "id": "234",
+    "logo": "https://images.ctfassets.net/y6pyp0ob27zb/5fcVJIxJWOD3YH6qdKMfUK/ff20aab62ffb7a15300febb72fe7b312/minecraftlogo.jpg",
+    "name": "Minecraft Server",
+    "desc": "A minecraft game server",
+    "category": "Server",
+    "tags": [ "Game", "Server", "Multiplayer" ],
+    "dateAdded": "2024-09-27T18:25:43.511Z",
+    "serviceNames": [
+      "Minecraft"    
+    ]
+  },
+  {
+    "id": "69",
+    "logo": "<url>",
+    "name": "Xnode Validator",
+    "category": "Blockchain",
+    "tags": [ "test" ],
+    "dateAdded": "2024-05-27T19:28:33.106Z",
+    "desc": "Computer pre-configured with Openmesh's services.",
+    "serviceNames": [
+      "core",
+      "openapis"
+    ]
+  }
+]

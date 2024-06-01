@@ -25,19 +25,25 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <head />
 
-      <Providers>
-        <body className={`w-full bg-white ${inter.className}`}>
-          <div className="flex flex-col">
+      <body className="max-w-screen w-full bg-white">
+        <Providers>
+          <div className="mx-auto">
             <Header />
-            <div className="flex h-full w-full items-stretch">
+          </div>
+
+          <div className="w-full max-w-screen flex">
+            <div className="z-50 min-w-[180px] float-left bg-[#F4F4F4]">
               <LateralNav />
+            </div>
+
+            <div className="p-5 w-full m-auto">
               {children}
             </div>
           </div>
 
           <ScrollToTop />
-        </body>
-      </Providers>
+        </Providers>
+      </body>
     </html>
   )
 }

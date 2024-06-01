@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { TemplatesData, TemplatesProducts } from '@/types/dataProvider'
+import { DeploymentConfiguration, TemplatesProducts } from '@/types/dataProvider'
 import React, { createContext, useState } from 'react'
 
 export interface UserProps {
@@ -7,7 +7,7 @@ export interface UserProps {
   firstName: string
   lastName: string
   email: string
-  equinixAPIKey: string
+  apiKey: string
   validationCloudAPIKeyEthereum: string
   validationCloudAPIKeyPolygon: string
   aivenAPIKey: string
@@ -53,9 +53,6 @@ interface CreateUserContextProps {
   templateSelected: TemplatesProducts | null
   setTemplateSelected: (value: TemplatesProducts | null) => void
 
-  templateDataSelected: TemplatesData | null
-  setTemplateDataSelected: (value: TemplatesData | null) => void
-
   updateDataNode: string
   setUpdateDataNode: (value: string) => void
 
@@ -100,6 +97,9 @@ interface CreateUserContextProps {
 
   user: UserProps | undefined
   setUser: (user: UserProps | undefined) => void
+
+  draft: DeploymentConfiguration
+  setDraft: (draft: DeploymentConfiguration) => void
 }
 
 export const AccountContext = createContext({} as CreateUserContextProps)
@@ -112,8 +112,6 @@ export default function AccountContextProvider({
   const [indexerDeployerStep, setIndexerDeployerStep] = useState(-1)
   const [templateSelected, setTemplateSelected] =
     useState<TemplatesProducts | null>()
-  const [templateDataSelected, setTemplateDataSelected] =
-    useState<TemplatesData | null>()
   const [removeNodes, setRemoveNodes] = useState()
   const [selectionSideNavBar, setSelectionSideNavBar] =
     useState<string>('Start here')
@@ -137,6 +135,8 @@ export default function AccountContextProvider({
   const [projectDescription, setProjectDescription] = useState<string>(
     'Project description',
   )
+  const [draft, setDraft] = useState<DeploymentConfiguration>()
+  
   return (
     <AccountContext.Provider
       value={{
@@ -149,8 +149,6 @@ export default function AccountContextProvider({
         selectCurrentMenuDataType,
         templateSelected,
         setTemplateSelected,
-        templateDataSelected,
-        setTemplateDataSelected,
         isEditingXnode,
         setIsEditingXnode,
         setselectCurrentMenuDataType,
@@ -184,6 +182,8 @@ export default function AccountContextProvider({
         setChangeNodes,
         removeNodes,
         setRemoveNodes,
+        draft,
+        setDraft
       }}
     >
       {children}

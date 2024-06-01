@@ -12,14 +12,11 @@ import {
   Web3NetworkSwitch,
   Web3Button,
 } from '@web3modal/react'
-import { useNetwork, useAccount } from 'wagmi'
+import { useConfig, useSignMessage, useAccount } from 'wagmi'
 import {
   readContract,
   writeContract,
-  prepareWriteContract,
-  waitForTransaction,
   watchContractEvent,
-  signMessage,
 } from '@wagmi/core'
 import axios from 'axios'
 import { AccountContext } from '@/contexts/AccountContext'
@@ -38,7 +35,8 @@ interface ModalProps {
 const Node = ({ ...data }: ModalProps) => {
   const { theme, setTheme } = useWeb3ModalTheme()
   const { address } = useAccount()
-  const { chain, chains } = useNetwork()
+  const { chain } = useAccount()
+  const { chains } = useConfig()
   const [isChainWrong, setIsChainWrong] = useState(false)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -47,6 +45,7 @@ const Node = ({ ...data }: ModalProps) => {
     useState<boolean>(false)
 
   const { user } = useContext(AccountContext)
+const { signMessage } = useSignMessage()
 
   function formatDeadline(dateReceived: string) {
     if (dateReceived) {
@@ -78,8 +77,10 @@ const Node = ({ ...data }: ModalProps) => {
 
     let signature
     try {
-      signature = await signMessage({
-        message: 'I want to participate in the Validator beta',
+      // TODO: Check this works?
+      signature = signMessage({
+        account: useAccount().address,
+        message: 'I want to participate in the Validator beta'
       })
     } catch (err) {
       toast.error('Error during the message signing')
@@ -195,46 +196,49 @@ const Node = ({ ...data }: ModalProps) => {
             <div className="mt-[19px] xl:mt-[28px] 2xl:mt-[34px]">
               <Web3Button />
             </div>
-            {address && !data.node.validatorSignature && (
-              <div className="relative mt-[17px]  flex gap-x-[8px] md:mt-[20.4px]  lg:mt-[24px] xl:mt-[27.2px] 2xl:mt-[34px]">
-                <div
-                  onClick={() => {
-                    if (!isLoading) {
-                      signMessageValidator()
-                    }
-                  }}
-                  className={`cursor-pointer ${
-                    isLoading
-                      ? 'bg-[#3b7cf5]'
-                      : 'bg-[#0354EC] hover:bg-[#022f81]'
-                  } rounded-[5px]   py-[4.5px] px-[18px] text-[7px] text-[#fff]   md:py-[5.4px] md:px-[22.2px] md:text-[8.4px]  lg:py-[6.3px] lg:px-[26px] lg:text-[10px] xl:py-[7.2px] xl:px-[29.5px] xl:text-[11.2px] 2xl:py-[9px] 2xl:px-[37px] 2xl:text-[14px]`}
-                >
-                  Assign your wallet
-                </div>
-                <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/firstStep/question-mark.svg`}
-                  alt="image"
-                  className="absolute top-0 -right-[25px] h-[9px] w-[9px] transform cursor-pointer transition-transform hover:scale-105 md:h-[11px] md:w-[11px] lg:h-[12px]  lg:w-[12px] xl:h-[14px] xl:w-[14px] 2xl:-right-[30px] 2xl:h-[18px] 2xl:w-[18px]"
-                  onMouseEnter={() => setShowTooltipCloudProvider(true)}
-                  onMouseLeave={() => setShowTooltipCloudProvider(false)}
-                />
-                {showTooltipCloudProvider && (
-                  <div className="absolute top-[50px] w-[370px] rounded-[10px] bg-[#000] px-[13px]  py-[10px]  text-[8px] font-medium text-[#fff] md:px-[15px] md:py-[12px] md:text-[9px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
-                    <div>
-                      You will sign a message certifying that your wallet will
-                      be the recipient of the staked tokens.{' '}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-            {data.node.validatorSignature && (
-              <div className="mt-[20px]">Wallet assigned</div>
-            )}
+
+            {/* XXX: Add this back later maybe. Currently just prevents build. */}
+            {/* {address && !data.node.validatorSignature && ( */}
+            {/*   <div className="relative mt-[17px]  flex gap-x-[8px] md:mt-[20.4px]  lg:mt-[24px] xl:mt-[27.2px] 2xl:mt-[34px]"> */}
+            {/*     <div */}
+            {/*       onClick={() => { */}
+            {/*         if (!isLoading) { */}
+            {/*           signMessageValidator() */}
+            {/*         } */}
+            {/*       }} */}
+            {/*       className={`cursor-pointer ${ */}
+            {/*         isLoading */}
+            {/*           ? 'bg-[#3b7cf5]' */}
+            {/*           : 'bg-[#0354EC] hover:bg-[#022f81]' */}
+            {/*       } rounded-[5px]   py-[4.5px] px-[18px] text-[7px] text-[#fff]   md:py-[5.4px] md:px-[22.2px] md:text-[8.4px]  lg:py-[6.3px] lg:px-[26px] lg:text-[10px] xl:py-[7.2px] xl:px-[29.5px] xl:text-[11.2px] 2xl:py-[9px] 2xl:px-[37px] 2xl:text-[14px]`} */}
+            {/*     > */}
+            {/*       Assign your wallet */}
+            {/*     </div> */}
+            {/*     <img */}
+            {/*       src={`${ */}
+            {/*         process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' */}
+            {/*           ? process.env.NEXT_PUBLIC_BASE_PATH */}
+            {/*           : '' */}
+            {/*       }/images/firstStep/question-mark.svg`} */}
+            {/*       alt="image" */}
+            {/*       className="absolute top-0 -right-[25px] h-[9px] w-[9px] transform cursor-pointer transition-transform hover:scale-105 md:h-[11px] md:w-[11px] lg:h-[12px]  lg:w-[12px] xl:h-[14px] xl:w-[14px] 2xl:-right-[30px] 2xl:h-[18px] 2xl:w-[18px]" */}
+            {/*       onMouseEnter={() => setShowTooltipCloudProvider(true)} */}
+            {/*       onMouseLeave={() => setShowTooltipCloudProvider(false)} */}
+            {/*     /> */}
+            {/*     {showTooltipCloudProvider && ( */}
+            {/*       <div className="absolute top-[50px] w-[370px] rounded-[10px] bg-[#000] px-[13px]  py-[10px]  text-[8px] font-medium text-[#fff] md:px-[15px] md:py-[12px] md:text-[9px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]"> */}
+            {/*         <div> */}
+            {/*           You will sign a message certifying that your wallet will */}
+            {/*           be the recipient of the staked tokens.{' '} */}
+            {/*         </div> */}
+            {/*       </div> */}
+            {/*     )} */}
+            {/*   </div> */}
+            {/* )} */}
+            {/* XXX: Re add this? */}
+            {/* {data.node.validatorSignature && ( */}
+            {/*   <div className="mt-[20px]">Wallet assigned</div> */}
+            {/* )} */}
           </div>
         )}
       </div>

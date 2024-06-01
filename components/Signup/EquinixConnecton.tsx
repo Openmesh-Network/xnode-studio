@@ -70,10 +70,11 @@ const EquinixConnection = () => {
       ...data,
     }
     try {
-      const res = await connectEquinix(finalData)
+      // TODO: reintroduce this at some point OFC!
+      // const res = await connectEquinix(finalData)
       toast.success('Success')
       const finalUser = user
-      finalUser.equinixAPIKey = data.apiKey
+      finalUser.apiKey = data.apiKey
       setUser(finalUser)
       setIsEditing(false)
       setIsLoading(false)
@@ -83,7 +84,7 @@ const EquinixConnection = () => {
     }
   }
 
-  if (user?.equinixAPIKey) {
+  if (user?.apiKey) {
     return (
       <div className="relative rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] pb-[60px] pr-[100px] text-[#000] md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[20px] xl:pb-[80px] xl:pr-[192px] 2xl:px-[20px] 2xl:py-[25px] 2xl:pb-[100px] 2xl:pr-[240px]">
         <div className="relative flex gap-x-[10px]">

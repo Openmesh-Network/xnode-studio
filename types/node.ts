@@ -7,17 +7,16 @@ export type CoreServices = {
 
 export type Xnode = {
   id: string
+
   name: string
   description: string
-  useCase: string
-  status: string
-  consoleNodes: string
-  consoleEdges: string
+  services: string
   openmeshExpertUserId: string
-  createdAt: string
+  provider: string
+  isUnit: boolean
   location: string
+  createdAt: string
   updatedAt: string
-  validatorSignature: string
 }
 
 type Stats = {

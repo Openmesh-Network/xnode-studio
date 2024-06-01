@@ -109,7 +109,8 @@ const Stats = ({ ...data }: ModalProps) => {
                 <td className={commonClasses}>52,000 OPEN</td>
                 <td className={commonClasses}>52,000 OPEN</td>
                 <td className={commonClasses}>
-                  {node.status === 'Running' ? (
+                  { /* XXX: Maybe re enable this stuff? Not sure if we'll keep a lot of this code really. */ }
+                  { /* node.status === 'Running' ? (
                     <img
                       src={`${
                         process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -129,7 +130,7 @@ const Stats = ({ ...data }: ModalProps) => {
                       alt="image"
                       className={`mx-auto ml-[15px] w-[8px] md:w-[9.6px] lg:w-[11.2px] xl:w-[12.8px] 2xl:ml-[20px] 2xl:w-[16px]`}
                     />
-                  )}
+                    ) */}
                 </td>
               </tr>
             ))}

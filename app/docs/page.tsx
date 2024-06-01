@@ -142,7 +142,7 @@ export default function Tasks() {
   ]
   return (
     <>
-      <div className="ml-[8px]  flex w-full max-w-[1800px] flex-col items-start rounded-[10px] bg-[#F9F9F9] pb-[172px] pl-[85px] pr-[132px] pt-[45px] md:pb-[213px] md:pl-[102px] md:pr-[158px] md:pt-[54px] lg:pb-[248px] lg:pl-[119px] lg:pr-[184px] lg:pt-[63px] xl:pb-[284px] xl:pl-[136px] xl:pr-[211px] xl:pt-[72px] 2xl:pb-[355px] 2xl:pl-[170px] 2xl:pr-[264px] 2xl:pt-[90px]  ">
+      <div className="ml-[8px] flex w-full flex-col items-start rounded-[10px] pl-[85px] pr-[132px] pt-[45px] pb-[172px] md:pl-[102px] md:pr-[158px] md:pt-[54px] md:pb-[213px] lg:pl-[119px] lg:pr-[184px] lg:pt-[63px] lg:pb-[248px] xl:pl-[136px] xl:pr-[211px] xl:pt-[72px] xl:pb-[284px] 2xl:pl-[170px] 2xl:pr-[264px] 2xl:pt-[90px] 2xl:pb-[355px]  ">
         <h1 className=" mt-[-5px] flex h-[56px] w-[1067px] flex-row justify-start font-inter text-[40px] font-normal text-black">
           Basics
         </h1>

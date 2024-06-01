@@ -17,7 +17,7 @@ type EquinixAPIForm = {
 const NewIntegrationConn = () => {
   const [showTooltipCloudProvider, setShowTooltipCloudProvider] =
     useState<boolean>(false)
-  const { setConnections, templateSelected, templateDataSelected } =
+  const { setConnections, templateSelected } =
     useContext(AccountContext)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -71,7 +71,8 @@ const NewIntegrationConn = () => {
       ...data,
     }
     try {
-      const res = await connectEquinix(finalData)
+      // TODO: Actually implement this later ofc. Removing now for testing internally.
+      // const res = await connectEquinix(finalData)
       toast.success('Success')
       const finalUser = user
       finalUser.equinixAPIKey = data.apiKey

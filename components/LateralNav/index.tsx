@@ -58,6 +58,14 @@ export function LateralNav() {
       subItems: [],
     },
     {
+      label: 'Templates',
+      href: '/template-products',
+      icon: <WorkspaceIcon />,
+      activeIcon: <WorkspaceIcon />,
+      collapsable: false,
+      subItems: [],
+    },
+    {
       label: 'Servers',
       href: '/servers',
       icon: <ServersIcon />,

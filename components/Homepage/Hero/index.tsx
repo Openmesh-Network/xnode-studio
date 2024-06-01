@@ -22,7 +22,7 @@ export function HomeHero() {
           }`}
         >
           <button className="h-14 w-[190px] rounded-md bg-blue500 px-5 font-bold tracking-[-2%] text-white transition-colors duration-300 hover:bg-blue500/80">
-            Try for free
+            Start now
           </button>
         </Link>
       </div>
