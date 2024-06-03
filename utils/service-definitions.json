@@ -79,19 +79,15 @@
     "nixName": "ollama",
     "options": [
       {
-        "name": "models",
-        "desc": "Run ollama3 model as a REST API.",
-        "nixName": "",
-        "type": "int",
-        "value": "1000"
-      },
-      {
         "name": "Cuda GPU",
         "desc": "Enable cuda acceleration",
-        "nixName": "cuda",
-        "type": "boolean",
-        "value": "true"
+        "nixName": "acceleration",
+        "type": "string",
+        "value": "cuda"
       }
     ]
+  },
+  {
+    
   }
 ]

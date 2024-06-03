@@ -23,5 +23,18 @@
       "core",
       "openapis"
     ]
+  },
+  {
+    "id": "1",
+    "logo": "https://github.com/ollama/ollama/assets/3325447/0d0b44e2-8f4a-4e99-9b52-a5c1c741c8f7",
+    "name": "Ollama AI (REST)",
+    "category": "AI",
+    "tags": [ "GPU", "LLM", "Xnode", "API", "Open-source" ],
+    "dateAdded": "2024-05-27T19:28:33.106Z",
+    "desc": "Make use of your GPU-enabled instance with Ollama installed as a REST API. Find the documentation here: https://github.com/ollama/ollama/blob/main/docs/api.md ",
+    "serviceNames": [
+      "core",
+      "Ollama"
+    ]
   }
 ]

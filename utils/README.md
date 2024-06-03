@@ -3,3 +3,5 @@ The services all have enable=true appended so no need to configure that option. 
 
 When contributing to these definitions, aim to configure the most sensible and fully-featured defaults.
 
+## To-Do
+* For the OpenSSH service definition, the ssh public key needs to be passed in to the user.
