@@ -1,26 +1,18 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
 import { useContext, useEffect, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
-import { formatAddress } from '@/utils/functions'
-import { readContract, watchContractEvent, writeContract } from '@wagmi/core'
-import {
-  useWeb3ModalTheme,
-  Web3Button,
-  Web3NetworkSwitch,
-} from '@web3modal/react'
 import axios from 'axios'
 import { format, formatDistanceToNow } from 'date-fns'
-import { File, Info, SmileySad } from 'phosphor-react'
+import { SmileySad } from 'phosphor-react'
 import { toast } from 'react-toastify'
 import { useAccount, useConfig, useSignMessage } from 'wagmi'
 
 import { Xnode } from '@/types/node'
 
 import 'react-toastify/dist/ReactToastify.css'
+
+import { Address } from 'viem'
 
 interface ModalProps {
   totalValidators: number
@@ -32,7 +24,6 @@ interface ModalProps {
 }
 
 const Node = ({ ...data }: ModalProps) => {
-  const { theme, setTheme } = useWeb3ModalTheme()
   const { address } = useAccount()
   const { chain } = useAccount()
   const { chains } = useConfig()
@@ -70,7 +61,7 @@ const Node = ({ ...data }: ModalProps) => {
     }
   }
 
-  async function signMessageValidator() {
+  async function signMessageValidator(address: Address) {
     setIsLoading(true)
     console.log('initiating')
 
@@ -78,7 +69,7 @@ const Node = ({ ...data }: ModalProps) => {
     try {
       // TODO: Check this works?
       signature = signMessage({
-        account: useAccount().address,
+        account: address,
         message: 'I want to participate in the Validator beta',
       })
     } catch (err) {
@@ -126,13 +117,7 @@ const Node = ({ ...data }: ModalProps) => {
 
   useEffect(() => {
     setIsChainWrong(false)
-    setTheme({
-      themeVariables: {
-        '--w3m-accent-color': '#000000',
-        // ...
-      },
-    })
-  }, [chain, isChainWrong, setTheme, address])
+  }, [chain, isChainWrong, address])
 
   return (
     <section className="mx-auto w-full font-normal text-[#000]">
@@ -193,7 +178,7 @@ const Node = ({ ...data }: ModalProps) => {
               </div>
             </div>
             <div className="mt-[19px] xl:mt-[28px] 2xl:mt-[34px]">
-              <Web3Button />
+              <w3m-button />
             </div>
 
             {/* XXX: Add this back later maybe. Currently just prevents build. */}

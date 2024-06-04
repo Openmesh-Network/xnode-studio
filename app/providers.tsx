@@ -54,6 +54,9 @@ createWeb3Modal({
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   enableOnramp: true, // Optional - false as default
+  themeVariables: {
+    '--w3m-accent': '#000000',
+  },
 })
 
 export function Providers({
