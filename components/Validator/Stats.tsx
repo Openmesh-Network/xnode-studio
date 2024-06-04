@@ -179,7 +179,7 @@ const Stats = ({ ...data }: ModalProps) => {
         </div>
       </div>
       <div className="mx-auto w-fit">
-        <div className="-ml-[12px] mt-[45px] text-[10px] md:mt-[54px] md:text-[12px] lg:mt-[63px] lg:text-[14px] xl:mt-[72px] xl:text-[16px] 2xl:-ml-[15px] 2xl:mt-[90px] 2xl:text-[20px]">
+        <div className="-ml-3 mt-[45px] text-[10px] md:mt-[54px] md:text-[12px] lg:mt-[63px] lg:text-[14px] xl:mt-[72px] xl:text-[16px] 2xl:ml-[-15px] 2xl:mt-[90px] 2xl:text-[20px]">
           Active validators
         </div>
         <div className="mt-[24px] md:mt-[29px] lg:mt-[34px] xl:mt-[38px] 2xl:mt-[48px]">

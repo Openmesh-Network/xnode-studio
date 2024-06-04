@@ -1,40 +1,18 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
 // import { useState } from 'react'
-import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { yupResolver } from '@hookform/resolvers/yup'
-import Checkbox from '@material-ui/core/Checkbox'
-import axios from 'axios'
-import { Eye, EyeSlash } from 'phosphor-react'
-import { Controller, useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'react-toastify'
-import * as Yup from 'yup'
 
-import 'react-toastify/dist/ReactToastify.css'
-import 'react-quill/dist/quill.snow.css' // import styles
 import 'react-datepicker/dist/react-datepicker.css'
-
-import { getData } from '@/utils/data'
-import Prism from 'prismjs'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { format } from 'sql-formatter'
-
-import { DataProvider } from '@/types/dataProvider'
-
+import 'react-quill/dist/quill.snow.css' // import styles
+import 'react-toastify/dist/ReactToastify.css'
 import 'prismjs/themes/prism.css'
 
-import {
-  getDataXnodeValidatorsInfo,
-  getXnodeWithNodesValidatorsStats,
-} from '@/utils/xnode'
-import { differenceInDays, formatDistanceToNow } from 'date-fns'
+import { getXnodeWithNodesValidatorsStats } from '@/utils/xnode'
 
-import { XnodeValidatorsStats, XnodeWithValidatorsStats } from '@/types/node'
+import { XnodeWithValidatorsStats } from '@/types/node'
 
 import Congratulations from './Congratulations'
 import Node from './Node'
@@ -76,7 +54,7 @@ const Validator = (id: any) => {
         `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     }
-  }, [id])
+  }, [id, push])
 
   // const MapChart = () => (
   //   <div className="mx-auto h-[500px] max-w-[300px] lg:max-w-[800px] xl:max-w-[1000px] 2xl:max-w-[1200px]">

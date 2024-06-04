@@ -1,22 +1,8 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
-// import { useState } from 'react'
-import {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback } from 'react'
 import ReactFlow, {
   addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
   Background,
   Controls,
   MiniMap,
@@ -50,7 +36,7 @@ const OverviewFlow = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
-    []
+    [setEdges]
   )
 
   // we are using a bit of a shortcut here to adjust the edge type

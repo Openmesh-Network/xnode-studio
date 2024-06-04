@@ -155,7 +155,7 @@ export default function Tasks() {
             rel="noopener noreferrer"
             className="ml-[5px] mt-[4px] text-justify font-inter text-[14px] font-medium leading-[24px]"
           >
-            An introduction to xNode's role in decentralizing data
+            An introduction to xNode&apos;s role in decentralizing data
             infrastructure.
           </a>
 

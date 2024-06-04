@@ -1,22 +1,12 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
-// import { useState } from 'react'
-import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { yupResolver } from '@hookform/resolvers/yup'
-import Checkbox from '@material-ui/core/Checkbox'
-import axios from 'axios'
-import { Eye, EyeSlash } from 'phosphor-react'
-import { Controller, useForm } from 'react-hook-form'
+import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
-import * as Yup from 'yup'
 
-import 'react-toastify/dist/ReactToastify.css'
-import 'react-quill/dist/quill.snow.css' // import styles
 import 'react-datepicker/dist/react-datepicker.css'
+import 'react-quill/dist/quill.snow.css' // import styles
+import 'react-toastify/dist/ReactToastify.css'
 
 import { getData } from '@/utils/data'
 import Prism from 'prismjs'

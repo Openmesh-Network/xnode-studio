@@ -1,26 +1,15 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
-/* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from 'react'
-import { getAPI, getDatasets } from '@/utils/data'
-import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
-import { Autocomplete, TextField } from '@mui/material'
-import { SmileySad } from 'phosphor-react'
-import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
 
-import { ServiceData, TemplateData } from '@/types/dataProvider'
-import Filter from '@/components/Filter'
+import { TemplateData } from '@/types/dataProvider'
 
-import ProductsList from '../ProductsList'
 import Dropdown, { ValueObject } from './Dropdown'
 
 export const optionsNetwork = [
@@ -169,7 +158,7 @@ const TemplateStep = () => {
                     : ''
                 }/images/template/small.svg`}
                 alt="image"
-                className="absolute -top-[10px] left-0"
+                className="absolute -top-2.5 left-0"
               />
               <div className="mx-auto flex w-fit gap-x-[12px] text-[14px] font-normal leading-[16px] text-[#4d4d4d] 2xl:text-[16px]">
                 <div
