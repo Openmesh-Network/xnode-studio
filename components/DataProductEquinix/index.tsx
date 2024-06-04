@@ -7,7 +7,6 @@
 import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'
-import Checkbox from '@material-ui/core/Checkbox'
 import axios from 'axios'
 import { Eye, EyeSlash } from 'phosphor-react'
 import { Controller, useForm } from 'react-hook-form'

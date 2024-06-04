@@ -9,7 +9,8 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"**/*.{ts,tsx}\" --cache",
-    "format:check": "prettier --check \"**/*.{ts,tsx}\" --cache"
+    "format:check": "prettier --check \"**/*.{ts,tsx}\" --cache",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
