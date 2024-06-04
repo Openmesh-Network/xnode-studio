@@ -351,20 +351,7 @@ const Profile = () => {
     //   scheduleCalendlyLink: user.calendly,
     //   tags: user.tags,
     // })
-  }, [
-    setValue,
-    user.calendly,
-    user.companyName,
-    user.description,
-    user.firstName,
-    user.foundingYear,
-    user.githubLink,
-    user.lastName,
-    user.location,
-    user.personalBlog,
-    user.tags,
-    user.website,
-  ])
+  }, [setValue, user])
 
   useEffect(() => {
     setIsPageLoading(true)

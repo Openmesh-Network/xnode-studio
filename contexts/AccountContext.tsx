@@ -28,7 +28,7 @@ export interface UserProps {
   githubLink: string
   personalBlog: string
   profilePictureHash: string
-  calendly: string
+  calendly?: string
   sessionToken: string
   createdAt: string
   updatedAt: string
