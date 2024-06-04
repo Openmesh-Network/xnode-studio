@@ -1,8 +1,11 @@
 import Image from 'next/image'
+import { getResourceStats } from '@/server/resources'
+
+import ResourcesTable from './resources-table'
 
 type StatsItemProps = {
   title: string
-  value: string
+  value: string | number
 }
 function StatsItem({ title, value }: StatsItemProps) {
   return (
@@ -13,7 +16,9 @@ function StatsItem({ title, value }: StatsItemProps) {
   )
 }
 
-export default function ResourcesPage() {
+export default async function ResourcesPage() {
+  const { stats } = await getResourceStats()
+
   return (
     <div className="container max-w-screen-2xl">
       <section className="flex flex-col justify-center gap-4 text-center">
@@ -26,28 +31,22 @@ export default function ResourcesPage() {
         </p>
       </section>
       <section className="mt-20 grid grid-cols-7 gap-6 rounded p-6 shadow-[0_0.75rem_1rem_hsl(0_0_0/0.05)]">
-        <StatsItem title="Countries" value="172" />
-        <StatsItem title="Providers" value="32" />
-        <StatsItem title="Regions" value="482" />
-        <StatsItem title="Storage" value="900PB" />
-        <StatsItem title="GUPs" value="335G/F" />
-        <StatsItem title="RAM" value="26PB" />
-        <StatsItem title="Bandwidth" value="900PB" />
+        <StatsItem title="Countries" value={stats.countries} />
+        <StatsItem title="Providers" value={stats.providers} />
+        <StatsItem title="Regions" value={stats.regions} />
+        <StatsItem
+          title="Storage"
+          value={`${Math.round(stats.storage / 1024 / 1024)}PB`}
+        />
+        <StatsItem title="GUPs" value="0G/F" />
+        <StatsItem title="RAM" value={`${Math.round(stats.ram / 1024)}TB`} />
+        <StatsItem
+          title="Bandwidth"
+          value={`${Math.round(stats.bandwidth / 1024)}PB`}
+        />
       </section>
       <section className="mt-12">
-        <table className="w-full text-black">
-          <thead className="bg-body-color/50">
-            <tr className="h-10 [&>th]:px-4 [&>th]:text-start [&>th]:font-normal">
-              <th>Provider</th>
-              <th>Region</th>
-              <th>Item</th>
-              <th>CPU</th>
-              <th>Storage</th>
-              <th>GPU</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-        </table>
+        <ResourcesTable />
       </section>
       <section className="mt-24">
         <Image

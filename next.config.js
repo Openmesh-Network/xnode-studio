@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   // TODO: Change this before deployment?
   assetPrefix:
     process.env.NODE_ENV === 'production'
