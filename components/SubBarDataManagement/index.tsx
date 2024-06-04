@@ -165,7 +165,7 @@ const SubBarDataManagement = ({ onValueChange }) => {
                     <div className="font-semibold">{option.title}</div>
                   </a>
                   {option.isFree && (
-                    <div className="absolute -right-[27px] -top-[14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
+                    <div className="absolute right-[-27px] top-[-14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                       Free
                     </div>
                   )}
@@ -211,7 +211,7 @@ const SubBarDataManagement = ({ onValueChange }) => {
                     option.enabled
                       ? 'cursor-pointer bg-[#0354EC] hover:bg-[#123981]'
                       : 'bg-[#898989]'
-                  } -top-[2px] right-0 rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
+                  } right-0 top-0.5 rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
                 >
                   <div>Add</div>
                 </div>

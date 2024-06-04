@@ -194,7 +194,7 @@ const SubBarServers = ({ onValueChange }) => {
                   {option.title}
                 </div>
                 {option.title === 'Equinix (Decentralized)' && (
-                  <div className="absolute -right-[27px] -top-[14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
+                  <div className="absolute right-[-27px] top-[-14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                     Recommended
                   </div>
                 )}
@@ -271,7 +271,7 @@ const SubBarServers = ({ onValueChange }) => {
                       : ''
                   }${option.src}`}
                   alt="image"
-                  className={`absolute -left-[5px] top-[15px] my-auto ${option.style}`}
+                  className={`absolute left-[-5px] top-[15px] my-auto ${option.style}`}
                 />
                 <a
                   href={`${
@@ -289,7 +289,7 @@ const SubBarServers = ({ onValueChange }) => {
                   </div>
                 </a>
                 {option.title === 'Equinix (Decentralized)' && (
-                  <div className="absolute text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:-right-[8px] xl:-top-[11.2px] xl:text-[11.2px] 2xl:-right-[10px] 2xl:-top-[14px] 2xl:text-[14px]">
+                  <div className="absolute text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:right-[-8px] xl:top-[-11.2px] xl:text-[11.2px] 2xl:right-[-10px] 2xl:top-[-14px] 2xl:text-[14px]">
                     Recommended
                   </div>
                 )}
@@ -300,7 +300,7 @@ const SubBarServers = ({ onValueChange }) => {
                     setCloudProvider(option.title)
                   }
                 }}
-                className={`absolute -right-[20px] top-[10px] size-[10px] rounded-[5px] border border-[#D9D9D9] ${
+                className={`absolute right-[-20px] top-[10px] size-[10px] rounded-[5px] border border-[#D9D9D9] ${
                   option.enabled ? 'cursor-pointer hover:bg-[#0354EC]' : ''
                 } md:size-[12px] lg:size-[14px] xl:size-[16px] 2xl:size-[20px] ${
                   cloudProvider === option.title && option.enabled

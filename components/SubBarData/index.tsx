@@ -92,7 +92,7 @@ const SubBarData = ({ onValueChange }) => {
                 dataOption.enabled
                   ? 'cursor-pointer bg-[#0354EC] hover:bg-[#123981]'
                   : 'bg-[#999999]'
-              } -top-[2px] right-0 rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
+              } -top-0.5 right-0 rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
             >
               <div>Add</div>
             </div>
@@ -103,7 +103,7 @@ const SubBarData = ({ onValueChange }) => {
   }
   useEffect(() => {
     setselectCurrentMenuDataType(currentDataMenuSelect)
-  }, [currentDataMenuSelect])
+  }, [currentDataMenuSelect, setselectCurrentMenuDataType])
   return (
     <>
       <div className="z-100 relative min-w-[300px] bg-[#fff] px-[18px] py-[29px] pr-[33px] text-[#000] shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[34.5px] md:pr-[40px] lg:px-[23px] lg:py-[40px] lg:pr-[47px] xl:px-[27px] xl:py-[45.5px] xl:pr-[54px] 2xl:min-w-[370px] 2xl:py-[57px] 2xl:pl-[33px] 2xl:pr-[67px]">
@@ -185,7 +185,7 @@ const SubBarData = ({ onValueChange }) => {
                     )}
                     <div>{option.title}</div>
                     {option.isFree && (
-                      <div className="absolute -right-[27px] -top-[14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
+                      <div className="absolute right-[-27px] top-[-14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                         Free
                       </div>
                     )}
@@ -239,7 +239,7 @@ const SubBarData = ({ onValueChange }) => {
                     )}
                     <div>{option.title}</div>
                     {option.isFree && (
-                      <div className="absolute -right-[27px] -top-[14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
+                      <div className="absolute right-[-27px] top-[-14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                         Free
                       </div>
                     )}
