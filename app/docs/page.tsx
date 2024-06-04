@@ -1,18 +1,8 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
-import { Divider } from '@material-ui/core'
 import { Inter } from '@next/font/google'
 
-import ScrollUp from '@/components/Common/ScrollUp'
 import Footer from '@/components/Homepage/Footer'
-import Testing from '@/components/Testing'
 
 import IndividualModules from './docs-components/individualModules'
-
-// import NewTask from '@/components/NewTask'
-
-// eslint-disable-next-line no-unused-vars
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Tasks() {
   const modulesData = [
