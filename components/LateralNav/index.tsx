@@ -4,6 +4,7 @@ import { ReactElement, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as Accordion from '@radix-ui/react-accordion'
+import { Gear } from 'phosphor-react'
 
 import {
   AnalyticsIcon,
@@ -63,6 +64,12 @@ export function LateralNav() {
       activeIcon: <WorkspaceIcon />,
       collapsable: false,
       subItems: [],
+    },
+    {
+      label: 'Resources',
+      href: '/resources',
+      icon: <Gear className="size-5 text-dark" />,
+      activeIcon: <Gear className="size-5 text-primary" />,
     },
     {
       label: 'Servers',
