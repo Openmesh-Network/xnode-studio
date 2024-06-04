@@ -37,7 +37,7 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/37784886'],
 }
 
-export const config = defaultWagmiConfig({
+export const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,
   metadata,
@@ -50,7 +50,7 @@ export const config = defaultWagmiConfig({
 // const initialState = cookieToInitialState(config, headers().get('cookie'))
 
 createWeb3Modal({
-  wagmiConfig: config,
+  wagmiConfig: wagmiConfig,
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   enableOnramp: true, // Optional - false as default
@@ -66,7 +66,7 @@ export function Providers({
   return (
     <>
       <AccountContextProvider>
-        <WagmiProvider config={config} initialState={initialState}>
+        <WagmiProvider config={wagmiConfig} initialState={initialState}>
           <QueryClientProvider client={queryClient}>
             <ThemeProvider
               attribute="class"

@@ -19,7 +19,7 @@ import axios from 'axios'
 import { useAccount } from 'wagmi'
 
 import { CoreServices } from '@/types/node'
-import { config } from '@/app/providers'
+import { wagmiConfig } from '@/app/providers'
 
 import {
   findAPIisWebsocket,
@@ -134,7 +134,7 @@ const Signup = () => {
           console.log('message to hash')
           console.log(hash)
           const finalHash = `0x${hash}`
-          const signature = await signMessage(config, {
+          const signature = await signMessage(wagmiConfig, {
             account: address,
             message: finalHash,
           })
