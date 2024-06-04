@@ -324,7 +324,7 @@ const ProductsList = ({ dataTestimonial }: ProductsListProps) => {
         <div className="mt-[30px] grid gap-y-[41px] md:gap-y-[50px] lg:gap-y-[58px] xl:gap-y-[67px] 2xl:gap-y-[83px]">
           {Object.keys(groupedTestimonials).map((category) => (
             <div key={category}>
-              <div className="text-[10px] text-lg font-bold text-[#505050] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
+              <div className="text-lg font-bold text-[#505050] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
                 {category}
               </div>
               <div className="mt-[20px] grid grid-cols-1 gap-x-[25px] gap-y-[15px] md:mt-[24px] lg:mt-[28px] lg:grid-cols-2 lg:gap-x-[28px] lg:gap-y-[21px] xl:mt-[32px] 2xl:mt-[40px]">
