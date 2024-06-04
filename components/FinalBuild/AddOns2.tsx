@@ -1,7 +1,9 @@
 'use client'
-import { CoreServices } from '@/types/node'
-import { thirds } from '@/utils/third'
+
 import { useEffect, useState } from 'react'
+import { thirds } from '@/utils/third'
+
+import { CoreServices } from '@/types/node'
 
 interface ModalProps {
   onValueChange(): void
@@ -16,7 +18,7 @@ const AddOns2 = ({ coreServices, isLoadingFeatures, ...data }: ModalProps) => {
   useEffect(() => {
     if (coreServices && coreServices.length > 0) {
       setServiceIcons(
-        coreServices.map(() => '/images/reviewYourBuild/bola.svg'),
+        coreServices.map(() => '/images/reviewYourBuild/bola.svg')
       )
     }
   }, [coreServices])
@@ -28,8 +30,8 @@ const AddOns2 = ({ coreServices, isLoadingFeatures, ...data }: ModalProps) => {
           prevIcons.map((icon, index) =>
             index === currentServiceIndex
               ? '/images/reviewYourBuild/checkGreen.svg'
-              : icon,
-          ),
+              : icon
+          )
         )
         setCurrentServiceIndex(currentServiceIndex + 1)
       }
@@ -41,7 +43,7 @@ const AddOns2 = ({ coreServices, isLoadingFeatures, ...data }: ModalProps) => {
   }, [isLoadingFeatures, currentServiceIndex, coreServices.length])
 
   const finalData = coreServices.filter((service) =>
-    thirds.includes(service.name),
+    thirds.includes(service.name)
   )
   if (finalData.length === 0) {
     return
@@ -54,13 +56,13 @@ const AddOns2 = ({ coreServices, isLoadingFeatures, ...data }: ModalProps) => {
           Add-ons
         </div>
       </div>
-      <div className="ml-[47.5px]  mb-[15px]  gap-x-[25px] md:ml-[57px]  md:gap-x-[30px] lg:ml-[66.5px] lg:gap-x-[35px] xl:ml-[136px] xl:gap-x-[40px] 2xl:ml-[170px] 2xl:gap-x-[50px]">
+      <div className="mb-[15px] ml-[47.5px] gap-x-[25px] md:ml-[57px] md:gap-x-[30px] lg:ml-[66.5px] lg:gap-x-[35px] xl:ml-[136px] xl:gap-x-[40px] 2xl:ml-[170px] 2xl:gap-x-[50px]">
         <div className="flex items-center gap-x-[7px] lg:gap-x-[15px]">
           <div
-            className={`h-[10px] w-[10px] rounded-[5px] bg-transparent md:h-[12px] md:w-[12px] lg:h-[14px] lg:w-[14px] xl:h-[16px] xl:w-[16px] 2xl:h-[20px] 2xl:w-[20px] `}
+            className={`size-[10px] rounded-[5px] bg-transparent md:size-[12px] lg:size-[14px] xl:size-[16px] 2xl:size-[20px]`}
           ></div>
         </div>
-        <div className="mt-[14px]  grid gap-y-[11px] md:mt-[16.8px] md:gap-y-[13.2px] lg:mt-[19.6px] lg:gap-y-[15.4px] xl:mt-[22.4px] xl:gap-y-[17.6px] 2xl:mt-[28px] 2xl:gap-y-[22px]">
+        <div className="mt-[14px] grid gap-y-[11px] md:mt-[16.8px] md:gap-y-[13.2px] lg:mt-[19.6px] lg:gap-y-[15.4px] xl:mt-[22.4px] xl:gap-y-[17.6px] 2xl:mt-[28px] 2xl:gap-y-[22px]">
           {coreServices
             .filter((service) => thirds.includes(service.name))
             .map((option, index) => (
@@ -84,10 +86,10 @@ const AddOns2 = ({ coreServices, isLoadingFeatures, ...data }: ModalProps) => {
                           : ''
                       }/images/reviewYourBuild/question.svg`}
                       alt="image"
-                      className="absolute top-0 -right-[6px] w-[4px] md:-right-[7.2px] md:w-[4.8px] lg:-right-[8.4px] lg:w-[5.6px] xl:-right-[9.6px] xl:w-[6.4px] 2xl:-right-[12px] 2xl:w-[8px]"
+                      className="absolute -right-[6px] top-0 w-[4px] md:-right-[7.2px] md:w-[4.8px] lg:-right-[8.4px] lg:w-[5.6px] xl:-right-[9.6px] xl:w-[6.4px] 2xl:-right-[12px] 2xl:w-[8px]"
                     />
                     {option.isFree && (
-                      <div className="absolute -right-[25px] -top-[7.5px] text-[7px] font-normal text-[#12AD50] md:-right-[30px] md:-top-[9px] md:text-[8.4px] lg:-right-[35px]  lg:-top-[10.5px] lg:text-[9.8px]  xl:-right-[40px] xl:-top-[12px]  xl:text-[11.2px] 2xl:-top-[15px] 2xl:-right-[50px] 2xl:text-[14px]">
+                      <div className="absolute -right-[25px] -top-[7.5px] text-[7px] font-normal text-[#12AD50] md:-right-[30px] md:-top-[9px] md:text-[8.4px] lg:-right-[35px] lg:-top-[10.5px] lg:text-[9.8px] xl:-right-[40px] xl:-top-[12px] xl:text-[11.2px] 2xl:-right-[50px] 2xl:-top-[15px] 2xl:text-[14px]">
                         Free
                       </div>
                     )}

@@ -3,30 +3,28 @@
 'use client'
 
 import AccountContextProvider from '@/contexts/AccountContext'
-import { ThemeProvider } from 'next-themes'
-import { ToastContainer } from 'react-toastify'
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
+import { ThemeProvider } from 'next-themes'
+import { ToastContainer } from 'react-toastify'
 import {
+  cookieStorage,
+  cookieToInitialState,
   createConfig,
   createStorage,
-  cookieStorage,
   State,
   WagmiProvider,
-  cookieToInitialState,
 } from 'wagmi'
 import { arbitrum, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
-
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
 
 const chain =
   process.env.NEXT_PUBLIC_WALLET_ENVIRONMENT === 'Polygon'
     ? polygon
-    // : polygonMumbai
-    : polygon
+    : // : polygonMumbai
+      polygon
 
 const chains = [chain] as const
 

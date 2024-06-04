@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
+import { useEffect, useRef, useState } from 'react'
 import {
   optionServerLocation,
   valueOptionsServerLocation,
 } from '@/utils/constants'
-import { useEffect, useRef, useState } from 'react'
 
 const DropdownServiceRegion = ({ onValueChange }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -51,14 +51,13 @@ const DropdownServiceRegion = ({ onValueChange }) => {
 
   return (
     <div
-      className="relative w-[124px] rounded-[5px] border-[1px] border-[#D9D9D9] px-[7px] text-left text-[8px] font-normal text-[#000] focus:outline-none focus:ring-2 focus:ring-offset-2  md:w-[149px] md:px-[8.5px] md:text-[9.6x] lg:w-[174px] lg:px-[10px] lg:text-[11.2px] xl:w-[200px] xl:px-[12px] xl:text-[12.8px] 2xl:w-[248px] 2xl:px-[14px] 2xl:text-[16px]"
+      className="relative w-[124px] rounded-[5px] border border-[#D9D9D9] px-[7px] text-left text-[8px] font-normal text-[#000] focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-[149px] md:px-[8.5px] md:text-[9.6x] lg:w-[174px] lg:px-[10px] lg:text-[11.2px] xl:w-[200px] xl:px-[12px] xl:text-[12.8px] 2xl:w-[248px] 2xl:px-[14px] 2xl:text-[16px]"
       ref={dropdownRef}
     >
       <div className="flex">
         <button
           type="button"
-          className={`inline-flex w-full items-center gap-x-[5px] rounded-[4px] py-[6px] transition duration-300 ease-in-out hover:text-[#686868] md:py-[7.2px] lg:gap-x-[10px] lg:py-[8.5px] xl:py-[9.5px]   2xl:gap-x-[15px] 2xl:py-[12px]
-          ${isOpen ? 'bg-[#fdfdfd] text-[#686868]' : ''}`}
+          className={`inline-flex w-full items-center gap-x-[5px] rounded-[4px] py-[6px] transition duration-300 ease-in-out hover:text-[#686868] md:py-[7.2px] lg:gap-x-[10px] lg:py-[8.5px] xl:py-[9.5px] 2xl:gap-x-[15px] 2xl:py-[12px] ${isOpen ? 'bg-[#fdfdfd] text-[#686868]' : ''}`}
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
@@ -101,7 +100,7 @@ const DropdownServiceRegion = ({ onValueChange }) => {
                   setIsOpen(false)
                   onValueChange(option)
                 }}
-                className="flex cursor-pointer gap-x-[7.5px] px-4 py-2 hover:bg-[#f7f5f5] md:gap-x-[9px]  lg:gap-x-[10.5px] xl:gap-x-[12px] 2xl:gap-x-[15px] "
+                className="flex cursor-pointer gap-x-[7.5px] px-4 py-2 hover:bg-[#f7f5f5] md:gap-x-[9px] lg:gap-x-[10.5px] xl:gap-x-[12px] 2xl:gap-x-[15px]"
               >
                 {/* <img
                   src={`${
@@ -112,7 +111,7 @@ const DropdownServiceRegion = ({ onValueChange }) => {
                   alt="image"
                   className={`my-auto w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
                 /> */}
-                <div className=" transition" role="menuitem">
+                <div className="transition" role="menuitem">
                   {option.title}
                 </div>
                 {option.title === value && (

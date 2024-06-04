@@ -2,6 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 'use client'
+
 import { formatDistanceToNow } from 'date-fns'
 
 interface ModalProps {
@@ -18,7 +19,7 @@ const Congratulations = ({ ...data }: ModalProps) => {
 
       // Aqui estamos tratando a frase para exibir 'today' se a task foi criada no mesmo dia
       difference = `${difference.charAt(0).toUpperCase()}${difference.slice(
-        1,
+        1
       )} ago`
       return difference
     } else {
@@ -58,7 +59,7 @@ const Congratulations = ({ ...data }: ModalProps) => {
       </div>
       <div
         onClick={data.onValueChange}
-        className="mx-auto mt-[33px] w-fit cursor-pointer rounded-[5px] bg-[#0354EC] py-[8.25px] px-[30px] text-[8px] text-[#fff] hover:bg-[#033797] md:mt-[39.6px] md:py-[9.9px] md:px-[36px] md:text-[9.6px] lg:mt-[46.2px] lg:py-[11.55px] lg:px-[42px] lg:text-[11.2px] xl:mt-[52.8px] xl:py-[12px] xl:px-[48px] xl:text-[12.8px] 2xl:mt-[66px] 2xl:py-[14px] 2xl:px-[60px] 2xl:text-[16px]"
+        className="mx-auto mt-[33px] w-fit cursor-pointer rounded-[5px] bg-[#0354EC] px-[30px] py-[8.25px] text-[8px] text-[#fff] hover:bg-[#033797] md:mt-[39.6px] md:px-[36px] md:py-[9.9px] md:text-[9.6px] lg:mt-[46.2px] lg:px-[42px] lg:py-[11.55px] lg:text-[11.2px] xl:mt-[52.8px] xl:px-[48px] xl:py-[12px] xl:text-[12.8px] 2xl:mt-[66px] 2xl:px-[60px] 2xl:py-[14px] 2xl:text-[16px]"
       >
         Initiate Staking
       </div>

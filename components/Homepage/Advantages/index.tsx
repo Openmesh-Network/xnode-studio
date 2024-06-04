@@ -57,7 +57,7 @@ export function HomeAdvantages() {
           <div className="text-[28px] font-bold leading-tight text-[#000] lg:leading-[180%]">
             Explore Possibilities{' '}
           </div>
-          <div className="mt-[6px] w-full  text-sm leading-[20px] text-darkGray">
+          <div className="mt-[6px] w-full text-sm leading-[20px] text-darkGray">
             Our modularized design allows you to quickly design, combine, and
             provision web2 and web3 infrastructure products. This includes
             connecting to data feeds, building APIs, linking to blockchains (RPC

@@ -1,30 +1,33 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
-import LogIn from './LogIn'
 import nookies, { parseCookies, setCookie } from 'nookies'
 import { toast } from 'react-toastify'
+
+import LogIn from './LogIn'
+
 import 'react-toastify/dist/ReactToastify.css'
-import EquinixConnection from './EquinixConnecton'
+
 import {
   optionsServerLocationToValue,
   optionsServerNumberToValue,
 } from '@/utils/constants'
+import { hashObject } from '@/utils/functions'
+import { disconnect, signMessage } from '@wagmi/core'
+import { useWeb3Modal, useWeb3ModalTheme } from '@web3modal/wagmi/react'
+import axios from 'axios'
+import { useAccount } from 'wagmi'
+
+import { CoreServices } from '@/types/node'
+import { config } from '@/app/providers'
+
 import {
   findAPIisWebsocket,
   findFeatures,
   findServerDefaultType,
   findServerDefaultValueLocation,
 } from '../FinalBuild'
-import { CoreServices } from '@/types/node'
-import { useWeb3ModalTheme, useWeb3Modal } from '@web3modal/wagmi/react'
-import { useAccount } from 'wagmi'
-import axios from 'axios'
-
-import { signMessage, disconnect } from '@wagmi/core'
-import { hashObject } from '@/utils/functions'
-
-import { config } from '@/app/providers'
+import EquinixConnection from './EquinixConnecton'
 
 /* eslint-disable react/no-unescaped-entities */
 const Signup = () => {
@@ -156,14 +159,14 @@ const Signup = () => {
         className={`w-full bg-[#fff] px-[48px] pb-[1000px] pt-[88px] 2xl:px-[60px] 2xl:pt-[110px]`}
       >
         <div>
-          <div className="text-[18px]  font-bold -tracking-[2%] text-[#000000] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
+          <div className="text-[18px] font-bold -tracking-[2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Connect your wallet
           </div>
           <div className="mb-[30px] mt-[15px]">
             <w3m-button />
           </div>{' '}
           <div className="my-[30px] text-[#000]">or</div>
-          <div className="text-[18px]  font-bold -tracking-[2%] text-[#000000] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
+          <div className="text-[18px] font-bold -tracking-[2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Signin for Xnode
           </div>
           <div className="mt-[15px] text-[18px] font-normal -tracking-[2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[15px] 2xl:text-[32px]">
@@ -184,7 +187,7 @@ const Signup = () => {
                 setSignup(false)
                 setIndexerDeployerStep(1)
               }}
-              className="mt-[41px] flex h-fit w-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#787d86] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#5d6066] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[14.5px]  lg:py-[8.75px] lg:text-[10px]   xl:mt-[65px] xl:px-[17px]    xl:py-[10px]  xl:text-[11.2px]  2xl:mt-[82px] 2xl:gap-x-[10px]  2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]"
+              className="mt-[41px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#787d86] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#5d6066] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[14.5px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[17px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]"
             >
               <img
                 src={`${
@@ -203,11 +206,11 @@ const Signup = () => {
                 console.log(finalNodes)
                 handleFinalBuild()
               }}
-              className={`mt-[41px] flex h-fit w-fit justify-center gap-x-[8px] rounded-[5px] ${
+              className={`mt-[41px] flex size-fit justify-center gap-x-[8px] rounded-[5px] ${
                 !user
                   ? 'bg-[#578ae9]'
-                  : 'cursor-pointer bg-[#0354EC] hover:bg-[#0e2e69] '
-              } px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff]  md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[14.5px]  lg:py-[8.75px] lg:text-[10px]   xl:mt-[65px] xl:px-[17px]    xl:py-[10px]  xl:text-[11.2px]  2xl:mt-[82px] 2xl:gap-x-[10px]  2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]`}
+                  : 'cursor-pointer bg-[#0354EC] hover:bg-[#0e2e69]'
+              } px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[14.5px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[17px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]`}
             >
               <img
                 src={`${

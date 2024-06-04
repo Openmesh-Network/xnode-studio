@@ -1,7 +1,7 @@
+import { HomeAdvantages } from '../Homepage/Advantages'
+import { HomeBenefits } from '../Homepage/Benefits'
 import Footer from '../Homepage/Footer'
 import { HomeHero } from '../Homepage/Hero'
-import { HomeBenefits } from '../Homepage/Benefits'
-import { HomeAdvantages } from '../Homepage/Advantages'
 
 export default function NewLandingPage() {
   return (

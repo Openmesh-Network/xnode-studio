@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
+import { Inter } from '@next/font/google'
+
 import ScrollUp from '@/components/Common/ScrollUp'
 import Login from '@/components/Login'
-import { Inter } from '@next/font/google'
+
 // import NewTask from '@/components/NewTask'
 
 // eslint-disable-next-line no-unused-vars

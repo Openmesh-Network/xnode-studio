@@ -1,19 +1,24 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 'use client'
+
 /* eslint-disable no-unused-vars */
-import { useEffect, useState, useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getAPI, getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { TemplatesProducts } from '@/types/dataProvider'
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { AccountContext } from '@/contexts/AccountContext'
+import { Autocomplete, TextField } from '@mui/material'
 import { SmileySad } from 'phosphor-react'
+
+import { TemplatesProducts } from '@/types/dataProvider'
 import Filter from '@/components/Filter'
-import { TextField, Autocomplete } from '@mui/material'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+
 import ProductsList from '../ProductsList'
 import Dropdown, { ValueObject } from './Dropdown'
-import { AccountContext } from '@/contexts/AccountContext'
 
 export const optionsNetwork = [
   {
@@ -77,12 +82,17 @@ const TemplateProducts = () => {
   const [isLoadingMoreTemplates, setIsLoadingMoreTemplates] = useState(false)
   const [progressLoadingBar, setProgressLoadingBar] = useState(0)
   const [progressLoadingText, setProgressLoadingText] = useState(
-    'Checking 19 providers',
+    'Checking 19 providers'
   )
   const [selected, setSelected] = useState<ValueObject | null>(null)
 
-  const { setIndexerDeployerStep, templateSelected, setTemplateSelected, draft, setDraft } =
-    useContext(AccountContext)
+  const {
+    setIndexerDeployerStep,
+    templateSelected,
+    setTemplateSelected,
+    draft,
+    setDraft,
+  } = useContext(AccountContext)
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -164,15 +174,15 @@ const TemplateProducts = () => {
 
   return (
     <section className="relative z-10 pt-[30px] lg:pt-0">
-      <div className="mx-auto max-w-[1380px] pl-[85px]  text-[14px] font-normal text-[#000]">
+      <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-[#000]">
         <div className="flex justify-between gap-x-[50px]">
           <div className="pt-[44px]">
             <div className="mb-[12.5px] text-[48px] font-semibold leading-[64px]">
               Select a provider
             </div>
-            <div className="border-t-[1px] border-t-[#cfd3d8] pt-[32px]">
+            <div className="border-t border-t-[#cfd3d8] pt-[32px]">
               <div className="flex">
-                <div className="mr-[49px] rounded-[8px] border-[1px]  border-[#cfd3d8] px-[12px] py-[15px]">
+                <div className="mr-[49px] rounded-[8px] border border-[#cfd3d8] px-[12px] py-[15px]">
                   <div className="flex items-center gap-x-[8px]">
                     <img
                       src={`${
@@ -181,7 +191,7 @@ const TemplateProducts = () => {
                           : ''
                       }/images/template/search-2.svg`}
                       alt="image"
-                      className="h-[13.5px] w-[13.5px]"
+                      className="size-[13.5px]"
                     />
                     <input
                       value={searchInput}
@@ -260,7 +270,7 @@ const TemplateProducts = () => {
                     <div>{progressLoadingText}</div>
                   </div>
 
-                  <div className="mt-[10px] h-[10px] w-full rounded-[50px] border-[1px] border-[#E4E5E8] bg-[#fff]">
+                  <div className="mt-[10px] h-[10px] w-full rounded-[50px] border border-[#E4E5E8] bg-[#fff]">
                     <div
                       style={{ width: `${progressLoadingBar}%` }}
                       className="h-full rounded-full bg-[#0059ff] transition-all duration-300"
@@ -271,11 +281,11 @@ const TemplateProducts = () => {
                 <div className="mt-[25px]">{totalResults} results</div>
               )}
             </div>
-            <div className="mt-[25px] grid max-h-[700px] w-full gap-y-[38px] overflow-y-auto pr-[10px] scrollbar-thin scrollbar-track-[#F9F9F9] scrollbar-thumb-[#c5c4c4]">
+            <div className="scrollbar-thin scrollbar-track-[#F9F9F9] scrollbar-thumb-[#c5c4c4] mt-[25px] grid max-h-[700px] w-full gap-y-[38px] overflow-y-auto pr-[10px]">
               {templates.map((tmp, index) => (
                 <div
                   key={index}
-                  className="flex items-center rounded-[8px] border-[1px] border-[#E4E5E8] py-[30px] pl-[24px] pr-[62px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]"
+                  className="flex items-center rounded-[8px] border border-[#E4E5E8] py-[30px] pl-[24px] pr-[62px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]"
                 >
                   <div className="mr-[40px]">
                     {providerNameToLogo[tmp.providerName] ? (
@@ -323,16 +333,16 @@ const TemplateProducts = () => {
                       onClick={() => {
                         setTemplateSelected(tmp)
 
-                        let d = draft;
+                        let d = draft
                         d.location = tmp.location
                         d.isUnit = false
                         d.provider = tmp.providerName
                       }}
-                      className={`mt-[15px] cursor-pointer border-[1px] border-[#0059ff] ${
+                      className={`mt-[15px] cursor-pointer border border-[#0059ff] ${
                         tmp?.id === templateSelected?.id
-                          ? 'bg-[#0059ff]  text-[#fff]'
+                          ? 'bg-[#0059ff] text-[#fff]'
                           : 'bg-[#fff] text-[#0059ff] hover:bg-[#f1f1f15e]'
-                      } w-[174px] rounded-[12px]  py-[13px] text-[16px] font-bold !leading-[150%]  `}
+                      } w-[174px] rounded-[12px] py-[13px] text-[16px] font-bold !leading-[150%]`}
                     >
                       {tmp?.id === templateSelected?.id ? 'Selected' : 'Select'}
                     </div>
@@ -344,7 +354,7 @@ const TemplateProducts = () => {
                   onClick={() => {
                     loadMoreTemplates()
                   }}
-                  className="mx-auto cursor-pointer rounded-[5px] border-[1px] border-[#cfd3d8] py-[5px] px-[15px]"
+                  className="mx-auto cursor-pointer rounded-[5px] border border-[#cfd3d8] px-[15px] py-[5px]"
                 >
                   Show more
                 </div>
@@ -368,7 +378,7 @@ const TemplateProducts = () => {
                 Your progress
               </div>
             </div>
-            <div className="mt-[22px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+            <div className="mt-[22px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -382,7 +392,7 @@ const TemplateProducts = () => {
                 Select a template
               </div>
             </div>
-            <div className="mt-[31px] flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-[#e5eefc] py-[10px] px-[32px]">
+            <div className="mt-[31px] flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-gray200 px-[32px] py-[10px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -428,15 +438,15 @@ const TemplateProducts = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-[18px] ml-[92px] text-[16px] font-bold">
+                <div className="ml-[92px] mt-[18px] text-[16px] font-bold">
                   {templateSelected?.cpuCores} vCPU + {templateSelected?.ram} GB
                   memory
                 </div>
-                <div className="mx-[36px] mt-[26px] flex justify-between bg-[#e5eefc] py-[13px] px-[18px] text-[14px] font-normal">
+                <div className="mx-[36px] mt-[26px] flex justify-between bg-gray200 px-[18px] py-[13px] text-[14px] font-normal">
                   <div>Item</div>
                   <div>Price</div>
                 </div>
-                <div className="mx-[36px] mt-[30px] flex justify-between border-b-[1px] border-[#D4D4D4] px-[18px] pb-[5px] text-[14px]">
+                <div className="mx-[36px] mt-[30px] flex justify-between border-b border-[#D4D4D4] px-[18px] pb-[5px] text-[14px]">
                   <div className="font-medium text-[#959595]">
                     {templateSelected?.productName}
                   </div>
@@ -467,7 +477,7 @@ const TemplateProducts = () => {
                 </div>
               </>
             )}
-            <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+            <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -481,7 +491,7 @@ const TemplateProducts = () => {
                 Choose your configuration
               </div>
             </div>
-            <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+            <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -495,7 +505,7 @@ const TemplateProducts = () => {
                 Performing connection
               </div>
             </div>
-            <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+            <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'

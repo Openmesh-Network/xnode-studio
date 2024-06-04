@@ -1,34 +1,39 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState, useContext } from 'react'
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
-import Presets from '../Presets'
-import CostEstimator from '../CostEstimator'
-import ServerProvision from '../ServerProvision'
-import IncludedServices from '../IncludedServices'
-import AddOns from './AddOns'
-import SelectCloudProvider from '../SelectCloudProvider'
-import SelectServiceRegion from '../SelectServiceRegion'
-import SelectLatencyPreference from '../SelectLatencyPreference'
-import SelectUseCase from '../SelectUseCase'
-import Hero from '../Hero'
+import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import CloudProvider from './CloudProvider'
 import { AccountContext } from '@/contexts/AccountContext'
-import ServiceRegion from './ServiceRegion'
-import YourCore from './YourCore'
-import { CoreServices } from '@/types/node'
-import AddOns2 from './AddOns2'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+
+import { CoreServices } from '@/types/node'
+
+import CostEstimator from '../CostEstimator'
+import Dropdown from '../Dropdown'
+import Hero from '../Hero'
+import IncludedServices from '../IncludedServices'
+import LatencySelector from '../LatencySelector'
+import Presets from '../Presets'
+import SelectCloudProvider from '../SelectCloudProvider'
+import SelectLatencyPreference from '../SelectLatencyPreference'
+import SelectServiceRegion from '../SelectServiceRegion'
+import SelectUseCase from '../SelectUseCase'
+import ServerProvision from '../ServerProvision'
+import AddOns from './AddOns'
+import AddOns2 from './AddOns2'
+import CloudProvider from './CloudProvider'
+import ServiceRegion from './ServiceRegion'
+import YourCore from './YourCore'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { DeploymentConfiguration, ServiceFromName } from '@/types/dataProvider'
+
 import {
   optionsFeature,
   optionsServerLocationToValue,
   optionsServerNumberToValue,
 } from '@/utils/constants'
 import { Timer } from 'phosphor-react'
+
+import { DeploymentConfiguration, ServiceFromName } from '@/types/dataProvider'
 
 export function findServerDefaultType(array) {
   const serverObject = array.find((item) => item.type === 'server')
@@ -54,7 +59,9 @@ export function findFeatures(array) {
   const finalFeatures = []
   for (let i = 0; i < dataObject?.data?.lists?.length; i++) {
     // eslint-disable-next-line prettier/prettier
-    if (optionsFeature.includes(dataObject?.data?.lists[i]?.title?.toLowerCase())) {
+    if (
+      optionsFeature.includes(dataObject?.data?.lists[i]?.title?.toLowerCase())
+    ) {
       finalFeatures.push(dataObject?.data?.lists[i]?.title?.toLowerCase())
     }
   }
@@ -115,7 +122,7 @@ const ReviewYourBuild = () => {
     setProjectName,
     setSignup,
     xnodeType,
-    draft
+    draft,
   } = useContext(AccountContext)
 
   const { push } = useRouter()
@@ -129,7 +136,7 @@ const ReviewYourBuild = () => {
       description: config.desc,
       provider: config.provider,
       isUnit: config.isUnit,
-      services: JSON.stringify(config.services)
+      services: JSON.stringify(config.services),
     }
 
     console.log('Payload: ')
@@ -156,16 +163,12 @@ const ReviewYourBuild = () => {
         })
       } catch (err) {
         toast.error(
-          `Error during Xnode deployment: ${err.response.data.message}`,
+          `Error during Xnode deployment: ${err.response.data.message}`
         )
       }
     } else {
       push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/`
-            : `/`
-        }`,
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     }
   }
@@ -193,7 +196,7 @@ const ReviewYourBuild = () => {
     console.log('Effect has been run')
     console.log(draft)
     if (draft && !sentRequest) {
-      console.log("Draft exists! Creating Xnode.", sentRequest)
+      console.log('Draft exists! Creating Xnode.', sentRequest)
       createXnode(draft)
     }
   }, [])
@@ -202,10 +205,10 @@ const ReviewYourBuild = () => {
     return (
       <section
         id="home"
-        className={`mx-auto w-full  px-[30px] pb-[200px] pt-[25px] md:px-[36px] md:pt-[30px] lg:px-[42px] lg:pt-[35px] xl:px-[48px] xl:pt-[40px] 2xl:px-[60px] 2xl:pt-[50px]`}
+        className={`mx-auto w-full px-[30px] pb-[200px] pt-[25px] md:px-[36px] md:pt-[30px] lg:px-[42px] lg:pt-[35px] xl:px-[48px] xl:pt-[40px] 2xl:px-[60px] 2xl:pt-[50px]`}
       >
         {' '}
-        <div className="mx-auto h-[200px] w-[200px] animate-spin rounded-full  border-b-2 border-[#0354EC]"></div>
+        <div className="mx-auto size-[200px] animate-spin rounded-full border-b-2 border-[#0354EC]"></div>
       </section>
     )
   }
@@ -214,19 +217,17 @@ const ReviewYourBuild = () => {
     <>
       <section
         id="home"
-        className={`w-full  px-[30px] pb-[100px] pt-[25px] md:px-[36px] md:pt-[30px] lg:px-[42px] lg:pt-[35px] xl:px-[48px] xl:pt-[40px] 2xl:px-[60px] 2xl:pt-[50px]`}
+        className={`w-full px-[30px] pb-[100px] pt-[25px] md:px-[36px] md:pt-[30px] lg:px-[42px] lg:pt-[35px] xl:px-[48px] xl:pt-[40px] 2xl:px-[60px] 2xl:pt-[50px]`}
       >
         <div>
-          <div className="text-[18px]  font-bold -tracking-[2%] text-[#000000] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
+          <div className="text-[18px] font-bold -tracking-[2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Your progress
           </div>
           <div className="mt-[25px] text-[18px] font-normal -tracking-[2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
-            { 
-              /* XXX: Incorrect! */ 
-            }
+            {/* XXX: Incorrect! */}
             Estimate time to deployment ~ 31 min
           </div>
-          <div className="mt-[15px] grid gap-y-[10px] md:mt-[18px] md:gap-y-[12px] lg:mt-[21px] lg:gap-y-[14px]  2xl:mt-[30px] 2xl:gap-y-[20px]">
+          <div className="mt-[15px] grid gap-y-[10px] md:mt-[18px] md:gap-y-[12px] lg:mt-[21px] lg:gap-y-[14px] 2xl:mt-[30px] 2xl:gap-y-[20px]">
             <CloudProvider
               onValueChange={() => setReviewYourBuild(false)}
               cloudProvider={cloudProvider}

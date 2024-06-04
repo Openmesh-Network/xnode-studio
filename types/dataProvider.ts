@@ -100,11 +100,11 @@ export type OldTemplatesData = {
 }
 
 export type DeploymentConfiguration = {
-  name: string,
-  desc: string;
-  location: string,
-  isUnit: boolean,
-  provider: string,
+  name: string
+  desc: string
+  location: string
+  isUnit: boolean
+  provider: string
 
   // An array to all the service ids being looked at.
   services: ServiceData[]
@@ -129,9 +129,9 @@ export type Specs = {
 }
 
 export type ServiceData = {
-  name: string;
-  tags: string[];
-  specs: Specs;
+  name: string
+  tags: string[]
+  specs: Specs
   desc: string
   // Url to the logo.
   logo?: string
@@ -141,16 +141,16 @@ export type ServiceData = {
 }
 
 export type TemplateData = {
-  id: string;
-  name: string;
-  desc: string;
-  tags: string[];
-  source?: string;
+  id: string
+  name: string
+  desc: string
+  tags: string[]
+  source?: string
 
   // Url to image.
-  logo: string;
-  category: string;
-  dateAdded: string;
+  logo: string
+  category: string
+  dateAdded: string
   // An array to all the service ids being looked at.
   serviceNames: string[]
 }
@@ -171,22 +171,22 @@ export function ServiceFromName(name: string): ServiceData | undefined {
 let templateMap: Map<string, TemplateData> = null
 export function TemplateFromId(id: string): TemplateData | undefined {
   if (templateMap == null) {
-    console.log("Inicialisando mapa.")
+    console.log('Inicialisando mapa.')
     templateMap = new Map<string, TemplateData>()
 
-    console.log("Tamano ", TemplateDefinitions.length)
+    console.log('Tamano ', TemplateDefinitions.length)
     for (let i = 0; i < TemplateDefinitions.length; i++) {
-      console.log("Seteando ", TemplateDefinitions[i].id, id)
+      console.log('Seteando ', TemplateDefinitions[i].id, id)
       templateMap.set(TemplateDefinitions[i].id, TemplateDefinitions[i])
-      console.log("Viene:", templateMap.get(TemplateDefinitions[i].id))
+      console.log('Viene:', templateMap.get(TemplateDefinitions[i].id))
     }
   }
 
-  console.log("Ahora vuelve el resultado.", templateMap.get(id))
+  console.log('Ahora vuelve el resultado.', templateMap.get(id))
   return templateMap.get(id)
 }
 
-export function  TemplateGetSpecs(template: TemplateData): Specs {
+export function TemplateGetSpecs(template: TemplateData): Specs {
   let specs: Specs = { ram: 0, storage: 0 }
 
   for (let i = 0; i < template.serviceNames.length; i++) {
@@ -205,7 +205,7 @@ export function  TemplateGetSpecs(template: TemplateData): Specs {
   return specs
 }
 
-export function  TemplateGetTags(template: TemplateData): string[] {
+export function TemplateGetTags(template: TemplateData): string[] {
   let ret: string[] = []
 
   for (let i = 0; i < template.serviceNames.length; i++) {

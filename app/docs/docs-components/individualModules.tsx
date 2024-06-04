@@ -12,7 +12,7 @@ export default function IndividualModules(props: IndividualModulesProps) {
     <>
       <div>
         <div>
-          <div className="mt-[78px]  ml-[18px] flex h-[61px] w-[81px] flex-col items-center justify-between gap-[]">
+          <div className="ml-[18px] mt-[78px] flex h-[61px] w-[81px] flex-col items-center justify-between gap-[]">
             <img
               className="mr-[10px]"
               src={`${
@@ -22,11 +22,11 @@ export default function IndividualModules(props: IndividualModulesProps) {
               }${icon}`}
               alt="cuboimage"
             />
-            <h2 className="font inter mt-[4px]  text-[16px] font-medium text-black">
+            <h2 className="font inter mt-[4px] text-[16px] font-medium text-black">
               {title}
             </h2>
           </div>
-          <hr className="mt-[20px] ml-[10px] w-[344px] border-[0.5px] border-[#D9D9D9]" />
+          <hr className="ml-[10px] mt-[20px] w-[344px] border-[0.5px] border-[#D9D9D9]" />
           <div className="ml-[16px] mt-[30px] flex flex-col items-start">
             <a className="font-inter text-[16px] font-bold leading-[18px] text-[#0354EC]">
               {strongTitle}

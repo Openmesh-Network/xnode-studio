@@ -1,18 +1,23 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 'use client'
+
 /* eslint-disable no-unused-vars */
-import { useEffect, useState, useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getAPI, getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { TemplatesProducts } from '@/types/dataProvider'
-import { SmileySad } from 'phosphor-react'
-import Filter from '@/components/Filter'
-import { TextField, Autocomplete } from '@mui/material'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import ProductsList from '../ProductsList'
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
+import { Autocomplete, TextField } from '@mui/material'
+import { SmileySad } from 'phosphor-react'
+
+import { TemplatesProducts } from '@/types/dataProvider'
+import Filter from '@/components/Filter'
+
+import ProductsList from '../ProductsList'
 import Dropdown, { ValueObject } from '../TemplateProducts/Dropdown'
 import DropdownWithLabel from './DropdownWithLabel'
 
@@ -56,7 +61,7 @@ const FromScratch = () => {
   const [isLoadingMoreTemplates, setIsLoadingMoreTemplates] = useState(false)
   const [progressLoadingBar, setProgressLoadingBar] = useState(0)
   const [progressLoadingText, setProgressLoadingText] = useState(
-    'Checking 19 providers',
+    'Checking 19 providers'
   )
   const [selected, setSelected] = useState<ValueObject | null>(null)
   const [selectedRegion, setSelectedRegion] = useState<ValueObject | null>(null)
@@ -141,7 +146,7 @@ const FromScratch = () => {
 
   return (
     <section className="relative z-10 pt-[30px] lg:pt-0">
-      <div className="mx-auto max-w-[1380px] pl-[85px]  text-[14px] font-normal text-[#000]">
+      <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-[#000]">
         <div className="flex justify-between gap-x-[100px]">
           <div className="mt-[60px]">
             <div className="flex">
@@ -162,7 +167,7 @@ const FromScratch = () => {
                         : ''
                     }/images/template/check-now.svg`}
                     alt="image"
-                    className={`absolute top-0 right-0 z-50 -translate-y-2 translate-x-2`}
+                    className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                   />
                 )}
               </div>
@@ -183,7 +188,7 @@ const FromScratch = () => {
                         : ''
                     }/images/template/check-now.svg`}
                     alt="image"
-                    className={`absolute top-0 right-0 z-50 -translate-y-2 translate-x-2`}
+                    className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                   />
                 )}
               </div>
@@ -204,7 +209,7 @@ const FromScratch = () => {
                         : ''
                     }/images/template/check-now.svg`}
                     alt="image"
-                    className={`absolute top-0 right-0 z-50 -translate-y-2 translate-x-2`}
+                    className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                   />
                 )}
               </div>
@@ -218,9 +223,9 @@ const FromScratch = () => {
                       setNameInput(e.target.value)
                     }
                   }}
-                  className="h-[60px] w-full rounded-[5px] border-[1px] border-[#C1C1C1] bg-[#fff] px-[20px] text-[14px] font-normal"
+                  className="h-[60px] w-full rounded-[5px] border border-[#C1C1C1] bg-[#fff] px-[20px] text-[14px] font-normal"
                 />
-                <div className="absolute -top-3 left-2   z-[50] bg-[#fff] px-[10px] text-[16px] font-normal">
+                <div className="absolute -top-3 left-2 z-50 bg-[#fff] px-[10px] text-[16px] font-normal">
                   Name
                 </div>
               </div>
@@ -265,7 +270,7 @@ const FromScratch = () => {
                           : ''
                       }/images/template/check-now.svg`}
                       alt="image"
-                      className={`absolute top-0 right-0 z-50 -translate-y-2 translate-x-2`}
+                      className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                     />
                   )}
                 </div>
@@ -286,7 +291,7 @@ const FromScratch = () => {
                           : ''
                       }/images/template/check-now.svg`}
                       alt="image"
-                      className={`absolute top-0 right-0 z-50 -translate-y-2 translate-x-2`}
+                      className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                     />
                   )}
                 </div>
@@ -307,7 +312,7 @@ const FromScratch = () => {
                           : ''
                       }/images/template/check-now.svg`}
                       alt="image"
-                      className={`absolute top-0 right-0 z-50 -translate-y-2 translate-x-2`}
+                      className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                     />
                   )}
                 </div>
@@ -328,7 +333,7 @@ const FromScratch = () => {
                           : ''
                       }/images/template/check-now.svg`}
                       alt="image"
-                      className={`absolute top-0 right-0 z-50 -translate-y-2 translate-x-2`}
+                      className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                     />
                   )}
                 </div>
@@ -350,7 +355,7 @@ const FromScratch = () => {
                 className={``}
               />
             </div>
-            <div className="mt-[21px] grid gap-y-[10px]  px-[32px]">
+            <div className="mt-[21px] grid gap-y-[10px] px-[32px]">
               <div className="flex items-center gap-x-[7px]">
                 <img
                   src={`${
@@ -383,15 +388,15 @@ const FromScratch = () => {
             <div className="mt-[28px] px-[32px] text-[12px] font-normal">
               2 vCPU + 4 GB memory
             </div>
-            <div className="mx-[36px] mt-[26px] flex justify-between bg-[#e5eefc] py-[13px] px-[18px] text-[14px] font-normal">
+            <div className="mx-[36px] mt-[26px] flex justify-between bg-gray200 px-[18px] py-[13px] text-[14px] font-normal">
               <div>Item</div>
               <div>Price</div>
             </div>
-            <div className="mx-[36px] mt-[30px] flex justify-between border-b-[1px] border-[#D4D4D4] px-[18px] pb-[5px] text-[12px]">
+            <div className="mx-[36px] mt-[30px] flex justify-between border-b border-[#D4D4D4] px-[18px] pb-[5px] text-[12px]">
               <div className="font-normal">2 vCPU + 4 GB memory</div>
               <div className="font-normal">$2,500.00</div>
             </div>
-            <div className="mx-[36px] mt-[30px] flex justify-between border-b-[1px] border-[#D4D4D4] px-[18px] pb-[5px] text-[12px]">
+            <div className="mx-[36px] mt-[30px] flex justify-between border-b border-[#D4D4D4] px-[18px] pb-[5px] text-[12px]">
               <div className="font-normal">2 vCPU + 4 GB memory</div>
               <div className="font-normal">$2,500.00</div>
             </div>

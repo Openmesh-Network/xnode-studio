@@ -1,8 +1,9 @@
 'use client'
 
+import { Inter } from '@next/font/google'
+
 import ScrollUp from '@/components/Common/ScrollUp'
 import Validator from '@/components/Validator'
-import { Inter } from '@next/font/google'
 
 // eslint-disable-next-line no-unused-vars
 const inter = Inter({ subsets: ['latin'] })

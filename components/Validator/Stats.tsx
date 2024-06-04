@@ -2,9 +2,11 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 'use client'
-import { Xnode } from '@/types/node'
+
 import { formatAddress } from '@/utils/functions'
-import { formatDistanceToNow, format } from 'date-fns'
+import { format, formatDistanceToNow } from 'date-fns'
+
+import { Xnode } from '@/types/node'
 
 interface ModalProps {
   totalValidators: number
@@ -22,7 +24,7 @@ const Stats = ({ ...data }: ModalProps) => {
 
       // Aqui estamos tratando a frase para exibir 'today' se a task foi criada no mesmo dia
       difference = `${difference.charAt(0).toUpperCase()}${difference.slice(
-        1,
+        1
       )} ago`
       return difference
     } else {
@@ -44,49 +46,49 @@ const Stats = ({ ...data }: ModalProps) => {
 
   const renderTable = () => {
     return (
-      <div className=" mx-auto flex w-full justify-between text-[#000]  xl:w-[1052px] 2xl:w-[1315px]">
+      <div className="mx-auto flex w-full justify-between text-[#000] xl:w-[1052px] 2xl:w-[1315px]">
         <table className="mx-auto w-full">
           <thead className="">
             <tr>
               <th
                 scope="col"
-                className="text-left text-[9px]  font-normal  tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
+                className="text-left text-[9px] font-normal tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
               >
                 Validator ID{' '}
               </th>
               <th
                 scope="col"
-                className="text-left text-[9px]  font-normal  tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
+                className="text-left text-[9px] font-normal tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
               >
                 Validator public address
               </th>
               <th
                 scope="col"
-                className="text-left text-[9px]  font-normal  tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
+                className="text-left text-[9px] font-normal tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
               >
                 Creation Date
               </th>
               <th
                 scope="col"
-                className="text-left text-[9px]  font-normal  tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
+                className="text-left text-[9px] font-normal tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
               >
                 Location
               </th>
               <th
                 scope="col"
-                className="text-left text-[9px]  font-normal  tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
+                className="text-left text-[9px] font-normal tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
               >
                 Staked amount
               </th>
               <th
                 scope="col"
-                className="text-left text-[9px]  font-normal  tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
+                className="text-left text-[9px] font-normal tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
               >
                 Earned rewards
               </th>
               <th
                 scope="col"
-                className="text-left text-[9px]  font-normal  tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
+                className="text-left text-[9px] font-normal tracking-wider md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]"
               >
                 Status
               </th>
@@ -102,15 +104,15 @@ const Stats = ({ ...data }: ModalProps) => {
                 <td className={commonClasses}>0x73554...4745</td>
                 <td className={commonClasses}>
                   {`${formatDeadline(node.createdAt)}, ${formatDeadline2(
-                    node.createdAt,
+                    node.createdAt
                   )}`}
                 </td>
                 <td className={commonClasses}>{node.location}</td>
                 <td className={commonClasses}>52,000 OPEN</td>
                 <td className={commonClasses}>52,000 OPEN</td>
                 <td className={commonClasses}>
-                  { /* XXX: Maybe re enable this stuff? Not sure if we'll keep a lot of this code really. */ }
-                  { /* node.status === 'Running' ? (
+                  {/* XXX: Maybe re enable this stuff? Not sure if we'll keep a lot of this code really. */}
+                  {/* node.status === 'Running' ? (
                     <img
                       src={`${
                         process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -147,7 +149,7 @@ const Stats = ({ ...data }: ModalProps) => {
           <div className="text-[9px] md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]">
             Total Validators
           </div>
-          <div className="mt-[1px] text-[15px] md:mt-[1px] md:text-[18px] lg:mt-[2px] lg:text-[21px] xl:mt-[3px] xl:text-[24px] 2xl:mt-[5px] 2xl:text-[30px]">
+          <div className="mt-px text-[15px] md:mt-px md:text-[18px] lg:mt-[2px] lg:text-[21px] xl:mt-[3px] xl:text-[24px] 2xl:mt-[5px] 2xl:text-[30px]">
             {data.totalValidators}
           </div>
         </div>
@@ -155,7 +157,7 @@ const Stats = ({ ...data }: ModalProps) => {
           <div className="text-[9px] md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]">
             Total Stake amount
           </div>
-          <div className="mt-[1px] text-[15px] md:mt-[1px] md:text-[18px] lg:mt-[2px] lg:text-[21px] xl:mt-[3px] xl:text-[24px] 2xl:mt-[5px] 2xl:text-[30px]">
+          <div className="mt-px text-[15px] md:mt-px md:text-[18px] lg:mt-[2px] lg:text-[21px] xl:mt-[3px] xl:text-[24px] 2xl:mt-[5px] 2xl:text-[30px]">
             {data.totalStakeAmount}
           </div>
         </div>
@@ -163,7 +165,7 @@ const Stats = ({ ...data }: ModalProps) => {
           <div className="text-[9px] md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]">
             Average rewards
           </div>
-          <div className="mt-[1px] text-[15px] md:mt-[1px] md:text-[18px] lg:mt-[2px] lg:text-[21px] xl:mt-[3px] xl:text-[24px] 2xl:mt-[5px] 2xl:text-[30px]">
+          <div className="mt-px text-[15px] md:mt-px md:text-[18px] lg:mt-[2px] lg:text-[21px] xl:mt-[3px] xl:text-[24px] 2xl:mt-[5px] 2xl:text-[30px]">
             {data.totalAverageReward}
           </div>
         </div>
@@ -171,7 +173,7 @@ const Stats = ({ ...data }: ModalProps) => {
           <div className="text-[9px] md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]">
             Average payout period
           </div>
-          <div className="mt-[1px] text-[15px] md:mt-[1px] md:text-[18px] lg:mt-[2px] lg:text-[21px] xl:mt-[3px] xl:text-[24px] 2xl:mt-[5px] 2xl:text-[30px]">
+          <div className="mt-px text-[15px] md:mt-px md:text-[18px] lg:mt-[2px] lg:text-[21px] xl:mt-[3px] xl:text-[24px] 2xl:mt-[5px] 2xl:text-[30px]">
             {data.averagePayoutPeriod}
           </div>
         </div>

@@ -2,35 +2,43 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 'use client'
+
 // import { useState } from 'react'
-import { useEffect, useState, ChangeEvent, FC, useContext } from 'react'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import { useForm, Controller } from 'react-hook-form'
+import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Eye, EyeSlash } from 'phosphor-react'
-import * as Yup from 'yup'
-import axios from 'axios'
 import Checkbox from '@material-ui/core/Checkbox'
+import axios from 'axios'
+import { Eye, EyeSlash } from 'phosphor-react'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import * as Yup from 'yup'
+
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-quill/dist/quill.snow.css' // import styles
 import 'react-datepicker/dist/react-datepicker.css'
+
 import { getData } from '@/utils/data'
-import { DataProvider } from '@/types/dataProvider'
+import Prism from 'prismjs'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { format } from 'sql-formatter'
-import Prism from 'prismjs'
+
+import { DataProvider } from '@/types/dataProvider'
+
 import 'prismjs/themes/prism.css'
-import { formatDistanceToNow, differenceInDays } from 'date-fns'
+
 import {
   getDataXnodeValidatorsInfo,
   getXnodeWithNodesValidatorsStats,
 } from '@/utils/xnode'
+import { differenceInDays, formatDistanceToNow } from 'date-fns'
+
 import { XnodeValidatorsStats, XnodeWithValidatorsStats } from '@/types/node'
+
 import Congratulations from './Congratulations'
-import Stats from './Stats'
 import Node from './Node'
+import Stats from './Stats'
 
 const Validator = (id: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -65,7 +73,7 @@ const Validator = (id: any) => {
     } else {
       push('/')
       push(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`,
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     }
   }, [id])
@@ -106,7 +114,7 @@ const Validator = (id: any) => {
 
   if (isLoading) {
     return (
-      <section className=" pl-[30px] pr-[30px] pt-[46px] pb-[50px] text-[#000] md:pl-[90px]  md:pr-[130px] lg:min-w-[800px] xl:min-w-[1200px] 2xl:min-w-[1200px]">
+      <section className="px-[30px] pb-[50px] pt-[46px] text-[#000] md:pl-[90px] md:pr-[130px] lg:min-w-[800px] xl:min-w-[1200px] 2xl:min-w-[1200px]">
         <div className="container hidden h-60 animate-pulse px-0 pb-12 md:flex">
           <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
           <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
@@ -122,7 +130,7 @@ const Validator = (id: any) => {
 
   if (newDeploy === 'true' && data && !nextCongrats) {
     return (
-      <section className="mx-auto w-full rounded-[10px] bg-[#F9F9F9] px-[20px] pt-[78px] pb-[150px] md:pt-[93px] md:pb-[180px] lg:pt-[109px] lg:pb-[210px] xl:w-[1379px] xl:pt-[124px] xl:pb-[240px] 2xl:w-[1724px] 2xl:pt-[155px] 2xl:pb-[300px]">
+      <section className="mx-auto w-full rounded-[10px] bg-[#F9F9F9] px-[20px] pb-[150px] pt-[78px] md:pb-[180px] md:pt-[93px] lg:pb-[210px] lg:pt-[109px] xl:w-[1379px] xl:pb-[240px] xl:pt-[124px] 2xl:w-[1724px] 2xl:pb-[300px] 2xl:pt-[155px]">
         {' '}
         <Congratulations
           createdAt={data.node.createdAt}
@@ -146,7 +154,7 @@ const Validator = (id: any) => {
 
   if (data) {
     return (
-      <section className="mx-auto mb-[100px] w-full rounded-[10px] bg-[#F9F9F9] px-[20px] pt-[50px] pb-[50px] md:pt-[93px] md:pb-[100px] lg:pt-[109px] lg:pb-[120px] xl:w-[1379px] xl:pt-[124px] xl:pb-[140px] 2xl:w-[1724px] 2xl:pt-[155px] 2xl:pb-[155px]">
+      <section className="mx-auto mb-[100px] w-full rounded-[10px] bg-[#F9F9F9] px-[20px] py-[50px] md:pb-[100px] md:pt-[93px] lg:pb-[120px] lg:pt-[109px] xl:w-[1379px] xl:pb-[140px] xl:pt-[124px] 2xl:w-[1724px] 2xl:py-[155px]">
         {' '}
         <Node
           averagePayoutPeriod={data.stats.averagePayoutPeriod}

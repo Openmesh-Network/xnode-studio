@@ -18,7 +18,7 @@ export function LateralNavListItem({
       }`}
     >
       {isActive ? (
-        <div className="absolute bottom-0 left-0 top-0 w-1 bg-blue500" />
+        <div className="absolute inset-y-0 left-0 w-1 bg-blue500" />
       ) : null}
       <div className="flex items-center gap-x-3 px-6">
         {icon}

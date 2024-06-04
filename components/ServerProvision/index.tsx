@@ -20,17 +20,17 @@ const ServerProvision = ({ ...data }: ModalProps) => {
           </div>
         </div>
         <div
-          className={` mt-[12px] w-fit rounded-[5px] bg-[#fff] p-[10px]  md:p-[12px] lg:mt-[17.5px] lg:p-[14px] xl:p-[16px] 2xl:mt-[25px] 2xl:p-[20px]`}
+          className={`mt-[12px] w-fit rounded-[5px] bg-[#fff] p-[10px] md:p-[12px] lg:mt-[17.5px] lg:p-[14px] xl:p-[16px] 2xl:mt-[25px] 2xl:p-[20px]`}
         >
           <div className="">
             <div className="w-full max-w-[250px]">
-              <div className=" text-[9px] font-bold text-[#313131] md:text-[11px]  lg:text-[12.5px] lg:!leading-[22px] xl:text-[14.5px] 2xl:text-[18px]">
+              <div className="text-[9px] font-bold text-[#313131] md:text-[11px] lg:text-[12.5px] lg:!leading-[22px] xl:text-[14.5px] 2xl:text-[18px]">
                 Basic Validator
               </div>
-              <div className=" mt-[5px]  text-[8px]  font-semibold text-[#505050] md:mt-[6px]  md:text-[9px] lg:mt-[7px]  lg:text-[11px] lg:!leading-[19px] xl:text-[13px] 2xl:mt-[10px]  2xl:text-[16px]">
+              <div className="mt-[5px] text-[8px] font-semibold text-[#505050] md:mt-[6px] md:text-[9px] lg:mt-[7px] lg:text-[11px] lg:!leading-[19px] xl:text-[13px] 2xl:mt-[10px] 2xl:text-[16px]">
                 {String(data.serversNumber)} x {data.serverType} servers
               </div>
-              <div className="mt-[8px] text-[8px] font-medium text-[#959595] md:mt-[9px]  md:text-[9px] lg:mt-[10.5px]  lg:text-[11px]  lg:!leading-[19px] xl:text-[13px] 2xl:mt-[15px]   2xl:text-[16px]">
+              <div className="mt-[8px] text-[8px] font-medium text-[#959595] md:mt-[9px] md:text-[9px] lg:mt-[10.5px] lg:text-[11px] lg:!leading-[19px] xl:text-[13px] 2xl:mt-[15px] 2xl:text-[16px]">
                 <div className="">Best for:</div>
                 <ul className="list-disc pl-[25px]">
                   <li>Designing custom data products</li>
@@ -40,7 +40,7 @@ const ServerProvision = ({ ...data }: ModalProps) => {
             </div>
           </div>
           <div
-            className={`mt-[18px]  flex gap-x-[5px] md:mt-[19.2px] md:gap-x-[6px]  lg:mt-[22.5px] lg:gap-x-[7px] xl:gap-x-[8px] 2xl:mt-[32px] 2xl:gap-x-[10px]`}
+            className={`mt-[18px] flex gap-x-[5px] md:mt-[19.2px] md:gap-x-[6px] lg:mt-[22.5px] lg:gap-x-[7px] xl:gap-x-[8px] 2xl:mt-[32px] 2xl:gap-x-[10px]`}
           >
             {Array.from({ length: data.serversNumber }).map((_, index) => (
               <img

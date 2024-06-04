@@ -1,18 +1,19 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+import AddOns from '../AddOns'
+import CostEstimator from '../CostEstimator'
 import Dropdown from '../Dropdown'
+import Hero from '../Hero'
+import IncludedServices from '../IncludedServices'
 import LatencySelector from '../LatencySelector'
 import Presets from '../Presets'
-import CostEstimator from '../CostEstimator'
-import ServerProvision from '../ServerProvision'
-import IncludedServices from '../IncludedServices'
-import AddOns from '../AddOns'
 import SelectCloudProvider from '../SelectCloudProvider'
-import SelectServiceRegion from '../SelectServiceRegion'
 import SelectLatencyPreference from '../SelectLatencyPreference'
+import SelectServiceRegion from '../SelectServiceRegion'
 import SelectUseCase from '../SelectUseCase'
-import Hero from '../Hero'
-import { useRouter } from 'next/navigation'
+import ServerProvision from '../ServerProvision'
 
 /* eslint-disable react/no-unescaped-entities */
 const FirstStep = () => {
@@ -53,7 +54,7 @@ const FirstStep = () => {
     if (includedServices.includes(newValue)) {
       // Se o valor já existe, remova-o do array
       setIncludedServices((prevServices) =>
-        prevServices.filter((service) => service !== newValue),
+        prevServices.filter((service) => service !== newValue)
       )
     } else {
       // Se o valor não existe, adicione-o ao array
@@ -65,7 +66,7 @@ const FirstStep = () => {
     if (addOnsServices.includes(newValue)) {
       // Se o valor já existe, remova-o do array
       setAddOnsServices((prevServices) =>
-        prevServices.filter((service) => service !== newValue),
+        prevServices.filter((service) => service !== newValue)
       )
     } else {
       // Se o valor não existe, adicione-o ao array
@@ -101,18 +102,18 @@ const FirstStep = () => {
       <div className="flex">
         <section
           id="home"
-          className={`w-full px-[30px] pt-[25px]  pb-[52px] text-[#000000] md:pl-[70px] ${
+          className={`w-full px-[30px] pb-[52px] pt-[25px] text-black md:pl-[70px] ${
             next
               ? 'px-[30px]'
               : 'md:pr-[288px] lg:pr-[336px] xl:pr-[384px] 2xl:pr-[480px]'
-          } md:pt-[31px] md:pb-[63px]  lg:pl-[154px]  lg:pt-[36px] lg:pb-[72px] xl:pl-[176px] xl:pt-[41px] xl:pb-[83px] 2xl:pl-[220px]  2xl:pt-[52px] 2xl:pb-[104px]`}
+          } md:pb-[63px] md:pt-[31px] lg:pb-[72px] lg:pl-[154px] lg:pt-[36px] xl:pb-[83px] xl:pl-[176px] xl:pt-[41px] 2xl:pb-[104px] 2xl:pl-[220px] 2xl:pt-[52px]`}
         >
           <div className="">
             <div>
               <div className="text-[18px] font-medium -tracking-[2%] text-[#959595] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
                 Choose youre configuration
               </div>
-              <div className="mt-[15px] grid gap-y-[10px] md:mt-[18px] md:gap-y-[12px] lg:mt-[21px] lg:gap-y-[14px]  2xl:mt-[30px] 2xl:gap-y-[20px]">
+              <div className="mt-[15px] grid gap-y-[10px] md:mt-[18px] md:gap-y-[12px] lg:mt-[21px] lg:gap-y-[14px] 2xl:mt-[30px] 2xl:gap-y-[20px]">
                 <SelectCloudProvider
                   onValueChange={setCloudProvider}
                   next={next}
@@ -147,7 +148,7 @@ const FirstStep = () => {
                           </>
                         }
                       </div>
-                      <div className="mt-[37px] w-full border-b-[1px] text-[#D4D4D4] md:mt-[44px] lg:mt-[51px] 2xl:mt-[74px]"></div>
+                      <div className="mt-[37px] w-full border-b text-[#D4D4D4] md:mt-[44px] lg:mt-[51px] 2xl:mt-[74px]"></div>
 
                       <div className="mt-[26px] md:mt-[31px] lg:mt-[36px] 2xl:mt-[52px]">
                         {
@@ -159,7 +160,7 @@ const FirstStep = () => {
                           />
                         }
                       </div>
-                      <div className="mt-[37px] w-full border-b-[1px] text-[#D4D4D4] md:mt-[44px] lg:mt-[51px] 2xl:mt-[74px]"></div>
+                      <div className="mt-[37px] w-full border-b text-[#D4D4D4] md:mt-[44px] lg:mt-[51px] 2xl:mt-[74px]"></div>
                       <div className="mt-[15px] md:mt-[18px] lg:mt-[21px] 2xl:mt-[30px]">
                         {
                           <AddOns
@@ -187,7 +188,7 @@ const FirstStep = () => {
                           setNext(true)
                           window.scrollTo({ top: 0, behavior: 'smooth' })
                         }}
-                        className="mx-auto mt-[12px] flex w-fit cursor-pointer gap-x-[10px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.25px]  text-[7px] font-medium text-[#fff] hover:bg-[#123981] md:mt-[39px] md:py-[5px] md:px-[12.5px] md:text-[8.5px] lg:mt-[45.5px] lg:py-[9px] lg:px-[14.5px] lg:text-[10px] lg:!leading-[19px] xl:py-[10px] xl:px-[17px] xl:text-[11px] 2xl:mt-[65px] 2xl:py-[12.5px] 2xl:px-[21px] 2xl:text-[14px]"
+                        className="mx-auto mt-[12px] flex w-fit cursor-pointer gap-x-[10px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.25px] text-[7px] font-medium text-[#fff] hover:bg-[#123981] md:mt-[39px] md:px-[12.5px] md:py-[5px] md:text-[8.5px] lg:mt-[45.5px] lg:px-[14.5px] lg:py-[9px] lg:text-[10px] lg:!leading-[19px] xl:px-[17px] xl:py-[10px] xl:text-[11px] 2xl:mt-[65px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]"
                       >
                         <div>Next</div>
                         <img
@@ -225,7 +226,7 @@ const FirstStep = () => {
         )}
       </div>
 
-      <div className="w-full border-b-[1px] text-[#D4D4D4]"></div>
+      <div className="w-full border-b text-[#D4D4D4]"></div>
     </>
   )
 }

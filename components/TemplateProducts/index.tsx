@@ -1,23 +1,28 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 'use client'
+
 /* eslint-disable no-unused-vars */
-import { useEffect, useState, useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getAPI, getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { TemplatesProducts } from '@/types/dataProvider'
-import { SmileySad } from 'phosphor-react'
-import Filter from '@/components/Filter'
-import { TextField, Autocomplete } from '@mui/material'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import ProductsList from '../ProductsList'
-import Dropdown, { ValueObject } from './Dropdown'
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
+import { Autocomplete, TextField } from '@mui/material'
+import { SmileySad } from 'phosphor-react'
+
+import { TemplatesProducts } from '@/types/dataProvider'
+import Filter from '@/components/Filter'
+
+import FinalBuild from '../FinalBuild'
+import ProductsList from '../ProductsList'
+import Signup from '../Signup'
+import Dropdown, { ValueObject } from './Dropdown'
 import TemplateProducts from './FirstStep'
 import Configuration from './SecondStep'
-import Signup from '../Signup'
-import FinalBuild from '../FinalBuild'
 import TemplateStep from './TemplateStep'
 
 const IndexerDeployer = (id: any) => {

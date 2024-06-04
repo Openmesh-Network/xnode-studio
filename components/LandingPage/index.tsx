@@ -1,10 +1,11 @@
 'use client'
+
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
+import { useEffect, useState } from 'react'
 
 import Footer from '../Homepage/Footer'
 import CostSaving from './lp-components/CostSaving'
-import { useEffect, useState } from 'react'
 
 const LandingPage = () => {
   const [isHRVisible, setHRVisible] = useState(false)
@@ -28,18 +29,18 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center rounded-[10px] bg-[#F9F9F9] p-[20px] pt-[45px] pb-[20px] md:pl-[102px] md:pr-[158px] md:pt-[54px] md:pb-[213px] lg:pl-[119px] lg:pr-[184px] lg:pt-[63px] lg:pb-[248px] xl:max-w-[1800px] xl:pl-[136px] xl:pr-[211px] xl:pt-[72px] xl:pb-[284px] 2xl:pl-[170px] 2xl:pr-[264px] 2xl:pt-[90px] 2xl:pb-[355px]">
+      <div className="flex w-full flex-col items-center rounded-[10px] bg-[#F9F9F9] p-[20px] pt-[45px] md:pb-[213px] md:pl-[102px] md:pr-[158px] md:pt-[54px] lg:pb-[248px] lg:pl-[119px] lg:pr-[184px] lg:pt-[63px] xl:max-w-[1800px] xl:pb-[284px] xl:pl-[136px] xl:pr-[211px] xl:pt-[72px] 2xl:pb-[355px] 2xl:pl-[170px] 2xl:pr-[264px] 2xl:pt-[90px]">
         <div className="flex flex-col items-center">
           <div className="mt-[30px] md:w-[564px] lg:w-[658px] xl:mt-[48px] xl:w-[752px] 2xl:mt-[60px] 2xl:w-[939px]">
-            <h1 className="text-center text-[35px] font-bold tracking-[-5%] text-[#000000] md:text-[66px] lg:text-[77px] xl:text-[88px] xl:leading-[100px] 2xl:text-[110px]">
+            <h1 className="text-center text-[35px] font-bold tracking-[-5%] text-black md:text-[66px] lg:text-[77px] xl:text-[88px] xl:leading-[100px] 2xl:text-[110px]">
               Revolution Has Started!
             </h1>
           </div>
-          <div className="mt-[20px] mb-[20px]  md:w-[426px] md:px-[12px] lg:w-[482px] lg:px-[14px]   xl:w-[568px]  xl:px-[16px]  2xl:w-[810px]  2xl:px-[20px]">
+          <div className="my-[20px] md:w-[426px] md:px-[12px] lg:w-[482px] lg:px-[14px] xl:w-[568px] xl:px-[16px] 2xl:w-[810px] 2xl:px-[20px]">
             <p className="text-center text-[18px] leading-[36.31px] tracking-[-5%] text-[#444444] md:text-[22px] lg:text-[25px] xl:text-[29px] 2xl:text-[36px]">
               Build your own data clouds, infrastructure, data connectivity,
               APIs, analytics&nbsp;
-              <span className="underline underline-offset-[8px]">
+              <span className="underline underline-offset-8">
                 in minutes, instead of weeks.
               </span>
             </p>
@@ -53,7 +54,7 @@ const LandingPage = () => {
                       : ''
                   }/images/landingPage/aproved.svg`}
                 ></img>
-                <span className=" leading-[31.47px] tracking-[1%] text-[#2656D6]">
+                <span className="leading-[31.47px] tracking-[1%] text-[#2656D6]">
                   Pay only for bare metal servers.
                 </span>
               </div>
@@ -73,25 +74,23 @@ const LandingPage = () => {
             </div>
           </div>
           <CostSaving></CostSaving>
-          <div className="mt-[300px] flex flex-col items-center  md:mt-[100px]  md:w-[250px]  lg:w-[290px]  xl:w-[333px] 2xl:w-[417px]">
+          <div className="mt-[300px] flex flex-col items-center md:mt-[100px] md:w-[250px] lg:w-[290px] xl:w-[333px] 2xl:w-[417px]">
             <h2 className="text-[20px] font-normal leading-[110px] text-[#000] md:text-[24px] lg:text-[28px] xl:text-[32px] 2xl:text-[40px]">
               Play around it now
             </h2>
             <a
               href={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? `/xnode/`
-                  : '/'
+                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : '/'
               }`}
-              className="flex w-[132px] items-center justify-center  rounded-[50px] bg-gradient-to-r from-[#4255FF] via-[#6069EC] to-[#4023B5] p-[10px] text-center text-[15px] font-normal text-[#FFFFFF] md:h-[59px] md:w-[159px] md:text-[12px] lg:w-[185.5px] lg:text-[14px] xl:w-[212px] xl:text-[16px] 2xl:w-[265px] 2xl:text-[20px]"
+              className="flex w-[132px] items-center justify-center rounded-[50px] bg-gradient-to-r from-[#4255FF] via-[#6069EC] to-[#4023B5] p-[10px] text-center text-[15px] font-normal text-white md:h-[59px] md:w-[159px] md:text-[12px] lg:w-[185.5px] lg:text-[14px] xl:w-[212px] xl:text-[16px] 2xl:w-[265px] 2xl:text-[20px]"
             >
               Launch
             </a>
           </div>
         </div>
-        <hr className="mt-[75px] mb-[25px] h-[2px] w-full bg-[#DFD6D6] md:mt-[90px] md:mb-[60px] md:w-3/5 lg:mt-[105px] lg:mb-[70px] lg:w-[70%] xl:mt-[120px] xl:mb-[80px] xl:w-4/5  2xl:mt-[150px] 2xl:mb-[100px] 2xl:w-full"></hr>
+        <hr className="mb-[25px] mt-[75px] h-[2px] w-full bg-[#DFD6D6] md:mb-[60px] md:mt-[90px] md:w-3/5 lg:mb-[70px] lg:mt-[105px] lg:w-[70%] xl:mb-[80px] xl:mt-[120px] xl:w-4/5 2xl:mb-[100px] 2xl:mt-[150px] 2xl:w-full"></hr>
         <div className="flex w-full flex-col items-start justify-center 2xl:max-w-[1215px]">
-          <div className="mr-[10px] flex w-full flex-col items-start md:mr-[180px] md:w-[648px] lg:mr-[210px] lg:w-[756px] xl:mr-[240px] xl:w-[864px] 2xl:mr-[300px]  2xl:w-[1081px] ">
+          <div className="mr-[10px] flex w-full flex-col items-start md:mr-[180px] md:w-[648px] lg:mr-[210px] lg:w-[756px] xl:mr-[240px] xl:w-[864px] 2xl:mr-[300px] 2xl:w-[1081px]">
             <h1 className="text-[15px] font-bold leading-[36.31px] text-black md:text-[18px] lg:text-[21px] xl:text-[24px] 2xl:text-[30px]">
               Data Cloud Management
             </h1>
@@ -104,7 +103,7 @@ const LandingPage = () => {
             </p>
           </div>
           <div className="flex flex-col items-center gap-y-5 md:gap-y-16 xl:gap-y-16 2xl:gap-y-20">
-            <div className="mt-[30px] w-full  flex-row items-center justify-start md:flex">
+            <div className="mt-[30px] w-full flex-row items-center justify-start md:flex">
               <img
                 className="mb-[10px] h-[39] w-[99px] md:mb-0"
                 src={`${
@@ -125,32 +124,32 @@ const LandingPage = () => {
                   className="ml-[20px] mt-[5px] flex flex-col gap-y-5 md:mt-0"
                 >
                   <hr
-                    className={`origin-left transform transition-transform duration-[2000ms] ease-out ${
+                    className={`origin-left transition-transform duration-[2000ms] ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
                     } via-rgba to-opacity-33 h-[12px] w-[20px] rounded-xl bg-gradient-to-tl from-[#707070] md:w-[196px] lg:w-[230px] xl:w-[260px] 2xl:w-[327px]`}
                   ></hr>
                   <hr
-                    className={`origin-left transform transition-transform duration-[2000ms] ease-out ${
+                    className={`origin-left transition-transform duration-[2000ms] ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
-                    } via-rgba to-opacity-33 to-opacity-33 h-[12px] w-[70px] rounded-xl bg-gradient-to-tl from-[#5A5A5A] via-[rgba(123,123,123,0.707391)] md:w-[408px] lg:w-[476px] xl:w-[544px] 2xl:w-[679px]`}
+                    } via-rgba to-opacity-33 h-[12px] w-[70px] rounded-xl bg-gradient-to-tl from-[#5A5A5A] via-[rgba(123,123,123,0.707391)] md:w-[408px] lg:w-[476px] xl:w-[544px] 2xl:w-[679px]`}
                   ></hr>
                   <hr
-                    className={`origin-left transform transition-transform duration-[2000ms] ease-out ${
+                    className={`origin-left transition-transform duration-[2000ms] ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
-                    } via-rgba to-opacity-33 via-rgba to-opacity-33 via-rgba-65-65-65-33 to-opacity-33 h-[12px] w-[25px] rounded-xl bg-gradient-to-tl from-[#CCCCCC] md:w-[261px] lg:w-[304px] xl:w-[348px] 2xl:w-[435px]`}
+                    } via-rgba to-opacity-33 via-rgba-65-65-65-33 h-[12px] w-[25px] rounded-xl bg-gradient-to-tl from-[#CCCCCC] md:w-[261px] lg:w-[304px] xl:w-[348px] 2xl:w-[435px]`}
                   ></hr>
                 </div>
                 <div className="ml-[5px] flex flex-col gap-y-5 md:ml-[24px] lg:ml-[28px] xl:ml-[32px] 2xl:ml-[40px]">
-                  <div className=" flex flex-row items-center ">
-                    <h1 className="text-[8px] font-bold  text-black  md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
+                  <div className="flex flex-row items-center">
+                    <h1 className="text-[8px] font-bold text-black md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
                       6X
                     </h1>
                     <p className="ml-[7px] text-[6px] font-normal text-black md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                       Cost Saving
                     </p>
                   </div>
-                  <div className="flex  flex-row  items-center md:w-[120px] lg:w-[140px] xl:w-[160px] 2xl:w-[200px] ">
-                    <h1 className="text-[8px] font-bold  text-black  md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
+                  <div className="flex flex-row items-center md:w-[120px] lg:w-[140px] xl:w-[160px] 2xl:w-[200px]">
+                    <h1 className="text-[8px] font-bold text-black md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
                       10X
                     </h1>
                     <p className="ml-[7px] text-center text-[6px] font-normal text-black md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
@@ -160,7 +159,7 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-[15px] w-full  flex-row items-center  justify-start md:mt-[18px] md:flex lg:mt-[21px] xl:mt-[24px] 2xl:mt-[30px]">
+            <div className="mt-[15px] w-full flex-row items-center justify-start md:mt-[18px] md:flex lg:mt-[21px] xl:mt-[24px] 2xl:mt-[30px]">
               <h2 className="mb-[10px] flex text-[10px] font-bold text-black md:mb-0 md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
                 Others
               </h2>
@@ -173,17 +172,17 @@ const LandingPage = () => {
 
                 <div className="ml-[20px] mt-[5px] flex flex-col gap-y-5 md:mt-0">
                   <hr
-                    className={`origin-left transform transition-transform duration-[4000ms] ease-out ${
+                    className={`origin-left transition-transform duration-[4000ms] ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
                     } via-rgba-255-164-164-33 to-opacity-33 h-[12px] w-[120px] rounded-xl bg-gradient-to-tl from-[#FD003D] md:w-[408px] lg:w-[476px] xl:w-[544px] 2xl:w-[679px]`}
                   ></hr>
                   <hr
-                    className={`origin-left transform transition-transform duration-[4000ms] ease-out ${
+                    className={`origin-left transition-transform duration-[4000ms] ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
                     } via-rgba-255-164-164-33 to-opacity-33 h-[12px] w-[20px] rounded-xl bg-gradient-to-tl from-[#FFCF96] md:w-[143px] lg:w-[166px] xl:w-[190px] 2xl:w-[238px]`}
                   ></hr>
                   <hr
-                    className={`origin-left transform transition-transform duration-[4000ms] ease-out ${
+                    className={`origin-left transition-transform duration-[4000ms] ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
                     } via-rgba-255-164-164-33 to-opacity-33 h-[12px] w-[130px] rounded-xl bg-gradient-to-tl from-[#FD003D] md:w-[261px] lg:w-[304px] xl:w-[348px] 2xl:w-[435px]`}
                   ></hr>
@@ -192,9 +191,9 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-        <hr className="mt-[20px] mb-[30px] h-[2px] w-full bg-[#DFD6D6] md:mt-[24px] md:w-3/5 lg:mt-[28px] lg:w-[70%] xl:mt-[32px]  xl:w-4/5 2xl:mt-[40px] 2xl:w-full"></hr>
-        <div className="flex  flex-col items-center justify-center  2xl:max-w-[1215px]  ">
-          <div className=" flex flex-col items-start">
+        <hr className="mb-[30px] mt-[20px] h-[2px] w-full bg-[#DFD6D6] md:mt-[24px] md:w-3/5 lg:mt-[28px] lg:w-[70%] xl:mt-[32px] xl:w-4/5 2xl:mt-[40px] 2xl:w-full"></hr>
+        <div className="flex flex-col items-center justify-center 2xl:max-w-[1215px]">
+          <div className="flex flex-col items-start">
             <h1 className="text-[15px] font-bold leading-[36.31px] text-black md:text-[18px] lg:text-[21px] xl:text-[24px] 2xl:text-[30px]">
               Explore possibilites
             </h1>
@@ -207,8 +206,8 @@ const LandingPage = () => {
               and storage, saving thousands.
             </p>
           </div>
-          <div className="grid w-full grid-cols-1 pt-[30px] md:grid-cols-3 lg:grid-cols-3 ">
-            <div className="flex  flex-col gap-y-[10px] md:w-[204px] md:p-[12px] lg:w-[238px] lg:p-[14px]  xl:w-[272px] xl:p-[16px] 2xl:w-[340px] 2xl:p-[20px]">
+          <div className="grid w-full grid-cols-1 pt-[30px] md:grid-cols-3 lg:grid-cols-3">
+            <div className="flex flex-col gap-y-[10px] md:w-[204px] md:p-[12px] lg:w-[238px] lg:p-[14px] xl:w-[272px] xl:p-[16px] 2xl:w-[340px] 2xl:p-[20px]">
               <img
                 alt="images"
                 className="h-[48.5px] w-[44.06px]"
@@ -225,7 +224,7 @@ const LandingPage = () => {
                 Democratizing Data: Free Immutable Data to the World
               </h1>
             </div>
-            <div className="mt-[30px] flex flex-col  gap-y-[10px] md:mt-0 md:w-[204px] md:p-[12px]  lg:w-[238px] lg:p-[14px]  xl:w-[272px] xl:p-[20px] 2xl:w-[340px] 2xl:p-[16px]">
+            <div className="mt-[30px] flex flex-col gap-y-[10px] md:mt-0 md:w-[204px] md:p-[12px] lg:w-[238px] lg:p-[14px] xl:w-[272px] xl:p-[20px] 2xl:w-[340px] 2xl:p-[16px]">
               <img
                 alt="images"
                 className="h-[48.5px] w-[44.06px]"
@@ -242,7 +241,7 @@ const LandingPage = () => {
                 Xnode's modularized design and SDKs{' '}
               </h1>
             </div>
-            <div className="mt-[30px] flex flex-col  items-start  text-[#0354EC]  md:mt-0  md:w-[204px] lg:w-[238px] xl:w-[272px]   2xl:w-[340px]">
+            <div className="mt-[30px] flex flex-col items-start text-[#0354EC] md:mt-0 md:w-[204px] lg:w-[238px] xl:w-[272px] 2xl:w-[340px]">
               <a
                 className="font-inter text-[9px] font-bold leading-[18px] md:ml-[5px] md:text-[10px] lg:text-[11.2px] xl:text-[13px] 2xl:text-[16px]"
                 target="_blank"
@@ -273,7 +272,7 @@ const LandingPage = () => {
                 href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-[1px] text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
+                className="mt-px text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
               >
                 Step-by-step guide to deploying an xNode.
               </a>
@@ -281,7 +280,7 @@ const LandingPage = () => {
                 href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-[1px] text-justify font-inter text-[8px] font-medium  leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
+                className="mt-px text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
               >
                 Technical design
               </a>
@@ -297,7 +296,7 @@ const LandingPage = () => {
                 href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-[1px] text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
+                className="mt-px text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
               >
                 Docs & Research
               </a>

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { useState, useRef, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
 import Dropdown from '../Dropdown'
 import Presets from '../Presets'
 
@@ -82,7 +83,7 @@ const SelectUseCase = ({ presetValueFromParent, ...data }: ModalProps) => {
             4. Usecase
           </div>
         </div>
-        <div className="ml-[121px]  flex  gap-x-[7.5px]  md:ml-[145px] md:gap-x-[10.5px] lg:ml-[170px] lg:gap-x-[9px] xl:ml-[195px] xl:gap-x-[12px] 2xl:ml-[243px] 2xl:gap-x-[15px]">
+        <div className="ml-[121px] flex gap-x-[7.5px] md:ml-[145px] md:gap-x-[10.5px] lg:ml-[170px] lg:gap-x-[9px] xl:ml-[195px] xl:gap-x-[12px] 2xl:ml-[243px] 2xl:gap-x-[15px]">
           <img
             src={`${
               process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -90,7 +91,7 @@ const SelectUseCase = ({ presetValueFromParent, ...data }: ModalProps) => {
                 : ''
             }${presetIndexToName[preset].icon}`}
             alt="image"
-            className={`transform cursor-pointer transition-transform hover:scale-105 ${presetIndexToName[preset].iconStyle}`}
+            className={`cursor-pointer transition-transform hover:scale-105${presetIndexToName[preset].iconStyle}`}
           />
           <div className="text-[10px] font-bold md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
             {presetIndexToName[preset].title}
@@ -100,7 +101,7 @@ const SelectUseCase = ({ presetValueFromParent, ...data }: ModalProps) => {
           onClick={() => {
             setEdit(true)
           }}
-          className="ml-auto mr-[22.5px] cursor-pointer border-b-[1px] border-[#0354EC] text-[10px] font-medium  text-[#0354EC] hover:border-[#123981] hover:text-[#123981] md:mr-[27px] md:text-[12px] lg:mr-[31.5px] lg:text-[14px]  lg:!leading-[24px]  xl:mr-[36px]  xl:text-[16px] 2xl:mr-[45px] 2xl:text-[20px]"
+          className="ml-auto mr-[22.5px] cursor-pointer border-b border-[#0354EC] text-[10px] font-medium text-[#0354EC] hover:border-[#123981] hover:text-[#123981] md:mr-[27px] md:text-[12px] lg:mr-[31.5px] lg:text-[14px] lg:!leading-[24px] xl:mr-[36px] xl:text-[16px] 2xl:mr-[45px] 2xl:text-[20px]"
         >
           Edit
         </div>
@@ -120,7 +121,7 @@ const SelectUseCase = ({ presetValueFromParent, ...data }: ModalProps) => {
           </div>
         </div>
         <div
-          className={` mt-[12px] p-[10px]  md:p-[12px] lg:mt-[17.5px] lg:p-[14px] xl:p-[16px] 2xl:mt-[25px] 2xl:p-[20px]`}
+          className={`mt-[12px] p-[10px] md:p-[12px] lg:mt-[17.5px] lg:p-[14px] xl:p-[16px] 2xl:mt-[25px] 2xl:p-[20px]`}
         >
           <Presets
             onValueChange={(value) => {

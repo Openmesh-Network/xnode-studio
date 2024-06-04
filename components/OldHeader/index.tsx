@@ -1,17 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-unused-vars */
+import { useContext, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState, useContext } from 'react'
-import ThemeToggler from './ThemeToggler'
-import menuData from './menuData'
-import { UserCircle } from 'phosphor-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import * as Dialog from '@radix-ui/react-dialog'
-import { parseCookies, destroyCookie } from 'nookies'
 import axios from 'axios'
-import { AccountContext } from '../../contexts/AccountContext'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+import { destroyCookie, parseCookies } from 'nookies'
+import { UserCircle } from 'phosphor-react'
 import { toast } from 'react-toastify'
+
+import { AccountContext } from '../../contexts/AccountContext'
+import menuData from './menuData'
+import ThemeToggler from './ThemeToggler'
+
 import 'react-toastify/dist/ReactToastify.css'
 
 const OldHeader = () => {
@@ -168,23 +170,19 @@ const OldHeader = () => {
                 process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                   ? `/xnode/dashboard`
                   : `/dashboard`
-              }`,
+              }`
             )
           }
         })
       } catch (err) {
         toast.error(
-          `Error during Xnode deployment: ${err.response.data.message}`,
+          `Error during Xnode deployment: ${err.response.data.message}`
         )
       }
     } else {
       toast.error(`User nor found`)
       push(
-        `${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? `/xnode/`
-            : `/`
-        }`,
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     }
     setIsLoadingUpdate(false)
@@ -416,9 +414,9 @@ const OldHeader = () => {
 
   return (
     <>
-      <header className="top-0 left-0 z-40 mx-0 w-full p-2 items-center bg-[#333] color-[#fff] ">
+      <header className="color-[#fff] left-0 top-0 z-40 mx-0 w-full items-center bg-[#333] p-2">
         <div className="flex">
-          <div className="w-full justify-between py-[20px] px-[20px] md:px-[33px] lg:hidden">
+          <div className="w-full justify-between p-[20px] md:px-[33px] lg:hidden">
             <div className="">
               {pathname.includes('/workspace') && !reviewYourBuild && (
                 <div className="flex items-center">
@@ -462,7 +460,7 @@ const OldHeader = () => {
                           onChange={(e) =>
                             setProjectDescription(e.target.value)
                           }
-                          className=" ml-[10px] bg-[#fff] text-[#eee]"
+                          className="ml-[10px] bg-[#fff] text-[#eee]"
                           autoFocus
                         />{' '}
                       </div>
@@ -475,14 +473,14 @@ const OldHeader = () => {
                   {isEditing ? (
                     <div
                       onClick={() => setIsEditing(false)}
-                      className="ml-[20px] cursor-pointer text-[7.5px] font-medium text-[#0354EC]  underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[24px] md:text-[8.5px] lg:ml-[28px] lg:text-[10px] xl:ml-[32px] xl:text-[11.2px] 2xl:ml-[40px] 2xl:text-[14px]"
+                      className="ml-[20px] cursor-pointer text-[7.5px] font-medium text-[#0354EC] underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[24px] md:text-[8.5px] lg:ml-[28px] lg:text-[10px] xl:ml-[32px] xl:text-[11.2px] 2xl:ml-[40px] 2xl:text-[14px]"
                     >
                       Save
                     </div>
                   ) : (
                     <div
                       onClick={() => setIsEditing(true)}
-                      className="ml-[20px] cursor-pointer text-[7.5px] font-medium text-[#0354EC]  underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[24px] md:text-[8.5px] lg:ml-[28px] lg:text-[10px] xl:ml-[32px] xl:text-[11.2px] 2xl:ml-[40px] 2xl:text-[14px]"
+                      className="ml-[20px] cursor-pointer text-[7.5px] font-medium text-[#0354EC] underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[24px] md:text-[8.5px] lg:ml-[28px] lg:text-[10px] xl:ml-[32px] xl:text-[11.2px] 2xl:ml-[40px] 2xl:text-[14px]"
                     >
                       Edit
                     </div>
@@ -490,7 +488,7 @@ const OldHeader = () => {
                   {isViewing ? (
                     <div
                       onClick={() => setIsViewing(false)}
-                      className="ml-[7.5px] cursor-pointer text-[7.5px] font-medium  text-[#0354EC] underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[9px] md:text-[8.5px] lg:ml-[10.5px] lg:text-[10px] xl:ml-[12px] xl:text-[11.2px] 2xl:ml-[15px] 2xl:text-[14px]"
+                      className="ml-[7.5px] cursor-pointer text-[7.5px] font-medium text-[#0354EC] underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[9px] md:text-[8.5px] lg:ml-[10.5px] lg:text-[10px] xl:ml-[12px] xl:text-[11.2px] 2xl:ml-[15px] 2xl:text-[14px]"
                     >
                       Hide
                     </div>
@@ -509,33 +507,33 @@ const OldHeader = () => {
               onClick={navbarToggleHandler}
               id="navbarToggler"
               aria-label="Mobile Menu"
-              className="absolute right-4 top-1 block  rounded-lg px-3 py-[6px] ring-primary focus:ring-2"
+              className="absolute right-4 top-1 block rounded-lg px-3 py-[6px] ring-primary focus:ring-2"
             >
               <span
-                className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300  ${
-                  navbarOpen ? ' top-[7px] rotate-45' : ' '
+                className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 ${
+                  navbarOpen ? 'top-[7px] rotate-45' : ' '
                 }`}
               />
               <span
                 className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 ${
-                  navbarOpen ? 'opacity-0 ' : ' '
+                  navbarOpen ? 'opacity-0' : ' '
                 }`}
               />
               <span
-                className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300  ${
-                  navbarOpen ? ' top-[-8px] -rotate-45' : ' '
+                className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 ${
+                  navbarOpen ? 'top-[-8px] -rotate-45' : ' '
                 }`}
               />
             </button>
             <nav
               id="navbarCollapse"
-              className={`navbar absolute right-7 z-50 w-[200px] rounded border-[.5px] bg-[#e6e4e4] py-6  px-6 text-[13px] text-[#fff] duration-300  ${
+              className={`navbar absolute right-7 z-50 w-[200px] rounded border-[.5px] bg-[#e6e4e4] p-6 text-[13px] text-[#fff] duration-300 ${
                 navbarOpen
                   ? 'visibility top-20 opacity-100'
                   : 'invisible top-20 opacity-0'
               }`}
             >
-              <div className=" grid gap-y-[15px] text-[12px]  font-medium !leading-[19px]">
+              <div className="grid gap-y-[15px] text-[12px] font-medium !leading-[19px]">
                 <div className="my-auto grid gap-y-[20px] text-center md:justify-center">
                   {headerItens.map((option, index) => (
                     <a
@@ -556,14 +554,14 @@ const OldHeader = () => {
                               process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                                 ? `/xnode/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
                                 : `/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
-                            }`,
+                            }`
                           )
                         }}
                         className={`flex h-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] ${
                           isLoadingUpdate
                             ? 'bg-[#3c78e9]'
                             : 'bg-[#0354EC] hover:bg-[#203b6e]'
-                        }  py-[6.2px] px-[11px] text-center  text-[#fff]    md:py-[7.5px] md:px-[12.5px]    lg:py-[8.75px]  lg:px-[14.5px]  xl:py-[10px] xl:px-[17px]  2xl:gap-x-[10px] 2xl:py-[10px] 2xl:px-[21px]`}
+                        } px-[11px] py-[6.2px] text-center text-[#fff] md:px-[12.5px] md:py-[7.5px] lg:px-[14.5px] lg:py-[8.75px] xl:px-[17px] xl:py-[10px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[10px]`}
                       >
                         <img
                           src={`${
@@ -584,14 +582,14 @@ const OldHeader = () => {
                               process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                                 ? `/xnode/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
                                 : `/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
-                            }`,
+                            }`
                           )
                         }}
                         className={`flex h-fit cursor-pointer justify-center gap-x-[8px] ${
                           pathname.includes('/workspace') && !reviewYourBuild
-                            ? 'bg-[#0354EC] text-[#fff] hover:bg-[#203b6e] '
+                            ? 'bg-[#0354EC] text-[#fff] hover:bg-[#203b6e]'
                             : 'border border-[#0354EC] bg-[#fff] text-[#0354EC] hover:text-[#203b6e]'
-                        } rounded-[5px]  py-[6.2px] px-[11px] text-center md:py-[7.5px] md:px-[12.5px]    lg:py-[8.75px]  lg:px-[14.5px]  xl:py-[10px] xl:px-[17px]  2xl:gap-x-[10px] 2xl:py-[10px] 2xl:px-[21px]`}
+                        } rounded-[5px] px-[11px] py-[6.2px] text-center md:px-[12.5px] md:py-[7.5px] lg:px-[14.5px] lg:py-[8.75px] xl:px-[17px] xl:py-[10px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[10px]`}
                       >
                         <div>Create and deploy</div>
                       </div>
@@ -615,7 +613,7 @@ const OldHeader = () => {
                           className={`my-auto mr-[25px] mt-[15px] w-[20px]`}
                         />
                         <nav
-                          className={`navbar absolute left-[0px] z-50 flex w-[150px] rounded-[8px] border-[.5px] bg-[#e6e4e4] pt-[19px] pr-1 pl-[15px] pb-[30px] text-[13px] text-[#fff] duration-300  ${
+                          className={`navbar absolute left-0 z-50 flex w-[150px] rounded-[8px] border-[.5px] bg-[#e6e4e4] pb-[30px] pl-[15px] pr-1 pt-[19px] text-[13px] text-[#fff] duration-300 ${
                             userNavbarOpen
                               ? 'visibility -bottom-[120px] -right-[50px] opacity-100'
                               : 'invisible -bottom-[120px] opacity-0'
@@ -625,7 +623,7 @@ const OldHeader = () => {
                             <div className="mt-[25px]">
                               <a
                                 onClick={signOutUser}
-                                className=" cursor-pointer items-center rounded-[5px] border  border-[#000] bg-transparent py-[6px] px-[18px] text-[12px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec]"
+                                className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[18px] py-[6px] text-[12px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec]"
                               >
                                 Sign out
                               </a>
@@ -635,7 +633,7 @@ const OldHeader = () => {
                             onClick={() => {
                               setUserNavbarOpen(false)
                             }}
-                            className="ml-[20px]  flex cursor-pointer justify-end text-[16px] font-bold text-[#000] hover:text-[#313131]"
+                            className="ml-[20px] flex cursor-pointer justify-end text-[16px] font-bold text-[#000] hover:text-[#313131]"
                           >
                             x
                           </div>
@@ -648,7 +646,7 @@ const OldHeader = () => {
                             ? `/xnode/login`
                             : `${'/login'}`
                         }`}
-                        className=" my-auto mx-auto mt-[10px] h-fit w-fit cursor-pointer items-center   border-b  border-[#000] bg-transparent text-[16px]  font-bold !leading-[19px] text-[#000] hover:text-[#3b3a3a]"
+                        className="m-auto mt-[10px] size-fit cursor-pointer items-center border-b border-[#000] bg-transparent text-[16px] font-bold !leading-[19px] text-[#000] hover:text-[#3b3a3a]"
                       >
                         Login
                       </a>
@@ -658,7 +656,7 @@ const OldHeader = () => {
               </div>
             </nav>
           </div>
-          <div className="relative mx-auto hidden h-full w-full max-w-[1800px] items-center  justify-between lg:flex">
+          <div className="relative mx-auto hidden size-full max-w-[1800px] items-center justify-between lg:flex">
             {pathname.includes('/workspace') && !reviewYourBuild && (
               <div className="flex items-center">
                 <img
@@ -697,7 +695,7 @@ const OldHeader = () => {
                       <input
                         value={projectDescription}
                         onChange={(e) => setProjectDescription(e.target.value)}
-                        className=" ml-[10px] bg-[#fff] text-[#999]"
+                        className="ml-[10px] bg-[#fff] text-[#999]"
                         autoFocus
                       />{' '}
                     </div>
@@ -710,14 +708,14 @@ const OldHeader = () => {
                 {isEditing ? (
                   <div
                     onClick={() => setIsEditing(false)}
-                    className="ml-[20px] cursor-pointer text-[7.5px] font-medium text-[#0354EC]  underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[24px] md:text-[8.5px] lg:ml-[28px] lg:text-[10px] xl:ml-[32px] xl:text-[11.2px] 2xl:ml-[40px] 2xl:text-[14px]"
+                    className="ml-[20px] cursor-pointer text-[7.5px] font-medium text-[#0354EC] underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[24px] md:text-[8.5px] lg:ml-[28px] lg:text-[10px] xl:ml-[32px] xl:text-[11.2px] 2xl:ml-[40px] 2xl:text-[14px]"
                   >
                     Save
                   </div>
                 ) : (
                   <div
                     onClick={() => setIsEditing(true)}
-                    className="ml-[20px] cursor-pointer text-[7.5px] font-medium text-[#0354EC]  underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[24px] md:text-[8.5px] lg:ml-[28px] lg:text-[10px] xl:ml-[32px] xl:text-[11.2px] 2xl:ml-[40px] 2xl:text-[14px]"
+                    className="ml-[20px] cursor-pointer text-[7.5px] font-medium text-[#0354EC] underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[24px] md:text-[8.5px] lg:ml-[28px] lg:text-[10px] xl:ml-[32px] xl:text-[11.2px] 2xl:ml-[40px] 2xl:text-[14px]"
                   >
                     Edit
                   </div>
@@ -725,7 +723,7 @@ const OldHeader = () => {
                 {isViewing ? (
                   <div
                     onClick={() => setIsViewing(false)}
-                    className="ml-[7.5px] cursor-pointer text-[7.5px] font-medium  text-[#0354EC] underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[9px] md:text-[8.5px] lg:ml-[10.5px] lg:text-[10px] xl:ml-[12px] xl:text-[11.2px] 2xl:ml-[15px] 2xl:text-[14px]"
+                    className="ml-[7.5px] cursor-pointer text-[7.5px] font-medium text-[#0354EC] underline underline-offset-[3px] hover:text-[#023ba5] md:ml-[9px] md:text-[8.5px] lg:ml-[10.5px] lg:text-[10px] xl:ml-[12px] xl:text-[11.2px] 2xl:ml-[15px] 2xl:text-[14px]"
                   >
                     Hide
                   </div>
@@ -739,7 +737,7 @@ const OldHeader = () => {
                 )}
               </div>
             )}
-            <div className="relative ml-auto flex gap-x-[25px] text-[7px] md:gap-x-[30px] md:text-[8.4px] lg:gap-x-[35px]  lg:text-[10px]  xl:gap-x-[40px] xl:text-[11.2px] 2xl:gap-x-[50px] 2xl:text-[14px]">
+            <div className="relative ml-auto flex gap-x-[25px] text-[7px] md:gap-x-[30px] md:text-[8.4px] lg:gap-x-[35px] lg:text-[10px] xl:gap-x-[40px] xl:text-[11.2px] 2xl:gap-x-[50px] 2xl:text-[14px]">
               {/* <div className="">
                 <div className="text-[7px] font-light md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                   Estimated monthly price*
@@ -782,7 +780,7 @@ const OldHeader = () => {
                       isLoadingUpdate
                         ? 'bg-[#3c78e9]'
                         : 'bg-[#0354EC] hover:bg-[#203b6e]'
-                    }  py-[6.2px] px-[11px] text-center  text-[#fff]    md:py-[7.5px] md:px-[12.5px]    lg:py-[8.75px]  lg:px-[14.5px]  xl:py-[10px] xl:px-[17px]  2xl:gap-x-[10px] 2xl:py-[10px] 2xl:px-[21px]`}
+                    } px-[11px] py-[6.2px] text-center text-[#fff] md:px-[12.5px] md:py-[7.5px] lg:px-[14.5px] lg:py-[8.75px] xl:px-[17px] xl:py-[10px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[10px]`}
                   >
                     <img
                       src={`${
@@ -803,14 +801,14 @@ const OldHeader = () => {
                           process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                             ? `/xnode/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
                             : `/template-products/eae27511-c846-4db0-ac8c-bf3531873e7a`
-                        }`,
+                        }`
                       )
                     }}
                     className={`flex h-fit cursor-pointer justify-center gap-x-[8px] ${
                       pathname.includes('/workspace') && !reviewYourBuild
-                        ? 'bg-[#0354EC] text-[#fff] hover:bg-[#203b6e] '
+                        ? 'bg-[#0354EC] text-[#fff] hover:bg-[#203b6e]'
                         : 'border border-[#0354EC] bg-[#fff] text-[#0354EC] hover:text-[#203b6e]'
-                    } rounded-[5px]  py-[6.2px] px-[11px] text-center md:py-[7.5px] md:px-[12.5px]    lg:py-[8.75px]  lg:px-[14.5px]  xl:py-[10px] xl:px-[17px]  2xl:gap-x-[10px] 2xl:py-[10px] 2xl:px-[21px]`}
+                    } rounded-[5px] px-[11px] py-[6.2px] text-center md:px-[12.5px] md:py-[7.5px] lg:px-[14.5px] lg:py-[8.75px] xl:px-[17px] xl:py-[10px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[10px]`}
                   >
                     <img
                       src={`${
@@ -848,9 +846,9 @@ const OldHeader = () => {
                     className={`my-auto mr-[15px] w-[15px] cursor-pointer xl:w-[20px] 2xl:mr-[15px] 2xl:w-[25px]`}
                   />
                   <nav
-                    className={`navbar absolute right-[100px] z-50 flex w-[150px] rounded-[8px] border-[.5px] bg-[#e6e4e4] pt-[19px] pr-1 pl-[15px] pb-[30px] text-[13px] text-[#fff] duration-300  ${
+                    className={`navbar absolute right-[100px] z-50 flex w-[150px] rounded-[8px] border-[.5px] bg-[#e6e4e4] pb-[30px] pl-[15px] pr-1 pt-[19px] text-[13px] text-[#fff] duration-300 ${
                       userNavbarOpen
-                        ? 'visibility top-20 -right-[50px] opacity-100'
+                        ? 'visibility -right-[50px] top-20 opacity-100'
                         : 'invisible top-20 opacity-0'
                     }`}
                   >
@@ -858,7 +856,7 @@ const OldHeader = () => {
                       <div className="mt-[25px]">
                         <a
                           onClick={signOutUser}
-                          className=" cursor-pointer items-center rounded-[5px] border  border-[#000] bg-transparent py-[6px] px-[18px] text-[12px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec]"
+                          className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[18px] py-[6px] text-[12px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec]"
                         >
                           Sign out
                         </a>
@@ -868,7 +866,7 @@ const OldHeader = () => {
                       onClick={() => {
                         setUserNavbarOpen(false)
                       }}
-                      className="ml-[20px]  flex cursor-pointer justify-end text-[16px] font-bold text-[#000] hover:text-[#313131]"
+                      className="ml-[20px] flex cursor-pointer justify-end text-[16px] font-bold text-[#000] hover:text-[#313131]"
                     >
                       x
                     </div>
@@ -881,7 +879,7 @@ const OldHeader = () => {
                       ? `/xnode/login`
                       : `${'/login'}`
                   }`}
-                  className=" my-auto h-fit cursor-pointer items-center   border-b  border-[#000] bg-transparent text-[16px]  font-bold !leading-[19px] text-[#000] hover:text-[#3b3a3a]"
+                  className="my-auto h-fit cursor-pointer items-center border-b border-[#000] bg-transparent text-[16px] font-bold !leading-[19px] text-[#000] hover:text-[#3b3a3a]"
                 >
                   Login
                 </a>
@@ -899,20 +897,20 @@ const OldHeader = () => {
           </div>
         </div>
         {isViewing && (
-          <div className="pl-[17px]  md:pl-[20px] lg:pl-[23px] xl:pl-[26.4px] 2xl:pl-[33px] ">
+          <div className="pl-[17px] md:pl-[20px] lg:pl-[23px] xl:pl-[26.4px] 2xl:pl-[33px]">
             <div className="base:text-[7px] mt-[5px] md:text-[8.4px] lg:text-[9.8px] xl:text-[11.2px] 2xl:text-[14px]">
               {tagXnode}
             </div>
             <div className="mt-[10px] flex justify-between">
-              <div className="text-[6px] font-medium text-[#8D8D8D] md:text-[7.2px]  lg:text-[8.4px]  xl:text-[9.6px] 2xl:text-[12px]">
+              <div className="text-[6px] font-medium text-[#8D8D8D] md:text-[7.2px] lg:text-[8.4px] xl:text-[9.6px] 2xl:text-[12px]">
                 {projectDescription}
               </div>
-              <div className="mt-[5px] md:mt-[6px] lg:mt-[7px] xl:mt-[8px] 2xl:mt-[1px]">
+              <div className="mt-[5px] md:mt-[6px] lg:mt-[7px] xl:mt-[8px] 2xl:mt-px">
                 <div className="text-[9px] font-medium text-[#000] md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]">
                   Est. $<span className="font-bold">40</span> / month
                 </div>
-                <div className="relative mx-auto mt-[1px] flex w-fit">
-                  <div className="text-[6px] font-medium  text-[#12AD50] md:text-[7.2px]  lg:text-[8.4px]  xl:text-[11.2px] 2xl:text-[12px]">
+                <div className="relative mx-auto mt-px flex w-fit">
+                  <div className="text-[6px] font-medium text-[#12AD50] md:text-[7.2px] lg:text-[8.4px] xl:text-[11.2px] 2xl:text-[12px]">
                     ~$13,000 savings
                   </div>
                   <img
@@ -922,7 +920,7 @@ const OldHeader = () => {
                         : ''
                     }/images/header/question.svg`}
                     alt="image"
-                    className="absolute top-0 -right-[10px] w-[4px]  md:w-[4.8px]  lg:w-[5.6px] xl:w-[6.4px] 2xl:w-[8px]"
+                    className="absolute -right-[10px] top-0 w-[4px] md:w-[4.8px] lg:w-[5.6px] xl:w-[6.4px] 2xl:w-[8px]"
                   />
                 </div>
               </div>
@@ -937,14 +935,14 @@ const OldHeader = () => {
                 alt="image"
                 className={`mt-[8.5px] w-[170px] md:mt-[10px] md:w-[204px] lg:mt-[12px] lg:w-[238px] xl:mt-[13.6px] xl:w-[272px] 2xl:mt-[17px] 2xl:w-[340px]`}
               />
-              <div className=" mt-auto mb-[5px]">
+              <div className="mb-[5px] mt-auto">
                 <a
                   href={`${
                     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                       ? `/xnode/data-products`
                       : `${'/data-products'}`
                   }`}
-                  className=" cursor-pointer text-[6px] font-medium  text-[#0354EC] hover:text-[#023ba5] md:text-[7.2px]  lg:text-[8.4px] xl:text-[11.2px] 2xl:text-[12px]"
+                  className="cursor-pointer text-[6px] font-medium text-[#0354EC] hover:text-[#023ba5] md:text-[7.2px] lg:text-[8.4px] xl:text-[11.2px] 2xl:text-[12px]"
                 >
                   More
                 </a>

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { memo, useState } from 'react'
-import { Handle, useReactFlow, useStoreApi, Position } from 'reactflow'
+import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
+
 import withProps from './withProps'
 
 const options = [
@@ -40,7 +41,7 @@ function Select({ value, handleId, nodeId }) {
           }
         }
         return node
-      }),
+      })
     )
   }
 
@@ -96,7 +97,7 @@ function CustomNode({ id, data, handleNodeRemove }) {
         onClick={() => {
           handleClick()
         }}
-        className="absolute top-2 right-3"
+        className="absolute right-3 top-2"
       >
         X
       </button>

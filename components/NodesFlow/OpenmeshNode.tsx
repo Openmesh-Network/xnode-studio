@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { memo, useState, useContext } from 'react'
-import { Handle, useReactFlow, useStoreApi, Position } from 'reactflow'
+import React, { memo, useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
+import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
+
 import withProps from './withProps'
 
 const options = [
@@ -41,7 +42,7 @@ function Select({ value, handleId, nodeId }) {
           }
         }
         return node
-      }),
+      })
     )
   }
 
@@ -95,12 +96,12 @@ function OpenmeshNode({ id, data, handleNodeRemove }) {
   }
   return (
     <>
-      <div className="relative rounded-[10px] border-[0.5px] border-[#C1C1C1] bg-[#fff] py-[7px] px-[10px] pb-[10px] pr-[22.5px] text-[8px]  text-[#000]  md:rounded-[12px] md:py-[8.4px] md:px-[12px]  md:pb-[12px] md:pr-[27px] md:text-[9.6px] lg:rounded-[14px] lg:py-[10px] lg:px-[14px] lg:pb-[14px] lg:pr-[31.5px] lg:text-[11.2px] xl:rounded-[16px] xl:py-[11.2px] xl:px-[16px] xl:pb-[16px] xl:pr-[36px] xl:text-[12.8px] 2xl:rounded-[20px] 2xl:py-[14px] 2xl:px-[20px] 2xl:pb-[20px] 2xl:pr-[45px] 2xl:text-[16px]">
+      <div className="relative rounded-[10px] border-[0.5px] border-[#C1C1C1] bg-[#fff] px-[10px] py-[7px] pb-[10px] pr-[22.5px] text-[8px] text-[#000] md:rounded-[12px] md:px-[12px] md:py-[8.4px] md:pb-[12px] md:pr-[27px] md:text-[9.6px] lg:rounded-[14px] lg:px-[14px] lg:py-[10px] lg:pb-[14px] lg:pr-[31.5px] lg:text-[11.2px] xl:rounded-[16px] xl:px-[16px] xl:py-[11.2px] xl:pb-[16px] xl:pr-[36px] xl:text-[12.8px] 2xl:rounded-[20px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[20px] 2xl:pr-[45px] 2xl:text-[16px]">
         <button
           onClick={() => {
             handleClick()
           }}
-          className="absolute top-2 right-[5px] font-bold md:right-[6px] lg:right-[7px] xl:right-[8px] 2xl:right-[10px]"
+          className="absolute right-[5px] top-2 font-bold md:right-[6px] lg:right-[7px] xl:right-[8px] 2xl:right-[10px]"
         >
           X
         </button>
@@ -116,7 +117,7 @@ function OpenmeshNode({ id, data, handleNodeRemove }) {
               'w-[16px] md:w-[20px] lg:w-[22.5px] xl:w-[25.5px] 2xl:w-[32px]'
             }
           />
-          <div className="font-normal text-[#000000]  lg:!leading-[19px]">
+          <div className="font-normal text-black lg:!leading-[19px]">
             Openmesh Core
           </div>
         </div>

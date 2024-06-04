@@ -1,14 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-
-import xNodeLogo from '@/assets/xnode_logo.svg'
-import thunderIcon from '@/assets/thunderIcon.svg'
-import listMenu from '@/assets/listMenu.svg'
-
-import * as Dialog from '@radix-ui/react-dialog'
-
 import Link from 'next/link'
+import listMenu from '@/assets/listMenu.svg'
+import thunderIcon from '@/assets/thunderIcon.svg'
+import xNodeLogo from '@/assets/xnode_logo.svg'
+import * as Dialog from '@radix-ui/react-dialog'
 
 export function Header() {
   const headerItems = [
@@ -48,7 +45,7 @@ export function Header() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <span className="hover:text-gray200 text-white transition-colors duration-300">
+                <span className="text-white transition-colors duration-300 hover:text-gray200">
                   {option.label}
                 </span>
               </Link>

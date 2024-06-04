@@ -2,23 +2,28 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 'use client'
+
 // import { useState } from 'react'
-import { useEffect, useState, ChangeEvent, FC, useContext } from 'react'
+import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as Yup from 'yup'
 import axios from 'axios'
-import { toast } from 'react-toastify'
 import nookies, { parseCookies, setCookie } from 'nookies'
+import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import * as Yup from 'yup'
+
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-quill/dist/quill.snow.css' // import styles
+
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import 'react-datepicker/dist/react-datepicker.css'
-import { AccountContext } from '../../contexts/AccountContext'
 
-import { TextField, Autocomplete } from '@mui/material'
+import 'react-datepicker/dist/react-datepicker.css'
+
+import { Autocomplete, TextField } from '@mui/material'
+
+import { AccountContext } from '../../contexts/AccountContext'
 
 type RegisterForm = {
   firstName: string
@@ -111,9 +116,9 @@ const Profile = () => {
 
   const FileList: FC<FileListProps> = ({ files, onRemove }) => {
     return (
-      <ul className="mt-4 max-h-[190px] max-w-[300px] overflow-y-auto text-[#000000]">
+      <ul className="mt-4 max-h-[190px] max-w-[300px] overflow-y-auto text-black">
         {files.map((file, index) => (
-          <li key={`selected-${index}`} className="mb-2 mr-2 ml-4 flex">
+          <li key={`selected-${index}`} className="mb-2 ml-4 mr-2 flex">
             <img
               src={`${
                 process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -121,13 +126,13 @@ const Profile = () => {
                   : ''
               }${imagePreview}`}
               alt="Preview"
-              className={`h-[150px] w-[150px] cursor-pointer rounded-[100%] `}
+              className={`size-[150px] cursor-pointer rounded-[100%]`}
             />
             <button
               type="button"
               onClick={() => onRemove(index)}
               disabled={isLoading}
-              className="ml-2 flex h-fit items-start rounded px-1 py-0.5 text-sm  font-extrabold text-[#ff0000]  hover:text-[#6b0101] lg:text-[16px]"
+              className="ml-2 flex h-fit items-start rounded px-1 py-0.5 text-sm font-extrabold text-[#ff0000] hover:text-[#6b0101] lg:text-[16px]"
             >
               X
             </button>
@@ -288,7 +293,7 @@ const Profile = () => {
       push(
         `${
           process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/oec` : `/oec`
-        }`,
+        }`
       )
     } catch (err) {
       console.log(err)
@@ -347,7 +352,7 @@ const Profile = () => {
           urlToFile(
             `https://cloudflare-ipfs.com/ipfs/${user.profilePictureHash}`,
             'profilePic.jpg',
-            mimeType,
+            mimeType
           ).then((file) => {
             handlePreFileChange({ target: { files: [file] } } as any)
             setIsPageLoading(false)
@@ -358,7 +363,7 @@ const Profile = () => {
       push(
         `${
           process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/oec` : `/oec`
-        }`,
+        }`
       )
     }
 
@@ -367,7 +372,7 @@ const Profile = () => {
 
   if (isPageLoading) {
     return (
-      <section className="py-16 px-32 text-black md:py-20 lg:pt-40">
+      <section className="px-32 py-16 text-black md:py-20 lg:pt-40">
         <div className="container flex h-60 animate-pulse px-0 pb-12">
           <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
           <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
@@ -385,7 +390,7 @@ const Profile = () => {
             <div className="-mx-4 flex flex-wrap items-start">
               <div className="w-full px-4 lg:w-2/3">
                 <div className="mb-1">
-                  <h3 className="text-[15px] font-bold !leading-[150%] text-[#000000] lg:text-[24px]">
+                  <h3 className="text-[15px] font-bold !leading-[150%] text-black lg:text-[24px]">
                     Update account
                   </h3>
                 </div>
@@ -394,7 +399,7 @@ const Profile = () => {
             </div>
           </div>
         </section>
-        <section className="mt-12 mb-[0px] px-[20px] pt-[15px] text-[11px]  font-medium !leading-[17px] text-[#000000] lg:mb-24 lg:px-[100px] lg:pt-[30px]  lg:text-[14px]">
+        <section className="mb-0 mt-12 px-[20px] pt-[15px] text-[11px] font-medium !leading-[17px] text-black lg:mb-24 lg:px-[100px] lg:pt-[30px] lg:text-[14px]">
           <div className="flex gap-x-[70px] lg:gap-x-[200px] lg:px-[150px]">
             <form onSubmit={handleSubmit(onSubmit)} className="">
               <div className="">
@@ -403,7 +408,7 @@ const Profile = () => {
                     <div className="mt-[20px]">
                       <span className="flex flex-row">
                         First name
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                           {errors.firstName?.message}
                         </p>
                       </span>
@@ -419,7 +424,7 @@ const Profile = () => {
                     <div className="mt-[20px]">
                       <span className="flex flex-row">
                         Last name
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                           {errors.lastName?.message}
                         </p>
                       </span>
@@ -436,7 +441,7 @@ const Profile = () => {
                       <div className="mt-[20px]">
                         <span className="flex flex-row">
                           Company name
-                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                             {errors.companyName?.message}
                           </p>
                         </span>
@@ -499,7 +504,7 @@ const Profile = () => {
                     <div id="tagsId" className="mt-[20px]">
                       <span className="flex flex-row">
                         Location
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                           {errors.location?.message}
                         </p>
                       </span>
@@ -516,7 +521,7 @@ const Profile = () => {
                       <div className="mt-[20px]">
                         <span className="flex flex-row">
                           Website
-                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                             {errors.website?.message}
                           </p>
                         </span>
@@ -534,7 +539,7 @@ const Profile = () => {
                       <div className="mt-[20px]">
                         <span className="flex flex-row">
                           Personal blog
-                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                             {errors.personalBlog?.message}
                           </p>
                         </span>
@@ -552,7 +557,7 @@ const Profile = () => {
                       <div className="mt-[20px]">
                         <span className="flex flex-row">
                           Github
-                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                             {errors.githubLink?.message}
                           </p>
                         </span>
@@ -569,7 +574,7 @@ const Profile = () => {
                     <div className="mt-[20px]">
                       <span className="flex flex-row">
                         Calendly link
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                           {errors.scheduleCalendlyLink?.message}
                         </p>
                       </span>
@@ -590,7 +595,7 @@ const Profile = () => {
                     <div className={`mt-[20px]`}>
                       <span className="flex flex-row">
                         Service tags
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                           {errors.tags?.message}
                         </p>
                       </span>
@@ -617,7 +622,7 @@ const Profile = () => {
                               options.filter((option) =>
                                 option
                                   .toLowerCase()
-                                  .includes(state.inputValue.toLowerCase()),
+                                  .includes(state.inputValue.toLowerCase())
                               )
                             }
                             onChange={(e, newValue) => {
@@ -662,13 +667,13 @@ const Profile = () => {
                         {!user.isCompany
                           ? 'Provide a short description about yourself'
                           : 'Provide a short description about your organization'}
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                           {errors.description?.message}
                         </p>
                       </span>
                       <textarea
                         disabled={isLoading}
-                        className="mt-[10px] h-[200px] w-[380px] rounded-[10px] border border-[#D4D4D4] bg-white py-[25px] px-[20px] text-[17px] font-normal outline-0 lg:w-[500px]"
+                        className="mt-[10px] h-[200px] w-[380px] rounded-[10px] border border-[#D4D4D4] bg-white px-[20px] py-[25px] text-[17px] font-normal outline-0 lg:w-[500px]"
                         maxLength={100}
                         placeholder=""
                         {...register('description')}
@@ -681,7 +686,7 @@ const Profile = () => {
                 <div className="mt-[60px] flex pb-[10px] lg:pb-60">
                   <button
                     disabled={true}
-                    className=" mr-[15px] h-[50px] w-[250px] rounded-[10px] bg-[#7a89a5] py-[12px] px-[25px] text-[12px] font-bold text-white  lg:text-[16px]"
+                    className="mr-[15px] h-[50px] w-[250px] rounded-[10px] bg-[#7a89a5] px-[25px] py-[12px] text-[12px] font-bold text-white lg:text-[16px]"
                     onClick={handleSubmit(onSubmit)}
                   >
                     <span className="">Update account</span>
@@ -703,7 +708,7 @@ const Profile = () => {
                   <button
                     type="submit"
                     onClick={handleSubmit(onSubmit)}
-                    className={`h-[50px] w-[250px] rounded-[10px] border border-[#0354EC] py-[12px] px-[25px] text-[12px] font-bold text-[#0354EC] hover:bg-[#0354EC] hover:text-[#fff] lg:text-[16px]`}
+                    className={`h-[50px] w-[250px] rounded-[10px] border border-[#0354EC] px-[25px] py-[12px] text-[12px] font-bold text-[#0354EC] hover:bg-[#0354EC] hover:text-[#fff] lg:text-[16px]`}
                   >
                     <span className="">Update account</span>
                   </button>

@@ -4,11 +4,14 @@
 import { useEffect, useState } from 'react'
 import { getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { DataProvider } from '@/types/dataProvider'
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { Autocomplete, TextField } from '@mui/material'
 import { SmileySad } from 'phosphor-react'
-import { TextField, Autocomplete } from '@mui/material'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+
+import { DataProvider } from '@/types/dataProvider'
 
 interface ModalProps {
   onUpdate(): void
@@ -140,7 +143,7 @@ const Filter = ({ onUpdate }: ModalProps) => {
         </div>
       </div> */}
       <div className="mt-[20px] lg:mt-[32px] 2xl:mt-[40px]">
-        <div className="border-b-[1px] border-[#D9D9D9] pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">
+        <div className="border-b border-[#D9D9D9] pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">
           Categories
         </div>
         <div className="mt-[8px] lg:mt-[12px] 2xl:mt-[15px]">
@@ -159,8 +162,8 @@ const Filter = ({ onUpdate }: ModalProps) => {
           ))}
         </div>
       </div>
-      <div className="mt-[20px] border-b-[1px] border-[#D9D9D9] pb-[20px] lg:mt-[32px] lg:pb-[32px] 2xl:mt-[40px] 2xl:pb-[40px]">
-        <div className="border-b-[1px] border-[#D9D9D9] pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">
+      <div className="mt-[20px] border-b border-[#D9D9D9] pb-[20px] lg:mt-[32px] lg:pb-[32px] 2xl:mt-[40px] 2xl:pb-[40px]">
+        <div className="border-b border-[#D9D9D9] pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">
           Use Cases
         </div>
         <div className="mt-[8px] lg:mt-[12px] 2xl:mt-[15px]">
@@ -181,15 +184,15 @@ const Filter = ({ onUpdate }: ModalProps) => {
           ))}
         </div>
       </div>
-      <div className="mt-[8px] border-b-[1px] border-[#D9D9D9] pb-[8px] lg:mt-[12px] lg:pb-[12px] 2xl:mt-[15px] 2xl:pb-[15px]">
+      <div className="mt-[8px] border-b border-[#D9D9D9] pb-[8px] lg:mt-[12px] lg:pb-[12px] 2xl:mt-[15px] 2xl:pb-[15px]">
         <div className="pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">
           Suggest a new data
         </div>
-        <div className=" lg:!leading-[150%]">
+        <div className="lg:!leading-[150%]">
           <a
             href={'https://www.openmesh.network/oec/register'}
             target="_blank"
-            className="border-b-[1px] font-medium text-[#0354EC]"
+            className="border-b font-medium text-[#0354EC]"
             rel="noreferrer"
           >
             Join our community and let us know what you’d like to add!
@@ -200,9 +203,9 @@ const Filter = ({ onUpdate }: ModalProps) => {
         <div className="pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">
           Provide a data source
         </div>
-        <div className=" lg:!leading-[150%]">
+        <div className="lg:!leading-[150%]">
           {' '}
-          <a className="border-b-[1px] font-medium text-[#0354EC]">
+          <a className="border-b font-medium text-[#0354EC]">
             Run an Xnode today{' '}
           </a>
         </div>

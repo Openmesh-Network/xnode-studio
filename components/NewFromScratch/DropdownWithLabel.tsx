@@ -54,10 +54,10 @@ const DropdownWithLabel = ({
       }}
       className={`relative ${isOpen && 'border-primary'} my-auto w-[400px] ${
         !isDisable && 'cursor-pointer'
-      } rounded-[5px] border-[1px] border-[#C1C1C1] px-[18px]  py-[15px] text-[14px] font-normal`}
+      } rounded-[5px] border border-[#C1C1C1] px-[18px] py-[15px] text-[14px] font-normal`}
       ref={dropdownRef}
     >
-      <div className={`flex items-center justify-between `}>
+      <div className={`flex items-center justify-between`}>
         <div className="flex justify-between gap-x-[10px]">
           {optionSelected?.imageSrc && (
             <img
@@ -83,8 +83,8 @@ const DropdownWithLabel = ({
       </div>
 
       {isOpen && (
-        <div className="absolute left-0 top-0  z-50 w-full translate-y-[60px] rounded-[5px] border-[1px] border-[#cfd3d8]  bg-[#fff] transition">
-          <div className="grid gap-y-[5px] px-1 py-1">
+        <div className="absolute left-0 top-0 z-50 w-full translate-y-[60px] rounded-[5px] border border-[#cfd3d8] bg-[#fff] transition">
+          <div className="grid gap-y-[5px] p-1">
             {options?.map((option, index) => (
               <div
                 key={index}
@@ -92,7 +92,7 @@ const DropdownWithLabel = ({
                   setIsOpen(false)
                   onValueChange(option)
                 }}
-                className={`flex cursor-pointer gap-x-[10px] rounded-md px-6 py-2  hover:bg-[#dbdbdb55] ${
+                className={`flex cursor-pointer gap-x-[10px] rounded-md px-6 py-2 hover:bg-[#dbdbdb55] ${
                   optionSelected?.value === option.value && 'bg-[#dbdbdb1e]'
                 }`}
               >
@@ -110,7 +110,7 @@ const DropdownWithLabel = ({
           </div>
         </div>
       )}
-      <div className="absolute -top-3 left-2   z-[50] bg-[#fff] px-[10px] text-[16px] font-normal">
+      <div className="absolute -top-3 left-2 z-50 bg-[#fff] px-[10px] text-[16px] font-normal">
         {label}
       </div>
     </div>

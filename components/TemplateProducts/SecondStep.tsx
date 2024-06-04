@@ -2,19 +2,24 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 'use client'
+
 /* eslint-disable no-unused-vars */
-import { useEffect, useState, useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getAPI, getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { TemplatesProducts } from '@/types/dataProvider'
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { AccountContext } from '@/contexts/AccountContext'
+import { Autocomplete, TextField } from '@mui/material'
 import { SmileySad } from 'phosphor-react'
+
+import { TemplatesProducts } from '@/types/dataProvider'
 import Filter from '@/components/Filter'
-import { TextField, Autocomplete } from '@mui/material'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+
 import ProductsList from '../ProductsList'
 import Dropdown, { ValueObject } from './Dropdown'
-import { AccountContext } from '@/contexts/AccountContext'
 
 const Configuration = () => {
   const [templates, setTemplates] = useState<TemplatesProducts[]>([])
@@ -57,32 +62,32 @@ const Configuration = () => {
                   ></div>
                   <div
                     style={{ width: `${(33 / (40 + 33 + freeSpace)) * 100}%` }}
-                    className={` bg-[#0059ff]`}
+                    className={`bg-[#0059ff]`}
                   ></div>
                   <div
                     style={{
                       width: `${(freeSpace / (40 + 33 + freeSpace)) * 100}%`,
                     }}
-                    className={`flex items-center justify-center rounded-r-[8px] bg-[#e5eefc] text-[12px] font-light`}
+                    className={`flex items-center justify-center rounded-r-[8px] bg-gray200 text-[12px] font-light`}
                   >
                     available to rent and get paid
                   </div>
                 </div>
                 <div className="mt-[13.63px] flex w-fit justify-between gap-x-[15px]">
                   <div className="flex items-center gap-x-[8px]">
-                    <div className="h-[13px] w-[13px] rounded-full bg-[#000]"></div>
+                    <div className="size-[13px] rounded-full bg-[#000]"></div>
                     <div className="text-[16px] font-normal">
                       Openmesh core (40 GB)
                     </div>
                   </div>
                   <div className="flex items-center gap-x-[8px]">
-                    <div className="h-[13px] w-[13px] rounded-full bg-[#0059ff]"></div>
+                    <div className="size-[13px] rounded-full bg-[#0059ff]"></div>
                     <div className="text-[16px] font-normal">
                       Your services (33 GB){' '}
                     </div>
                   </div>
                   <div className="flex items-center gap-x-[8px]">
-                    <div className="h-[13px] w-[13px] rounded-full bg-[#e5eefc]"></div>
+                    <div className="size-[13px] rounded-full bg-gray200"></div>
                     <div className="text-[16px] font-normal">
                       Free ({freeSpace} GB){' '}
                     </div>
@@ -182,8 +187,8 @@ const Configuration = () => {
                   <div className="pl-[25px] text-[14px] font-normal text-[#ABABAB]">
                     Included Services
                   </div>
-                  <div className="mt-[11px] flex gap-x-[1px] pl-[72px]">
-                    <div className="h-[346px] w-[1px] bg-[#C3C1C1]"></div>
+                  <div className="mt-[11px] flex gap-x-px pl-[72px]">
+                    <div className="h-[346px] w-px bg-[#C3C1C1]"></div>
                     <div className="w-full">
                       <div className="mt-[22px] flex items-start">
                         <img
@@ -210,7 +215,7 @@ const Configuration = () => {
                             obj['kubernetes'] = !obj['kubernetes']
                             setIncludeServices(obj)
                           }}
-                          className={`flex h-[16px] w-[16px] cursor-pointer rounded-[5px]  ${
+                          className={`flex size-[16px] cursor-pointer rounded-[5px] ${
                             includedServices?.kubernetes
                               ? 'bg-[#0059ff]'
                               : 'bg-[#929292]'
@@ -223,7 +228,7 @@ const Configuration = () => {
                                 : ''
                             }/images/template/check-white.svg`}
                             alt="image"
-                            className="mx-auto my-auto"
+                            className="m-auto"
                           />
                         </div>
                       </div>
@@ -252,7 +257,7 @@ const Configuration = () => {
                             obj['openmeshConsensus'] = !obj['openmeshConsensus']
                             setIncludeServices(obj)
                           }}
-                          className={`flex h-[16px] w-[16px] cursor-pointer rounded-[5px]  ${
+                          className={`flex size-[16px] cursor-pointer rounded-[5px] ${
                             includedServices?.openmeshConsensus
                               ? 'bg-[#0059ff]'
                               : 'bg-[#929292]'
@@ -265,7 +270,7 @@ const Configuration = () => {
                                 : ''
                             }/images/template/check-white.svg`}
                             alt="image"
-                            className="mx-auto my-auto"
+                            className="m-auto"
                           />
                         </div>
                       </div>
@@ -294,7 +299,7 @@ const Configuration = () => {
                             obj['bittorrent'] = !obj['bittorrent']
                             setIncludeServices(obj)
                           }}
-                          className={`flex h-[16px] w-[16px] cursor-pointer rounded-[5px]  ${
+                          className={`flex size-[16px] cursor-pointer rounded-[5px] ${
                             includedServices?.bittorrent
                               ? 'bg-[#0059ff]'
                               : 'bg-[#929292]'
@@ -307,7 +312,7 @@ const Configuration = () => {
                                 : ''
                             }/images/template/check-white.svg`}
                             alt="image"
-                            className="mx-auto my-auto"
+                            className="m-auto"
                           />
                         </div>
                       </div>
@@ -336,7 +341,7 @@ const Configuration = () => {
                             obj['phytiaPro'] = !obj['phytiaPro']
                             setIncludeServices(obj)
                           }}
-                          className={`flex h-[16px] w-[16px] cursor-pointer rounded-[5px]  ${
+                          className={`flex size-[16px] cursor-pointer rounded-[5px] ${
                             includedServices?.phytiaPro
                               ? 'bg-[#0059ff]'
                               : 'bg-[#929292]'
@@ -349,7 +354,7 @@ const Configuration = () => {
                                 : ''
                             }/images/template/check-white.svg`}
                             alt="image"
-                            className="mx-auto my-auto"
+                            className="m-auto"
                           />
                         </div>
                       </div>
@@ -378,7 +383,7 @@ const Configuration = () => {
                             obj['apiConnectivity'] = !obj['apiConnectivity']
                             setIncludeServices(obj)
                           }}
-                          className={`flex h-[16px] w-[16px] cursor-pointer rounded-[5px]  ${
+                          className={`flex size-[16px] cursor-pointer rounded-[5px] ${
                             includedServices?.apiConnectivity
                               ? 'bg-[#0059ff]'
                               : 'bg-[#929292]'
@@ -391,7 +396,7 @@ const Configuration = () => {
                                 : ''
                             }/images/template/check-white.svg`}
                             alt="image"
-                            className="mx-auto my-auto"
+                            className="m-auto"
                           />
                         </div>
                       </div>
@@ -417,7 +422,7 @@ const Configuration = () => {
                 className={``}
               />
             </div>
-            <div className="mt-[22px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+            <div className="mt-[22px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -431,7 +436,7 @@ const Configuration = () => {
                 Select a template
               </div>
             </div>
-            <div className="mt-[31px] flex items-center gap-x-[20px]  py-[10px] px-[32px]">
+            <div className="mt-[31px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -445,7 +450,7 @@ const Configuration = () => {
                 Select a provider
               </div>
             </div>
-            <div className="mt-[31px] flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-[#e5eefc] py-[10px] px-[32px]">
+            <div className="mt-[31px] flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-gray200 px-[32px] py-[10px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -460,7 +465,7 @@ const Configuration = () => {
               </div>
             </div>
             <div className="ml-[92px] mt-[17px]">
-              <div className="border-b-[1px] border-[#fafafa] pb-[5px]">
+              <div className="border-b border-[#fafafa] pb-[5px]">
                 <div className="text-[14px] font-medium text-[#959595]">
                   Service
                 </div>
@@ -468,7 +473,7 @@ const Configuration = () => {
                   Xnode
                 </div>
               </div>
-              <div className="mt-[10px] border-b-[1px] border-[#fafafa] pb-[5px]">
+              <div className="mt-[10px] border-b border-[#fafafa] pb-[5px]">
                 <div className="text-[14px] font-medium text-[#959595]">
                   Cloud
                 </div>
@@ -476,7 +481,7 @@ const Configuration = () => {
                   {templateSelected?.providerName}
                 </div>
               </div>
-              <div className="mt-[10px] border-b-[1px] border-[#fafafa] pb-[5px]">
+              <div className="mt-[10px] border-b border-[#fafafa] pb-[5px]">
                 <div className="text-[14px] font-medium text-[#959595]">
                   Region
                 </div>
@@ -484,7 +489,7 @@ const Configuration = () => {
                   {templateSelected?.location}
                 </div>
               </div>
-              <div className="mt-[10px] border-b-[1px] border-[#fafafa] pb-[5px]">
+              <div className="mt-[10px] border-b border-[#fafafa] pb-[5px]">
                 <div className="text-[14px] font-medium text-[#959595]">
                   Latency
                 </div>
@@ -492,7 +497,7 @@ const Configuration = () => {
                   {templateSelected?.availability}
                 </div>
               </div>
-              <div className="mt-[10px] border-b-[1px] border-[#fafafa] pb-[5px]">
+              <div className="mt-[10px] border-b border-[#fafafa] pb-[5px]">
                 <div className="text-[14px] font-medium text-[#959595]">
                   Database
                 </div>
@@ -500,7 +505,7 @@ const Configuration = () => {
                   PostgreSQL{' '}
                 </div>
               </div>
-              <div className="mt-[10px] border-b-[1px] border-[#fafafa] pb-[5px]">
+              <div className="mt-[10px] border-b border-[#fafafa] pb-[5px]">
                 <div className="text-[14px] font-medium text-[#959595]">
                   Data sources
                 </div>
@@ -524,7 +529,7 @@ const Configuration = () => {
                   </li>
                 </ul>
               </div>
-              <div className="mt-[10px] border-b-[1px] border-[#fafafa] pb-[5px]">
+              <div className="mt-[10px] border-b border-[#fafafa] pb-[5px]">
                 <div className="text-[14px] font-medium text-[#959595]">
                   Add-ons
                 </div>
@@ -559,7 +564,7 @@ const Configuration = () => {
             >
               Create service and deploy
             </div>
-            <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+            <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -573,7 +578,7 @@ const Configuration = () => {
                 Performing connection
               </div>
             </div>
-            <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+            <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'

@@ -4,13 +4,14 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 'use client'
+
 // import { useState } from 'react'
-import { useEffect, useState, ChangeEvent, FC, useContext, useRef } from 'react'
+import { ChangeEvent, FC, useContext, useEffect, useRef, useState } from 'react'
 
 const GetEquinixAPIKey = ({ isOpen, onClose }) => {
   return (
     <div
-      className={`fixed  inset-0 z-50 flex items-center justify-center font-normal text-[#000] ${
+      className={`fixed inset-0 z-50 flex items-center justify-center font-normal text-[#000] ${
         isOpen ? 'visible opacity-100' : 'invisible opacity-0'
       } transition-opacity duration-300`}
     >

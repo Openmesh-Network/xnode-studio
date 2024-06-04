@@ -2,23 +2,26 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 'use client'
+
 /* eslint-disable no-unused-vars */
-import { useEffect, useState, useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getAPI, getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { SmileySad } from 'phosphor-react'
-import Filter from '@/components/Filter'
-import { TextField, Autocomplete } from '@mui/material'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import ProductsList from '../ProductsList'
-import Dropdown, { ValueObject } from './Dropdown'
-import { AccountContext } from '@/contexts/AccountContext'
 
-import { TemplateData, ServiceData } from '@/types/dataProvider'
+import 'react-toastify/dist/ReactToastify.css'
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { AccountContext } from '@/contexts/AccountContext'
+import { Autocomplete, TextField } from '@mui/material'
+import { SmileySad } from 'phosphor-react'
 import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
 
+import { ServiceData, TemplateData } from '@/types/dataProvider'
+import Filter from '@/components/Filter'
+
+import ProductsList from '../ProductsList'
+import Dropdown, { ValueObject } from './Dropdown'
 
 export const optionsNetwork = [
   {
@@ -53,7 +56,9 @@ export const providerNameToLogo = {
 
 const TemplateStep = () => {
   const [templatesData, setTemplatesData] = useState<TemplateData[]>([])
-  const [filteredTemplatesData, setFilteredTemplatesData] = useState<TemplateData[]>([])
+  const [filteredTemplatesData, setFilteredTemplatesData] = useState<
+    TemplateData[]
+  >([])
   const [selectedTemplate, setSelectedTemplate] = useState<string>('')
   const [displayToggle, setDisplayToggle] = useState<string>('square')
   const [categoryFilter, setCategoryFilter] = useState<string[]>([])
@@ -66,11 +71,18 @@ const TemplateStep = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [selected, setSelected] = useState<ValueObject | null>(null)
   const [selectedCreator, setSelectedCreator] = useState<ValueObject | null>(
-    null,
+    null
   )
 
-  const { setIndexerDeployerStep, templateSelected, setTemplateSelected, setIsEditingXnode, setNextFromScratch, setFinalNodes, setNext } =
-    useContext(AccountContext)
+  const {
+    setIndexerDeployerStep,
+    templateSelected,
+    setTemplateSelected,
+    setIsEditingXnode,
+    setNextFromScratch,
+    setFinalNodes,
+    setNext,
+  } = useContext(AccountContext)
 
   async function getData() {
     let data: TemplateData[]
@@ -91,15 +103,22 @@ const TemplateStep = () => {
     handleNewFilteredTemplatesData(newFilter, filterSelection)
   }
 
-  function handleNewFilteredTemplatesData(categories: string[], source: string) {
+  function handleNewFilteredTemplatesData(
+    categories: string[],
+    source: string
+  ) {
     // first filtering by the source
     let newFilteredTemplate = [...templatesData]
     if (source !== 'All Templates') {
-      newFilteredTemplate = newFilteredTemplate.filter(vl => vl.source === source)
+      newFilteredTemplate = newFilteredTemplate.filter(
+        (vl) => vl.source === source
+      )
     }
 
     if (categories.length > 0) {
-      newFilteredTemplate = newFilteredTemplate.filter((ft) => categories.includes(ft.category))
+      newFilteredTemplate = newFilteredTemplate.filter((ft) =>
+        categories.includes(ft.category)
+      )
     }
 
     setFilteredTemplatesData(newFilteredTemplate)
@@ -113,17 +132,17 @@ const TemplateStep = () => {
 
       newFilteredTemplates.sort((a, b) => {
         // Convert dates to timestamps and compare
-        return new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime();
-      });
-  
-      setFilteredTemplatesData(newFilteredTemplates);
+        return new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime()
+      })
+
+      setFilteredTemplatesData(newFilteredTemplates)
     }
     if (value === 'Template Name') {
       console.log('entrei aqui yes sir')
       const newFilteredTemplates = [...filteredTemplatesData]
 
-      newFilteredTemplates.sort((a, b) => a.name.localeCompare(b.name));
-      setFilteredTemplatesData(newFilteredTemplates);
+      newFilteredTemplates.sort((a, b) => a.name.localeCompare(b.name))
+      setFilteredTemplatesData(newFilteredTemplates)
     }
   }
 
@@ -132,14 +151,14 @@ const TemplateStep = () => {
   }, [])
 
   return (
-    <section className="relative z-10 pt-[30px] pb-[200px] lg:pt-0">
-      <div className="mx-auto max-w-[1380px] px-[20px]  2xl:text-[14px] text-[12px] font-normal text-[#000]">
+    <section className="relative z-10 pb-[200px] pt-[30px] lg:pt-0">
+      <div className="mx-auto max-w-[1380px] px-[20px] text-[12px] font-normal text-[#000] 2xl:text-[14px]">
         <div className="flex justify-between gap-x-[95px]">
-          <div className="w-full text-center ">
-            <div className="mx-auto mb-[12.5px] 2xl:text-[48px] text-[42px] font-semibold leading-[64px]">
+          <div className="w-full text-center">
+            <div className="mx-auto mb-[12.5px] text-[42px] font-semibold leading-[64px] 2xl:text-[48px]">
               Find your <span className="text-[#0059ff]">Template</span>
             </div>
-            <div className="mt-[7px] 2xl:text-[16px] text-[14px] font-normal leading-[32px] text-[#4d4d4d]">
+            <div className="mt-[7px] text-[14px] font-normal leading-[32px] text-[#4d4d4d] 2xl:text-[16px]">
               Jumpstart your development process with our pre-built templates
             </div>
             <div className="relative mt-[48px]">
@@ -152,11 +171,14 @@ const TemplateStep = () => {
                 alt="image"
                 className="absolute -top-[10px] left-0"
               />
-              <div className="mx-auto flex w-fit gap-x-[12px] 2xl:text-[16px] text-[14px] font-normal leading-[16px] text-[#4d4d4d]">
+              <div className="mx-auto flex w-fit gap-x-[12px] text-[14px] font-normal leading-[16px] text-[#4d4d4d] 2xl:text-[16px]">
                 <div
                   onClick={() => {
                     setFilterSelection('All Templates')
-                    handleNewFilteredTemplatesData(categoryFilter, 'All Templates')
+                    handleNewFilteredTemplatesData(
+                      categoryFilter,
+                      'All Templates'
+                    )
                   }}
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'All Templates'
@@ -194,12 +216,12 @@ const TemplateStep = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-[34px] h-[1px] w-full bg-[#E6E8EC]"></div>
+            <div className="mt-[34px] h-px w-full bg-[#E6E8EC]"></div>
             <div className="mt-[30px] flex gap-x-[70px]">
               <div>
-                <div className="w-[256px] rounded-[5px] border-[1px] border-[#d1d5da] px-[16px] pt-[15px] pb-[25px]">
+                <div className="w-[256px] rounded-[5px] border border-[#d1d5da] px-[16px] pb-[25px] pt-[15px]">
                   <div className="flex items-center justify-between gap-x-[4px]">
-                    <div className="2xl:text-[16px] text-[14px] font-medium leading-[24px] text-[#000]">
+                    <div className="text-[14px] font-medium leading-[24px] text-[#000] 2xl:text-[16px]">
                       Category
                     </div>
                     <img
@@ -231,10 +253,19 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div onClick={() => {
-                      handleCategoryFilter('blockchain')
-                    }} className={`cursor-pointer 2xl:text-[16px] text-[14px] font-normal leading-[20px] ${categoryFilter.includes('blockchain') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
-                      Blockchain ({templatesData?.filter((data) => data.category === 'blockchain').length})
+                    <div
+                      onClick={() => {
+                        handleCategoryFilter('blockchain')
+                      }}
+                      className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes('blockchain') ? 'text-[#0059ff]' : 'text-[#959595]'}`}
+                    >
+                      Blockchain (
+                      {
+                        templatesData?.filter(
+                          (data) => data.category === 'blockchain'
+                        ).length
+                      }
+                      )
                     </div>
                   </div>
                   <div
@@ -251,10 +282,19 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div onClick={() => {
-                      handleCategoryFilter('data')
-                    }} className={`cursor-pointer 2xl:text-[16px] text-[14px] font-normal leading-[20px] ${categoryFilter.includes('data') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
-                      Data ({templatesData?.filter((data) => data.category === 'data').length})
+                    <div
+                      onClick={() => {
+                        handleCategoryFilter('data')
+                      }}
+                      className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes('data') ? 'text-[#0059ff]' : 'text-[#959595]'}`}
+                    >
+                      Data (
+                      {
+                        templatesData?.filter(
+                          (data) => data.category === 'data'
+                        ).length
+                      }
+                      )
                     </div>
                   </div>
                   <div
@@ -271,10 +311,19 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div onClick={() => {
-                      handleCategoryFilter('developer')
-                    }} className={`cursor-pointer 2xl:text-[16px] text-[14px] font-normal leading-[20px] ${categoryFilter.includes('developer') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
-                      Developer ({templatesData?.filter((data) => data.category === 'developer').length})
+                    <div
+                      onClick={() => {
+                        handleCategoryFilter('developer')
+                      }}
+                      className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes('developer') ? 'text-[#0059ff]' : 'text-[#959595]'}`}
+                    >
+                      Developer (
+                      {
+                        templatesData?.filter(
+                          (data) => data.category === 'developer'
+                        ).length
+                      }
+                      )
                     </div>
                   </div>
                   <div
@@ -291,10 +340,19 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div onClick={() => {
-                      handleCategoryFilter('server')
-                    }} className={`cursor-pointer 2xl:text-[16px] text-[14px] font-normal leading-[20px] ${categoryFilter.includes('server') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
-                      Server ({templatesData?.filter((data) => data.category === 'server').length})
+                    <div
+                      onClick={() => {
+                        handleCategoryFilter('server')
+                      }}
+                      className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes('server') ? 'text-[#0059ff]' : 'text-[#959595]'}`}
+                    >
+                      Server (
+                      {
+                        templatesData?.filter(
+                          (data) => data.category === 'server'
+                        ).length
+                      }
+                      )
                     </div>
                   </div>
                   <div
@@ -311,16 +369,25 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div onClick={() => {
-                      handleCategoryFilter('validatorNode')
-                    }} className={`cursor-pointer 2xl:text-[16px] text-[14px] font-normal leading-[20px] ${categoryFilter.includes('validatorNode') ? 'text-[#0059ff]' : 'text-[#959595]'}`}>
-                     Validator Node ({templatesData?.filter((data) => data.category === 'validatorNode').length})
+                    <div
+                      onClick={() => {
+                        handleCategoryFilter('validatorNode')
+                      }}
+                      className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes('validatorNode') ? 'text-[#0059ff]' : 'text-[#959595]'}`}
+                    >
+                      Validator Node (
+                      {
+                        templatesData?.filter(
+                          (data) => data.category === 'validatorNode'
+                        ).length
+                      }
+                      )
                     </div>
                   </div>
                 </div>
-                <div className="mt-[29px] h-[1px] w-full bg-[#E6E8EC]"></div>
+                <div className="mt-[29px] h-px w-full bg-[#E6E8EC]"></div>
                 <div className="mt-[24px] text-start">
-                  <div className="2xl:text-[16px] text-[14px] font-medium leading-[12px] text-[#000]">
+                  <div className="text-[14px] font-medium leading-[12px] text-[#000] 2xl:text-[16px]">
                     Creator
                   </div>
                   <div className="mt-[12px]">
@@ -333,11 +400,14 @@ const TemplateStep = () => {
                       }}
                     />
                   </div>
-                  <div onClick={() => {
-                    setCategoryFilter([])
-                    setFilterSelection('All Templates')
-                    handleNewFilteredTemplatesData([], 'All Templates')
-                  }} className="mt-[24px] flex cursor-pointer gap-x-[10px]">
+                  <div
+                    onClick={() => {
+                      setCategoryFilter([])
+                      setFilterSelection('All Templates')
+                      handleNewFilteredTemplatesData([], 'All Templates')
+                    }}
+                    className="mt-[24px] flex cursor-pointer gap-x-[10px]"
+                  >
                     <img
                       src={`${
                         process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -347,7 +417,7 @@ const TemplateStep = () => {
                       alt="image"
                       className=""
                     />
-                    <div className="2xl:text-[16px] text-[14px] font-normal text-[#4d4d4d] hover:text-[#3b3b3b]">
+                    <div className="text-[14px] font-normal text-[#4d4d4d] hover:text-[#3b3b3b] 2xl:text-[16px]">
                       Reset filter
                     </div>
                   </div>
@@ -366,11 +436,10 @@ const TemplateStep = () => {
                   />
                   <div className="flex">
                     <div
-                      onClick={() => {
-                      }}
+                      onClick={() => {}}
                       className={`${
                         displayToggle === 'list' ? 'bg-[#0059ff]' : 'bg-[#fff]'
-                      } rounded-l-[5px] border-[1px] border-r-0 border-[#d1d5da] p-[16px]`}
+                      } rounded-l-[5px] border border-r-0 border-[#d1d5da] p-[16px]`}
                     >
                       {displayToggle === 'list' ? (
                         <img
@@ -402,7 +471,7 @@ const TemplateStep = () => {
                         displayToggle === 'square'
                           ? 'bg-[#0059ff]'
                           : 'bg-[#fff]'
-                      } cursor-pointer rounded-r-[5px] border-[1px] border-l-0 border-[#d1d5da] p-[16px]`}
+                      } cursor-pointer rounded-r-[5px] border border-l-0 border-[#d1d5da] p-[16px]`}
                     >
                       {displayToggle === 'square' ? (
                         <img
@@ -429,33 +498,42 @@ const TemplateStep = () => {
                   </div>
                 </div>
 
-
                 {/* XXX: Code duplication here. Refactor into component? */}
-                <div className="flex h-full w-full flex-wrap">
-                {filteredTemplatesData.map((element) => (
-                  <a href={
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ?
-                    '/xnode/template-products/' + element.id
-                    : '/template-products/' + element.id
-                    }> 
-                    <div className="text-start mx-5 mt-[17px] max-w-[270px] min-h-[250px] w-full cursor-pointer rounded-[8px] border-[#fafafa] py-[27px] px-[22px] shadow-md  border-[2px] hover:border-[#0059ff] hover:bg-[#e5eefc]">
-                      <div className="flex gap-x-[75px]">
-                        <img src={ element.logo } alt="image" className="max-h-[33px] max-w-[33px] w-[33px] h-[33px]">
-                        </img>
-                        <div className="flex w-full items-center gap-x-[9px] rounded-[16px]  px-[12px] py-[4px] bg-[#e5eefc]">
-                          <div className="h-[10px] w-[10px] rounded-full bg-[#0059ff]"></div>
-                          <div className="2xl:text-[14px] text-[12px] font-bold leading-[24px] text-[#0059ff]">Category</div>
+                <div className="flex size-full flex-wrap">
+                  {filteredTemplatesData.map((element) => (
+                    <a
+                      href={
+                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                          ? '/xnode/template-products/' + element.id
+                          : '/template-products/' + element.id
+                      }
+                    >
+                      <div className="mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200">
+                        <div className="flex gap-x-[75px]">
+                          <img
+                            src={element.logo}
+                            alt="image"
+                            className="size-[33px] max-h-[33px] max-w-[33px]"
+                          ></img>
+                          <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-gray200 px-[12px] py-[4px]">
+                            <div className="size-[10px] rounded-full bg-[#0059ff]"></div>
+                            <div className="text-[12px] font-bold leading-[24px] text-[#0059ff] 2xl:text-[14px]">
+                              Category
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-[20px]">
+                          <div className="line-clamp-1 overflow-hidden text-[16px] font-medium text-[#000] 2xl:text-[18px]">
+                            {element.name}
+                          </div>
+                          <div className="mt-[6px] line-clamp-3 overflow-hidden text-[14px] font-normal leading-[20px] text-[#959595] 2xl:text-[16px]">
+                            {element.desc}
+                          </div>
                         </div>
                       </div>
-                      <div className="mt-[20px]">
-                        <div className="2xl:text-[18px] text-[16px] font-medium text-[#000] line-clamp-1 overflow-hidden">{element.name}</div>
-                        <div className="mt-[6px] line-clamp-3 overflow-hidden text-[14px] 2xl:text-[16px] font-normal leading-[20px] text-[#959595]">{element.desc}</div>
-                      </div>
-                    </div>
-                  </a>
-                ))}
+                    </a>
+                  ))}
                 </div>
-                
               </div>
             </div>
           </div>

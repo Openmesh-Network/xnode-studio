@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { useContext, useState } from 'react'
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
 import { title } from 'process'
+import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
-import DropdownServiceRegion from '../DropdownServiceRegion'
 import { optionServerLocation } from '@/utils/constants'
+
+import Dropdown from '../Dropdown'
+import DropdownServiceRegion from '../DropdownServiceRegion'
+import LatencySelector from '../LatencySelector'
 
 /* eslint-disable react/no-unescaped-entities */
 const SubBarServers = ({ onValueChange }) => {
@@ -25,7 +26,7 @@ const SubBarServers = ({ onValueChange }) => {
   const [largeServerNumber, setLargeServerNumber] = useState<number>(0)
 
   const [serviceRegion, setServiceRegion] = useState<string>(
-    optionServerLocation[0],
+    optionServerLocation[0]
   )
 
   const optionsServiceRegionSelection = [
@@ -184,16 +185,16 @@ const SubBarServers = ({ onValueChange }) => {
 
   function renderChooseYourServerOptions() {
     return (
-      <div className="mt-[11px] grid gap-y-[22px] md:mt-[13px] md:gap-y-[27px] lg:mt-[15.5px] lg:gap-y-[31px] xl:mt-[17.5px] xl:gap-y-[35px] 2xl:mt-[22px]  2xl:min-w-[290px]  2xl:gap-y-[44px] ">
+      <div className="mt-[11px] grid gap-y-[22px] md:mt-[13px] md:gap-y-[27px] lg:mt-[15.5px] lg:gap-y-[31px] xl:mt-[17.5px] xl:gap-y-[35px] 2xl:mt-[22px] 2xl:min-w-[290px] 2xl:gap-y-[44px]">
         {chooseYourServerOptions.map((option, index) => (
           <div key={index} className="relative">
             <div className="relative flex gap-x-[8px] text-[#000] md:gap-x-[9.6px] lg:gap-x-[11.2px] xl:gap-x-[13px] 2xl:gap-x-[16px]">
               <div>
-                <div className=" text-[8px] font-medium md:text-[9.6px] lg:text-[11.2px] lg:!leading-[300%] xl:text-[13px] 2xl:text-[16px]">
+                <div className="text-[8px] font-medium md:text-[9.6px] lg:text-[11.2px] lg:!leading-[300%] xl:text-[13px] 2xl:text-[16px]">
                   {option.title}
                 </div>
                 {option.title === 'Equinix (Decentralized)' && (
-                  <div className="absolute -top-[14px] -right-[27px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
+                  <div className="absolute -right-[27px] -top-[14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                     Recommended
                   </div>
                 )}
@@ -211,7 +212,7 @@ const SubBarServers = ({ onValueChange }) => {
                   >
                     -
                   </div>
-                  <div className="flex h-[10px] w-[15px] items-center justify-center rounded-[5px] border-[1px] border-[#D9D9D9] p-[1px] text-[7px] font-normal md:h-[12.5px] md:w-[18px]  md:text-[9.8px] lg:h-[15px] lg:w-[21px] lg:text-[9.8px] xl:h-[17px] xl:w-[24px]  xl:text-[11.2px] 2xl:h-[21px] 2xl:w-[30px] 2xl:text-[14px]">
+                  <div className="flex h-[10px] w-[15px] items-center justify-center rounded-[5px] border border-[#D9D9D9] p-px text-[7px] font-normal md:h-[12.5px] md:w-[18px] md:text-[9.8px] lg:h-[15px] lg:w-[21px] lg:text-[9.8px] xl:h-[17px] xl:w-[24px] xl:text-[11.2px] 2xl:h-[21px] 2xl:w-[30px] 2xl:text-[14px]">
                     {option.servers}
                   </div>
                   <div
@@ -229,8 +230,8 @@ const SubBarServers = ({ onValueChange }) => {
                   className={`mx-auto mt-[10px] w-fit !leading-[15px] ${
                     option.servers > 0
                       ? 'cursor-pointer bg-[#0354EC] hover:bg-[#123981]'
-                      : 'bg-[#939393] '
-                  }  rounded-[5px]  px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff]   md:mt-[12px] md:text-[7px] lg:mt-[14px] lg:py-[2.8px]  lg:px-[6px] lg:text-[8.5px] lg:!leading-[15px] xl:mt-[16px] xl:py-[3.2px] xl:px-[6.8px] xl:text-[9.5px] 2xl:mt-[20px]  2xl:py-[4px] 2xl:px-[8.5px] 2xl:text-[12px]`}
+                      : 'bg-[#939393]'
+                  } rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:mt-[12px] md:text-[7px] lg:mt-[14px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:mt-[16px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:mt-[20px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
                 >
                   <div>Add</div>
                 </div>
@@ -282,13 +283,13 @@ const SubBarServers = ({ onValueChange }) => {
                   <div
                     className={` ${
                       option.enabled ? 'text-[#000]' : 'text-[#B1B1B1]'
-                    } ml-[25px] text-[8px] font-light   md:text-[10px] lg:text-[11px] lg:!leading-[300%] xl:text-[13px] 2xl:text-[16px]`}
+                    } ml-[25px] text-[8px] font-light md:text-[10px] lg:text-[11px] lg:!leading-[300%] xl:text-[13px] 2xl:text-[16px]`}
                   >
                     {option.title}
                   </div>
                 </a>
                 {option.title === 'Equinix (Decentralized)' && (
-                  <div className="absolute text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:-top-[11.2px] xl:-right-[8px] xl:text-[11.2px] 2xl:-top-[14px] 2xl:-right-[10px] 2xl:text-[14px]">
+                  <div className="absolute text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:-right-[8px] xl:-top-[11.2px] xl:text-[11.2px] 2xl:-right-[10px] 2xl:-top-[14px] 2xl:text-[14px]">
                     Recommended
                   </div>
                 )}
@@ -299,9 +300,9 @@ const SubBarServers = ({ onValueChange }) => {
                     setCloudProvider(option.title)
                   }
                 }}
-                className={`absolute -right-[20px] top-[10px] h-[10px] w-[10px] rounded-[5px] border-[1px] border-[#D9D9D9] ${
+                className={`absolute -right-[20px] top-[10px] size-[10px] rounded-[5px] border border-[#D9D9D9] ${
                   option.enabled ? 'cursor-pointer hover:bg-[#0354EC]' : ''
-                } md:h-[12px] md:w-[12px] lg:h-[14px] lg:w-[14px] xl:h-[16px] xl:w-[16px] 2xl:h-[20px] 2xl:w-[20px] ${
+                } md:size-[12px] lg:size-[14px] xl:size-[16px] 2xl:size-[20px] ${
                   cloudProvider === option.title && option.enabled
                     ? 'bg-[#0354EC]'
                     : 'bg-[#fff]'
@@ -331,20 +332,20 @@ const SubBarServers = ({ onValueChange }) => {
               : `/data-products?category=Servers`
           }`}
         >
-          <div className="mt-[35px] flex w-full justify-center  text-[8px] font-medium hover:text-[#3a3a3a] md:mt-[41px] md:text-[9.6px] lg:mt-[48px]  lg:text-[11.5px] lg:!leading-[300%] xl:mt-[55px] xl:text-[13px] 2xl:mt-[69px] 2xl:text-[16px]">
+          <div className="mt-[35px] flex w-full justify-center text-[8px] font-medium hover:text-[#3a3a3a] md:mt-[41px] md:text-[9.6px] lg:mt-[48px] lg:text-[11.5px] lg:!leading-[300%] xl:mt-[55px] xl:text-[13px] 2xl:mt-[69px] 2xl:text-[16px]">
             View More
           </div>
         </a>
-        <div className="mt-[44px] max-w-[110px] text-[9px] md:mt-[52px] md:max-w-[132px] md:text-[10px] lg:mt-[60px]  lg:max-w-[154px]  lg:text-[11px]  xl:mt-[70px] xl:max-w-[176px] xl:text-[13px] 2xl:mt-[88px] 2xl:max-w-[220px] 2xl:text-[16px]">
-          <div className="border-b-[1px] border-t-[1px] border-[#D9D9D9] pb-[8px]  pt-[7.5px]  md:pt-[9px] lg:pb-[12px] lg:pt-[10.5px] xl:pt-[12px] 2xl:pb-[15px] 2xl:pt-[15px]">
+        <div className="mt-[44px] max-w-[110px] text-[9px] md:mt-[52px] md:max-w-[132px] md:text-[10px] lg:mt-[60px] lg:max-w-[154px] lg:text-[11px] xl:mt-[70px] xl:max-w-[176px] xl:text-[13px] 2xl:mt-[88px] 2xl:max-w-[220px] 2xl:text-[16px]">
+          <div className="border-y border-[#D9D9D9] pb-[8px] pt-[7.5px] md:pt-[9px] lg:pb-[12px] lg:pt-[10.5px] xl:pt-[12px] 2xl:py-[15px]">
             <div className="pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">
               Support articles
             </div>
-            <div className=" lg:!leading-[150%]">
+            <div className="lg:!leading-[150%]">
               <a
                 href={'https://www.openmesh.network/oec/register'}
                 target="_blank"
-                className="border-b-[1px] font-medium text-[#0354EC]"
+                className="border-b font-medium text-[#0354EC]"
                 rel="noreferrer"
               >
                 Join our community and let us know what you’d like to add!
@@ -355,14 +356,14 @@ const SubBarServers = ({ onValueChange }) => {
             <div className="pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">
               Provide a data source
             </div>
-            <div className=" lg:!leading-[150%]">
+            <div className="lg:!leading-[150%]">
               {' '}
               <a
                 href={
                   'https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/use-cases'
                 }
                 target="_blank"
-                className="border-b-[1px] font-medium text-[#0354EC]"
+                className="border-b font-medium text-[#0354EC]"
                 rel="noreferrer"
               >
                 Run an Xnode today{' '}

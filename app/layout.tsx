@@ -1,12 +1,16 @@
 // import Footer from '@/components/Footer'
 import ScrollToTop from '@/components/ScrollToTop'
+
 import 'node_modules/react-modal-video/css/modal-video.css'
 import '../styles/index.css'
-import { Providers } from './providers'
+
+import { Inter } from '@next/font/google'
+
 import { Header } from '@/components/Header'
 import LateralNav from '@/components/LateralNav'
 
-import { Inter } from '@next/font/google'
+import { Providers } from './providers'
+
 // import NewTask from '@/components/NewTask'
 
 // eslint-disable-next-line no-unused-vars
@@ -31,14 +35,12 @@ export default function RootLayout({
             <Header />
           </div>
 
-          <div className="w-full max-w-screen flex">
-            <div className="z-50 min-w-[180px] float-left bg-[#F4F4F4]">
+          <div className="max-w-screen flex w-full">
+            <div className="z-50 float-left min-w-[180px] bg-[#F4F4F4]">
               <LateralNav />
             </div>
 
-            <div className="p-5 w-full m-auto">
-              {children}
-            </div>
+            <div className="m-auto w-full p-5">{children}</div>
           </div>
 
           <ScrollToTop />
