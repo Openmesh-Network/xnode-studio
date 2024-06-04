@@ -116,7 +116,7 @@ const Template = (id: any) => {
     if (id) {
       getData(id.id)
     }
-  }, [id])
+  }, [id, getData])
 
   if (isLoading) {
     return (
@@ -185,11 +185,11 @@ const Template = (id: any) => {
                     System requirements
                   </div>
                   <div className="mt-[15px] flex gap-x-[30px] border-[0.7px] border-[#CDCDCD] px-[20px] py-[8px] font-medium lg:gap-x-0">
-                    <div className="md:w-2/5 lg:w-[50%]">Min requirements</div>
-                    <div className="lg:w-[50%]">Recommended requirements</div>
+                    <div className="md:w-2/5 lg:w-1/2">Min requirements</div>
+                    <div className="lg:w-1/2">Recommended requirements</div>
                   </div>
                   <div className="mt-[15px] flex gap-x-[10px] px-[20px] font-normal lg:gap-x-0">
-                    <div className="lg:w-[50%]">{templateSpecs?.ram}</div>
+                    <div className="lg:w-1/2">{templateSpecs?.ram}</div>
                     <div>{templateSpecs?.ram}</div>
                   </div>
                   <div className="mt-[30px] border-b border-[#DDDDDD]"></div>
@@ -202,7 +202,7 @@ const Template = (id: any) => {
                     <div className="w-[15%]">Name</div>
                     <div className="w-1/5">Description</div>
                     <div className="w-[15%]">Specs</div>
-                    <div className="w-[25%]">Tags</div>
+                    <div className="w-1/4">Tags</div>
                   </div>
                   {data?.services && (
                     <div>
@@ -217,9 +217,7 @@ const Template = (id: any) => {
 
                             <div className="w-[15%]">{'CPU, 1-Core'}</div>
 
-                            <div className="w-[25%]">
-                              {item?.tags.join(', ')}
-                            </div>
+                            <div className="w-1/4">{item?.tags.join(', ')}</div>
 
                             <button
                               data-modal-target="idname"

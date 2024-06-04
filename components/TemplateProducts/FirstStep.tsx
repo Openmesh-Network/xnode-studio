@@ -170,7 +170,7 @@ const TemplateProducts = () => {
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [getData])
 
   return (
     <section className="relative z-10 pt-[30px] lg:pt-0">

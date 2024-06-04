@@ -5,21 +5,12 @@
 
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from 'react'
-import { getAPI, getDatasets } from '@/utils/data'
-import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
-import { Autocomplete, TextField } from '@mui/material'
-import { SmileySad } from 'phosphor-react'
 
 import { TemplatesProducts } from '@/types/dataProvider'
-import Filter from '@/components/Filter'
-
-import ProductsList from '../ProductsList'
-import Dropdown, { ValueObject } from './Dropdown'
 
 const Configuration = () => {
   const [templates, setTemplates] = useState<TemplatesProducts[]>([])
@@ -50,7 +41,7 @@ const Configuration = () => {
       <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-[#000]">
         <div className="flex justify-between gap-x-[50px]">
           <div className="pb-[50px] pt-[44px]">
-            <div className="mb-[12.5px] text-[48px] font-semibold leading-[64px] -tracking-[1.9px]">
+            <div className="mb-[12.5px] text-[48px] font-semibold leading-[64px] tracking-[-1.9px]">
               Choose your configuration
             </div>
             <div className="pt-[40.5px]">
