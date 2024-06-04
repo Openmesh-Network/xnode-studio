@@ -77,7 +77,7 @@ const NewIntegrationConn = () => {
       // const res = await connectEquinix(finalData)
       toast.success('Success')
       const finalUser = user
-      finalUser.equinixAPIKey = data.apiKey
+      // finalUser.equinixAPIKey = data.apiKey
       setUser(finalUser)
       setIsEditing(false)
       setIsLoading(false)
