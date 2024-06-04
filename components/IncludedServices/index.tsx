@@ -39,7 +39,7 @@ const IncludedServices = ({ ...data }: ModalProps) => {
     <>
       <div className="w-full">
         <div className="flex justify-between">
-          <div className="text-[18px] font-medium -tracking-[2%] text-[#959595] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
+          <div className="text-[18px] font-medium tracking-[-2%] text-[#959595] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Included services
           </div>
           <div className="ml-auto flex items-center gap-x-[8px] md:gap-x-[9px] lg:gap-x-[10.5px] xl:gap-x-[12px] 2xl:gap-x-[15px]">

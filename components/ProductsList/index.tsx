@@ -1,7 +1,7 @@
 'use client'
 
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
 
@@ -50,7 +50,7 @@ const ProductsList = ({ dataTestimonial }: ProductsListProps) => {
     'Crypto Liquidity',
   ]
 
-  const orderByOptions = ['Most Popular', 'Recently Added']
+  const orderByOptions = useMemo(() => ['Most Popular', 'Recently Added'], [])
 
   const tagsOptions = ['Free', 'Paid']
 
@@ -68,7 +68,7 @@ const ProductsList = ({ dataTestimonial }: ProductsListProps) => {
       }
     }
     setTestimonial(dataTestimonial)
-  }, [dataTestimonial])
+  }, [dataTestimonial, orderByOptions])
 
   const handleUpdate = () => {
     // setIsLoading(true)
@@ -175,7 +175,7 @@ const ProductsList = ({ dataTestimonial }: ProductsListProps) => {
           <input
             type="text"
             placeholder="Search here"
-            className="w-full bg-white text-[8px] font-medium text-[#000000] placeholder-[#737373] outline-none md:text-[14px] 2xl:text-[16px]"
+            className="w-full bg-white text-[8px] font-medium text-black outline-none placeholder:text-[#737373] md:text-[14px] 2xl:text-[16px]"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />

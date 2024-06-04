@@ -1,7 +1,7 @@
 'use client'
 
 /* eslint-disable no-unused-vars */
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
 
@@ -99,7 +99,7 @@ const Dashboard = () => {
     )
   }
 
-  async function getData() {
+  const getData = useCallback(async () => {
     setIsLoading(true)
     if (user?.sessionToken) {
       const config = {
@@ -125,7 +125,7 @@ const Dashboard = () => {
       }
     }
     setIsLoading(false)
-  }
+  }, [user])
 
   useEffect(() => {
     if (!userHasAnyCookie) {
@@ -133,7 +133,7 @@ const Dashboard = () => {
         `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     }
-  }, [])
+  }, [push, userHasAnyCookie])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
@@ -209,7 +209,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getData()
-  }, [user])
+  }, [getData, user])
 
   if (xnodesData.length === 0) {
     return (

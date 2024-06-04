@@ -60,7 +60,7 @@ const DataProductEquinix = (id: any) => {
         `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     }
-  }, [id])
+  }, [id, push])
 
   let formattedSQL
   let formattedCode
@@ -281,7 +281,7 @@ const DataProductEquinix = (id: any) => {
                   updateUrl('searchBar', tasksSearchBar)
                 }
               }}
-              className="w-full bg-white text-[8px] font-medium text-[#000000] placeholder-[#737373] outline-none md:text-[14px] 2xl:text-[16px]"
+              className="w-full bg-white text-[8px] font-medium text-black outline-none placeholder:text-[#737373] md:text-[14px] 2xl:text-[16px]"
             />
           </div>
           <div className="flex gap-x-[11px] pt-[40px] md:gap-x-[13px] md:pt-[56px] lg:gap-x-[16px] lg:pt-[65px] xl:gap-x-[18px] xl:pt-[74px] 2xl:gap-x-[23px] 2xl:pt-[94px]">

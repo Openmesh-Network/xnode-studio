@@ -81,14 +81,6 @@ const onInit = (reactFlowInstance) =>
   console.log('flow loaded:', reactFlowInstance)
 
 const NodesFlow = ({ ...dataM }: ModalProps) => {
-  const handleNodeRemove = (nodeIdToRemove) => {
-    if (xnodeType !== 'validator') {
-      setNodes((prevNodes) =>
-        prevNodes.filter((node) => node.id !== nodeIdToRemove)
-      )
-    }
-  }
-
   const {
     changeNodes,
     setFinalNodes,
@@ -117,7 +109,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
       setEdges((eds) =>
         addEdge({ ...params, animated: true, style: { stroke: '#000' } }, eds)
       ),
-    []
+    [setEdges]
   )
 
   // we are using a bit of a shortcut here to adjust the edge type
@@ -573,7 +565,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
         setNodes((prevNodes) => [...prevNodes, newNode])
       }
     }
-  }, [changeNodes])
+  }, [changeNodes, nodes, setNodes])
 
   useEffect(() => {
     console.log('heyyy chamado fui')
@@ -609,7 +601,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
       setNodes(updatedNodes)
     }
-  }, [updateDataNode])
+  }, [nodes, setNodes, updateDataNode])
 
   const nodesToAdd = [...nodes]
 
@@ -633,6 +625,17 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
   const nodesAmounts = createNewArray(nodesToAdd, nodeAmount)
 
+  const handleNodeRemove = useCallback(
+    (nodeIdToRemove) => {
+      if (xnodeType !== 'validator') {
+        setNodes((prevNodes) =>
+          prevNodes.filter((node) => node.id !== nodeIdToRemove)
+        )
+      }
+    },
+    [setNodes, xnodeType]
+  )
+
   const nodeTypes = useMemo(
     () => ({
       custom: withProps(CustomNode, { handleNodeRemove }),
@@ -650,7 +653,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
       compute: withProps(ComputeNode, { handleNodeRemove }),
       trading: withProps(TradingNode, { handleNodeRemove }),
     }),
-    []
+    [handleNodeRemove]
   )
 
   useEffect(() => {
@@ -659,7 +662,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
       localStorage.setItem('edges', JSON.stringify(edges))
     }
     setFinalNodes(nodes)
-  }, [nodes, edges, isInitialized])
+  }, [nodes, edges, isInitialized, setFinalNodes])
 
   useEffect(() => {
     setSignup(false)
@@ -687,7 +690,16 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
     }
 
     setIsInitialized(true)
-  }, [])
+  }, [
+    dataM.fromScratch,
+    setEdges,
+    setFinalBuild,
+    setIsWorkspace,
+    setNodes,
+    setSignup,
+    setTagXnode,
+    setXnodeType,
+  ])
 
   useEffect(() => {
     if (removeNodes && removeNodes.length > 0) {
@@ -754,7 +766,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
         }
       }
     }
-  }, [removeNodes])
+  }, [nodes, removeNodes, setNodes])
 
   return (
     <div className="relative size-full">

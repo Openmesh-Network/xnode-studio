@@ -111,7 +111,7 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
         dictionary: categoriesOptions,
       })
     }
-  }, [data.lists])
+  }, [data.lists, setChangeNodes])
 
   /* This is for rendering pourposes, use data.lists for real data as it shows the correct amount of items but uncategorized. You can see some duplicated items in multiple categories because of the current mockupdata,
    it will be different as we add real data.
@@ -147,7 +147,7 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
                     onClick={() => {
                       setRemoveNodes([item.title, 'dataStreaming'])
                     }}
-                    className="hover: absolute top-[10px] text-[8px] font-bold text-[#000] hover:text-[#686868] xl:-right-[35px] 2xl:-right-[45px] 2xl:text-[10px]"
+                    className="top-[10px] text-[8px] font-bold text-black hover:text-[#686868] xl:right-[-35px] 2xl:right-[-45px] 2xl:text-[10px]"
                   >
                     X
                   </div>

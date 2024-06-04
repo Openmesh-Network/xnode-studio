@@ -150,7 +150,7 @@ const Signup = () => {
     }
 
     getWeb3Login()
-  }, [address])
+  }, [address, setUser, user, userHasAnyCookie])
 
   return (
     <>
@@ -159,17 +159,17 @@ const Signup = () => {
         className={`w-full bg-[#fff] px-[48px] pb-[1000px] pt-[88px] 2xl:px-[60px] 2xl:pt-[110px]`}
       >
         <div>
-          <div className="text-[18px] font-bold -tracking-[2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
+          <div className="text-[18px] font-bold tracking-[-2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Connect your wallet
           </div>
           <div className="mb-[30px] mt-[15px]">
             <w3m-button />
           </div>{' '}
           <div className="my-[30px] text-[#000]">or</div>
-          <div className="text-[18px] font-bold -tracking-[2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
+          <div className="text-[18px] font-bold tracking-[-2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Signin for Xnode
           </div>
-          <div className="mt-[15px] text-[18px] font-normal -tracking-[2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[15px] 2xl:text-[32px]">
+          <div className="mt-[15px] text-[18px] font-normal tracking-[-2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[15px] 2xl:text-[32px]">
             Finalise your integrations easily
           </div>
           <div className="mt-[15px]">

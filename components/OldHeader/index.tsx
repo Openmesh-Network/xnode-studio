@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-unused-vars */
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -188,7 +188,7 @@ const OldHeader = () => {
     setIsLoadingUpdate(false)
   }
 
-  async function getUserData() {
+  const getUserData = useCallback(async () => {
     const { userSessionToken } = parseCookies()
     if (userSessionToken) {
       const config = {
@@ -209,7 +209,7 @@ const OldHeader = () => {
         }
       })
     }
-  }
+  }, [setUser])
 
   useEffect(() => {
     if (userHasAnyCookie) {
@@ -241,7 +241,15 @@ const OldHeader = () => {
     }
 
     setFinalNodes(JSON.parse(savedNodes))
-  }, [])
+  }, [
+    getUserData,
+    setFinalNodes,
+    setIsEditingXnode,
+    setIsWorkspace,
+    setUser,
+    setXnodeType,
+    userHasAnyCookie,
+  ])
 
   // if ((next || nextFromScratch) && !reviewYourBuild) {
   //   return (
@@ -613,10 +621,10 @@ const OldHeader = () => {
                           className={`my-auto mr-[25px] mt-[15px] w-[20px]`}
                         />
                         <nav
-                          className={`navbar absolute left-0 z-50 flex w-[150px] rounded-[8px] border-[.5px] bg-[#e6e4e4] pb-[30px] pl-[15px] pr-1 pt-[19px] text-[13px] text-[#fff] duration-300 ${
+                          className={`navbar absolute left-0 z-50 flex w-[150px] rounded-[8px] border-[.5px] bg-[#e6e4e4] pb-[30px] pl-[15px] pr-1 pt-[19px] text-[13px] text-white duration-300 ${
                             userNavbarOpen
-                              ? 'visibility -bottom-[120px] -right-[50px] opacity-100'
-                              : 'invisible -bottom-[120px] opacity-0'
+                              ? 'visibility bottom-[-120px] right-[-50px] opacity-100'
+                              : 'invisible bottom-[-120px] opacity-0'
                           }`}
                         >
                           <div className="mt-[10px]">
@@ -848,7 +856,7 @@ const OldHeader = () => {
                   <nav
                     className={`navbar absolute right-[100px] z-50 flex w-[150px] rounded-[8px] border-[.5px] bg-[#e6e4e4] pb-[30px] pl-[15px] pr-1 pt-[19px] text-[13px] text-[#fff] duration-300 ${
                       userNavbarOpen
-                        ? 'visibility -right-[50px] top-20 opacity-100'
+                        ? 'visibility right-[-50px] top-20 opacity-100'
                         : 'invisible top-20 opacity-0'
                     }`}
                   >
@@ -920,7 +928,7 @@ const OldHeader = () => {
                         : ''
                     }/images/header/question.svg`}
                     alt="image"
-                    className="absolute -right-[10px] top-0 w-[4px] md:w-[4.8px] lg:w-[5.6px] xl:w-[6.4px] 2xl:w-[8px]"
+                    className="absolute right-[-10px] top-0 w-[4px] md:w-[4.8px] lg:w-[5.6px] xl:w-[6.4px] 2xl:w-[8px]"
                   />
                 </div>
               </div>

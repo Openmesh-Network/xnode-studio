@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
 import axios from 'axios'
@@ -126,51 +126,54 @@ const ReviewYourBuild = () => {
 
   const { push } = useRouter()
 
-  async function createXnode(config: DeploymentConfiguration) {
-    setIsDeploying(true)
+  const createXnode = useCallback(
+    async (config: DeploymentConfiguration) => {
+      setIsDeploying(true)
 
-    const payload = {
-      name: config.name,
-      location: config.location,
-      description: config.desc,
-      provider: config.provider,
-      isUnit: config.isUnit,
-      services: JSON.stringify(config.services),
-    }
-
-    console.log('Payload: ')
-    console.log(payload)
-
-    if (user.sessionToken) {
-      const config = {
-        method: 'post' as 'post',
-        url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/createXnode`,
-        headers: {
-          'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-          'X-Parse-Session-Token': user.sessionToken,
-          'Content-Type': 'application/json',
-        },
-        data: payload,
+      const payload = {
+        name: config.name,
+        location: config.location,
+        description: config.desc,
+        provider: config.provider,
+        isUnit: config.isUnit,
+        services: JSON.stringify(config.services),
       }
 
-      try {
-        await axios(config).then(function (response) {
-          if (response.data) {
-            setIsLoadingFeatures(true)
-            setNewXnodeId(response.data.id)
-          }
-        })
-      } catch (err) {
-        toast.error(
-          `Error during Xnode deployment: ${err.response.data.message}`
+      console.log('Payload: ')
+      console.log(payload)
+
+      if (user.sessionToken) {
+        const config = {
+          method: 'post' as 'post',
+          url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/createXnode`,
+          headers: {
+            'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+            'X-Parse-Session-Token': user.sessionToken,
+            'Content-Type': 'application/json',
+          },
+          data: payload,
+        }
+
+        try {
+          await axios(config).then(function (response) {
+            if (response.data) {
+              setIsLoadingFeatures(true)
+              setNewXnodeId(response.data.id)
+            }
+          })
+        } catch (err) {
+          toast.error(
+            `Error during Xnode deployment: ${err.response.data.message}`
+          )
+        }
+      } else {
+        push(
+          `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
         )
       }
-    } else {
-      push(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
-      )
-    }
-  }
+    },
+    [push, user.sessionToken]
+  )
 
   useEffect(() => {
     // let draft = localStorage.getItem('draft')
@@ -198,7 +201,7 @@ const ReviewYourBuild = () => {
       console.log('Draft exists! Creating Xnode.', sentRequest)
       createXnode(draft)
     }
-  }, [])
+  }, [createXnode, draft, sentRequest])
 
   if (!isDeploying) {
     return (
@@ -219,10 +222,10 @@ const ReviewYourBuild = () => {
         className={`w-full px-[30px] pb-[100px] pt-[25px] md:px-[36px] md:pt-[30px] lg:px-[42px] lg:pt-[35px] xl:px-[48px] xl:pt-[40px] 2xl:px-[60px] 2xl:pt-[50px]`}
       >
         <div>
-          <div className="text-[18px] font-bold -tracking-[2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
+          <div className="text-[18px] font-bold tracking-[-2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Your progress
           </div>
-          <div className="mt-[25px] text-[18px] font-normal -tracking-[2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
+          <div className="mt-[25px] text-[18px] font-normal tracking-[-2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
             {/* XXX: Incorrect! */}
             Estimate time to deployment ~ 31 min
           </div>

@@ -1,6 +1,12 @@
 'use client'
 
-import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import {
+  ChangeEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 
@@ -31,7 +37,7 @@ const DataProduct = (id: any) => {
 
   const { push } = useRouter()
 
-  async function getDataInfo(id: any) {
+  const getDataInfo = useCallback(async (id: any) => {
     try {
       const res = await getData(id)
       setData(res)
@@ -40,7 +46,7 @@ const DataProduct = (id: any) => {
       //   push('/community')
     }
     setIsLoading(false)
-  }
+  }, [])
 
   useEffect(() => {
     setIsLoading(true)
@@ -55,7 +61,7 @@ const DataProduct = (id: any) => {
         `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     }
-  }, [id])
+  }, [getDataInfo, id, push])
 
   let formattedSQL
   let formattedCode
@@ -282,7 +288,7 @@ const DataProduct = (id: any) => {
                   updateUrl('searchBar', tasksSearchBar)
                 }
               }}
-              className="w-full bg-white text-[8px] font-medium text-[#000000] placeholder-[#737373] outline-none md:text-[14px] 2xl:text-[16px]"
+              className="w-full bg-white text-[8px] font-medium text-black outline-none placeholder:text-[#737373] md:text-[14px] 2xl:text-[16px]"
             />
           </div>
           <div className="pl-[10px] md:pl-[12px] lg:pl-[14px] xl:pl-[16px] 2xl:pl-[20px]">

@@ -81,7 +81,7 @@ const NodesFlow = (fromScratch: boolean) => {
       setEdges((eds) =>
         addEdge({ ...params, animated: true, style: { stroke: '#000' } }, eds)
       ),
-    []
+    [setEdges]
   )
 
   // we are using a bit of a shortcut here to adjust the edge type
@@ -276,11 +276,11 @@ const NodesFlow = (fromScratch: boolean) => {
         setNodes((prevNodes) => [...prevNodes, newNode])
       }
     }
-  }, [changeNodes])
+  }, [changeNodes, nodes, setNodes])
 
   useEffect(() => {
     setFinalNodes(nodes)
-  }, [nodes])
+  }, [nodes, setFinalNodes])
 
   return (
     <div className="h-[1500px]">

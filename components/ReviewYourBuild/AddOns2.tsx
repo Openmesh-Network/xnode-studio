@@ -53,7 +53,7 @@ const YourCore = ({ ...data }: ModalProps) => {
                           : ''
                       }/images/reviewYourBuild/question.svg`}
                       alt="image"
-                      className="absolute -right-[6px] top-0 w-[4px] md:-right-[7.2px] md:w-[4.8px] lg:-right-[8.4px] lg:w-[5.6px] xl:-right-[9.6px] xl:w-[6.4px] 2xl:-right-[12px] 2xl:w-[8px]"
+                      className="absolute right-[-6px] top-0 w-[4px] md:right-[-7.2px] md:w-[4.8px] lg:right-[-8.4px] lg:w-[5.6px] xl:right-[-9.6px] xl:w-[6.4px] 2xl:right-[-12px] 2xl:w-[8px]"
                     />
                     <img
                       src={`${
@@ -62,7 +62,7 @@ const YourCore = ({ ...data }: ModalProps) => {
                           : ''
                       }/images/reviewYourBuild/third.svg`}
                       alt="image"
-                      className="absolute -right-[40px] -top-[7.5px] w-[29px] md:-right-[48px] md:-top-[9px] md:w-[34px] lg:-right-[56px] lg:-top-[10.5px] lg:w-[40px] xl:-right-[64px] xl:-top-[12px] xl:w-[46px] 2xl:-right-[80px] 2xl:-top-[15px] 2xl:w-[58px]"
+                      className="absolute right-[-40px] top-[-7.5px] w-[29px] md:right-[-48px] md:top-[-9px] md:w-[34px] lg:right-[-56px] lg:top-[-10.5px] lg:w-[40px] xl:right-[-64px] xl:top-[-12px] xl:w-[46px] 2xl:right-[-80px] 2xl:top-[-15px] 2xl:w-[58px]"
                     />
                   </div>
                   {/* {option.chain && <div>{option.chain}</div>} */}

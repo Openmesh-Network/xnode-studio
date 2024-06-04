@@ -173,7 +173,7 @@ function ServerNode({ id, data, handleNodeRemove }) {
           }`}
         />
         {isHelpOpen && (
-          <div className="absolute -right-[175px] top-0 rounded-[7px] bg-[#EAEAEA] p-[9px] text-[6px] text-[#0354EC] md:p-[10.8px] md:text-[7.2px] lg:p-[12.5px] lg:text-[8.4px] lg:!leading-[150%] xl:p-[14.5px] xl:text-[9.6px] 2xl:p-[18px] 2xl:text-[12px]">
+          <div className="absolute right-[-175px] top-0 rounded-[7px] bg-[#EAEAEA] p-[9px] text-[6px] text-[#0354EC] md:p-[10.8px] md:text-[7.2px] lg:p-[12.5px] lg:text-[8.4px] lg:!leading-[150%] xl:p-[14.5px] xl:text-[9.6px] 2xl:p-[18px] 2xl:text-[12px]">
             {' '}
             <div className="max-w-[70px] md:max-w-[84px] lg:max-w-[98px] xl:max-w-[112px] 2xl:max-w-[140px]">
               <div>Setting Up</div>

@@ -41,7 +41,7 @@ export function HomeAdvantages() {
             {advantages.map(({ title, pos, fill }) => {
               return (
                 <div key={title}>
-                  <h3 className="text-lg font-semibold -tracking-[3%] text-black">
+                  <h3 className="text-lg font-semibold tracking-[-3%] text-black">
                     {title}
                   </h3>
                   <div className="relative mt-2 h-[6px] max-w-[479px] rounded-[8px] bg-gray200">

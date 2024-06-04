@@ -30,7 +30,7 @@ const ServiceRegion = ({ ...data }: ModalProps) => {
           onMouseLeave={() => setShowTooltipServiceRegion(false)}
         />
         {showTooltipServiceRegion && (
-          <div className="absolute -top-[50px] left-[130px] w-[470px] rounded-[10px] bg-[#000] px-[13px] py-[10px] text-[8px] font-medium text-[#fff] md:-top-[60px] md:left-[162px] md:px-[15px] md:py-[12px] md:text-[9px] lg:-top-[70px] lg:left-[189px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:-top-[80px] xl:left-[216px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:-top-[100px] 2xl:left-[270px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
+          <div className="absolute left-[130px] top-[-50px] w-[470px] rounded-[10px] bg-black px-[13px] py-[10px] text-[8px] font-medium text-white md:left-[162px] md:top-[-60px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[189px] lg:top-[-70px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[216px] xl:top-[-80px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[270px] 2xl:top-[-100px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
             <div className="mb-[7px]">Service region</div>
             <div>
               Choose the service region that is closest to your deployment area

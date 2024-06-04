@@ -4,7 +4,14 @@
 'use client'
 
 // import { useState } from 'react'
-import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
+import {
+  ChangeEvent,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { useRouter } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
@@ -142,37 +149,40 @@ const Profile = () => {
     )
   }
 
-  const handlePreFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const newFiles = Array.from(event.target.files)
-      let validFiles = true
-      const allowedMimeTypes = ['image/jpeg', 'image/png']
-      const maxFileSize = 10 * 1024 * 1024 // 10 MB
+  const handlePreFileChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files) {
+        const newFiles = Array.from(event.target.files)
+        let validFiles = true
+        const allowedMimeTypes = ['image/jpeg', 'image/png']
+        const maxFileSize = 10 * 1024 * 1024 // 10 MB
 
-      if (newFiles.length > 1) {
-        toast.error(`Only 1 file per task for the MVP.`)
-        return
+        if (newFiles.length > 1) {
+          toast.error(`Only 1 file per task for the MVP.`)
+          return
+        }
+
+        newFiles.forEach((file) => {
+          if (!allowedMimeTypes.includes(file.type)) {
+            validFiles = false
+            toast.error(`Only JPG, JPEG, PNG allowed for the MVP.`)
+            return
+          }
+          if (file.size > maxFileSize) {
+            validFiles = false
+            toast.error(`The file ${file.name} is too heavy. Max of 10 MB.`)
+            return
+          }
+          const combinedFiles = [...selectedFiles, ...newFiles].slice(0, 15)
+          setSelectedFiles(combinedFiles)
+          const imageURL = URL.createObjectURL(event.target.files[0])
+          console.log(imageURL)
+          setImagePreview(imageURL)
+        })
       }
-
-      newFiles.forEach((file) => {
-        if (!allowedMimeTypes.includes(file.type)) {
-          validFiles = false
-          toast.error(`Only JPG, JPEG, PNG allowed for the MVP.`)
-          return
-        }
-        if (file.size > maxFileSize) {
-          validFiles = false
-          toast.error(`The file ${file.name} is too heavy. Max of 10 MB.`)
-          return
-        }
-        const combinedFiles = [...selectedFiles, ...newFiles].slice(0, 15)
-        setSelectedFiles(combinedFiles)
-        const imageURL = URL.createObjectURL(event.target.files[0])
-        console.log(imageURL)
-        setImagePreview(imageURL)
-      })
-    }
-  }
+    },
+    [selectedFiles]
+  )
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -314,7 +324,7 @@ const Profile = () => {
     return new File([data], filename, { type: mimeType })
   }
 
-  function getProfile() {
+  const getProfile = useCallback(() => {
     // setValue('name', user.name, {
     //   shouldValidate: true,
     //   shouldDirty: true,
@@ -341,7 +351,21 @@ const Profile = () => {
     //   scheduleCalendlyLink: user.calendly,
     //   tags: user.tags,
     // })
-  }
+  }, [
+    setValue,
+    user.calendly,
+    user.companyName,
+    user.description,
+    user.firstName,
+    user.foundingYear,
+    user.githubLink,
+    user.lastName,
+    user.location,
+    user.personalBlog,
+    user.tags,
+    user.website,
+  ])
+
   useEffect(() => {
     setIsPageLoading(true)
     if (userHasAnyCookie) {
@@ -368,7 +392,7 @@ const Profile = () => {
     }
 
     setIsPageLoading(false)
-  }, [user])
+  }, [getProfile, handlePreFileChange, push, user, userHasAnyCookie])
 
   if (isPageLoading) {
     return (

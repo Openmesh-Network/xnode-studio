@@ -56,7 +56,7 @@ const Dropdown = ({ onValueChange }) => {
       </div>
 
       {isOpen && (
-        <div className="absolute right-0 z-50 mt-2 w-72 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition">
+        <div className="absolute right-0 z-50 mt-2 w-72 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition">
           <div
             className="py-1"
             role="menu"

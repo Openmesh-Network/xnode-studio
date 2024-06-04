@@ -124,7 +124,7 @@ function DataNode({ id, data }) {
                   className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
                 />
                 <div className="cursor-pointer">{list.title}</div>
-                <div className="absolute top-0 font-medium text-[#0354EC] xl:-right-[35px] 2xl:-right-[45px]">
+                <div className="absolute top-0 font-medium text-[#0354EC] xl:right-[-35px] 2xl:right-[-45px]">
                   Edit
                 </div>
               </div>

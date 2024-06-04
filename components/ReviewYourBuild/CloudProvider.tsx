@@ -27,7 +27,7 @@ const CloudProvider = ({ ...data }: ModalProps) => {
           onMouseLeave={() => setShowTooltipCloudProvider(false)}
         />
         {showTooltipCloudProvider && (
-          <div className="absolute -top-[15px] left-[130px] w-[370px] rounded-[10px] bg-[#000] px-[13px] py-[10px] text-[8px] font-medium text-[#fff] md:-top-[18px] md:left-[162px] md:px-[15px] md:py-[12px] md:text-[9px] lg:-top-[21px] lg:left-[189px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:-top-[24px] xl:left-[216px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:-top-[30px] 2xl:left-[270px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
+          <div className="absolute left-[130px] top-[-15px] w-[370px] rounded-[10px] bg-black px-[13px] py-[10px] text-[8px] font-medium text-white md:left-[162px] md:top-[-18px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[189px] lg:top-[-21px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[216px] xl:top-[-24px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[270px] 2xl:top-[-30px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
             <div className="mb-[7px]">Cloud provider</div>
             <div>Choose the cloud provider of your preference</div>
           </div>
