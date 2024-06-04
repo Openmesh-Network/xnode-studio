@@ -3,7 +3,7 @@
 'use client'
 
 /* eslint-disable no-unused-vars */
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { getAPI, getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
 
@@ -94,60 +94,64 @@ const TemplateProducts = () => {
     setDraft,
   } = useContext(AccountContext)
 
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms))
 
-  async function getData(withoutFilter?: boolean, category?: string) {
-    setIsLoading(true)
+  const getData = useCallback(
+    async (withoutFilter?: boolean, category?: string) => {
+      setIsLoading(true)
 
-    let url = `/openmesh-data/functions/templateProducts?page=${page}`
-    if (searchInput?.length > 0 && !withoutFilter) {
-      url = `${url}&searchBarFilter=${searchInput}`
-    }
-    if (category && !withoutFilter) {
-      url = `${url}&categoryFilter=${category}`
-    }
+      let url = `/openmesh-data/functions/templateProducts?page=${page}`
+      if (searchInput?.length > 0 && !withoutFilter) {
+        url = `${url}&searchBarFilter=${searchInput}`
+      }
+      if (category && !withoutFilter) {
+        url = `${url}&categoryFilter=${category}`
+      }
 
-    let data: dataAPI
-    try {
-      data = await getAPI(url)
-    } catch (err) {
-      toast.error('Something occured')
-    }
+      let data: dataAPI
+      try {
+        data = await getAPI(url)
+      } catch (err) {
+        toast.error('Something occured')
+      }
 
-    // doing it gradually as requested by Ashton
-    const firstStep = data.products.slice(0, 1)
-    setTemplates(firstStep)
-    setProgressLoadingBar(20)
-    setProgressLoadingText('Searching Equinix')
-    await delay(2000)
+      // doing it gradually as requested by Ashton
+      const firstStep = data.products.slice(0, 1)
+      setTemplates(firstStep)
+      setProgressLoadingBar(20)
+      setProgressLoadingText('Searching Equinix')
+      await delay(2000)
 
-    const secondStep = data.products.slice(0, 3)
-    setTemplates(secondStep)
-    setProgressLoadingBar(33)
-    await delay(2000)
+      const secondStep = data.products.slice(0, 3)
+      setTemplates(secondStep)
+      setProgressLoadingBar(33)
+      await delay(2000)
 
-    const thirdStep = data.products.slice(0, 3)
-    setTemplates(thirdStep)
-    setProgressLoadingBar(53)
-    setProgressLoadingText('Checking CPUs')
-    await delay(2000)
+      const thirdStep = data.products.slice(0, 3)
+      setTemplates(thirdStep)
+      setProgressLoadingBar(53)
+      setProgressLoadingText('Checking CPUs')
+      await delay(2000)
 
-    const fourStep = data.products.slice(0, 10)
-    setTemplates(fourStep)
-    setProgressLoadingBar(65)
-    setProgressLoadingText('Searching Vultr')
-    await delay(2000)
+      const fourStep = data.products.slice(0, 10)
+      setTemplates(fourStep)
+      setProgressLoadingBar(65)
+      setProgressLoadingText('Searching Vultr')
+      await delay(2000)
 
-    const fiveStep = data.products.slice(0, 25)
-    setTemplates(fiveStep)
-    setProgressLoadingBar(100)
-    await delay(2000)
+      const fiveStep = data.products.slice(0, 25)
+      setTemplates(fiveStep)
+      setProgressLoadingBar(100)
+      await delay(2000)
 
-    setIsLoading(false)
-    setTemplates(data.products)
-    setHasMorePages(data.hasMorePages)
-    setTotalResults(String(data.totalProducts))
-  }
+      setIsLoading(false)
+      setTemplates(data.products)
+      setHasMorePages(data.hasMorePages)
+      setTotalResults(String(data.totalProducts))
+    },
+    [page, searchInput]
+  )
 
   async function loadMoreTemplates() {
     setIsLoadingMoreTemplates(true)

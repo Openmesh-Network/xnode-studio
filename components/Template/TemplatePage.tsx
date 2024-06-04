@@ -5,7 +5,14 @@
 'use client'
 
 // import { useState } from 'react'
-import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
+import {
+  ChangeEvent,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Modal } from '@mui/material'
@@ -50,60 +57,63 @@ const Template = (id: any) => {
   const { user, setUser, setIndexerDeployerStep, draft, setDraft } =
     useContext(AccountContext)
 
-  async function getData(id: any) {
-    setIsLoading(true)
+  const getData = useCallback(
+    (id: any) => {
+      setIsLoading(true)
 
-    // XXX: Not sure if this is the best place to put this but whatever.
-    if (id.id == 'edit') {
-      // Problem with this is the draft contains extra info like the location or whatever.
-      if (draft) {
-        setDeployConfig(draft)
+      // XXX: Not sure if this is the best place to put this but whatever.
+      if (id.id == 'edit') {
+        // Problem with this is the draft contains extra info like the location or whatever.
+        if (draft) {
+          setDeployConfig(draft)
+        } else {
+          setDeployConfig(
+            JSON.parse(localStorage.getItem('draft')) as DeploymentConfiguration
+          )
+        }
       } else {
-        setDeployConfig(
-          JSON.parse(localStorage.getItem('draft')) as DeploymentConfiguration
-        )
-      }
-    } else {
-      // Generate the config from the template id.
-      console.log('o id q vai chamar')
-      console.log(id)
+        // Generate the config from the template id.
+        console.log('o id q vai chamar')
+        console.log(id)
 
-      console.log('Aca viene la data!')
-      let template = TemplateFromId(id.id)
+        console.log('Aca viene la data!')
+        let template = TemplateFromId(id.id)
 
-      console.log(template)
+        console.log(template)
 
-      if (template) {
-        let svs: ServiceData[] = []
+        if (template) {
+          let svs: ServiceData[] = []
 
-        for (let i = 0; i < template.serviceNames.length; i++) {
-          let s = ServiceFromName(template.serviceNames[i])
-          if (s) {
-            svs.push(s)
+          for (let i = 0; i < template.serviceNames.length; i++) {
+            let s = ServiceFromName(template.serviceNames[i])
+            if (s) {
+              svs.push(s)
+            }
           }
-        }
 
-        const d: DeploymentConfiguration = {
-          name: template.name,
-          desc: template.desc,
-          location: '',
-          services: svs,
-          // XXX: Actually check from AccountContext.
-          isUnit: false,
-          provider: '',
-        }
+          const d: DeploymentConfiguration = {
+            name: template.name,
+            desc: template.desc,
+            location: '',
+            services: svs,
+            // XXX: Actually check from AccountContext.
+            isUnit: false,
+            provider: '',
+          }
 
-        setDeployConfig(d)
-        setTemplateSpecs(TemplateGetSpecs(template))
-      } else {
-        // XXX:
-        // NUCLEAR APOCALIPSE TIER!
-        // Should just redirect probably.
+          setDeployConfig(d)
+          setTemplateSpecs(TemplateGetSpecs(template))
+        } else {
+          // XXX:
+          // NUCLEAR APOCALIPSE TIER!
+          // Should just redirect probably.
+        }
       }
-    }
 
-    setIsLoading(false)
-  }
+      setIsLoading(false)
+    },
+    [draft]
+  )
 
   useEffect(() => {
     setIsLoading(true)
