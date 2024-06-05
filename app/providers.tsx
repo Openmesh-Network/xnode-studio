@@ -58,19 +58,16 @@ export function Providers({
   initialState?: State
 }) {
   return (
-    <>
-      <AccountContextProvider>
-        <WagmiProvider config={wagmiConfig} initialState={initialState}>
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider attribute="class" enableSystem={false}>
-              {children}
-            </ThemeProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
-      </AccountContextProvider>
-
-      <ToastContainer />
-    </>
+    <AccountContextProvider>
+      <WagmiProvider config={wagmiConfig} initialState={initialState}>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider attribute="class" enableSystem={false}>
+            {children}
+            <ToastContainer />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </AccountContextProvider>
   )
 }
 

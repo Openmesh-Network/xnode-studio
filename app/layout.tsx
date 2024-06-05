@@ -3,6 +3,7 @@ import ScrollToTop from '@/components/ScrollToTop'
 import 'node_modules/react-modal-video/css/modal-video.css'
 import '../styles/index.css'
 
+import { type Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import { cn } from '@/lib/utils'
@@ -16,6 +17,10 @@ const inter = Inter({
   variable: '--font-sans',
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 })
+
+export const metadata: Metadata = {
+  title: 'Openmesh Xnode',
+}
 
 export default function RootLayout({
   children,
@@ -39,7 +44,6 @@ export default function RootLayout({
             <div className="z-50 float-left min-w-[180px] bg-[#F4F4F4]">
               <LateralNav />
             </div>
-
             <div className="w-full">{children}</div>
           </div>
 
