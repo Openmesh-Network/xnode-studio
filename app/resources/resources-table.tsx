@@ -1,7 +1,8 @@
 'use client'
 
 import { Dispatch, SetStateAction, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { Provider } from '@/db/schema'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import {
   ColumnDef,
   flexRender,
@@ -10,7 +11,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-import type { Table as TableType } from '@tanstack/react-table'
+import type { Column, Table as TableType } from '@tanstack/react-table'
 import {
   ArrowUpDown,
   ChevronLeft,
@@ -19,7 +20,7 @@ import {
   ChevronsRight,
 } from 'lucide-react'
 
-import { Button } from '@/components/ui/buttons'
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -29,22 +30,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-// Define the Provider type to match the data structure of your Provider array.
-export type Provider = {
-  providerName: string
-  location?: string
-  productName: string
-  cpuCores: number
-  cpuThreads: number
-  cpuGHZ: number
-  storageTotal: number
-  gpuType?: string
-  gpuMemory?: string
-  priceHour?: string
-}
-
 // Create the column definitions for the new DataTable.
-export const columns: ColumnDef<Provider>[] = [
+const columns: ColumnDef<Provider>[] = [
   {
     accessorKey: 'providerName',
     header: 'Provider',
@@ -60,27 +47,23 @@ export const columns: ColumnDef<Provider>[] = [
   },
   {
     accessorKey: 'cpuCores',
-    header: 'CPU',
+    header: ({ column }) => {
+      return <SortableHeaderButton column={column} label="CPU" />
+    },
     cell: ({ row }) =>
       `${row.original.cpuCores}C / ${row.original.cpuThreads}T / ${row.original.cpuGHZ}GHz`,
   },
   {
     accessorKey: 'storageTotal',
-    header: 'Storage',
+    header: ({ column }) => {
+      return <SortableHeaderButton column={column} label="Storage" />
+    },
     cell: ({ cell }) => `${cell.getValue()}GB`,
   },
   {
     accessorKey: 'gpuType',
     header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          GPU
-          <ArrowUpDown className="ml-2 size-4" />
-        </Button>
-      )
+      return <SortableHeaderButton column={column} label="GPU" />
     },
     cell: ({ row }) =>
       row.original.gpuType
@@ -90,19 +73,16 @@ export const columns: ColumnDef<Provider>[] = [
   {
     accessorKey: 'priceHour',
     header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Price
-          <ArrowUpDown className="ml-2 size-4" />
-        </Button>
-      )
+      return <SortableHeaderButton column={column} label="Price" />
     },
     cell: ({ cell }) => (cell.getValue() ? `${cell.getValue()}/h` : '-'),
   },
 ]
+
+type ResourcesDataProps = {
+  data: Provider[]
+  totalPages: number
+}
 
 export default function ResourcesTable() {
   const [page, setPage] = useState(0)
@@ -114,14 +94,13 @@ export default function ResourcesTable() {
       if (!res.ok) {
         throw new Error('Network response was not ok')
       }
-      return res.json() as Promise<Provider[]>
+      return res.json() as Promise<ResourcesDataProps>
     },
+    placeholderData: keepPreviousData,
   })
 
-  console.log(data)
-
   const table = useReactTable({
-    data: data || [], // Provide a default empty array to avoid undefined issues
+    data: data?.data || [], // Provide a default empty array to avoid undefined issues
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
@@ -194,8 +173,32 @@ export default function ResourcesTable() {
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} page={page} setPage={setPage} />
+      <DataTablePagination
+        table={table}
+        page={page}
+        setPage={setPage}
+        totalPages={data?.totalPages}
+      />
     </div>
+  )
+}
+
+function SortableHeaderButton({
+  column,
+  label,
+}: {
+  column: Column<Provider>
+  label: string
+}) {
+  return (
+    <Button
+      className="-ml-2"
+      variant="ghost"
+      onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+    >
+      {label}
+      <ArrowUpDown className="ml-2 size-4" />
+    </Button>
   )
 }
 
@@ -203,27 +206,28 @@ interface DataTablePaginationProps<TData> {
   table: TableType<TData>
 }
 
-export function DataTablePagination<TData>({
+function DataTablePagination<TData>({
   table,
   page,
   setPage,
+  totalPages,
 }: DataTablePaginationProps<TData> & {
   page: number
   setPage: Dispatch<SetStateAction<number>>
+  totalPages: number
 }) {
   return (
     <div className="mt-2 flex items-center justify-end">
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {table.getState().pagination.pageIndex + 1} of{' '}
-          {table.getPageCount()}
+          Page {page + 1} of {totalPages}
         </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             className="hidden size-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => setPage(0)}
+            disabled={page === 0}
           >
             <span className="sr-only">Go to first page</span>
             <ChevronsLeft className="size-4" />
@@ -231,8 +235,8 @@ export function DataTablePagination<TData>({
           <Button
             variant="outline"
             className="size-8 p-0"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => setPage(page - 1)}
+            disabled={page === 0}
           >
             <span className="sr-only">Go to previous page</span>
             <ChevronLeft className="size-4" />
@@ -240,8 +244,8 @@ export function DataTablePagination<TData>({
           <Button
             variant="outline"
             className="size-8 p-0"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => setPage(page + 1)}
+            disabled={page === totalPages - 1}
           >
             <span className="sr-only">Go to next page</span>
             <ChevronRight className="size-4" />
@@ -249,8 +253,8 @@ export function DataTablePagination<TData>({
           <Button
             variant="outline"
             className="hidden size-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
+            onClick={() => setPage(totalPages - 1)}
+            disabled={page === totalPages - 1}
           >
             <span className="sr-only">Go to last page</span>
             <ChevronsRight className="size-4" />
