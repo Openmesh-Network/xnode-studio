@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
   if (searchQuery !== null && searchQuery !== '') {
     const q = `%${searchQuery.trim()}%`
     filters.push(
-      or(like(Providers.providerName, q), like(Providers.providerName, q))
+      or(like(Providers.providerName, q), like(Providers.productName, q))
     )
   }
   if (region !== null && region.trim() !== '') {

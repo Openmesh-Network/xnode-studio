@@ -156,6 +156,7 @@ const TemplateProducts = () => {
                       width={50}
                       height={50}
                     /> */}
+                      <p className="font-bold">{provider.providerName}</p>
                       <p>Bare Metal</p>
                     </div>
                     <div className="grow">
