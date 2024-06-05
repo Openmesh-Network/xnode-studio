@@ -10,7 +10,9 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"**/*.{ts,tsx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx}\" --cache",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:push": "pnpm drizzle-kit push",
+    "db:studio": "pnpm drizzle-kit studio"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
