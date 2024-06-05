@@ -5,7 +5,7 @@ import { AccountContext } from '@/contexts/AccountContext'
 import { Provider } from '@/db/schema'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
-import { Check, ChevronsUpDown, X } from 'lucide-react'
+import { Check, ChevronsUpDown, Search, X } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -63,13 +63,16 @@ const TemplateProducts = () => {
       <h1 className="text-4xl font-semibold text-black">Select a provider</h1>
       <Separator className="my-12" />
       <div className="flex flex-wrap gap-4">
-        <Input
-          type="text"
-          placeholder="Search"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          className="max-w-96"
-        />
+        <div className="relative flex max-w-96 items-center">
+          <Search className="absolute left-3 size-4" />
+          <Input
+            type="text"
+            placeholder="Filter Provider and Items"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="pl-10"
+          />
+        </div>
         <Popover>
           <PopoverTrigger asChild disabled={regionLoading}>
             <Button

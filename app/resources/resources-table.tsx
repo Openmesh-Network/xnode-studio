@@ -22,6 +22,7 @@ import {
   ChevronsRight,
   ChevronsUpDown,
   ChevronUp,
+  Search,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -160,13 +161,16 @@ export default function ResourcesTable() {
 
   return (
     <div className="flex flex-col gap-2">
-      <Input
-        type="text"
-        placeholder="Search"
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-        className="max-w-96"
-      />
+      <div className="relative flex max-w-96 items-center">
+        <Search className="absolute left-3 size-4" />
+        <Input
+          type="text"
+          placeholder="Search"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          className="pl-10"
+        />
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader className="bg-muted text-muted-foreground">
