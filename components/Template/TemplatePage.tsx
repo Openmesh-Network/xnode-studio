@@ -1,12 +1,6 @@
 'use client'
 
 import { useCallback, useContext, useEffect, useState } from 'react'
-
-import 'react-datepicker/dist/react-datepicker.css'
-import 'react-quill/dist/quill.snow.css' // import styles
-import 'react-toastify/dist/ReactToastify.css'
-import 'prismjs/themes/prism.css'
-
 import { AccountContext } from '@/contexts/AccountContext'
 
 import {
@@ -23,8 +17,7 @@ const Template = (id: any) => {
   // const [data, setTemplateData] = useState<TemplateData>()
   const [data, setDeployConfig] = useState<DeploymentConfiguration>()
   const [templateSpecs, setTemplateSpecs] = useState<Specs>()
-  const { user, setUser, setIndexerDeployerStep, draft, setDraft } =
-    useContext(AccountContext)
+  const { draft } = useContext(AccountContext)
 
   const getData = useCallback(
     (id: any) => {
