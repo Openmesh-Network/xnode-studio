@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { db } from '@/db'
 import { Providers } from '@/db/schema'
-import { countDistinct, sql, sum } from 'drizzle-orm'
+import { count, countDistinct, eq, like, sql, sum } from 'drizzle-orm'
 
 import ResourcesTable from './resources-table'
 
@@ -25,20 +25,18 @@ export default async function ResourcesPage() {
       providers: countDistinct(Providers.providerName),
       regions: countDistinct(Providers.location),
       storage: sum(Providers.storageTotal).mapWith(Number),
-      // count gpus with A100 in name and multiply the amount by 312
-      // gpus: sum(Providers.gpuType).mapWith({
-      //   mapFromDriverValue: (value) => {
-      //     const mappedValue = value
-      //     if (mappedValue.includes('A100')) {
-      //       return 312
-      //     }
-      //     return 0
-      //   },
-      // }),
       ram: sum(Providers.ram).mapWith(Number),
       bandwidth: sum(Providers.bandwidthNetwork).mapWith(Number),
     })
     .from(Providers)
+    .limit(1)
+
+  const [gpus] = await db
+    .select({
+      count: count(),
+    })
+    .from(Providers)
+    .where(like(Providers.gpuType, '%A100%'))
     .limit(1)
 
   return (
@@ -60,7 +58,7 @@ export default async function ResourcesPage() {
           title="Storage"
           value={`${Math.round(stats.storage / 1024 / 1024)}PB`}
         />
-        <StatsItem title="GUPs" value="0G/F" />
+        <StatsItem title="GUPs" value={`${gpus.count * 312}GF`} />
         <StatsItem title="RAM" value={`${Math.round(stats.ram / 1024)}TB`} />
         <StatsItem
           title="Bandwidth"
