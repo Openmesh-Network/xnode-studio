@@ -5,6 +5,7 @@ import '../styles/index.css'
 
 import { Inter } from 'next/font/google'
 
+import { cn } from '@/lib/utils'
 import { Header } from '@/components/Header'
 import LateralNav from '@/components/LateralNav'
 
@@ -13,7 +14,7 @@ import { Providers } from './providers'
 //TODO: implement the actual font...
 const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-sans',
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 })
 
@@ -24,7 +25,12 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className="max-w-screen w-full overflow-x-hidden bg-background text-foreground">
+      <body
+        className={cn(
+          'max-w-screen overflow-x-hidden bg-background font-sans text-foreground antialiased',
+          inter.variable
+        )}
+      >
         <Providers>
           <div className="mx-auto">
             <Header />

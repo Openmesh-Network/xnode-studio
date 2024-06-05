@@ -7,6 +7,7 @@ import { AccountContext } from '@/contexts/AccountContext'
 import { Check, X } from 'phosphor-react'
 
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/buttons'
 import {
   Table,
   TableBody,
@@ -17,8 +18,12 @@ import {
 } from '@/components/ui/table'
 
 export default function TemplateProgress() {
-  const { indexerDeployerStep, setIndexerDeployerStep, templateSelected } =
-    useContext(AccountContext)
+  const {
+    indexerDeployerStep,
+    setIndexerDeployerStep,
+    templateSelected,
+    user,
+  } = useContext(AccountContext)
   return (
     <aside className="relative min-w-96 shrink-0 border-l border-zinc-200 bg-zinc-50 p-8">
       <h4 className="font-bold text-black">Your Progress</h4>
@@ -75,18 +80,12 @@ export default function TemplateProgress() {
                 height={100}
                 className="w-2/3 object-contain"
               />
-              <button
-                type="button"
-                className={cn(
-                  'relative w-full rounded-md border border-primary px-8 py-3 text-center font-semibold',
-                  indexerDeployerStep === -1
-                    ? 'bg-primary text-white'
-                    : 'text-primary'
-                )}
+              <Button
+                className="h-12 w-full"
                 onClick={() => setIndexerDeployerStep(0)}
               >
                 Select
-              </button>
+              </Button>
             </div>
           ) : null}
         </div>
@@ -114,7 +113,7 @@ export default function TemplateProgress() {
                   indexerDeployerStep > 0 && 'border-primary'
                 )}
               >
-                {indexerDeployerStep > 1 ? (
+                {indexerDeployerStep > 0 ? (
                   <Check size={20} weight="bold" className="text-primary" />
                 ) : null}
               </div>
@@ -156,19 +155,14 @@ export default function TemplateProgress() {
                   </Table>
                 </div>
               ) : null}
-              <button
+              <Button
                 disabled={!templateSelected}
-                type="button"
-                className={cn(
-                  'relative w-full rounded-md border border-primary px-8 py-3 text-center font-semibold',
-                  indexerDeployerStep === 0
-                    ? 'enabled:bg-primary enabled:text-white disabled:text-primary'
-                    : 'text-primary'
-                )}
+                variant={templateSelected ? 'default' : 'outlinePrimary'}
+                className="h-12 w-full"
                 onClick={() => setIndexerDeployerStep(1)}
               >
                 Deploy
-              </button>
+              </Button>
             </div>
           ) : null}
         </div>
@@ -196,7 +190,7 @@ export default function TemplateProgress() {
                   indexerDeployerStep > 1 && 'border-primary'
                 )}
               >
-                {indexerDeployerStep > 2 ? (
+                {indexerDeployerStep > 1 ? (
                   <Check size={20} weight="bold" className="text-primary" />
                 ) : null}
               </div>
@@ -212,18 +206,14 @@ export default function TemplateProgress() {
           </div>
           {indexerDeployerStep === 1 ? (
             <div className="mt-4 flex flex-col items-center justify-center gap-4">
-              <button
-                type="button"
-                className={cn(
-                  'relative w-full rounded-md border border-primary px-8 py-3 text-center font-semibold',
-                  indexerDeployerStep === 1
-                    ? 'enabled:bg-primary enabled:text-white disabled:text-primary'
-                    : 'text-primary'
-                )}
+              <Button
+                disabled={user === undefined}
+                variant={user !== undefined ? 'default' : 'outlinePrimary'}
+                className="h-12 w-full"
                 onClick={() => setIndexerDeployerStep(2)}
               >
                 Create and Deploy
-              </button>
+              </Button>
             </div>
           ) : null}
         </div>

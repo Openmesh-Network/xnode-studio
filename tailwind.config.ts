@@ -74,7 +74,7 @@ const config = {
         '4xl': '2560px',
       },
       fontFamily: {
-        inter: ['Inter', 'sans'],
+        sans: ['var(--font-sans)', 'sans'],
       },
       borderRadius: {
         lg: 'var(--radius)',

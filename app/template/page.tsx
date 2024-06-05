@@ -1,11 +1,13 @@
-'use client'
+import { number } from 'yup'
 
 import Template from '@/components/Template'
 
-export default function UserPage({ params }) {
-  return (
-    <>
-      <Template id={params.id} />
-    </>
-  )
+type TemplatePageProps = {
+  params: {
+    id: string
+  }
+}
+export default function TemplatePage({ params }: TemplatePageProps) {
+  const pId = number().cast(params.id)
+  return <Template id={pId} />
 }

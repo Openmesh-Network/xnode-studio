@@ -1,9 +1,6 @@
 'use client'
 
 import { useContext } from 'react'
-
-import 'react-toastify/dist/ReactToastify.css'
-
 import { AccountContext } from '@/contexts/AccountContext'
 
 import TemplateProgress from '@/app/template-products/template-progress'
