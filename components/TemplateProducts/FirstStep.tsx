@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
+import Image from 'next/image'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Provider } from '@/db/schema'
 import {
@@ -229,47 +230,62 @@ const TemplateProducts = () => {
         </div>
         {providersLoading ? <p>Loading...</p> : null}
         {providerData !== undefined ? (
-          <ul className="flex flex-col gap-2 text-black">
-            {providerData.map((provider) => (
-              <li
-                key={provider.id}
-                className="flex items-start gap-12 border p-3"
-              >
-                <div>
-                  <h3 className="text-lg font-semibold">
-                    {provider.providerName}
-                  </h3>
-                  <p>{provider.location}</p>
-                  <p className="mt-4">
-                    {provider.cpuGHZ}GHz {provider.cpuCores}-Core (
-                    {provider.cpuThreads}), {provider.ram}GB RAM,{' '}
-                    {provider.storageTotal} GB, {provider.network} Gbps
-                  </p>
-                </div>
-                <div>
-                  <p>Est. ${provider.priceMonth}/mo</p>
-                  <button
-                    type="button"
-                    className="rounded border"
-                    onClick={() => {
-                      setTemplateSelected({
-                        id: String(provider.id),
-                        providerName: provider.providerName,
-                        productName: provider.productName,
-                        location: provider.location,
-                        cpuCores: String(provider.cpuCores),
-                        ram: String(provider.ram),
-                        priceMonth: String(provider.priceMonth),
-                      })
-                    }}
-                  >
-                    {templateSelected?.id === String(provider.id)
-                      ? 'Selected'
-                      : 'Select'}
-                  </button>
-                </div>
-              </li>
-            ))}
+          <ul className="flex flex-col gap-8 text-black">
+            {providerData.map((provider) => {
+              let config = ''
+              if (provider.cpuGHZ) config += `${provider.cpuGHZ}GHz `
+              if (provider.cpuCores) config += `${provider.cpuCores}-Core `
+              if (provider.cpuThreads) config += `(${provider.cpuThreads})`
+              if (provider.ram) config += `, ${provider.ram}GB RAM`
+              if (provider.storageTotal)
+                config += `, ${provider.storageTotal} GB`
+              if (provider.network) config += `, ${provider.network} Gbps`
+              return (
+                <li
+                  key={provider.id}
+                  className="flex items-start gap-12 rounded-lg border border-darkGray/20 p-3 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
+                >
+                  <div>
+                    <Image
+                      src={`/images/template/${provider.providerName}.png`}
+                      alt={provider.providerName}
+                      width={50}
+                      height={50}
+                    />
+                    <p>Bare Metal</p>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">
+                      {provider.productName}
+                    </h3>
+                    <p>{provider.location}</p>
+                    <p className="mt-4">{config}</p>
+                  </div>
+                  <div>
+                    <p>Est. ${provider.priceMonth}/mo</p>
+                    <button
+                      type="button"
+                      className="rounded border"
+                      onClick={() => {
+                        setTemplateSelected({
+                          id: String(provider.id),
+                          providerName: provider.providerName,
+                          productName: provider.productName,
+                          location: provider.location,
+                          cpuCores: String(provider.cpuCores),
+                          ram: String(provider.ram),
+                          priceMonth: String(provider.priceMonth),
+                        })
+                      }}
+                    >
+                      {templateSelected?.id === String(provider.id)
+                        ? 'Selected'
+                        : 'Select'}
+                    </button>
+                  </div>
+                </li>
+              )
+            })}
           </ul>
         ) : null}
       </section>
