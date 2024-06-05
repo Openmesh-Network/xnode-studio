@@ -1,7 +1,7 @@
 import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 export const Providers = sqliteTable('providers', {
-  id: text('id').primaryKey(),
+  id: integer('id').primaryKey(),
   providerName: text('providerName'),
   productName: text('productName'),
   country: text('country'),
