@@ -7,7 +7,7 @@ import { AccountContext } from '@/contexts/AccountContext'
 import { Check, X } from 'phosphor-react'
 
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/buttons'
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,

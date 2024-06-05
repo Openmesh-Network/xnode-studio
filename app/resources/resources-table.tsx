@@ -90,7 +90,7 @@ export default function ResourcesTable() {
   const { data, isLoading } = useQuery({
     queryKey: ['resources', page],
     queryFn: async () => {
-      const res = await fetch(`/api/resources?page=${page}`)
+      const res = await fetch(`/api/providers?page=${page}`)
       if (!res.ok) {
         throw new Error('Network response was not ok')
       }

@@ -42,7 +42,7 @@ const TemplateProducts = () => {
       if (region) {
         params.append('r', region)
       }
-      const res = await fetch(`/api/resources?${params.toString()}`)
+      const res = await fetch(`/api/providers?${params.toString()}`)
       return res.json() as Promise<{ data: Provider[] }>
     },
     placeholderData: keepPreviousData,
