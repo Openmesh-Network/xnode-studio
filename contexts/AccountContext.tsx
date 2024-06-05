@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
-import { DeploymentConfiguration, TemplatesProducts } from '@/types/dataProvider'
 import React, { createContext, useState } from 'react'
+
+import {
+  DeploymentConfiguration,
+  TemplatesProducts,
+} from '@/types/dataProvider'
 
 export interface UserProps {
   id: string
@@ -24,7 +28,7 @@ export interface UserProps {
   githubLink: string
   personalBlog: string
   profilePictureHash: string
-  calendly: string
+  calendly?: string
   sessionToken: string
   createdAt: string
   updatedAt: string
@@ -130,13 +134,13 @@ export default function AccountContextProvider({
   const [connections, setConnections] = useState<boolean>(false)
   const [signup, setSignup] = useState<boolean>(false)
   const [tagXnode, setTagXnode] = useState<string>(
-    'Decentralized data infrastructure',
+    'Decentralized data infrastructure'
   )
   const [projectDescription, setProjectDescription] = useState<string>(
-    'Project description',
+    'Project description'
   )
   const [draft, setDraft] = useState<DeploymentConfiguration>()
-  
+
   return (
     <AccountContext.Provider
       value={{
@@ -183,7 +187,7 @@ export default function AccountContextProvider({
         removeNodes,
         setRemoveNodes,
         draft,
-        setDraft
+        setDraft,
       }}
     >
       {children}

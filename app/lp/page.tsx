@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 'use client'
 
-import ScrollUp from '@/components/Common/ScrollUp'
-import Hero from '@/components/Hero'
-import { Inter } from '@next/font/google'
 import { useRef } from 'react'
+import { Inter } from '@next/font/google'
+
+import ScrollUp from '@/components/Common/ScrollUp'
 import FirstStep from '@/components/FirstStep'
 import Footer from '@/components/Footer'
+import Hero from '@/components/Hero'
 // import Console from '@/components/Console'
 import LandingPage from '@/components/LandingPage'
 import NewLandingPage from '@/components/NewLandingPage'

@@ -3,44 +3,49 @@
 /* eslint-disable no-unused-vars */
 'use client'
 
-import { useEffect, useState, useCallback, useContext, useMemo } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import ReactFlow, {
-  Controls,
-  Background,
-  MiniMap,
   addEdge,
-  useNodesState,
+  Background,
+  Controls,
+  MiniMap,
   useEdgesState,
+  useNodesState,
 } from 'reactflow'
+import { v4 as uuidv4 } from 'uuid'
+
 import 'reactflow/dist/style.css'
+
+import CustomNode from './CustomNode'
 import {
-  nodes as initialNodes,
   edges as initialEdges,
+  nodes as initialNodes,
 } from './initial-elements'
 import {
-  nodes as initialNodesScratch,
   edges as initialEdgesScratch,
+  nodes as initialNodesScratch,
 } from './initial-elements-fromscratch'
-import CustomNode from './CustomNode'
 
 import './overview.css'
-import ServerNode from './ServerNode'
-import APINode from './APINode'
-import UtilityNode from './UtilityNode'
-import RPCNode from './RPCNode'
-import AnalyticsNode from './AnalyticsNode'
-import OpenmeshNode from './OpenmeshNode'
-import withProps from './withProps'
-import DataNodeStreaming from './DataNodeStreaming'
-import DataNodeHistorical from './DataNodeHistorical'
-import MLNode from './MLNode'
-import StorageNode from './StorageNode'
-import DataManagementNode from './DataManagementNode'
-import ComputeNode from './ComputeNode'
-import TradingNode from './TradingNode'
+
 import { categoriesOptions } from '@/utils/constants'
+
+import AnalyticsNode from './AnalyticsNode'
+import APINode from './APINode'
+import ComputeNode from './ComputeNode'
+import DataManagementNode from './DataManagementNode'
+import DataNodeHistorical from './DataNodeHistorical'
+import DataNodeStreaming from './DataNodeStreaming'
+import MLNode from './MLNode'
+import OpenmeshNode from './OpenmeshNode'
+import RPCNode from './RPCNode'
+import ServerNode from './ServerNode'
+import StorageNode from './StorageNode'
+import TradingNode from './TradingNode'
+import UtilityNode from './UtilityNode'
+import withProps from './withProps'
+
 // const getNodeTypes = (handleNodeRemove): NodeTypes => ({
 //   custom: CustomNode,
 //   server: ServerNode,
@@ -76,14 +81,6 @@ const onInit = (reactFlowInstance) =>
   console.log('flow loaded:', reactFlowInstance)
 
 const NodesFlow = ({ ...dataM }: ModalProps) => {
-  const handleNodeRemove = (nodeIdToRemove) => {
-    if (xnodeType !== 'validator') {
-      setNodes((prevNodes) =>
-        prevNodes.filter((node) => node.id !== nodeIdToRemove),
-      )
-    }
-  }
-
   const {
     changeNodes,
     setFinalNodes,
@@ -100,19 +97,19 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
     selectCurrentMenuDataType,
   } = useContext(AccountContext)
   const [nodes, setNodes, onNodesChange] = useNodesState<any>(
-    !dataM.fromScratch ? initialNodes : initialNodesScratch,
+    !dataM.fromScratch ? initialNodes : initialNodesScratch
   )
   const [edges, setEdges, onEdgesChange] = useEdgesState(
-    !dataM.fromScratch ? initialEdges : initialEdgesScratch,
+    !dataM.fromScratch ? initialEdges : initialEdgesScratch
   )
   const [isInitialized, setIsInitialized] = useState(false)
 
   const onConnect = useCallback(
     (params) =>
       setEdges((eds) =>
-        addEdge({ ...params, animated: true, style: { stroke: '#000' } }, eds),
+        addEdge({ ...params, animated: true, style: { stroke: '#000' } }, eds)
       ),
-    [],
+    [setEdges]
   )
 
   // we are using a bit of a shortcut here to adjust the edge type
@@ -135,7 +132,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
     }
     if (changeNodes?.type === 'api') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
 
       if (!nodeExists) {
@@ -157,7 +154,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
     if (changeNodes?.type === 'rpc') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
 
       if (!nodeExists) {
@@ -181,7 +178,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
     if (changeNodes?.type === 'ml') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
 
       console.log(nodeExists)
@@ -209,7 +206,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
     if (changeNodes?.type === 'storage') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
 
       console.log(nodeExists)
@@ -237,7 +234,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
     if (changeNodes?.type === 'compute') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
 
       console.log(nodeExists)
@@ -265,7 +262,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
     if (changeNodes?.type === 'trading') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
 
       console.log(nodeExists)
@@ -293,7 +290,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
     if (changeNodes?.type === 'dataManagement') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
 
       console.log(nodeExists)
@@ -322,7 +319,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
     if (changeNodes?.type === 'analytics') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
 
       if (!nodeExists) {
@@ -345,7 +342,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
     if (changeNodes?.type === 'utility') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
 
       if (!nodeExists) {
@@ -430,14 +427,14 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
         (node) =>
           node.type === 'dataHistorical' &&
           node.data.lists &&
-          node.data.lists.length > 0,
+          node.data.lists.length > 0
       )
 
       if (existingNodeIndex !== -1) {
         const existingNode = nodes[existingNodeIndex]
 
         const existsTitle = existingNode.data.lists.some(
-          (data) => data.title === changeNodes?.name,
+          (data) => data.title === changeNodes?.name
         )
 
         if (existsTitle) {
@@ -462,7 +459,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
             }
 
             return node
-          }),
+          })
         )
       } else {
         const newNode = {
@@ -491,14 +488,14 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
         (node) =>
           node.type === 'dataStreaming' &&
           node.data.lists &&
-          node.data.lists.length > 0,
+          node.data.lists.length > 0
       )
 
       if (existingNodeIndex !== -1) {
         const existingNode = nodes[existingNodeIndex]
 
         const existsTitle = existingNode.data.lists.some(
-          (data) => data.title === changeNodes?.name,
+          (data) => data.title === changeNodes?.name
         )
 
         if (existsTitle) {
@@ -523,7 +520,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
             }
 
             return node
-          }),
+          })
         )
       } else {
         const newNode = {
@@ -568,7 +565,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
         setNodes((prevNodes) => [...prevNodes, newNode])
       }
     }
-  }, [changeNodes])
+  }, [changeNodes, nodes, setNodes])
 
   useEffect(() => {
     console.log('heyyy chamado fui')
@@ -576,14 +573,14 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
       (node) =>
         node.type === 'dataStreaming' &&
         node.data.lists &&
-        node.data.lists.length > 0,
+        node.data.lists.length > 0
     )
 
     if (existingNodeIndex !== -1) {
       const existingNode = nodes[existingNodeIndex]
 
       const filteredLists = existingNode.data.lists.filter(
-        (data) => data.title !== 'dataOption.title',
+        (data) => data.title !== 'dataOption.title'
       )
 
       if (filteredLists.length === existingNode.data.lists.length) {
@@ -599,12 +596,12 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
       }
 
       const updatedNodes = nodes.map((node, index) =>
-        index === existingNodeIndex ? updatedNode : node,
+        index === existingNodeIndex ? updatedNode : node
       )
 
       setNodes(updatedNodes)
     }
-  }, [updateDataNode])
+  }, [nodes, setNodes, updateDataNode])
 
   const nodesToAdd = [...nodes]
 
@@ -628,6 +625,17 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
   const nodesAmounts = createNewArray(nodesToAdd, nodeAmount)
 
+  const handleNodeRemove = useCallback(
+    (nodeIdToRemove) => {
+      if (xnodeType !== 'validator') {
+        setNodes((prevNodes) =>
+          prevNodes.filter((node) => node.id !== nodeIdToRemove)
+        )
+      }
+    },
+    [setNodes, xnodeType]
+  )
+
   const nodeTypes = useMemo(
     () => ({
       custom: withProps(CustomNode, { handleNodeRemove }),
@@ -645,7 +653,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
       compute: withProps(ComputeNode, { handleNodeRemove }),
       trading: withProps(TradingNode, { handleNodeRemove }),
     }),
-    [],
+    [handleNodeRemove]
   )
 
   useEffect(() => {
@@ -654,7 +662,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
       localStorage.setItem('edges', JSON.stringify(edges))
     }
     setFinalNodes(nodes)
-  }, [nodes, edges, isInitialized])
+  }, [nodes, edges, isInitialized, setFinalNodes])
 
   useEffect(() => {
     setSignup(false)
@@ -682,7 +690,16 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
     }
 
     setIsInitialized(true)
-  }, [])
+  }, [
+    dataM.fromScratch,
+    setEdges,
+    setFinalBuild,
+    setIsWorkspace,
+    setNodes,
+    setSignup,
+    setTagXnode,
+    setXnodeType,
+  ])
 
   useEffect(() => {
     if (removeNodes && removeNodes.length > 0) {
@@ -691,12 +708,12 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
           (node) =>
             node.type === 'dataStreaming' &&
             node.data.lists &&
-            node.data.lists.length > 0,
+            node.data.lists.length > 0
         )
         if (existingNodeIndex !== -1) {
           const existingNode = nodes[existingNodeIndex]
           const filteredLists = existingNode.data.lists.filter(
-            (data) => data.title !== removeNodes[0],
+            (data) => data.title !== removeNodes[0]
           )
           if (filteredLists.length === existingNode.data.lists.length) {
             return
@@ -709,7 +726,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
             },
           }
           const updatedNodes = nodes.map((node, index) =>
-            index === existingNodeIndex ? updatedNode : node,
+            index === existingNodeIndex ? updatedNode : node
           )
           setNodes(updatedNodes)
         }
@@ -719,14 +736,14 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
           (node) =>
             node.type === 'dataHistorical' &&
             node.data.lists &&
-            node.data.lists.length > 0,
+            node.data.lists.length > 0
         )
 
         if (existingNodeIndex !== -1) {
           const existingNode = nodes[existingNodeIndex]
 
           const filteredLists = existingNode.data.lists.filter(
-            (data) => data.title !== removeNodes[0],
+            (data) => data.title !== removeNodes[0]
           )
 
           if (filteredLists.length === existingNode.data.lists.length) {
@@ -742,17 +759,17 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
           }
 
           const updatedNodes = nodes.map((node, index) =>
-            index === existingNodeIndex ? updatedNode : node,
+            index === existingNodeIndex ? updatedNode : node
           )
 
           setNodes(updatedNodes)
         }
       }
     }
-  }, [removeNodes])
+  }, [nodes, removeNodes, setNodes])
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative size-full">
       <ReactFlow
         nodes={nodesAmounts}
         edges={edgesWithUpdatedTypes}

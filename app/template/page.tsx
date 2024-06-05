@@ -1,7 +1,8 @@
 'use client'
 
-import Template from '@/components/Template'
 import { Inter } from '@next/font/google'
+
+import Template from '@/components/Template'
 
 // eslint-disable-next-line no-unused-vars
 const inter = Inter({ subsets: ['latin'] })

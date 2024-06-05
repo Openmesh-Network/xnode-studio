@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { optionServerLocation } from '@/utils/constants'
 import React, { memo, useEffect, useState } from 'react'
-import { Handle, useReactFlow, useStoreApi, Position } from 'reactflow'
+import { optionServerLocation } from '@/utils/constants'
+import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
 
 const options = [
   {
@@ -40,7 +40,7 @@ function Select({ value, handleId, nodeId }) {
           }
         }
         return node
-      }),
+      })
     )
   }
 
@@ -89,7 +89,7 @@ function ServerNode({ id, data }) {
 
   return (
     <>
-      <div className="relative rounded-[7px] bg-[#EAEAEA] py-[7px]  px-[10px]  pb-[23px] pr-[17px] text-[8px]  text-[#000] md:py-[8.4px] md:px-[12px] md:pb-[15.6px] md:pr-[20.4px] md:text-[9.6px] lg:py-[10px] lg:px-[14px] lg:pb-[18px] lg:pr-[23px] lg:text-[11.2px] xl:py-[11.2px] xl:px-[16px] xl:pb-[21px] xl:pr-[27px] xl:text-[12.8px] 2xl:py-[14px] 2xl:px-[20px] 2xl:pb-[46px] 2xl:pr-[34px] 2xl:text-[16px]">
+      <div className="relative rounded-[7px] bg-[#EAEAEA] px-[10px] py-[7px] pb-[23px] pr-[17px] text-[8px] text-[#000] md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[20.4px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[23px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[27px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[34px] 2xl:text-[16px]">
         <img
           src={`${
             process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -110,12 +110,12 @@ function ServerNode({ id, data }) {
               : ''
           }/images/nodesFlow/arrow.svg`}
           alt="image"
-          className={`absolute top-[8px] right-[8px] cursor-pointer xl:w-[7px] 2xl:w-[9px] ${
-            isHelpOpen ? 'rotate-90 transform' : ''
+          className={`absolute right-[8px] top-[8px] cursor-pointer xl:w-[7px] 2xl:w-[9px] ${
+            isHelpOpen ? 'rotate-90' : ''
           }`}
         />
         {isHelpOpen && (
-          <div className="absolute top-0 -right-[145px] rounded-[7px] bg-[#EAEAEA] p-[9px] text-[6px] text-[#0354EC] md:p-[10.8px] md:text-[7.2px] lg:p-[12.5px] lg:text-[8.4px] lg:!leading-[150%] xl:p-[14.5px] xl:text-[9.6px] 2xl:p-[18px] 2xl:text-[12px]">
+          <div className="absolute right-[-145px] top-0 rounded-[7px] bg-[#EAEAEA] p-[9px] text-[6px] text-[#0354EC] md:p-[10.8px] md:text-[7.2px] lg:p-[12.5px] lg:text-[8.4px] lg:!leading-[150%] xl:p-[14.5px] xl:text-[9.6px] 2xl:p-[18px] 2xl:text-[12px]">
             {' '}
             <div className="max-w-[70px] md:max-w-[84px] lg:max-w-[98px] xl:max-w-[112px] 2xl:max-w-[140px]">
               <div>Setting Up</div>

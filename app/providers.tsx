@@ -2,27 +2,25 @@
 /* eslint-disable no-undef */
 "use client";
 
-import AccountContextProvider from "@/contexts/AccountContext";
-import { ThemeProvider } from "next-themes";
-import { ToastContainer } from "react-toastify";
-
-import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
+import AccountContextProvider from '@/contexts/AccountContext'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { createWeb3Modal } from '@web3modal/wagmi/react'
+import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
+import { ThemeProvider } from 'next-themes'
+import { ToastContainer } from 'react-toastify'
 import {
+  cookieStorage,
+  cookieToInitialState,
   createConfig,
   createStorage,
-  cookieStorage,
   State,
   WagmiProvider,
-  cookieToInitialState,
 } from "wagmi";
 import { mainnet, sepolia } from "wagmi/chains";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
 
 const chains = [mainnet, sepolia] as const;
+const queryClient = new QueryClient()
 
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
 
@@ -33,7 +31,7 @@ const metadata = {
   icons: ["https://www.openmesh.network/xnode/openmesh-blue.png"],
 };
 
-export const config = defaultWagmiConfig({
+export const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,
   metadata,
@@ -46,11 +44,14 @@ export const config = defaultWagmiConfig({
 // const initialState = cookieToInitialState(config, headers().get('cookie'))
 
 createWeb3Modal({
-  wagmiConfig: config,
+  wagmiConfig: wagmiConfig,
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   enableOnramp: true, // Optional - false as default
-});
+  themeVariables: {
+    '--w3m-accent': '#000000',
+  },
+})
 
 export function Providers({
   children,
@@ -62,7 +63,7 @@ export function Providers({
   return (
     <>
       <AccountContextProvider>
-        <WagmiProvider config={config} initialState={initialState}>
+        <WagmiProvider config={wagmiConfig} initialState={initialState}>
           <QueryClientProvider client={queryClient}>
             <ThemeProvider
               attribute="class"

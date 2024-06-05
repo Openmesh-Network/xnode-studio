@@ -1,27 +1,18 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
-import { Xnode } from '@/types/node'
-import { formatAddress } from '@/utils/functions'
-import { formatDistanceToNow, format } from 'date-fns'
-import { File, SmileySad, Info } from 'phosphor-react'
-import { useEffect, useState, useContext } from 'react'
-import {
-  useWeb3ModalTheme,
-  Web3NetworkSwitch,
-  Web3Button,
-} from '@web3modal/react'
-import { useConfig, useSignMessage, useAccount } from 'wagmi'
-import {
-  readContract,
-  writeContract,
-  watchContractEvent,
-} from '@wagmi/core'
-import axios from 'axios'
+
+import { useContext, useEffect, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
+import axios from 'axios'
+import { format, formatDistanceToNow } from 'date-fns'
+import { SmileySad } from 'phosphor-react'
 import { toast } from 'react-toastify'
+import { useAccount, useConfig, useSignMessage } from 'wagmi'
+
+import { Xnode } from '@/types/node'
+
 import 'react-toastify/dist/ReactToastify.css'
+
+import { Address } from 'viem'
 
 interface ModalProps {
   totalValidators: number
@@ -33,7 +24,6 @@ interface ModalProps {
 }
 
 const Node = ({ ...data }: ModalProps) => {
-  const { theme, setTheme } = useWeb3ModalTheme()
   const { address } = useAccount()
   const { chain } = useAccount()
   const { chains } = useConfig()
@@ -45,7 +35,7 @@ const Node = ({ ...data }: ModalProps) => {
     useState<boolean>(false)
 
   const { user } = useContext(AccountContext)
-const { signMessage } = useSignMessage()
+  const { signMessage } = useSignMessage()
 
   function formatDeadline(dateReceived: string) {
     if (dateReceived) {
@@ -54,7 +44,7 @@ const { signMessage } = useSignMessage()
 
       // Aqui estamos tratando a frase para exibir 'today' se a task foi criada no mesmo dia
       difference = `${difference.charAt(0).toUpperCase()}${difference.slice(
-        1,
+        1
       )} ago`
       return difference
     } else {
@@ -71,7 +61,7 @@ const { signMessage } = useSignMessage()
     }
   }
 
-  async function signMessageValidator() {
+  async function signMessageValidator(address: Address) {
     setIsLoading(true)
     console.log('initiating')
 
@@ -79,8 +69,8 @@ const { signMessage } = useSignMessage()
     try {
       // TODO: Check this works?
       signature = signMessage({
-        account: useAccount().address,
-        message: 'I want to participate in the Validator beta'
+        account: address,
+        message: 'I want to participate in the Validator beta',
       })
     } catch (err) {
       toast.error('Error during the message signing')
@@ -127,17 +117,11 @@ const { signMessage } = useSignMessage()
 
   useEffect(() => {
     setIsChainWrong(false)
-    setTheme({
-      themeVariables: {
-        '--w3m-accent-color': '#000000',
-        // ...
-      },
-    })
-  }, [chain, isChainWrong, setTheme, address])
+  }, [chain, isChainWrong, address])
 
   return (
     <section className="mx-auto w-full font-normal text-[#000]">
-      <div className="mx-auto grid w-full justify-between gap-x-[20px] gap-y-[20px] md:flex xl:w-[1050.4px] 2xl:w-[1313px]">
+      <div className="mx-auto grid w-full justify-between gap-[20px] md:flex xl:w-[1050.4px] 2xl:w-[1313px]">
         <div className="mt-[14px] md:mt-[17px] lg:mt-[19.6px] xl:mt-[22.4px] 2xl:mt-[28px]">
           <div className="flex gap-x-[10px] md:gap-x-[12px] lg:gap-x-[14px] xl:gap-x-[16px] 2xl:gap-x-[20px]">
             <img
@@ -178,8 +162,8 @@ const { signMessage } = useSignMessage()
           </div>
         </div>
         {user && user.id === data.node.openmeshExpertUserId && (
-          <div className="rounded-[10px]  bg-[#fff] py-[20px] px-[25px] text-center md:py-[24px] md:px-[30px] lg:py-[28px] lg:px-[35px] xl:py-[32px] xl:px-[40px] 2xl:py-[40px] 2xl:px-[50px]">
-            <div className="mx-auto rounded-[5px] border-[1px] border-[#D7D7D7] bg-[#FAFAFA] px-[10px] py-[2px] text-[13px] font-light shadow-[2px_2px_10px_2px_rgba(0,0,0,0.04)] md:text-[16px]  lg:text-[18px]  xl:text-[21px] 2xl:w-[171px] 2xl:text-[26px]">
+          <div className="rounded-[10px] bg-[#fff] px-[25px] py-[20px] text-center md:px-[30px] md:py-[24px] lg:px-[35px] lg:py-[28px] xl:px-[40px] xl:py-[32px] 2xl:px-[50px] 2xl:py-[40px]">
+            <div className="mx-auto rounded-[5px] border border-[#D7D7D7] bg-gray100 px-[10px] py-[2px] text-[13px] font-light shadow-[2px_2px_10px_2px_rgba(0,0,0,0.04)] md:text-[16px] lg:text-[18px] xl:text-[21px] 2xl:w-[171px] 2xl:text-[26px]">
               0
             </div>
             <div className="mt-[7.5px] text-[6px] md:mt-[9px] md:text-[7.2px] lg:mt-[10.5px] lg:text-[8.4px] xl:mt-[12px] xl:text-[9.6px] 2xl:mt-[15px] 2xl:text-[12px]">
@@ -194,7 +178,7 @@ const { signMessage } = useSignMessage()
               </div>
             </div>
             <div className="mt-[19px] xl:mt-[28px] 2xl:mt-[34px]">
-              <Web3Button />
+              <w3m-button />
             </div>
 
             {/* XXX: Add this back later maybe. Currently just prevents build. */}
@@ -242,7 +226,7 @@ const { signMessage } = useSignMessage()
           </div>
         )}
       </div>
-      <div className="mx-auto  w-full  xl:w-[1050.4px] 2xl:w-[1313px]">
+      <div className="mx-auto w-full xl:w-[1050.4px] 2xl:w-[1313px]">
         <div className="mt-[90px] text-left md:mt-[108px] lg:mt-[126px] xl:mt-[144px] 2xl:mt-[180px]">
           <div className="text-[8px] font-bold md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]">
             Your rewards

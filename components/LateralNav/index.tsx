@@ -1,32 +1,32 @@
 'use client'
+
 import { ReactElement, useState } from 'react'
-import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-
+import { usePathname } from 'next/navigation'
 import * as Accordion from '@radix-ui/react-accordion'
-
-import { LateralNavListItem } from './ListItem'
-import { LateralNavListCollapsableItem } from './CollapsableListItem'
+import { Gear } from 'phosphor-react'
 
 import {
-  IntegrationsIcon,
-  ServersIcon,
-  APIIcon,
   AnalyticsIcon,
+  APIIcon,
   CommunityIcon,
   ComputeIcon,
   DataIcon,
   DocumentationIcon,
   FAQIcon,
   HomeIcon,
+  IntegrationsIcon,
+  MachineLearningIcon,
   RPCIcon,
+  ServersIcon,
   SettingsIcon,
   StorageIcon,
   TradingIcon,
   WorkspaceIcon,
-  MachineLearningIcon,
 } from '../Icons'
 import { ProfileIcon } from '../Icons/ProfileIcon'
+import { LateralNavListCollapsableItem } from './CollapsableListItem'
+import { LateralNavListItem } from './ListItem'
 
 export interface NavItemsProps {
   label: string
@@ -64,6 +64,12 @@ export function LateralNav() {
       activeIcon: <WorkspaceIcon />,
       collapsable: false,
       subItems: [],
+    },
+    {
+      label: 'Resources',
+      href: '/resources',
+      icon: <Gear className="size-5 text-dark" />,
+      activeIcon: <Gear className="size-5 text-primary" />,
     },
     {
       label: 'Servers',
@@ -420,7 +426,7 @@ export function LateralNav() {
   const pathname = usePathname()
 
   return (
-    <aside className="flex-grow-1 hidden w-full max-w-[280px] flex-col border-r border-[#D1D5DB] bg-gray100 lg:flex">
+    <aside className="grow-1 hidden w-full max-w-[280px] flex-col border-r border-[#D1D5DB] bg-gray100 lg:flex">
       <div className="flex flex-col py-4">
         <span className="block px-6 pb-2 text-xs font-medium uppercase text-darkGray">
           STUDIO
@@ -463,7 +469,7 @@ export function LateralNav() {
                     </Link>
                   </li>
                 )
-              },
+              }
             )}
           </ul>
         </Accordion.Root>
@@ -511,7 +517,7 @@ export function LateralNav() {
                     </Link>
                   </li>
                 )
-              },
+              }
             )}
           </ul>
         </Accordion.Root>

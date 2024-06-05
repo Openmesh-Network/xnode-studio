@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { memo, useState } from 'react'
-import { Handle, useReactFlow, useStoreApi, Position } from 'reactflow'
+import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
 
 const options = [
   {
@@ -39,7 +39,7 @@ function Select({ value, handleId, nodeId }) {
           }
         }
         return node
-      }),
+      })
     )
   }
 

@@ -1,8 +1,9 @@
 import { ComponentProps, ReactElement } from 'react'
+import Link from 'next/link'
 import * as Accordion from '@radix-ui/react-accordion'
 import { CaretDown } from 'phosphor-react'
+
 import { NavItemsProps } from '.'
-import Link from 'next/link'
 
 interface LateralNavListCollapsableItemProps extends ComponentProps<'div'> {
   isActive: boolean
@@ -39,7 +40,7 @@ export function LateralNavListCollapsableItem({
           }`}
         >
           {isActive ? (
-            <div className="absolute bottom-0 left-0 top-0 w-1 bg-blue500" />
+            <div className="absolute inset-y-0 left-0 w-1 bg-blue500" />
           ) : null}
           <div className="flex w-full items-center justify-between px-6">
             <div className="flex items-center gap-x-3">

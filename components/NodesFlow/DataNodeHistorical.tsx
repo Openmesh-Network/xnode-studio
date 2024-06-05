@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, { memo, useState, useContext, useEffect } from 'react'
-import { Handle, useReactFlow, useStoreApi, Position } from 'reactflow'
+import React, { memo, useContext, useEffect, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
-import withProps from './withProps'
 import { categoriesOptions } from '@/utils/constants'
+import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
+
+import withProps from './withProps'
 
 const options = [
   {
@@ -42,7 +43,7 @@ function Select({ value, handleId, nodeId }) {
           }
         }
         return node
-      }),
+      })
     )
   }
 
@@ -105,7 +106,7 @@ function DataNodeHistorical({ id, data, handleNodeRemove }) {
       categorie: 'option.title',
       dictionary: categoriesOptions,
     })
-  }, [data.lists])
+  }, [data.lists, setChangeNodes])
 
   /* This is for rendering pourposes, use data.lists for real data as it shows the correct amount of items but uncategorized. You can see some duplicated items in multiple categories because of the current mockupdata,
    it will be different as we add real data.
@@ -117,7 +118,7 @@ function DataNodeHistorical({ id, data, handleNodeRemove }) {
     const listOfCategorizedItems = categoriesDictionary?.map((category) => {
       const selectedCategoryItems =
         selectedItems?.filter((item) =>
-          category?.dataOptions?.some((option) => option.title === item.title),
+          category?.dataOptions?.some((option) => option.title === item.title)
         ) || []
       if (selectedCategoryItems.length > 0) {
         return (
@@ -126,9 +127,9 @@ function DataNodeHistorical({ id, data, handleNodeRemove }) {
             {selectedCategoryItems.map((item) => (
               <div
                 key={item.title}
-                className="relative  flex cursor-pointer text-[#000]"
+                className="relative flex cursor-pointer text-[#000]"
               >
-                <div className="mt-[10px] ml-[10px] mb-[10px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
+                <div className="my-[10px] ml-[10px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                   <img
                     src={`${
                       process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -143,7 +144,7 @@ function DataNodeHistorical({ id, data, handleNodeRemove }) {
                     onClick={() => {
                       setRemoveNodes([item.title, 'dataHistorical'])
                     }}
-                    className="hover: absolute top-[10px] text-[8px] font-bold text-[#000] hover:text-[#686868] xl:-right-[35px] 2xl:-right-[45px] 2xl:text-[10px]"
+                    className="top-[10px] text-[8px] font-bold text-black hover:text-[#686868] xl:right-[-35px] 2xl:right-[-45px] 2xl:text-[10px]"
                   >
                     X
                   </div>
@@ -160,16 +161,16 @@ function DataNodeHistorical({ id, data, handleNodeRemove }) {
   }
   return (
     <>
-      <div className="relative rounded-[20px] border-[0.5px] border-[#C1C1C1] bg-[#fff] py-[7px]  px-[10px]  pb-[23px] pr-[33px] text-[8px]  text-[#000] md:py-[8.4px] md:px-[12px] md:pb-[15.6px] md:pr-[46px] md:text-[9.6px] lg:py-[10px] lg:px-[14px] lg:pb-[18px] lg:pr-[53px] lg:text-[11.2px] xl:py-[11.2px] xl:px-[16px] xl:pb-[21px] xl:pr-[61px] xl:text-[12.8px] 2xl:py-[14px] 2xl:px-[20px] 2xl:pb-[46px] 2xl:pr-[77px] 2xl:text-[16px]">
+      <div className="relative rounded-[20px] border-[0.5px] border-[#C1C1C1] bg-[#fff] px-[10px] py-[7px] pb-[23px] pr-[33px] text-[8px] text-[#000] md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[46px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[53px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[61px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[77px] 2xl:text-[16px]">
         <button
           onClick={() => {
             handleClick()
           }}
-          className="absolute top-5 right-[5px] font-bold md:right-[6px] lg:right-[7px] xl:right-[8px] 2xl:right-[10px]"
+          className="absolute right-[5px] top-5 font-bold md:right-[6px] lg:right-[7px] xl:right-[8px] 2xl:right-[10px]"
         >
           X
         </button>
-        <div className="flex w-full flex-row items-start gap-[10px] ">
+        <div className="flex w-full flex-row items-start gap-[10px]">
           <img
             src={`${
               process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -178,7 +179,7 @@ function DataNodeHistorical({ id, data, handleNodeRemove }) {
             }/images/nodesFlow/databaseHistorical.svg`}
             alt="image"
             className={
-              'w-[32  px] md:w-[29px] lg:w-[36.5px] xl:w-[39px] 2xl:w-[45px]'
+              'w-[32 px] md:w-[29px] lg:w-[36.5px] xl:w-[39px] 2xl:w-[45px]'
             }
           />
           <div className="mt-[5px] text-[16px] font-bold md:mt-[6px] lg:mt-[7px] lg:!leading-[19px] xl:mt-[8px] 2xl:mt-[10px]">

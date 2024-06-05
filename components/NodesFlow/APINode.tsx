@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { memo, useState } from 'react'
-import { Handle, useReactFlow, useStoreApi, Position } from 'reactflow'
+import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
+
 import withProps from './withProps'
 
 const options = [
@@ -40,7 +41,7 @@ function Select({ value, handleId, nodeId }) {
           }
         }
         return node
-      }),
+      })
     )
   }
 
@@ -92,16 +93,16 @@ function APINode({ id, data, handleNodeRemove }) {
 
   return (
     <>
-      <div className="relative rounded-[20px] border-[0.5px] border-[#C1C1C1] bg-[#FFFFFF] py-[7px]  px-[10px]  pb-[23px] pr-[17px] text-[8px]  text-[#000] md:py-[8.4px] md:px-[12px] md:pb-[15.6px] md:pr-[20.4px] md:text-[9.6px] lg:py-[10px] lg:px-[14px] lg:pb-[18px] lg:pr-[23px] lg:text-[11.2px] xl:py-[11.2px] xl:px-[16px] xl:pb-[21px] xl:pr-[27px] xl:text-[12.8px] 2xl:py-[14px] 2xl:px-[20px] 2xl:pb-[46px] 2xl:pr-[34px] 2xl:text-[16px]">
+      <div className="relative rounded-[20px] border-[0.5px] border-[#C1C1C1] bg-white px-[10px] py-[7px] pb-[23px] pr-[17px] text-[8px] text-[#000] md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[20.4px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[23px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[27px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[34px] 2xl:text-[16px]">
         <button
           onClick={() => {
             handleClick()
           }}
-          className="absolute top-2 right-[5px] font-bold md:right-[6px] lg:right-[7px] xl:right-[8px] 2xl:right-[10px]"
+          className="absolute right-[5px] top-2 font-bold md:right-[6px] lg:right-[7px] xl:right-[8px] 2xl:right-[10px]"
         >
           X
         </button>
-        <div className="flex w-full flex-row items-start gap-[10px] ">
+        <div className="flex w-full flex-row items-start gap-[10px]">
           <img
             src={`${
               process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -110,7 +111,7 @@ function APINode({ id, data, handleNodeRemove }) {
             }/images/nodesFlow/api.svg`}
             alt="image"
             className={
-              'w-[21  px] mt-[10px] h-[20px] md:w-[21px] lg:w-[24.5px] xl:w-[28px] 2xl:w-[35px]'
+              'w-[21 px] mt-[10px] h-[20px] md:w-[21px] lg:w-[24.5px] xl:w-[28px] 2xl:w-[35px]'
             }
           />
           <div className="mt-[5px] font-medium md:mt-[6px] lg:mt-[7px] lg:!leading-[19px] xl:mt-[8px] 2xl:mt-[10px]">

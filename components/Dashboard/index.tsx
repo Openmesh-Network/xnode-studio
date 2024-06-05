@@ -1,28 +1,33 @@
 'use client'
+
 /* eslint-disable no-unused-vars */
-import { useEffect, useState, useContext } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { DataProvider } from '@/types/dataProvider'
-import { SmileySad } from 'phosphor-react'
-import Filter from '@/components/Filter'
-import { TextField, Autocomplete } from '@mui/material'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import ProductsList from '../ProductsList'
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
+import { Autocomplete, TextField } from '@mui/material'
 import axios from 'axios'
-import { Xnode } from '../../types/node'
-import { parseCookies, destroyCookie } from 'nookies'
+import { destroyCookie, parseCookies } from 'nookies'
+import { SmileySad } from 'phosphor-react'
 import {
-  LineChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
 } from 'recharts'
+
+import { DataProvider } from '@/types/dataProvider'
+import Filter from '@/components/Filter'
+
+import { Xnode } from '../../types/node'
+import ProductsList from '../ProductsList'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -81,7 +86,7 @@ const Dashboard = () => {
 
   function renderURLsXnode(data: string[]) {
     return (
-      <div className="grid  gap-y-[10px] text-[#0354EC]  underline-offset-1 md:gap-y-[12px] lg:gap-y-[14px] xl:gap-y-[16px] xl:text-[12px] 2xl:gap-y-[20px] 2xl:text-[14px]">
+      <div className="grid gap-y-[10px] text-[#0354EC] underline-offset-1 md:gap-y-[12px] lg:gap-y-[14px] xl:gap-y-[16px] xl:text-[12px] 2xl:gap-y-[20px] 2xl:text-[14px]">
         {data.map((url, index) => (
           // eslint-disable-next-line react/jsx-key
           <a href={url} target="_blank" rel="noreferrer">
@@ -94,7 +99,7 @@ const Dashboard = () => {
     )
   }
 
-  async function getData() {
+  const getData = useCallback(async () => {
     setIsLoading(true)
     if (user?.sessionToken) {
       const config = {
@@ -115,45 +120,45 @@ const Dashboard = () => {
         })
       } catch (err) {
         toast.error(
-          `Error getting the Xnode list: ${err.response.data.message}`,
+          `Error getting the Xnode list: ${err.response.data.message}`
         )
       }
     }
     setIsLoading(false)
-  }
+  }, [user])
 
   useEffect(() => {
     if (!userHasAnyCookie) {
       push(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`,
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     }
-  }, [])
+  }, [push, userHasAnyCookie])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
 
   const renderTable = () => {
     return (
-      <div className=" mx-auto flex  text-[#000]">
+      <div className="mx-auto flex text-[#000]">
         <table className="mx-auto w-full">
           <thead className="">
             <tr>
               <th
                 scope="col"
-                className="text-left text-[8px] font-bold  tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
+                className="text-left text-[8px] font-bold tracking-wider md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
               >
                 Deployment summary{' '}
               </th>
               <th
                 scope="col"
-                className="text-left text-[8px] font-bold tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
+                className="text-left text-[8px] font-bold tracking-wider md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
               >
                 Creation Date
               </th>
               <th
                 scope="col"
-                className="text-left  text-[8px] font-bold  tracking-wider  md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
+                className="text-left text-[8px] font-bold tracking-wider md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
               >
                 Average Cost
               </th>
@@ -172,11 +177,11 @@ const Dashboard = () => {
                 <td className={commonClasses}>
                   {new Date(node.createdAt).toLocaleDateString()}
                 </td>
-                { 
-                  // XXX: Find an actual good value here? 
+                {
+                  // XXX: Find an actual good value here?
                 }
                 <td className={commonClasses}>??? P/m</td>
-                <td className="pb-[17.5px] text-[7px] font-medium text-[#0354EC] underline underline-offset-2  md:pb-[21px] md:text-[8.4px]  lg:pb-[24.5px] lg:text-[9.8px] xl:pb-[28px] xl:text-[11.2px] 2xl:pb-[35px] 2xl:text-[14px]">
+                <td className="pb-[17.5px] text-[7px] font-medium text-[#0354EC] underline underline-offset-2 md:pb-[21px] md:text-[8.4px] lg:pb-[24.5px] lg:text-[9.8px] xl:pb-[28px] xl:text-[11.2px] 2xl:pb-[35px] 2xl:text-[14px]">
                   {/* <div
                     className=" cursor-pointer "
                     onClick={() => {
@@ -204,12 +209,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     getData()
-  }, [user])
+  }, [getData, user])
 
   if (xnodesData.length === 0) {
     return (
       <div>
-        <div className="mt-[64px] mb-[100px]  flex items-center justify-center text-[#000]">
+        <div className="mb-[100px] mt-[64px] flex items-center justify-center text-[#000]">
           <div className="">
             <SmileySad size={32} className="mx-auto mb-2" />
             <div>No Xnodes found</div>
@@ -221,7 +226,7 @@ const Dashboard = () => {
 
   if (isLoading) {
     return (
-      <section className="w-[700px] bg-white px-[20px] pt-[46px] pb-[50px] text-[#000] md:w-[840px] lg:w-[980px] xl:w-[1120px] 2xl:w-[1400px]">
+      <section className="w-[700px] bg-white px-[20px] pb-[50px] pt-[46px] text-[#000] md:w-[840px] lg:w-[980px] xl:w-[1120px] 2xl:w-[1400px]">
         <div className="hidden h-60 animate-pulse px-0 pb-12 md:flex">
           <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
           <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
@@ -241,7 +246,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="mx-auto mb-[100px] w-[750px] rounded-[10px] bg-[#F9F9F9]  px-[50px] pt-[30px] pb-[70px] shadow-[1px_1px_6px_0px_rgba(124,124,124,0.20)] md:w-[900px] md:px-[60px] md:pt-[36px] md:pb-[90px] lg:w-[1050px]  lg:px-[70px] lg:pt-[42px]  lg:pb-[110px] xl:w-[1200px]  xl:px-[80px] xl:pt-[48px] xl:pb-[144px] 2xl:w-[1500px] 2xl:px-[100px] 2xl:pt-[60px]  2xl:pb-[155px]">
+      <div className="mx-auto mb-[100px] w-[750px] rounded-[10px] bg-[#F9F9F9] px-[50px] pb-[70px] pt-[30px] shadow-[1px_1px_6px_0px_rgba(124,124,124,0.20)] md:w-[900px] md:px-[60px] md:pb-[90px] md:pt-[36px] lg:w-[1050px] lg:px-[70px] lg:pb-[110px] lg:pt-[42px] xl:w-[1200px] xl:px-[80px] xl:pb-[144px] xl:pt-[48px] 2xl:w-[1500px] 2xl:px-[100px] 2xl:pb-[155px] 2xl:pt-[60px]">
         <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
           Your deployments
         </div>
@@ -253,7 +258,7 @@ const Dashboard = () => {
           Dashboards to display{' '}
         </div>
         <div className="mt-[50px] hidden md:flex">
-          <h2 className="ml-[50px] mb-[20px] text-lg font-semibold text-[#000]">
+          <h2 className="mb-[20px] ml-[50px] text-lg font-semibold text-[#000]">
             Xnode Uptime
           </h2>
           <LineChart

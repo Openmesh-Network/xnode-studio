@@ -1,7 +1,6 @@
 import Image from 'next/image'
-
-import heroImage from '@/assets/homeHero.svg'
 import Link from 'next/link'
+import heroImage from '@/assets/homeHero.svg'
 
 export function HomeHero() {
   return (

@@ -2,29 +2,34 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 'use client'
+
 // import { useState } from 'react'
-import { useEffect, useState, ChangeEvent, FC, useContext } from 'react'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import { useForm, Controller } from 'react-hook-form'
+import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Eye, EyeSlash } from 'phosphor-react'
-import * as Yup from 'yup'
 import axios from 'axios'
-import Checkbox from '@material-ui/core/Checkbox'
+import { Eye, EyeSlash } from 'phosphor-react'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import * as Yup from 'yup'
+
 import 'react-toastify/dist/ReactToastify.css'
+
 import dynamic from 'next/dynamic'
+
 import 'react-quill/dist/quill.snow.css' // import styles
+
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import nookies, { parseCookies, setCookie } from 'nookies'
-import { AccountContext } from '../../contexts/AccountContext'
 
-import { TextField, Autocomplete } from '@mui/material'
+import 'react-datepicker/dist/react-datepicker.css'
 
 import { createHash } from 'crypto'
+import { Autocomplete, TextField } from '@mui/material'
+import nookies, { parseCookies, setCookie } from 'nookies'
+
+import { AccountContext } from '../../contexts/AccountContext'
 
 type LoginForm = {
   email: string
@@ -94,14 +99,14 @@ const Login = () => {
       setUser(res)
       setIsLoading(false)
       push(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`,
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     } catch (err) {
       if (err.response.data.message === 'Unconfirmed Email') {
         toast.error('Unconfirmed email')
       } else if (err.response.data.message === 'User disabled') {
         toast.error(
-          'Please allow 24 to 48 hours for the community to approve your application',
+          'Please allow 24 to 48 hours for the community to approve your application'
         )
       } else {
         toast.error('Incorrect credentials')
@@ -114,7 +119,7 @@ const Login = () => {
 
   return (
     <>
-      <section className="mt-12 mb-[0px] px-[20px] pt-[50px]  text-[11px] font-medium !leading-[17px] text-[#000000] lg:mb-24 lg:px-[100px]  lg:text-[14px]">
+      <section className="mb-0 mt-12 px-[20px] pt-[50px] text-[11px] font-medium !leading-[17px] text-black lg:mb-24 lg:px-[100px] lg:text-[14px]">
         <div className="mx-auto flex w-fit justify-center rounded-[8px] p-[10px] md:border md:border-[#cacaca] md:p-[50px] lg:p-[100px]">
           <form onSubmit={handleSubmit(onSubmit)} className="">
             <div className="">
@@ -123,7 +128,7 @@ const Login = () => {
                   <div className="">
                     <span className="flex flex-row">
                       Email
-                      <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                      <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                         {errors.email?.message}
                       </p>
                     </span>
@@ -139,14 +144,14 @@ const Login = () => {
                   <div className="mt-[20px]">
                     <span className="flex flex-row">
                       Password
-                      <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                      <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                         {errors.password?.message}
                       </p>
                     </span>
                     <div className="flex">
                       <input
                         disabled={isLoading}
-                        className="mt-[10px] mr-[20px] h-[50px] w-[180px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 md:w-[280px] lg:w-[500px]"
+                        className="mr-[20px] mt-[10px] h-[50px] w-[180px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 md:w-[280px] lg:w-[500px]"
                         type={passwordVisibility ? 'password' : 'text'}
                         maxLength={500}
                         placeholder=""
@@ -176,7 +181,7 @@ const Login = () => {
               <div className="mt-[30px] flex">
                 <button
                   disabled={true}
-                  className=" cursor-pointer items-center rounded-[5px] border  border-[#000] bg-transparent py-[8px] px-[25px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
+                  className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
                   onClick={handleSubmit(onSubmit)}
                 >
                   <span className="">Sign in</span>
@@ -197,7 +202,7 @@ const Login = () => {
               <div className="mt-[30px]">
                 <button
                   type="submit"
-                  className=" cursor-pointer items-center rounded-[5px] border  border-[#000] bg-transparent py-[8px] px-[25px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
+                  className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
                   onClick={handleSubmit(onSubmit)}
                 >
                   <span className="">Sign in</span>

@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
-import { useContext, useEffect, useState } from 'react'
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
 import { title } from 'process'
+import { useContext, useEffect, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { categoriesOptions } from '@/utils/constants'
+
+import Dropdown from '../Dropdown'
+import LatencySelector from '../LatencySelector'
 
 /* eslint-disable react/no-unescaped-entities */
 const SubBarData = ({ onValueChange }) => {
@@ -47,7 +48,7 @@ const SubBarData = ({ onValueChange }) => {
 
   function renderSubOptions(option: any) {
     return (
-      <div className="mt-[6.5px] mb-[25px] grid gap-y-[15px] pl-[19px] md:mt-[7.5px] md:mb-[30px] md:gap-y-[18px] md:pl-[22px] lg:mt-[8.5px] lg:mb-[35px] lg:gap-y-[21px] lg:pl-[27px] xl:mt-[10px] xl:mb-[40px] xl:gap-y-[24px] xl:pl-[30px]  2xl:mt-[12px]  2xl:mb-[50px]  2xl:gap-y-[30px] 2xl:pl-[38px]">
+      <div className="mb-[25px] mt-[6.5px] grid gap-y-[15px] pl-[19px] md:mb-[30px] md:mt-[7.5px] md:gap-y-[18px] md:pl-[22px] lg:mb-[35px] lg:mt-[8.5px] lg:gap-y-[21px] lg:pl-[27px] xl:mb-[40px] xl:mt-[10px] xl:gap-y-[24px] xl:pl-[30px] 2xl:mb-[50px] 2xl:mt-[12px] 2xl:gap-y-[30px] 2xl:pl-[38px]">
         {option.dataOptions.map((dataOption, index) => (
           <div key={index} className="relative flex text-[#000]">
             <div className="flex gap-x-[9px]">
@@ -91,7 +92,7 @@ const SubBarData = ({ onValueChange }) => {
                 dataOption.enabled
                   ? 'cursor-pointer bg-[#0354EC] hover:bg-[#123981]'
                   : 'bg-[#999999]'
-              } right-0 -top-[2px]  rounded-[5px] px-[7px] py-[3px]  text-[6.5px] font-medium text-[#fff]   md:text-[7px] lg:py-[2.8px] lg:px-[6px] lg:text-[8.5px] lg:!leading-[15px] xl:py-[3.2px] xl:px-[6.8px] xl:text-[9.5px]  2xl:py-[4px] 2xl:px-[8.5px] 2xl:text-[12px]`}
+              } -top-0.5 right-0 rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
             >
               <div>Add</div>
             </div>
@@ -102,21 +103,21 @@ const SubBarData = ({ onValueChange }) => {
   }
   useEffect(() => {
     setselectCurrentMenuDataType(currentDataMenuSelect)
-  }, [currentDataMenuSelect])
+  }, [currentDataMenuSelect, setselectCurrentMenuDataType])
   return (
     <>
       <div className="z-100 relative min-w-[300px] bg-[#fff] px-[18px] py-[29px] pr-[33px] text-[#000] shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[34.5px] md:pr-[40px] lg:px-[23px] lg:py-[40px] lg:pr-[47px] xl:px-[27px] xl:py-[45.5px] xl:pr-[54px] 2xl:min-w-[370px] 2xl:py-[57px] 2xl:pl-[33px] 2xl:pr-[67px]">
         {/* <div className="text-[9px] font-bold md:text-[11px] lg:text-[12.5px] xl:text-[14.5px] 2xl:text-[18px]">
           Categories
         </div> */}
-        <div className="flex w-full flex-row  text-[12px] 2xl:text-[16px]">
+        <div className="flex w-full flex-row text-[12px] 2xl:text-[16px]">
           <button
             onClick={(e) => {
               if (e.target instanceof HTMLElement) {
                 setCurrentDataMenuSelect(e.target.innerText)
               }
             }}
-            className={`  p-[10px] ${
+            className={`p-[10px] ${
               currentDataMenuSelect === 'Streaming Data'
                 ? `bg-[#E0E0E0]`
                 : `bg-[#F5F5F5]`
@@ -131,7 +132,7 @@ const SubBarData = ({ onValueChange }) => {
                 setCurrentDataMenuSelect(e.target.innerText)
               }
             }}
-            className={`  p-[10px] ${
+            className={`p-[10px] ${
               currentDataMenuSelect === 'Historical Data'
                 ? `bg-[#E0E0E0]`
                 : `bg-[#F5F5F5]`
@@ -159,7 +160,7 @@ const SubBarData = ({ onValueChange }) => {
                       selectionSubBar === option.title
                         ? 'underline underline-offset-[3px]'
                         : ''
-                    }  gap-x-[9px] text-[9px] font-normal  md:mt-[17px] md:text-[10px] lg:mt-[19.5px] lg:text-[11px] lg:!leading-[300%] xl:mt-[22.5px] xl:text-[13px] 2xl:mt-[28px] 2xl:text-[16px]`}
+                    } gap-x-[9px] text-[9px] font-normal md:mt-[17px] md:text-[10px] lg:mt-[19.5px] lg:text-[11px] lg:!leading-[300%] xl:mt-[22.5px] xl:text-[13px] 2xl:mt-[28px] 2xl:text-[16px]`}
                   >
                     {selectionSubBar === option.title ? (
                       <img
@@ -184,7 +185,7 @@ const SubBarData = ({ onValueChange }) => {
                     )}
                     <div>{option.title}</div>
                     {option.isFree && (
-                      <div className="absolute -top-[14px] -right-[27px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
+                      <div className="absolute right-[-27px] top-[-14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                         Free
                       </div>
                     )}
@@ -213,7 +214,7 @@ const SubBarData = ({ onValueChange }) => {
                       selectionSubBar === option.title
                         ? 'underline underline-offset-[3px]'
                         : ''
-                    }  gap-x-[9px] text-[9px] font-normal  md:mt-[17px] md:text-[10px] lg:mt-[19.5px] lg:text-[11px] lg:!leading-[300%] xl:mt-[22.5px] xl:text-[13px] 2xl:mt-[28px] 2xl:text-[16px]`}
+                    } gap-x-[9px] text-[9px] font-normal md:mt-[17px] md:text-[10px] lg:mt-[19.5px] lg:text-[11px] lg:!leading-[300%] xl:mt-[22.5px] xl:text-[13px] 2xl:mt-[28px] 2xl:text-[16px]`}
                   >
                     {selectionSubBar === option.title ? (
                       <img
@@ -238,7 +239,7 @@ const SubBarData = ({ onValueChange }) => {
                     )}
                     <div>{option.title}</div>
                     {option.isFree && (
-                      <div className="absolute -top-[14px] -right-[27px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
+                      <div className="absolute right-[-27px] top-[-14px] text-[7.5px] font-normal text-[#12AD50] md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                         Free
                       </div>
                     )}
@@ -258,7 +259,7 @@ const SubBarData = ({ onValueChange }) => {
               : `/data-products?category=Data`
           }`}
         >
-          <div className="mt-[35px] flex w-full justify-center  text-[8px] font-medium hover:text-[#3a3a3a] md:mt-[41px] md:text-[9.6px] lg:mt-[48px]  lg:text-[11.5px] lg:!leading-[300%] xl:mt-[55px] xl:text-[13px] 2xl:mt-[69px] 2xl:text-[16px]">
+          <div className="mt-[35px] flex w-full justify-center text-[8px] font-medium hover:text-[#3a3a3a] md:mt-[41px] md:text-[9.6px] lg:mt-[48px] lg:text-[11.5px] lg:!leading-[300%] xl:mt-[55px] xl:text-[13px] 2xl:mt-[69px] 2xl:text-[16px]">
             View More
           </div>
         </a>
@@ -279,16 +280,16 @@ const SubBarData = ({ onValueChange }) => {
             ))}
           </div>
         </div> */}
-        <div className="mt-[21px] max-w-[110px] text-[9px] md:mt-[25px] md:max-w-[132px] md:text-[10px] lg:mt-[30px]  lg:max-w-[154px]  lg:text-[11px]  xl:mt-[34px] xl:max-w-[176px] xl:text-[13px] 2xl:mt-[43px] 2xl:max-w-[220px] 2xl:text-[16px]">
-          <div className="border-b-[1px] border-t-[1px] border-[#D9D9D9] pb-[8px]  pt-[7.5px]  md:pt-[9px] lg:pb-[12px] lg:pt-[10.5px] xl:pt-[12px] 2xl:pb-[15px] 2xl:pt-[15px]">
+        <div className="mt-[21px] max-w-[110px] text-[9px] md:mt-[25px] md:max-w-[132px] md:text-[10px] lg:mt-[30px] lg:max-w-[154px] lg:text-[11px] xl:mt-[34px] xl:max-w-[176px] xl:text-[13px] 2xl:mt-[43px] 2xl:max-w-[220px] 2xl:text-[16px]">
+          <div className="border-y border-[#D9D9D9] pb-[8px] pt-[7.5px] md:pt-[9px] lg:pb-[12px] lg:pt-[10.5px] xl:pt-[12px] 2xl:py-[15px]">
             <div className="pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">
               Support articles
             </div>
-            <div className=" lg:!leading-[150%]">
+            <div className="lg:!leading-[150%]">
               <a
                 href={'https://www.openmesh.network/oec/register'}
                 target="_blank"
-                className="border-b-[1px] font-medium text-[#0354EC]"
+                className="border-b font-medium text-[#0354EC]"
                 rel="noreferrer"
               >
                 Join our community and let us know what you’d like to add!
@@ -299,14 +300,14 @@ const SubBarData = ({ onValueChange }) => {
             <div className="pb-[8px] font-bold lg:pb-[12px] lg:leading-[19px] 2xl:pb-[15px]">
               Provide a data source
             </div>
-            <div className=" lg:!leading-[150%]">
+            <div className="lg:!leading-[150%]">
               {' '}
               <a
                 href={
                   'https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/use-cases'
                 }
                 target="_blank"
-                className="border-b-[1px] font-medium text-[#0354EC]"
+                className="border-b font-medium text-[#0354EC]"
                 rel="noreferrer"
               >
                 Run an Xnode today{' '}

@@ -10,13 +10,13 @@ const AddOns = ({ ...data }: ModalProps) => {
           Add-ons
         </div>
       </div>
-      <div className="ml-[47.5px] flex gap-x-[25px] md:ml-[57px]  md:gap-x-[30px] lg:ml-[66.5px] lg:gap-x-[35px] xl:ml-[136px] xl:gap-x-[40px] 2xl:ml-[170px] 2xl:gap-x-[50px]">
+      <div className="ml-[47.5px] flex gap-x-[25px] md:ml-[57px] md:gap-x-[30px] lg:ml-[66.5px] lg:gap-x-[35px] xl:ml-[136px] xl:gap-x-[40px] 2xl:ml-[170px] 2xl:gap-x-[50px]">
         <div className="flex items-center gap-x-[7px] lg:gap-x-[15px]">
           <div
-            className={`h-[10px] w-[10px] cursor-pointer rounded-[5px] border-[1px] border-[#D9D9D9] bg-[#0354EC] hover:bg-[#0354EC] md:h-[12px] md:w-[12px] lg:h-[14px] lg:w-[14px] xl:h-[16px] xl:w-[16px] 2xl:h-[20px] 2xl:w-[20px] `}
+            className={`size-[10px] cursor-pointer rounded-[5px] border border-[#D9D9D9] bg-[#0354EC] hover:bg-[#0354EC] md:size-[12px] lg:size-[14px] xl:size-[16px] 2xl:size-[20px]`}
           ></div>
           <div className="flex 2xl:gap-x-[10px]">
-            <div className="text-[10px] font-medium  md:text-[12px]  lg:text-[14px]  lg:!leading-[24px] xl:text-[16px] 2xl:text-[20px]">
+            <div className="text-[10px] font-medium md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:text-[16px] 2xl:text-[20px]">
               Building a decentralized data infrastructure
             </div>
           </div>
@@ -26,7 +26,7 @@ const AddOns = ({ ...data }: ModalProps) => {
         onClick={() => {
           data.onValueChange()
         }}
-        className="ml-auto mr-[22.5px] cursor-pointer border-b-[1px] border-[#0354EC] text-[10px] font-medium  text-[#0354EC] hover:border-[#123981] hover:text-[#123981] md:mr-[27px] md:text-[12px] lg:mr-[31.5px] lg:text-[14px]  lg:!leading-[24px]  xl:mr-[36px]  xl:text-[16px] 2xl:mr-[45px] 2xl:text-[20px]"
+        className="ml-auto mr-[22.5px] cursor-pointer border-b border-[#0354EC] text-[10px] font-medium text-[#0354EC] hover:border-[#123981] hover:text-[#123981] md:mr-[27px] md:text-[12px] lg:mr-[31.5px] lg:text-[14px] lg:!leading-[24px] xl:mr-[36px] xl:text-[16px] 2xl:mr-[45px] 2xl:text-[20px]"
       >
         Edit
       </div>
@@ -37,7 +37,7 @@ const AddOns = ({ ...data }: ModalProps) => {
             : ''
         }/images/header/group-test.svg`}
         alt="image"
-        className={` absolute w-[370px] md:w-[446px] lg:w-[520px] xl:top-[40px] xl:left-[152px] xl:w-[595px] 2xl:top-[50px] 2xl:left-[190px] 2xl:w-[743px]`}
+        className={`absolute w-[370px] md:w-[446px] lg:w-[520px] xl:left-[152px] xl:top-[40px] xl:w-[595px] 2xl:left-[190px] 2xl:top-[50px] 2xl:w-[743px]`}
       />
     </div>
   )

@@ -1,7 +1,8 @@
 'use client'
 
-import IndexerDeployer from '@/components/Template'
 import { Inter } from '@next/font/google'
+
+import IndexerDeployer from '@/components/Template'
 
 // eslint-disable-next-line no-unused-vars
 const inter = Inter({ subsets: ['latin'] })

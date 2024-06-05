@@ -1,15 +1,8 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
-import ScrollUp from '@/components/Common/ScrollUp'
-import Testing from '@/components/Testing'
-import { Divider } from '@material-ui/core'
 import { Inter } from '@next/font/google'
-import IndividualModules from './docs-components/individualModules'
-import Footer from '@/components/Homepage/Footer'
-// import NewTask from '@/components/NewTask'
 
-// eslint-disable-next-line no-unused-vars
-const inter = Inter({ subsets: ['latin'] })
+import Footer from '@/components/Homepage/Footer'
+
+import IndividualModules from './docs-components/individualModules'
 
 export default function Tasks() {
   const modulesData = [
@@ -142,11 +135,11 @@ export default function Tasks() {
   ]
   return (
     <>
-      <div className="ml-[8px] flex w-full flex-col items-start rounded-[10px] pl-[85px] pr-[132px] pt-[45px] pb-[172px] md:pl-[102px] md:pr-[158px] md:pt-[54px] md:pb-[213px] lg:pl-[119px] lg:pr-[184px] lg:pt-[63px] lg:pb-[248px] xl:pl-[136px] xl:pr-[211px] xl:pt-[72px] xl:pb-[284px] 2xl:pl-[170px] 2xl:pr-[264px] 2xl:pt-[90px] 2xl:pb-[355px]  ">
-        <h1 className=" mt-[-5px] flex h-[56px] w-[1067px] flex-row justify-start font-inter text-[40px] font-normal text-black">
+      <div className="ml-[8px] flex w-full flex-col items-start rounded-[10px] pb-[172px] pl-[85px] pr-[132px] pt-[45px] md:pb-[213px] md:pl-[102px] md:pr-[158px] md:pt-[54px] lg:pb-[248px] lg:pl-[119px] lg:pr-[184px] lg:pt-[63px] xl:pb-[284px] xl:pl-[136px] xl:pr-[211px] xl:pt-[72px] 2xl:pb-[355px] 2xl:pl-[170px] 2xl:pr-[264px] 2xl:pt-[90px]">
+        <h1 className="mt-[-5px] flex h-[56px] w-[1067px] flex-row justify-start font-inter text-[40px] font-normal text-black">
           Basics
         </h1>
-        <div className=" flex h-[312px] w-[928px] flex-col items-start   text-[#0354EC]">
+        <div className="flex h-[312px] w-[928px] flex-col items-start text-[#0354EC]">
           <hr className="ml-[5px] mt-[40px] w-[220px] border-[0.5px] border-[#D9D9D9]"></hr>
           <a
             className="ml-[5px] mt-[17px] font-inter text-[16px] font-bold leading-[18px]"
@@ -162,7 +155,7 @@ export default function Tasks() {
             rel="noopener noreferrer"
             className="ml-[5px] mt-[4px] text-justify font-inter text-[14px] font-medium leading-[24px]"
           >
-            An introduction to xNode's role in decentralizing data
+            An introduction to xNode&apos;s role in decentralizing data
             infrastructure.
           </a>
 
@@ -207,10 +200,10 @@ export default function Tasks() {
             Docs & Research
           </a>
         </div>
-        <h1 className=" mt-[120px] flex h-[56px] w-[1067px] flex-row justify-start font-inter text-[40px] font-normal text-black">
+        <h1 className="mt-[120px] flex h-[56px] w-[1067px] flex-row justify-start font-inter text-[40px] font-normal text-black">
           Get to know individual modules
         </h1>
-        <div className="lg:w-70 min-[1536]:grid-cols-1 grid grid-cols-1 items-center justify-between gap-x-[115px] gap-y-[100px] sm:grid-cols-2 xl:w-80 2xl:w-full ">
+        <div className="lg:w-70 min-[1536]:grid-cols-1 grid grid-cols-1 items-center justify-between gap-x-[115px] gap-y-[100px] sm:grid-cols-2 xl:w-80 2xl:w-full">
           <IndividualModules {...modulesData[0]} />
           <IndividualModules {...modulesData[1]} />
           <IndividualModules {...modulesData[2]} />

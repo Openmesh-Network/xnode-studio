@@ -41,7 +41,7 @@ export function HomeAdvantages() {
             {advantages.map(({ title, pos, fill }) => {
               return (
                 <div key={title}>
-                  <h3 className="text-lg font-semibold -tracking-[3%] text-black">
+                  <h3 className="text-lg font-semibold tracking-[-3%] text-black">
                     {title}
                   </h3>
                   <div className="relative mt-2 h-[6px] max-w-[479px] rounded-[8px] bg-gray200">
@@ -57,7 +57,7 @@ export function HomeAdvantages() {
           <div className="text-[28px] font-bold leading-tight text-[#000] lg:leading-[180%]">
             Explore Possibilities{' '}
           </div>
-          <div className="mt-[6px] w-full  text-sm leading-[20px] text-darkGray">
+          <div className="mt-[6px] w-full text-sm leading-[20px] text-darkGray">
             Our modularized design allows you to quickly design, combine, and
             provision web2 and web3 infrastructure products. This includes
             connecting to data feeds, building APIs, linking to blockchains (RPC

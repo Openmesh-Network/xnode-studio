@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react'
+
 import Dropdown from '../Dropdown'
 import LatencySelector from '../LatencySelector'
 
@@ -26,11 +27,9 @@ const SelectLatencyPreference = ({ ...data }: ModalProps) => {
             3. Select latency preference
           </div>
         </div>
-        <div className="ml-[37px]  md:ml-[43px]  lg:ml-[51px]  xl:ml-[58.4px] 2xl:ml-[73px]">
+        <div className="ml-[37px] md:ml-[43px] lg:ml-[51px] xl:ml-[58.4px] 2xl:ml-[73px]">
           <div
-            className={`
-            flex h-full
-           w-full cursor-pointer items-center  rounded-[3px] bg-[linear-gradient(255deg,_#94E50E_0%,_#12AD50_50.52%,_#12AD50_100%)] px-[12.5px] py-[6.25px] text-center text-[7px] font-bold text-[#fff]  transition duration-500 ease-in-out hover:bg-[#e0e0e0] md:px-[15px] md:py-[7.5px] md:text-[8px] lg:px-[17.5px] lg:py-[8.75px] lg:text-[10px] lg:!leading-[17px] xl:px-[20px] xl:py-[10px] xl:text-[11px] 2xl:px-[25.5px] 2xl:py-[12.5px] 2xl:text-[14px]`}
+            className={`flex size-full cursor-pointer items-center rounded-[3px] bg-[linear-gradient(255deg,_#94E50E_0%,_#12AD50_50.52%,_#12AD50_100%)] px-[12.5px] py-[6.25px] text-center text-[7px] font-bold text-[#fff] transition duration-500 ease-in-out hover:bg-[#e0e0e0] md:px-[15px] md:py-[7.5px] md:text-[8px] lg:px-[17.5px] lg:py-[8.75px] lg:text-[10px] lg:!leading-[17px] xl:px-[20px] xl:py-[10px] xl:text-[11px] 2xl:px-[25.5px] 2xl:py-[12.5px] 2xl:text-[14px]`}
           >
             <div className="mx-auto flex text-center"> {latencyPreference}</div>
           </div>
@@ -39,7 +38,7 @@ const SelectLatencyPreference = ({ ...data }: ModalProps) => {
           onClick={() => {
             setEdit(true)
           }}
-          className="my-auto ml-auto mr-[22.5px] flex cursor-pointer items-center border-b-[1px] border-[#0354EC] text-center text-[10px] font-medium  text-[#0354EC] hover:border-[#123981] hover:text-[#123981] md:mr-[27px] md:text-[12px] lg:mr-[31.5px] lg:text-[14px]  lg:!leading-[24px]  xl:mr-[36px]  xl:text-[16px] 2xl:mr-[45px] 2xl:text-[20px]"
+          className="my-auto ml-auto mr-[22.5px] flex cursor-pointer items-center border-b border-[#0354EC] text-center text-[10px] font-medium text-[#0354EC] hover:border-[#123981] hover:text-[#123981] md:mr-[27px] md:text-[12px] lg:mr-[31.5px] lg:text-[14px] lg:!leading-[24px] xl:mr-[36px] xl:text-[16px] 2xl:mr-[45px] 2xl:text-[20px]"
         >
           Edit
         </div>
@@ -55,13 +54,13 @@ const SelectLatencyPreference = ({ ...data }: ModalProps) => {
         </div>
       </div>
       <div className="mt-[12px] items-center md:mt-[15px] md:flex md:gap-x-[91px] lg:mt-[17.5px] lg:gap-x-[107px] xl:gap-x-[122px] 2xl:mt-[25px] 2xl:gap-x-[153px]">
-        <div className="text-[10px] font-medium  md:text-[12px]  lg:text-[14px]  lg:!leading-[24px] xl:text-[16px] 2xl:text-[20px]">
+        <div className="text-[10px] font-medium md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:text-[16px] 2xl:text-[20px]">
           Latency
         </div>
         <div className="mt-[5px] w-full max-w-[213px] text-[7px] text-[#959595] md:ml-auto md:text-[8px] lg:text-[10px] lg:!leading-[17px] xl:text-[11px] 2xl:text-[14px]">
           Low latency ensures response time to be around 2-10ms
         </div>
-        <div className="ml-auto mt-[5px] md:mt-[0px]">
+        <div className="ml-auto mt-[5px] md:mt-0">
           <LatencySelector onValueChange={handleLatencyPreferenceChange} />
         </div>
       </div>

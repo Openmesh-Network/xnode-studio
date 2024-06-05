@@ -3,7 +3,7 @@
     "name": "Minecraft",
     "desc": "Server for Minecraft java edition",
     "logo": "<URL to image>",
-    "tags": [ "Game", "Server", "Proprietary"],
+    "tags": ["Game", "Server", "Proprietary"],
     "specs": {
       "ram": 1024,
       "storage": 1024
@@ -44,7 +44,7 @@
     "name": "Openssh",
     "desc": "SSH tunnel for manual tweaking and access to your machine. Warning: If you break the Xnode-Admin service you will need to fix it yourself or factory reset to regain control from the Studio.",
     "logo": "<URL to image>",
-    "tags": [ "Administration", "Access-control" ],
+    "tags": ["Administration", "Access-control"],
     "specs": {
       "ram": 0,
       "storage": 0
@@ -71,7 +71,7 @@
     "name": "Ollama",
     "desc": "Play around with AI!",
     "logo": "<URL to image>",
-    "tags": [ "AI", "LLM", "GPU", "Open-source" ],
+    "tags": ["AI", "LLM", "GPU", "Open-source"],
     "specs": {
       "ram": 0,
       "storage": 0
@@ -86,8 +86,5 @@
         "value": "cuda"
       }
     ]
-  },
-  {
-    
   }
 ]

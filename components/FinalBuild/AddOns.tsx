@@ -14,7 +14,7 @@ const AddOns = ({ ...data }: ModalProps) => {
         onClick={() => {
           data.onValueChange()
         }}
-        className="ml-auto mr-[22.5px] cursor-pointer border-b-[1px] border-[#0354EC] text-[10px] font-medium  text-[#0354EC] hover:border-[#123981] hover:text-[#123981] md:mr-[27px] md:text-[12px] lg:mr-[31.5px] lg:text-[14px]  lg:!leading-[24px]  xl:mr-[36px]  xl:text-[16px] 2xl:mr-[45px] 2xl:text-[20px]"
+        className="ml-auto mr-[22.5px] cursor-pointer border-b border-[#0354EC] text-[10px] font-medium text-[#0354EC] hover:border-[#123981] hover:text-[#123981] md:mr-[27px] md:text-[12px] lg:mr-[31.5px] lg:text-[14px] lg:!leading-[24px] xl:mr-[36px] xl:text-[16px] 2xl:mr-[45px] 2xl:text-[20px]"
       >
         Edit
       </div>
@@ -25,7 +25,7 @@ const AddOns = ({ ...data }: ModalProps) => {
             : ''
         }/images/connections/addOns.svg`}
         alt="image"
-        className={` absolute w-[370px] md:w-[446px] lg:w-[520px] xl:top-[40px] xl:left-[232px] xl:w-[510px] 2xl:top-[50px] 2xl:left-[290px] 2xl:w-[638px]`}
+        className={`absolute w-[370px] md:w-[446px] lg:w-[520px] xl:left-[232px] xl:top-[40px] xl:w-[510px] 2xl:left-[290px] 2xl:top-[50px] 2xl:w-[638px]`}
       />
     </div>
   )

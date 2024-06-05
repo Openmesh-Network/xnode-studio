@@ -3,28 +3,49 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 'use client'
+
 // import { useState } from 'react'
-import { useEffect, useState, ChangeEvent, FC, useContext } from 'react'
-import { Modal } from '@mui/material'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import { useForm, Controller } from 'react-hook-form'
+import {
+  ChangeEvent,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Eye, EyeSlash } from 'phosphor-react'
-import * as Yup from 'yup'
+import { Modal } from '@mui/material'
 import axios from 'axios'
+import { Eye, EyeSlash } from 'phosphor-react'
+import { Controller, useForm } from 'react-hook-form'
+import * as Yup from 'yup'
+
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-quill/dist/quill.snow.css' // import styles
 import 'react-datepicker/dist/react-datepicker.css'
+
 import { getAPI, getData } from '@/utils/data'
+import Prism from 'prismjs'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { format } from 'sql-formatter'
-import Prism from 'prismjs'
-import 'prismjs/themes/prism.css'
-import { formatDistanceToNow, differenceInDays } from 'date-fns'
-import { AccountContext } from '@/contexts/AccountContext'
 
-import { TemplateData, Specs, ServiceData, TemplateFromId, ServiceFromName, TemplateGetSpecs, DeploymentConfiguration } from '@/types/dataProvider'
+import 'prismjs/themes/prism.css'
+
+import { AccountContext } from '@/contexts/AccountContext'
+import { differenceInDays, formatDistanceToNow } from 'date-fns'
+
+import {
+  DeploymentConfiguration,
+  ServiceData,
+  ServiceFromName,
+  Specs,
+  TemplateData,
+  TemplateFromId,
+  TemplateGetSpecs,
+} from '@/types/dataProvider'
+
 import ServiceDefinitions from '../../utils/service-definitions.json'
 import TemplateDefinitions from '../../utils/template-definitions.json'
 
@@ -33,66 +54,66 @@ const Template = (id: any) => {
   // const [data, setTemplateData] = useState<TemplateData>()
   const [data, setDeployConfig] = useState<DeploymentConfiguration>()
   const [templateSpecs, setTemplateSpecs] = useState<Specs>()
-  const {
-    user,
-    setUser,
-    setIndexerDeployerStep,
-    draft,
-    setDraft
-  } = useContext(AccountContext)
+  const { user, setUser, setIndexerDeployerStep, draft, setDraft } =
+    useContext(AccountContext)
 
-  async function getData(id: any) {
-    setIsLoading(true)
+  const getData = useCallback(
+    (id: any) => {
+      setIsLoading(true)
 
-    // XXX: Not sure if this is the best place to put this but whatever.
-    if (id.id == 'edit') {
-      // Problem with this is the draft contains extra info like the location or whatever.
-      if (draft) {
-        setDeployConfig(draft)
+      // XXX: Not sure if this is the best place to put this but whatever.
+      if (id.id == 'edit') {
+        // Problem with this is the draft contains extra info like the location or whatever.
+        if (draft) {
+          setDeployConfig(draft)
+        } else {
+          setDeployConfig(
+            JSON.parse(localStorage.getItem('draft')) as DeploymentConfiguration
+          )
+        }
       } else {
-        setDeployConfig(JSON.parse(localStorage.getItem('draft')) as DeploymentConfiguration)
-      }
-    } else {
-      // Generate the config from the template id.
-      console.log('o id q vai chamar')
-      console.log(id)
+        // Generate the config from the template id.
+        console.log('o id q vai chamar')
+        console.log(id)
 
-      console.log("Aca viene la data!")
-      let template = TemplateFromId(id.id)
+        console.log('Aca viene la data!')
+        let template = TemplateFromId(id.id)
 
-      console.log(template)
+        console.log(template)
 
-      if (template) {
-        let svs: ServiceData[] = []
+        if (template) {
+          let svs: ServiceData[] = []
 
-        for (let i = 0; i < template.serviceNames.length; i++) { 
-          let s = ServiceFromName(template.serviceNames[i])
-          if (s) {
-            svs.push(s)
+          for (let i = 0; i < template.serviceNames.length; i++) {
+            let s = ServiceFromName(template.serviceNames[i])
+            if (s) {
+              svs.push(s)
+            }
           }
-        }
 
-        const d: DeploymentConfiguration = {
-          name: template.name,
-          desc: template.desc,
-          location: "",
-          services: svs,
-          // XXX: Actually check from AccountContext.
-          isUnit: false,
-          provider: ""
-        }
+          const d: DeploymentConfiguration = {
+            name: template.name,
+            desc: template.desc,
+            location: '',
+            services: svs,
+            // XXX: Actually check from AccountContext.
+            isUnit: false,
+            provider: '',
+          }
 
-        setDeployConfig(d)
-        setTemplateSpecs(TemplateGetSpecs(template))
-      } else {
-        // XXX:
-        // NUCLEAR APOCALIPSE TIER!
-        // Should just redirect probably.
+          setDeployConfig(d)
+          setTemplateSpecs(TemplateGetSpecs(template))
+        } else {
+          // XXX:
+          // NUCLEAR APOCALIPSE TIER!
+          // Should just redirect probably.
+        }
       }
-    }
 
-    setIsLoading(false)
-  }
+      setIsLoading(false)
+    },
+    [draft]
+  )
 
   useEffect(() => {
     setIsLoading(true)
@@ -105,7 +126,7 @@ const Template = (id: any) => {
     if (id) {
       getData(id.id)
     }
-  }, [id])
+  }, [id, getData])
 
   if (isLoading) {
     return (
@@ -119,7 +140,7 @@ const Template = (id: any) => {
   return (
     <>
       <section className="relative z-10 pt-[30px] lg:pt-0">
-        <div className="mx-auto max-w-[1380px] pl-[85px]  text-[12px] font-normal text-[#000] 2xl:text-[14px]">
+        <div className="mx-auto max-w-[1380px] pl-[85px] text-[12px] font-normal text-[#000] 2xl:text-[14px]">
           <div className="justify-between gap-x-[50px] lg:flex">
             <div className="mt-[60px] pb-[20px] lg:pb-[300px]">
               <div className="flex justify-between gap-x-[10px]">
@@ -166,57 +187,53 @@ const Template = (id: any) => {
                       setDeployConfig(newData)
                     }
                   }}
-                  className="mt-[23px] h-[100px] max-h-[100px] w-full  max-w-[735px] bg-[#fff] text-[14px] leading-[22px] placeholder:text-[#6B7280] 2xl:text-[16px]"
+                  className="mt-[23px] h-[100px] max-h-[100px] w-full max-w-[735px] bg-[#fff] text-[14px] leading-[22px] placeholder:text-[#6B7280] 2xl:text-[16px]"
                 />
 
                 <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[12px] lg:mt-[59px] 2xl:text-[14px]">
                   <div className="text-[16px] font-semibold 2xl:text-[18px]">
                     System requirements
                   </div>
-                  <div className="mt-[15px] flex gap-x-[30px] border-[0.7px] border-[#CDCDCD] py-[8px] px-[20px] font-medium lg:gap-x-0">
-                    <div className="md:w-[40%] lg:w-[50%]">
-                      Min requirements
-                    </div>
-                    <div className="lg:w-[50%]">Recommended requirements</div>
+                  <div className="mt-[15px] flex gap-x-[30px] border-[0.7px] border-[#CDCDCD] px-[20px] py-[8px] font-medium lg:gap-x-0">
+                    <div className="md:w-2/5 lg:w-1/2">Min requirements</div>
+                    <div className="lg:w-1/2">Recommended requirements</div>
                   </div>
                   <div className="mt-[15px] flex gap-x-[10px] px-[20px] font-normal lg:gap-x-0">
-                    <div className="lg:w-[50%]">
-                      {templateSpecs?.ram}
-                    </div>
+                    <div className="lg:w-1/2">{templateSpecs?.ram}</div>
                     <div>{templateSpecs?.ram}</div>
                   </div>
-                  <div className="mt-[30px] border-b-[1px] border-[#DDDDDD]"></div>
+                  <div className="mt-[30px] border-b border-[#DDDDDD]"></div>
                 </div>
                 <div className="mt-[40px] max-w-[703px] text-[10px] md:text-[12px] lg:mt-[59px] 2xl:text-[14px]">
                   <div className="text-[16px] font-semibold 2xl:text-[18px]">
                     Services{' '}
                   </div>
-                  <div className="mt-[15px] flex border-[0.7px] border-[#CDCDCD] py-[8px] px-[5px] font-medium lg:px-[20px] ">
+                  <div className="mt-[15px] flex border-[0.7px] border-[#CDCDCD] px-[5px] py-[8px] font-medium lg:px-[20px]">
                     <div className="w-[15%]">Name</div>
-                    <div className="w-[20%]">Description</div>
+                    <div className="w-1/5">Description</div>
                     <div className="w-[15%]">Specs</div>
-                    <div className="w-[25%]">Tags</div>
+                    <div className="w-1/4">Tags</div>
                   </div>
                   {data?.services && (
                     <div>
                       {data.services?.map((item, index) => (
                         <div key={index}>
-                          <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
+                          <div className="mt-[8px] border-b border-[#DDDDDD]"></div>
                           <div className="mt-[8px] flex px-[20px] font-normal">
                             <div className="w-[15%] max-w-[30%] overflow-hidden">
                               {item?.name}
                             </div>
-                            <div className="w-[20%]">
-                              {item.desc}
-                            </div>
+                            <div className="w-1/5">{item.desc}</div>
 
-                            <div className="w-[15%]">
-                              {'CPU, 1-Core'}
-                            </div>
+                            <div className="w-[15%]">{'CPU, 1-Core'}</div>
 
-                            <div className="w-[25%]">{item?.tags.join(', ')}</div>
+                            <div className="w-1/4">{item?.tags.join(', ')}</div>
 
-                            <button data-modal-target="idname" type="button" data-modal-toggle="idname">
+                            <button
+                              data-modal-target="idname"
+                              type="button"
+                              data-modal-toggle="idname"
+                            >
                               Edit
                             </button>
 
@@ -226,16 +243,15 @@ const Template = (id: any) => {
                               // Might need a way to tell the user what's up with their config?
                             }
 
-                          {/* <Modal> */}
+                            {/* <Modal> */}
 
-                          {/* </Modal> */}
-
+                            {/* </Modal> */}
                           </div>
                         </div>
                       ))}
                     </div>
                   )}
-                  <div className="mt-[8px] border-b-[1px] border-[#DDDDDD]"></div>
+                  <div className="mt-[8px] border-b border-[#DDDDDD]"></div>
                 </div>
               </div>
             </div>
@@ -268,7 +284,7 @@ const Template = (id: any) => {
             {/* </div> */}
 
             <div className="w-full border-[0.6px] border-[#d1d5da] bg-[#fafafa] py-[5px] lg:mb-0 lg:w-[386px]">
-              <div className="flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-[#e5eefc] py-[10px] px-[32px]">
+              <div className="flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-gray200 px-[32px] py-[10px]">
                 <img
                   src={`${
                     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -293,7 +309,7 @@ const Template = (id: any) => {
                   className={``}
                 />
               </div>
-              
+
               <div
                 onClick={() => {
                   if (data?.name?.length > 0) {
@@ -306,11 +322,11 @@ const Template = (id: any) => {
                 }}
                 className={`mx-auto mt-[27px] w-fit ${
                   data?.name?.length > 0 && 'cursor-pointer'
-                }  rounded-[12px] bg-[#0354EC] px-[133px] py-[15px] text-[14px] font-bold text-[#fff] hover:bg-[#014cd7] 2xl:text-[16px]`}
+                } rounded-[12px] bg-[#0354EC] px-[133px] py-[15px] text-[14px] font-bold text-[#fff] hover:bg-[#014cd7] 2xl:text-[16px]`}
               >
                 Select
               </div>
-              <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+              <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
                 <img
                   src={`${
                     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -324,7 +340,7 @@ const Template = (id: any) => {
                   Select a provider
                 </div>
               </div>
-              <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+              <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
                 <img
                   src={`${
                     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -338,7 +354,7 @@ const Template = (id: any) => {
                   Choose your configuration
                 </div>
               </div>
-              <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+              <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
                 <img
                   src={`${
                     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -352,7 +368,7 @@ const Template = (id: any) => {
                   Performing connection
                 </div>
               </div>
-              <div className="mt-[39px] flex items-center gap-x-[20px] py-[10px] px-[32px]">
+              <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
                 <img
                   src={`${
                     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'

@@ -1,13 +1,17 @@
 /* eslint-disable no-unused-vars */
 'use client'
-import { DataProvider } from '@/types/dataProvider'
-import { formatDistanceToNow } from 'date-fns'
+
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
-import { v4 as uuidv4 } from 'uuid'
+import { formatDistanceToNow } from 'date-fns'
 import { toast } from 'react-toastify'
+import { v4 as uuidv4 } from 'uuid'
+
+import { DataProvider } from '@/types/dataProvider'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { optionServerLocation } from '@/utils/constants'
 
 export const categoriesOptionsRPC = {
@@ -100,11 +104,7 @@ const SingleCard = ({
         localStorage.setItem('nodes', JSON.stringify(finalNodes))
         setNext(true)
         push(
-          `${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/`
-              : `/`
-          }`,
+          `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
         )
       } else {
         toast.error('You cannot add more than one server per x-node')
@@ -130,11 +130,7 @@ const SingleCard = ({
         localStorage.setItem('nodes', JSON.stringify(finalNodes))
         setNext(true)
         push(
-          `${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/`
-              : `/`
-          }`,
+          `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
         )
       } else {
         toast.error('You already have this product in your x-node')
@@ -145,7 +141,7 @@ const SingleCard = ({
           process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
             ? `/xnode/workspace`
             : `/workspace`
-        }`,
+        }`
       )
     } else {
       const nodeExists = finalNodes.some((node) => node.data.name === title)
@@ -169,11 +165,7 @@ const SingleCard = ({
         localStorage.setItem('nodes', JSON.stringify(finalNodes))
         setNext(true)
         push(
-          `${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/`
-              : `/`
-          }`,
+          `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
         )
       } else {
         toast.error('You already have this product in your x-node')
@@ -186,9 +178,9 @@ const SingleCard = ({
     <div
       onMouseEnter={() => setAddVisible(true)}
       onMouseLeave={() => setAddVisible(false)}
-      className="flex justify-start gap-x-[10px] rounded-[5px] border-[0.5px] border-[#D9D9D9] px-[7px] py-[15px] text-start text-[#000000] shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] md:max-w-[600px] lg:p-[21px] xl:gap-x-[20px]  xl:p-[24px] 2xl:max-w-[1000px] 2xl:gap-x-[25px] 2xl:p-[30px]"
+      className="flex justify-start gap-x-[10px] rounded-[5px] border-[0.5px] border-[#D9D9D9] px-[7px] py-[15px] text-start text-black shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] md:max-w-[600px] lg:p-[21px] xl:gap-x-[20px] xl:p-[24px] 2xl:max-w-[1000px] 2xl:gap-x-[25px] 2xl:p-[30px]"
     >
-      <div className="flex-grow-1 h-[52px] w-[52px] 2xl:h-[64px] 2xl:w-[64px] ">
+      <div className="grow-1 size-[52px] 2xl:size-[64px]">
         {logoURL ? (
           <img
             src={`${logoURL}`}
@@ -203,7 +195,7 @@ const SingleCard = ({
                 : ''
             }/openmesh-ico-logo.png`}
             alt="image"
-            className={`mx-auto flex h-[25px] w-[25px] rounded-[5px] p-[3px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] lg:h-[30px] lg:w-[30px] lg:p-[7px] xl:h-[40px] xl:w-[40px]`}
+            className={`mx-auto flex size-[25px] rounded-[5px] p-[3px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] lg:size-[30px] lg:p-[7px] xl:size-[40px]`}
           />
         )}
 
@@ -226,7 +218,7 @@ const SingleCard = ({
           </div>
         )}
       </div>
-      <div className="flex-grow-0">
+      <div className="grow-0">
         <div>
           <div className="flex gap-x-[5px] lg:gap-x-[8px] 2xl:gap-x-[10px]">
             <a
@@ -237,19 +229,19 @@ const SingleCard = ({
               }`}
             >
               <div
-                className={`text-[10px] font-bold text-[#313131] hover:text-[#000] hover:underline md:text-[12px] lg:text-[14px] lg:!leading-[22px]  2xl:text-[18px]`}
+                className={`text-[10px] font-bold text-[#313131] hover:text-[#000] hover:underline md:text-[12px] lg:text-[14px] lg:!leading-[22px] 2xl:text-[18px]`}
               >
                 {name}
               </div>
             </a>
-            <div className="h-fit rounded-[5px] border-[1px] border-[#FFC946] bg-[#FFE9B2] px-[4px] py-[2] text-[5px] font-semibold lg:px-[5px] lg:py-[4px] lg:text-[8px] 2xl:px-[7px] 2xl:py-[5px] 2xl:text-[10px] 2xl:!leading-[12px]">
+            <div className="h-fit rounded-[5px] border border-[#FFC946] bg-[#FFE9B2] px-[4px] py-[2] text-[5px] font-semibold lg:px-[5px] lg:py-[4px] lg:text-[8px] 2xl:px-[7px] 2xl:py-[5px] 2xl:text-[10px] 2xl:!leading-[12px]">
               NEW!
             </div>
             {addToXnodeMessage === 'Add to Xnode' ? (
               <div className="ml-auto flex">
                 {isLoading ? (
                   <div className="">
-                    <div className="h-8 w-8 animate-spin rounded-full  border-b-2 border-[#0354EC]"></div>
+                    <div className="size-8 animate-spin rounded-full border-b-2 border-[#0354EC]"></div>
                   </div>
                 ) : (
                   <div
@@ -257,7 +249,7 @@ const SingleCard = ({
                       handleAddProduct(name)
                       // window.scrollTo({ top: 0, behavior: 'smooth' })
                     }}
-                    className={`ml-auto flex cursor-pointer rounded-[5px] bg-[#0354EC] px-[7px] py-[3px]  text-[6.5px] font-medium text-[#fff] hover:bg-[#123981]  md:text-[7px] lg:py-[2.8px] lg:px-[6px] lg:text-[8.5px] lg:!leading-[15px] xl:py-[3.2px] xl:px-[6.8px] xl:text-[9.5px]  2xl:py-[4px] 2xl:px-[8.5px] 2xl:text-[12px]`}
+                    className={`ml-auto flex cursor-pointer rounded-[5px] bg-[#0354EC] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] hover:bg-[#123981] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
                   >
                     <div>Add</div>
                   </div>
@@ -269,7 +261,7 @@ const SingleCard = ({
                   // setNext(true)
                   // window.scrollTo({ top: 0, behavior: 'smooth' })
                 }}
-                className={`ml-auto flex rounded-[5px] bg-[#B4B7BB] px-[7px] py-[3px]  text-[6.5px] font-medium text-[#fff] md:text-[7px] lg:py-[2.8px] lg:px-[6px] lg:text-[8.5px] lg:!leading-[15px] xl:py-[3.2px] xl:px-[6.8px] xl:text-[9.5px]  2xl:py-[4px] 2xl:px-[8.5px] 2xl:text-[12px]`}
+                className={`ml-auto flex rounded-[5px] bg-[#B4B7BB] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
               >
                 <div>Soon</div>
               </div>
@@ -284,16 +276,16 @@ const SingleCard = ({
 
           <div
             title={description}
-            className="mt-[8px]  overflow-hidden text-[8px] font-medium text-[#959595] line-clamp-3 md:text-[10px]  lg:mt-[12px] lg:text-[12px] lg:!leading-[19px]  xl:max-w-[480px] 2xl:mt-[15px] 2xl:max-w-[600px] 2xl:text-[16px]"
+            className="mt-[8px] line-clamp-3 overflow-hidden text-[8px] font-medium text-[#959595] md:text-[10px] lg:mt-[12px] lg:text-[12px] lg:!leading-[19px] xl:max-w-[480px] 2xl:mt-[15px] 2xl:max-w-[600px] 2xl:text-[16px]"
           >
             {description}
           </div>
-          <div className="mt-[10px] flex max-w-[800px] flex-wrap  gap-x-[5px] gap-y-[3px] lg:gap-x-[10px] lg:gap-y-[10px] 2xl:mt-[12px]">
+          <div className="mt-[10px] flex max-w-[800px] flex-wrap gap-x-[5px] gap-y-[3px] lg:gap-[10px] 2xl:mt-[12px]">
             {tags &&
               tags.map((tag, index) => (
                 <div
                   key={index}
-                  className="w-fit rounded-[20px]  border-[1px] border-[#D9D9D9] bg-[#F6F6F6] px-[7px] py-[4px] text-[5px] font-medium text-[#575757] md:text-[8px] lg:px-[12px] lg:py-[6px] lg:!leading-[12px] 2xl:py-[7px] 2xl:px-[15px]  2xl:text-[10px]"
+                  className="w-fit rounded-[20px] border border-[#D9D9D9] bg-[#F6F6F6] px-[7px] py-[4px] text-[5px] font-medium text-[#575757] md:text-[8px] lg:px-[12px] lg:py-[6px] lg:!leading-[12px] 2xl:px-[15px] 2xl:py-[7px] 2xl:text-[10px]"
                 >
                   {tag}
                 </div>

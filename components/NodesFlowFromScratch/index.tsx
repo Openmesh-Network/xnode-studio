@@ -2,42 +2,46 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 'use client'
+
 // import { useState } from 'react'
 import {
-  useEffect,
-  useState,
-  useCallback,
   ChangeEvent,
   FC,
+  useCallback,
   useContext,
+  useEffect,
+  useState,
 } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import ReactFlow, {
-  Controls,
-  Background,
-  applyNodeChanges,
-  applyEdgeChanges,
-  MiniMap,
   addEdge,
-  useNodesState,
+  applyEdgeChanges,
+  applyNodeChanges,
+  Background,
+  Controls,
+  MiniMap,
   useEdgesState,
+  useNodesState,
 } from 'reactflow'
+import { v4 as uuidv4 } from 'uuid'
+
 import 'reactflow/dist/style.css'
-import {
-  nodes as initialNodes,
-  edges as initialEdges,
-} from './initial-elements'
+
 import CustomNode from './CustomNode'
+import {
+  edges as initialEdges,
+  nodes as initialNodes,
+} from './initial-elements'
 
 import './overview.css'
-import ServerNode from './ServerNode'
+
+import AnalyticsNode from './AnalyticsNode'
 import APINode from './APINode'
 import DataNode from './DataNode'
-import UtilityNode from './UtilityNode'
 import RPCNode from './RPCNode'
-import AnalyticsNode from './AnalyticsNode'
+import ServerNode from './ServerNode'
+import UtilityNode from './UtilityNode'
 
 const nodeTypes = {
   custom: CustomNode,
@@ -67,17 +71,17 @@ const NodesFlow = (fromScratch: boolean) => {
     finalNodes,
   } = useContext(AccountContext)
   const [nodes, setNodes, onNodesChange] = useNodesState<any>(
-    !fromScratch ? initialNodes : null,
+    !fromScratch ? initialNodes : null
   )
   const [edges, setEdges, onEdgesChange] = useEdgesState(
-    !fromScratch ? initialEdges : null,
+    !fromScratch ? initialEdges : null
   )
   const onConnect = useCallback(
     (params) =>
       setEdges((eds) =>
-        addEdge({ ...params, animated: true, style: { stroke: '#000' } }, eds),
+        addEdge({ ...params, animated: true, style: { stroke: '#000' } }, eds)
       ),
-    [],
+    [setEdges]
   )
 
   // we are using a bit of a shortcut here to adjust the edge type
@@ -98,7 +102,7 @@ const NodesFlow = (fromScratch: boolean) => {
 
     if (changeNodes?.type === 'api') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
       console.log(nodes)
       if (!nodeExists) {
@@ -120,7 +124,7 @@ const NodesFlow = (fromScratch: boolean) => {
 
     if (changeNodes?.type === 'rpc') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
       console.log(nodes)
       if (!nodeExists) {
@@ -143,7 +147,7 @@ const NodesFlow = (fromScratch: boolean) => {
 
     if (changeNodes?.type === 'analytics') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
       console.log(nodes)
       if (!nodeExists) {
@@ -166,7 +170,7 @@ const NodesFlow = (fromScratch: boolean) => {
 
     if (changeNodes?.type === 'utility') {
       const nodeExists = nodes.some(
-        (node) => node.data.name === changeNodes?.name,
+        (node) => node.data.name === changeNodes?.name
       )
       console.log(nodes)
       if (!nodeExists) {
@@ -190,7 +194,7 @@ const NodesFlow = (fromScratch: boolean) => {
     if (changeNodes?.type === 'data') {
       const existingNodeIndex = nodes.findIndex(
         (node) =>
-          node.type === 'data' && node.data.lists && node.data.lists.length > 0,
+          node.type === 'data' && node.data.lists && node.data.lists.length > 0
       )
 
       if (existingNodeIndex !== -1) {
@@ -199,7 +203,7 @@ const NodesFlow = (fromScratch: boolean) => {
         const existingNode = nodes[existingNodeIndex]
 
         const existsTitle = existingNode.data.lists.some(
-          (data) => data.title === changeNodes?.name,
+          (data) => data.title === changeNodes?.name
         )
 
         if (existsTitle) {
@@ -226,7 +230,7 @@ const NodesFlow = (fromScratch: boolean) => {
             }
 
             return node
-          }),
+          })
         )
       } else {
         // O nó 'data' não existe, então vamos criar um novo nó
@@ -272,11 +276,11 @@ const NodesFlow = (fromScratch: boolean) => {
         setNodes((prevNodes) => [...prevNodes, newNode])
       }
     }
-  }, [changeNodes])
+  }, [changeNodes, nodes, setNodes])
 
   useEffect(() => {
     setFinalNodes(nodes)
-  }, [nodes])
+  }, [nodes, setFinalNodes])
 
   return (
     <div className="h-[1500px]">

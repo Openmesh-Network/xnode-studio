@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
-import { useState, useContext } from 'react'
+import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
-import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import * as Yup from 'yup'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { EyeSlash, Eye } from 'phosphor-react'
+
+import { Eye, EyeSlash } from 'phosphor-react'
+
 import GetEquinixAPIKey from './GetEquinixAPIKey'
 
 type EquinixAPIForm = {
@@ -100,17 +103,17 @@ const EquinixConnection = () => {
                 : ''
             }/images/firstStep/question-mark.svg`}
             alt="image"
-            className="h-[9px] w-[9px] transform cursor-pointer transition-transform hover:scale-105 md:h-[11px] md:w-[11px]  lg:h-[12px] lg:w-[12px] xl:h-[14px] xl:w-[14px] 2xl:h-[18px] 2xl:w-[18px]"
+            className="size-[9px] cursor-pointer transition-transform hover:scale-105 md:size-[11px] lg:size-[12px] xl:size-[14px] 2xl:size-[18px]"
             onMouseEnter={() => setShowTooltipCloudProvider(true)}
             onMouseLeave={() => setShowTooltipCloudProvider(false)}
           />
           {showTooltipCloudProvider && (
-            <div className="absolute left-[0px] top-[40px] w-full max-w-[270px]  rounded-[10px] bg-[#000] px-[13px] py-[10px] text-[8px] font-medium text-[#fff] md:left-[162px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[189px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[216px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[500px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
+            <div className="absolute left-0 top-[40px] w-full max-w-[270px] rounded-[10px] bg-[#000] px-[13px] py-[10px] text-[8px] font-medium text-[#fff] md:left-[162px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[189px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[216px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[500px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
               <div>If you have any third party that needs connection</div>
             </div>
           )}
         </div>
-        <div className="mt-[56px] ml-[112px] 2xl:mt-[70px] 2xl:ml-[140px]">
+        <div className="ml-[112px] mt-[56px] 2xl:ml-[140px] 2xl:mt-[70px]">
           <div className="flex gap-x-[50px]">
             <div className="flex items-center">
               <img
@@ -141,7 +144,7 @@ const EquinixConnection = () => {
               <div className="mt-[25px] md:mt-[30px] lg:mt-[35px] xl:mt-[40px] 2xl:mt-[50px]">
                 <span className="flex flex-row">
                   Project API Key
-                  <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+                  <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
                     {errors.apiKey?.message}
                   </p>
                 </span>
@@ -157,13 +160,13 @@ const EquinixConnection = () => {
               {!isLoading && (
                 <div
                   onClick={handleSubmit(onSubmit)}
-                  className="mt-[41px] flex h-fit w-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] py-[6.2px] px-[11px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#0e2e69] md:mt-[49px] md:py-[7.5px] md:px-[12.5px] md:text-[8.4px] lg:mt-[57px] lg:py-[8.75px]  lg:px-[42px] lg:text-[10px]   xl:mt-[65px] xl:py-[10px]    xl:px-[48px]  xl:text-[11.2px]  2xl:mt-[82px] 2xl:gap-x-[10px]  2xl:py-[12.5px] 2xl:px-[60px] 2xl:text-[14px]"
+                  className="mt-[41px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#0e2e69] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]"
                 >
                   <div>Connect</div>
                 </div>
               )}
               {isLoading && (
-                <div className="mt-[41px] flex h-fit w-fit justify-center gap-x-[8px] rounded-[5px] bg-[#719be9] py-[6.2px] px-[11px] text-center text-[7px] font-medium text-[#fff] md:mt-[49px] md:py-[7.5px] md:px-[12.5px] md:text-[8.4px] lg:mt-[57px] lg:py-[8.75px]  lg:px-[42px] lg:text-[10px]   xl:mt-[65px] xl:py-[10px]    xl:px-[48px]  xl:text-[11.2px]  2xl:mt-[82px] 2xl:gap-x-[10px]  2xl:py-[12.5px] 2xl:px-[60px] 2xl:text-[14px]">
+                <div className="mt-[41px] flex size-fit justify-center gap-x-[8px] rounded-[5px] bg-[#719be9] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]">
                   <div>Connect</div>
                 </div>
               )}
@@ -171,7 +174,7 @@ const EquinixConnection = () => {
           )}
 
           {!isEditing && (
-            <div className="mt-[25px] mb-[10px] grid gap-y-[20px] md:mt-[30px] lg:mt-[35px] xl:mt-[40px] 2xl:mt-[50px]">
+            <div className="mb-[10px] mt-[25px] grid gap-y-[20px] md:mt-[30px] lg:mt-[35px] xl:mt-[40px] 2xl:mt-[50px]">
               <div className="text-[12px] text-[#12AD50] md:text-[14px] lg:text-[16px] xl:text-[20px] 2xl:text-[24px]">
                 Connected
               </div>
@@ -186,7 +189,7 @@ const EquinixConnection = () => {
             </div>
           )}
           {isEditing && (
-            <div className="mt-[25px]  mb-[10px] flex gap-x-[20px] md:mt-[30px] lg:mt-[35px] xl:mt-[40px] 2xl:mt-[50px]">
+            <div className="mb-[10px] mt-[25px] flex gap-x-[20px] md:mt-[30px] lg:mt-[35px] xl:mt-[40px] 2xl:mt-[50px]">
               <div
                 onClick={() => {
                   setIsEditing(false)
@@ -218,17 +221,17 @@ const EquinixConnection = () => {
               : ''
           }/images/firstStep/question-mark.svg`}
           alt="image"
-          className="h-[9px] w-[9px] transform cursor-pointer transition-transform hover:scale-105 md:h-[11px] md:w-[11px]  lg:h-[12px] lg:w-[12px] xl:h-[14px] xl:w-[14px] 2xl:h-[18px] 2xl:w-[18px]"
+          className="size-[9px] cursor-pointer transition-transform hover:scale-105 md:size-[11px] lg:size-[12px] xl:size-[14px] 2xl:size-[18px]"
           onMouseEnter={() => setShowTooltipCloudProvider(true)}
           onMouseLeave={() => setShowTooltipCloudProvider(false)}
         />
         {showTooltipCloudProvider && (
-          <div className="absolute left-[130px] top-[0px] w-full max-w-[270px]  rounded-[10px] bg-[#000] px-[13px] py-[10px] text-[8px] font-medium text-[#fff] md:left-[162px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[189px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[216px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[270px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
+          <div className="absolute left-[130px] top-0 w-full max-w-[270px] rounded-[10px] bg-[#000] px-[13px] py-[10px] text-[8px] font-medium text-[#fff] md:left-[162px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[189px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[216px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[270px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
             <div>If you have any third party that needs connection</div>
           </div>
         )}
       </div>
-      <div className="mt-[25px] md:mt-[35px] md:ml-[70px]  lg:mt-[42px] lg:ml-[90px] xl:mt-[56px] xl:ml-[112px] 2xl:mt-[70px] 2xl:ml-[140px]">
+      <div className="mt-[25px] md:ml-[70px] md:mt-[35px] lg:ml-[90px] lg:mt-[42px] xl:ml-[112px] xl:mt-[56px] 2xl:ml-[140px] 2xl:mt-[70px]">
         <div className="flex gap-x-[50px]">
           <div className="flex items-center">
             <img
@@ -257,7 +260,7 @@ const EquinixConnection = () => {
         <div className="mt-[25px] md:mt-[30px] lg:mt-[35px] xl:mt-[40px] 2xl:mt-[50px]">
           <span className="flex flex-row">
             Project API Key
-            <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
+            <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
               {errors.apiKey?.message}
             </p>
           </span>
@@ -290,13 +293,13 @@ const EquinixConnection = () => {
         {!isLoading && (
           <div
             onClick={handleSubmit(onSubmit)}
-            className="mt-[21px] mb-[20px] flex h-fit w-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] py-[6.2px] px-[11px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#0e2e69] md:mt-[32px] md:py-[7.5px] md:px-[12.5px] md:text-[8.4px] lg:mt-[40px] lg:py-[8.75px] lg:px-[42px]  lg:text-[10px] xl:mb-0   xl:mt-[65px] xl:py-[10px]    xl:px-[48px]  xl:text-[11.2px]  2xl:mt-[82px] 2xl:gap-x-[10px]  2xl:py-[12.5px] 2xl:px-[60px] 2xl:text-[14px]"
+            className="mb-[20px] mt-[21px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#0e2e69] md:mt-[32px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[40px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:mb-0 xl:mt-[65px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]"
           >
             <div>Connect</div>
           </div>
         )}
         {isLoading && (
-          <div className="mt-[21px] mb-[20px] flex h-fit w-fit justify-center gap-x-[8px] rounded-[5px] bg-[#719be9] py-[6.2px] px-[11px] text-center text-[7px] font-medium text-[#fff] md:mt-[32px] md:py-[7.5px] md:px-[12.5px] md:text-[8.4px] lg:mt-[40px] lg:py-[8.75px] lg:px-[42px]  lg:text-[10px] xl:mb-0   xl:mt-[65px] xl:py-[10px]    xl:px-[48px]  xl:text-[11.2px]  2xl:mt-[82px] 2xl:gap-x-[10px]  2xl:py-[12.5px] 2xl:px-[60px] 2xl:text-[14px]">
+          <div className="mb-[20px] mt-[21px] flex size-fit justify-center gap-x-[8px] rounded-[5px] bg-[#719be9] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] md:mt-[32px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[40px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:mb-0 xl:mt-[65px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]">
             <div>Connect</div>
           </div>
         )}
