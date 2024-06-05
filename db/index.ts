@@ -1,8 +1,9 @@
-import { cwd } from 'process'
 import { createClient } from '@libsql/client'
 import { drizzle } from 'drizzle-orm/libsql'
 
+import * as schema from './schema'
+
 const client = createClient({
-  url: `${cwd()}/db/providers.db`,
+  url: `file:./db/providers.db`,
 })
-export const db = drizzle(client)
+export const db = drizzle(client, { schema })

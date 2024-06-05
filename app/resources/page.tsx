@@ -1,5 +1,7 @@
 import Image from 'next/image'
-import { getResourceStats } from '@/server/resources'
+import { db } from '@/db'
+import { Providers } from '@/db/schema'
+import { countDistinct, sum } from 'drizzle-orm'
 
 import ResourcesTable from './resources-table'
 
@@ -17,7 +19,18 @@ function StatsItem({ title, value }: StatsItemProps) {
 }
 
 export default async function ResourcesPage() {
-  const { stats } = await getResourceStats()
+  const [stats] = await db
+    .select({
+      countries: countDistinct(Providers.country),
+      providers: countDistinct(Providers.providerName),
+      regions: countDistinct(Providers.location),
+      storage: sum(Providers.storageTotal).mapWith(Number),
+      // gpus: countDistinct(Providers.gpuType),
+      ram: sum(Providers.ram).mapWith(Number),
+      bandwidth: sum(Providers.bandwidthNetwork).mapWith(Number),
+    })
+    .from(Providers)
+    .limit(1)
 
   return (
     <div className="container max-w-screen-2xl">
