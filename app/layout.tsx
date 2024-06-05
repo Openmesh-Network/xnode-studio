@@ -24,9 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <head />
-
-      <body className="max-w-screen w-full bg-white">
+      <body className="max-w-screen w-full bg-background text-foreground">
         <Providers>
           <div className="mx-auto">
             <Header />
@@ -37,7 +35,7 @@ export default function RootLayout({
               <LateralNav />
             </div>
 
-            <div className="m-auto w-full p-5">{children}</div>
+            <div className="w-full">{children}</div>
           </div>
 
           <ScrollToTop />

@@ -230,7 +230,7 @@ const TemplateProducts = () => {
         </div>
         {providersLoading ? <p>Loading...</p> : null}
         {providerData !== undefined ? (
-          <ul className="flex flex-col gap-8 text-black">
+          <ul className="flex max-h-[calc(100svh-5rem)] flex-col gap-8 overflow-y-auto text-black">
             {providerData.map((provider) => {
               let config = ''
               if (provider.cpuGHZ) config += `${provider.cpuGHZ}GHz `
@@ -289,8 +289,8 @@ const TemplateProducts = () => {
           </ul>
         ) : null}
       </section>
-      <section className="relative z-10 pt-[30px] lg:pt-0">
-        <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-[#000]">
+      {/* <section className="relative z-10 pt-[30px] lg:pt-0">
+        <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-black">
           <div className="flex justify-between gap-x-[50px]">
             <div className="pt-[44px]">
               <div className="mb-[12.5px] text-[48px] font-semibold leading-[64px]">
@@ -322,7 +322,7 @@ const TemplateProducts = () => {
                             getData()
                           }
                         }}
-                        className="w-[364px] bg-[#fff] text-[16px] placeholder:text-[#6B7280]"
+                        className="w-[364px] bg-white text-[16px] placeholder:text-[#6B7280]"
                       />
                       <img
                         onClick={() => {
@@ -386,7 +386,7 @@ const TemplateProducts = () => {
                       <div>{progressLoadingText}</div>
                     </div>
 
-                    <div className="mt-[10px] h-[10px] w-full rounded-[50px] border border-[#E4E5E8] bg-[#fff]">
+                    <div className="mt-[10px] h-[10px] w-full rounded-[50px] border border-[#E4E5E8] bg-white">
                       <div
                         style={{ width: `${progressLoadingBar}%` }}
                         className="h-full rounded-full bg-[#0059ff] transition-all duration-300"
@@ -456,8 +456,8 @@ const TemplateProducts = () => {
                         }}
                         className={`mt-[15px] cursor-pointer border border-[#0059ff] ${
                           tmp?.id === templateSelected?.id
-                            ? 'bg-[#0059ff] text-[#fff]'
-                            : 'bg-[#fff] text-[#0059ff] hover:bg-[#f1f1f15e]'
+                            ? 'bg-[#0059ff] text-white'
+                            : 'bg-white text-[#0059ff] hover:bg-[#f1f1f15e]'
                         } w-[174px] rounded-[12px] py-[13px] text-[16px] font-bold !leading-[150%]`}
                       >
                         {tmp?.id === templateSelected?.id
@@ -520,7 +520,7 @@ const TemplateProducts = () => {
                   alt="image"
                   className={``}
                 />
-                <div className="text-[16px] font-semibold leading-[36px] text-[#000]">
+                <div className="text-[16px] font-semibold leading-[36px] text-black">
                   Select a provider
                 </div>
               </div>
@@ -590,7 +590,7 @@ const TemplateProducts = () => {
                     onClick={() => {
                       setIndexerDeployerStep(1)
                     }}
-                    className="mx-auto mt-[30px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[133px] py-[15px] text-center text-[16px] font-bold leading-[22px] text-[#fff] hover:bg-[#014cd7]"
+                    className="tewhite mx-auto mt-[30px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[133px] py-[15px] text-center text-[16px] font-bold leading-[22px] hover:bg-[#014cd7]"
                   >
                     Deploy
                   </div>
@@ -641,7 +641,7 @@ const TemplateProducts = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   )
 }

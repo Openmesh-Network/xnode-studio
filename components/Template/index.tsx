@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { AccountContext } from '@/contexts/AccountContext'
 
+import TemplateProgress from '@/app/template-products/template-progress'
+
 import FinalBuild from '../FinalBuild'
 import Signup from '../Signup'
 import TemplateProducts from '../TemplateProducts/FirstStep'
@@ -14,33 +16,17 @@ import Template from './TemplatePage'
 const IndexerDeployer = (id: any) => {
   const { indexerDeployerStep } = useContext(AccountContext)
 
-  if (indexerDeployerStep === -1) {
-    return <Template id={id} />
-  }
-  if (indexerDeployerStep === 0) {
-    return <TemplateProducts />
-  }
-  // if (indexerDeployerStep === 1) {
-  //   return <Configuration />
-  // }
-  if (indexerDeployerStep === 1) {
-    return (
-      <>
-        <div className="mx-auto rounded-[10px] bg-[#F9F9F9] xl:w-[1200px] 2xl:w-[1500px]">
-          <Signup />
-        </div>
-      </>
-    )
-  }
-  if (indexerDeployerStep === 2) {
-    return (
-      <>
-        <div className="mx-auto rounded-[10px] xl:w-[1200px] 2xl:w-[1500px]">
-          <FinalBuild />
-        </div>
-      </>
-    )
-  }
+  return (
+    <div className="flex h-full">
+      <div className="m-20 grow">
+        {indexerDeployerStep === -1 ? <Template id={id} /> : null}
+        {indexerDeployerStep === 0 ? <TemplateProducts /> : null}
+        {indexerDeployerStep === 1 ? <Signup /> : null}
+        {indexerDeployerStep === 2 ? <FinalBuild /> : null}
+      </div>
+      <TemplateProgress />
+    </div>
+  )
 }
 
 export default IndexerDeployer
