@@ -40,7 +40,7 @@ export default async function ResourcesPage() {
     .limit(1)
 
   return (
-    <div className="container max-w-screen-2xl">
+    <div className="container mt-24 max-w-screen-2xl">
       <section className="flex flex-col justify-center gap-4 text-center">
         <h1 className="text-6xl font-semibold text-black">
           Full resource list

@@ -15,10 +15,13 @@ import type { Column, Row, Table as TableType } from '@tanstack/react-table'
 import { useDebounce } from '@uidotdev/usehooks'
 import {
   ArrowUpDown,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  ChevronsUpDown,
+  ChevronUp,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -166,7 +169,7 @@ export default function ResourcesTable() {
       />
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-muted text-muted-foreground">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -249,7 +252,13 @@ function SortableHeaderButton({
       onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
     >
       {label}
-      <ArrowUpDown className="ml-2 size-4" />
+      {column.getIsSorted() === 'asc' ? (
+        <ChevronUp className="ml-2 size-4" />
+      ) : column.getIsSorted() === 'desc' ? (
+        <ChevronDown className="ml-2 size-4" />
+      ) : (
+        <ChevronsUpDown className="ml-2 size-4" />
+      )}
     </Button>
   )
 }
