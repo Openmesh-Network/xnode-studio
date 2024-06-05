@@ -31,10 +31,7 @@ const TemplateProducts = () => {
   const debouncedSearchInput = useDebounce(searchInput, 500)
   const [region, setRegion] = useState<string | null>()
 
-  const {
-    data: { data: providerData },
-    isLoading: providersLoading,
-  } = useQuery({
+  const { data: providerData, isLoading: providersLoading } = useQuery({
     queryKey: ['resources', page, debouncedSearchInput, region],
     queryFn: async () => {
       const params = new URLSearchParams()
@@ -132,12 +129,12 @@ const TemplateProducts = () => {
       </div>
       <div className="mt-4">
         {providersLoading ? <p>Loading...</p> : null}
-        {providerData !== undefined ? (
-          providerData.length === 0 ? (
+        {!providersLoading && providerData !== undefined ? (
+          providerData.data.length === 0 ? (
             <p>No results found</p>
           ) : (
             <ul className="flex max-h-[calc(100svh-5rem)] flex-col gap-8 overflow-y-auto text-black">
-              {providerData.map((provider) => {
+              {providerData.data.map((provider) => {
                 const selected = templateSelected?.id === String(provider.id)
                 let config = ''
                 if (provider.cpuGHZ) config += `${provider.cpuGHZ}GHz `

@@ -11,7 +11,6 @@ import LateralNav from '@/components/LateralNav'
 
 import { Providers } from './providers'
 
-//TODO: implement the actual font...
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
