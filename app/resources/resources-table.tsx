@@ -1,5 +1,6 @@
 'use client'
 
+import { Provider } from '@/server/resources'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 export default function ResourcesTable() {
@@ -7,7 +8,7 @@ export default function ResourcesTable() {
     queryKey: ['resources'],
     queryFn: async ({ pageParam }) => {
       const res = await fetch(`/api/resources?cursor=${pageParam}`)
-      return res.json()
+      return res.json() as Promise<{ data: Provider[]; nextCursor: number }>
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -34,8 +35,8 @@ export default function ResourcesTable() {
         ) : null}
         {!isLoading &&
           data?.pages.map((page) =>
-            page.data.map((row) => (
-              <tr key={row.providerName} className="h-10">
+            page.data.map((row, index) => (
+              <tr key={`${row.providerName}-${index}`} className="h-10">
                 <td className="px-4">{row.providerName}</td>
                 <td className="px-4">{row.location || '-'}</td>
                 <td className="px-4">{row.productName}</td>

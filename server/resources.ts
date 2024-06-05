@@ -3,7 +3,7 @@ import { parseFile } from '@fast-csv/parse'
 
 import { TemplatesProducts } from '@/types/dataProvider'
 
-type Provider = Omit<TemplatesProducts, 'id'> & {
+export type Provider = Omit<TemplatesProducts, 'id'> & {
   country: string
 }
 
