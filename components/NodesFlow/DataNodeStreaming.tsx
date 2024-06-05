@@ -88,6 +88,8 @@ function Options({ handleId, name, optionsSelection }) {
 }
 
 function DataNodeStreaming({ id, data, handleNodeRemove }) {
+  console.log('data', data)
+
   const [isHelpOpen, setIsHelpOpen] = useState<boolean>(true)
   const [selectedItemsS, setSelectedItemsS] = useState<any>(data.lists)
   const { selectionSideNavBar, changeNodes, setChangeNodes, setRemoveNodes } =
@@ -96,19 +98,21 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
     handleNodeRemove(id)
   }
 
+  console.log('changeNodes', changeNodes)
+
   useEffect(() => {
     setSelectedItemsS(data.lists)
     if (data.lists.length > 0 && data.lists[0].icon !== 'dataOption.icon') {
       console.log('sim data lsit maior q zero')
       console.log(data.lists)
       console.log(data.lists[0])
-      setChangeNodes({
-        type: 'dataStreaming',
-        name: 'dataOption.title',
-        icon: 'dataOption.icon',
-        categorie: 'option.title',
-        dictionary: categoriesOptions,
-      })
+      // setChangeNodes({
+      //   type: 'dataStreaming',
+      //   name: 'dataOption.title',
+      //   icon: 'dataOption.icon',
+      //   categorie: 'option.title',
+      //   dictionary: categoriesOptions,
+      // })
     }
   }, [data.lists, setChangeNodes])
 
@@ -116,50 +120,46 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
    it will be different as we add real data.
    */
   function renderCategorizedItems() {
-    const categoriesDictionary = changeNodes?.dictionary
-    const listOfCategorizedItems = categoriesDictionary?.map((category) => {
+    // const categoriesDictionary = changeNodes?.dictionary
+    return categoriesOptions?.map((category) => {
       const selectedCategoryItems =
-        selectedItemsS?.filter((item) =>
+        data.lists?.filter((item) =>
           category?.dataOptions?.some((option) => option.title === item.title)
         ) || []
-      if (selectedCategoryItems.length > 0) {
-        return (
-          <div key={category.title}>
-            <div>{category.title}</div>
-            {selectedCategoryItems.map((item) => (
-              <div
-                key={item.title}
-                className="relative flex cursor-pointer text-[#000]"
-              >
-                <div className="my-[10px] ml-[10px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }${item.icon}`}
-                    alt="image"
-                    className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
-                  />
-                  <div className="cursor-pointer">{item.title}</div>
-                  <div
-                    onClick={() => {
-                      setRemoveNodes([item.title, 'dataStreaming'])
-                    }}
-                    className="top-[10px] text-[8px] font-bold text-black hover:text-[#686868] xl:right-[-35px] 2xl:right-[-45px] 2xl:text-[10px]"
-                  >
-                    X
-                  </div>
+      if (selectedCategoryItems.length === 0) return
+      return (
+        <div key={category.title}>
+          <div>{category.title}</div>
+          {selectedCategoryItems.map((item) => (
+            <div
+              key={item.title}
+              className="relative flex cursor-pointer text-[#000]"
+            >
+              <div className="my-[10px] ml-[10px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }${item.icon}`}
+                  alt="image"
+                  className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
+                />
+                <div className="cursor-pointer">{item.title}</div>
+                <div
+                  onClick={() => {
+                    setRemoveNodes([item.title, 'dataStreaming'])
+                  }}
+                  className="top-[10px] text-[8px] font-bold text-black hover:text-[#686868] xl:right-[-35px] 2xl:right-[-45px] 2xl:text-[10px]"
+                >
+                  X
                 </div>
               </div>
-            ))}
-          </div>
-        )
-      }
-      // eslint-disable-next-line react/jsx-key
-      return <div></div>
+            </div>
+          ))}
+        </div>
+      )
     })
-    return listOfCategorizedItems
   }
 
   return (
