@@ -165,7 +165,7 @@ export default function ResourcesTable() {
         <Search className="absolute left-3 size-4" />
         <Input
           type="text"
-          placeholder="Search"
+          placeholder="Filter provider and item names"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           className="pl-10"
