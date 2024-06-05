@@ -248,7 +248,7 @@ const DataProduct = (id: any) => {
 
   if (isLoading) {
     return (
-      <section className="px-[30px] pb-[50px] pt-[46px] text-[#000] md:pl-[90px] md:pr-[130px] lg:min-w-[800px] xl:min-w-[1200px] 2xl:min-w-[1200px]">
+      <section className="px-[30px] pb-[50px] pt-[46px] text-black md:pl-[90px] md:pr-[130px] lg:min-w-[800px] xl:min-w-[1200px] 2xl:min-w-[1200px]">
         <div className="container hidden h-60 animate-pulse px-0 pb-12 md:flex">
           <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
           <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
@@ -337,7 +337,7 @@ const DataProduct = (id: any) => {
                       {data?.name}
                     </div>
                     {isNew(data?.createdAt) && (
-                      <div className="mb-[2px] mt-auto h-fit rounded-[5px] border border-[#FFC946] bg-[#FFE9B2] px-[4px] py-[2px] text-[5px] font-semibold text-[#000] lg:px-[5px] lg:text-[6px] xl:mt-0 xl:py-[4px] xl:text-[8px] 2xl:px-[7px] 2xl:py-[5px] 2xl:text-[10px] 2xl:!leading-[12px]">
+                      <div className="mb-[2px] mt-auto h-fit rounded-[5px] border border-[#FFC946] bg-[#FFE9B2] px-[4px] py-[2px] text-[5px] font-semibold text-black lg:px-[5px] lg:text-[6px] xl:mt-0 xl:py-[4px] xl:text-[8px] 2xl:px-[7px] 2xl:py-[5px] 2xl:text-[10px] 2xl:!leading-[12px]">
                         NEW!
                       </div>
                     )}
@@ -515,7 +515,7 @@ const DataProduct = (id: any) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <div className="mx-auto mt-[12.5px] flex w-fit cursor-pointer justify-center gap-x-[10px] rounded-[5px] bg-black px-[9px] py-[8px] text-[9px] font-medium text-[#fff] hover:bg-[#1f1f1f] md:mt-[17.5px] md:w-full md:px-[13px] md:py-[11px] md:text-[10px] lg:mt-[20px] lg:text-[12px] lg:!leading-[19px] xl:text-[14px] 2xl:mt-[25px] 2xl:px-[17px] 2xl:py-[14.5px] 2xl:text-[16px]">
+                  <div className="mx-auto mt-[12.5px] flex w-fit cursor-pointer justify-center gap-x-[10px] rounded-[5px] bg-black px-[9px] py-[8px] text-[9px] font-medium text-white hover:bg-[#1f1f1f] md:mt-[17.5px] md:w-full md:px-[13px] md:py-[11px] md:text-[10px] lg:mt-[20px] lg:text-[12px] lg:!leading-[19px] xl:text-[14px] 2xl:mt-[25px] 2xl:px-[17px] 2xl:py-[14.5px] 2xl:text-[16px]">
                     <div>Download .csv </div>
                     <img
                       src={`${
@@ -544,7 +544,7 @@ const DataProduct = (id: any) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <div className="mx-auto mt-[12.5px] flex w-fit max-w-[179px] cursor-pointer justify-center gap-x-[10px] rounded-[5px] bg-[#0354EC] px-[8px] py-[5px] text-[8px] font-medium text-[#fff] hover:bg-[#2061d8] md:mt-[17.5px] md:w-full md:px-[11px] md:py-[7px] md:text-[10px] lg:mt-[20px] lg:text-[12px] lg:!leading-[19px] xl:px-[16.5px] xl:py-[11.6px] xl:text-[14px] 2xl:mt-[25px] 2xl:px-[20.5px] 2xl:py-[14.5px] 2xl:text-[16px]">
+                    <div className="mx-auto mt-[12.5px] flex w-fit max-w-[179px] cursor-pointer justify-center gap-x-[10px] rounded-[5px] bg-[#0354EC] px-[8px] py-[5px] text-[8px] font-medium text-white hover:bg-[#2061d8] md:mt-[17.5px] md:w-full md:px-[11px] md:py-[7px] md:text-[10px] lg:mt-[20px] lg:text-[12px] lg:!leading-[19px] xl:px-[16.5px] xl:py-[11.6px] xl:text-[14px] 2xl:mt-[25px] 2xl:px-[20.5px] 2xl:py-[14.5px] 2xl:text-[16px]">
                       <div>Add to Xnode</div>
                       <img
                         src={`${
@@ -558,7 +558,7 @@ const DataProduct = (id: any) => {
                     </div>
                   </a>
                 ) : (
-                  <div className="mx-auto mt-[12.5px] flex w-fit max-w-[179px] justify-center gap-x-[10px] rounded-[5px] bg-[#8f8e8e] px-[8px] py-[5px] text-[8px] font-medium text-[#fff] md:mt-[17.5px] md:w-full md:px-[11px] md:py-[7px] md:text-[10px] lg:mt-[20px] lg:text-[12px] lg:!leading-[19px] xl:px-[16.5px] xl:py-[11.6px] xl:text-[14px] 2xl:mt-[25px] 2xl:px-[20.5px] 2xl:py-[14.5px] 2xl:text-[16px]">
+                  <div className="mx-auto mt-[12.5px] flex w-fit max-w-[179px] justify-center gap-x-[10px] rounded-[5px] bg-[#8f8e8e] px-[8px] py-[5px] text-[8px] font-medium text-white md:mt-[17.5px] md:w-full md:px-[11px] md:py-[7px] md:text-[10px] lg:mt-[20px] lg:text-[12px] lg:!leading-[19px] xl:px-[16.5px] xl:py-[11.6px] xl:text-[14px] 2xl:mt-[25px] 2xl:px-[20.5px] 2xl:py-[14.5px] 2xl:text-[16px]">
                     <div>Coming Soon...</div>
                   </div>
                 )}
@@ -600,7 +600,7 @@ const DataProduct = (id: any) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <div className="mx-auto mt-[12.5px] flex w-fit max-w-[179px] cursor-pointer justify-center gap-x-[10px] rounded-[5px] bg-[#0354EC] px-[8px] py-[5px] text-[8px] font-medium text-[#fff] hover:bg-[#2061d8] md:mt-[17.5px] md:w-full md:px-[11px] md:py-[7px] md:text-[10px] lg:mt-[20px] lg:text-[12px] lg:!leading-[19px] xl:text-[14px] 2xl:mt-[25px] 2xl:px-[15px] 2xl:py-[10px] 2xl:text-[16px]">
+                  <div className="mx-auto mt-[12.5px] flex w-fit max-w-[179px] cursor-pointer justify-center gap-x-[10px] rounded-[5px] bg-[#0354EC] px-[8px] py-[5px] text-[8px] font-medium text-white hover:bg-[#2061d8] md:mt-[17.5px] md:w-full md:px-[11px] md:py-[7px] md:text-[10px] lg:mt-[20px] lg:text-[12px] lg:!leading-[19px] xl:text-[14px] 2xl:mt-[25px] 2xl:px-[15px] 2xl:py-[10px] 2xl:text-[16px]">
                     <div>Free to Access </div>
                     <img
                       src={`${
@@ -713,7 +713,7 @@ const DataProduct = (id: any) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div className="mx-auto mt-[12px] flex w-fit cursor-pointer gap-x-[10px] rounded-[5px] bg-[#0354EC] px-[8px] py-[3px] text-[8px] font-medium text-[#fff] hover:bg-[#2061d8] md:mt-[10px] md:px-[11px] md:py-[4px] md:text-[7px] lg:mt-[12px] lg:text-[8px] lg:!leading-[19px] 2xl:mt-[15px] 2xl:px-[15px] 2xl:py-[6.5px] 2xl:text-[10px]">
+              <div className="mx-auto mt-[12px] flex w-fit cursor-pointer gap-x-[10px] rounded-[5px] bg-[#0354EC] px-[8px] py-[3px] text-[8px] font-medium text-white hover:bg-[#2061d8] md:mt-[10px] md:px-[11px] md:py-[4px] md:text-[7px] lg:mt-[12px] lg:text-[8px] lg:!leading-[19px] 2xl:mt-[15px] 2xl:px-[15px] 2xl:py-[6.5px] 2xl:text-[10px]">
                 <div>Try Now</div>
                 <img
                   src={`${
@@ -727,7 +727,7 @@ const DataProduct = (id: any) => {
               </div>
             </a>
           </div>
-          <div className="mt-[32px] pl-[15px] text-[8px] text-[#000] md:mx-auto md:mt-[44px] md:w-fit md:pl-[14px] md:text-[10px] lg:mt-[50px] lg:pl-[16px] lg:text-[11px] lg:!leading-[200%] xl:text-[13px] 2xl:mt-[63px] 2xl:pl-[20px] 2xl:text-[16px]">
+          <div className="mt-[32px] pl-[15px] text-[8px] text-black md:mx-auto md:mt-[44px] md:w-fit md:pl-[14px] md:text-[10px] lg:mt-[50px] lg:pl-[16px] lg:text-[11px] lg:!leading-[200%] xl:text-[13px] 2xl:mt-[63px] 2xl:pl-[20px] 2xl:text-[16px]">
             <div className="font-bold">Help</div>
             <div className="mt-[5px] grid gap-y-[12px] font-normal">
               {Object.entries(dataHelpDynamic).map(
@@ -740,7 +740,7 @@ const DataProduct = (id: any) => {
                       key={index}
                     >
                       <div
-                        className={`w-fit cursor-pointer border-b border-[#000] hover:border-[#0354EC] hover:text-[#0354EC] lg:!leading-tight`}
+                        className={`w-fit cursor-pointer border-b border-black hover:border-[#0354EC] hover:text-[#0354EC] lg:!leading-tight`}
                       >
                         {key}
                       </div>

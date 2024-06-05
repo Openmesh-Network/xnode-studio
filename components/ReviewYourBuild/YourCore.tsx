@@ -17,7 +17,7 @@ const YourCore = ({ ...data }: ModalProps) => {
   const [viewData, setViewData] = useState<boolean>(true)
 
   return (
-    <div className="relative flex rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] pb-[20px] text-[#000] md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[12px] xl:pb-[40px] 2xl:px-[20px] 2xl:py-[15px] 2xl:pb-[50px]">
+    <div className="relative flex rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] pb-[20px] text-black md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[12px] xl:pb-[40px] 2xl:px-[20px] 2xl:py-[15px] 2xl:pb-[50px]">
       <div className="relative flex gap-x-[10px]">
         <div className="text-[10px] font-bold md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
           Your Core

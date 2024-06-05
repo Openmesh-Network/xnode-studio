@@ -112,7 +112,7 @@ function RPCNode({ id, data, handleNodeRemove }) {
   }
   return (
     <>
-      <div className="relative rounded-[20px] border-[0.5px] border-[#C1C1C1] bg-[#fff] px-[10px] py-[7px] pb-[23px] pr-[17px] text-[8px] text-[#000] md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[20.4px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[23px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[27px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[34px] 2xl:text-[16px]">
+      <div className="relative rounded-[20px] border-[0.5px] border-[#C1C1C1] bg-white px-[10px] py-[7px] pb-[23px] pr-[17px] text-[8px] text-black md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[20.4px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[23px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[27px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[34px] 2xl:text-[16px]">
         <button
           onClick={() => {
             handleClick()

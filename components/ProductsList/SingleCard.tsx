@@ -229,7 +229,7 @@ const SingleCard = ({
               }`}
             >
               <div
-                className={`text-[10px] font-bold text-[#313131] hover:text-[#000] hover:underline md:text-[12px] lg:text-[14px] lg:!leading-[22px] 2xl:text-[18px]`}
+                className={`text-[10px] font-bold text-[#313131] hover:text-black hover:underline md:text-[12px] lg:text-[14px] lg:!leading-[22px] 2xl:text-[18px]`}
               >
                 {name}
               </div>
@@ -249,7 +249,7 @@ const SingleCard = ({
                       handleAddProduct(name)
                       // window.scrollTo({ top: 0, behavior: 'smooth' })
                     }}
-                    className={`ml-auto flex cursor-pointer rounded-[5px] bg-[#0354EC] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] hover:bg-[#123981] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
+                    className={`ml-auto flex cursor-pointer rounded-[5px] bg-[#0354EC] px-[7px] py-[3px] text-[6.5px] font-medium text-white hover:bg-[#123981] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
                   >
                     <div>Add</div>
                   </div>
@@ -261,7 +261,7 @@ const SingleCard = ({
                   // setNext(true)
                   // window.scrollTo({ top: 0, behavior: 'smooth' })
                 }}
-                className={`ml-auto flex rounded-[5px] bg-[#B4B7BB] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
+                className={`ml-auto flex rounded-[5px] bg-[#B4B7BB] px-[7px] py-[3px] text-[6.5px] font-medium text-white md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
               >
                 <div>Soon</div>
               </div>

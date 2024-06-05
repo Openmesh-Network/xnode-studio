@@ -401,7 +401,7 @@ const Profile = () => {
                     Update account
                   </h3>
                 </div>
-                <div className="mt-[20px] text-[#000]">{user.email}</div>
+                <div className="mt-[20px] text-black">{user.email}</div>
               </div>
             </div>
           </div>
@@ -715,7 +715,7 @@ const Profile = () => {
                   <button
                     type="submit"
                     onClick={handleSubmit(onSubmit)}
-                    className={`h-[50px] w-[250px] rounded-[10px] border border-[#0354EC] px-[25px] py-[12px] text-[12px] font-bold text-[#0354EC] hover:bg-[#0354EC] hover:text-[#fff] lg:text-[16px]`}
+                    className={`h-[50px] w-[250px] rounded-[10px] border border-[#0354EC] px-[25px] py-[12px] text-[12px] font-bold text-[#0354EC] hover:bg-[#0354EC] hover:text-white lg:text-[16px]`}
                   >
                     <span className="">Update account</span>
                   </button>

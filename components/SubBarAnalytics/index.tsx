@@ -120,7 +120,7 @@ const SubBarAnalytics = ({ onValueChange }) => {
                 </div>
                 <div
                   className={`mt-[9px] ${
-                    option.enabled ? 'text-[#000]' : 'text-[#A1A0A0]'
+                    option.enabled ? 'text-black' : 'text-[#A1A0A0]'
                   } max-w-[103px] font-light md:mt-[11px] md:max-w-[123px] lg:mt-[12.5px] lg:max-w-[145px] xl:mt-[14px] xl:max-w-[165px] 2xl:mt-[18px] 2xl:max-w-[206px]`}
                 >
                   {option.desc}
@@ -172,7 +172,7 @@ const SubBarAnalytics = ({ onValueChange }) => {
 
   return (
     <>
-      <div className="z-100 relative bg-[#fff] px-[16px] py-[21px] text-[#000] shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[26px] lg:px-[23px] lg:py-[30px] xl:px-[26.5px] xl:py-[35px] 2xl:px-[33px] 2xl:py-[43px]">
+      <div className="z-100 relative bg-white px-[16px] py-[21px] text-black shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[26px] lg:px-[23px] lg:py-[30px] xl:px-[26.5px] xl:py-[35px] 2xl:px-[33px] 2xl:py-[43px]">
         <img
           src={`${
             process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'

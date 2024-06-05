@@ -133,7 +133,7 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
           {selectedCategoryItems.map((item) => (
             <div
               key={item.title}
-              className="relative flex cursor-pointer text-[#000]"
+              className="relative flex cursor-pointer text-black"
             >
               <div className="my-[10px] ml-[10px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                 <img
@@ -164,7 +164,7 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
 
   return (
     <>
-      <div className="relative rounded-[20px] border-[0.5px] border-[#C1C1C1] bg-[#fff] px-[10px] py-[7px] pb-[23px] pr-[33px] text-[8px] text-[#000] md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[46px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[53px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[61px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[77px] 2xl:text-[16px]">
+      <div className="relative rounded-[20px] border-[0.5px] border-[#C1C1C1] bg-white px-[10px] py-[7px] pb-[23px] pr-[33px] text-[8px] text-black md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[46px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[53px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[61px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[77px] 2xl:text-[16px]">
         <button
           onClick={() => {
             handleClick()
@@ -194,7 +194,7 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
         <div className="text-[7px] md:text-[8.4px] lg:mt-[20px] lg:text-[10px] xl:mt-[24px] xl:text-[11.2px] 2xl:mt-[30px] 2xl:text-[14px]"></div>
         {/* <div className="mt-[6px] grid gap-y-[18px] pl-[5px] md:mt-[7.2px] md:gap-y-[19.2px] lg:mt-[8.4px] lg:gap-y-[22.5px] xl:mt-[9.6px] xl:gap-y-[16px] 2xl:mt-[12px] 2xl:gap-y-[20px]">
           {data.lists.map((list, index) => (
-            <div key={index} className="relative flex text-[#000]">
+            <div key={index} className="relative flex text-black">
               <div className="flex gap-x-[9px] text-[7.5px] font-normal  hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                 <img
                   src={list.icon}

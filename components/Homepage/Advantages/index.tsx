@@ -54,7 +54,7 @@ export function HomeAdvantages() {
           </div>
         </div>
         <div className="flex w-full max-w-[620px] flex-col">
-          <div className="text-[28px] font-bold leading-tight text-[#000] lg:leading-[180%]">
+          <div className="text-[28px] font-bold leading-tight text-black lg:leading-[180%]">
             Explore Possibilities{' '}
           </div>
           <div className="mt-[6px] w-full text-sm leading-[20px] text-darkGray">

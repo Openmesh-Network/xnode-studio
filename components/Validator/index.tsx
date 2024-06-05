@@ -58,7 +58,7 @@ const Validator = (id: any) => {
 
   // const MapChart = () => (
   //   <div className="mx-auto h-[500px] max-w-[300px] lg:max-w-[800px] xl:max-w-[1000px] 2xl:max-w-[1200px]">
-  //     <div className="-ml-[12px] mt-[30px] text-[10px] text-[#000] md:mt-[36px] md:text-[12px] lg:mt-[42px] lg:text-[14px] xl:mb-[48px] xl:text-[16px] 2xl:-ml-[15px] 2xl:mb-[60px] 2xl:text-[20px]">
+  //     <div className="-ml-[12px] mt-[30px] text-[10px] text-black md:mt-[36px] md:text-[12px] lg:mt-[42px] lg:text-[14px] xl:mb-[48px] xl:text-[16px] 2xl:-ml-[15px] 2xl:mb-[60px] 2xl:text-[20px]">
   //       Map of active validators
   //     </div>
   //     <VectorMap
@@ -92,7 +92,7 @@ const Validator = (id: any) => {
 
   if (isLoading) {
     return (
-      <section className="px-[30px] pb-[50px] pt-[46px] text-[#000] md:pl-[90px] md:pr-[130px] lg:min-w-[800px] xl:min-w-[1200px] 2xl:min-w-[1200px]">
+      <section className="px-[30px] pb-[50px] pt-[46px] text-black md:pl-[90px] md:pr-[130px] lg:min-w-[800px] xl:min-w-[1200px] 2xl:min-w-[1200px]">
         <div className="container hidden h-60 animate-pulse px-0 pb-12 md:flex">
           <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
           <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>

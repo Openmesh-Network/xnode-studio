@@ -184,7 +184,7 @@ const SubBarServers = ({ onValueChange }) => {
       <div className="mt-[11px] grid gap-y-[22px] md:mt-[13px] md:gap-y-[27px] lg:mt-[15.5px] lg:gap-y-[31px] xl:mt-[17.5px] xl:gap-y-[35px] 2xl:mt-[22px] 2xl:min-w-[290px] 2xl:gap-y-[44px]">
         {chooseYourServerOptions.map((option, index) => (
           <div key={index} className="relative">
-            <div className="relative flex gap-x-[8px] text-[#000] md:gap-x-[9.6px] lg:gap-x-[11.2px] xl:gap-x-[13px] 2xl:gap-x-[16px]">
+            <div className="relative flex gap-x-[8px] text-black md:gap-x-[9.6px] lg:gap-x-[11.2px] xl:gap-x-[13px] 2xl:gap-x-[16px]">
               <div>
                 <div className="text-[8px] font-medium md:text-[9.6px] lg:text-[11.2px] lg:!leading-[300%] xl:text-[13px] 2xl:text-[16px]">
                   {option.title}
@@ -227,7 +227,7 @@ const SubBarServers = ({ onValueChange }) => {
                     option.servers > 0
                       ? 'cursor-pointer bg-[#0354EC] hover:bg-[#123981]'
                       : 'bg-[#939393]'
-                  } rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:mt-[12px] md:text-[7px] lg:mt-[14px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:mt-[16px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:mt-[20px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
+                  } rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-white md:mt-[12px] md:text-[7px] lg:mt-[14px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:mt-[16px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:mt-[20px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
                 >
                   <div>Add</div>
                 </div>
@@ -246,7 +246,7 @@ const SubBarServers = ({ onValueChange }) => {
 
   return (
     <>
-      <div className="z-100 relative bg-[#fff] px-[18px] py-[29px] pr-[33px] text-[#000] shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[34.5px] md:pr-[40px] lg:px-[23px] lg:py-[40px] lg:pr-[47px] xl:px-[27px] xl:py-[45.5px] xl:pr-[54px] 2xl:py-[57px] 2xl:pl-[33px] 2xl:pr-[67px]">
+      <div className="z-100 relative bg-white px-[18px] py-[29px] pr-[33px] text-black shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[34.5px] md:pr-[40px] lg:px-[23px] lg:py-[40px] lg:pr-[47px] xl:px-[27px] xl:py-[45.5px] xl:pr-[54px] 2xl:py-[57px] 2xl:pl-[33px] 2xl:pr-[67px]">
         <div className="text-[9px] font-bold md:text-[11px] lg:text-[12.5px] xl:text-[14.5px] 2xl:text-[18px]">
           Select cloud provider{' '}
         </div>
@@ -278,7 +278,7 @@ const SubBarServers = ({ onValueChange }) => {
                 >
                   <div
                     className={` ${
-                      option.enabled ? 'text-[#000]' : 'text-[#B1B1B1]'
+                      option.enabled ? 'text-black' : 'text-[#B1B1B1]'
                     } ml-[25px] text-[8px] font-light md:text-[10px] lg:text-[11px] lg:!leading-[300%] xl:text-[13px] 2xl:text-[16px]`}
                   >
                     {option.title}
@@ -301,7 +301,7 @@ const SubBarServers = ({ onValueChange }) => {
                 } md:size-[12px] lg:size-[14px] xl:size-[16px] 2xl:size-[20px] ${
                   cloudProvider === option.title && option.enabled
                     ? 'bg-[#0354EC]'
-                    : 'bg-[#fff]'
+                    : 'bg-white'
                 }`}
               ></div>
             </div>

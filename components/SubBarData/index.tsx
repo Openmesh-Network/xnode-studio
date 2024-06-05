@@ -45,7 +45,7 @@ const SubBarData = ({ onValueChange }) => {
     return (
       <div className="mb-[25px] mt-[6.5px] grid gap-y-[15px] pl-[19px] md:mb-[30px] md:mt-[7.5px] md:gap-y-[18px] md:pl-[22px] lg:mb-[35px] lg:mt-[8.5px] lg:gap-y-[21px] lg:pl-[27px] xl:mb-[40px] xl:mt-[10px] xl:gap-y-[24px] xl:pl-[30px] 2xl:mb-[50px] 2xl:mt-[12px] 2xl:gap-y-[30px] 2xl:pl-[38px]">
         {option.dataOptions.map((dataOption, index) => (
-          <div key={index} className="relative flex text-[#000]">
+          <div key={index} className="relative flex text-black">
             <div className="flex gap-x-[9px]">
               <img
                 src={`${
@@ -87,7 +87,7 @@ const SubBarData = ({ onValueChange }) => {
                 dataOption.enabled
                   ? 'cursor-pointer bg-[#0354EC] hover:bg-[#123981]'
                   : 'bg-[#999999]'
-              } -top-0.5 right-0 rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
+              } -top-0.5 right-0 rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-white md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
             >
               <div>Add</div>
             </div>
@@ -101,7 +101,7 @@ const SubBarData = ({ onValueChange }) => {
   }, [currentDataMenuSelect, setselectCurrentMenuDataType])
   return (
     <>
-      <div className="z-100 relative min-w-[300px] bg-[#fff] px-[18px] py-[29px] pr-[33px] text-[#000] shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[34.5px] md:pr-[40px] lg:px-[23px] lg:py-[40px] lg:pr-[47px] xl:px-[27px] xl:py-[45.5px] xl:pr-[54px] 2xl:min-w-[370px] 2xl:py-[57px] 2xl:pl-[33px] 2xl:pr-[67px]">
+      <div className="z-100 relative min-w-[300px] bg-white px-[18px] py-[29px] pr-[33px] text-black shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[34.5px] md:pr-[40px] lg:px-[23px] lg:py-[40px] lg:pr-[47px] xl:px-[27px] xl:py-[45.5px] xl:pr-[54px] 2xl:min-w-[370px] 2xl:py-[57px] 2xl:pl-[33px] 2xl:pr-[67px]">
         {/* <div className="text-[9px] font-bold md:text-[11px] lg:text-[12.5px] xl:text-[14.5px] 2xl:text-[18px]">
           Categories
         </div> */}
@@ -258,7 +258,7 @@ const SubBarData = ({ onValueChange }) => {
             View More
           </div>
         </a>
-        {/* <div className="mt-[15px] pl-[5px] text-[8px] text-[#000] md:mt-[14px] md:w-fit md:text-[10px] lg:mt-[16px] lg:text-[11px] xl:mt-[18px] xl:text-[13px] 2xl:mt-[23px] 2xl:text-[16px]">
+        {/* <div className="mt-[15px] pl-[5px] text-[8px] text-black md:mt-[14px] md:w-fit md:text-[10px] lg:mt-[16px] lg:text-[11px] xl:mt-[18px] xl:text-[13px] 2xl:mt-[23px] 2xl:text-[16px]">
           <div className="font-bold ">Use Cases</div>
           <div className="mt-[7.5px] grid font-normal md:mt-[9px] lg:mt-[10.5px] lg:!leading-[300%] xl:mt-[12px] 2xl:mt-[15px]">
             {Object.entries(dataUseCase).map(([key, value], index, array) => (

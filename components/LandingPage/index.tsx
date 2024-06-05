@@ -73,7 +73,7 @@ const LandingPage = () => {
           </div>
           <CostSaving></CostSaving>
           <div className="mt-[300px] flex flex-col items-center md:mt-[100px] md:w-[250px] lg:w-[290px] xl:w-[333px] 2xl:w-[417px]">
-            <h2 className="text-[20px] font-normal leading-[110px] text-[#000] md:text-[24px] lg:text-[28px] xl:text-[32px] 2xl:text-[40px]">
+            <h2 className="text-[20px] font-normal leading-[110px] text-black md:text-[24px] lg:text-[28px] xl:text-[32px] 2xl:text-[40px]">
               Play around it now
             </h2>
             <a
@@ -122,17 +122,17 @@ const LandingPage = () => {
                   className="ml-[20px] mt-[5px] flex flex-col gap-y-5 md:mt-0"
                 >
                   <hr
-                    className={`origin-left transition-transform duration-[2000ms] ease-out${
+                    className={`duration-[2000ms] origin-left transition-transform ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
                     } via-rgba to-opacity-33 h-[12px] w-[20px] rounded-xl bg-gradient-to-tl from-[#707070] md:w-[196px] lg:w-[230px] xl:w-[260px] 2xl:w-[327px]`}
                   ></hr>
                   <hr
-                    className={`origin-left transition-transform duration-[2000ms] ease-out${
+                    className={`duration-[2000ms] origin-left transition-transform ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
                     } via-rgba to-opacity-33 h-[12px] w-[70px] rounded-xl bg-gradient-to-tl from-[#5A5A5A] via-[rgba(123,123,123,0.707391)] md:w-[408px] lg:w-[476px] xl:w-[544px] 2xl:w-[679px]`}
                   ></hr>
                   <hr
-                    className={`origin-left transition-transform duration-[2000ms] ease-out${
+                    className={`duration-[2000ms] origin-left transition-transform ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
                     } via-rgba to-opacity-33 via-rgba-65-65-65-33 h-[12px] w-[25px] rounded-xl bg-gradient-to-tl from-[#CCCCCC] md:w-[261px] lg:w-[304px] xl:w-[348px] 2xl:w-[435px]`}
                   ></hr>
@@ -170,17 +170,17 @@ const LandingPage = () => {
 
                 <div className="ml-[20px] mt-[5px] flex flex-col gap-y-5 md:mt-0">
                   <hr
-                    className={`origin-left transition-transform duration-[4000ms] ease-out${
+                    className={`duration-[4000ms] origin-left transition-transform ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
                     } via-rgba-255-164-164-33 to-opacity-33 h-[12px] w-[120px] rounded-xl bg-gradient-to-tl from-[#FD003D] md:w-[408px] lg:w-[476px] xl:w-[544px] 2xl:w-[679px]`}
                   ></hr>
                   <hr
-                    className={`origin-left transition-transform duration-[4000ms] ease-out${
+                    className={`duration-[4000ms] origin-left transition-transform ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
                     } via-rgba-255-164-164-33 to-opacity-33 h-[12px] w-[20px] rounded-xl bg-gradient-to-tl from-[#FFCF96] md:w-[143px] lg:w-[166px] xl:w-[190px] 2xl:w-[238px]`}
                   ></hr>
                   <hr
-                    className={`origin-left transition-transform duration-[4000ms] ease-out${
+                    className={`duration-[4000ms] origin-left transition-transform ease-out${
                       isHRVisible ? 'scale-x-100' : 'scale-x-0'
                     } via-rgba-255-164-164-33 to-opacity-33 h-[12px] w-[130px] rounded-xl bg-gradient-to-tl from-[#FD003D] md:w-[261px] lg:w-[304px] xl:w-[348px] 2xl:w-[435px]`}
                   ></hr>
@@ -252,14 +252,14 @@ const LandingPage = () => {
                 href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-[4px] text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
+                className="font-inter mt-[4px] text-justify text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
               >
                 An introduction to xNode&aptos;s role in decentralizing data
                 infrastructure.
               </a>
 
               <a
-                className="mt-[15px] font-inter text-[9px] font-bold leading-[18px] md:ml-[5px] md:mt-[30px] md:text-[10px] lg:mt-[35px] lg:text-[11.2px] xl:mt-[40px] xl:text-[13px] 2xl:mt-[50px] 2xl:text-[16px]"
+                className="font-inter mt-[15px] text-[9px] font-bold leading-[18px] md:ml-[5px] md:mt-[30px] md:text-[10px] lg:mt-[35px] lg:text-[11.2px] xl:mt-[40px] xl:text-[13px] 2xl:mt-[50px] 2xl:text-[16px]"
                 target="_blank"
                 rel="noopener noreferrer"
                 href="https://docs.openmesh.network/products/xnode"
@@ -270,7 +270,7 @@ const LandingPage = () => {
                 href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-px text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
+                className="font-inter mt-px text-justify text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
               >
                 Step-by-step guide to deploying an xNode.
               </a>
@@ -278,7 +278,7 @@ const LandingPage = () => {
                 href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-px text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
+                className="font-inter mt-px text-justify text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
               >
                 Technical design
               </a>
@@ -286,7 +286,7 @@ const LandingPage = () => {
                 href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-[15px] text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
+                className="font-inter mt-[15px] text-justify text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
               >
                 Developer support and resources
               </a>
@@ -294,7 +294,7 @@ const LandingPage = () => {
                 href="https://docs.openmesh.network/products/xnode"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-px text-justify font-inter text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
+                className="font-inter mt-px text-justify text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
               >
                 Docs & Research
               </a>

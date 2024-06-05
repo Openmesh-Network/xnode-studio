@@ -31,19 +31,19 @@ export default function IndividualModules(props: IndividualModulesProps) {
             <a className="font-inter text-[16px] font-bold leading-[18px] text-[#0354EC]">
               {strongTitle}
             </a>
-            <a className="mt-[24px] font-inter text-[16px] font-normal leading-[24px] text-[#0354EC]">
+            <a className="font-inter mt-[24px] text-[16px] font-normal leading-[24px] text-[#0354EC]">
               {subTitle}
             </a>
           </div>
           <div>
-            <ul className="ml-[40px] list-disc font-inter text-[16px] text-[#0354EC]">
+            <ul className="font-inter ml-[40px] list-disc text-[16px] text-[#0354EC]">
               {listItem.map((item, index) => (
                 <li key={index}>
                   <a
                     href={`${item.href}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-justify font-inter text-[16px] font-medium leading-[24px]"
+                    className="font-inter text-justify text-[16px] font-medium leading-[24px]"
                   >
                     {item.title}
                   </a>

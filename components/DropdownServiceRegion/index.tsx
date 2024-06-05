@@ -50,7 +50,7 @@ const DropdownServiceRegion = ({ onValueChange }) => {
 
   return (
     <div
-      className="relative w-[124px] rounded-[5px] border border-[#D9D9D9] px-[7px] text-left text-[8px] font-normal text-[#000] focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-[149px] md:px-[8.5px] md:text-[9.6x] lg:w-[174px] lg:px-[10px] lg:text-[11.2px] xl:w-[200px] xl:px-[12px] xl:text-[12.8px] 2xl:w-[248px] 2xl:px-[14px] 2xl:text-[16px]"
+      className="relative w-[124px] rounded-[5px] border border-[#D9D9D9] px-[7px] text-left text-[8px] font-normal text-black focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-[149px] md:px-[8.5px] md:text-[9.6x] lg:w-[174px] lg:px-[10px] lg:text-[11.2px] xl:w-[200px] xl:px-[12px] xl:text-[12.8px] 2xl:w-[248px] 2xl:px-[14px] 2xl:text-[16px]"
       ref={dropdownRef}
     >
       <div className="flex">

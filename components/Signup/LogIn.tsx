@@ -140,7 +140,7 @@ const LogIn = () => {
           onMouseLeave={() => setShowTooltipCloudProvider(false)}
         />
         {showTooltipCloudProvider && (
-          <div className="absolute left-[100px] top-0 w-full max-w-[270px] rounded-[10px] bg-black px-[13px] py-[10px] text-[8px] font-medium text-[#fff] md:left-[120px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[140px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[180px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[200px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
+          <div className="absolute left-[100px] top-0 w-full max-w-[270px] rounded-[10px] bg-black px-[13px] py-[10px] text-[8px] font-medium text-white md:left-[120px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[140px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[180px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[200px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
             <div className="">Sign in to proceed with the Xnode deployment</div>
           </div>
         )}
@@ -206,13 +206,13 @@ const LogIn = () => {
             {!isLoading && (
               <div
                 onClick={handleSubmit(onSubmit)}
-                className="mt-[41px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#0e2e69] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]"
+                className="mt-[41px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-white hover:bg-[#0e2e69] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]"
               >
                 <div>Sign in</div>
               </div>
             )}
             {isLoading && (
-              <div className="mt-[41px] flex size-fit justify-center gap-x-[8px] rounded-[5px] bg-[#719be9] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]">
+              <div className="mt-[41px] flex size-fit justify-center gap-x-[8px] rounded-[5px] bg-[#719be9] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-white md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]">
                 <div>Sign in</div>
               </div>
             )}
@@ -235,7 +235,7 @@ const LogIn = () => {
             rel="noreferrer"
             className="my-auto"
           >
-            <div className="my-auto flex h-fit w-[125px] cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#0e2e69] md:w-[150px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:w-[175px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:w-[200px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:w-[250px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]">
+            <div className="my-auto flex h-fit w-[125px] cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-white hover:bg-[#0e2e69] md:w-[150px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:w-[175px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:w-[200px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:w-[250px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]">
               <img
                 src={`${
                   process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'

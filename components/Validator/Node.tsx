@@ -120,7 +120,7 @@ const Node = ({ ...data }: ModalProps) => {
   }, [chain, isChainWrong, address])
 
   return (
-    <section className="mx-auto w-full font-normal text-[#000]">
+    <section className="mx-auto w-full font-normal text-black">
       <div className="mx-auto grid w-full justify-between gap-[20px] md:flex xl:w-[1050.4px] 2xl:w-[1313px]">
         <div className="mt-[14px] md:mt-[17px] lg:mt-[19.6px] xl:mt-[22.4px] 2xl:mt-[28px]">
           <div className="flex gap-x-[10px] md:gap-x-[12px] lg:gap-x-[14px] xl:gap-x-[16px] 2xl:gap-x-[20px]">
@@ -162,7 +162,7 @@ const Node = ({ ...data }: ModalProps) => {
           </div>
         </div>
         {user && user.id === data.node.openmeshExpertUserId && (
-          <div className="rounded-[10px] bg-[#fff] px-[25px] py-[20px] text-center md:px-[30px] md:py-[24px] lg:px-[35px] lg:py-[28px] xl:px-[40px] xl:py-[32px] 2xl:px-[50px] 2xl:py-[40px]">
+          <div className="rounded-[10px] bg-white px-[25px] py-[20px] text-center md:px-[30px] md:py-[24px] lg:px-[35px] lg:py-[28px] xl:px-[40px] xl:py-[32px] 2xl:px-[50px] 2xl:py-[40px]">
             <div className="mx-auto rounded-[5px] border border-[#D7D7D7] bg-gray100 px-[10px] py-[2px] text-[13px] font-light shadow-[2px_2px_10px_2px_rgba(0,0,0,0.04)] md:text-[16px] lg:text-[18px] xl:text-[21px] 2xl:w-[171px] 2xl:text-[26px]">
               0
             </div>
@@ -194,7 +194,7 @@ const Node = ({ ...data }: ModalProps) => {
             {/*         isLoading */}
             {/*           ? 'bg-[#3b7cf5]' */}
             {/*           : 'bg-[#0354EC] hover:bg-[#022f81]' */}
-            {/*       } rounded-[5px]   py-[4.5px] px-[18px] text-[7px] text-[#fff]   md:py-[5.4px] md:px-[22.2px] md:text-[8.4px]  lg:py-[6.3px] lg:px-[26px] lg:text-[10px] xl:py-[7.2px] xl:px-[29.5px] xl:text-[11.2px] 2xl:py-[9px] 2xl:px-[37px] 2xl:text-[14px]`} */}
+            {/*       } rounded-[5px]   py-[4.5px] px-[18px] text-[7px] text-white   md:py-[5.4px] md:px-[22.2px] md:text-[8.4px]  lg:py-[6.3px] lg:px-[26px] lg:text-[10px] xl:py-[7.2px] xl:px-[29.5px] xl:text-[11.2px] 2xl:py-[9px] 2xl:px-[37px] 2xl:text-[14px]`} */}
             {/*     > */}
             {/*       Assign your wallet */}
             {/*     </div> */}
@@ -210,7 +210,7 @@ const Node = ({ ...data }: ModalProps) => {
             {/*       onMouseLeave={() => setShowTooltipCloudProvider(false)} */}
             {/*     /> */}
             {/*     {showTooltipCloudProvider && ( */}
-            {/*       <div className="absolute top-[50px] w-[370px] rounded-[10px] bg-[#000] px-[13px]  py-[10px]  text-[8px] font-medium text-[#fff] md:px-[15px] md:py-[12px] md:text-[9px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]"> */}
+            {/*       <div className="absolute top-[50px] w-[370px] rounded-[10px] bg-black px-[13px]  py-[10px]  text-[8px] font-medium text-white md:px-[15px] md:py-[12px] md:text-[9px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]"> */}
             {/*         <div> */}
             {/*           You will sign a message certifying that your wallet will */}
             {/*           be the recipient of the staked tokens.{' '} */}
@@ -232,7 +232,7 @@ const Node = ({ ...data }: ModalProps) => {
             Your rewards
           </div>
           <div className="mt-[17.5px] flex w-full items-center justify-center md:mt-[21px] lg:mt-[24.5px] xl:mt-[28px] 2xl:mt-[35px]">
-            <SmileySad size={32} className="text-blue-500 mb-2" />
+            <SmileySad size={32} className="mb-2 text-blue-500" />
             <span className="">No rewards found</span>
           </div>
         </div>
@@ -241,7 +241,7 @@ const Node = ({ ...data }: ModalProps) => {
             Your node activities{' '}
           </div>
           <div className="mt-[17.5px] flex w-full items-center justify-center md:mt-[21px] lg:mt-[24.5px] xl:mt-[28px] 2xl:mt-[35px]">
-            <SmileySad size={32} className="text-blue-500 mb-2" />
+            <SmileySad size={32} className="mb-2 text-blue-500" />
             <span className="">No activities found</span>
           </div>
         </div>

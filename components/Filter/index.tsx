@@ -117,7 +117,7 @@ const Filter = ({ onUpdate }: ModalProps) => {
   }, [pathname])
 
   return (
-    <section className="max-w-[190px] bg-white p-[5px] text-[8px] font-normal text-[#000] md:text-[11px] lg:min-w-[200px] lg:pt-[100px] lg:text-[13px] lg:!leading-[220%] 2xl:max-w-[220px] 2xl:text-[14px]">
+    <section className="max-w-[190px] bg-white p-[5px] text-[8px] font-normal text-black md:text-[11px] lg:min-w-[200px] lg:pt-[100px] lg:text-[13px] lg:!leading-[220%] 2xl:max-w-[220px] 2xl:text-[14px]">
       {/* <div className="lg:!leading-[200%]">
         <div className="mt-[8px] lg:mt-[12px] 2xl:mt-[15px]">
           {orderByOptions.map((order, index) => (
@@ -126,8 +126,8 @@ const Filter = ({ onUpdate }: ModalProps) => {
                 handleOrderBySelection(order)
               }}
               key={index}
-              className={`cursor-pointer hover:text-[#000] ${
-                filterOrderBy === order ? 'text-[#000]' : 'text-[#959595]'
+              className={`cursor-pointer hover:text-black ${
+                filterOrderBy === order ? 'text-black' : 'text-[#959595]'
               }`}
             >
               {order}
@@ -146,9 +146,9 @@ const Filter = ({ onUpdate }: ModalProps) => {
                 handleCategorySelection(category)
               }}
               key={index}
-              className={`hidden cursor-pointer hover:text-[#000] ${
-                filterCategories.includes(category) && '!block text-[#000]'
-              } ${filterCategories.length === 0 && '!block text-[#000]'}`}
+              className={`hidden cursor-pointer hover:text-black ${
+                filterCategories.includes(category) && '!block text-black'
+              } ${filterCategories.length === 0 && '!block text-black'}`}
             >
               {category}
             </div>
@@ -166,9 +166,9 @@ const Filter = ({ onUpdate }: ModalProps) => {
                 handleUseCaseSelection(useCase)
               }}
               key={index}
-              className={`cursor-pointer hover:text-[#000] ${
+              className={`cursor-pointer hover:text-black ${
                 filterUseCases.includes(useCase)
-                  ? 'text-[#000]'
+                  ? 'text-black'
                   : 'text-[#959595]'
               }`}
             >

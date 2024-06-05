@@ -134,7 +134,7 @@ const Dashboard = () => {
 
   const renderTable = () => {
     return (
-      <div className="mx-auto flex text-[#000]">
+      <div className="mx-auto flex text-black">
         <table className="mx-auto w-full">
           <thead className="">
             <tr>
@@ -208,7 +208,7 @@ const Dashboard = () => {
   if (xnodesData.length === 0) {
     return (
       <div>
-        <div className="mb-[100px] mt-[64px] flex items-center justify-center text-[#000]">
+        <div className="mb-[100px] mt-[64px] flex items-center justify-center text-black">
           <div className="">
             <SmileySad size={32} className="mx-auto mb-2" />
             <div>No Xnodes found</div>
@@ -220,7 +220,7 @@ const Dashboard = () => {
 
   if (isLoading) {
     return (
-      <section className="w-[700px] bg-white px-[20px] pb-[50px] pt-[46px] text-[#000] md:w-[840px] lg:w-[980px] xl:w-[1120px] 2xl:w-[1400px]">
+      <section className="w-[700px] bg-white px-[20px] pb-[50px] pt-[46px] text-black md:w-[840px] lg:w-[980px] xl:w-[1120px] 2xl:w-[1400px]">
         <div className="hidden h-60 animate-pulse px-0 pb-12 md:flex">
           <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
           <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
@@ -252,7 +252,7 @@ const Dashboard = () => {
           Dashboards to display{' '}
         </div>
         <div className="mt-[50px] hidden md:flex">
-          <h2 className="mb-[20px] ml-[50px] text-lg font-semibold text-[#000]">
+          <h2 className="mb-[20px] ml-[50px] text-lg font-semibold text-black">
             Xnode Uptime
           </h2>
           <LineChart

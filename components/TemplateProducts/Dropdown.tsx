@@ -78,7 +78,7 @@ const Dropdown = ({
       </div>
 
       {isOpen && (
-        <div className="absolute left-0 top-0 z-50 w-full translate-y-[60px] rounded-[5px] border border-[#cfd3d8] bg-[#fff] transition">
+        <div className="absolute left-0 top-0 z-50 w-full translate-y-[60px] rounded-[5px] border border-[#cfd3d8] bg-white transition">
           <div className="grid gap-y-[5px] p-1">
             {options?.map((option, index) => (
               <div

@@ -94,7 +94,7 @@ const SubBarAPIs = ({ onValueChange }) => {
     return (
       <div className="mb-[25px] mt-[6.5px] grid gap-y-[15px] pl-[19px] md:mb-[30px] md:mt-[7.5px] md:gap-y-[18px] md:pl-[22px] lg:mb-[35px] lg:mt-[8.5px] lg:gap-y-[21px] lg:pl-[27px] xl:mb-[40px] xl:mt-[10px] xl:gap-y-[24px] xl:pl-[30px] 2xl:mb-[50px] 2xl:mt-[12px] 2xl:gap-y-[30px] 2xl:pl-[38px]">
         {option.dataOptions.map((option, index) => (
-          <div key={index} className="relative flex text-[#000]">
+          <div key={index} className="relative flex text-black">
             <div className="flex gap-x-[9px]">
               <img
                 src={`${
@@ -134,7 +134,7 @@ const SubBarAPIs = ({ onValueChange }) => {
 
   return (
     <>
-      <div className="z-100 relative min-w-[260px] bg-[#fff] px-[16px] py-[21px] text-[#000] shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[26px] lg:px-[23px] lg:py-[30px] xl:px-[26.5px] xl:py-[35px] 2xl:min-w-[330px] 2xl:px-[33px] 2xl:py-[43px]">
+      <div className="z-100 relative min-w-[260px] bg-white px-[16px] py-[21px] text-black shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[26px] lg:px-[23px] lg:py-[30px] xl:px-[26.5px] xl:py-[35px] 2xl:min-w-[330px] 2xl:px-[33px] 2xl:py-[43px]">
         <img
           src={`${
             process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -190,7 +190,7 @@ const SubBarAPIs = ({ onValueChange }) => {
                 </div>
                 <div
                   className={`mt-[9px] ${
-                    option.enabled ? 'text-[#000]' : 'text-[#A1A0A0]'
+                    option.enabled ? 'text-black' : 'text-[#A1A0A0]'
                   } font-light md:mt-[11px] lg:mt-[12.5px] xl:mt-[14px] 2xl:mt-[18px]`}
                 >
                   {option.desc}

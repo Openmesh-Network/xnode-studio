@@ -175,7 +175,7 @@ const Login = () => {
               <div className="mt-[30px] flex">
                 <button
                   disabled={true}
-                  className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
+                  className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
                   onClick={handleSubmit(onSubmit)}
                 >
                   <span className="">Sign in</span>
@@ -196,7 +196,7 @@ const Login = () => {
               <div className="mt-[30px]">
                 <button
                   type="submit"
-                  className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
+                  className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
                   onClick={handleSubmit(onSubmit)}
                 >
                   <span className="">Sign in</span>
