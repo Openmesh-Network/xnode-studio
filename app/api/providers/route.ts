@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { db } from '@/db'
 import { Providers } from '@/db/schema'
-import { and, asc, count, desc, eq, like, or } from 'drizzle-orm'
+import { and, asc, count, desc, eq, like, or, SQL } from 'drizzle-orm'
 import { number, string } from 'yup'
 
 const FALLBACK_LIMIT = 50
@@ -15,20 +15,18 @@ export async function GET(req: NextRequest) {
   const searchQuery = string().nullable().cast(params.get('q'))
   const region = string().nullable().cast(params.get('r'))
 
-  let filters = []
-  if (searchQuery !== null && searchQuery.trim() !== '') {
+  let filters: SQL[] = []
+  if (searchQuery !== null && searchQuery !== '') {
+    const q = `%${searchQuery.trim()}%`
     filters.push(
-      or(
-        like(Providers.providerName, `%${searchQuery.trim()}%`),
-        like(Providers.providerName, `%${searchQuery.trim()}%`)
-      )
+      or(like(Providers.providerName, q), like(Providers.providerName, q))
     )
   }
   if (region !== null && region.trim() !== '') {
     filters.push(eq(Providers.location, region.trim()))
   }
 
-  let sortOrder = []
+  let sortOrder: SQL[] = []
   if (sort && order) {
     if (order === 'asc') {
       sortOrder.push(asc(Providers[sort]))
