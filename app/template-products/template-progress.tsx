@@ -17,6 +17,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import { Separator } from '../../components/ui/separator'
+
 export default function TemplateProgress() {
   const {
     indexerDeployerStep,
@@ -135,12 +137,12 @@ export default function TemplateProgress() {
                     <li>Bare Metal Provider</li>
                     <li>{templateSelected.location}</li>
                   </ul>
-                  <p className="font-semibold">
+                  <p className="mt-1.5 font-semibold">
                     {templateSelected.cpuCores} vCPU Cores +{' '}
                     {templateSelected.ram}GB RAM
                   </p>
-                  <Table>
-                    <TableHeader>
+                  <Table className="mt-4">
+                    <TableHeader className="bg-accent">
                       <TableRow>
                         <TableHead>Item</TableHead>
                         <TableHead>Price/mo.</TableHead>
@@ -148,11 +150,26 @@ export default function TemplateProgress() {
                     </TableHeader>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{templateSelected.productName}</TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {templateSelected.productName}
+                        </TableCell>
                         <TableCell>${templateSelected.priceMonth}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
+                  <Separator />
+                  <div className="mt-2 flex items-start justify-between gap-4 px-2">
+                    <p>Total</p>
+                    <div className="flex flex-col items-end">
+                      <p className="text-3xl font-bold text-primary">
+                        ${templateSelected.priceMonth}
+                        <span className="text-base font-semibold">/mo</span>
+                      </p>
+                      <p className="text-xs">
+                        or about ${templateSelected.priceHour}/h
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ) : null}
               <Button

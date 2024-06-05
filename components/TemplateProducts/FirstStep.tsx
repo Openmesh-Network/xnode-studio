@@ -183,6 +183,7 @@ const TemplateProducts = () => {
                               cpuCores: String(provider.cpuCores),
                               ram: String(provider.ram),
                               priceMonth: String(provider.priceMonth),
+                              priceHour: String(provider.priceHour),
                             })
                           }
                         }}
