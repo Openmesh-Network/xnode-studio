@@ -1,58 +1,104 @@
 'use client'
 
-import { useState } from 'react'
-import { Provider } from '@/db/schema'
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
 
-export default function ResourcesTable() {
-  const [page, setPage] = useState(0)
-  const { data, isLoading } = useQuery({
-    queryKey: ['resources', page],
-    queryFn: async () => {
-      const res = await fetch(`/api/resources?page=${page}`)
-      return res.json() as Promise<Provider[]>
-    },
-    placeholderData: keepPreviousData,
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+
+// This type is used to define the shape of our data.
+// You can use a Zod schema here if you want.
+export type Payment = {
+  id: string
+  amount: number
+  status: 'pending' | 'processing' | 'success' | 'failed'
+  email: string
+}
+
+export const columns: ColumnDef<Payment>[] = [
+  {
+    accessorKey: 'status',
+    header: 'Status',
+  },
+  {
+    accessorKey: 'email',
+    header: 'Email',
+  },
+  {
+    accessorKey: 'amount',
+    header: 'Amount',
+  },
+]
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
+}
+
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
   })
 
   return (
-    <table className="w-full text-black">
-      <thead className="bg-body-color/50">
-        <tr className="h-10 [&>th]:px-4 [&>th]:text-start [&>th]:font-normal">
-          <th>Provider</th>
-          <th>Region</th>
-          <th>Item</th>
-          <th>CPU</th>
-          <th>Storage</th>
-          <th>GPU</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        {isLoading ? (
-          <tr>
-            <td>Loading...</td>
-          </tr>
-        ) : null}
-        {!isLoading &&
-          data?.map((row, index) => (
-            <tr key={`${row.providerName}-${index}`} className="h-10">
-              <td className="px-4">{row.providerName}</td>
-              <td className="px-4">{row.location || '-'}</td>
-              <td className="px-4">{row.productName}</td>
-              <td className="px-4">
-                {row.cpuCores}C/{row.cpuThreads}T/{row.cpuGHZ}GHz
-              </td>
-              <td className="px-4">{row.storageTotal}GB</td>
-              <td className="px-4">
-                {row.gpuType} {row.gpuMemory}
-              </td>
-              <td className="px-4">
-                {row.priceHour ? `${row.priceHour}/h` : '-'}
-              </td>
-            </tr>
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                )
+              })}
+            </TableRow>
           ))}
-      </tbody>
-    </table>
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && 'selected'}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   )
 }

@@ -142,7 +142,7 @@ const Signup = () => {
     <>
       <section
         id="home"
-        className={`w-full bg-[#fff] px-[48px] pb-[1000px] pt-[88px] 2xl:px-[60px] 2xl:pt-[110px]`}
+        className={`w-full bg-white px-[48px] pb-[1000px] pt-[88px] 2xl:px-[60px] 2xl:pt-[110px]`}
       >
         <div>
           <div className="text-[18px] font-bold tracking-[-2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
@@ -151,7 +151,7 @@ const Signup = () => {
           <div className="mb-[30px] mt-[15px]">
             <w3m-button />
           </div>{' '}
-          <div className="my-[30px] text-[#000]">or</div>
+          <div className="my-[30px] text-black">or</div>
           <div className="text-[18px] font-bold tracking-[-2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Signin for Xnode
           </div>
@@ -173,7 +173,7 @@ const Signup = () => {
                 setSignup(false)
                 setIndexerDeployerStep(1)
               }}
-              className="mt-[41px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#787d86] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] hover:bg-[#5d6066] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[14.5px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[17px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]"
+              className="mt-[41px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#787d86] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-white hover:bg-[#5d6066] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[14.5px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[17px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]"
             >
               <img
                 src={`${
@@ -196,7 +196,7 @@ const Signup = () => {
                 !user
                   ? 'bg-[#578ae9]'
                   : 'cursor-pointer bg-[#0354EC] hover:bg-[#0e2e69]'
-              } px-[11px] py-[6.2px] text-center text-[7px] font-medium text-[#fff] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[14.5px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[17px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]`}
+              } px-[11px] py-[6.2px] text-center text-[7px] font-medium text-white md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[14.5px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[17px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]`}
             >
               <img
                 src={`${

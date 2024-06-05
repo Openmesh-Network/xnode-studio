@@ -21,6 +21,8 @@ const chains = [chain] as const
 
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
 
+if (!projectId) throw new Error('Project ID is not defined')
+
 const metadata = {
   name: 'Web3Modal',
   description: 'Web3Modal Example',
@@ -37,8 +39,6 @@ export const wagmiConfig = defaultWagmiConfig({
     storage: cookieStorage,
   }),
 })
-
-// const initialState = cookieToInitialState(config, headers().get('cookie'))
 
 createWeb3Modal({
   wagmiConfig: wagmiConfig,
