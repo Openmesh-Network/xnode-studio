@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { db } from '@/db'
 import { Providers } from '@/db/schema'
-import { and, eq, like, or } from 'drizzle-orm'
+import { and, asc, desc, eq, like, or } from 'drizzle-orm'
 import { number, string } from 'yup'
 
 const FALLBACK_LIMIT = 50
@@ -10,6 +10,8 @@ export async function GET(req: NextRequest) {
   const params = new URL(req.url).searchParams
   const page = number().cast(params.get('page') ?? 0)
   const limit = number().cast(params.get('limit') ?? FALLBACK_LIMIT)
+  const sort = string().nullable().cast(params.get('sort'))
+  const order = string().nullable().cast(params.get('order'))
   const searchQuery = string().nullable().cast(params.get('q'))
   const region = string().nullable().cast(params.get('r'))
 
@@ -26,8 +28,18 @@ export async function GET(req: NextRequest) {
     filters.push(eq(Providers.location, region.trim()))
   }
 
+  let sortOrder = []
+  if (sort && order) {
+    if (order === 'asc') {
+      sortOrder.push(asc(Providers[sort]))
+    } else {
+      sortOrder.push(desc(Providers[sort]))
+    }
+  }
+
   const data = await db.query.Providers.findMany({
     where: () => and(...filters),
+    orderBy: () => sortOrder,
     offset: page * limit,
     limit,
   })
