@@ -49,6 +49,7 @@ export async function GET(req: NextRequest) {
       count: count(),
     })
     .from(Providers)
+    .where(() => and(...filters))
     .limit(1)
 
   const totalPages = Math.ceil(rowCount.count / limit)
