@@ -24,3 +24,5 @@ export const Providers = sqliteTable('providers', {
   source: text('source'),
   unit: text('unit'),
 })
+
+export type Provider = typeof Providers.$inferSelect

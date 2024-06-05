@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { db } from '@/db'
 import { Providers } from '@/db/schema'
-import { countDistinct, sum } from 'drizzle-orm'
+import { countDistinct, sql, sum } from 'drizzle-orm'
 
 import ResourcesTable from './resources-table'
 
@@ -25,7 +25,16 @@ export default async function ResourcesPage() {
       providers: countDistinct(Providers.providerName),
       regions: countDistinct(Providers.location),
       storage: sum(Providers.storageTotal).mapWith(Number),
-      // gpus: countDistinct(Providers.gpuType),
+      // count gpus with A100 in name and multiply the amount by 312
+      // gpus: sum(Providers.gpuType).mapWith({
+      //   mapFromDriverValue: (value) => {
+      //     const mappedValue = value
+      //     if (mappedValue.includes('A100')) {
+      //       return 312
+      //     }
+      //     return 0
+      //   },
+      // }),
       ram: sum(Providers.ram).mapWith(Number),
       bandwidth: sum(Providers.bandwidthNetwork).mapWith(Number),
     })

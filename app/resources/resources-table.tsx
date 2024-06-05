@@ -1,17 +1,18 @@
 'use client'
 
-import { Provider } from '@/server/resources'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { Provider } from '@/db/schema'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 export default function ResourcesTable() {
-  const { data, isLoading } = useInfiniteQuery({
-    queryKey: ['resources'],
-    queryFn: async ({ pageParam }) => {
-      const res = await fetch(`/api/resources?cursor=${pageParam}`)
-      return res.json() as Promise<{ data: Provider[]; nextCursor: number }>
+  const [page, setPage] = useState(0)
+  const { data, isLoading } = useQuery({
+    queryKey: ['resources', page],
+    queryFn: async () => {
+      const res = await fetch(`/api/resources?page=${page}`)
+      return res.json() as Promise<Provider[]>
     },
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    placeholderData: keepPreviousData,
   })
 
   return (
@@ -34,25 +35,23 @@ export default function ResourcesTable() {
           </tr>
         ) : null}
         {!isLoading &&
-          data?.pages.map((page) =>
-            page.data.map((row, index) => (
-              <tr key={`${row.providerName}-${index}`} className="h-10">
-                <td className="px-4">{row.providerName}</td>
-                <td className="px-4">{row.location || '-'}</td>
-                <td className="px-4">{row.productName}</td>
-                <td className="px-4">
-                  {row.cpuCores}C/{row.cpuThreads}T/{row.cpuGHZ}GHz
-                </td>
-                <td className="px-4">{row.storageTotal}GB</td>
-                <td className="px-4">
-                  {row.gpuType} {row.gpuMemory}
-                </td>
-                <td className="px-4">
-                  {row.priceHour ? `${row.priceHour}/h` : '-'}
-                </td>
-              </tr>
-            ))
-          )}
+          data?.map((row, index) => (
+            <tr key={`${row.providerName}-${index}`} className="h-10">
+              <td className="px-4">{row.providerName}</td>
+              <td className="px-4">{row.location || '-'}</td>
+              <td className="px-4">{row.productName}</td>
+              <td className="px-4">
+                {row.cpuCores}C/{row.cpuThreads}T/{row.cpuGHZ}GHz
+              </td>
+              <td className="px-4">{row.storageTotal}GB</td>
+              <td className="px-4">
+                {row.gpuType} {row.gpuMemory}
+              </td>
+              <td className="px-4">
+                {row.priceHour ? `${row.priceHour}/h` : '-'}
+              </td>
+            </tr>
+          ))}
       </tbody>
     </table>
   )
