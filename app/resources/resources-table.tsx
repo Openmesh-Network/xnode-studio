@@ -11,7 +11,8 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-import type { Column, Table as TableType } from '@tanstack/react-table'
+import type { Column, Row, Table as TableType } from '@tanstack/react-table'
+import { useDebounce } from '@uidotdev/usehooks'
 import {
   ArrowUpDown,
   ChevronLeft,
@@ -21,6 +22,7 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -50,15 +52,19 @@ const columns: ColumnDef<Provider>[] = [
     header: ({ column }) => {
       return <SortableHeaderButton column={column} label="CPU" />
     },
-    cell: ({ row }) =>
-      `${row.original.cpuCores}C / ${row.original.cpuThreads}T / ${row.original.cpuGHZ}GHz`,
+    cell: ({ row }) => {
+      return formatCpuInfo(row)
+    },
   },
   {
     accessorKey: 'storageTotal',
     header: ({ column }) => {
       return <SortableHeaderButton column={column} label="Storage" />
     },
-    cell: ({ cell }) => `${cell.getValue()}GB`,
+    cell: ({ cell }) => {
+      if (!cell.getValue()) return '-'
+      return formatStorageSize(cell.getValue() as number)
+    },
   },
   {
     accessorKey: 'gpuType',
@@ -79,6 +85,33 @@ const columns: ColumnDef<Provider>[] = [
   },
 ]
 
+function formatCpuInfo(row: Row<Provider>): string {
+  const { cpuCores, cpuThreads, cpuGHZ } = row.original
+  const parts: string[] = []
+
+  if (cpuCores != null) {
+    parts.push(`${cpuCores}C`)
+  }
+  if (cpuThreads != null) {
+    parts.push(`${cpuThreads}T`)
+  }
+  if (cpuGHZ != null) {
+    parts.push(`${cpuGHZ}GHz`)
+  }
+
+  return parts.length > 0 ? parts.join(' / ') : '-'
+}
+
+function formatStorageSize(sizeInGb: number): string {
+  // Check if the size is equal to or exceeds 1024 GB (1 TB)
+  if (sizeInGb >= 1024) {
+    const sizeInTb = sizeInGb / 1000
+    return `${Math.round(sizeInTb)} TB`
+  } else {
+    return `${sizeInGb} GB`
+  }
+}
+
 type ResourcesDataProps = {
   data: Provider[]
   totalPages: number
@@ -87,10 +120,17 @@ type ResourcesDataProps = {
 export default function ResourcesTable() {
   const [page, setPage] = useState(0)
   const [sorting, setSorting] = useState<SortingState>([])
+  const [searchInput, setSearchInput] = useState<string>()
+  const debouncedSearchInput = useDebounce(searchInput, 500)
   const { data, isLoading } = useQuery({
-    queryKey: ['resources', page],
+    queryKey: ['resources', page, debouncedSearchInput],
     queryFn: async () => {
-      const res = await fetch(`/api/providers?page=${page}`)
+      const params = new URLSearchParams()
+      params.append('page', String(page))
+      if (debouncedSearchInput) {
+        params.append('q', debouncedSearchInput)
+      }
+      const res = await fetch(`/api/providers?${params.toString()}`)
       if (!res.ok) {
         throw new Error('Network response was not ok')
       }
@@ -111,7 +151,14 @@ export default function ResourcesTable() {
   })
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
+      <Input
+        type="text"
+        placeholder="Search"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+        className="max-w-96"
+      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -217,7 +264,7 @@ function DataTablePagination<TData>({
   totalPages: number
 }) {
   return (
-    <div className="mt-2 flex items-center justify-end">
+    <div className="flex items-center justify-end">
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
           Page {page + 1} of {totalPages}
