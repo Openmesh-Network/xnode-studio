@@ -3,7 +3,7 @@ import { db } from '@/db'
 import { Providers } from '@/db/schema'
 import { count, countDistinct, eq, like, sql, sum } from 'drizzle-orm'
 
-import ResourcesTable from './old-resources-table'
+import ResourcesTable from './resources-table'
 
 type StatsItemProps = {
   title: string
