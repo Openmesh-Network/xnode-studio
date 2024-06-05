@@ -1,12 +1,9 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
 import { useContext, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
-import nookies, { destroyCookie, parseCookies, setCookie } from 'nookies'
+import nookies, { destroyCookie, setCookie } from 'nookies'
 import { Eye, EyeSlash } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'

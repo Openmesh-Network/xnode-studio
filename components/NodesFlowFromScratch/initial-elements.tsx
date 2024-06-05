@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React from 'react'
-import { MarkerType, Position } from 'reactflow'
+import { Position } from 'reactflow'
 
 export const nodes = [
   //   {

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -10,8 +9,6 @@ import * as Yup from 'yup'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { Eye, EyeSlash } from 'phosphor-react'
-
-// import GetEquinixAPIKey from './GetEquinixAPIKey'
 
 type EquinixAPIForm = {
   apiKey: string

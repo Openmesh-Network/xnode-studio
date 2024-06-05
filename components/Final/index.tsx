@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 'use client'
 
 import { useContext, useState } from 'react'
@@ -6,31 +5,12 @@ import { useRouter } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
 
 import Connections from '../Connections'
-import Dropdown from '../Dropdown'
 import FinalBuild from '../FinalBuild'
-import LatencySelector from '../LatencySelector'
-import NodesFlow from '../NodesFlow'
 import Signup from '../Signup'
 
 /* eslint-disable react/no-unescaped-entities */
 const Final = () => {
-  const [presetId, setPresetId] = useState(0)
-  const {
-    selectionSideNavBar,
-    setSelectionSideNavBar,
-    next,
-    setNext,
-    reviewYourBuild,
-    setReviewYourBuild,
-    setNextFromScratch,
-    nextFromScratch,
-    connections,
-    finalBuild,
-    setIsEditingXnode,
-    setXnodeType,
-    setFinalNodes,
-    signup,
-  } = useContext(AccountContext)
+  const { connections, finalBuild, signup } = useContext(AccountContext)
   const { push } = useRouter()
 
   if (finalBuild) {

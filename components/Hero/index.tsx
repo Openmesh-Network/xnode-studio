@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 const Hero = () => {
   return (
     <>
@@ -26,7 +25,7 @@ const Hero = () => {
             <div className="max-w-[360px]">
               <span className="text-[#000]">Scalable</span> <br /> Xnode adapts
               to the growing needs of a project, making it a reliable solution
-              throughout a project's lifecycle
+              throughout a project&apos;s lifecycle
             </div>
             <div className="mt-[12px] max-w-[360px] md:mt-0">
               <span className="text-[#000]">Automated setup process</span>{' '}

@@ -1,53 +1,22 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
-// import { useState } from 'react'
-import {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Modal } from '@mui/material'
-import axios from 'axios'
-import { Eye, EyeSlash } from 'phosphor-react'
-import { Controller, useForm } from 'react-hook-form'
-import * as Yup from 'yup'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
-import 'react-toastify/dist/ReactToastify.css'
-import 'react-quill/dist/quill.snow.css' // import styles
 import 'react-datepicker/dist/react-datepicker.css'
-
-import { getAPI, getData } from '@/utils/data'
-import Prism from 'prismjs'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { format } from 'sql-formatter'
-
+import 'react-quill/dist/quill.snow.css' // import styles
+import 'react-toastify/dist/ReactToastify.css'
 import 'prismjs/themes/prism.css'
 
 import { AccountContext } from '@/contexts/AccountContext'
-import { differenceInDays, formatDistanceToNow } from 'date-fns'
 
 import {
   DeploymentConfiguration,
   ServiceData,
   ServiceFromName,
   Specs,
-  TemplateData,
   TemplateFromId,
   TemplateGetSpecs,
 } from '@/types/dataProvider'
-
-import ServiceDefinitions from '../../utils/service-definitions.json'
-import TemplateDefinitions from '../../utils/template-definitions.json'
 
 const Template = (id: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)

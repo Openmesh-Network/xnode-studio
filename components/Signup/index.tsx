@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useContext, useEffect } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import nookies, { parseCookies, setCookie } from 'nookies'
@@ -8,28 +7,15 @@ import LogIn from './LogIn'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import {
-  optionsServerLocationToValue,
-  optionsServerNumberToValue,
-} from '@/utils/constants'
 import { hashObject } from '@/utils/functions'
-import { disconnect, signMessage } from '@wagmi/core'
-import { useWeb3Modal, useWeb3ModalTheme } from '@web3modal/wagmi/react'
+import { signMessage } from '@wagmi/core'
 import axios from 'axios'
 import { useAccount } from 'wagmi'
 
-import { CoreServices } from '@/types/node'
 import { wagmiConfig } from '@/app/providers'
 
-import {
-  findAPIisWebsocket,
-  findFeatures,
-  findServerDefaultType,
-  findServerDefaultValueLocation,
-} from '../FinalBuild'
 import EquinixConnection from './EquinixConnecton'
 
-/* eslint-disable react/no-unescaped-entities */
 const Signup = () => {
   const {
     selectionSideNavBar,

@@ -1,10 +1,5 @@
-/* eslint-disable no-unused-vars */
-import { title } from 'process'
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
-
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
 
 export const categoriesOptionsRPC = [
   {

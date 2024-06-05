@@ -1,11 +1,6 @@
-/* eslint-disable no-unused-vars */
-import { title } from 'process'
 import { useContext, useEffect, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { categoriesOptions } from '@/utils/constants'
-
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
 
 /* eslint-disable react/no-unescaped-entities */
 const SubBarData = ({ onValueChange }) => {

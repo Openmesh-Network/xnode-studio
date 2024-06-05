@@ -1,14 +1,7 @@
-/* eslint-disable no-unused-vars */
-import { title } from 'process'
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
-
-/* eslint-disable react/no-unescaped-entities */
 const SubBarAnalytics = ({ onValueChange }) => {
-  const [presetId, setPresetId] = useState(0)
   const {
     selectionSideNavBar,
     setSelectionSideNavBar,

@@ -1,27 +1,14 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
-/* eslint-disable no-unused-vars */
-import { useContext, useEffect, useState } from 'react'
-import { getAPI, getDatasets } from '@/utils/data'
-import { toast } from 'react-toastify'
+import { useContext } from 'react'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
-import { Autocomplete, TextField } from '@mui/material'
-import { SmileySad } from 'phosphor-react'
-
-import { TemplatesProducts } from '@/types/dataProvider'
-import Filter from '@/components/Filter'
 
 import FinalBuild from '../FinalBuild'
-import ProductsList from '../ProductsList'
 import Signup from '../Signup'
 import TemplateProducts from '../TemplateProducts/FirstStep'
-import Configuration from '../TemplateProducts/SecondStep'
 import Template from './TemplatePage'
 
 const IndexerDeployer = (id: any) => {

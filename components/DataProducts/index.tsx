@@ -1,18 +1,12 @@
 'use client'
 
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import { getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { Autocomplete, TextField } from '@mui/material'
-import { SmileySad } from 'phosphor-react'
-
 import { DataProvider } from '@/types/dataProvider'
-import Filter from '@/components/Filter'
 
 import ProductsList from '../ProductsList'
 

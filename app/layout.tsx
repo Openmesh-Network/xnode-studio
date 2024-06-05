@@ -1,19 +1,16 @@
-// import Footer from '@/components/Footer'
 import ScrollToTop from '@/components/ScrollToTop'
 
 import 'node_modules/react-modal-video/css/modal-video.css'
 import '../styles/index.css'
 
-import { Inter } from "next/font/google"
+import { Inter } from 'next/font/google'
 
 import { Header } from '@/components/Header'
 import LateralNav from '@/components/LateralNav'
 
 import { Providers } from './providers'
 
-// import NewTask from '@/components/NewTask'
-
-// eslint-disable-next-line no-unused-vars
+//TODO: implement the actual font...
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',

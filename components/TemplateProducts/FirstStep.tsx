@@ -1,23 +1,15 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
-/* eslint-disable no-unused-vars */
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { getAPI, getDatasets } from '@/utils/data'
+import { getAPI } from '@/utils/data'
 import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
-import { Autocomplete, TextField } from '@mui/material'
-import { SmileySad } from 'phosphor-react'
 
 import { TemplatesProducts } from '@/types/dataProvider'
-import Filter from '@/components/Filter'
 
-import ProductsList from '../ProductsList'
 import Dropdown, { ValueObject } from './Dropdown'
 
 export const optionsNetwork = [
@@ -466,7 +458,7 @@ const TemplateProducts = () => {
                     </div>
                     {templateSelected?.priceHour && (
                       <div className="text-[12px] font-normal">
-                        That's about {templateSelected?.priceHour} hourly
+                        That&aptos;s about {templateSelected?.priceHour} hourly
                       </div>
                     )}
                   </div>

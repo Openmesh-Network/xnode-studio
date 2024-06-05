@@ -1,12 +1,8 @@
-/* eslint-disable no-unused-vars */
-import { title } from 'process'
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { optionServerLocation } from '@/utils/constants'
 
-import Dropdown from '../Dropdown'
 import DropdownServiceRegion from '../DropdownServiceRegion'
-import LatencySelector from '../LatencySelector'
 
 /* eslint-disable react/no-unescaped-entities */
 const SubBarServers = ({ onValueChange }) => {

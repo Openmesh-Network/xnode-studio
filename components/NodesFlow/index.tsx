@@ -1,6 +1,3 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
@@ -28,8 +25,6 @@ import {
 } from './initial-elements-fromscratch'
 
 import './overview.css'
-
-import { categoriesOptions } from '@/utils/constants'
 
 import AnalyticsNode from './AnalyticsNode'
 import APINode from './APINode'

@@ -1,12 +1,4 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
-
-// import { useState } from 'react'
-import { ChangeEvent, FC, useContext, useEffect, useRef, useState } from 'react'
 
 const GetEquinixAPIKey = ({ isOpen, onClose }) => {
   return (

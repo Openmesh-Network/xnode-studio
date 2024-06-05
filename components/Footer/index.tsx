@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 const Footer = () => {
   const useCasesOptions = [
     'Financial Analysis',

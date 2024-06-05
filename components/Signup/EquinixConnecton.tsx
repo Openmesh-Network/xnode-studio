@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { yupResolver } from '@hookform/resolvers/yup'

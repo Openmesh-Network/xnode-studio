@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
 import { useState } from 'react'
-
-import Dropdown from '../Dropdown'
 
 interface ModalProps {
   serviceRegion: string

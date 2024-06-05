@@ -11,7 +11,7 @@ import { DataProvider } from '@/types/dataProvider'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { optionServerLocation } from '@/utils/constants'
 
 export const categoriesOptionsRPC = {

@@ -2,16 +2,14 @@
 
 /* eslint-disable no-unused-vars */
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
-import { Autocomplete, TextField } from '@mui/material'
 import axios from 'axios'
-import { destroyCookie, parseCookies } from 'nookies'
+import { parseCookies } from 'nookies'
 import { SmileySad } from 'phosphor-react'
 import {
   CartesianGrid,
@@ -23,11 +21,7 @@ import {
   YAxis,
 } from 'recharts'
 
-import { DataProvider } from '@/types/dataProvider'
-import Filter from '@/components/Filter'
-
 import { Xnode } from '../../types/node'
-import ProductsList from '../ProductsList'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false)

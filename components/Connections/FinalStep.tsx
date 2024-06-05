@@ -1,32 +1,8 @@
-/* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
 
-import CostEstimator from '../CostEstimator'
-import Dropdown from '../Dropdown'
-import Hero from '../Hero'
-import IncludedServices from '../IncludedServices'
-import LatencySelector from '../LatencySelector'
-import Presets from '../Presets'
-import SelectCloudProvider from '../SelectCloudProvider'
-import SelectLatencyPreference from '../SelectLatencyPreference'
-import SelectServiceRegion from '../SelectServiceRegion'
-import SelectUseCase from '../SelectUseCase'
-import ServerProvision from '../ServerProvision'
-
-/* eslint-disable react/no-unescaped-entities */
 const FinalStep = () => {
-  const {
-    selectionSideNavBar,
-    setSelectionSideNavBar,
-    next,
-    setNext,
-    reviewYourBuild,
-    setReviewYourBuild,
-    finalNodes,
-    setFinalBuild,
-  } = useContext(AccountContext)
+  const { setFinalBuild } = useContext(AccountContext)
 
   const [loadingDone, setLoadingDone] = useState<boolean>(false)
   const [progress, setProgress] = useState<number>(0)

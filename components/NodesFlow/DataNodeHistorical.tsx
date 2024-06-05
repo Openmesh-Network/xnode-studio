@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { memo, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { categoriesOptions } from '@/utils/constants'
 import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'

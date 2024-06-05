@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState } from 'react'
 
-import Dropdown from '../Dropdown'
 import Presets from '../Presets'
 
 interface ModalProps {

@@ -1,18 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable no-unused-vars */
 import { useCallback, useContext, useEffect, useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import * as Dialog from '@radix-ui/react-dialog'
+import { usePathname, useRouter } from 'next/navigation'
 import axios from 'axios'
 import { destroyCookie, parseCookies } from 'nookies'
-import { UserCircle } from 'phosphor-react'
 import { toast } from 'react-toastify'
 
 import { AccountContext } from '../../contexts/AccountContext'
-import menuData from './menuData'
-import ThemeToggler from './ThemeToggler'
 
 import 'react-toastify/dist/ReactToastify.css'
 

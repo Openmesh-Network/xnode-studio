@@ -1,15 +1,8 @@
-/* eslint-disable no-undef */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
-import { getDatasets } from '@/utils/data'
-import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { Autocomplete, TextField } from '@mui/material'
-import { SmileySad } from 'phosphor-react'
+import { usePathname } from 'next/navigation'
 
 import { DataProvider } from '@/types/dataProvider'
 

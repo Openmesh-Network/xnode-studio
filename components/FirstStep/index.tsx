@@ -4,16 +4,13 @@ import { useRouter } from 'next/navigation'
 
 import AddOns from '../AddOns'
 import CostEstimator from '../CostEstimator'
-import Dropdown from '../Dropdown'
 import Hero from '../Hero'
 import IncludedServices from '../IncludedServices'
-import LatencySelector from '../LatencySelector'
 import Presets from '../Presets'
 import SelectCloudProvider from '../SelectCloudProvider'
 import SelectLatencyPreference from '../SelectLatencyPreference'
 import SelectServiceRegion from '../SelectServiceRegion'
 import SelectUseCase from '../SelectUseCase'
-import ServerProvision from '../ServerProvision'
 
 /* eslint-disable react/no-unescaped-entities */
 const FirstStep = () => {

@@ -1,9 +1,5 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
-/* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from 'react'
 
 import 'react-toastify/dist/ReactToastify.css'

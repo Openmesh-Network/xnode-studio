@@ -1,5 +1,3 @@
-import { Inter } from "next/font/google"
-
 import Footer from '@/components/Homepage/Footer'
 
 import IndividualModules from './docs-components/individualModules'

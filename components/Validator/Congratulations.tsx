@@ -1,6 +1,3 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
 import { formatDistanceToNow } from 'date-fns'

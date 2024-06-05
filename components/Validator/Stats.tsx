@@ -1,6 +1,3 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
 import { formatAddress } from '@/utils/functions'

@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 'use client'
 
 import { useEffect, useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { thirds } from '@/utils/third'
 import { toast } from 'react-toastify'
 

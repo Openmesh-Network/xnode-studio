@@ -1,15 +1,12 @@
 'use client'
 
-/* eslint-disable no-unused-vars */
 import { useEffect, useMemo, useState } from 'react'
-import { getDatasets } from '@/utils/data'
-import { toast } from 'react-toastify'
 
 import SingleCard from './SingleCard'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { Autocomplete, TextField } from '@mui/material'
 import { SmileySad } from 'phosphor-react'
 

@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-
 interface dataSourceType {
   title: string
   list: string[]

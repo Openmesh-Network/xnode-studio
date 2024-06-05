@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 
-import Dropdown from '../Dropdown'
 import LatencySelector from '../LatencySelector'
 
 interface ModalProps {
