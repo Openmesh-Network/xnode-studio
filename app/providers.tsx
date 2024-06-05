@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-'use client'
+"use client";
 
-import AccountContextProvider from '@/contexts/AccountContext'
-import { ThemeProvider } from 'next-themes'
-import { ToastContainer } from 'react-toastify'
+import AccountContextProvider from "@/contexts/AccountContext";
+import { ThemeProvider } from "next-themes";
+import { ToastContainer } from "react-toastify";
 
-import { createWeb3Modal } from '@web3modal/wagmi/react'
-import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
+import { createWeb3Modal } from "@web3modal/wagmi/react";
+import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 import {
   createConfig,
   createStorage,
@@ -15,29 +15,23 @@ import {
   State,
   WagmiProvider,
   cookieToInitialState,
-} from 'wagmi'
-import { arbitrum, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
+} from "wagmi";
+import { mainnet, sepolia } from "wagmi/chains";
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
-const chain =
-  process.env.NEXT_PUBLIC_WALLET_ENVIRONMENT === 'Polygon'
-    ? polygon
-    // : polygonMumbai
-    : polygon
+const chains = [mainnet, sepolia] as const;
 
-const chains = [chain] as const
-
-const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
+const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
 
 const metadata = {
-  name: 'Web3Modal',
-  description: 'Web3Modal Example',
-  url: 'https://web3modal.com', // origin must match your domain & subdomain
-  icons: ['https://avatars.githubusercontent.com/u/37784886'],
-}
+  name: "Xnode",
+  description: "Your Gateway to Building Personalized Data Ecosystems in minutes, instead of weeks.",
+  url: "https://www.openmesh.network/xnode",
+  icons: ["https://www.openmesh.network/xnode/openmesh-blue.png"],
+};
 
 export const config = defaultWagmiConfig({
   chains,
@@ -47,7 +41,7 @@ export const config = defaultWagmiConfig({
   storage: createStorage({
     storage: cookieStorage,
   }),
-})
+});
 
 // const initialState = cookieToInitialState(config, headers().get('cookie'))
 
@@ -56,14 +50,14 @@ createWeb3Modal({
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   enableOnramp: true, // Optional - false as default
-})
+});
 
 export function Providers({
   children,
   initialState,
 }: {
-  children: React.ReactNode
-  initialState?: State
+  children: React.ReactNode;
+  initialState?: State;
 }) {
   return (
     <>
@@ -83,7 +77,7 @@ export function Providers({
 
       <ToastContainer />
     </>
-  )
+  );
 }
 
 // Get projectId at https://cloud.walletconnect.com
