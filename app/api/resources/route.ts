@@ -51,7 +51,6 @@ export async function GET(req: NextRequest) {
     .from(Providers)
     .limit(1)
 
-  const nextPage = page * limit + data.length < rowCount.count ? page + 1 : null
-  const lastPage = Math.ceil(rowCount.count / limit)
-  return Response.json({ data, nextPage, lastPage })
+  const totalPages = Math.ceil(rowCount.count / limit)
+  return Response.json({ data, totalPages })
 }
