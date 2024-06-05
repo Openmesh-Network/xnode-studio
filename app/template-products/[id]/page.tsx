@@ -1,6 +1,6 @@
 'use client'
 
-import { Inter } from '@next/font/google'
+import { Inter } from "next/font/google"
 
 import IndexerDeployer from '@/components/Template'
 

@@ -2,7 +2,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { Inter } from '@next/font/google'
+import { Inter } from "next/font/google"
 
 import ScrollUp from '@/components/Common/ScrollUp'
 import Hero from '@/components/Hero'
