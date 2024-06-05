@@ -123,12 +123,17 @@ export default function ResourcesTable() {
   const [searchInput, setSearchInput] = useState<string>()
   const debouncedSearchInput = useDebounce(searchInput, 500)
   const { data, isLoading } = useQuery({
-    queryKey: ['resources', page, debouncedSearchInput],
+    queryKey: ['resources', page, debouncedSearchInput, sorting],
     queryFn: async () => {
       const params = new URLSearchParams()
       params.append('page', String(page))
       if (debouncedSearchInput) {
         params.append('q', debouncedSearchInput)
+      }
+      if (sorting.length) {
+        const sort = sorting[0]
+        params.append('sort', sort.id)
+        params.append('order', sort.desc ? 'desc' : 'asc')
       }
       const res = await fetch(`/api/providers?${params.toString()}`)
       if (!res.ok) {
@@ -239,7 +244,7 @@ function SortableHeaderButton({
 }) {
   return (
     <Button
-      className="-ml-2"
+      className="-ml-3"
       variant="ghost"
       onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
     >
