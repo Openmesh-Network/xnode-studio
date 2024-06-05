@@ -20,7 +20,7 @@ export default function TemplateProgress() {
   const { indexerDeployerStep, setIndexerDeployerStep, templateSelected } =
     useContext(AccountContext)
   return (
-    <aside className="relative min-w-96 border-l border-zinc-200 bg-zinc-50 p-8">
+    <aside className="relative min-w-96 shrink-0 border-l border-zinc-200 bg-zinc-50 p-8">
       <h4 className="font-bold text-black">Your Progress</h4>
       <Link
         href="/template-products"

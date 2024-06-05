@@ -62,11 +62,7 @@ export function Providers({
       <AccountContextProvider>
         <WagmiProvider config={wagmiConfig} initialState={initialState}>
           <QueryClientProvider client={queryClient}>
-            <ThemeProvider
-              attribute="class"
-              enableSystem={false}
-              defaultTheme="dark"
-            >
+            <ThemeProvider attribute="class" enableSystem={false}>
               {children}
             </ThemeProvider>
           </QueryClientProvider>

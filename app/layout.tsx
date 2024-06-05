@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className="max-w-screen w-full bg-background text-foreground">
+      <body className="max-w-screen w-full overflow-x-hidden bg-background text-foreground">
         <Providers>
           <div className="mx-auto">
             <Header />
