@@ -31,7 +31,10 @@ const TemplateProducts = () => {
   const debouncedSearchInput = useDebounce(searchInput, 500)
   const [region, setRegion] = useState<string | null>()
 
-  const { data: providerData, isLoading: providersLoading } = useQuery({
+  const {
+    data: { data: providerData },
+    isLoading: providersLoading,
+  } = useQuery({
     queryKey: ['resources', page, debouncedSearchInput, region],
     queryFn: async () => {
       const params = new URLSearchParams()
@@ -43,7 +46,7 @@ const TemplateProducts = () => {
         params.append('r', region)
       }
       const res = await fetch(`/api/resources?${params.toString()}`)
-      return res.json() as Promise<Provider[]>
+      return res.json() as Promise<{ data: Provider[] }>
     },
     placeholderData: keepPreviousData,
   })

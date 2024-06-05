@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { db } from '@/db'
 import { Providers } from '@/db/schema'
-import { and, asc, desc, eq, like, or } from 'drizzle-orm'
+import { and, asc, count, desc, eq, like, or } from 'drizzle-orm'
 import { number, string } from 'yup'
 
 const FALLBACK_LIMIT = 50
@@ -44,5 +44,14 @@ export async function GET(req: NextRequest) {
     limit,
   })
 
-  return Response.json(data)
+  const [rowCount] = await db
+    .select({
+      count: count(),
+    })
+    .from(Providers)
+    .limit(1)
+
+  const nextPage = page * limit + data.length < rowCount.count ? page + 1 : null
+  const lastPage = Math.ceil(rowCount.count / limit)
+  return Response.json({ data, nextPage, lastPage })
 }
