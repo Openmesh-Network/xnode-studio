@@ -2,6 +2,7 @@
 /* eslint-disable no-undef */
 'use client'
 
+import { useState } from 'react'
 import AccountContextProvider from '@/contexts/AccountContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createWeb3Modal } from '@web3modal/wagmi/react'
@@ -17,8 +18,6 @@ import {
   WagmiProvider,
 } from 'wagmi'
 import { arbitrum, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
-
-const queryClient = new QueryClient()
 
 const chain =
   process.env.NEXT_PUBLIC_WALLET_ENVIRONMENT === 'Polygon'
@@ -66,6 +65,8 @@ export function Providers({
   children: React.ReactNode
   initialState?: State
 }) {
+  const [queryClient] = useState(new QueryClient())
+
   return (
     <>
       <AccountContextProvider>

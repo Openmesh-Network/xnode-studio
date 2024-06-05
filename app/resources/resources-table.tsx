@@ -6,9 +6,7 @@ export default function ResourcesTable() {
   const { data, isLoading } = useInfiniteQuery({
     queryKey: ['resources'],
     queryFn: async ({ pageParam }) => {
-      const res = await fetch(
-        `http://localhost:3334/api/resources?cursor=${pageParam}`
-      )
+      const res = await fetch(`/api/resources?cursor=${pageParam}`)
       return res.json()
     },
     initialPageParam: 0,

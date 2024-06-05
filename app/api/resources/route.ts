@@ -6,6 +6,7 @@ import { number } from 'yup'
 import { TemplatesProducts } from '@/types/dataProvider'
 
 const CSV_HEADER_OFFSET = 2
+const FALLBACK_LIMIT = 50
 
 type Provider = Omit<TemplatesProducts, 'id'> & {
   country: string
@@ -13,7 +14,7 @@ type Provider = Omit<TemplatesProducts, 'id'> & {
 export async function GET(req: NextRequest) {
   const params = new URL(req.url).searchParams
   const cursor = number().cast(params.get('cursor') ?? 0)
-  const limit = number().cast(params.get('limit') ?? 50)
+  const limit = number().cast(params.get('limit') ?? FALLBACK_LIMIT)
   const { data, maxRows } = await new Promise<{
     data: Provider[]
     maxRows: number
