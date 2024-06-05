@@ -20,6 +20,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Openmesh Xnode',
+  icons: {
+    icon: '/openmesh-blue.png',
+  },
 }
 
 export default function RootLayout({
