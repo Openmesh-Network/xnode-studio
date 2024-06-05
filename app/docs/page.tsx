@@ -169,7 +169,7 @@ export default function Tasks() {
             href="https://docs.openmesh.network/products/xnode"
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-[5px] mt-[1px] text-justify font-inter text-[14px] font-medium leading-[24px]"
+            className="ml-[5px] mt-px text-justify font-inter text-[14px] font-medium leading-[24px]"
           >
             Step-by-step guide to deploying an xNode.
           </a>
@@ -177,7 +177,7 @@ export default function Tasks() {
             href="https://docs.openmesh.network/products/xnode"
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-[5px] mt-[1px] text-justify font-inter text-[14px] font-medium leading-[24px]"
+            className="ml-[5px] mt-px text-justify font-inter text-[14px] font-medium leading-[24px]"
           >
             Technical design
           </a>
@@ -193,7 +193,7 @@ export default function Tasks() {
             href="https://docs.openmesh.network/products/xnode"
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-[5px] mt-[1px] text-justify font-inter text-[14px] font-medium leading-[24px]"
+            className="ml-[5px] mt-px text-justify font-inter text-[14px] font-medium leading-[24px]"
           >
             Docs & Research
           </a>
