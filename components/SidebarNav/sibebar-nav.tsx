@@ -78,6 +78,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           icon={Icons.DesignAndBuildIcon}
           label="Design & Build"
           isMobile={isMobile}
+          tag="Beta"
         />
         <NavSeperator />
 
@@ -497,7 +498,7 @@ interface NavLinkProps {
   label: string
   isMobile?: boolean
   isSoon?: boolean
-  notifications?: number
+  tag?: string
   className?: string
 }
 
@@ -508,7 +509,7 @@ const NavLink: React.FC<NavLinkProps> = ({
   isMobile = false,
   isSoon = false,
   className,
-  notifications = 0,
+  tag = '',
 }) => {
   const { collapsed } = useNavContext()
 
@@ -543,7 +544,7 @@ const NavLink: React.FC<NavLinkProps> = ({
           >
             <div className="flex items-center">
               <div className="relative">
-                {notifications > 0 && collapsed && (
+                {tag && collapsed && (
                   <motion.div
                     layoutId={`${label} ${isMobile} notification`}
                     className="absolute right-0 top-0 z-20 size-2 rounded-full bg-primary"
@@ -568,21 +569,19 @@ const NavLink: React.FC<NavLinkProps> = ({
                 {label}
               </span>
             </div>
-            {notifications > 0 && !collapsed && (
+            {tag && !collapsed && (
               <motion.div
                 layoutId={`${label} ${isMobile} notification`}
-                className="absolute right-0 z-10 mr-2 inline-flex items-center rounded-full border border-primary px-2 py-0.5 font-mono text-xs text-card-foreground/80"
+                className="absolute right-0 top-1/4 z-10 mr-2 inline-flex -translate-y-1/4 items-center rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-white"
                 transition={{
                   duration: transitionDuration,
                   ease: [0.4, 0, 0.2, 1],
                 }}
                 style={{
-                  borderRadius: 9999,
+                  borderRadius: '8px 0px 8px 0px ',
                 }}
               >
-                {notifications > 0 && notifications < 100
-                  ? notifications
-                  : '99+'}
+                {tag}
               </motion.div>
             )}
           </Link>
