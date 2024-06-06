@@ -3,7 +3,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+  AccordionTrigger,
+} from '@radix-ui/react-accordion'
 import { motion } from 'framer-motion'
+import { ChevronDown } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Button, ButtonProps } from '@/components/ui/button'
@@ -81,46 +89,75 @@ const SidebarNav: React.FC<SidebarNav> = ({
           />
         </NavCategory>
         <NavCategory>
-          <NavLink
-            href="/data-products"
-            icon={Icons.DataIcon}
+          <NavCollapsable
             label="Data"
-            isMobile={isMobile}
+            icon={Icons.DataIcon}
+            disabled={true}
+            links={[
+              {
+                label: 'Data',
+                href: '/data',
+              },
+            ]}
           />
-          <NavLink
-            href="/compute"
-            icon={Icons.ComputeIcon}
+          <NavCollapsable
             label="Compute"
-            isMobile={isMobile}
-            tag="Soon"
+            icon={Icons.ComputeIcon}
+            disabled={true}
+            links={[
+              {
+                label: 'Compute',
+                href: '/compute',
+              },
+            ]}
           />
-          <NavLink
-            href="/storage"
-            icon={Icons.StorageIcon}
+          <NavCollapsable
             label="Storage"
-            isMobile={isMobile}
-            tag="Soon"
+            icon={Icons.StorageIcon}
+            disabled={true}
+            links={[
+              {
+                label: 'Storage',
+                href: '/storage',
+              },
+            ]}
           />
-          <NavLink
-            href="/analytics"
-            icon={Icons.AnalyticsIcon}
+          <NavCollapsable
             label="Analytics"
-            isMobile={isMobile}
-            tag="Soon"
+            icon={Icons.AnalyticsIcon}
+            disabled={true}
+            links={[
+              {
+                label: 'Analytics',
+                href: '/analytics',
+              },
+            ]}
           />
-          <NavLink
-            href="/rpc"
-            icon={Icons.RPCIcon}
+          <NavCollapsable
             label="RPC"
-            isMobile={isMobile}
-            tag="Soon"
+            icon={Icons.RPCIcon}
+            disabled={true}
+            links={[
+              {
+                label: 'RPC',
+                href: '/rpc',
+              },
+            ]}
           />
-          <NavLink
-            href="/apis"
-            icon={Icons.APIIcon}
+          <NavCollapsable
             label="APIs"
-            isMobile={isMobile}
-            tag="Soon"
+            icon={Icons.APIIcon}
+            disabled={true}
+            links={[
+              {
+                label: 'APIs',
+                href: '/apis',
+              },
+              {
+                label: 'test',
+                href: '/apis',
+              },
+            ]}
           />
           <NavLink
             href="/appdev"
@@ -144,7 +181,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
             tag="Soon"
           />
         </NavCategory>
-        <NavCategory label="Studio">
+        <NavCategory label="Data Management">
           <NavLink
             href="/trading"
             icon={Icons.TradingIcon}
@@ -273,18 +310,110 @@ const NavContainer = React.forwardRef<
       <aside
         className={cn(
           'duration-plico sticky top-0 flex h-screen shrink-0 flex-col justify-between border-r bg-card pt-16 text-card-foreground transition-[width] ease-in-out',
-          collapsed ? 'w-14' : 'w-72',
+          collapsed ? 'w-14' : 'w-[17rem]',
           className
         )}
         ref={ref}
         {...props}
       >
-        <nav className="flex h-full flex-col justify-between">{children}</nav>
+        <Accordion
+          type="multiple" // Allow multiple accordion items to be open at the same time with 'multiple', change to 'single' to allow only one item to be open
+          value={accordionValue}
+          onValueChange={setAccordionValue}
+          className="h-full"
+          orientation={collapsed ? 'horizontal' : 'vertical'}
+          asChild
+        >
+          <nav className="flex h-full flex-col justify-between py-2">
+            {children}
+          </nav>
+        </Accordion>
       </aside>
     </NavContext.Provider>
   )
 })
 NavContainer.displayName = 'NavContainer'
+
+interface Links {
+  label: string
+  href: string
+}
+
+interface NavCollapsableProps extends React.HTMLAttributes<HTMLDivElement> {
+  label: string
+  href?: string
+  icon?: Icon
+  notifications?: number
+  disabled?: boolean
+  links?: Links[]
+}
+
+const NavCollapsable: React.FC<NavCollapsableProps> = ({
+  label,
+  icon: Icon,
+  children,
+  notifications,
+  className,
+  disabled = false,
+  links = [],
+  ...props
+}) => {
+  const { collapsed } = useNavContext()
+
+  return (
+    <AccordionItem
+      value={label}
+      className={cn('relative cursor-pointer', className)}
+      disabled={true}
+      {...props}
+    >
+      <AccordionHeader>
+        <AccordionTrigger asChild>
+          <div className="flex h-10 w-full items-center justify-between py-2 pl-4 pr-5 text-foreground hover:bg-primary/5 [&[data-state=open]>.chevron]:rotate-180">
+            <div className="relative flex grow items-center">
+              <Icon className="z-10 size-5 shrink-0" />
+              <span
+                className={cn(
+                  'duration-plico relative z-10 ml-4 max-w-full truncate text-sm font-medium text-neutral-700 opacity-100 transition-[margin,max-width,opacity] ease-in-out',
+                  collapsed &&
+                    'ml-0 max-w-0 opacity-0 group-[.category]:ml-4 group-[.category]:max-w-full group-[.category]:opacity-100'
+                )}
+              >
+                {label}
+              </span>
+            </div>
+            <ChevronDown
+              className={cn(
+                'chevron size-5 shrink-0 text-gray-600 transition-[transform,opacity] duration-300',
+                collapsed ? 'opacity-0' : 'opacity-100'
+              )}
+            />
+          </div>
+        </AccordionTrigger>
+      </AccordionHeader>
+      <AccordionContent
+        className={cn(
+          'category group relative overflow-hidden text-sm transition-all duration-300 animate-in fade-in',
+          // When sidebar collapsed, the content is absolute positioned to the right of the sidebar
+          collapsed
+            ? 'data-[state=closed]:animate-accordion-left data-[state=open]:animate-accordion-right absolute left-full top-0 ml-4 w-full rounded-md border bg-card'
+            : 'w-full data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down'
+        )}
+      >
+        {links &&
+          links.map((link, i) => (
+            <Link
+              key={i}
+              href={link.href}
+              className="flex items-center py-1.5 pl-16 font-semibold text-foreground/70 hover:bg-primary/5"
+            >
+              {link.label}
+            </Link>
+          ))}
+      </AccordionContent>
+    </AccordionItem>
+  )
+}
 
 const NavMobileTrigger: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
@@ -434,7 +563,7 @@ function NavCategory({
       {label && (
         <span
           className={cn(
-            'duration-plico ml-3 truncate text-xs font-medium uppercase text-foreground/80 transition-opacity ease-in-out',
+            'duration-plico ml-4 truncate text-xs font-medium uppercase text-foreground/80 transition-opacity ease-in-out',
             collapsed ? 'opacity-0' : 'opacity-100'
           )}
         >
@@ -533,7 +662,8 @@ const NavLink: React.FC<NavLinkProps> = ({
         <TooltipTrigger asChild>
           <Link
             href={href}
-            className="flex h-10 items-center px-3 py-2 text-foreground hover:bg-primary/5"
+            className="flex h-10 items-center px-4 py-2 text-foreground hover:bg-primary/5 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed"
+            aria-disabled={tag === 'Soon'}
           >
             <div className="relative flex items-center">
               <div className="relative">
@@ -616,7 +746,7 @@ const NavSeperator: React.FC<SeperatorProps> = ({
       {title && (
         <p
           className={cn(
-            'duration-plico absolute inset-0 flex w-fit items-center bg-card px-3 text-xs uppercase text-card-foreground transition-[width,opacity] ease-in-out',
+            'duration-plico absolute inset-0 flex w-fit items-center bg-card px-4 text-xs uppercase text-card-foreground transition-[width,opacity] ease-in-out',
             collapsed && 'w-0 opacity-0'
           )}
         >

@@ -140,7 +140,7 @@ const TemplateStep = () => {
   }, [])
 
   return (
-    <section className="relative z-10 pb-[200px] pt-[30px] lg:pt-0">
+    <section className="relative z-10 pb-[200px] pt-16">
       <div className="mx-auto max-w-[1380px] px-[20px] text-[12px] font-normal text-black 2xl:text-[14px]">
         <div className="flex justify-between gap-x-[95px]">
           <div className="w-full text-center">
