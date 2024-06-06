@@ -130,11 +130,9 @@ const NavLayout: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 }) => {
   return (
     <TooltipProvider>
-      <div className={cn('flex h-screen w-screen', className)}>
+      <div className={cn('flex', className)}>
         <SidebarNav className="hidden lg:block" />
-        <div className="w-full overflow-y-auto">
-          <main>{children}</main>
-        </div>
+        <main className="flex-1">{children}</main>
       </div>
     </TooltipProvider>
   )
@@ -187,7 +185,7 @@ const NavContainer = React.forwardRef<
     >
       <aside
         className={cn(
-          'duration-plico flex h-screen shrink-0 flex-col justify-between bg-card p-3 pt-16 text-card-foreground shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] transition-[width] ease-in-out dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)]',
+          'duration-plico sticky top-0 flex h-screen shrink-0 flex-col justify-between border-r bg-muted/50 p-3 pt-16 text-card-foreground transition-[width] ease-in-out',
           collapsed ? 'w-[4.5rem]' : 'w-[15.5rem]',
           className
         )}

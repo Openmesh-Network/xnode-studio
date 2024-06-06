@@ -39,7 +39,7 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <div className="absolute z-50 mx-auto w-full">
+          <div className="absolute inset-x-0 z-50">
             <Header />
           </div>
           <NavLayout>
