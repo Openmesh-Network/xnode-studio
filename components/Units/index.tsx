@@ -1,13 +1,39 @@
 "use client";
 
 import Activate from "./Activate";
-import EnterCode from "./EnterCode";
+import Claim from "./Claim";
+
+import cardFrontImage from '@/assets/silvercard-front.svg'
+import cardBackImage from '@/assets/silvercard-back.svg'
+import Image from 'next/image'
 
 const Units = ({chainId} : {chainId: number}) => {
   return (
-    <section className="mt-12 mb-[0px] px-[20px] pt-[50px]  text-[11px] font-medium !leading-[17px] text-[#000000] lg:mb-24 lg:px-[100px]  lg:text-[14px]">
-      <EnterCode chainId={chainId} />
-      <Activate chainId={chainId} />
+    <section className="w-full h-full flex p-20 justify-around m-auto">
+      <div className="w-fit bg-green-400 h-full flex flex-col">
+          <Image
+            className="select-none m-0 flex-item"
+            src={cardFrontImage}
+            alt="Xnode reedeem card front"
+          />
+
+          <Image
+            className="select-none m-0 flex-item"
+            src={cardBackImage}
+            alt="Xnode reedeem card back"
+          />
+
+      </div>
+      <div className="w-3/4 max-w-[600px] h-full text-black">
+          {/* Do first step */}
+          {/* Do second step */}
+          {/* Do third step */}
+
+          <Claim chainId={chainId} />
+
+          {/* TODO: Make this not look UGLY */}
+          <Activate chainId={chainId} />
+      </div>
     </section>
   );
 };

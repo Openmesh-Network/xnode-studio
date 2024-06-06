@@ -40,7 +40,7 @@ export default function RootLayout({
               <LateralNav />
             </div>
 
-            <div className="m-auto w-full p-5">{children}</div>
+            <div className="m-x-auto w-full p-5">{children}</div>
           </div>
 
           <ScrollToTop />

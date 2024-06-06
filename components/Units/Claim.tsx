@@ -22,7 +22,16 @@ import axios from "axios";
 import { XnodeUnitEntitlementClaimerContract } from "@/contracts/XnodeUnitEntitlementClaimer";
 import { reviver } from "@/utils/json";
 
-const EnterCode = ({chainId} : {chainId: number}) => {
+
+function popup() {
+  return (
+    <div className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    </div>
+  )
+}
+
+
+const Claim = ({chainId} : {chainId: number}) => {
   const [code, setCode] = useState<string>("");
   const [invalidCode, setInvalidCode] = useState<string | undefined>(undefined);
   const account = useAccount();
@@ -140,54 +149,110 @@ const EnterCode = ({chainId} : {chainId: number}) => {
     alert(`Success: ${receipt.transactionHash}`);
   };
 
+  const redeemWithWarn = () => {
+    if (confirm("Warning, activating an Xnode is irreversible and will begin the expiration timer. You can still trade your token at this time. Are you sure you want to proceed?")) {
+      redeemCode().catch(console.error)
+    }
+  };
+
   return (
-    <div className="space-y-5">
-      <div>
-        <span className="flex flex-row">
-          Receiver{" "}
-          {account.address !== undefined && (
-            <p
-              className="ml-[8px] text-[10px] font-normal"
-              onClick={() => disconnect()}
-            >
-              Disconnect
-            </p>
+    <>
+      <p className="text-[32px] font-semibold"> Claim your Xnode </p>
+      <p> Unleash the power of Xnode, your gateway to building a personalized server in minutes instead of weeks. </p>
+
+      <br/>
+
+      <div className="flex flex-row justify-between">
+        <div className="">
+          <p className="font-semibold"> Step 01. </p>
+          <p> Connect your wallet. </p>
+          <p><a href="https://richardlennox.com"> How to get a web3 wallet </a></p>
+        </div>
+        <div className="">
+          <span className="flex flex-row">
+            {account.address !== undefined && (
+              <p
+                className="ml-[8px] text-[10px] font-normal"
+                onClick={() => disconnect()}
+              >
+                Disconnect
+              </p>
+            )}
+          </span>
+
+          {account.address !== undefined ? (
+            <input
+              className="h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] m-0 font-normal outline-0"
+              type="text"
+              value={account.address ?? ""}
+              readOnly={true}
+            />
+          ) : (
+            <w3m-connect-button />
           )}
-        </span>
-        {account.address !== undefined ? (
+        </div>
+      </div>
+
+      <br/>
+      <br/>
+      <br/>
+
+      <div className="flex flex-row justify-between">
+        <div>
+          <p className="font-semibold"> Step 02. </p>
+          <p> Enter your pin from the Xnode card. </p>
+          <p className="underline"> <a onClick={ () => { alert("deluxe popup") } }> What is that, I'm dumb? </a> </p>
+        </div>
+
+        <div className="">
+          {/* <span className="flex flex-row"> */}
+            {/* <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] "> */}
+              {/* {invalidCode !== undefined ? "* " + invalidCode : "" } */}
+            {/* </p> */}
+          {/* </span> */}
           <input
-            className="mt-[10px] h-[50px] w-[180px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 md:w-[280px] lg:w-[500px]"
+            className="mt-[10px] h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0"
             type="text"
-            value={account.address ?? ""}
-            readOnly={true}
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
           />
-        ) : (
-          <w3m-connect-button />
-        )}
+        </div>
       </div>
-      <div>
-        <span className="flex flex-row">
-          Code
-          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] ">
-            {invalidCode !== undefined ? "* " + invalidCode : "" }
-          </p>
-        </span>
-        <input
-          className="mt-[10px] h-[50px] w-[180px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0 md:w-[280px] lg:w-[500px]"
-          type="text"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-        />
+
+      <br/>
+      <br/>
+      <br/>
+
+      <div className="flex flex-row justify-between">
+        <div>
+          <p className="font-semibold"> Step 03. </p>
+          <p> Claim your Xnode. </p>
+          <p className="underline"> <a onClick={ () => { alert("deluxe popup") } }> What is that, I'm dumb? </a> </p>
+        </div>
+
+        <div className="">
+          <button
+            className="cursor-pointer items-center rounded-[5px] border border-[#0059FF] bg-[#0059FF] py-[8px] px-[25px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
+            disabled={invalidCode !== undefined || walletClient === undefined || account.address !== undefined}
+            onClick={() => redeemCode().catch(console.error)}
+          >
+            Claim
+          </button>
+          </div>
       </div>
-      <button
-        className=" cursor-pointer items-center rounded-[5px] border  border-[#000] bg-transparent py-[8px] px-[25px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
-        disabled={invalidCode !== undefined && account.address !== undefined}
-        onClick={() => redeemCode().catch(console.error)}
-      >
-        Redeem
-      </button>
-    </div>
+
+      <br/>
+      <br/>
+      <br/>
+
+
+      {
+        popup()
+      }
+
+      <br/>
+    </>
   );
 };
 
-export default EnterCode;
+export default Claim;
