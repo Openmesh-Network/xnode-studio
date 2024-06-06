@@ -33,11 +33,11 @@ export const Icons = {
   CircleIcon: (props: IconProps) => (
     <svg
       width="20"
-      height="21"
+      height="20"
       viewBox="0 0 20 21"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+      {...props}
     >
       <rect y="0.5" width="20" height="20" fill="url(#pattern0_3095_11935)" />
       <defs>
@@ -65,7 +65,7 @@ export const Icons = {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+      {...props}
     >
       <rect width="20" height="20" fill="url(#pattern0_3064_11059)" />
       <defs>
@@ -93,7 +93,7 @@ export const Icons = {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+      {...props}
     >
       <rect width="20" height="20" fill="url(#pattern0_3064_11064)" />
       <defs>
@@ -121,7 +121,7 @@ export const Icons = {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+      {...props}
     >
       <rect width="20" height="20" fill="url(#pattern0_3064_11042)" />
       <defs>
@@ -149,7 +149,7 @@ export const Icons = {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+      {...props}
     >
       <rect width="20" height="20" fill="url(#pattern0_2894_9303)" />
       <defs>
@@ -172,12 +172,12 @@ export const Icons = {
   ),
   DeploymentsIcon: (props: IconProps) => (
     <svg
-      width="18"
-      height="18"
+      width="20"
+      height="20"
       viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+      {...props}
     >
       <rect width="18" height="18" fill="url(#pattern0_3064_11051)" />
       <defs>
@@ -198,14 +198,14 @@ export const Icons = {
       </defs>
     </svg>
   ),
-
   DashboardIcon: (props: IconProps) => (
     <svg
-      width="17"
-      height="17"
+      width="20"
+      height="20"
       viewBox="0 0 17 17"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <rect width="17" height="17" fill="url(#pattern0_3064_11031)" />
       <defs>
@@ -339,6 +339,7 @@ export const Icons = {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <rect width="20" height="20" fill="url(#pattern0_2272_14417)" />
       <defs>
@@ -557,12 +558,12 @@ export const Icons = {
   ),
   StakingIcon: (props: IconProps) => (
     <svg
-      width="18"
-      height="18"
+      width="20"
+      height="20"
       viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+      {...props}
     >
       <rect width="18" height="18" fill="url(#pattern0_3095_11916)" />
       <defs>
@@ -590,7 +591,7 @@ export const Icons = {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+      {...props}
     >
       <rect width="20" height="20" fill="url(#pattern0_3095_11904)" />
       <defs>
@@ -613,8 +614,8 @@ export const Icons = {
   ),
   AppDevIcon: (props: IconProps) => (
     <svg
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -641,8 +642,8 @@ export const Icons = {
   ),
   SettingsIcon: (props: IconProps) => (
     <svg
-      width="18"
-      height="18"
+      width="20"
+      height="20"
       viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -669,12 +670,12 @@ export const Icons = {
   ),
   StorageIcon: (props: IconProps) => (
     <svg
-      width="19"
+      width="20"
       height="20"
       viewBox="0 0 19 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
+      {...props}
     >
       <rect y="0.5" width="19" height="19" fill="url(#pattern0_3064_11096)" />
       <defs>
@@ -702,6 +703,7 @@ export const Icons = {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <rect width="20" height="20" fill="url(#pattern0_2272_14429)" />
       <defs>
@@ -724,8 +726,8 @@ export const Icons = {
   ),
   WorkspaceIcon: (props: IconProps) => (
     <svg
-      width="15"
-      height="15"
+      width="20"
+      height="20"
       viewBox="0 0 15 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
