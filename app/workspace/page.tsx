@@ -1,11 +1,15 @@
 import ScrollUp from '@/components/Common/ScrollUp'
-import Workspace from '@/components/Workspace'
+import NodesFlow from '@/components/NodesFlow'
+import WorkspaceSidebar from '@/components/SubBar/workspace-sidebar'
 
 export default function Tasks() {
   return (
     <>
       <ScrollUp />
-      <Workspace />
+      <div className="flex size-full">
+        <NodesFlow />
+        <WorkspaceSidebar />
+      </div>
     </>
   )
 }

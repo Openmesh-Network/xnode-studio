@@ -2,7 +2,6 @@ import { NextRequest } from 'next/server'
 import { db } from '@/db'
 import { Providers } from '@/db/schema'
 import { and, asc, count, desc, eq, gte, like, lte, or, SQL } from 'drizzle-orm'
-import { number, string } from 'yup'
 import { z } from 'zod'
 
 const FALLBACK_LIMIT = 50
