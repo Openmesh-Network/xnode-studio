@@ -30,7 +30,7 @@ export function Header() {
   ]
 
   return (
-    <header className="z-50 flex h-16 w-full items-center justify-between gap-x-32 bg-[#1F1F1F] pl-6">
+    <header className="fixed z-50 flex h-16 w-full items-center justify-between gap-x-32 bg-[#1F1F1F] pl-6">
       <Image src={xNodeLogo} alt="XNode Logo" />
 
       <div className="hidden h-full items-center gap-x-20 lg:flex">

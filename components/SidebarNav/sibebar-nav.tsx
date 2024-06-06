@@ -28,7 +28,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
   return (
     <NavContainer className={className}>
       {/* <NavHeader isMobile={isMobile}></NavHeader> */}
-      <NavContent className="overflow-y-scroll">
+      <NavContent className="mt-0 overflow-y-scroll">
         <NavLink
           href="/"
           icon={Icons.HomeIcon}
@@ -265,7 +265,7 @@ const NavContainer = React.forwardRef<
     >
       <aside
         className={cn(
-          'duration-plico sticky top-0 flex h-screen shrink-0 flex-col justify-between border-r bg-card pt-16 text-card-foreground transition-[width] ease-in-out',
+          'duration-plico top-0 flex h-screen shrink-0 flex-col justify-between border-r bg-card pt-16 text-card-foreground transition-[width] ease-in-out',
           collapsed ? 'w-14' : 'w-56',
           className
         )}
