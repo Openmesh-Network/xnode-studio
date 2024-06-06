@@ -399,7 +399,7 @@ const NavContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   children,
 }) => {
   return (
-    <ul className={cn('relative mt-8 flex w-full flex-col', className)}>
+    <ul className={cn('relative mt-8 flex w-full flex-col gap-4', className)}>
       {children}
     </ul>
   )
@@ -415,8 +415,6 @@ const NavFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     </ul>
   )
 }
-
-type RootNavLinksProps = NavLinkProps
 
 interface NavCategoryItemProps extends React.HTMLAttributes<HTMLLIElement> {
   label?: string
