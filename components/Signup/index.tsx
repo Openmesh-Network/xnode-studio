@@ -96,7 +96,8 @@ const Signup = () => {
             on the L3A platform.
           </p>
           <w3m-button />
-          <button onClick={()=>tryLogin()}> Actually attempt login. </button>
+          <button className="cursor-pointer items-center rounded-[5px] border border-[#0059FF] bg-[#0059FF] py-[8px] px-[25px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
+            onClick={()=>tryLogin()}> Actually attempt login. </button>
         </div>
         <Separator className="my-4" />
         <div>
