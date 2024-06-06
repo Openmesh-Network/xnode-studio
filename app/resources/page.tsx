@@ -72,8 +72,6 @@ export default async function ResourcesPage() {
         <Image
           src={'/images/resources/world-map.svg'}
           alt="World map"
-          width={1600}
-          height={400}
           className="w-full object-contain"
         />
       </section>
