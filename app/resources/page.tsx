@@ -74,7 +74,7 @@ export default async function ResourcesPage() {
       <section className="mt-12">
         <ResourcesTable />
       </section>
-      <section className="mx-auto mt-24 max-w-6xl">
+      <section className="mx-auto my-12 max-w-6xl">
         <Image
           src={'/images/resources/world-map.svg'}
           alt="World map"
