@@ -33,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -185,7 +186,7 @@ export default function ResourcesTable() {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="px-4">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -199,14 +200,15 @@ export default function ResourcesTable() {
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  Loading...
-                </TableCell>
-              </TableRow>
+              <>
+                {Array.from({ length: pageSize }).map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell colSpan={columns.length} className="text-center">
+                      <Skeleton className="h-8 w-full" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </>
             ) : (
               <>
                 {table.getRowModel().rows.length ? (
@@ -214,9 +216,10 @@ export default function ResourcesTable() {
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && 'selected'}
+                      className="h-12"
                     >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
+                        <TableCell className="pl-4" key={cell.id}>
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
