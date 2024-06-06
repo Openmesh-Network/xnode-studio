@@ -56,94 +56,94 @@ const SidebarNav: React.FC<SidebarNav> = ({
             isMobile={isMobile}
           />
         </NavCategory>
-        <NavSeperator />
-
-        <NavLink
-          href="/xnode"
-          icon={Icons.XNodeIcon}
-          label="Xnode"
-          isMobile={isMobile}
-          tag="Soon"
-        />
-        <NavSeperator />
-
-        <NavLink
-          href="/template-products"
-          icon={Icons.Templates}
-          label="Templates"
-          isMobile={isMobile}
-        />
-        <NavLink
-          href="/workspace"
-          icon={Icons.DesignAndBuildIcon}
-          label="Design & Build"
-          isMobile={isMobile}
-          tag="Beta"
-        />
-        <NavSeperator />
-
-        <NavLink
-          href="/data-products"
-          icon={Icons.DataIcon}
-          label="Data"
-          isMobile={isMobile}
-        />
-        <NavLink
-          href="/compute"
-          icon={Icons.ComputeIcon}
-          label="Compute"
-          isMobile={isMobile}
-          tag="Soon"
-        />
-        <NavLink
-          href="/storage"
-          icon={Icons.StorageIcon}
-          label="Storage"
-          isMobile={isMobile}
-          tag="Soon"
-        />
-        <NavLink
-          href="/analytics"
-          icon={Icons.AnalyticsIcon}
-          label="Analytics"
-          isMobile={isMobile}
-          tag="Soon"
-        />
-        <NavLink
-          href="/rpc"
-          icon={Icons.RPCIcon}
-          label="RPC"
-          isMobile={isMobile}
-          tag="Soon"
-        />
-        <NavLink
-          href="/apis"
-          icon={Icons.APIIcon}
-          label="APIs"
-          isMobile={isMobile}
-          tag="Soon"
-        />
-        <NavLink
-          href="/appdev"
-          icon={Icons.AppDevIcon}
-          label="App Dev"
-          isMobile={isMobile}
-          tag="Soon"
-        />
-        <NavLink
-          href="/integrations"
-          icon={Icons.IntegrationsIcon}
-          label="Integrations"
-          isMobile={isMobile}
-          tag="Soon"
-        />
-        <NavLink
-          href="/utility"
-          icon={Icons.UtilityIcon}
-          label="Utility"
-          isMobile={isMobile}
-          tag="Soon"
-        />
+        <NavCategory>
+          <NavLink
+            href="/xnode"
+            icon={Icons.XNodeIcon}
+            label="Xnode"
+            isMobile={isMobile}
+            tag="Soon"
+          />
+        </NavCategory>
+        <NavCategory>
+          <NavLink
+            href="/template-products"
+            icon={Icons.Templates}
+            label="Templates"
+            isMobile={isMobile}
+          />
+          <NavLink
+            href="/workspace"
+            icon={Icons.DesignAndBuildIcon}
+            label="Design & Build"
+            isMobile={isMobile}
+            tag="Beta"
+          />
+        </NavCategory>
+        <NavCategory>
+          <NavLink
+            href="/data-products"
+            icon={Icons.DataIcon}
+            label="Data"
+            isMobile={isMobile}
+          />
+          <NavLink
+            href="/compute"
+            icon={Icons.ComputeIcon}
+            label="Compute"
+            isMobile={isMobile}
+            tag="Soon"
+          />
+          <NavLink
+            href="/storage"
+            icon={Icons.StorageIcon}
+            label="Storage"
+            isMobile={isMobile}
+            tag="Soon"
+          />
+          <NavLink
+            href="/analytics"
+            icon={Icons.AnalyticsIcon}
+            label="Analytics"
+            isMobile={isMobile}
+            tag="Soon"
+          />
+          <NavLink
+            href="/rpc"
+            icon={Icons.RPCIcon}
+            label="RPC"
+            isMobile={isMobile}
+            tag="Soon"
+          />
+          <NavLink
+            href="/apis"
+            icon={Icons.APIIcon}
+            label="APIs"
+            isMobile={isMobile}
+            tag="Soon"
+          />
+          <NavLink
+            href="/appdev"
+            icon={Icons.AppDevIcon}
+            label="App Dev"
+            isMobile={isMobile}
+            tag="Soon"
+          />
+          <NavLink
+            href="/integrations"
+            icon={Icons.IntegrationsIcon}
+            label="Integrations"
+            isMobile={isMobile}
+            tag="Soon"
+          />
+          <NavLink
+            href="/utility"
+            icon={Icons.UtilityIcon}
+            label="Utility"
+            isMobile={isMobile}
+            tag="Soon"
+          />
+        </NavCategory>
         <NavCategory label="Studio">
           <NavLink
             href="/trading"
@@ -172,21 +172,18 @@ const SidebarNav: React.FC<SidebarNav> = ({
             icon={Icons.StakingIcon}
             label="Staking & Reward Claiming"
             isMobile={isMobile}
-            tag="Soon"
           />
           <NavLink
             href="/settings"
             icon={Icons.SettingsIcon}
             label="settings"
             isMobile={isMobile}
-            tag="Soon"
           />
           <NavLink
             href="/faq"
             icon={Icons.FAQIcon}
             label="FAQs"
             isMobile={isMobile}
-            tag="Soon"
           />
         </NavCategory>
         <NavCategory label="Support">
@@ -201,19 +198,15 @@ const SidebarNav: React.FC<SidebarNav> = ({
             icon={Icons.CommunityIcon}
             label="Commmunity"
             isMobile={isMobile}
-            tag="Soon"
           />
           <NavLink
             href="/circle"
             icon={Icons.CircleIcon}
             label="Circle"
             isMobile={isMobile}
-            tag="Soon"
           />
         </NavCategory>
       </NavContent>
-
-      <NavFooter></NavFooter>
     </NavContainer>
   )
 }
@@ -280,7 +273,7 @@ const NavContainer = React.forwardRef<
       <aside
         className={cn(
           'duration-plico sticky top-0 flex h-screen shrink-0 flex-col justify-between border-r bg-card pt-16 text-card-foreground transition-[width] ease-in-out',
-          collapsed ? 'w-14' : 'w-56',
+          collapsed ? 'w-14' : 'w-72',
           className
         )}
         ref={ref}
@@ -425,32 +418,36 @@ const NavFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
 type RootNavLinksProps = NavLinkProps
 
-interface NavCategoryItemProps extends React.HTMLAttributes<HTMLDivElement> {
+interface NavCategoryItemProps extends React.HTMLAttributes<HTMLLIElement> {
   label?: string
   icon?: Icon
 }
 
-const NavCategory = React.forwardRef<HTMLDivElement, NavCategoryItemProps>(
-  ({ className, label, icon, children, ...props }, ref) => {
-    const { collapsed } = useNavContext()
+function NavCategory({
+  label,
+  icon,
+  children,
+  ...props
+}: NavCategoryItemProps) {
+  const { collapsed } = useNavContext()
 
-    return (
-      <div ref={ref} className={cn('mt-3', className)} {...props}>
-        {label && (
-          <p
-            className={cn(
-              'duration-plico ml-3 truncate text-xs font-medium uppercase text-foreground/80 transition-opacity ease-in-out',
-              collapsed ? 'opacity-0' : 'opacity-100'
-            )}
-          >
-            {label}
-          </p>
-        )}
-        <nav className="flex flex-col">{children}</nav>
-      </div>
-    )
-  }
-)
+  return (
+    <li {...props}>
+      {label && (
+        <span
+          className={cn(
+            'duration-plico ml-3 truncate text-xs font-medium uppercase text-foreground/80 transition-opacity ease-in-out',
+            collapsed ? 'opacity-0' : 'opacity-100'
+          )}
+        >
+          {label}
+        </span>
+      )}
+      <ul className="flex flex-col">{children}</ul>
+    </li>
+  )
+}
+
 NavCategory.displayName = 'NavCategory'
 
 interface NavButtonProps extends ButtonProps {
@@ -521,7 +518,7 @@ const NavLink: React.FC<NavLinkProps> = ({
 
   const transitionDuration = 0.5
   return (
-    <li className={cn('relative hover:bg-red-500', className)}>
+    <li className={cn('relative', className)}>
       {isActive && (
         <motion.span
           layoutId={`${isMobile} bubble`}
@@ -538,9 +535,9 @@ const NavLink: React.FC<NavLinkProps> = ({
         <TooltipTrigger asChild>
           <Link
             href={href}
-            className="flex h-10 items-center rounded-md px-3 py-2 text-foreground hover:bg-accent/30"
+            className="flex h-10 items-center px-3 py-2 text-foreground hover:bg-primary/5"
           >
-            <div className="flex items-center">
+            <div className="relative flex items-center">
               <div className="relative">
                 {tag && collapsed && (
                   <motion.div
@@ -559,34 +556,34 @@ const NavLink: React.FC<NavLinkProps> = ({
               </div>
               <span
                 className={cn(
-                  'duration-plico relative z-10 ml-4 w-32 max-w-full truncate text-sm opacity-100 transition-[margin,max-width,opacity] ease-in-out',
+                  'duration-plico relative z-10 ml-4 max-w-full truncate text-sm font-medium text-neutral-700 opacity-100 transition-[margin,max-width,opacity] ease-in-out',
                   collapsed &&
                     'ml-0 max-w-0 opacity-0 group-[.category]:ml-4 group-[.category]:max-w-full group-[.category]:opacity-100'
                 )}
               >
                 {label}
               </span>
+              {tag && !collapsed && (
+                <motion.div
+                  layoutId={`${label} ${isMobile} notification`}
+                  className={cn(
+                    'absolute -top-2 left-full z-10 ml-2 bg-primary px-1.5 py-1 text-[0.675rem] font-semibold leading-[0.625rem] text-white',
+                    tag === 'Beta' && 'bg-primary',
+                    tag === 'New' && 'bg-primary',
+                    tag === 'Soon' && 'bg-[#959595]'
+                  )}
+                  transition={{
+                    duration: transitionDuration,
+                    ease: [0.4, 0, 0.2, 1],
+                  }}
+                  style={{
+                    borderRadius: '8px 0px 8px 0px ',
+                  }}
+                >
+                  {tag}
+                </motion.div>
+              )}
             </div>
-            {tag && !collapsed && (
-              <motion.div
-                layoutId={`${label} ${isMobile} notification`}
-                className={cn(
-                  'absolute right-0 top-1/4 z-10 mr-2 inline-flex -translate-y-1/4 items-center rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-white',
-                  tag === 'Beta' && 'bg-primary',
-                  tag === 'New' && 'bg-primary',
-                  tag === 'Soon' && 'bg-[#959595]'
-                )}
-                transition={{
-                  duration: transitionDuration,
-                  ease: [0.4, 0, 0.2, 1],
-                }}
-                style={{
-                  borderRadius: '8px 0px 8px 0px ',
-                }}
-              >
-                {tag}
-              </motion.div>
-            )}
           </Link>
         </TooltipTrigger>
         <TooltipContent side="right">{label}</TooltipContent>
