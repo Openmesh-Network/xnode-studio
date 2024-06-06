@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { db } from '@/db'
 import { Providers } from '@/db/schema'
-import { and, asc, count, desc, eq, like, or, SQL } from 'drizzle-orm'
+import { and, asc, count, desc, eq, gte, like, lte, or, SQL } from 'drizzle-orm'
 import { number, string } from 'yup'
 
 const FALLBACK_LIMIT = 50
@@ -14,6 +14,8 @@ export async function GET(req: NextRequest) {
   const order = string().nullable().cast(params.get('order'))
   const searchQuery = string().nullable().cast(params.get('q'))
   const region = string().nullable().cast(params.get('r'))
+  const minPrice = number().nullable().cast(params.get('min'))
+  const maxPrice = number().nullable().cast(params.get('max'))
 
   let filters: SQL[] = []
   if (searchQuery !== null && searchQuery !== '') {
@@ -24,6 +26,22 @@ export async function GET(req: NextRequest) {
   }
   if (region !== null && region.trim() !== '') {
     filters.push(eq(Providers.location, region.trim()))
+  }
+  if (minPrice !== null) {
+    filters.push(
+      or(
+        gte(Providers.priceMonth, minPrice),
+        gte(Providers.priceSale, minPrice)
+      )
+    )
+  }
+  if (maxPrice !== null && maxPrice !== 1000) {
+    filters.push(
+      or(
+        lte(Providers.priceMonth, maxPrice),
+        lte(Providers.priceSale, maxPrice)
+      )
+    )
   }
 
   let sortOrder: SQL[] = []

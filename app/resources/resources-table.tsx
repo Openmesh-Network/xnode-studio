@@ -24,6 +24,7 @@ import {
   Search,
 } from 'lucide-react'
 
+import { formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -92,7 +93,8 @@ const columns: ColumnDef<Provider>[] = [
     header: ({ column }) => {
       return <SortableHeaderButton column={column} label="Price" />
     },
-    cell: ({ cell }) => (cell.getValue() ? `${cell.getValue()}/h` : '-'),
+    cell: ({ cell }) =>
+      cell.getValue() ? `${formatPrice(cell.getValue() as number)}/h` : '-',
   },
 ]
 

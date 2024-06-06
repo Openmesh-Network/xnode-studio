@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { AccountContext } from '@/contexts/AccountContext'
 
 import { TemplatesProducts } from '@/types/dataProvider'
+import { formatPrice } from '@/lib/utils'
 
 const Configuration = () => {
   const [templates, setTemplates] = useState<TemplatesProducts[]>([])
@@ -535,7 +536,7 @@ const Configuration = () => {
                   Estimated monthly price*
                 </div>
                 <div className="text-[18px] font-bold text-[#0059ff]">
-                  {templateSelected?.priceMonth} / month{' '}
+                  {formatPrice(templateSelected?.priceMonth)} / month{' '}
                 </div>
               </div>
             </div>
