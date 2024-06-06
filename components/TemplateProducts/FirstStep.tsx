@@ -1,11 +1,11 @@
 'use client'
 
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Provider } from '@/db/schema'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
-import { Check, ChevronsUpDown, Search, X } from 'lucide-react'
+import { Check, ChevronsUpDown, Loader, Search, X } from 'lucide-react'
 
 import { cn, formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -31,6 +31,16 @@ const STEP_MIN = 1
 const STEP_MAX = 1000
 const PRICE_MAX = 50000
 
+const TEMP_FETCH_ENDPOINTS = 5
+const FETCHING_TEXTS = [
+  'Searching Equinix...',
+  'Searching DigitalOcean...',
+  'Searching AWS...',
+  'Searching Azure...',
+  'Filtering results...',
+  'Finishing up...',
+]
+
 const TemplateProducts = () => {
   const [page, setPage] = useState<number>(0)
   const [searchInput, setSearchInput] = useState<string>()
@@ -39,7 +49,7 @@ const TemplateProducts = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([1, 1000])
   const debouncedPriceRange = useDebounce(priceRange, 500)
 
-  const { data: providerData, isLoading: providersLoading } = useQuery({
+  const { data: providerData, isFetching: providersFetching } = useQuery({
     queryKey: [
       'resources',
       page,
@@ -62,7 +72,35 @@ const TemplateProducts = () => {
       return res.json() as Promise<{ data: Provider[] }>
     },
     placeholderData: keepPreviousData,
+    refetchOnWindowFocus: false,
   })
+
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const [loadingProgress, setLoadingProgress] = useState(-1)
+  const incrementLoading = () => {
+    setLoadingProgress((oldProgress) => {
+      if (oldProgress === TEMP_FETCH_ENDPOINTS) {
+        if (timerRef.current) clearInterval(timerRef.current)
+        return -1
+      }
+      return Math.min(oldProgress + 1, TEMP_FETCH_ENDPOINTS)
+    })
+  }
+
+  useEffect(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current)
+    }
+
+    setLoadingProgress(0)
+    timerRef.current = setInterval(incrementLoading, 1200)
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+    }
+  }, [providersFetching])
 
   const { data: regionData, isLoading: regionLoading } = useQuery({
     queryKey: ['regions'],
@@ -77,7 +115,37 @@ const TemplateProducts = () => {
   return (
     <section>
       <h1 className="text-4xl font-semibold text-black">Select a provider</h1>
-      <Separator className="my-12" />
+      <div className="my-12">
+        <Separator
+          className={cn(loadingProgress > -1 ? 'opacity-0' : 'opacity-100')}
+        />
+        <div
+          className={cn(
+            'relative w-full overflow-hidden rounded-lg bg-primary/10 transition-all',
+            loadingProgress > -1
+              ? 'h-3 border border-primary/50'
+              : 'h-0 border-0 border-transparent'
+          )}
+        >
+          <div
+            className="absolute left-0 top-0 h-full animate-pulse bg-primary transition-all"
+            style={{
+              width: `${(100 / TEMP_FETCH_ENDPOINTS) * Math.max(loadingProgress, 0)}%`,
+            }}
+          />
+        </div>
+        <div
+          className={cn(
+            'mt-1 flex items-center gap-1 overflow-hidden transition-all',
+            loadingProgress > -1 ? 'h-auto' : 'h-0'
+          )}
+        >
+          <Loader className="size-3.5 animate-spin" />
+          <p className="text-sm font-medium text-muted-foreground">
+            {FETCHING_TEXTS[loadingProgress]}
+          </p>
+        </div>
+      </div>
       <div className="flex flex-wrap justify-between gap-4">
         <div className="flex flex-1 flex-wrap gap-4">
           <div className="relative flex w-full max-w-80 items-center">
@@ -217,8 +285,7 @@ const TemplateProducts = () => {
         </Button>
       </div>
       <div className="mt-4">
-        {providersLoading ? <p>Loading...</p> : null}
-        {!providersLoading && providerData !== undefined ? (
+        {providerData !== undefined ? (
           providerData.data.length === 0 ? (
             <p>No results found</p>
           ) : (
