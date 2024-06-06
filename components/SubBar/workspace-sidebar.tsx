@@ -25,7 +25,7 @@ function HoverItem({ title, children }: HoverItemProps) {
         <h1 className="font-medium">{title}</h1>
         <ChevronRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
       </div>
-      <div className="invisible absolute inset-y-0 right-full max-h-full overflow-y-auto delay-300 group-hover:visible">
+      <div className="invisible absolute inset-y-0 right-full mr-px max-h-full overflow-y-auto delay-300 group-hover:visible">
         {children}
       </div>
     </button>
