@@ -2,17 +2,15 @@ import { useContext, useEffect } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import nookies, { parseCookies, setCookie } from 'nookies'
 import { toast } from 'react-toastify'
+import { getWeb3Login } from 'utils/auth'
 
 import LogIn from './LogIn'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { hashObject } from '@/utils/functions'
-import { signMessage } from '@wagmi/core'
 import axios from 'axios'
 import { useAccount } from 'wagmi'
 
-import { wagmiConfig } from '@/app/providers'
 
 import { Separator } from '../ui/separator'
 import EquinixConnection from './EquinixConnecton'
@@ -39,28 +37,6 @@ const Signup = () => {
   const cookies = parseCookies()
   const userHasAnyCookie = cookies.userSessionToken
 
-  async function getUserNonce(userAddress: string) {
-    const config = {
-      method: 'post' as const,
-      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/openmesh-experts/functions/getUserNonce`,
-      headers: {
-        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      data: {
-        address: userAddress,
-      },
-    }
-    let dado
-
-    await axios(config).then(function (response) {
-      if (response.data) {
-        dado = response.data
-      }
-    })
-    return dado
-  }
-
   function handleFinalBuild() {
     if (!user) {
       toast.error('Please log in before proceeding')
@@ -84,60 +60,25 @@ const Signup = () => {
     }
   }
 
-  async function loginWeb3User(userAddress: string, signature: string) {
-    const config = {
-      method: 'post' as const,
-      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/openmesh-experts/functions/loginByWeb3Address`,
-      headers: {
-        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-      },
-      data: {
-        address: userAddress,
-        signature,
-      },
-    }
-
-    let dado
-
-    await axios(config).then(function (response) {
-      if (response.data) {
-        dado = response.data
-      }
-    })
-
-    return dado
-  }
-
   const { address } = useAccount()
 
-  useEffect(() => {
-    async function getWeb3Login() {
-      if (address && !user && !userHasAnyCookie) {
-        // trying web3 login
-        try {
-          let nonceUser = await getUserNonce(address)
-          nonceUser = nonceUser || '0'
-          const hash = hashObject(`${address}-${nonceUser}`)
-          console.log('message to hash')
-          console.log(hash)
-          const finalHash = `0x${hash}`
-          const signature = await signMessage(wagmiConfig, {
-            account: address,
-            message: finalHash,
-          })
-          const res = await loginWeb3User(address, signature)
-          setCookie(null, 'userSessionToken', res.sessionToken)
-          nookies.set(null, 'userSessionToken', res.sessionToken)
-          setUser(res)
-        } catch (err) {
-          toast.error(err)
-          console.log('error loging user')
-        }
+  const tryLogin = async () => {
+    console.log('Login initiated!')
+    try {
+      const res = await getWeb3Login(address)
+      if (res) {
+        setCookie(null, 'userSessionToken', res.sessionToken)
+        nookies.set(null, 'userSessionToken', res.sessionToken)
+        setUser(res)
       }
     }
-
-    getWeb3Login()
-  }, [address, setUser, user, userHasAnyCookie])
+    catch (err) {
+      console.log('Error loging in with Web3', err)
+      toast.error(err)
+      return
+    }
+    console.log('Login over!')
+  }
 
   return (
     <section id="home">
@@ -155,6 +96,7 @@ const Signup = () => {
             on the L3A platform.
           </p>
           <w3m-button />
+          <button onClick={()=>tryLogin()}> Actually attempt login. </button>
         </div>
         <Separator className="my-4" />
         <div>

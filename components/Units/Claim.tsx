@@ -1,7 +1,11 @@
 "use client";
 
+import { useContext, useEffect, useState } from "react";
+import { toast } from 'react-toastify'
 import { XnodeUnitEntitlementContract } from "@/contracts/XnodeUnitEntitlement";
-import { useEffect, useState } from "react";
+import { getWeb3Login } from 'utils/auth'
+import { AccountContext } from '@/contexts/AccountContext'
+import nookies, { setCookie } from 'nookies'
 import {
   Address,
   BaseError,
@@ -21,23 +25,34 @@ import {
 import axios from "axios";
 import { XnodeUnitEntitlementClaimerContract } from "@/contracts/XnodeUnitEntitlementClaimer";
 import { reviver } from "@/utils/json";
-
-
-function popup() {
-  return (
-    <div className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    </div>
-  )
-}
-
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
+import { useRouter } from 'next/navigation'
 
 const Claim = ({chainId} : {chainId: number}) => {
   const [code, setCode] = useState<string>("");
-  const [invalidCode, setInvalidCode] = useState<string | undefined>(undefined);
+  const [ invalidCode, setInvalidCode ] = useState<string | undefined>(undefined);
+  const [ successOpen, setSuccessOpen ] = useState<boolean>(false);
+  const [ confirmOpen, setConfirmOpen ] = useState<boolean>(false);
   const account = useAccount();
   const { disconnect } = useDisconnect();
   const publicClient = usePublicClient({ chainId });
   const { data: walletClient } = useWalletClient({ chainId });
+  const router = useRouter()
+  const {
+    user,
+    setUser,
+  } = useContext(AccountContext)
 
   useEffect(() => {
     // Check if semantics of the code are valid
@@ -70,6 +85,15 @@ const Claim = ({chainId} : {chainId: number}) => {
   }, [code]);
 
   const redeemCode = async () => {
+
+    setConfirmOpen(true)
+    setSuccessOpen(true)
+
+    // XXX: THIS IS A STUB TO TEST UI, REMOVE BEFORE PROD
+    if (1 + 3 == 4) {
+      return;
+    }
+
     if (!walletClient) {
       alert("WalletClient undefined.");
       return;
@@ -147,13 +171,36 @@ const Claim = ({chainId} : {chainId: number}) => {
     });
 
     alert(`Success: ${receipt.transactionHash}`);
+
+
+    // At this point the user has successfully claimed the Xnode.
+
+    // TODO: Trigger success animation.
+    // TODO: Popup that explains next step.
+    // TODO: Redirect to deployment page.
+    
   };
 
-  const redeemWithWarn = () => {
-    if (confirm("Warning, activating an Xnode is irreversible and will begin the expiration timer. You can still trade your token at this time. Are you sure you want to proceed?")) {
-      redeemCode().catch(console.error)
+  const { address } = useAccount()
+
+  const tryLogin = async () => {
+    console.log('Login initiated!')
+    try {
+      const res = await getWeb3Login(address)
+      if (res) {
+        setCookie(null, 'userSessionToken', res.sessionToken)
+        nookies.set(null, 'userSessionToken', res.sessionToken)
+        setUser(res)
+        console.log('Success!')
+      }
     }
-  };
+    catch (err) {
+      console.log('Error loging in with Web3', err)
+      toast.error(err)
+      return
+    }
+    console.log('Login over!')
+  }
 
   return (
     <>
@@ -166,7 +213,16 @@ const Claim = ({chainId} : {chainId: number}) => {
         <div className="">
           <p className="font-semibold"> Step 01. </p>
           <p> Connect your wallet. </p>
-          <p><a href="https://richardlennox.com"> How to get a web3 wallet </a></p>
+          <Popover>
+            <PopoverTrigger className="underline text-blue-700"> How to get a wallet? </PopoverTrigger>
+            <PopoverContent>
+              <ol>
+                <li>1. Choose a wallet provider (MetaMask, Ledger, Brave, etc).</li>
+                <li>2. Create a new ethereum wallet. </li>
+                <li>3. Add funds and select connect. </li>
+              </ol>
+            </PopoverContent>
+          </Popover>
         </div>
         <div className="">
           <span className="flex flex-row">
@@ -196,12 +252,53 @@ const Claim = ({chainId} : {chainId: number}) => {
       <br/>
       <br/>
       <br/>
+      <div className="flex flex-row justify-between">
+        <div className="">
+          <p className="font-semibold"> Step 02. </p>
+          <p> Log in with wallet. </p>
+          <Popover>
+            <PopoverTrigger className="underline text-blue-700"> Why do I need to do this? </PopoverTrigger>
+            <PopoverContent>
+              Our backend needs to be able to track previous deployments, so we ask you to sign a challenge to create an account on our database.
+            </PopoverContent>
+          </Popover>
+        </div>
+        <div className="">
+
+
+          {
+            user?.sessionToken === undefined ? (
+              <button
+                className="cursor-pointer items-center rounded-[5px] border border-[#0059FF] bg-[#0059FF] py-[8px] px-[25px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
+                disabled={ false /* invalidCode !== undefined || walletClient === undefined || account.address !== undefined */ }
+                onClick={() => alert("You wish >:)") }
+              >
+                Log out
+              </button>
+            ) : (
+              <button
+                className="cursor-pointer items-center rounded-[5px] border border-[#0059FF] bg-[#0059FF] py-[8px] px-[25px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
+                disabled={ false /* invalidCode !== undefined || walletClient === undefined || account.address !== undefined */ }
+                onClick={() => tryLogin() }
+              >
+                Log In
+              </button>
+            )
+          }
+        </div>
+      </div>
+      <br/>
+      <br/>
+      <br/>
 
       <div className="flex flex-row justify-between">
         <div>
-          <p className="font-semibold"> Step 02. </p>
+          <p className="font-semibold"> Step 03. </p>
           <p> Enter your pin from the Xnode card. </p>
-          <p className="underline"> <a onClick={ () => { alert("deluxe popup") } }> What is that, I&apos;m dumb? </a> </p>
+          <Popover>
+            <PopoverTrigger className="underline text-blue-700"> I don't have one. </PopoverTrigger>
+            <PopoverContent> A code is required to redeem the Xnode NFT.<br/> Be on the look out on social media or IRL events for giveaways! </PopoverContent>
+          </Popover>
         </div>
 
         <div className="">
@@ -225,32 +322,61 @@ const Claim = ({chainId} : {chainId: number}) => {
 
       <div className="flex flex-row justify-between">
         <div>
-          <p className="font-semibold"> Step 03. </p>
+          <p className="font-semibold"> Step 04. </p>
           <p> Claim your Xnode. </p>
-          <p className="underline"> <a onClick={ () => { alert("deluxe popup") } }> What is that, I&apos;m dumb? </a> </p>
+          <p> Build 100s of apps. Trade. Rent. </p>
         </div>
 
         <div className="">
           <button
             className="cursor-pointer items-center rounded-[5px] border border-[#0059FF] bg-[#0059FF] py-[8px] px-[25px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
-            disabled={invalidCode !== undefined || walletClient === undefined || account.address !== undefined}
-            onClick={() => redeemCode().catch(console.error)}
+            disabled={ false /* invalidCode !== undefined || walletClient === undefined || account.address !== undefined */ }
+            onClick={() => setConfirmOpen(true) }
           >
             Claim
           </button>
           </div>
       </div>
 
-      <br/>
-      <br/>
-      <br/>
+      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <AlertDialogTrigger/>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to claim your Xnode?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will mint an entitlement for the currently selected wallet.
 
+              By clicking continue you also agree to our terms and conditions.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={ () => redeemCode().catch(console.error) }>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
-      {
-        popup()
-      }
+      {/* Success alert. */}
+      <AlertDialog open={successOpen} onOpenChange={setSuccessOpen}>
+        <AlertDialogTrigger/>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Success!</AlertDialogTitle>
+            <AlertDialogDescription>
+              You have succesfully claimed your Xnode.
+              It will now be available for activation on the dashboard.
 
-      <br/>
+              <br/>
+              Click continue to be redirected there.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={ () => router.push('/dashboard') }>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
     </>
   );
 };

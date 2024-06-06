@@ -2,6 +2,7 @@
 
 /* eslint-disable no-unused-vars */
 import { useCallback, useContext, useEffect, useState } from 'react'
+import { getXueNfts } from "utils/nft";
 import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -22,11 +23,13 @@ import {
 } from 'recharts'
 
 import { Xnode } from '../../types/node'
+import { useAccount } from 'wagmi';
 
 const Dashboard = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [isViewingMore, setIsViewingMore] = useState<any>('')
   const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
+  const [xueNfts, setXueNfts] = useState<BigInt[]>(undefined);
 
   const cookies = parseCookies()
   const userHasAnyCookie = cookies.userSessionToken
@@ -53,27 +56,28 @@ const Dashboard = () => {
   }
 
   const [chartData, setChartData] = useState(generateFakeData())
+  const account = useAccount();
 
   const {
-    selectionSideNavBar,
-    setSelectionSideNavBar,
-    next,
-    setNext,
-    reviewYourBuild,
-    setReviewYourBuild,
-    finalNodes,
-    tagXnode,
+    // selectionSideNavBar,
+    // setSelectionSideNavBar,
+    // next,
+    // setNext,
+    // reviewYourBuild,
+    // setReviewYourBuild,
+    // finalNodes,
+    // tagXnode,
+    // projectName,
+    // setProjectName,
+    // setProjectDescription,
+    // setSignup,
+    // setNextFromScratch,
+    // setConnections,
+    // setFinalBuild,
+    // setTagXnode,
+    // setXnodeType,
+    // xnodeType,
     user,
-    projectName,
-    setProjectName,
-    setProjectDescription,
-    setSignup,
-    setNextFromScratch,
-    setConnections,
-    setFinalBuild,
-    setTagXnode,
-    setXnodeType,
-    xnodeType,
   } = useContext(AccountContext)
 
   const { push } = useRouter()
@@ -122,12 +126,30 @@ const Dashboard = () => {
   }, [user])
 
   useEffect(() => {
+    // XXX: User isn't logged in!
+    // This is big problem.
+    // Correct behaviour:
+    //  - Ask for login to view actual deployments?
+    //  - Keep list of pending deployments available.
+    if (!account?.address) {
+      setXueNfts([])
+    } else {
+      const findXueForAccount = async () => {
+        let nfts = await getXueNfts(account).catch(console.error)
+        if (nfts) {
+          setXueNfts(nfts)
+        }
+      }
+
+      findXueForAccount()
+    }
+
     if (!userHasAnyCookie) {
       push(
         `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     }
-  }, [push, userHasAnyCookie])
+  }, [push, user, account, userHasAnyCookie])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
@@ -135,6 +157,15 @@ const Dashboard = () => {
   const renderTable = () => {
     return (
       <div className="mx-auto flex text-black">
+
+
+        {/* Table of all the unactivated Xnodes */}
+        {xueNfts.map((node) => (
+          <div className="">
+            <p> Your id is: {node.toString()} </p>
+          </div>
+        ))}
+
         <table className="mx-auto w-full">
           <thead className="">
             <tr>
@@ -159,6 +190,7 @@ const Dashboard = () => {
             </tr>
           </thead>
           <div className="mt-[25px]"></div>
+
           <tbody className="">
             {xnodesData.map((node) => (
               <tr key={node.id}>

@@ -2,6 +2,7 @@
 
 import { XnodeUnitEntitlementContract } from "@/contracts/XnodeUnitEntitlement";
 import { useEffect, useState } from "react";
+import { getXueNfts } from "utils/nft";
 import {
   BaseError,
   ContractFunctionRevertedError,
@@ -21,18 +22,19 @@ const Activate = ({chainId} : {chainId: number}) => {
   const { data: walletClient } = useWalletClient({ chainId });
 
   useEffect(() => {
-    const getNfts = async () => {
-      if (!account?.address) {
-        setNfts([]);
-        return;
-      }
-
-      // This should be replaced with an server rewrite, so the server can do the request and keep the API key secret.
-      const response = await axios.get(`https://eth-sepolia.g.alchemy.com/nft/v3/wxMZwmicJOsN0zsmfqSN2-nc8vovL3LP/getNFTsForOwner?owner=${account.address}&contractAddresses[]=${XnodeUnitEntitlementContract.address}&withMetadata=false`).then(res => res.data as { ownedNfts: {tokenId: string}[]});
-      setNfts(response.ownedNfts.map(nft => BigInt(nft.tokenId)))
+    if (!account?.address) {
+      setNfts([]);
+      return;
     }
 
-    getNfts().catch(console.error)
+    const findXueForAccount = async () => {
+      let nfts = await getXueNfts(account).catch(console.error)
+      if (nfts) {
+        setNfts(nfts)
+      }
+    }
+
+    findXueForAccount()
   }, [account?.address])
 
   useEffect(() => {

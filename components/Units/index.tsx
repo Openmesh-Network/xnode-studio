@@ -31,8 +31,9 @@ const Units = ({chainId} : {chainId: number}) => {
 
           <Claim chainId={chainId} />
 
-          {/* TODO: Make this not look UGLY */}
-          <Activate chainId={chainId} />
+
+          {/* TODO: Move this out! This needs to be on a different page. */}
+          {/* <Activate chainId={chainId} /> */}
       </div>
     </section>
   );
