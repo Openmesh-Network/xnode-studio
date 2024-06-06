@@ -1,5 +1,7 @@
 'use client'
 
+import { ChevronRight } from 'lucide-react'
+
 import SubBarAnalytics from '../SubBarAnalytics'
 import SubBarAPIs from '../SubBarAPIs'
 import SubBarCompute from '../SubBarCompute'
@@ -18,18 +20,21 @@ type HoverItemProps = {
 }
 function HoverItem({ title, children }: HoverItemProps) {
   return (
-    <div className="group rounded px-4 py-2.5 hover:bg-muted">
-      <h1 className="font-medium">{title}</h1>
+    <button type="button" className="group rounded px-4 py-2.5 hover:bg-muted">
+      <div className="flex items-center gap-1">
+        <h1 className="font-medium">{title}</h1>
+        <ChevronRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+      </div>
       <div className="invisible absolute inset-y-0 right-full max-h-full overflow-y-auto delay-300 group-hover:visible">
         {children}
       </div>
-    </div>
+    </button>
   )
 }
 
 export default function WorkspaceSidebar() {
   return (
-    <div className="relative flex h-full flex-col border-l p-3">
+    <div className="relative flex h-full min-w-64 flex-col border-l p-3">
       <HoverItem title="Data">
         <SubBarData onValueChange={(val) => console.log(val)} />
       </HoverItem>

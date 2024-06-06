@@ -12,9 +12,14 @@ import ReactFlow, {
 } from 'reactflow'
 import { v4 as uuidv4 } from 'uuid'
 
-import 'reactflow/dist/style.css'
-
+import { ModalProps, nodeAmount, onInit } from '.'
+import AnalyticsNode from './AnalyticsNode'
+import APINode from './APINode'
+import ComputeNode from './ComputeNode'
 import CustomNode from './CustomNode'
+import DataManagementNode from './DataManagementNode'
+import DataNodeHistorical from './DataNodeHistorical'
+import DataNodeStreaming from './DataNodeStreaming'
 import {
   edges as initialEdges,
   nodes as initialNodes,
@@ -23,15 +28,6 @@ import {
   edges as initialEdgesScratch,
   nodes as initialNodesScratch,
 } from './initial-elements-fromscratch'
-
-import './overview.css'
-
-import AnalyticsNode from './AnalyticsNode'
-import APINode from './APINode'
-import ComputeNode from './ComputeNode'
-import DataManagementNode from './DataManagementNode'
-import DataNodeHistorical from './DataNodeHistorical'
-import DataNodeStreaming from './DataNodeStreaming'
 import MLNode from './MLNode'
 import OpenmeshNode from './OpenmeshNode'
 import RPCNode from './RPCNode'
@@ -41,41 +37,7 @@ import TradingNode from './TradingNode'
 import UtilityNode from './UtilityNode'
 import withProps from './withProps'
 
-// const getNodeTypes = (handleNodeRemove): NodeTypes => ({
-//   custom: CustomNode,
-//   server: ServerNode,
-//   api: APINode,
-//   data: DataNode,
-//   utility: UtilityNode,
-//   rpc: RPCNode,
-//   analytics: withProps(AnalyticsNode, { handleNodeRemove }),
-// });
-const nodeAmount = [
-  { type: 'server', amount: 1 },
-  { type: 'dataStreaming', amount: 1 },
-  { type: 'dataHistorical', amount: 1 },
-  { type: 'api', amount: 5 },
-  { type: 'utility', amount: 5 },
-  { type: 'rpc', amount: 5 },
-  { type: 'analytics', amount: 5 },
-  { type: 'openmesh', amount: 5 },
-  { type: 'ml', amount: 5 },
-  { type: 'storage', amount: 5 },
-  { type: 'dataManagement', amount: 5 },
-  { type: 'compute', amount: 5 },
-  { type: 'trading', amount: 5 },
-]
-const minimapStyle = {
-  height: 120,
-}
-interface ModalProps {
-  fromScratch?: boolean
-}
-
-const onInit = (reactFlowInstance) =>
-  console.log('flow loaded:', reactFlowInstance)
-
-const NodesFlow = ({ fromScratch = false }: ModalProps) => {
+export const NodesFlow = ({ fromScratch = false }: ModalProps) => {
   const {
     changeNodes,
     setFinalNodes,
@@ -510,18 +472,14 @@ const NodesFlow = ({ fromScratch = false }: ModalProps) => {
   //       node.data.lists &&
   //       node.data.lists.length > 0
   //   )
-
   //   if (existingNodeIndex !== -1) {
   //     const existingNode = nodes[existingNodeIndex]
-
   //     const filteredLists = existingNode.data.lists.filter(
   //       (data) => data.title !== 'dataOption.title'
   //     )
-
   //     if (filteredLists.length === existingNode.data.lists.length) {
   //       return
   //     }
-
   //     const updatedNode = {
   //       ...existingNode,
   //       data: {
@@ -529,15 +487,12 @@ const NodesFlow = ({ fromScratch = false }: ModalProps) => {
   //         lists: filteredLists,
   //       },
   //     }
-
   //     const updatedNodes = nodes.map((node, index) =>
   //       index === existingNodeIndex ? updatedNode : node
   //     )
-
   //     setNodes(updatedNodes)
   //   }
   // }, [nodes, setNodes, updateDataNode])
-
   const nodesToAdd = [...nodes]
 
   // verify node type and node amount for the selected nodes and return an array with the max node amount,
@@ -699,7 +654,14 @@ const NodesFlow = ({ fromScratch = false }: ModalProps) => {
       }
       setRemoveNodes([])
     }
-  }, [nodes, removeNodes, setChangeNodes, setNodes, setRemoveNodes])
+  }, [
+    changeNodes,
+    nodes,
+    removeNodes,
+    setChangeNodes,
+    setNodes,
+    setRemoveNodes,
+  ])
 
   return (
     <div className="relative h-full flex-1">
@@ -735,5 +697,3 @@ const NodesFlow = ({ fromScratch = false }: ModalProps) => {
     </div>
   )
 }
-
-export default NodesFlow
