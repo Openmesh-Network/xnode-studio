@@ -47,7 +47,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
             icon={Icons.DeploymentsIcon}
             label="deployments"
             isMobile={isMobile}
-            isSoon
+            tag="Soon"
           />
           <NavLink
             href="/resources"
@@ -63,7 +63,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           icon={Icons.XNodeIcon}
           label="Xnode"
           isMobile={isMobile}
-          isSoon
+          tag="Soon"
         />
         <NavSeperator />
 
@@ -93,56 +93,56 @@ const SidebarNav: React.FC<SidebarNav> = ({
           icon={Icons.ComputeIcon}
           label="Compute"
           isMobile={isMobile}
-          isSoon
+          tag="Soon"
         />
         <NavLink
           href="/storage"
           icon={Icons.StorageIcon}
           label="Storage"
           isMobile={isMobile}
-          isSoon
+          tag="Soon"
         />
         <NavLink
           href="/analytics"
           icon={Icons.AnalyticsIcon}
           label="Analytics"
           isMobile={isMobile}
-          isSoon
+          tag="Soon"
         />
         <NavLink
           href="/rpc"
           icon={Icons.RPCIcon}
           label="RPC"
           isMobile={isMobile}
-          isSoon
+          tag="Soon"
         />
         <NavLink
           href="/apis"
           icon={Icons.APIIcon}
           label="APIs"
           isMobile={isMobile}
-          isSoon
+          tag="Soon"
         />
         <NavLink
           href="/appdev"
           icon={Icons.AppDevIcon}
           label="App Dev"
           isMobile={isMobile}
-          isSoon
+          tag="Soon"
         />
         <NavLink
           href="/integrations"
           icon={Icons.IntegrationsIcon}
           label="Integrations"
           isMobile={isMobile}
-          isSoon
+          tag="Soon"
         />
         <NavLink
           href="/utility"
           icon={Icons.UtilityIcon}
           label="Utility"
           isMobile={isMobile}
-          isSoon
+          tag="Soon"
         />
         <NavCategory label="Studio">
           <NavLink
@@ -150,14 +150,14 @@ const SidebarNav: React.FC<SidebarNav> = ({
             icon={Icons.TradingIcon}
             label="Trading"
             isMobile={isMobile}
-            isSoon
+            tag="Soon"
           />
           <NavLink
             href="/machine-learning"
             icon={Icons.MachineLearningIcon}
             label="AI & Machine Learning"
             isMobile={isMobile}
-            isSoon
+            tag="Soon"
           />
         </NavCategory>
         <NavCategory label="Pages">
@@ -172,21 +172,21 @@ const SidebarNav: React.FC<SidebarNav> = ({
             icon={Icons.StakingIcon}
             label="Staking & Reward Claiming"
             isMobile={isMobile}
-            isSoon
+            tag="Soon"
           />
           <NavLink
             href="/settings"
             icon={Icons.SettingsIcon}
             label="settings"
             isMobile={isMobile}
-            isSoon
+            tag="Soon"
           />
           <NavLink
             href="/faq"
             icon={Icons.FAQIcon}
             label="FAQs"
             isMobile={isMobile}
-            isSoon
+            tag="Soon"
           />
         </NavCategory>
         <NavCategory label="Support">
@@ -201,14 +201,14 @@ const SidebarNav: React.FC<SidebarNav> = ({
             icon={Icons.CommunityIcon}
             label="Commmunity"
             isMobile={isMobile}
-            isSoon
+            tag="Soon"
           />
           <NavLink
             href="/circle"
             icon={Icons.CircleIcon}
             label="Circle"
             isMobile={isMobile}
-            isSoon
+            tag="Soon"
           />
         </NavCategory>
       </NavContent>
@@ -497,8 +497,7 @@ interface NavLinkProps {
   icon: Icon
   label: string
   isMobile?: boolean
-  isSoon?: boolean
-  tag?: string
+  tag?: 'Beta' | 'New' | 'Soon'
   className?: string
 }
 
@@ -507,9 +506,8 @@ const NavLink: React.FC<NavLinkProps> = ({
   icon: Icon,
   label,
   isMobile = false,
-  isSoon = false,
   className,
-  tag = '',
+  tag,
 }) => {
   const { collapsed } = useNavContext()
 
@@ -572,7 +570,12 @@ const NavLink: React.FC<NavLinkProps> = ({
             {tag && !collapsed && (
               <motion.div
                 layoutId={`${label} ${isMobile} notification`}
-                className="absolute right-0 top-1/4 z-10 mr-2 inline-flex -translate-y-1/4 items-center rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-white"
+                className={cn(
+                  'absolute right-0 top-1/4 z-10 mr-2 inline-flex -translate-y-1/4 items-center rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-white',
+                  tag === 'Beta' && 'bg-primary',
+                  tag === 'New' && 'bg-primary',
+                  tag === 'Soon' && 'bg-[#959595]'
+                )}
                 transition={{
                   duration: transitionDuration,
                   ease: [0.4, 0, 0.2, 1],
