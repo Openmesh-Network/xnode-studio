@@ -1,24 +1,29 @@
-// import Footer from '@/components/Footer'
 import ScrollToTop from '@/components/ScrollToTop'
 
 import 'node_modules/react-modal-video/css/modal-video.css'
 import '../styles/index.css'
 
-import { Inter } from '@next/font/google'
+import { type Metadata } from 'next'
+import { Inter } from 'next/font/google'
 
+import { cn } from '@/lib/utils'
 import { Header } from '@/components/Header'
 import LateralNav from '@/components/LateralNav'
 
 import { Providers } from './providers'
 
-// import NewTask from '@/components/NewTask'
-
-// eslint-disable-next-line no-unused-vars
 const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-sans',
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 })
+
+export const metadata: Metadata = {
+  title: 'Openmesh Xnode',
+  icons: {
+    icon: '/openmesh-blue.png',
+  },
+}
 
 export default function RootLayout({
   children,
@@ -27,9 +32,12 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <head />
-
-      <body className="max-w-screen w-full bg-white">
+      <body
+        className={cn(
+          'max-w-screen overflow-x-hidden bg-background font-sans text-foreground antialiased',
+          inter.variable
+        )}
+      >
         <Providers>
           <div className="mx-auto">
             <Header />
@@ -39,8 +47,7 @@ export default function RootLayout({
             <div className="z-50 float-left min-w-[180px] bg-[#F4F4F4]">
               <LateralNav />
             </div>
-
-            <div className="m-x-auto w-full p-5">{children}</div>
+            <div className="w-full">{children}</div>
           </div>
 
           <ScrollToTop />

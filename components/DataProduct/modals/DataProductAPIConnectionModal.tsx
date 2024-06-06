@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -10,8 +9,6 @@ import * as Yup from 'yup'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { Eye, EyeSlash } from 'phosphor-react'
-
-// import GetEquinixAPIKey from './GetEquinixAPIKey'
 
 type EquinixAPIForm = {
   apiKey: string
@@ -101,7 +98,7 @@ const DataProductAPIConnection = ({
   }
 
   return (
-    <div className="relative rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] pb-[20px] pr-[100px] text-[#000] md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[20px] xl:pr-[192px] 2xl:px-[20px] 2xl:py-[25px] 2xl:pb-[40px] 2xl:pr-[240px]">
+    <div className="relative rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] pb-[20px] pr-[100px] text-black md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[20px] xl:pr-[192px] 2xl:px-[20px] 2xl:py-[25px] 2xl:pb-[40px] 2xl:pr-[240px]">
       <div className="relative flex w-fit gap-x-[10px]">
         <div className="text-[10px] font-bold md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
           {title}
@@ -118,7 +115,7 @@ const DataProductAPIConnection = ({
           onMouseLeave={() => setShowTooltipCloudProvider(false)}
         />
         {showTooltipCloudProvider && (
-          <div className="absolute right-0 w-full max-w-[270px] translate-x-[105%] rounded-[10px] bg-[#000] px-[11px] py-[8px] text-[12px] font-medium text-[#fff] lg:!leading-[19px] 2xl:px-[15px] 2xl:py-[10px] 2xl:text-[14px]">
+          <div className="absolute right-0 w-full max-w-[270px] translate-x-[105%] rounded-[10px] bg-black px-[11px] py-[8px] text-[12px] font-medium text-white lg:!leading-[19px] 2xl:px-[15px] 2xl:py-[10px] 2xl:text-[14px]">
             <div>
               Utilize the Validation Cloud data in your Xnode by connecting it
               with your API key.
@@ -180,7 +177,7 @@ const DataProductAPIConnection = ({
                     isLoading
                       ? 'bg-[#4b83ec]'
                       : 'bg-[#0354EC] hover:bg-[#0e2e69]'
-                  } mb-[20px] mt-[25px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] px-[20px] py-[5px] text-center text-[12px] font-medium text-[#fff] 2xl:mt-[40px] 2xl:gap-x-[10px] 2xl:px-[30px] 2xl:py-[6px] 2xl:text-[14px]`}
+                  } mb-[20px] mt-[25px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] px-[20px] py-[5px] text-center text-[12px] font-medium text-white 2xl:mt-[40px] 2xl:gap-x-[10px] 2xl:px-[30px] 2xl:py-[6px] 2xl:text-[14px]`}
                 >
                   <div>Connect</div>
                 </div>
@@ -256,7 +253,7 @@ const DataProductAPIConnection = ({
               onClick={handleSubmit(onSubmit)}
               className={`${
                 isLoading ? 'bg-[#4b83ec]' : 'bg-[#0354EC] hover:bg-[#0e2e69]'
-              } mb-[20px] mt-[25px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] px-[20px] py-[5px] text-center text-[12px] font-medium text-[#fff] 2xl:mt-[40px] 2xl:gap-x-[10px] 2xl:px-[30px] 2xl:py-[6px] 2xl:text-[14px]`}
+              } mb-[20px] mt-[25px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] px-[20px] py-[5px] text-center text-[12px] font-medium text-white 2xl:mt-[40px] 2xl:gap-x-[10px] 2xl:px-[30px] 2xl:py-[6px] 2xl:text-[14px]`}
             >
               <div>Connect</div>
             </div>

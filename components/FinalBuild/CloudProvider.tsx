@@ -10,7 +10,7 @@ const CloudProvider = ({ ...data }: ModalProps) => {
     useState<boolean>(false)
 
   return (
-    <div className="flex rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] text-[#000] md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[12px] 2xl:px-[20px] 2xl:py-[15px]">
+    <div className="flex rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] text-black md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[12px] 2xl:px-[20px] 2xl:py-[15px]">
       <div className="relative flex items-center gap-x-[10px]">
         <div className="text-[10px] font-bold md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
           Cloud provider

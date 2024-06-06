@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { memo, useState } from 'react'
 import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
 
@@ -46,7 +45,7 @@ function Select({ value, handleId, nodeId }) {
   return (
     <div className="custom-node__select">
       <div>Edge Type</div>
-      <select className="nodrag bg-[#fff]" onChange={onChange} value={value}>
+      <select className="nodrag bg-white" onChange={onChange} value={value}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -67,7 +66,7 @@ function Options({ handleId, name, optionsSelection }) {
     <div className="custom-node__select">
       <div>{name}</div>
       <select
-        className="nodrag bg-[#fff]"
+        className="nodrag bg-white"
         onChange={(option) => setSelected(option.target.value)}
         value={selected}
       >

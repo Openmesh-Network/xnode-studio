@@ -1,29 +1,10 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
-/* eslint-disable no-unused-vars */
-import { useContext, useEffect, useState } from 'react'
-import { getAPI, getDatasets } from '@/utils/data'
-import { toast } from 'react-toastify'
+import { useContext } from 'react'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
-import { Autocomplete, TextField } from '@mui/material'
-import { SmileySad } from 'phosphor-react'
-
-import { TemplatesProducts } from '@/types/dataProvider'
-import Filter from '@/components/Filter'
-
-import FinalBuild from '../FinalBuild'
-import ProductsList from '../ProductsList'
-import Signup from '../Signup'
-import Dropdown, { ValueObject } from './Dropdown'
-import TemplateProducts from './FirstStep'
-import Configuration from './SecondStep'
-import TemplateStep from './TemplateStep'
 
 const IndexerDeployer = (id: any) => {
   const { indexerDeployerStep } = useContext(AccountContext)

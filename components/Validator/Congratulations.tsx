@@ -1,6 +1,3 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
 import { formatDistanceToNow } from 'date-fns'
@@ -28,7 +25,7 @@ const Congratulations = ({ ...data }: ModalProps) => {
   }
 
   return (
-    <section className="mx-auto text-center text-[#000] xl:max-w-[605.6px] 2xl:max-w-[757px]">
+    <section className="mx-auto text-center text-black xl:max-w-[605.6px] 2xl:max-w-[757px]">
       <img
         src={`${
           process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -59,7 +56,7 @@ const Congratulations = ({ ...data }: ModalProps) => {
       </div>
       <div
         onClick={data.onValueChange}
-        className="mx-auto mt-[33px] w-fit cursor-pointer rounded-[5px] bg-[#0354EC] px-[30px] py-[8.25px] text-[8px] text-[#fff] hover:bg-[#033797] md:mt-[39.6px] md:px-[36px] md:py-[9.9px] md:text-[9.6px] lg:mt-[46.2px] lg:px-[42px] lg:py-[11.55px] lg:text-[11.2px] xl:mt-[52.8px] xl:px-[48px] xl:py-[12px] xl:text-[12.8px] 2xl:mt-[66px] 2xl:px-[60px] 2xl:py-[14px] 2xl:text-[16px]"
+        className="mx-auto mt-[33px] w-fit cursor-pointer rounded-[5px] bg-[#0354EC] px-[30px] py-[8.25px] text-[8px] text-white hover:bg-[#033797] md:mt-[39.6px] md:px-[36px] md:py-[9.9px] md:text-[9.6px] lg:mt-[46.2px] lg:px-[42px] lg:py-[11.55px] lg:text-[11.2px] xl:mt-[52.8px] xl:px-[48px] xl:py-[12px] xl:text-[12.8px] 2xl:mt-[66px] 2xl:px-[60px] 2xl:py-[14px] 2xl:text-[16px]"
       >
         Initiate Staking
       </div>

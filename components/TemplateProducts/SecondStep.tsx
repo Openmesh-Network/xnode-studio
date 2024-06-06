@@ -1,9 +1,5 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
-/* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from 'react'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -38,7 +34,7 @@ const Configuration = () => {
 
   return (
     <section className="relative z-10 pt-[30px] lg:pt-0">
-      <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-[#000]">
+      <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-black">
         <div className="flex justify-between gap-x-[50px]">
           <div className="pb-[50px] pt-[44px]">
             <div className="mb-[12.5px] text-[48px] font-semibold leading-[64px] tracking-[-1.9px]">
@@ -49,7 +45,7 @@ const Configuration = () => {
                 <div className="flex h-[25px] w-[570px]">
                   <div
                     style={{ width: `${(40 / (40 + 33 + freeSpace)) * 100}%` }}
-                    className={`mr-[2px] rounded-l-[8px] bg-[#000]`}
+                    className={`mr-[2px] rounded-l-[8px] bg-black`}
                   ></div>
                   <div
                     style={{ width: `${(33 / (40 + 33 + freeSpace)) * 100}%` }}
@@ -66,7 +62,7 @@ const Configuration = () => {
                 </div>
                 <div className="mt-[13.63px] flex w-fit justify-between gap-x-[15px]">
                   <div className="flex items-center gap-x-[8px]">
-                    <div className="size-[13px] rounded-full bg-[#000]"></div>
+                    <div className="size-[13px] rounded-full bg-black"></div>
                     <div className="text-[16px] font-normal">
                       Openmesh core (40 GB)
                     </div>
@@ -94,7 +90,7 @@ const Configuration = () => {
                   <div className="w-full max-w-[406px]">Description</div>
                   <div>Edit</div>
                 </div>
-                <div className="mt-[8px] flex rounded-[12px] bg-[#fff] px-[24px] py-[36px] text-[16px] font-semibold !leading-[24px]">
+                <div className="mt-[8px] flex rounded-[12px] bg-white px-[24px] py-[36px] text-[16px] font-semibold !leading-[24px]">
                   <div className="w-full max-w-[283px] text-[#0059ff]">
                     1. Select cloud provider
                   </div>
@@ -134,7 +130,7 @@ const Configuration = () => {
                     className="cursor-pointer"
                   />
                 </div>
-                <div className="mt-[8px] flex rounded-[12px] bg-[#fff] px-[24px] py-[36px] text-[16px] font-semibold !leading-[24px]">
+                <div className="mt-[8px] flex rounded-[12px] bg-white px-[24px] py-[36px] text-[16px] font-semibold !leading-[24px]">
                   <div className="w-full max-w-[283px] text-[#0059ff]">
                     3. Select latency preference
                   </div>
@@ -451,7 +447,7 @@ const Configuration = () => {
                 alt="image"
                 className={``}
               />
-              <div className="text-[16px] font-semibold leading-[36px] text-[#000]">
+              <div className="text-[16px] font-semibold leading-[36px] text-black">
                 Choose your configuration
               </div>
             </div>
@@ -551,7 +547,7 @@ const Configuration = () => {
                 })
                 setIndexerDeployerStep(2)
               }}
-              className="mx-auto mt-[30px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[50px] py-[15px] text-center text-[16px] font-bold leading-[22px] text-[#fff] hover:bg-[#014cd7]"
+              className="mx-auto mt-[30px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[50px] py-[15px] text-center text-[16px] font-bold leading-[22px] text-white hover:bg-[#014cd7]"
             >
               Create service and deploy
             </div>

@@ -4,30 +4,24 @@
 'use client'
 
 // import { useState } from 'react'
-import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useContext, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
 import { Eye, EyeSlash } from 'phosphor-react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 
 import 'react-toastify/dist/ReactToastify.css'
-
-import dynamic from 'next/dynamic'
-
 import 'react-quill/dist/quill.snow.css' // import styles
 
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import DatePicker from 'react-datepicker'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
-import { createHash } from 'crypto'
-import { Autocomplete, TextField } from '@mui/material'
-import nookies, { parseCookies, setCookie } from 'nookies'
+import nookies, { setCookie } from 'nookies'
 
 import { AccountContext } from '../../contexts/AccountContext'
 
@@ -181,7 +175,7 @@ const Login = () => {
               <div className="mt-[30px] flex">
                 <button
                   disabled={true}
-                  className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
+                  className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
                   onClick={handleSubmit(onSubmit)}
                 >
                   <span className="">Sign in</span>
@@ -202,7 +196,7 @@ const Login = () => {
               <div className="mt-[30px]">
                 <button
                   type="submit"
-                  className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
+                  className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
                   onClick={handleSubmit(onSubmit)}
                 >
                   <span className="">Sign in</span>

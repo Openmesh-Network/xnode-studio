@@ -1,15 +1,12 @@
 'use client'
 
-/* eslint-disable no-unused-vars */
 import { useEffect, useMemo, useState } from 'react'
-import { getDatasets } from '@/utils/data'
-import { toast } from 'react-toastify'
 
 import SingleCard from './SingleCard'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { Autocomplete, TextField } from '@mui/material'
 import { SmileySad } from 'phosphor-react'
 
@@ -142,7 +139,7 @@ const ProductsList = ({ dataTestimonial }: ProductsListProps) => {
 
   if (isLoading) {
     return (
-      <section className="mx-auto bg-white px-[30px] pb-[50px] pt-[46px] text-[#000] md:pl-[90px] md:pr-[130px] lg:min-w-[800px] xl:min-w-[1200px] 2xl:min-w-[1200px]">
+      <section className="mx-auto bg-white px-[30px] pb-[50px] pt-[46px] text-black md:pl-[90px] md:pr-[130px] lg:min-w-[800px] xl:min-w-[1200px] 2xl:min-w-[1200px]">
         <div className="container hidden h-60 animate-pulse px-0 pb-12 md:flex">
           <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
           <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
@@ -157,7 +154,7 @@ const ProductsList = ({ dataTestimonial }: ProductsListProps) => {
   }
 
   return (
-    <section className="flex px-[30px] pb-[55px] pt-[40px] text-[#000] md:pt-[40px] lg:gap-x-[80px] lg:pl-[32px] lg:pr-[120px] 2xl:gap-x-[100px] 2xl:pb-[70px] 2xl:pr-[150px] 2xl:pt-[46px]">
+    <section className="flex px-[30px] pb-[55px] pt-[40px] text-black md:pt-[40px] lg:gap-x-[80px] lg:pl-[32px] lg:pr-[120px] 2xl:gap-x-[100px] 2xl:pb-[70px] 2xl:pr-[150px] 2xl:pt-[46px]">
       <div className="hidden md:block">
         <Filter onUpdate={handleUpdate} />
       </div>
@@ -314,7 +311,7 @@ const ProductsList = ({ dataTestimonial }: ProductsListProps) => {
         {testimonialsToShow?.length === 0 ? (
           <div>
             <div className="mb-[100px] mt-[64px] flex items-center justify-center">
-              <SmileySad size={32} className="text-blue-500 mb-2" />
+              <SmileySad size={32} className="mb-2 text-blue-500" />
               <span>No datasets found</span>
             </div>
           </div>

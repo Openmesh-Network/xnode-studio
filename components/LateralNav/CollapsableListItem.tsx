@@ -66,7 +66,7 @@ export function LateralNavListCollapsableItem({
           </div>
         </div>
       </Accordion.Trigger>
-      <Accordion.Content className="w-full overflow-hidden text-darkGray data-[state=closed]:animate-slideUp data-[state=open]:animate-slideDown">
+      <Accordion.Content className="w-full overflow-hidden text-darkGray data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
         <div className="flex w-full flex-col gap-y-2 px-12 pb-2">
           {subItems.map(({ href, label }) => {
             return (

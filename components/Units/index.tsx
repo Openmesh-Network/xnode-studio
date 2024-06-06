@@ -10,7 +10,7 @@ import Image from 'next/image'
 const Units = ({chainId} : {chainId: number}) => {
   return (
     <section className="w-full h-full flex p-20 justify-around m-auto">
-      <div className="w-fit bg-green-400 h-full flex flex-col">
+      <div className="w-fit h-full flex flex-col">
           <Image
             className="select-none m-0 flex-item"
             src={cardFrontImage}

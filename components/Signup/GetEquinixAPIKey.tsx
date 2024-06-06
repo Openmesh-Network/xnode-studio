@@ -1,30 +1,22 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
-
-// import { useState } from 'react'
-import { ChangeEvent, FC, useContext, useEffect, useRef, useState } from 'react'
 
 const GetEquinixAPIKey = ({ isOpen, onClose }) => {
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center font-normal text-[#000] ${
+      className={`fixed inset-0 z-50 flex items-center justify-center font-normal text-black ${
         isOpen ? 'visible opacity-100' : 'invisible opacity-0'
       } transition-opacity duration-300`}
     >
       <div className="absolute inset-0 bg-[#646464] opacity-50"></div>
-      <div className="relative z-50 w-[250px] rounded-md bg-[#fff] p-8 md:w-[500px]">
+      <div className="relative z-50 w-[250px] rounded-md bg-white p-8 md:w-[500px]">
         <div
           onClick={onClose}
-          className="absolute right-5 top-2 cursor-pointer text-[20px] font-light text-[#000] hover:text-[#121212]"
+          className="absolute right-5 top-2 cursor-pointer text-[20px] font-light text-black hover:text-[#121212]"
         >
           x
         </div>
         <div className="mb-8">
-          <h2 className="mb-1 text-lg text-[#000]">
+          <h2 className="mb-1 text-lg text-black">
             How to get my Equinix api key?
           </h2>
         </div>

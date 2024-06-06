@@ -1,24 +1,16 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
-/* eslint-disable no-unused-vars */
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { getAPI, getDatasets } from '@/utils/data'
+import { getAPI } from '@/utils/data'
 import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
-import { Autocomplete, TextField } from '@mui/material'
-import { SmileySad } from 'phosphor-react'
 
 import { TemplatesProducts } from '@/types/dataProvider'
-import Filter from '@/components/Filter'
 
-import ProductsList from '../ProductsList'
-import Dropdown, { ValueObject } from '../TemplateProducts/Dropdown'
+import { ValueObject } from '../TemplateProducts/Dropdown'
 import DropdownWithLabel from './DropdownWithLabel'
 
 export const optionsNetwork = [
@@ -150,7 +142,7 @@ const FromScratch = () => {
 
   return (
     <section className="relative z-10 pt-[30px] lg:pt-0">
-      <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-[#000]">
+      <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-black">
         <div className="flex justify-between gap-x-[100px]">
           <div className="mt-[60px]">
             <div className="flex">
@@ -159,7 +151,7 @@ const FromScratch = () => {
                 className={`relative flex cursor-pointer items-center border-[0.3px] border-[#0354EC] px-[108px] py-[20px] text-center text-[20px] font-normal ${
                   deployOption === 'Server'
                     ? 'bg-[#F2F2F2]'
-                    : 'bg-[#fff] hover:bg-[#f5f5f5]'
+                    : 'bg-white hover:bg-[#f5f5f5]'
                 }`}
               >
                 <div>Server</div>
@@ -180,7 +172,7 @@ const FromScratch = () => {
                 className={`relative flex cursor-pointer items-center border-[0.3px] border-[#0354EC] px-[108px] py-[20px] text-center text-[20px] font-normal ${
                   deployOption === 'Storage'
                     ? 'bg-[#F2F2F2]'
-                    : 'bg-[#fff] hover:bg-[#f5f5f5]'
+                    : 'bg-white hover:bg-[#f5f5f5]'
                 }`}
               >
                 <div>Storage</div>
@@ -201,7 +193,7 @@ const FromScratch = () => {
                 className={`relative flex cursor-pointer items-center border-[0.3px] border-[#0354EC] px-[108px] py-[20px] text-center text-[20px] font-normal ${
                   deployOption === 'GPU'
                     ? 'bg-[#F2F2F2]'
-                    : 'bg-[#fff] hover:bg-[#f5f5f5]'
+                    : 'bg-white hover:bg-[#f5f5f5]'
                 }`}
               >
                 <div>GPU</div>
@@ -227,9 +219,9 @@ const FromScratch = () => {
                       setNameInput(e.target.value)
                     }
                   }}
-                  className="h-[60px] w-full rounded-[5px] border border-[#C1C1C1] bg-[#fff] px-[20px] text-[14px] font-normal"
+                  className="h-[60px] w-full rounded-[5px] border border-[#C1C1C1] bg-white px-[20px] text-[14px] font-normal"
                 />
-                <div className="absolute -top-3 left-2 z-50 bg-[#fff] px-[10px] text-[16px] font-normal">
+                <div className="absolute -top-3 left-2 z-50 bg-white px-[10px] text-[16px] font-normal">
                   Name
                 </div>
               </div>
@@ -262,7 +254,7 @@ const FromScratch = () => {
                   className={`relative flex cursor-pointer items-center border-[0.3px] border-[#0354EC] px-[45px] py-[5px] text-center text-[18px] font-normal ${
                     deployConfig === 'General purpose'
                       ? 'bg-[#F2F2F2]'
-                      : 'bg-[#fff] hover:bg-[#f5f5f5]'
+                      : 'bg-white hover:bg-[#f5f5f5]'
                   }`}
                 >
                   <div>General purpose</div>
@@ -283,7 +275,7 @@ const FromScratch = () => {
                   className={`relative flex cursor-pointer items-center border-[0.3px] border-[#0354EC] px-[45px] py-[5px] text-center text-[18px] font-normal ${
                     deployConfig === 'Storage optimized'
                       ? 'bg-[#F2F2F2]'
-                      : 'bg-[#fff] hover:bg-[#f5f5f5]'
+                      : 'bg-white hover:bg-[#f5f5f5]'
                   }`}
                 >
                   <div>Storage optimized</div>
@@ -304,7 +296,7 @@ const FromScratch = () => {
                   className={`relative flex cursor-pointer items-center border-[0.3px] border-[#0354EC] px-[45px] py-[5px] text-center text-[18px] font-normal ${
                     deployConfig === 'GPU optimized'
                       ? 'bg-[#F2F2F2]'
-                      : 'bg-[#fff] hover:bg-[#f5f5f5]'
+                      : 'bg-white hover:bg-[#f5f5f5]'
                   }`}
                 >
                   <div>GPU optimized</div>
@@ -325,7 +317,7 @@ const FromScratch = () => {
                   className={`relative flex cursor-pointer items-center border-[0.3px] border-[#0354EC] px-[45px] py-[5px] text-center text-[18px] font-normal ${
                     deployConfig === 'CPU optimized'
                       ? 'bg-[#F2F2F2]'
-                      : 'bg-[#fff] hover:bg-[#f5f5f5]'
+                      : 'bg-white hover:bg-[#f5f5f5]'
                   }`}
                 >
                   <div>CPU</div>
@@ -407,11 +399,11 @@ const FromScratch = () => {
             <div className="mx-[36px] mt-[26px] flex justify-between">
               <div className="text-[16px] font-medium">Total</div>
               <div className="text-end">
-                <div className="text-[20px] font-normal text-[#000]">
+                <div className="text-[20px] font-normal text-black">
                   $276.97
                 </div>
                 <div className="text-[12px] font-normal">
-                  That's about $0.04 hourly
+                  That&aptos;s about $0.04 hourly
                 </div>
               </div>
             </div>
@@ -419,7 +411,7 @@ const FromScratch = () => {
               onClick={() => {
                 setIndexerDeployerStep(1)
               }}
-              className="mx-auto mt-[30px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[133px] py-[15px] text-center text-[16px] font-bold leading-[22px] text-[#fff] hover:bg-[#014cd7]"
+              className="mx-auto mt-[30px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[133px] py-[15px] text-center text-[16px] font-bold leading-[22px] text-white hover:bg-[#014cd7]"
             >
               Deploy
             </div>

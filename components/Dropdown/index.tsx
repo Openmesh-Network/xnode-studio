@@ -28,7 +28,7 @@ const Dropdown = ({ onValueChange }) => {
 
   return (
     <div
-      className="relative inline-block text-left text-[10px] font-bold text-[#000] md:text-[12x] lg:text-[14px] lg:!leading-[24px] xl:text-[16px] 2xl:text-[20px]"
+      className="relative inline-block text-left text-[10px] font-bold text-black md:text-[12x] lg:text-[14px] lg:!leading-[24px] xl:text-[16px] 2xl:text-[20px]"
       ref={dropdownRef}
     >
       <div>

@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { memo, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { categoriesOptions } from '@/utils/constants'
 import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
@@ -89,6 +88,8 @@ function Options({ handleId, name, optionsSelection }) {
 }
 
 function DataNodeStreaming({ id, data, handleNodeRemove }) {
+  console.log('data', data)
+
   const [isHelpOpen, setIsHelpOpen] = useState<boolean>(true)
   const [selectedItemsS, setSelectedItemsS] = useState<any>(data.lists)
   const { selectionSideNavBar, changeNodes, setChangeNodes, setRemoveNodes } =
@@ -97,19 +98,21 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
     handleNodeRemove(id)
   }
 
+  console.log('changeNodes', changeNodes)
+
   useEffect(() => {
     setSelectedItemsS(data.lists)
     if (data.lists.length > 0 && data.lists[0].icon !== 'dataOption.icon') {
       console.log('sim data lsit maior q zero')
       console.log(data.lists)
       console.log(data.lists[0])
-      setChangeNodes({
-        type: 'dataStreaming',
-        name: 'dataOption.title',
-        icon: 'dataOption.icon',
-        categorie: 'option.title',
-        dictionary: categoriesOptions,
-      })
+      // setChangeNodes({
+      //   type: 'dataStreaming',
+      //   name: 'dataOption.title',
+      //   icon: 'dataOption.icon',
+      //   categorie: 'option.title',
+      //   dictionary: categoriesOptions,
+      // })
     }
   }, [data.lists, setChangeNodes])
 
@@ -117,55 +120,51 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
    it will be different as we add real data.
    */
   function renderCategorizedItems() {
-    const categoriesDictionary = changeNodes?.dictionary
-    const listOfCategorizedItems = categoriesDictionary?.map((category) => {
+    // const categoriesDictionary = changeNodes?.dictionary
+    return categoriesOptions?.map((category) => {
       const selectedCategoryItems =
-        selectedItemsS?.filter((item) =>
+        data.lists?.filter((item) =>
           category?.dataOptions?.some((option) => option.title === item.title)
         ) || []
-      if (selectedCategoryItems.length > 0) {
-        return (
-          <div key={category.title}>
-            <div>{category.title}</div>
-            {selectedCategoryItems.map((item) => (
-              <div
-                key={item.title}
-                className="relative flex cursor-pointer text-[#000]"
-              >
-                <div className="my-[10px] ml-[10px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }${item.icon}`}
-                    alt="image"
-                    className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
-                  />
-                  <div className="cursor-pointer">{item.title}</div>
-                  <div
-                    onClick={() => {
-                      setRemoveNodes([item.title, 'dataStreaming'])
-                    }}
-                    className="top-[10px] text-[8px] font-bold text-black hover:text-[#686868] xl:right-[-35px] 2xl:right-[-45px] 2xl:text-[10px]"
-                  >
-                    X
-                  </div>
+      if (selectedCategoryItems.length === 0) return
+      return (
+        <div key={category.title}>
+          <div>{category.title}</div>
+          {selectedCategoryItems.map((item) => (
+            <div
+              key={item.title}
+              className="relative flex cursor-pointer text-black"
+            >
+              <div className="my-[10px] ml-[10px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
+                <img
+                  src={`${
+                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                      ? process.env.NEXT_PUBLIC_BASE_PATH
+                      : ''
+                  }${item.icon}`}
+                  alt="image"
+                  className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
+                />
+                <div className="cursor-pointer">{item.title}</div>
+                <div
+                  onClick={() => {
+                    setRemoveNodes([item.title, 'dataStreaming'])
+                  }}
+                  className="top-[10px] text-[8px] font-bold text-black hover:text-[#686868] xl:right-[-35px] 2xl:right-[-45px] 2xl:text-[10px]"
+                >
+                  X
                 </div>
               </div>
-            ))}
-          </div>
-        )
-      }
-      // eslint-disable-next-line react/jsx-key
-      return <div></div>
+            </div>
+          ))}
+        </div>
+      )
     })
-    return listOfCategorizedItems
   }
 
   return (
     <>
-      <div className="relative rounded-[20px] border-[0.5px] border-[#C1C1C1] bg-[#fff] px-[10px] py-[7px] pb-[23px] pr-[33px] text-[8px] text-[#000] md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[46px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[53px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[61px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[77px] 2xl:text-[16px]">
+      <div className="relative rounded-[20px] border-[0.5px] border-[#C1C1C1] bg-white px-[10px] py-[7px] pb-[23px] pr-[33px] text-[8px] text-black md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[46px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[53px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[61px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[77px] 2xl:text-[16px]">
         <button
           onClick={() => {
             handleClick()
@@ -195,7 +194,7 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
         <div className="text-[7px] md:text-[8.4px] lg:mt-[20px] lg:text-[10px] xl:mt-[24px] xl:text-[11.2px] 2xl:mt-[30px] 2xl:text-[14px]"></div>
         {/* <div className="mt-[6px] grid gap-y-[18px] pl-[5px] md:mt-[7.2px] md:gap-y-[19.2px] lg:mt-[8.4px] lg:gap-y-[22.5px] xl:mt-[9.6px] xl:gap-y-[16px] 2xl:mt-[12px] 2xl:gap-y-[20px]">
           {data.lists.map((list, index) => (
-            <div key={index} className="relative flex text-[#000]">
+            <div key={index} className="relative flex text-black">
               <div className="flex gap-x-[9px] text-[7.5px] font-normal  hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                 <img
                   src={list.icon}

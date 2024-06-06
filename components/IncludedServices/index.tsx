@@ -1,9 +1,3 @@
-/* eslint-disable no-unused-vars */
-import { useState } from 'react'
-
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
-
 interface ModalProps {
   includedServicesArray: string[]
   onChangeIncludedService(string): void
@@ -58,13 +52,13 @@ const IncludedServices = ({ ...data }: ModalProps) => {
           </div>
         </div>
         <div className="mt-[15px] rounded-[10px] bg-[#F9F9F9] p-[10px] md:mt-[18px] md:p-[12px] lg:mt-[21px] lg:p-[14px] xl:p-[16px] 2xl:mt-[30px] 2xl:p-[20px]">
-          <div className="text-[10px] font-bold text-[#000] md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
+          <div className="text-[10px] font-bold text-black md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
             Your preset includes the following services by default
           </div>
           <div className="relative mt-[12.5px] grid justify-between gap-[15px] md:mt-[15px] md:grid-cols-2 md:gap-[18px] lg:mt-[17.5px] lg:grid-cols-2 lg:gap-[21px] xl:grid-cols-3 xl:gap-[24px] 2xl:mt-[25px] 2xl:grid-cols-3 2xl:gap-[30px]">
             {preSetsOptions.map((option, index) => (
               <div
-                className={`relative h-[100px] rounded-[5px] border-[0.5px] border-[#D9D9D9] bg-[#fff] p-[10px] shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] md:p-[12px] lg:h-[150px] lg:p-[14px] xl:p-[16px] 2xl:p-[20px]`}
+                className={`relative h-[100px] rounded-[5px] border-[0.5px] border-[#D9D9D9] bg-white p-[10px] shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] md:p-[12px] lg:h-[150px] lg:p-[14px] xl:p-[16px] 2xl:p-[20px]`}
                 key={index}
                 onClick={() => {
                   // data.onChangeIncludedService(option.title)

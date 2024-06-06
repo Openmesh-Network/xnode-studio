@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 const Hero = () => {
   return (
     <>
@@ -24,14 +23,14 @@ const Hero = () => {
           </div>
           <div className="mt-auto gap-x-[15px] text-[9px] font-medium text-[#959595] md:flex md:gap-x-[18px] md:text-[10px] lg:gap-x-[21px] lg:text-[11px] lg:!leading-[150%] xl:gap-x-[24px] xl:text-[13px] 2xl:gap-x-[30px] 2xl:text-[16px]">
             <div className="max-w-[360px]">
-              <span className="text-[#000]">Scalable</span> <br /> Xnode adapts
+              <span className="text-black">Scalable</span> <br /> Xnode adapts
               to the growing needs of a project, making it a reliable solution
-              throughout a project's lifecycle
+              throughout a project&apos;s lifecycle
             </div>
             <div className="mt-[12px] max-w-[360px] md:mt-0">
-              <span className="text-[#000]">Automated setup process</span>{' '}
-              <br /> Server provisioning, Kubernetes configuration, networking
-              setup, and essential services e.g. Apache Kafka and PostgreSQL
+              <span className="text-black">Automated setup process</span> <br />{' '}
+              Server provisioning, Kubernetes configuration, networking setup,
+              and essential services e.g. Apache Kafka and PostgreSQL
             </div>
           </div>
         </div>

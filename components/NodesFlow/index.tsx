@@ -1,6 +1,3 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
@@ -28,8 +25,6 @@ import {
 } from './initial-elements-fromscratch'
 
 import './overview.css'
-
-import { categoriesOptions } from '@/utils/constants'
 
 import AnalyticsNode from './AnalyticsNode'
 import APINode from './APINode'
@@ -769,45 +764,43 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
   }, [nodes, removeNodes, setNodes])
 
   return (
-    <div className="relative size-full">
-      <ReactFlow
-        nodes={nodesAmounts}
-        edges={edgesWithUpdatedTypes}
-        proOptions={{
-          hideAttribution: true,
-        }}
-        onNodesChange={(value) => {
-          console.log('chamado fuii')
-          console.log(nodesAmounts)
-          // validator type of nodes cannot be edited
-          if (xnodeType !== 'validator') {
-            console.log('entrei nao')
-            onNodesChange(value)
-          }
-        }}
-        onEdgesChange={(value) => {
-          // validator type of nodes cannot be edited
-          console.log('chamado fuii')
-          if (xnodeType !== 'validator') {
-            console.log('entrei nao')
-            onEdgesChange(value)
-          }
-        }}
-        onConnect={onConnect}
-        onInit={onInit}
-        fitView
-        attributionPosition="top-right"
-        nodeTypes={nodeTypes}
-      >
-        <div className="absolute right-0 top-[75px] md:top-[90px] lg:top-[105px] xl:top-[120px] 2xl:top-[150px]">
-          <MiniMap style={minimapStyle} zoomable pannable />
-        </div>
-        <div className="absolute left-[25px] top-[80px] md:left-[30px] md:top-[96px] lg:left-[35px] lg:top-[112px] xl:left-[40px] xl:top-[128px] 2xl:left-[50px] 2xl:top-[160px]">
-          <Controls />
-        </div>
-        <Background color="#aaa" gap={16} />
-      </ReactFlow>
-    </div>
+    <ReactFlow
+      nodes={nodesAmounts}
+      edges={edgesWithUpdatedTypes}
+      proOptions={{
+        hideAttribution: true,
+      }}
+      onNodesChange={(value) => {
+        console.log('chamado fuii')
+        console.log(nodesAmounts)
+        // validator type of nodes cannot be edited
+        if (xnodeType !== 'validator') {
+          console.log('entrei nao')
+          onNodesChange(value)
+        }
+      }}
+      onEdgesChange={(value) => {
+        // validator type of nodes cannot be edited
+        console.log('chamado fuii')
+        if (xnodeType !== 'validator') {
+          console.log('entrei nao')
+          onEdgesChange(value)
+        }
+      }}
+      onConnect={onConnect}
+      onInit={onInit}
+      fitView
+      attributionPosition="top-right"
+      nodeTypes={nodeTypes}
+    >
+      <div className="absolute right-0 top-[75px] md:top-[90px] lg:top-[105px] xl:top-[120px] 2xl:top-[150px]">
+        <MiniMap style={minimapStyle} zoomable pannable />
+      </div>
+      <div className="absolute left-[25px] top-[80px] md:left-[30px] md:top-[96px] lg:left-[35px] lg:top-[112px] xl:left-[40px] xl:top-[128px] 2xl:left-[50px] 2xl:top-[160px]">
+        <Controls />
+      </div>
+      <Background color="#aaa" gap={16} />
+    </ReactFlow>
   )
 }
 

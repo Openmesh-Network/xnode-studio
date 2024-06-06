@@ -1,18 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable no-unused-vars */
 import { useCallback, useContext, useEffect, useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import * as Dialog from '@radix-ui/react-dialog'
+import { usePathname, useRouter } from 'next/navigation'
 import axios from 'axios'
 import { destroyCookie, parseCookies } from 'nookies'
-import { UserCircle } from 'phosphor-react'
 import { toast } from 'react-toastify'
 
 import { AccountContext } from '../../contexts/AccountContext'
-import menuData from './menuData'
-import ThemeToggler from './ThemeToggler'
 
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -254,7 +246,7 @@ const OldHeader = () => {
   // if ((next || nextFromScratch) && !reviewYourBuild) {
   //   return (
   //     <>
-  //       <header className="top-0 left-0 z-40 mx-0 flex w-full items-center bg-[#fff]  pt-[45px] text-[#000000] md:pt-[54px] lg:pt-[62px] xl:pt-[72px] xl:pb-[27.8px] 2xl:pt-[90px] 2xl:pb-[46px]">
+  //       <header className="top-0 left-0 z-40 mx-0 flex w-full items-center bg-white  pt-[45px] text-[#000000] md:pt-[54px] lg:pt-[62px] xl:pt-[72px] xl:pb-[27.8px] 2xl:pt-[90px] 2xl:pb-[46px]">
   //         <div className="w-full justify-between px-[20px] md:px-[33px] xl:hidden">
   //           <div className="">
   //             <img
@@ -291,7 +283,7 @@ const OldHeader = () => {
   //           </button>
   //           <nav
   //             id="navbarCollapse"
-  //             className={`navbar absolute right-7 z-50 w-[250px] rounded border-[.5px] bg-[#e6e4e4] py-6  px-6 text-[13px] text-[#fff] duration-300  ${
+  //             className={`navbar absolute right-7 z-50 w-[250px] rounded border-[.5px] bg-[#e6e4e4] py-6  px-6 text-[13px] text-white duration-300  ${
   //               navbarOpen
   //                 ? 'visibility top-20 opacity-100'
   //                 : 'invisible top-20 opacity-0'
@@ -301,7 +293,7 @@ const OldHeader = () => {
   //               <div className="my-auto flex text-center md:justify-center">
   //                 <a
   //                   href={`${process.env.NEXT_PUBLIC_BASE_URL}/community/register`}
-  //                   className="flex cursor-pointer items-center rounded-[5px] bg-[#0354EC] py-[4.5px] px-[9px] text-[10px] font-bold !leading-[19px] text-[#fff] hover:border hover:border-[#0354EC] hover:bg-[#fff] hover:text-[#0354EC] md:py-[9px] md:px-[18px] md:text-[14px] 2xl:py-[11.5px] 2xl:px-[35px] 2xl:text-[16px]"
+  //                   className="flex cursor-pointer items-center rounded-[5px] bg-[#0354EC] py-[4.5px] px-[9px] text-[10px] font-bold !leading-[19px] text-white hover:border hover:border-[#0354EC] hover:bg-white hover:text-[#0354EC] md:py-[9px] md:px-[18px] md:text-[14px] 2xl:py-[11.5px] 2xl:px-[35px] 2xl:text-[16px]"
   //                 >
   //                   Schedule a call
   //                 </a>
@@ -321,7 +313,7 @@ const OldHeader = () => {
   //                 value={projectName}
   //                 onChange={(e) => setProjectName(e.target.value)}
   //                 onBlur={() => setIsEditing(false)}
-  //                 className="ml-[5px] bg-[#fff]"
+  //                 className="ml-[5px] bg-white"
   //                 autoFocus
   //               />
   //             ) : (
@@ -370,7 +362,7 @@ const OldHeader = () => {
   //               </div>
   //             </div>
   //             <div className="grid gap-y-[12px] text-[7px]  font-medium md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
-  //               <div className="flex h-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] py-[6.2px] px-[11px] text-center  text-[#fff] hover:bg-[#0e2e69]   md:py-[7.5px] md:px-[12.5px]    lg:py-[8.75px]  lg:px-[14.5px]  xl:py-[10px] xl:px-[17px]  2xl:gap-x-[10px] 2xl:py-[12.5px] 2xl:px-[21px]">
+  //               <div className="flex h-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] py-[6.2px] px-[11px] text-center  text-white hover:bg-[#0e2e69]   md:py-[7.5px] md:px-[12.5px]    lg:py-[8.75px]  lg:px-[14.5px]  xl:py-[10px] xl:px-[17px]  2xl:gap-x-[10px] 2xl:py-[12.5px] 2xl:px-[21px]">
   //                 <img
   //                   src={`${
   //                     process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
@@ -443,11 +435,11 @@ const OldHeader = () => {
                         <input
                           value={projectName}
                           onChange={(e) => setProjectName(e.target.value)}
-                          className="ml-[5px] bg-[#fff]"
+                          className="ml-[5px] bg-white"
                           autoFocus
                         />
                         <select
-                          className="nodrag min-w-[104px] rounded-[6px] bg-[#fff] font-normal md:min-w-[124px] lg:min-w-[145px] xl:min-w-[167px] 2xl:min-w-[208px]"
+                          className="nodrag min-w-[104px] rounded-[6px] bg-white font-normal md:min-w-[124px] lg:min-w-[145px] xl:min-w-[167px] 2xl:min-w-[208px]"
                           onChange={(option) =>
                             setTagXnode(option.target.value)
                           }
@@ -468,7 +460,7 @@ const OldHeader = () => {
                           onChange={(e) =>
                             setProjectDescription(e.target.value)
                           }
-                          className="ml-[10px] bg-[#fff] text-[#eee]"
+                          className="ml-[10px] bg-white text-[#eee]"
                           autoFocus
                         />{' '}
                       </div>
@@ -535,7 +527,7 @@ const OldHeader = () => {
             </button>
             <nav
               id="navbarCollapse"
-              className={`navbar absolute right-7 z-50 w-[200px] rounded border-[.5px] bg-[#e6e4e4] p-6 text-[13px] text-[#fff] duration-300 ${
+              className={`navbar absolute right-7 z-50 w-[200px] rounded border-[.5px] bg-[#e6e4e4] p-6 text-[13px] text-white duration-300 ${
                 navbarOpen
                   ? 'visibility top-20 opacity-100'
                   : 'invisible top-20 opacity-0'
@@ -569,7 +561,7 @@ const OldHeader = () => {
                           isLoadingUpdate
                             ? 'bg-[#3c78e9]'
                             : 'bg-[#0354EC] hover:bg-[#203b6e]'
-                        } px-[11px] py-[6.2px] text-center text-[#fff] md:px-[12.5px] md:py-[7.5px] lg:px-[14.5px] lg:py-[8.75px] xl:px-[17px] xl:py-[10px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[10px]`}
+                        } px-[11px] py-[6.2px] text-center text-white md:px-[12.5px] md:py-[7.5px] lg:px-[14.5px] lg:py-[8.75px] xl:px-[17px] xl:py-[10px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[10px]`}
                       >
                         <img
                           src={`${
@@ -595,8 +587,8 @@ const OldHeader = () => {
                         }}
                         className={`flex h-fit cursor-pointer justify-center gap-x-[8px] ${
                           pathname.includes('/workspace') && !reviewYourBuild
-                            ? 'bg-[#0354EC] text-[#fff] hover:bg-[#203b6e]'
-                            : 'border border-[#0354EC] bg-[#fff] text-[#0354EC] hover:text-[#203b6e]'
+                            ? 'bg-[#0354EC] text-white hover:bg-[#203b6e]'
+                            : 'border border-[#0354EC] bg-white text-[#0354EC] hover:text-[#203b6e]'
                         } rounded-[5px] px-[11px] py-[6.2px] text-center md:px-[12.5px] md:py-[7.5px] lg:px-[14.5px] lg:py-[8.75px] xl:px-[17px] xl:py-[10px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[10px]`}
                       >
                         <div>Create and deploy</div>
@@ -631,7 +623,7 @@ const OldHeader = () => {
                             <div className="mt-[25px]">
                               <a
                                 onClick={signOutUser}
-                                className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[18px] py-[6px] text-[12px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec]"
+                                className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[18px] py-[6px] text-[12px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec]"
                               >
                                 Sign out
                               </a>
@@ -641,7 +633,7 @@ const OldHeader = () => {
                             onClick={() => {
                               setUserNavbarOpen(false)
                             }}
-                            className="ml-[20px] flex cursor-pointer justify-end text-[16px] font-bold text-[#000] hover:text-[#313131]"
+                            className="ml-[20px] flex cursor-pointer justify-end text-[16px] font-bold text-black hover:text-[#313131]"
                           >
                             x
                           </div>
@@ -654,7 +646,7 @@ const OldHeader = () => {
                             ? `/xnode/login`
                             : `${'/login'}`
                         }`}
-                        className="m-auto mt-[10px] size-fit cursor-pointer items-center border-b border-[#000] bg-transparent text-[16px] font-bold !leading-[19px] text-[#000] hover:text-[#3b3a3a]"
+                        className="m-auto mt-[10px] size-fit cursor-pointer items-center border-b border-black bg-transparent text-[16px] font-bold !leading-[19px] text-black hover:text-[#3b3a3a]"
                       >
                         Login
                       </a>
@@ -682,11 +674,11 @@ const OldHeader = () => {
                       <input
                         value={projectName}
                         onChange={(e) => setProjectName(e.target.value)}
-                        className="ml-[5px] bg-[#fff]"
+                        className="ml-[5px] bg-white"
                         autoFocus
                       />
                       <select
-                        className="nodrag min-w-[104px] rounded-[6px] bg-[#fff] font-normal md:min-w-[124px] lg:min-w-[145px] xl:min-w-[167px] 2xl:min-w-[208px]"
+                        className="nodrag min-w-[104px] rounded-[6px] bg-white font-normal md:min-w-[124px] lg:min-w-[145px] xl:min-w-[167px] 2xl:min-w-[208px]"
                         onChange={(option) => setTagXnode(option.target.value)}
                         value={tagXnode}
                         disabled={xnodeType === 'validator'}
@@ -703,7 +695,7 @@ const OldHeader = () => {
                       <input
                         value={projectDescription}
                         onChange={(e) => setProjectDescription(e.target.value)}
-                        className="ml-[10px] bg-[#fff] text-[#999]"
+                        className="ml-[10px] bg-white text-[#999]"
                         autoFocus
                       />{' '}
                     </div>
@@ -764,7 +756,7 @@ const OldHeader = () => {
                   />
                 </div>
               </div> */}
-              <div className="flex items-center gap-x-[15px] font-medium text-[#000] md:gap-x-[18px] lg:gap-x-[21px] xl:gap-x-[24px] 2xl:gap-x-[30px]">
+              <div className="flex items-center gap-x-[15px] font-medium text-black md:gap-x-[18px] lg:gap-x-[21px] xl:gap-x-[24px] 2xl:gap-x-[30px]">
                 {headerItens.map((option, index) => (
                   <a
                     key={index}
@@ -788,7 +780,7 @@ const OldHeader = () => {
                       isLoadingUpdate
                         ? 'bg-[#3c78e9]'
                         : 'bg-[#0354EC] hover:bg-[#203b6e]'
-                    } px-[11px] py-[6.2px] text-center text-[#fff] md:px-[12.5px] md:py-[7.5px] lg:px-[14.5px] lg:py-[8.75px] xl:px-[17px] xl:py-[10px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[10px]`}
+                    } px-[11px] py-[6.2px] text-center text-white md:px-[12.5px] md:py-[7.5px] lg:px-[14.5px] lg:py-[8.75px] xl:px-[17px] xl:py-[10px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[10px]`}
                   >
                     <img
                       src={`${
@@ -814,8 +806,8 @@ const OldHeader = () => {
                     }}
                     className={`flex h-fit cursor-pointer justify-center gap-x-[8px] ${
                       pathname.includes('/workspace') && !reviewYourBuild
-                        ? 'bg-[#0354EC] text-[#fff] hover:bg-[#203b6e]'
-                        : 'border border-[#0354EC] bg-[#fff] text-[#0354EC] hover:text-[#203b6e]'
+                        ? 'bg-[#0354EC] text-white hover:bg-[#203b6e]'
+                        : 'border border-[#0354EC] bg-white text-[#0354EC] hover:text-[#203b6e]'
                     } rounded-[5px] px-[11px] py-[6.2px] text-center md:px-[12.5px] md:py-[7.5px] lg:px-[14.5px] lg:py-[8.75px] xl:px-[17px] xl:py-[10px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[10px]`}
                   >
                     <img
@@ -854,7 +846,7 @@ const OldHeader = () => {
                     className={`my-auto mr-[15px] w-[15px] cursor-pointer xl:w-[20px] 2xl:mr-[15px] 2xl:w-[25px]`}
                   />
                   <nav
-                    className={`navbar absolute right-[100px] z-50 flex w-[150px] rounded-[8px] border-[.5px] bg-[#e6e4e4] pb-[30px] pl-[15px] pr-1 pt-[19px] text-[13px] text-[#fff] duration-300 ${
+                    className={`navbar absolute right-[100px] z-50 flex w-[150px] rounded-[8px] border-[.5px] bg-[#e6e4e4] pb-[30px] pl-[15px] pr-1 pt-[19px] text-[13px] text-white duration-300 ${
                       userNavbarOpen
                         ? 'visibility right-[-50px] top-20 opacity-100'
                         : 'invisible top-20 opacity-0'
@@ -864,7 +856,7 @@ const OldHeader = () => {
                       <div className="mt-[25px]">
                         <a
                           onClick={signOutUser}
-                          className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[18px] py-[6px] text-[12px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec]"
+                          className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[18px] py-[6px] text-[12px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec]"
                         >
                           Sign out
                         </a>
@@ -874,7 +866,7 @@ const OldHeader = () => {
                       onClick={() => {
                         setUserNavbarOpen(false)
                       }}
-                      className="ml-[20px] flex cursor-pointer justify-end text-[16px] font-bold text-[#000] hover:text-[#313131]"
+                      className="ml-[20px] flex cursor-pointer justify-end text-[16px] font-bold text-black hover:text-[#313131]"
                     >
                       x
                     </div>
@@ -887,7 +879,7 @@ const OldHeader = () => {
                       ? `/xnode/login`
                       : `${'/login'}`
                   }`}
-                  className="my-auto h-fit cursor-pointer items-center border-b border-[#000] bg-transparent text-[16px] font-bold !leading-[19px] text-[#000] hover:text-[#3b3a3a]"
+                  className="my-auto h-fit cursor-pointer items-center border-b border-black bg-transparent text-[16px] font-bold !leading-[19px] text-black hover:text-[#3b3a3a]"
                 >
                   Login
                 </a>
@@ -914,7 +906,7 @@ const OldHeader = () => {
                 {projectDescription}
               </div>
               <div className="mt-[5px] md:mt-[6px] lg:mt-[7px] xl:mt-[8px] 2xl:mt-px">
-                <div className="text-[9px] font-medium text-[#000] md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]">
+                <div className="text-[9px] font-medium text-black md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]">
                   Est. $<span className="font-bold">40</span> / month
                 </div>
                 <div className="relative mx-auto mt-px flex w-fit">

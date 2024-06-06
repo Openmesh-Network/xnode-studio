@@ -1,6 +1,3 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
 import { formatAddress } from '@/utils/functions'
@@ -46,7 +43,7 @@ const Stats = ({ ...data }: ModalProps) => {
 
   const renderTable = () => {
     return (
-      <div className="mx-auto flex w-full justify-between text-[#000] xl:w-[1052px] 2xl:w-[1315px]">
+      <div className="mx-auto flex w-full justify-between text-black xl:w-[1052px] 2xl:w-[1315px]">
         <table className="mx-auto w-full">
           <thead className="">
             <tr>
@@ -143,7 +140,7 @@ const Stats = ({ ...data }: ModalProps) => {
   }
 
   return (
-    <section className="mx-auto w-full overflow-x-auto font-normal text-[#000]">
+    <section className="mx-auto w-full overflow-x-auto font-normal text-black">
       <div className="mx-auto flex w-full justify-between xl:w-[992px] 2xl:w-[1240px] 2xl:gap-x-[10px]">
         <div>
           <div className="text-[9px] md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]">

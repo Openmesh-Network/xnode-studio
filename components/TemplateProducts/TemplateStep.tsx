@@ -141,7 +141,7 @@ const TemplateStep = () => {
 
   return (
     <section className="relative z-10 pb-[200px] pt-[30px] lg:pt-0">
-      <div className="mx-auto max-w-[1380px] px-[20px] text-[12px] font-normal text-[#000] 2xl:text-[14px]">
+      <div className="mx-auto max-w-[1380px] px-[20px] text-[12px] font-normal text-black 2xl:text-[14px]">
         <div className="flex justify-between gap-x-[95px]">
           <div className="w-full text-center">
             <div className="mx-auto mb-[12.5px] text-[42px] font-semibold leading-[64px] 2xl:text-[48px]">
@@ -171,7 +171,7 @@ const TemplateStep = () => {
                   }}
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'All Templates'
-                      ? 'bg-[#4d4d4d] font-bold text-[#fff]'
+                      ? 'bg-[#4d4d4d] font-bold text-white'
                       : 'hover:text-[#252525]'
                   }`}
                 >
@@ -184,7 +184,7 @@ const TemplateStep = () => {
                   }}
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'openmesh'
-                      ? 'bg-[#4d4d4d] font-bold text-[#fff]'
+                      ? 'bg-[#4d4d4d] font-bold text-white'
                       : 'hover:text-[#252525]'
                   }`}
                 >
@@ -197,7 +197,7 @@ const TemplateStep = () => {
                   }}
                   className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
                     filterSelection === 'community'
-                      ? 'bg-[#4d4d4d] font-bold text-[#fff]'
+                      ? 'bg-[#4d4d4d] font-bold text-white'
                       : 'hover:text-[#252525]'
                   }`}
                 >
@@ -210,7 +210,7 @@ const TemplateStep = () => {
               <div>
                 <div className="w-[256px] rounded-[5px] border border-[#d1d5da] px-[16px] pb-[25px] pt-[15px]">
                   <div className="flex items-center justify-between gap-x-[4px]">
-                    <div className="text-[14px] font-medium leading-[24px] text-[#000] 2xl:text-[16px]">
+                    <div className="text-[14px] font-medium leading-[24px] text-black 2xl:text-[16px]">
                       Category
                     </div>
                     <img
@@ -376,7 +376,7 @@ const TemplateStep = () => {
                 </div>
                 <div className="mt-[29px] h-px w-full bg-[#E6E8EC]"></div>
                 <div className="mt-[24px] text-start">
-                  <div className="text-[14px] font-medium leading-[12px] text-[#000] 2xl:text-[16px]">
+                  <div className="text-[14px] font-medium leading-[12px] text-black 2xl:text-[16px]">
                     Creator
                   </div>
                   <div className="mt-[12px]">
@@ -427,7 +427,7 @@ const TemplateStep = () => {
                     <div
                       onClick={() => {}}
                       className={`${
-                        displayToggle === 'list' ? 'bg-[#0059ff]' : 'bg-[#fff]'
+                        displayToggle === 'list' ? 'bg-[#0059ff]' : 'bg-white'
                       } rounded-l-[5px] border border-r-0 border-[#d1d5da] p-[16px]`}
                     >
                       {displayToggle === 'list' ? (
@@ -457,9 +457,7 @@ const TemplateStep = () => {
                         setDisplayToggle('square')
                       }}
                       className={`${
-                        displayToggle === 'square'
-                          ? 'bg-[#0059ff]'
-                          : 'bg-[#fff]'
+                        displayToggle === 'square' ? 'bg-[#0059ff]' : 'bg-white'
                       } cursor-pointer rounded-r-[5px] border border-l-0 border-[#d1d5da] p-[16px]`}
                     >
                       {displayToggle === 'square' ? (
@@ -512,7 +510,7 @@ const TemplateStep = () => {
                           </div>
                         </div>
                         <div className="mt-[20px]">
-                          <div className="line-clamp-1 overflow-hidden text-[16px] font-medium text-[#000] 2xl:text-[18px]">
+                          <div className="line-clamp-1 overflow-hidden text-[16px] font-medium text-black 2xl:text-[18px]">
                             {element.name}
                           </div>
                           <div className="mt-[6px] line-clamp-3 overflow-hidden text-[14px] font-normal leading-[20px] text-[#959595] 2xl:text-[16px]">

@@ -4,16 +4,13 @@ import { useRouter } from 'next/navigation'
 
 import AddOns from '../AddOns'
 import CostEstimator from '../CostEstimator'
-import Dropdown from '../Dropdown'
 import Hero from '../Hero'
 import IncludedServices from '../IncludedServices'
-import LatencySelector from '../LatencySelector'
 import Presets from '../Presets'
 import SelectCloudProvider from '../SelectCloudProvider'
 import SelectLatencyPreference from '../SelectLatencyPreference'
 import SelectServiceRegion from '../SelectServiceRegion'
 import SelectUseCase from '../SelectUseCase'
-import ServerProvision from '../ServerProvision'
 
 /* eslint-disable react/no-unescaped-entities */
 const FirstStep = () => {
@@ -188,7 +185,7 @@ const FirstStep = () => {
                           setNext(true)
                           window.scrollTo({ top: 0, behavior: 'smooth' })
                         }}
-                        className="mx-auto mt-[12px] flex w-fit cursor-pointer gap-x-[10px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.25px] text-[7px] font-medium text-[#fff] hover:bg-[#123981] md:mt-[39px] md:px-[12.5px] md:py-[5px] md:text-[8.5px] lg:mt-[45.5px] lg:px-[14.5px] lg:py-[9px] lg:text-[10px] lg:!leading-[19px] xl:px-[17px] xl:py-[10px] xl:text-[11px] 2xl:mt-[65px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]"
+                        className="mx-auto mt-[12px] flex w-fit cursor-pointer gap-x-[10px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.25px] text-[7px] font-medium text-white hover:bg-[#123981] md:mt-[39px] md:px-[12.5px] md:py-[5px] md:text-[8.5px] lg:mt-[45.5px] lg:px-[14.5px] lg:py-[9px] lg:text-[10px] lg:!leading-[19px] xl:px-[17px] xl:py-[10px] xl:text-[11px] 2xl:mt-[65px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]"
                       >
                         <div>Next</div>
                         <img

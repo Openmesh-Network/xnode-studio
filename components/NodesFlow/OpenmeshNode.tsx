@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { memo, useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
 
@@ -96,7 +95,7 @@ function OpenmeshNode({ id, data, handleNodeRemove }) {
   }
   return (
     <>
-      <div className="relative rounded-[10px] border-[0.5px] border-[#C1C1C1] bg-[#fff] px-[10px] py-[7px] pb-[10px] pr-[22.5px] text-[8px] text-[#000] md:rounded-[12px] md:px-[12px] md:py-[8.4px] md:pb-[12px] md:pr-[27px] md:text-[9.6px] lg:rounded-[14px] lg:px-[14px] lg:py-[10px] lg:pb-[14px] lg:pr-[31.5px] lg:text-[11.2px] xl:rounded-[16px] xl:px-[16px] xl:py-[11.2px] xl:pb-[16px] xl:pr-[36px] xl:text-[12.8px] 2xl:rounded-[20px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[20px] 2xl:pr-[45px] 2xl:text-[16px]">
+      <div className="relative rounded-[10px] border-[0.5px] border-[#C1C1C1] bg-white px-[10px] py-[7px] pb-[10px] pr-[22.5px] text-[8px] text-black md:rounded-[12px] md:px-[12px] md:py-[8.4px] md:pb-[12px] md:pr-[27px] md:text-[9.6px] lg:rounded-[14px] lg:px-[14px] lg:py-[10px] lg:pb-[14px] lg:pr-[31.5px] lg:text-[11.2px] xl:rounded-[16px] xl:px-[16px] xl:py-[11.2px] xl:pb-[16px] xl:pr-[36px] xl:text-[12.8px] 2xl:rounded-[20px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[20px] 2xl:pr-[45px] 2xl:text-[16px]">
         <button
           onClick={() => {
             handleClick()

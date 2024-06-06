@@ -1,23 +1,9 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
-// import { useState } from 'react'
-import {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useContext, useEffect } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import ReactFlow, {
   addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
   Background,
   Controls,
   MiniMap,

@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-
 interface dataSourceType {
   title: string
   list: string[]
@@ -21,7 +19,7 @@ interface ModalProps {
 const CostEstimator = ({ ...data }: ModalProps) => {
   return (
     <>
-      <div className="sticky top-8 mt-[18px] bg-[#fff] px-[12.5px] py-[10px] text-[7px] text-[#000] shadow-[0_8px_15px_0px_rgba(0,0,0,0.20)] md:mt-[21px] md:px-[15px] md:py-[12px] md:text-[8.5px] lg:mt-[24px] lg:px-[17.5px] lg:py-[14px] lg:text-[10px] lg:!leading-[17px] xl:px-[20px] xl:py-[16px] xl:text-[11.2px] 2xl:mt-[35px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[14px]">
+      <div className="sticky top-8 mt-[18px] bg-white px-[12.5px] py-[10px] text-[7px] text-black shadow-[0_8px_15px_0px_rgba(0,0,0,0.20)] md:mt-[21px] md:px-[15px] md:py-[12px] md:text-[8.5px] lg:mt-[24px] lg:px-[17.5px] lg:py-[14px] lg:text-[10px] lg:!leading-[17px] xl:px-[20px] xl:py-[16px] xl:text-[11.2px] 2xl:mt-[35px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[14px]">
         <div className="text-[8px] font-bold md:text-[9px] lg:text-[11px] lg:!leading-[19px] xl:text-[13px] 2xl:text-[16px]">
           Service summary
         </div>
@@ -107,7 +105,7 @@ const CostEstimator = ({ ...data }: ModalProps) => {
             />
             <div>Download Estimate as PDF</div>
           </div>
-          <div className="flex w-full cursor-pointer items-center justify-center gap-x-[5px] rounded-[5px] bg-[#0354EC] p-[5px] py-[7px] text-center text-[#fff] hover:bg-[#123981] md:gap-x-[6px] md:py-[7.5px] lg:gap-x-[7px] lg:py-[8.75px] xl:gap-x-[8px] xl:py-[9.6px] 2xl:gap-x-[10px] 2xl:py-[12.5px]">
+          <div className="flex w-full cursor-pointer items-center justify-center gap-x-[5px] rounded-[5px] bg-[#0354EC] p-[5px] py-[7px] text-center text-white hover:bg-[#123981] md:gap-x-[6px] md:py-[7.5px] lg:gap-x-[7px] lg:py-[8.75px] xl:gap-x-[8px] xl:py-[9.6px] 2xl:gap-x-[10px] 2xl:py-[12.5px]">
             <img
               src={`${
                 process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'

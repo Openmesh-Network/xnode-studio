@@ -201,7 +201,7 @@ const Claim = ({chainId} : {chainId: number}) => {
         <div>
           <p className="font-semibold"> Step 02. </p>
           <p> Enter your pin from the Xnode card. </p>
-          <p className="underline"> <a onClick={ () => { alert("deluxe popup") } }> What is that, I'm dumb? </a> </p>
+          <p className="underline"> <a onClick={ () => { alert("deluxe popup") } }> What is that, I&apos;m dumb? </a> </p>
         </div>
 
         <div className="">
@@ -227,7 +227,7 @@ const Claim = ({chainId} : {chainId: number}) => {
         <div>
           <p className="font-semibold"> Step 03. </p>
           <p> Claim your Xnode. </p>
-          <p className="underline"> <a onClick={ () => { alert("deluxe popup") } }> What is that, I'm dumb? </a> </p>
+          <p className="underline"> <a onClick={ () => { alert("deluxe popup") } }> What is that, I&apos;m dumb? </a> </p>
         </div>
 
         <div className="">

@@ -1,530 +1,206 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
-/* eslint-disable no-unused-vars */
-import { useCallback, useContext, useEffect, useState } from 'react'
-import { getAPI, getDatasets } from '@/utils/data'
-import { toast } from 'react-toastify'
-
-import 'react-toastify/dist/ReactToastify.css'
-
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
-import { Autocomplete, TextField } from '@mui/material'
-import { SmileySad } from 'phosphor-react'
+import { Provider } from '@/db/schema'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { useDebounce } from '@uidotdev/usehooks'
+import { Check, ChevronsUpDown, Search, X } from 'lucide-react'
 
-import { TemplatesProducts } from '@/types/dataProvider'
-import Filter from '@/components/Filter'
-
-import ProductsList from '../ProductsList'
-import Dropdown, { ValueObject } from './Dropdown'
-
-export const optionsNetwork = [
-  {
-    name: 'Equinix',
-    value: 'Equinix',
-  },
-  {
-    name: 'Vultr',
-    value: 'Vultr',
-  },
-  {
-    name: 'OneProvider',
-    value: 'OneProvider',
-  },
-  {
-    name: 'Heficed',
-    value: 'Heficed',
-  },
-  {
-    name: 'Latitude.sh',
-    value: 'Latitude.sh',
-  },
-  {
-    name: 'PhoenixNap',
-    value: 'PhoenixNap',
-  },
-  {
-    name: 'Fasthosts',
-    value: 'Fasthosts',
-  },
-  {
-    name: 'Colohouse',
-    value: 'Colohouse',
-  },
-  {
-    name: 'AMD House',
-    value: 'AMD House',
-  },
-]
-
-type dataAPI = {
-  products: TemplatesProducts[]
-  hasMorePages: boolean
-  totalProducts: number
-}
-
-export const providerNameToLogo = {
-  Equinix: {
-    src: 'new-equinix.png',
-    width: 'w-[50px]',
-  },
-}
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command'
+import { Input } from '@/components/ui/input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { Separator } from '@/components/ui/separator'
 
 const TemplateProducts = () => {
-  const [templates, setTemplates] = useState<TemplatesProducts[]>([])
-  const [page, setPage] = useState<number>(1)
+  const [page, setPage] = useState<number>(0)
   const [searchInput, setSearchInput] = useState<string>()
-  const [hasMorePages, setHasMorePages] = useState<boolean>(false)
-  const [totalResults, setTotalResults] = useState<string>('')
-  const [isLoading, setIsLoading] = useState(true)
-  const [isLoadingMoreTemplates, setIsLoadingMoreTemplates] = useState(false)
-  const [progressLoadingBar, setProgressLoadingBar] = useState(0)
-  const [progressLoadingText, setProgressLoadingText] = useState(
-    'Checking 19 providers'
-  )
-  const [selected, setSelected] = useState<ValueObject | null>(null)
+  const debouncedSearchInput = useDebounce(searchInput, 500)
+  const [region, setRegion] = useState<string | null>()
 
-  const {
-    setIndexerDeployerStep,
-    templateSelected,
-    setTemplateSelected,
-    draft,
-    setDraft,
-  } = useContext(AccountContext)
-
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms))
-
-  const getData = useCallback(
-    async (withoutFilter?: boolean, category?: string) => {
-      setIsLoading(true)
-
-      let url = `/openmesh-data/functions/templateProducts?page=${page}`
-      if (searchInput?.length > 0 && !withoutFilter) {
-        url = `${url}&searchBarFilter=${searchInput}`
+  const { data: providerData, isLoading: providersLoading } = useQuery({
+    queryKey: ['resources', page, debouncedSearchInput, region],
+    queryFn: async () => {
+      const params = new URLSearchParams()
+      params.append('page', String(page))
+      if (debouncedSearchInput) {
+        params.append('q', debouncedSearchInput)
       }
-      if (category && !withoutFilter) {
-        url = `${url}&categoryFilter=${category}`
+      if (region) {
+        params.append('r', region)
       }
-
-      let data: dataAPI
-      try {
-        data = await getAPI(url)
-      } catch (err) {
-        toast.error('Something occured')
-      }
-
-      // doing it gradually as requested by Ashton
-      const firstStep = data.products.slice(0, 1)
-      setTemplates(firstStep)
-      setProgressLoadingBar(20)
-      setProgressLoadingText('Searching Equinix')
-      await delay(2000)
-
-      const secondStep = data.products.slice(0, 3)
-      setTemplates(secondStep)
-      setProgressLoadingBar(33)
-      await delay(2000)
-
-      const thirdStep = data.products.slice(0, 3)
-      setTemplates(thirdStep)
-      setProgressLoadingBar(53)
-      setProgressLoadingText('Checking CPUs')
-      await delay(2000)
-
-      const fourStep = data.products.slice(0, 10)
-      setTemplates(fourStep)
-      setProgressLoadingBar(65)
-      setProgressLoadingText('Searching Vultr')
-      await delay(2000)
-
-      const fiveStep = data.products.slice(0, 25)
-      setTemplates(fiveStep)
-      setProgressLoadingBar(100)
-      await delay(2000)
-
-      setIsLoading(false)
-      setTemplates(data.products)
-      setHasMorePages(data.hasMorePages)
-      setTotalResults(String(data.totalProducts))
+      const res = await fetch(`/api/providers?${params.toString()}`)
+      return res.json() as Promise<{ data: Provider[] }>
     },
-    [page, searchInput]
-  )
+    placeholderData: keepPreviousData,
+  })
 
-  async function loadMoreTemplates() {
-    setIsLoadingMoreTemplates(true)
+  const { data: regionData, isLoading: regionLoading } = useQuery({
+    queryKey: ['regions'],
+    queryFn: async () => {
+      const res = await fetch('/api/providers/regions')
+      return res.json() as Promise<string[]>
+    },
+  })
 
-    let data: dataAPI
-    let url = `/openmesh-data/functions/templateProducts?page=${page + 1}`
-    if (searchInput?.length > 0) {
-      url = `${url}&searchBarFilter=${searchInput}`
-    }
-    try {
-      data = await getAPI(url)
-    } catch (err) {
-      toast.error('Something occured')
-    }
-    setPage(page + 1)
-    setIsLoadingMoreTemplates(false)
-    setTemplates([...templates, ...data.products])
-    setHasMorePages(data.hasMorePages)
-  }
-
-  useEffect(() => {
-    getData()
-  }, [getData])
+  const { templateSelected, setTemplateSelected } = useContext(AccountContext)
 
   return (
-    <section className="relative z-10 pt-[30px] lg:pt-0">
-      <div className="mx-auto max-w-[1380px] pl-[85px] text-[14px] font-normal text-[#000]">
-        <div className="flex justify-between gap-x-[50px]">
-          <div className="pt-[44px]">
-            <div className="mb-[12.5px] text-[48px] font-semibold leading-[64px]">
-              Select a provider
-            </div>
-            <div className="border-t border-t-[#cfd3d8] pt-[32px]">
-              <div className="flex">
-                <div className="mr-[49px] rounded-[8px] border border-[#cfd3d8] px-[12px] py-[15px]">
-                  <div className="flex items-center gap-x-[8px]">
-                    <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/search-2.svg`}
-                      alt="image"
-                      className="size-[13.5px]"
-                    />
-                    <input
-                      value={searchInput}
-                      placeholder="Search"
-                      onChange={(e) => {
-                        if (e.target.value.length < 10000) {
-                          setSearchInput(e.target.value)
-                        }
-                      }}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter' && searchInput?.length > 0) {
-                          getData()
-                        }
-                      }}
-                      className="w-[364px] bg-[#fff] text-[16px] placeholder:text-[#6B7280]"
-                    />
-                    <img
-                      onClick={() => {
-                        setSearchInput('')
-                      }}
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/x.svg`}
-                      alt="image"
-                      className="cursor-pointer"
-                    />
-                  </div>
-                </div>
-                <div className="mr-[17px]">
-                  <Dropdown
-                    optionSelected={selected}
-                    options={optionsNetwork}
-                    placeholder="Category"
-                    onValueChange={(value) => {
-                      setSelected(value)
-                      getData(false, value.value)
-                    }}
-                  />
-                </div>
-                <div
-                  onClick={() => {
-                    setSearchInput('')
-                    setSelected(null)
-                    getData(true)
-                  }}
-                  className="my-auto flex w-full cursor-pointer items-center gap-x-[10px]"
-                >
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/remove.svg`}
-                    alt="image"
-                    className="w-[24px]"
-                  />
-                  <div className="text-[16px] font-normal text-[#4d4d4d] hover:text-[#3b3b3b]">
-                    Reset filter
-                  </div>
-                </div>
-              </div>
-              {isLoading ? (
-                <div className="mt-[20px]">
-                  <div className="flex gap-x-[10px]">
-                    <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/loading.svg`}
-                      alt="image"
-                      className="w-[20px] animate-spin"
-                    />
-                    <div>{progressLoadingText}</div>
-                  </div>
-
-                  <div className="mt-[10px] h-[10px] w-full rounded-[50px] border border-[#E4E5E8] bg-[#fff]">
-                    <div
-                      style={{ width: `${progressLoadingBar}%` }}
-                      className="h-full rounded-full bg-[#0059ff] transition-all duration-300"
-                    ></div>
-                  </div>
-                </div>
-              ) : (
-                <div className="mt-[25px]">{totalResults} results</div>
-              )}
-            </div>
-            <div className="scrollbar-thin scrollbar-track-[#F9F9F9] scrollbar-thumb-[#c5c4c4] mt-[25px] grid max-h-[700px] w-full gap-y-[38px] overflow-y-auto pr-[10px]">
-              {templates.map((tmp, index) => (
-                <div
-                  key={index}
-                  className="flex items-center rounded-[8px] border border-[#E4E5E8] py-[30px] pl-[24px] pr-[62px] shadow-[0_5px_12px_0px_rgba(0,0,0,0.10)]"
-                >
-                  <div className="mr-[40px]">
-                    {providerNameToLogo[tmp.providerName] ? (
-                      <img
-                        src={`${
-                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                            ? process.env.NEXT_PUBLIC_BASE_PATH
-                            : ''
-                        }/images/template/${
-                          providerNameToLogo[tmp.providerName].src
-                        }`}
-                        alt="image"
-                        className={`${
-                          providerNameToLogo[tmp.providerName].width
-                        } mx-auto mb-[15px]`}
-                      />
-                    ) : (
-                      <div>{tmp.providerName}</div>
-                    )}
-                    <div>Public Cloud</div>
-                  </div>
-                  <div className="max-w-[309px]">
-                    <div className="text-[18px] font-bold">
-                      {tmp.productName}
-                    </div>
-                    <div className="mt-[6px] text-[16px] font-normal text-[#737373]">
-                      <div className="">{tmp.location}</div>
-                      <div className="mt-[25px] text-[12px] font-normal text-[#0059ff]">
-                        <span className="underline">RPC Nodes</span>,{' '}
-                        <span className="underline">Web3 Infrastructure</span>,{' '}
-                        <span className="underline">Blockchain Apps</span>
-                      </div>
-                      <div className="mt-[15px]">
-                        {tmp.cpuGHZ} GHZ, {tmp.cpuCores} CPU cores,{' '}
-                        {tmp.cpuThreads} Threads, {tmp.ram} RAM,{' '}
-                        {tmp.storageTotal} GB, {tmp.network} Gbps
-                      </div>
-                    </div>
-                  </div>
-                  <div className="ml-auto grid text-center">
-                    <div className="mx-auto w-fit text-[16px] font-medium leading-[20px]">
-                      Est {tmp.priceMonth} /mo
-                    </div>
-                    <div
-                      onClick={() => {
-                        setTemplateSelected(tmp)
-
-                        let d = draft
-                        d.location = tmp.location
-                        d.isUnit = false
-                        d.provider = tmp.providerName
-                      }}
-                      className={`mt-[15px] cursor-pointer border border-[#0059ff] ${
-                        tmp?.id === templateSelected?.id
-                          ? 'bg-[#0059ff] text-[#fff]'
-                          : 'bg-[#fff] text-[#0059ff] hover:bg-[#f1f1f15e]'
-                      } w-[174px] rounded-[12px] py-[13px] text-[16px] font-bold !leading-[150%]`}
-                    >
-                      {tmp?.id === templateSelected?.id ? 'Selected' : 'Select'}
-                    </div>
-                  </div>
-                </div>
-              ))}
-              {hasMorePages && !isLoadingMoreTemplates && (
-                <div
-                  onClick={() => {
-                    loadMoreTemplates()
-                  }}
-                  className="mx-auto cursor-pointer rounded-[5px] border border-[#cfd3d8] px-[15px] py-[5px]"
-                >
-                  Show more
-                </div>
-              )}
-              {isLoadingMoreTemplates && (
-                <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/template/loading.svg`}
-                  alt="image"
-                  className="mx-auto w-[20px] animate-spin"
-                />
-              )}
-            </div>
-          </div>
-          <div className="mt-[10px] w-full border-[0.6px] border-[#d1d5da] bg-[#fafafa] py-[10px] lg:mb-0 lg:w-[386px] lg:py-[32px]">
-            <div className="flex justify-between px-[32px]">
-              <div className="text-[18px] font-bold leading-[40px]">
-                Your progress
-              </div>
-            </div>
-            <div className="mt-[22px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
-              <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/circle-dashed-complete.svg`}
-                alt="image"
-                className={``}
-              />
-              <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
-                Select a template
-              </div>
-            </div>
-            <div className="mt-[31px] flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-gray200 px-[32px] py-[10px]">
-              <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/circled-dashed.svg`}
-                alt="image"
-                className={``}
-              />
-              <div className="text-[16px] font-semibold leading-[36px] text-[#000]">
-                Select a provider
-              </div>
-            </div>
-            {templateSelected && (
-              <>
-                <div className="ml-[92px] mt-[21px] grid gap-y-[10px]">
-                  <div className="flex items-center gap-x-[7px]">
-                    <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/mini-equinix.svg`}
-                      alt="image"
-                      className=""
-                    />
-                    <div className="text-[14px] font-extralight">
-                      Bare metal Provider
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-x-[5px]">
-                    <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/australia.svg`}
-                      alt="image"
-                      className=""
-                    />
-                    <div className="text-[14px] font-extralight">
-                      Country & Region{' '}
-                    </div>
-                  </div>
-                </div>
-                <div className="ml-[92px] mt-[18px] text-[16px] font-bold">
-                  {templateSelected?.cpuCores} vCPU + {templateSelected?.ram} GB
-                  memory
-                </div>
-                <div className="mx-[36px] mt-[26px] flex justify-between bg-gray200 px-[18px] py-[13px] text-[14px] font-normal">
-                  <div>Item</div>
-                  <div>Price</div>
-                </div>
-                <div className="mx-[36px] mt-[30px] flex justify-between border-b border-[#D4D4D4] px-[18px] pb-[5px] text-[14px]">
-                  <div className="font-medium text-[#959595]">
-                    {templateSelected?.productName}
-                  </div>
-                  <div className="font-bold">
-                    {templateSelected?.priceMonth}
-                  </div>
-                </div>
-                <div className="mx-[36px] mt-[26px] flex justify-between">
-                  <div className="text-[16px] font-medium">Total</div>
-                  <div className="text-end">
-                    <div className="text-[28px] font-bold text-[#0059ff]">
-                      {templateSelected?.priceMonth}
-                    </div>
-                    {templateSelected?.priceHour && (
-                      <div className="text-[12px] font-normal">
-                        That's about {templateSelected?.priceHour} hourly
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div
-                  onClick={() => {
-                    setIndexerDeployerStep(1)
-                  }}
-                  className="mx-auto mt-[30px] w-fit cursor-pointer rounded-[12px] bg-[#0059ff] px-[133px] py-[15px] text-center text-[16px] font-bold leading-[22px] text-[#fff] hover:bg-[#014cd7]"
-                >
-                  Deploy
-                </div>
-              </>
-            )}
-            <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
-              <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/circled-dashed-gray.svg`}
-                alt="image"
-                className={``}
-              />
-              <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
-                Choose your configuration
-              </div>
-            </div>
-            <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
-              <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/circled-dashed-gray.svg`}
-                alt="image"
-                className={``}
-              />
-              <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
-                Performing connection
-              </div>
-            </div>
-            <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
-              <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/circled-dashed-gray.svg`}
-                alt="image"
-                className={``}
-              />
-              <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
-                Service deployed
-              </div>
-            </div>
-          </div>
+    <section>
+      <h1 className="text-4xl font-semibold text-black">Select a provider</h1>
+      <Separator className="my-12" />
+      <div className="flex flex-wrap gap-4">
+        <div className="relative flex max-w-96 items-center">
+          <Search className="absolute left-3 size-4" />
+          <Input
+            type="text"
+            placeholder="Filter provider and item names"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="pl-10"
+          />
         </div>
+        <Popover>
+          <PopoverTrigger asChild disabled={regionLoading}>
+            <Button
+              size="lg"
+              variant="outline"
+              role="combobox"
+              className="min-w-64 justify-between"
+            >
+              <span className="max-w-[20ch] truncate">
+                {region ? region : 'Select region...'}
+              </span>
+              <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-80 p-0">
+            <Command>
+              <CommandInput placeholder="Search regions..." />
+              <CommandList>
+                <CommandEmpty>No regions found</CommandEmpty>
+                <CommandGroup>
+                  {regionData?.map((regionItem) => {
+                    const selected = regionItem === region
+                    return (
+                      <CommandItem
+                        key={`region-${regionItem}`}
+                        onSelect={() => {
+                          selected ? setRegion(null) : setRegion(regionItem)
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-1.5 size-4 shrink-0 transition-transform',
+                            selected ? 'scale-100' : 'scale-0'
+                          )}
+                        />
+                        {regionItem}
+                      </CommandItem>
+                    )
+                  })}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+        <Button
+          size="lg"
+          variant="outline"
+          onClick={() => {
+            setRegion(null)
+            setSearchInput('')
+          }}
+          className="gap-1.5"
+        >
+          <X className="size-4 shrink-0" />
+          Reset filter
+        </Button>
+      </div>
+      <div className="mt-4">
+        {providersLoading ? <p>Loading...</p> : null}
+        {!providersLoading && providerData !== undefined ? (
+          providerData.data.length === 0 ? (
+            <p>No results found</p>
+          ) : (
+            <ul className="flex max-h-[calc(100svh-5rem)] flex-col gap-8 overflow-y-auto text-black">
+              {providerData.data.map((provider) => {
+                const selected = templateSelected?.id === String(provider.id)
+                let config = ''
+                if (provider.cpuGHZ) config += `${provider.cpuGHZ}GHz `
+                if (provider.cpuCores) config += `${provider.cpuCores}-Core `
+                if (provider.cpuThreads) config += `(${provider.cpuThreads})`
+                if (provider.ram) config += `, ${provider.ram}GB RAM`
+                if (provider.storageTotal)
+                  config += `, ${provider.storageTotal} GB`
+                if (provider.network) config += `, ${provider.network} Gbps`
+                return (
+                  <li
+                    key={provider.id}
+                    className="flex items-start gap-12 rounded-lg border border-darkGray/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
+                  >
+                    <div>
+                      {/* <Image
+                      src={`/images/template/${provider.providerName}.png`}
+                      alt={provider.providerName}
+                      width={50}
+                      height={50}
+                    /> */}
+                      <p className="font-bold">{provider.providerName}</p>
+                      <p>Bare Metal</p>
+                    </div>
+                    <div className="grow">
+                      <h3 className="text-lg font-semibold">
+                        {provider.productName}
+                      </h3>
+                      <p>{provider.location}</p>
+                      <p className="mt-4">{config}</p>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <p>Est. ${provider.priceMonth}/mo</p>
+                      <Button
+                        variant={selected ? 'default' : 'outlinePrimary'}
+                        size="lg"
+                        className="min-w-56"
+                        onClick={() => {
+                          if (selected) {
+                            setTemplateSelected(null)
+                          } else {
+                            setTemplateSelected({
+                              id: String(provider.id),
+                              providerName: provider.providerName,
+                              productName: provider.productName,
+                              location: provider.location,
+                              cpuCores: String(provider.cpuCores),
+                              ram: String(provider.ram),
+                              priceMonth: String(provider.priceMonth),
+                              priceHour: String(provider.priceHour),
+                            })
+                          }
+                        }}
+                      >
+                        {selected ? 'Selected' : 'Select'}
+                      </Button>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          )
+        ) : null}
       </div>
     </section>
   )

@@ -1,10 +1,5 @@
-/* eslint-disable no-unused-vars */
-import { title } from 'process'
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
-
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
 
 export const categoriesOptionsRPC = [
   {
@@ -126,7 +121,7 @@ const SubBarRPC = ({ onValueChange }) => {
                 </div>
                 <div
                   className={`mt-[9px] ${
-                    option.enabled ? 'text-[#000]' : 'text-[#A1A0A0]'
+                    option.enabled ? 'text-black' : 'text-[#A1A0A0]'
                   } max-w-[103px] font-light md:mt-[11px] md:max-w-[123px] lg:mt-[12.5px] lg:max-w-[145px] xl:mt-[14px] xl:max-w-[165px] 2xl:mt-[18px] 2xl:max-w-[206px]`}
                 >
                   {option.desc}
@@ -172,7 +167,7 @@ const SubBarRPC = ({ onValueChange }) => {
                     option.enabled
                       ? 'cursor-pointer bg-[#0354EC] hover:bg-[#123981]'
                       : 'bg-[#898989]'
-                  } -top-0.5 right-0 rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-[#fff] md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
+                  } -top-0.5 right-0 rounded-[5px] px-[7px] py-[3px] text-[6.5px] font-medium text-white md:text-[7px] lg:px-[6px] lg:py-[2.8px] lg:text-[8.5px] lg:!leading-[15px] xl:px-[6.8px] xl:py-[3.2px] xl:text-[9.5px] 2xl:px-[8.5px] 2xl:py-[4px] 2xl:text-[12px]`}
                 >
                   <div>Add</div>
                 </div>
@@ -185,7 +180,7 @@ const SubBarRPC = ({ onValueChange }) => {
 
   return (
     <>
-      <div className="z-100 relative bg-[#fff] px-[16px] py-[21px] text-[#000] shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[26px] lg:px-[23px] lg:py-[30px] xl:px-[26.5px] xl:py-[35px] 2xl:px-[33px] 2xl:py-[43px]">
+      <div className="z-100 relative bg-white px-[16px] py-[21px] text-black shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[26px] lg:px-[23px] lg:py-[30px] xl:px-[26.5px] xl:py-[35px] 2xl:px-[33px] 2xl:py-[43px]">
         <img
           src={`${
             process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'

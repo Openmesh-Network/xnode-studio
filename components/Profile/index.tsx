@@ -1,9 +1,5 @@
-/* eslint-disable dot-notation */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 'use client'
 
-// import { useState } from 'react'
 import {
   ChangeEvent,
   FC,
@@ -15,13 +11,13 @@ import {
 import { useRouter } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
-import nookies, { parseCookies, setCookie } from 'nookies'
+import { parseCookies } from 'nookies'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 
-import 'react-toastify/dist/ReactToastify.css'
 import 'react-quill/dist/quill.snow.css' // import styles
+import 'react-toastify/dist/ReactToastify.css'
 
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -405,7 +401,7 @@ const Profile = () => {
                     Update account
                   </h3>
                 </div>
-                <div className="mt-[20px] text-[#000]">{user.email}</div>
+                <div className="mt-[20px] text-black">{user.email}</div>
               </div>
             </div>
           </div>
@@ -719,7 +715,7 @@ const Profile = () => {
                   <button
                     type="submit"
                     onClick={handleSubmit(onSubmit)}
-                    className={`h-[50px] w-[250px] rounded-[10px] border border-[#0354EC] px-[25px] py-[12px] text-[12px] font-bold text-[#0354EC] hover:bg-[#0354EC] hover:text-[#fff] lg:text-[16px]`}
+                    className={`h-[50px] w-[250px] rounded-[10px] border border-[#0354EC] px-[25px] py-[12px] text-[12px] font-bold text-[#0354EC] hover:bg-[#0354EC] hover:text-white lg:text-[16px]`}
                   >
                     <span className="">Update account</span>
                   </button>

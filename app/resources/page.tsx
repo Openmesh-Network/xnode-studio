@@ -1,5 +1,7 @@
 import Image from 'next/image'
-import { getResourceStats } from '@/server/resources'
+import { db } from '@/db'
+import { Providers } from '@/db/schema'
+import { count, countDistinct, eq, like, sql, sum } from 'drizzle-orm'
 
 import ResourcesTable from './resources-table'
 
@@ -17,10 +19,28 @@ function StatsItem({ title, value }: StatsItemProps) {
 }
 
 export default async function ResourcesPage() {
-  const { stats } = await getResourceStats()
+  const [stats] = await db
+    .select({
+      countries: countDistinct(Providers.country),
+      providers: countDistinct(Providers.providerName),
+      regions: countDistinct(Providers.location),
+      storage: sum(Providers.storageTotal).mapWith(Number),
+      ram: sum(Providers.ram).mapWith(Number),
+      bandwidth: sum(Providers.bandwidthNetwork).mapWith(Number),
+    })
+    .from(Providers)
+    .limit(1)
+
+  const [gpus] = await db
+    .select({
+      count: count(),
+    })
+    .from(Providers)
+    .where(like(Providers.gpuType, '%A100%'))
+    .limit(1)
 
   return (
-    <div className="container max-w-screen-2xl">
+    <div className="container mt-24 max-w-screen-2xl">
       <section className="flex flex-col justify-center gap-4 text-center">
         <h1 className="text-6xl font-semibold text-black">
           Full resource list
@@ -38,7 +58,7 @@ export default async function ResourcesPage() {
           title="Storage"
           value={`${Math.round(stats.storage / 1024 / 1024)}PB`}
         />
-        <StatsItem title="GUPs" value="0G/F" />
+        <StatsItem title="GUPs" value={`${gpus.count * 312}GF`} />
         <StatsItem title="RAM" value={`${Math.round(stats.ram / 1024)}TB`} />
         <StatsItem
           title="Bandwidth"

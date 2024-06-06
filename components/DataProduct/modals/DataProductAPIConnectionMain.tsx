@@ -1,15 +1,7 @@
-/* eslint-disable no-unused-vars */
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
-import { yupResolver } from '@hookform/resolvers/yup'
-import axios from 'axios'
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
-import * as Yup from 'yup'
 
 import 'react-toastify/dist/ReactToastify.css'
-
-import { Eye, EyeSlash } from 'phosphor-react'
 
 import DataProductAPIConnection from './DataProductAPIConnectionModal'
 

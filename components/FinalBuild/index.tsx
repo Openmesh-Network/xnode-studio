@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
@@ -7,18 +6,6 @@ import { toast } from 'react-toastify'
 
 import { CoreServices } from '@/types/node'
 
-import CostEstimator from '../CostEstimator'
-import Dropdown from '../Dropdown'
-import Hero from '../Hero'
-import IncludedServices from '../IncludedServices'
-import LatencySelector from '../LatencySelector'
-import Presets from '../Presets'
-import SelectCloudProvider from '../SelectCloudProvider'
-import SelectLatencyPreference from '../SelectLatencyPreference'
-import SelectServiceRegion from '../SelectServiceRegion'
-import SelectUseCase from '../SelectUseCase'
-import ServerProvision from '../ServerProvision'
-import AddOns from './AddOns'
 import AddOns2 from './AddOns2'
 import CloudProvider from './CloudProvider'
 import ServiceRegion from './ServiceRegion'
@@ -26,14 +13,9 @@ import YourCore from './YourCore'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import {
-  optionsFeature,
-  optionsServerLocationToValue,
-  optionsServerNumberToValue,
-} from '@/utils/constants'
-import { Timer } from 'phosphor-react'
+import { optionsFeature } from '@/utils/constants'
 
-import { DeploymentConfiguration, ServiceFromName } from '@/types/dataProvider'
+import { DeploymentConfiguration } from '@/types/dataProvider'
 
 export function findServerDefaultType(array) {
   const serverObject = array.find((item) => item.type === 'server')

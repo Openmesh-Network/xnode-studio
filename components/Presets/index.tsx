@@ -1,10 +1,5 @@
-/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
-
-/* eslint-disable react/no-unescaped-entities */
 const Presets = ({ onValueChange }) => {
   const [presetId, setPresetId] = useState(0)
 

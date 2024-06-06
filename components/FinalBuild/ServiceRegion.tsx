@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
 import { useState } from 'react'
-
-import Dropdown from '../Dropdown'
 
 interface ModalProps {
   serviceRegion: string
@@ -13,7 +10,7 @@ const ServiceRegion = ({ ...data }: ModalProps) => {
     useState<boolean>(false)
 
   return (
-    <div className="flex rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] text-[#000] md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[12px] 2xl:px-[20px] 2xl:py-[15px]">
+    <div className="flex rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] text-black md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[12px] 2xl:px-[20px] 2xl:py-[15px]">
       <div className="relative flex items-center gap-x-[10px]">
         <div className="text-[10px] font-bold md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
           Service region
@@ -39,7 +36,7 @@ const ServiceRegion = ({ ...data }: ModalProps) => {
           </div>
         )}
       </div>
-      <div className="ml-[47.5px] flex text-[10px] font-bold text-[#000] md:ml-[57px] md:text-[12x] lg:ml-[66.5px] lg:text-[14px] lg:!leading-[24px] xl:ml-[76px] xl:text-[16px] 2xl:ml-[95px] 2xl:text-[20px]">
+      <div className="ml-[47.5px] flex text-[10px] font-bold text-black md:ml-[57px] md:text-[12x] lg:ml-[66.5px] lg:text-[14px] lg:!leading-[24px] xl:ml-[76px] xl:text-[16px] 2xl:ml-[95px] 2xl:text-[20px]">
         <div>{data.serviceRegion}</div>
         {/* <img
           src={`${

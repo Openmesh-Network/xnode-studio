@@ -1,9 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react'
 
-import Dropdown from '../Dropdown'
-import LatencySelector from '../LatencySelector'
-
 interface ModalProps {
   includedAddOnsArray: string[]
   onChangeIncludedAddOns(string): void
@@ -46,7 +43,7 @@ const AddOns = ({ ...data }: ModalProps) => {
           <div className="text-[18px] font-medium tracking-[-2%] text-[#959595] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
             Add apps
           </div>
-          <div className="mt-[15px] text-[10px] font-medium !-tracking-[2%] text-[#000] md:mt-[18px] md:text-[12px] lg:mt-[21px] lg:text-[14px] xl:text-[16px] 2xl:mt-[30px] 2xl:text-[20px]">
+          <div className="mt-[15px] text-[10px] font-medium !-tracking-[2%] text-black md:mt-[18px] md:text-[12px] lg:mt-[21px] lg:text-[14px] xl:text-[16px] 2xl:mt-[30px] 2xl:text-[20px]">
             Available applications that you can add to your deployment
             (optional)
           </div>
@@ -83,10 +80,10 @@ const AddOns = ({ ...data }: ModalProps) => {
                     onClick={() => {
                       data.onChangeIncludedAddOns('pythia')
                     }}
-                    className={`size-[10px] cursor-pointer rounded-[5px] border border-[#D9D9D9] bg-[#fff] md:size-[12px] lg:size-[14px] xl:size-[16px] 2xl:size-[20px] ${
+                    className={`size-[10px] cursor-pointer rounded-[5px] border border-[#D9D9D9] bg-white md:size-[12px] lg:size-[14px] xl:size-[16px] 2xl:size-[20px] ${
                       data.includedAddOnsArray.includes('pythia')
                         ? 'bg-[#0354EC]'
-                        : 'bg-[#fff]'
+                        : 'bg-white'
                     }`}
                   />
                 </div>
@@ -132,13 +129,13 @@ const AddOns = ({ ...data }: ModalProps) => {
           </div>
         </div>
         <div className="mt-[15px] rounded-[10px] bg-[#F9F9F9] p-[10px] md:mt-[18px] md:p-[12px] lg:mt-[21px] lg:p-[14px] xl:p-[16px] 2xl:mt-[30px] 2xl:p-[20px]">
-          <div className="text-[10px] font-bold text-[#000] md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
+          <div className="text-[10px] font-bold text-black md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
             Observability
           </div>
           <div className="relative mt-[12.5px] grid justify-between gap-[15px] md:mt-[15px] md:grid-cols-2 md:gap-[18px] lg:mt-[17.5px] lg:grid-cols-2 lg:gap-[21px] xl:grid-cols-3 xl:gap-[24px] 2xl:mt-[25px] 2xl:grid-cols-3 2xl:gap-[30px]">
             {observabilityOptions.map((option, index) => (
               <div
-                className={`relative h-[100px] cursor-pointer rounded-[5px] border-[0.5px] border-[#D9D9D9] bg-[#fff] p-[10px] shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] hover:shadow-[0_4px_20px_0px_rgba(3,84,236,0.40)] md:p-[12px] lg:h-[150px] lg:p-[14px] xl:p-[16px] 2xl:p-[20px]`}
+                className={`relative h-[100px] cursor-pointer rounded-[5px] border-[0.5px] border-[#D9D9D9] bg-white p-[10px] shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] hover:shadow-[0_4px_20px_0px_rgba(3,84,236,0.40)] md:p-[12px] lg:h-[150px] lg:p-[14px] xl:p-[16px] 2xl:p-[20px]`}
                 key={index}
                 onClick={() => {
                   data.onChangeIncludedAddOns(option.title)
@@ -172,13 +169,13 @@ const AddOns = ({ ...data }: ModalProps) => {
           </div>
         </div>
         <div className="mt-[15px] rounded-[10px] bg-[#F9F9F9] p-[10px] md:mt-[18px] md:p-[12px] lg:mt-[21px] lg:p-[14px] xl:p-[16px] 2xl:mt-[30px] 2xl:p-[20px]">
-          <div className="text-[10px] font-bold text-[#000] md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
+          <div className="text-[10px] font-bold text-black md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
             APIs & Connectivity
           </div>
           <div className="relative mt-[12.5px] grid justify-between gap-[15px] md:mt-[15px] md:grid-cols-2 md:gap-[18px] lg:mt-[17.5px] lg:grid-cols-2 lg:gap-[21px] xl:grid-cols-3 xl:gap-[24px] 2xl:mt-[25px] 2xl:grid-cols-3 2xl:gap-[30px]">
             {apisAndConnectionsOptions.map((option, index) => (
               <div
-                className={`relative h-[100px] cursor-pointer rounded-[5px] border-[0.5px] border-[#D9D9D9] bg-[#fff] p-[10px] shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] hover:shadow-[0_4px_20px_0px_rgba(3,84,236,0.40)] md:p-[12px] lg:h-[150px] lg:p-[14px] xl:p-[16px] 2xl:p-[20px]`}
+                className={`relative h-[100px] cursor-pointer rounded-[5px] border-[0.5px] border-[#D9D9D9] bg-white p-[10px] shadow-[0_5px_8px_0px_rgba(0,0,0,0.10)] hover:shadow-[0_4px_20px_0px_rgba(3,84,236,0.40)] md:p-[12px] lg:h-[150px] lg:p-[14px] xl:p-[16px] 2xl:p-[20px]`}
                 key={index}
                 onClick={() => {
                   data.onChangeIncludedAddOns(option.title)

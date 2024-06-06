@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-"use client";
+'use client'
 
 import AccountContextProvider from '@/contexts/AccountContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -8,21 +6,16 @@ import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import { ThemeProvider } from 'next-themes'
 import { ToastContainer } from 'react-toastify'
-import {
-  cookieStorage,
-  cookieToInitialState,
-  createConfig,
-  createStorage,
-  State,
-  WagmiProvider,
-} from "wagmi";
-import { mainnet, sepolia } from "wagmi/chains";
+import { cookieStorage, createStorage, State, WagmiProvider } from 'wagmi'
+import { mainnet, sepolia } from 'wagmi/chains'
 
 
 const chains = [mainnet, sepolia] as const;
 const queryClient = new QueryClient()
 
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
+
+if (!projectId) throw new Error('Project ID is not defined')
 
 const metadata = {
   name: "Xnode",
@@ -40,8 +33,6 @@ export const wagmiConfig = defaultWagmiConfig({
     storage: cookieStorage,
   }),
 });
-
-// const initialState = cookieToInitialState(config, headers().get('cookie'))
 
 createWeb3Modal({
   wagmiConfig: wagmiConfig,
@@ -61,24 +52,17 @@ export function Providers({
   initialState?: State;
 }) {
   return (
-    <>
-      <AccountContextProvider>
-        <WagmiProvider config={wagmiConfig} initialState={initialState}>
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider
-              attribute="class"
-              enableSystem={false}
-              defaultTheme="dark"
-            >
-              {children}
-            </ThemeProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
-      </AccountContextProvider>
-
-      <ToastContainer />
-    </>
-  );
+    <AccountContextProvider>
+      <WagmiProvider config={wagmiConfig} initialState={initialState}>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider attribute="class" enableSystem={false}>
+            {children}
+            <ToastContainer />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </AccountContextProvider>
+  )
 }
 
 // Get projectId at https://cloud.walletconnect.com

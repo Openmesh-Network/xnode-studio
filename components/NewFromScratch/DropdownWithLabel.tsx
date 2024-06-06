@@ -1,6 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable no-unused-vars */
-
 import { useEffect, useRef, useState } from 'react'
 
 export type ValueObject = {
@@ -83,7 +80,7 @@ const DropdownWithLabel = ({
       </div>
 
       {isOpen && (
-        <div className="absolute left-0 top-0 z-50 w-full translate-y-[60px] rounded-[5px] border border-[#cfd3d8] bg-[#fff] transition">
+        <div className="absolute left-0 top-0 z-50 w-full translate-y-[60px] rounded-[5px] border border-[#cfd3d8] bg-white transition">
           <div className="grid gap-y-[5px] p-1">
             {options?.map((option, index) => (
               <div
@@ -110,7 +107,7 @@ const DropdownWithLabel = ({
           </div>
         </div>
       )}
-      <div className="absolute -top-3 left-2 z-50 bg-[#fff] px-[10px] text-[16px] font-normal">
+      <div className="absolute -top-3 left-2 z-50 bg-white px-[10px] text-[16px] font-normal">
         {label}
       </div>
     </div>

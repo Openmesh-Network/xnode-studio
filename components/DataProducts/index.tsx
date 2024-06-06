@@ -1,18 +1,12 @@
 'use client'
 
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import { getDatasets } from '@/utils/data'
 import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { Autocomplete, TextField } from '@mui/material'
-import { SmileySad } from 'phosphor-react'
-
 import { DataProvider } from '@/types/dataProvider'
-import Filter from '@/components/Filter'
 
 import ProductsList from '../ProductsList'
 
@@ -39,7 +33,7 @@ const DataProducts = () => {
 
   if (isLoading) {
     return (
-      <section className="bg-white px-[30px] pb-[50px] pt-[46px] text-[#000] md:pl-[90px] md:pr-[130px]">
+      <section className="bg-white px-[30px] pb-[50px] pt-[46px] text-black md:pl-[90px] md:pr-[130px]">
         <div className="container hidden h-60 animate-pulse px-0 pb-12 md:flex">
           <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
           <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>

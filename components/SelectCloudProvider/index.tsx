@@ -30,7 +30,7 @@ const SelectCloudProvider = ({ ...data }: ModalProps) => {
             onMouseLeave={() => setShowTooltipCloudProvider(false)}
           />
           {showTooltipCloudProvider && (
-            <div className="absolute left-[130px] top-0 w-full max-w-[270px] rounded-[10px] bg-[#000] px-[13px] py-[10px] text-[8px] font-medium text-[#fff] md:left-[162px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[189px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[216px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[270px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
+            <div className="absolute left-[130px] top-0 w-full max-w-[270px] rounded-[10px] bg-black px-[13px] py-[10px] text-[8px] font-medium text-white md:left-[162px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[189px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[216px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[270px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
               <div className="mb-[7px]">Cloud provider</div>
               <div>Choose the cloud provider of your preference</div>
             </div>
@@ -78,7 +78,7 @@ const SelectCloudProvider = ({ ...data }: ModalProps) => {
           onMouseLeave={() => setShowTooltipCloudProvider(false)}
         />
         {showTooltipCloudProvider && (
-          <div className="absolute left-[130px] top-0 w-full max-w-[270px] rounded-[10px] bg-[#000] px-[13px] py-[10px] text-[8px] font-medium text-[#fff] md:left-[162px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[189px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[216px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[270px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
+          <div className="absolute left-[130px] top-0 w-full max-w-[270px] rounded-[10px] bg-black px-[13px] py-[10px] text-[8px] font-medium text-white md:left-[162px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[189px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[216px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[270px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
             <div className="mb-[7px]">Cloud provider</div>
             <div>Choose the cloud provider of your preference</div>
           </div>
@@ -93,7 +93,7 @@ const SelectCloudProvider = ({ ...data }: ModalProps) => {
               data.onValueChange('Equinix')
             }}
             className={`size-[10px] cursor-pointer rounded-[5px] border border-[#D9D9D9] hover:bg-[#0354EC] md:size-[12px] lg:size-[14px] xl:size-[16px] 2xl:size-[20px] ${
-              cloudProvider === 'Equinix' ? 'bg-[#0354EC]' : 'bg-[#fff]'
+              cloudProvider === 'Equinix' ? 'bg-[#0354EC]' : 'bg-white'
             }`}
           ></div>
           <div className="flex 2xl:gap-x-[10px]">
@@ -119,7 +119,7 @@ const SelectCloudProvider = ({ ...data }: ModalProps) => {
               data.onValueChange('AWS')
             }}
             className={`size-[10px] cursor-pointer rounded-[5px] border border-[#D9D9D9] hover:bg-[#0354EC] md:size-[12px] lg:size-[14px] xl:size-[16px] 2xl:size-[20px] ${
-              cloudProvider === 'AWS' ? 'bg-[#0354EC]' : 'bg-[#fff]'
+              cloudProvider === 'AWS' ? 'bg-[#0354EC]' : 'bg-white'
             }`}
           ></div>
           <div className="flex 2xl:gap-x-[10px]">

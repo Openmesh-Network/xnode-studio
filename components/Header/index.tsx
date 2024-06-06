@@ -2,10 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import listMenu from '@/assets/listMenu.svg'
 import thunderIcon from '@/assets/thunderIcon.svg'
 import xNodeLogo from '@/assets/xnode_logo.svg'
-import * as Dialog from '@radix-ui/react-dialog'
 
 export function Header() {
   const headerItems = [
