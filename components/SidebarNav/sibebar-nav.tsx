@@ -2,23 +2,11 @@
 
 import React, { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { useTheme } from 'next-themes'
-import { toast } from 'sonner'
 
-import { useProject } from '@/lib/providers/project-provider'
-import { User, useUser } from '@/lib/providers/user-provider'
-import { request } from '@/lib/request'
 import { cn } from '@/lib/utils'
 import { Button, ButtonProps } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import {
   Tooltip,
@@ -26,9 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import GradientAvatar from '@/components/gradient-avatar'
-import { Icon, Icons } from '@/components/icons'
-import { ProjectSelector } from '@/components/project-switcher'
+import { Icon, Icons } from '@/components/Icons'
 
 interface Nav {
   isMobile?: boolean
@@ -36,77 +22,102 @@ interface Nav {
 }
 
 const Nav: React.FC<Nav> = ({ isMobile = false, className = '' }) => {
-  const { projectId } = useProject()
-  const router = useRouter()
-  const { refetch } = useUser()
-
   return (
     <NavContainer className={className}>
-      <NavHeader isMobile={isMobile}>
-        <NavLogo />
-      </NavHeader>
-      <ProjectSelector className="mt-4" />
       <NavContent>
         <NavLink
-          href={`/${projectId}/collection`}
-          icon={Icons.Collections}
-          label="Lead collections"
+          href="/"
+          icon={Icons.HomeIcon}
+          label="Home"
           isMobile={isMobile}
         />
         <NavLink
-          href={`/${projectId}/accounts`}
-          icon={Icons.Accounts}
-          label="Accounts"
+          href="/workspace"
+          icon={Icons.WorkspaceIcon}
+          label="Workspace"
           isMobile={isMobile}
         />
         <NavLink
-          href={`/${projectId}/settings`}
-          icon={Icons.Settings}
-          label="Project settings"
+          href="/template-products"
+          icon={Icons.WorkspaceIcon}
+          label="Templates"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/resources"
+          icon={Icons.ResourcesIcon}
+          label="Resources"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/servers"
+          icon={Icons.ServersIcon}
+          label="Servers"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/data"
+          icon={Icons.DataIcon}
+          label="Data"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/apis"
+          icon={Icons.APIIcon}
+          label="APIs"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/RPC"
+          icon={Icons.RPCIcon}
+          label="RPC"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/analytics"
+          icon={Icons.AnalyticsIcon}
+          label="Analytics"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/data-management"
+          icon={Icons.AnalyticsIcon}
+          label="Data Management"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/storage"
+          icon={Icons.StorageIcon}
+          label="Storage"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/compute"
+          icon={Icons.ComputeIcon}
+          label="Compute"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/trading"
+          icon={Icons.TradingIcon}
+          label="Trading"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/machine-learning"
+          icon={Icons.MachineLearningIcon}
+          label="Machine Learning"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/integrations"
+          icon={Icons.IntegrationsIcon}
+          label="Integrations"
           isMobile={isMobile}
         />
       </NavContent>
-      <NavFooter>
-        <NavThemeToggle />
-        <NavButton
-          icon={Icons.Logout}
-          label="Log out"
-          onClick={async () => {
-            toast.promise(request.post('/api/auth/logout', {}), {
-              loading: 'Logging out...',
-              success: 'Logged out',
-              error: (e) => e.message || 'Failed to log out',
-            })
-            await request.post('/api/auth/logout', {})
-            refetch()
-          }}
-        />
-        <NavProfile />
-      </NavFooter>
+      <NavFooter></NavFooter>
     </NavContainer>
-  )
-}
-
-const getLogo = (user: User | null) => {
-  switch (user?.agency) {
-    case 'Borks':
-      return Icons.Borks
-    case 'InfiniteBookings':
-      return Icons.Infinite
-    default:
-      return Icons.Logo
-  }
-}
-
-const NavLogo: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
-  const { user } = useUser()
-  const Logo = getLogo(user)
-
-  return (
-    <div className="flex items-center gap-x-2 p-2" {...props}>
-      <Logo className="size-8 shrink-0 rounded-md" />
-      <p className="font-bold">AutoReach</p>
-    </div>
   )
 }
 
@@ -295,52 +306,6 @@ const NavCollapseIcon: React.FC<NavCollapseIconProps> = ({
   )
 }
 
-export function NavThemeToggle({}: ButtonProps) {
-  const { setTheme } = useTheme()
-
-  const { collapsed } = useNavContext()
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <li className="relative">
-          <Tooltip open={!collapsed ? false : undefined} delayDuration={500}>
-            <TooltipTrigger asChild>
-              <button className="flex h-12 w-full items-center rounded-md p-3 hover:bg-accent/30">
-                <div className="flex items-center">
-                  <Icons.Sun className="size-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                  <Icons.Moon className="absolute size-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />{' '}
-                  <span
-                    className={cn(
-                      'duration-plico relative z-10 ml-4 w-32 max-w-full truncate text-left text-base opacity-100 transition-[margin,max-width,opacity] ease-in-out',
-                      collapsed &&
-                        'ml-0 max-w-0 opacity-0 group-[.category]:ml-4 group-[.category]:max-w-full group-[.category]:opacity-100'
-                    )}
-                  >
-                    Toggle theme
-                  </span>
-                </div>
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="right">Toggle theme</TooltipContent>
-          </Tooltip>
-        </li>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" side="right">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
-
 const NavContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   children,
 }) => {
@@ -525,44 +490,6 @@ const NavLink: React.FC<NavLinkProps> = ({
     </li>
   )
 }
-
-const NavProfile = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  const { collapsed } = useNavContext()
-  const { user } = useUser()
-
-  return (
-    <Card
-      className={cn(
-        'duration-plico flex items-center gap-x-2 p-2 transition-[opacity,padding] ease-in-out',
-        collapsed
-          ? 'border-border/0 pl-1 shadow-transparent dark:shadow-none'
-          : 'border-border/100 pl-2'
-      )}
-      ref={ref}
-      {...props}
-    >
-      <div className="size-10">
-        <GradientAvatar
-          text={user?.username ?? 'A'}
-          className="aspect-square size-10 overflow-hidden rounded-full"
-        />
-      </div>
-      <div
-        className={cn(
-          collapsed ? 'w-0 opacity-0' : 'w-full opacity-100',
-          'duration-plico truncate leading-tight transition-[width,opacity] ease-in-out'
-        )}
-      >
-        <p className="truncate font-semibold">{user?.username}</p>
-        <p className="truncate text-sm text-foreground/70">{user?.agency}</p>
-      </div>
-    </Card>
-  )
-})
-NavProfile.displayName = 'ProfileCard'
 
 interface SeperatorProps extends React.HTMLAttributes<HTMLElement> {
   label?: string
