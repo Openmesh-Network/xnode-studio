@@ -16,12 +16,15 @@ import {
 } from '@/components/ui/tooltip'
 import { Icon, Icons } from '@/components/Icons'
 
-interface Nav {
+interface SidebarNav {
   isMobile?: boolean
   className?: string
 }
 
-const Nav: React.FC<Nav> = ({ isMobile = false, className = '' }) => {
+const SidebarNav: React.FC<SidebarNav> = ({
+  isMobile = false,
+  className = '',
+}) => {
   return (
     <NavContainer className={className}>
       <NavContent>
@@ -45,7 +48,7 @@ const Nav: React.FC<Nav> = ({ isMobile = false, className = '' }) => {
         />
         <NavLink
           href="/resources"
-          icon={Icons.ResourcesIcon}
+          icon={Icons.WorkspaceIcon}
           label="Resources"
           isMobile={isMobile}
         />
@@ -128,7 +131,7 @@ const NavLayout: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   return (
     <TooltipProvider>
       <div className={cn('flex h-screen w-screen', className)}>
-        <Nav className="hidden lg:block" />
+        <SidebarNav className="hidden lg:block" />
         <div className="w-full overflow-y-auto">
           <main>{children}</main>
         </div>
@@ -184,7 +187,7 @@ const NavContainer = React.forwardRef<
     >
       <aside
         className={cn(
-          'duration-plico flex h-screen shrink-0 flex-col justify-between bg-card p-3 text-card-foreground shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] transition-[width] ease-in-out dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)]',
+          'duration-plico flex h-screen shrink-0 flex-col justify-between bg-card p-3 pt-16 text-card-foreground shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] transition-[width] ease-in-out dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)]',
           collapsed ? 'w-[4.5rem]' : 'w-[15.5rem]',
           className
         )}
@@ -223,7 +226,7 @@ const NavMobileTrigger: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       </SheetTrigger>
 
       <SheetContent side={'left'} className="w-[15.5rem] p-0">
-        <Nav isMobile />
+        <SidebarNav isMobile />
       </SheetContent>
     </Sheet>
   )

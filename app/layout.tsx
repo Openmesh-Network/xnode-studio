@@ -8,7 +8,7 @@ import { Inter } from 'next/font/google'
 
 import { cn } from '@/lib/utils'
 import { Header } from '@/components/Header'
-import LateralNav from '@/components/LateralNav'
+import { NavLayout } from '@/components/SidebarNav/sibebar-nav'
 
 import { Providers } from './providers'
 
@@ -34,23 +34,18 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <body
         className={cn(
-          'max-w-screen overflow-x-hidden bg-background font-sans text-foreground antialiased',
+          'max-w-screen h-screen overflow-x-hidden bg-background font-sans text-foreground antialiased',
           inter.variable
         )}
       >
         <Providers>
-          <div className="mx-auto">
+          <div className="absolute z-50 mx-auto w-full">
             <Header />
           </div>
-
-          <div className="max-w-screen flex w-full">
-            <div className="z-50 float-left min-w-[180px] bg-[#F4F4F4]">
-              <LateralNav />
-            </div>
-            <div className="w-full">{children}</div>
-          </div>
-
-          <ScrollToTop />
+          <NavLayout>
+            {children}
+            <ScrollToTop />
+          </NavLayout>
         </Providers>
       </body>
     </html>

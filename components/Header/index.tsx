@@ -30,56 +30,38 @@ export function Header() {
   ]
 
   return (
-    <header className="z-40 flex h-[65px] w-full items-center bg-[#1F1F1F] pl-6">
-      <div className="flex w-full items-center justify-between gap-x-32">
-        <Image src={xNodeLogo} alt="XNode Logo" />
+    <header className="z-50 flex h-16 w-full items-center justify-between gap-x-32 bg-[#1F1F1F] pl-6">
+      <Image src={xNodeLogo} alt="XNode Logo" />
 
-        <div className="hidden items-center gap-x-20 lg:flex">
-          <nav className="flex items-center gap-x-12">
-            {headerItems.map((option, index) => (
-              <Link
-                key={index}
-                href={`${option.href}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="text-white transition-colors duration-300 hover:text-gray200">
-                  {option.label}
-                </span>
-              </Link>
-            ))}
-          </nav>
+      <div className="hidden h-full items-center gap-x-20 lg:flex">
+        <nav className="flex items-center gap-x-12">
+          {headerItems.map((option, index) => (
+            <Link
+              key={index}
+              href={`${option.href}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="text-white transition-colors duration-300 hover:text-gray200">
+                {option.label}
+              </span>
+            </Link>
+          ))}
+        </nav>
 
-          <Link
-            href={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? `/xnode/template-products/`
-                : `/template-products/`
-            }`}
-            className="flex h-[65px] items-center gap-x-[10px] bg-blue500 px-9 transition-colors duration-300 hover:bg-blue500/80"
-          >
-            <Image src={thunderIcon} alt="Thunder icon" />
-            <span className="text-sm font-medium text-white">
-              Create service and deploy
-            </span>
-          </Link>
-        </div>
-
-        {/* <div className="block lg:hidden">
-          <Dialog.Root>
-            <Dialog.Trigger>
-              <Image src={listMenu} alt="Three lines vector" />
-            </Dialog.Trigger>
-
-            <Dialog.Portal>
-              <Dialog.Overlay className="fixed inset-0 z-50 bg-black/90">
-                <Dialog.Content className="text-purple50 border-gray600 bg-gray900 fixed left-[50%] top-[50%] z-50 w-full max-w-[596px] translate-x-[-50%] translate-y-[-50%] rounded-[20px] border bg-black px-9 pb-12 pt-6 focus:outline-none">
-                  Hello world
-                </Dialog.Content>
-              </Dialog.Overlay>
-            </Dialog.Portal>
-          </Dialog.Root>
-        </div> */}
+        <Link
+          href={`${
+            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+              ? `/xnode/template-products/`
+              : `/template-products/`
+          }`}
+          className="flex h-full items-center gap-x-[10px] bg-blue500 px-9 transition-colors duration-300 hover:bg-blue500/80"
+        >
+          <Image src={thunderIcon} alt="Thunder icon" />
+          <span className="text-sm font-medium text-white">
+            Create service and deploy
+          </span>
+        </Link>
       </div>
     </header>
   )
