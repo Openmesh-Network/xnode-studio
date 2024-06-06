@@ -27,7 +27,8 @@ const SidebarNav: React.FC<SidebarNav> = ({
 }) => {
   return (
     <NavContainer className={className}>
-      <NavContent>
+      {/* <NavHeader isMobile={isMobile}></NavHeader> */}
+      <NavContent className="overflow-y-scroll">
         <NavLink
           href="/"
           icon={Icons.HomeIcon}
@@ -35,63 +36,48 @@ const SidebarNav: React.FC<SidebarNav> = ({
           isMobile={isMobile}
         />
         <NavLink
-          href="/workspace"
-          icon={Icons.WorkspaceIcon}
-          label="Workspace"
+          href="/dashboard"
+          icon={Icons.DashboardIcon}
+          label="Dashboard"
           isMobile={isMobile}
         />
         <NavLink
-          href="/template-products"
-          icon={Icons.WorkspaceIcon}
-          label="Templates"
+          href="/deployments"
+          icon={Icons.DeploymentsIcon}
+          label="deployments"
           isMobile={isMobile}
+          isSoon
         />
         <NavLink
           href="/resources"
-          icon={Icons.WorkspaceIcon}
+          icon={Icons.ResourcesIcon}
           label="Resources"
           isMobile={isMobile}
         />
         <NavLink
-          href="/servers"
-          icon={Icons.ServersIcon}
-          label="Servers"
+          href="/xnode"
+          icon={Icons.XNodeIcon}
+          label="Xnode"
+          isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/template-products"
+          icon={Icons.Templates}
+          label="Templates"
           isMobile={isMobile}
         />
         <NavLink
-          href="/data"
+          href="/workspace"
+          icon={Icons.DesignAndBuildIcon}
+          label="Design & Build"
+          isMobile={isMobile}
+        />
+
+        <NavLink
+          href="/data-products"
           icon={Icons.DataIcon}
           label="Data"
-          isMobile={isMobile}
-        />
-        <NavLink
-          href="/apis"
-          icon={Icons.APIIcon}
-          label="APIs"
-          isMobile={isMobile}
-        />
-        <NavLink
-          href="/RPC"
-          icon={Icons.RPCIcon}
-          label="RPC"
-          isMobile={isMobile}
-        />
-        <NavLink
-          href="/analytics"
-          icon={Icons.AnalyticsIcon}
-          label="Analytics"
-          isMobile={isMobile}
-        />
-        <NavLink
-          href="/data-management"
-          icon={Icons.AnalyticsIcon}
-          label="Data Management"
-          isMobile={isMobile}
-        />
-        <NavLink
-          href="/storage"
-          icon={Icons.StorageIcon}
-          label="Storage"
           isMobile={isMobile}
         />
         <NavLink
@@ -99,26 +85,120 @@ const SidebarNav: React.FC<SidebarNav> = ({
           icon={Icons.ComputeIcon}
           label="Compute"
           isMobile={isMobile}
+          isSoon
         />
         <NavLink
-          href="/trading"
-          icon={Icons.TradingIcon}
-          label="Trading"
+          href="/storage"
+          icon={Icons.StorageIcon}
+          label="Storage"
           isMobile={isMobile}
+          isSoon
         />
         <NavLink
-          href="/machine-learning"
-          icon={Icons.MachineLearningIcon}
-          label="Machine Learning"
+          href="/analytics"
+          icon={Icons.AnalyticsIcon}
+          label="Analytics"
           isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/rpc"
+          icon={Icons.RPCIcon}
+          label="RPC"
+          isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/apis"
+          icon={Icons.APIIcon}
+          label="APIs"
+          isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/appdev"
+          icon={Icons.AppDevIcon}
+          label="App Dev"
+          isMobile={isMobile}
+          isSoon
         />
         <NavLink
           href="/integrations"
           icon={Icons.IntegrationsIcon}
           label="Integrations"
           isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/utility"
+          icon={Icons.UtilityIcon}
+          label="Utility"
+          isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/trading"
+          icon={Icons.TradingIcon}
+          label="Trading"
+          isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/machine-learning"
+          icon={Icons.MachineLearningIcon}
+          label="AI & Machine Learning"
+          isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/profile"
+          icon={Icons.ProfileIcon}
+          label="Profile"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/staking"
+          icon={Icons.StakingIcon}
+          label="Staking & Reward Claiming"
+          isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/settings"
+          icon={Icons.SettingsIcon}
+          label="settings"
+          isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/faq"
+          icon={Icons.FAQIcon}
+          label="FAQs"
+          isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/docs"
+          icon={Icons.DocumentationIcon}
+          label="Documentation"
+          isMobile={isMobile}
+        />
+        <NavLink
+          href="/community"
+          icon={Icons.CommunityIcon}
+          label="Commmunity"
+          isMobile={isMobile}
+          isSoon
+        />
+        <NavLink
+          href="/circle"
+          icon={Icons.CircleIcon}
+          label="Circle"
+          isMobile={isMobile}
+          isSoon
         />
       </NavContent>
+
       <NavFooter></NavFooter>
     </NavContainer>
   )
@@ -185,14 +265,14 @@ const NavContainer = React.forwardRef<
     >
       <aside
         className={cn(
-          'duration-plico sticky top-0 flex h-screen shrink-0 flex-col justify-between border-r bg-muted/50 p-3 pt-16 text-card-foreground transition-[width] ease-in-out',
-          collapsed ? 'w-[4.5rem]' : 'w-[15.5rem]',
+          'duration-plico sticky top-0 flex h-screen shrink-0 flex-col justify-between border-r bg-card pt-16 text-card-foreground transition-[width] ease-in-out',
+          collapsed ? 'w-14' : 'w-56',
           className
         )}
         ref={ref}
         {...props}
       >
-        <nav className="flex h-full flex-col">{children}</nav>
+        <nav className="flex h-full flex-col justify-between">{children}</nav>
       </aside>
     </NavContext.Provider>
   )
@@ -223,7 +303,7 @@ const NavMobileTrigger: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         </Button>
       </SheetTrigger>
 
-      <SheetContent side={'left'} className="w-[15.5rem] p-0">
+      <SheetContent side={'left'} className="w-56 p-0">
         <SidebarNav isMobile />
       </SheetContent>
     </Sheet>
@@ -308,15 +388,25 @@ const NavCollapseIcon: React.FC<NavCollapseIconProps> = ({
 }
 
 const NavContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  className,
   children,
 }) => {
-  return <ul className="relative mt-8 w-full space-y-2">{children}</ul>
+  return (
+    <ul className={cn('relative mt-8 w-full space-y-2', className)}>
+      {children}
+    </ul>
+  )
 }
 
 const NavFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  className,
   children,
 }) => {
-  return <ul className="relative mt-auto w-full space-y-2">{children}</ul>
+  return (
+    <ul className={cn('relative mt-auto w-full space-y-2', className)}>
+      {children}
+    </ul>
+  )
 }
 
 type RootNavLinksProps = NavLinkProps
@@ -359,6 +449,7 @@ interface NavLinkProps {
   icon: Icon
   label: string
   isMobile?: boolean
+  isSoon?: boolean
   notifications?: number
 }
 
@@ -406,6 +497,7 @@ const NavLink: React.FC<NavLinkProps> = ({
   icon: Icon,
   label,
   isMobile = false,
+  isSoon = false,
   notifications = 0,
 }) => {
   const { collapsed } = useNavContext()
@@ -421,25 +513,24 @@ const NavLink: React.FC<NavLinkProps> = ({
   const transitionDuration = 0.5
   return (
     <li className="relative">
+      {isActive && (
+        <motion.span
+          layoutId={`${isMobile} bubble`}
+          className={
+            'absolute inset-0 z-10 w-full border-l-4 border-primary bg-primary/10'
+          }
+          transition={{
+            duration: transitionDuration,
+            ease: [0.4, 0, 0.2, 1],
+          }}
+        />
+      )}
       <Tooltip open={!collapsed ? false : undefined} delayDuration={500}>
         <TooltipTrigger asChild>
           <Link
             href={href}
             className="flex h-12 items-center rounded-md p-3 text-foreground hover:bg-accent/30"
           >
-            {isActive && (
-              <motion.span
-                layoutId={`${isMobile} bubble`}
-                className={
-                  'absolute inset-0 z-0 w-full bg-accent/50 bg-gradient-to-l from-primary/10 to-50%'
-                }
-                style={{ borderRadius: 6 }}
-                transition={{
-                  duration: transitionDuration,
-                  ease: [0.4, 0, 0.2, 1],
-                }}
-              />
-            )}
             <div className="flex items-center">
               <div className="relative">
                 {notifications > 0 && collapsed && (
