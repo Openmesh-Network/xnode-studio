@@ -1,12 +1,16 @@
 'use client'
 
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Provider } from '@/db/schema'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
 import { Check, ChevronsUpDown, Loader, Search, X } from 'lucide-react'
+import { string } from 'yup'
+import { z } from 'zod'
 
+import { TemplateFromId, TemplateGetSpecs } from '@/types/dataProvider'
 import { cn, formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -42,12 +46,20 @@ const FETCHING_TEXTS = [
 ]
 
 const TemplateProducts = () => {
+  const { templateSelected, setTemplateSelected } = useContext(AccountContext)
+  const params = useParams()
+
   const [page, setPage] = useState<number>(0)
   const [searchInput, setSearchInput] = useState<string>()
   const debouncedSearchInput = useDebounce(searchInput, 500)
   const [region, setRegion] = useState<string | null>()
   const [priceRange, setPriceRange] = useState<[number, number]>([1, 1000])
   const debouncedPriceRange = useDebounce(priceRange, 500)
+  const specs = useMemo(() => {
+    const tId = z.string().parse(params.id)
+    const template = TemplateFromId(tId)
+    return TemplateGetSpecs(template)
+  }, [params.id])
 
   const { data: providerData, isFetching: providersFetching } = useQuery({
     queryKey: [
@@ -56,6 +68,7 @@ const TemplateProducts = () => {
       debouncedSearchInput,
       region,
       debouncedPriceRange,
+      specs,
     ],
     queryFn: async () => {
       const params = new URLSearchParams()
@@ -65,6 +78,12 @@ const TemplateProducts = () => {
       }
       if (region) {
         params.append('r', region)
+      }
+      if (specs.ram > 0) {
+        params.append('minRAM', String(specs.ram))
+      }
+      if (specs.storage > 0) {
+        params.append('minStorage', String(specs.storage))
       }
       params.append('min', String(debouncedPriceRange[0]))
       params.append('max', String(debouncedPriceRange[1]))
@@ -109,8 +128,6 @@ const TemplateProducts = () => {
       return res.json() as Promise<string[]>
     },
   })
-
-  const { templateSelected, setTemplateSelected } = useContext(AccountContext)
 
   return (
     <section>

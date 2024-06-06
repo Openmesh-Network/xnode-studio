@@ -3,19 +3,25 @@ import { db } from '@/db'
 import { Providers } from '@/db/schema'
 import { and, asc, count, desc, eq, gte, like, lte, or, SQL } from 'drizzle-orm'
 import { number, string } from 'yup'
+import { z } from 'zod'
 
 const FALLBACK_LIMIT = 50
 
 export async function GET(req: NextRequest) {
   const params = new URL(req.url).searchParams
-  const page = number().cast(params.get('page') ?? 0)
-  const limit = number().cast(params.get('limit') ?? FALLBACK_LIMIT)
-  const sort = string().nullable().cast(params.get('sort'))
-  const order = string().nullable().cast(params.get('order'))
-  const searchQuery = string().nullable().cast(params.get('q'))
-  const region = string().nullable().cast(params.get('r'))
-  const minPrice = number().nullable().cast(params.get('min'))
-  const maxPrice = number().nullable().cast(params.get('max'))
+  const page = z.coerce.number().parse(params.get('page') ?? 0)
+  const limit = z.coerce.number().parse(params.get('limit') ?? FALLBACK_LIMIT)
+  const sort = z.string().nullable().parse(params.get('sort'))
+  const order = z.string().nullable().parse(params.get('order'))
+  const searchQuery = z.string().nullable().parse(params.get('q'))
+  const region = z.string().nullable().parse(params.get('r'))
+  const minPrice = z.coerce.number().nullable().parse(params.get('min'))
+  const maxPrice = z.coerce.number().nullable().parse(params.get('max'))
+  const minRAM = z.coerce.number().nullable().parse(params.get('minRAM'))
+  const minStorage = z.coerce
+    .number()
+    .nullable()
+    .parse(params.get('minStorage'))
 
   let filters: SQL[] = []
   if (searchQuery !== null && searchQuery !== '') {
@@ -42,6 +48,12 @@ export async function GET(req: NextRequest) {
         lte(Providers.priceSale, maxPrice)
       )
     )
+  }
+  if (minRAM !== null) {
+    filters.push(gte(Providers.ram, minRAM))
+  }
+  if (minStorage !== null) {
+    filters.push(gte(Providers.storageTotal, minStorage))
   }
 
   let sortOrder: SQL[] = []
