@@ -329,7 +329,7 @@ function DataTablePagination<TData>({
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            className="hidden size-8 p-0 lg:flex"
+            className="size-8 p-0 lg:flex"
             onClick={() => setPage(0)}
             disabled={page === 0}
           >
@@ -356,7 +356,7 @@ function DataTablePagination<TData>({
           </Button>
           <Button
             variant="outline"
-            className="hidden size-8 p-0 lg:flex"
+            className="size-8 p-0 lg:flex"
             onClick={() => setPage(totalPages - 1)}
             disabled={page === totalPages - 1}
           >
