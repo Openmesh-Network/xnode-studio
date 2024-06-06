@@ -265,7 +265,7 @@ const NavContainer = React.forwardRef<
     >
       <aside
         className={cn(
-          'duration-plico top-0 flex h-screen shrink-0 flex-col justify-between border-r bg-card pt-16 text-card-foreground transition-[width] ease-in-out',
+          'duration-plico sticky top-0 flex h-screen shrink-0 flex-col justify-between border-r bg-card pt-16 text-card-foreground transition-[width] ease-in-out',
           collapsed ? 'w-14' : 'w-56',
           className
         )}
