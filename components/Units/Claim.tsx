@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
@@ -8,6 +8,7 @@ import { XnodeUnitEntitlementClaimerContract } from '@/contracts/XnodeUnitEntitl
 import { reviver } from '@/utils/json'
 import axios from 'axios'
 import nookies, { setCookie } from 'nookies'
+import ReCAPTCHA from 'react-google-recaptcha'
 import { toast } from 'react-toastify'
 import { getWeb3Login } from 'utils/auth'
 import {
@@ -55,6 +56,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
   const { data: walletClient } = useWalletClient({ chainId })
   const router = useRouter()
   const { user, setUser } = useContext(AccountContext)
+  const recaptchaRef = React.useRef<ReCAPTCHA>()
 
   useEffect(() => {
     // Check if semantics of the code are valid
@@ -87,18 +89,20 @@ const Claim = ({ chainId }: { chainId: number }) => {
   }, [code, publicClient])
 
   const redeemCode = async () => {
-    setConfirmOpen(true)
-
     if (!walletClient) {
       alert('WalletClient undefined.')
       return
     }
 
+    console.log('recaptcha request')
+    const recaptchaToken: string = await recaptchaRef.current.executeAsync()
+    console.log('recaptcha solved', recaptchaToken)
     console.log('sending request to xue-signer')
     const response = await axios
       .post('/xue-signer/getSig', {
         code: code,
         receiver: account.address,
+        recaptcha: recaptchaToken,
       })
       .then(
         (res) =>
@@ -361,6 +365,12 @@ const Claim = ({ chainId }: { chainId: number }) => {
           </button>
         </div>
       </div>
+
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        size="invisible"
+        sitekey="6Lc2lvMpAAAAAHxzGM9-vWQr4zDngWZNZodIp1iV"
+      />
 
       <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <AlertDialogTrigger />
