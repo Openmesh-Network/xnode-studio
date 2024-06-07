@@ -69,33 +69,30 @@ const minimapStyle = {
   height: 120,
 }
 interface ModalProps {
-  fromScratch: boolean
+  fromScratch?: boolean
 }
 
 const onInit = (reactFlowInstance) =>
   console.log('flow loaded:', reactFlowInstance)
 
-const NodesFlow = ({ ...dataM }: ModalProps) => {
+const NodesFlow = ({ fromScratch = false }: ModalProps) => {
   const {
     changeNodes,
     setFinalNodes,
-    finalNodes,
-    setIsWorkspace,
     xnodeType,
     setXnodeType,
     setTagXnode,
     setSignup,
-    updateDataNode,
     setFinalBuild,
     removeNodes,
     setChangeNodes,
-    selectCurrentMenuDataType,
+    setRemoveNodes,
   } = useContext(AccountContext)
   const [nodes, setNodes, onNodesChange] = useNodesState<any>(
-    !dataM.fromScratch ? initialNodes : initialNodesScratch
+    !fromScratch ? initialNodes : initialNodesScratch
   )
   const [edges, setEdges, onEdgesChange] = useEdgesState(
-    !dataM.fromScratch ? initialEdges : initialEdgesScratch
+    !fromScratch ? initialEdges : initialEdgesScratch
   )
   const [isInitialized, setIsInitialized] = useState(false)
 
@@ -358,64 +355,7 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
         setNodes((prevNodes) => [...prevNodes, newNode])
       }
     }
-    // if (changeNodes?.type === "data") {
-    //   const existingNodeIndex = nodes.findIndex(
-    //     (node) =>
-    //       node.type === "data" && node.data.lists && node.data.lists.length > 0
-    //   );
-
-    //   if (existingNodeIndex !== -1) {
-    //     const existingNode = nodes[existingNodeIndex];
-
-    //     const existsTitle = existingNode.data.lists.some(
-    //       (data) => data.title === changeNodes?.name
-    //     );
-
-    //     if (existsTitle) {
-    //       return;
-    //     }
-
-    //     existingNode.data.lists.push({
-    //       icon: changeNodes?.icon,
-    //       title: changeNodes?.name,
-    //     });
-
-    //     const updatedNodes = [...nodes];
-    //     updatedNodes[existingNodeIndex] = existingNode;
-
-    //     setNodes((nds) =>
-    //       nds.map((node) => {
-    //         if (node.type === "data") {
-    //           node.data = {
-    //             ...node.data,
-    //             lists: existingNode.data.lists,
-    //           };
-    //         }
-
-    //         return node;
-    //       })
-    //     );
-    //   } else {
-    //     const newNode = {
-    //       id: uuidv4(),
-    //       type: "data",
-    //       position: { x: 670, y: 500 },
-    //       data: {
-    //         selects: {
-    //           "handle-0": "smoothstep",
-    //           "handle-1": "smoothstep",
-    //         },
-    //         lists: [
-    //           {
-    //             title: changeNodes?.name,
-    //             icon: changeNodes?.icon,
-    //           },
-    //         ],
-    //       },
-    //     };
-    //     setNodes((prevNodes) => [...prevNodes, newNode]);
-    //   }
-    // }
+    // data
     // for historical
     if (changeNodes?.type === 'dataHistorical') {
       const existingNodeIndex = nodes.findIndex(
@@ -562,41 +502,41 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
     }
   }, [changeNodes, nodes, setNodes])
 
-  useEffect(() => {
-    console.log('heyyy chamado fui')
-    const existingNodeIndex = nodes.findIndex(
-      (node) =>
-        node.type === 'dataStreaming' &&
-        node.data.lists &&
-        node.data.lists.length > 0
-    )
+  // useEffect(() => {
+  //   console.log('heyyy chamado fui')
+  //   const existingNodeIndex = nodes.findIndex(
+  //     (node) =>
+  //       node.type === 'dataStreaming' &&
+  //       node.data.lists &&
+  //       node.data.lists.length > 0
+  //   )
 
-    if (existingNodeIndex !== -1) {
-      const existingNode = nodes[existingNodeIndex]
+  //   if (existingNodeIndex !== -1) {
+  //     const existingNode = nodes[existingNodeIndex]
 
-      const filteredLists = existingNode.data.lists.filter(
-        (data) => data.title !== 'dataOption.title'
-      )
+  //     const filteredLists = existingNode.data.lists.filter(
+  //       (data) => data.title !== 'dataOption.title'
+  //     )
 
-      if (filteredLists.length === existingNode.data.lists.length) {
-        return
-      }
+  //     if (filteredLists.length === existingNode.data.lists.length) {
+  //       return
+  //     }
 
-      const updatedNode = {
-        ...existingNode,
-        data: {
-          ...existingNode.data,
-          lists: filteredLists,
-        },
-      }
+  //     const updatedNode = {
+  //       ...existingNode,
+  //       data: {
+  //         ...existingNode.data,
+  //         lists: filteredLists,
+  //       },
+  //     }
 
-      const updatedNodes = nodes.map((node, index) =>
-        index === existingNodeIndex ? updatedNode : node
-      )
+  //     const updatedNodes = nodes.map((node, index) =>
+  //       index === existingNodeIndex ? updatedNode : node
+  //     )
 
-      setNodes(updatedNodes)
-    }
-  }, [nodes, setNodes, updateDataNode])
+  //     setNodes(updatedNodes)
+  //   }
+  // }, [nodes, setNodes, updateDataNode])
 
   const nodesToAdd = [...nodes]
 
@@ -623,12 +563,13 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
   const handleNodeRemove = useCallback(
     (nodeIdToRemove) => {
       if (xnodeType !== 'validator') {
+        setChangeNodes({})
         setNodes((prevNodes) =>
           prevNodes.filter((node) => node.id !== nodeIdToRemove)
         )
       }
     },
-    [setNodes, xnodeType]
+    [setChangeNodes, setNodes, xnodeType]
   )
 
   const nodeTypes = useMemo(
@@ -662,20 +603,17 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
   useEffect(() => {
     setSignup(false)
     setFinalBuild(false)
-    setIsWorkspace(true)
     const savedNodes = localStorage.getItem('nodes')
     const savedEdges = localStorage.getItem('edges')
     const savedXnodeType = localStorage.getItem('xnodeType')
 
     if (savedNodes) {
       setNodes(JSON.parse(savedNodes))
-      setIsWorkspace(true)
-    } else setNodes(!dataM.fromScratch ? initialNodes : initialNodesScratch)
+    } else setNodes(!fromScratch ? initialNodes : initialNodesScratch)
 
     if (savedEdges) {
       setEdges(JSON.parse(savedEdges))
-      setIsWorkspace(true)
-    } else setEdges(!dataM.fromScratch ? initialEdges : initialEdgesScratch)
+    } else setEdges(!fromScratch ? initialEdges : initialEdgesScratch)
 
     if (savedXnodeType === 'validator') {
       setXnodeType('validator')
@@ -686,10 +624,9 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
 
     setIsInitialized(true)
   }, [
-    dataM.fromScratch,
+    fromScratch,
     setEdges,
     setFinalBuild,
-    setIsWorkspace,
     setNodes,
     setSignup,
     setTagXnode,
@@ -760,47 +697,42 @@ const NodesFlow = ({ ...dataM }: ModalProps) => {
           setNodes(updatedNodes)
         }
       }
+      setRemoveNodes([])
     }
-  }, [nodes, removeNodes, setNodes])
+  }, [nodes, removeNodes, setChangeNodes, setNodes, setRemoveNodes])
 
   return (
-    <ReactFlow
-      nodes={nodesAmounts}
-      edges={edgesWithUpdatedTypes}
-      proOptions={{
-        hideAttribution: true,
-      }}
-      onNodesChange={(value) => {
-        console.log('chamado fuii')
-        console.log(nodesAmounts)
-        // validator type of nodes cannot be edited
-        if (xnodeType !== 'validator') {
-          console.log('entrei nao')
-          onNodesChange(value)
-        }
-      }}
-      onEdgesChange={(value) => {
-        // validator type of nodes cannot be edited
-        console.log('chamado fuii')
-        if (xnodeType !== 'validator') {
-          console.log('entrei nao')
-          onEdgesChange(value)
-        }
-      }}
-      onConnect={onConnect}
-      onInit={onInit}
-      fitView
-      attributionPosition="top-right"
-      nodeTypes={nodeTypes}
-    >
-      <div className="absolute right-0 top-[75px] md:top-[90px] lg:top-[105px] xl:top-[120px] 2xl:top-[150px]">
-        <MiniMap style={minimapStyle} zoomable pannable />
-      </div>
-      <div className="absolute left-[25px] top-[80px] md:left-[30px] md:top-[96px] lg:left-[35px] lg:top-[112px] xl:left-[40px] xl:top-[128px] 2xl:left-[50px] 2xl:top-[160px]">
-        <Controls />
-      </div>
-      <Background color="#aaa" gap={16} />
-    </ReactFlow>
+    <div className="relative h-full flex-1">
+      <ReactFlow
+        nodes={nodesAmounts}
+        edges={edgesWithUpdatedTypes}
+        proOptions={{
+          hideAttribution: true,
+        }}
+        onNodesChange={(value) => {
+          // validator type of nodes cannot be edited
+          if (xnodeType !== 'validator') {
+            onNodesChange(value)
+          }
+        }}
+        onEdgesChange={(value) => {
+          // validator type of nodes cannot be edited
+          if (xnodeType !== 'validator') {
+            onEdgesChange(value)
+          }
+        }}
+        onConnect={onConnect}
+        onInit={onInit}
+        fitView
+        attributionPosition="top-right"
+        nodeTypes={nodeTypes}
+      >
+        <MiniMap position="top-left" />
+
+        <Controls position="top-right" />
+        <Background color="#aaa" gap={16} />
+      </ReactFlow>
+    </div>
   )
 }
 

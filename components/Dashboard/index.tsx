@@ -2,7 +2,7 @@
 
 /* eslint-disable no-unused-vars */
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { getXueNfts } from "utils/nft";
+// import { getXueNfts } from "utils/nft";
 import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -21,15 +21,15 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import { useAccount } from 'wagmi'
 
 import { Xnode } from '../../types/node'
-import { useAccount } from 'wagmi';
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isViewingMore, setIsViewingMore] = useState<any>('')
   const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
-  const [xueNfts, setXueNfts] = useState<BigInt[]>(undefined);
+  const [xueNfts, setXueNfts] = useState<BigInt[]>(undefined)
 
   const cookies = parseCookies()
   const userHasAnyCookie = cookies.userSessionToken
@@ -56,7 +56,7 @@ const Dashboard = () => {
   }
 
   const [chartData, setChartData] = useState(generateFakeData())
-  const account = useAccount();
+  const account = useAccount()
 
   const {
     // selectionSideNavBar,
@@ -135,10 +135,10 @@ const Dashboard = () => {
       setXueNfts([])
     } else {
       const findXueForAccount = async () => {
-        let nfts = await getXueNfts(account).catch(console.error)
-        if (nfts) {
-          setXueNfts(nfts)
-        }
+        // let nfts = await getXueNfts(account).catch(console.error)
+        // if (nfts) {
+        //   setXueNfts(nfts)
+        // }
       }
 
       findXueForAccount()
@@ -157,8 +157,6 @@ const Dashboard = () => {
   const renderTable = () => {
     return (
       <div className="mx-auto flex text-black">
-
-
         {/* Table of all the unactivated Xnodes */}
         {xueNfts.map((node) => (
           <div className="">

@@ -77,9 +77,6 @@ interface CreateUserContextProps {
   finalBuild: boolean
   setFinalBuild: (value: boolean) => void
 
-  isWorkspace: boolean
-  setIsWorkspace: (value: boolean) => void
-
   signup: boolean
   setSignup: (value: boolean) => void
 
@@ -123,7 +120,6 @@ export default function AccountContextProvider({
   const [projectName, setProjectName] = useState('Project Name')
   const [selectCurrentMenuDataType, setselectCurrentMenuDataType] =
     useState<string>('')
-  const [isWorkspace, setIsWorkspace] = useState<boolean>(false)
   const [isEditingXnode, setIsEditingXnode] = useState<boolean>(false)
   const [finalNodes, setFinalNodes] = useState<any>()
   const [next, setNext] = useState<boolean>(false)
@@ -175,8 +171,6 @@ export default function AccountContextProvider({
         setIndexerDeployerStep,
         finalNodes,
         setFinalNodes,
-        isWorkspace,
-        setIsWorkspace,
         finalBuild,
         setFinalBuild,
         setConnections,

@@ -88,24 +88,10 @@ function Options({ handleId, name, optionsSelection }) {
 }
 
 function DataNodeHistorical({ id, data, handleNodeRemove }) {
-  const [isHelpOpen, setIsHelpOpen] = useState<boolean>(true)
-  const [selectedItemsS, setSelectedItemsS] = useState<any>(data.lists)
-  const { selectionSideNavBar, setChangeNodes, changeNodes, setRemoveNodes } =
-    useContext(AccountContext)
+  const { setRemoveNodes } = useContext(AccountContext)
   const handleClick = () => {
     handleNodeRemove(id)
   }
-
-  useEffect(() => {
-    setSelectedItemsS(data.lists)
-    setChangeNodes({
-      type: 'dataHistorical',
-      name: 'dataOption.title',
-      icon: 'dataOption.icon',
-      categorie: 'option.title',
-      dictionary: categoriesOptions,
-    })
-  }, [data.lists, setChangeNodes])
 
   /* This is for rendering pourposes, use data.lists for real data as it shows the correct amount of items but uncategorized. You can see some duplicated items in multiple categories because of the current mockupdata,
    it will be different as we add real data.
@@ -113,8 +99,7 @@ function DataNodeHistorical({ id, data, handleNodeRemove }) {
   function renderCategorizedItems() {
     const selectedItems = data.lists
 
-    const categoriesDictionary = changeNodes?.dictionary
-    const listOfCategorizedItems = categoriesDictionary?.map((category) => {
+    const listOfCategorizedItems = categoriesOptions?.map((category) => {
       const selectedCategoryItems =
         selectedItems?.filter((item) =>
           category?.dataOptions?.some((option) => option.title === item.title)

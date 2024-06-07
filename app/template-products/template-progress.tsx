@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Check, X } from 'phosphor-react'
 
-import { cn } from '@/lib/utils'
+import { cn, formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   Table,
@@ -153,7 +153,9 @@ export default function TemplateProgress() {
                         <TableCell className="text-muted-foreground">
                           {templateSelected.productName}
                         </TableCell>
-                        <TableCell>${templateSelected.priceMonth}</TableCell>
+                        <TableCell>
+                          {formatPrice(templateSelected.priceMonth)}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -162,11 +164,11 @@ export default function TemplateProgress() {
                     <p>Total</p>
                     <div className="flex flex-col items-end">
                       <p className="text-3xl font-bold text-primary">
-                        ${templateSelected.priceMonth}
+                        {formatPrice(templateSelected.priceMonth)}
                         <span className="text-base font-semibold">/mo</span>
                       </p>
                       <p className="text-xs">
-                        or about ${templateSelected.priceHour}/h
+                        or about {formatPrice(templateSelected.priceHour)}/h
                       </p>
                     </div>
                   </div>

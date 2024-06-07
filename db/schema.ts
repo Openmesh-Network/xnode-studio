@@ -20,6 +20,7 @@ export const Providers = sqliteTable('providers', {
   network: integer('network'),
   priceHour: real('priceHour'),
   priceMonth: real('priceMonth'),
+  priceSale: real('priceSale'),
   availability: text('availability'),
   source: text('source'),
   unit: text('unit'),
