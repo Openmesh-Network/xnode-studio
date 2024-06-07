@@ -140,11 +140,14 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="RPC"
             icon={Icons.RPCIcon}
-            disabled
             links={[
               {
                 label: 'RPC',
                 href: '/rpc',
+              },
+              {
+                label: 'RPC Data & APIs',
+                href: '/rpc/data',
               },
             ]}
           />

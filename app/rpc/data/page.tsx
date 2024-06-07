@@ -1,19 +1,17 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { cn, formatPrice } from '@/lib/utils'
 
-import { MARKETPLACE_DATA } from './dummy'
+import { RPC_DATA } from './dummy'
 
-export default function DataMarketplace() {
+export default function DataRPC() {
   return (
     <section className="space-y-4 p-12">
       <h1 className="text-2xl font-semibold">Data</h1>
       <div className="grid grid-cols-2 gap-4">
-        {MARKETPLACE_DATA.map((data) => (
-          <Link
+        {RPC_DATA.map((data) => (
+          <div
             key={data.id}
-            href={`/data/marketplace/${data.id}`}
             className="flex items-start gap-6 rounded-lg border bg-white p-6 shadow-md"
           >
             <div className="flex flex-col items-center gap-1">
@@ -46,7 +44,7 @@ export default function DataMarketplace() {
               </div>
               <p className="text-sm text-muted-foreground">{data.summary}</p>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </section>
