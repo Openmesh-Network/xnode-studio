@@ -190,6 +190,9 @@ const Claim = ({chainId} : {chainId: number}) => {
       if (res) {
         setCookie(null, 'userSessionToken', res.sessionToken)
         nookies.set(null, 'userSessionToken', res.sessionToken)
+
+        console.log(user)
+        console.log(res)
         setUser(res)
         console.log('Success!')
       }
@@ -267,7 +270,7 @@ const Claim = ({chainId} : {chainId: number}) => {
 
 
           {
-            user?.sessionToken === undefined ? (
+            user != undefined && user?.sessionToken == "" ? (
               <button
                 className="cursor-pointer items-center rounded-[5px] border border-[#0059FF] bg-[#0059FF] py-[8px] px-[25px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
                 disabled={ false /* invalidCode !== undefined || walletClient === undefined || account.address !== undefined */ }

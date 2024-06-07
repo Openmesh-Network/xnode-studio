@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { optionsFeature } from '@/utils/constants'
 
-import { DeploymentConfiguration } from '@/types/dataProvider'
+import { DeploymentConfiguration, ServiceFromName } from '@/types/dataProvider'
 
 export function findServerDefaultType(array) {
   const serverObject = array.find((item) => item.type === 'server')
@@ -158,20 +158,22 @@ const ReviewYourBuild = () => {
   )
 
   useEffect(() => {
-    // let draft = localStorage.getItem('draft')
+    let draft = localStorage.getItem('draft')
 
-    // {
-    //   // XXX: This is just here for testing purposes.
-    //   let config: DeploymentConfiguration = {
-    //     name: "My Minecraft Server",
-    //     desc: "This is my favourite videogame, so I'm running it on my Xnode!",
-    //     location: "ny",
-    //     provider: "Unit",
-    //     isUnit: true,
-    //     services: [ ServiceFromName("Minecraft") ]
-    //   }
-    //   draft = JSON.stringify(config)
-    // }
+    {
+      // XXX: This is just here for testing purposes.
+      let config: DeploymentConfiguration = {
+        name: "My Minecraft Server",
+        desc: "This is my favourite videogame, so I'm running it on my Xnode!",
+        location: "ny",
+        provider: "Unit",
+        isUnit: true,
+        services: [ ServiceFromName("Minecraft") ]
+      }
+
+      // draft = JSON.stringify(config)
+      createXnode(config)
+    }
 
     // XXX: This runs twice for some reason!!
     //  - Some nextjs config that runs all effects twice.
@@ -181,7 +183,7 @@ const ReviewYourBuild = () => {
     console.log(draft)
     if (draft && !sentRequest) {
       console.log('Draft exists! Creating Xnode.', sentRequest)
-      createXnode(draft)
+      // createXnode(draft)
     }
   }, [createXnode, draft, sentRequest])
 
@@ -192,7 +194,8 @@ const ReviewYourBuild = () => {
         className={`mx-auto w-full px-[30px] pb-[200px] pt-[25px] md:px-[36px] md:pt-[30px] lg:px-[42px] lg:pt-[35px] xl:px-[48px] xl:pt-[40px] 2xl:px-[60px] 2xl:pt-[50px]`}
       >
         {' '}
-        <div className="mx-auto size-[200px] animate-spin rounded-full border-b-2 border-[#0354EC]"></div>
+        {/* <div className="mx-auto size-[200px] animate-spin rounded-full border-b-2 border-[#0354EC]"></div> */}
+        <p onClick={ () => createXnode(draft) }>DEPLOY</p>
       </section>
     )
   }
