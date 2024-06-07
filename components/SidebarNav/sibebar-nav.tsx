@@ -93,11 +93,14 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="Data"
             icon={Icons.DataIcon}
-            disabled
             links={[
               {
-                label: 'Data',
+                label: 'Overview',
                 href: '/data',
+              },
+              {
+                label: 'Data Marketplace',
+                href: '/data/marketplace',
               },
             ]}
           />
