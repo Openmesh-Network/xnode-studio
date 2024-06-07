@@ -8,12 +8,16 @@ import ResourcesTable from './resources-table'
 type StatsItemProps = {
   title: string
   value: string | number
+  unit?: string
 }
-function StatsItem({ title, value }: StatsItemProps) {
+function StatsItem({ title, value, unit }: StatsItemProps) {
   return (
     <div className="flex flex-col gap-1 text-center">
       <h1 className="text-xl font-medium text-darkGray">{title}</h1>
-      <p className="text-4xl font-bold text-primary">{value}</p>
+      <p className="font-bold text-primary">
+        <span className="text-4xl">{value}</span>
+        <span className="text-xl">{unit}</span>
+      </p>
     </div>
   )
 }
@@ -40,7 +44,7 @@ export default async function ResourcesPage() {
     .limit(1)
 
   return (
-    <div className="container mt-24 max-w-screen-2xl">
+    <div className="container mt-24 p-2">
       <section className="flex flex-col justify-center gap-4 text-center">
         <h1 className="text-6xl font-semibold text-black">
           Full resource list
@@ -56,24 +60,26 @@ export default async function ResourcesPage() {
         <StatsItem title="Regions" value={stats.regions} />
         <StatsItem
           title="Storage"
-          value={`${Math.round(stats.storage / 1024 / 1024)}PB`}
+          value={Math.round(stats.storage / 1024 / 1024)}
+          unit="PB"
         />
-        <StatsItem title="GUPs" value={`${gpus.count * 312}GF`} />
-        <StatsItem title="RAM" value={`${Math.round(stats.ram / 1024)}TB`} />
+        <StatsItem title="GPUs" value={gpus.count * 312} unit="GF" />
+        <StatsItem title="RAM" value={Math.round(stats.ram / 1024)} unit="TB" />
         <StatsItem
           title="Bandwidth"
-          value={`${Math.round(stats.bandwidth / 1024)}PB`}
+          value={Math.round(stats.bandwidth / 1024)}
+          unit="PB"
         />
       </section>
       <section className="mt-12">
         <ResourcesTable />
       </section>
-      <section className="mt-24">
+      <section className="mx-auto my-12 max-w-6xl">
         <Image
           src={'/images/resources/world-map.svg'}
           alt="World map"
-          width={1600}
-          height={400}
+          width={1920}
+          height={1080}
           className="w-full object-contain"
         />
       </section>

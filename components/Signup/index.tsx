@@ -2,7 +2,8 @@ import { useContext, useEffect } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import nookies, { parseCookies, setCookie } from 'nookies'
 import { toast } from 'react-toastify'
-import { getWeb3Login } from 'utils/auth'
+
+// import { getWeb3Login } from 'utils/auth'
 
 import LogIn from './LogIn'
 
@@ -10,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import axios from 'axios'
 import { useAccount } from 'wagmi'
-
 
 import { Separator } from '../ui/separator'
 import EquinixConnection from './EquinixConnecton'
@@ -65,14 +65,13 @@ const Signup = () => {
   const tryLogin = async () => {
     console.log('Login initiated!')
     try {
-      const res = await getWeb3Login(address)
-      if (res) {
-        setCookie(null, 'userSessionToken', res.sessionToken)
-        nookies.set(null, 'userSessionToken', res.sessionToken)
-        setUser(res)
-      }
-    }
-    catch (err) {
+      // const res = await getWeb3Login(address)
+      // if (res) {
+      //   setCookie(null, 'userSessionToken', res.sessionToken)
+      //   nookies.set(null, 'userSessionToken', res.sessionToken)
+      //   setUser(res)
+      // }
+    } catch (err) {
       console.log('Error loging in with Web3', err)
       toast.error(err)
       return
@@ -96,8 +95,13 @@ const Signup = () => {
             on the L3A platform.
           </p>
           <w3m-button />
-          <button className="cursor-pointer items-center rounded-[5px] border border-[#0059FF] bg-[#0059FF] py-[8px] px-[25px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
-            onClick={()=>tryLogin()}> Actually attempt login. </button>
+          <button
+            className="cursor-pointer items-center rounded-[5px] border border-[#0059FF] bg-[#0059FF] px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
+            onClick={() => tryLogin()}
+          >
+            {' '}
+            Actually attempt login.{' '}
+          </button>
         </div>
         <Separator className="my-4" />
         <div>

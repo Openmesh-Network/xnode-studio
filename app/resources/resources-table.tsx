@@ -14,7 +14,6 @@ import {
 import type { Column, Row, Table as TableType } from '@tanstack/react-table'
 import { useDebounce } from '@uidotdev/usehooks'
 import {
-  ArrowUpDown,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -25,8 +24,17 @@ import {
   Search,
 } from 'lucide-react'
 
+import { formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -85,7 +93,8 @@ const columns: ColumnDef<Provider>[] = [
     header: ({ column }) => {
       return <SortableHeaderButton column={column} label="Price" />
     },
-    cell: ({ cell }) => (cell.getValue() ? `${cell.getValue()}/h` : '-'),
+    cell: ({ cell }) =>
+      cell.getValue() ? `${formatPrice(cell.getValue() as number)}/h` : '-',
   },
 ]
 
@@ -124,13 +133,15 @@ type ResourcesDataProps = {
 export default function ResourcesTable() {
   const [page, setPage] = useState(0)
   const [sorting, setSorting] = useState<SortingState>([])
+  const [pageSize, setPageSize] = useState(20)
   const [searchInput, setSearchInput] = useState<string>()
   const debouncedSearchInput = useDebounce(searchInput, 500)
   const { data, isLoading } = useQuery({
-    queryKey: ['resources', page, debouncedSearchInput, sorting],
+    queryKey: ['resources', page, debouncedSearchInput, sorting, pageSize],
     queryFn: async () => {
       const params = new URLSearchParams()
       params.append('page', String(page))
+      params.append('limit', String(pageSize))
       if (debouncedSearchInput) {
         params.append('q', debouncedSearchInput)
       }
@@ -177,7 +188,7 @@ export default function ResourcesTable() {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="px-4">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -191,14 +202,15 @@ export default function ResourcesTable() {
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  Loading...
-                </TableCell>
-              </TableRow>
+              <>
+                {Array.from({ length: pageSize }).map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell colSpan={columns.length} className="text-center">
+                      <Skeleton className="h-8 w-full" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </>
             ) : (
               <>
                 {table.getRowModel().rows.length ? (
@@ -206,9 +218,10 @@ export default function ResourcesTable() {
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && 'selected'}
+                      className="h-12 border-none odd:bg-muted/30"
                     >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
+                        <TableCell className="pl-4" key={cell.id}>
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
@@ -236,6 +249,8 @@ export default function ResourcesTable() {
         table={table}
         page={page}
         setPage={setPage}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
         totalPages={data?.totalPages}
       />
     </div>
@@ -275,14 +290,38 @@ function DataTablePagination<TData>({
   table,
   page,
   setPage,
+  pageSize,
+  setPageSize,
   totalPages,
 }: DataTablePaginationProps<TData> & {
   page: number
   setPage: Dispatch<SetStateAction<number>>
+  pageSize: number
+  setPageSize: Dispatch<SetStateAction<number>>
   totalPages: number
 }) {
   return (
-    <div className="flex items-center justify-end">
+    <div className="flex items-center justify-between">
+      <div className="flex items-center space-x-2">
+        <p className="text-sm font-medium">Rows per page</p>
+        <Select
+          value={`${pageSize}`}
+          onValueChange={(value) => {
+            setPageSize(Number(value))
+          }}
+        >
+          <SelectTrigger className="h-8 w-[70px]">
+            <SelectValue placeholder={table.getState().pagination.pageSize} />
+          </SelectTrigger>
+          <SelectContent side="bottom">
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <SelectItem key={pageSize} value={`${pageSize}`}>
+                {pageSize}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
           Page {page + 1} of {totalPages}
@@ -290,7 +329,7 @@ function DataTablePagination<TData>({
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            className="hidden size-8 p-0 lg:flex"
+            className="size-8 p-0 lg:flex"
             onClick={() => setPage(0)}
             disabled={page === 0}
           >
@@ -317,7 +356,7 @@ function DataTablePagination<TData>({
           </Button>
           <Button
             variant="outline"
-            className="hidden size-8 p-0 lg:flex"
+            className="size-8 p-0 lg:flex"
             onClick={() => setPage(totalPages - 1)}
             disabled={page === totalPages - 1}
           >

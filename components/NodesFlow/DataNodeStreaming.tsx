@@ -88,33 +88,10 @@ function Options({ handleId, name, optionsSelection }) {
 }
 
 function DataNodeStreaming({ id, data, handleNodeRemove }) {
-  console.log('data', data)
-
-  const [isHelpOpen, setIsHelpOpen] = useState<boolean>(true)
-  const [selectedItemsS, setSelectedItemsS] = useState<any>(data.lists)
-  const { selectionSideNavBar, changeNodes, setChangeNodes, setRemoveNodes } =
-    useContext(AccountContext)
+  const { setRemoveNodes } = useContext(AccountContext)
   const handleClick = () => {
     handleNodeRemove(id)
   }
-
-  console.log('changeNodes', changeNodes)
-
-  useEffect(() => {
-    setSelectedItemsS(data.lists)
-    if (data.lists.length > 0 && data.lists[0].icon !== 'dataOption.icon') {
-      console.log('sim data lsit maior q zero')
-      console.log(data.lists)
-      console.log(data.lists[0])
-      // setChangeNodes({
-      //   type: 'dataStreaming',
-      //   name: 'dataOption.title',
-      //   icon: 'dataOption.icon',
-      //   categorie: 'option.title',
-      //   dictionary: categoriesOptions,
-      // })
-    }
-  }, [data.lists, setChangeNodes])
 
   /* This is for rendering pourposes, use data.lists for real data as it shows the correct amount of items but uncategorized. You can see some duplicated items in multiple categories because of the current mockupdata,
    it will be different as we add real data.

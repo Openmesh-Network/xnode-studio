@@ -24,11 +24,13 @@
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-separator": "^1.0.3",
+    "@radix-ui/react-slider": "^1.1.2",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tooltip": "^1.0.7",
     "@react-jvectormap/core": "^1.0.4",
     "@react-jvectormap/world": "^1.1.2",
-    "@shadcn/ui": "^0.0.4",
     "@tanstack/react-query": "^5.40.1",
     "@tanstack/react-table": "^8.17.3",
     "@uidotdev/usehooks": "^2.4.1",
@@ -42,6 +44,7 @@
     "date-fns": "^2.30.0",
     "drizzle-orm": "^0.31.1",
     "encoding": "^0.1.13",
+    "framer-motion": "^11.2.10",
     "i18next": "^23.11.5",
     "lucide-react": "^0.383.0",
     "next": "14.2.3",
@@ -69,7 +72,8 @@
     "uuid": "^9.0.1",
     "viem": "^2.13.5",
     "wagmi": "2.9.8",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.2.1",

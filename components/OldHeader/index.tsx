@@ -43,7 +43,6 @@ const OldHeader = () => {
     finalNodes,
     setReviewYourBuild,
     reviewYourBuild,
-    setIsWorkspace,
     tagXnode,
     projectName,
     setProjectName,
@@ -56,7 +55,6 @@ const OldHeader = () => {
     setXnodeType,
     xnodeType,
     setFinalNodes,
-    setUpdateDataNode,
   } = useContext(AccountContext)
 
   // submenu handler
@@ -219,10 +217,6 @@ const OldHeader = () => {
 
     const savedNodes = localStorage.getItem('nodes')
     const savedEdges = localStorage.getItem('edges')
-    if (savedNodes && savedEdges) {
-      setIsWorkspace(true)
-    }
-
     const savedXnodeType = localStorage.getItem('xnodeType')
 
     setXnodeType(savedXnodeType)
@@ -237,7 +231,6 @@ const OldHeader = () => {
     getUserData,
     setFinalNodes,
     setIsEditingXnode,
-    setIsWorkspace,
     setUser,
     setXnodeType,
     userHasAnyCookie,
