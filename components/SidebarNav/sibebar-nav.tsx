@@ -364,6 +364,8 @@ const NavCollapsable: React.FC<NavCollapsableProps> = ({
 }) => {
   const { collapsed } = useNavContext()
 
+  const pathname = usePathname()
+
   return (
     <AccordionItem
       value={label}
@@ -372,12 +374,12 @@ const NavCollapsable: React.FC<NavCollapsableProps> = ({
       {...props}
     >
       <AccordionHeader>
-        <AccordionTrigger className="flex h-10 w-full items-center justify-between py-2 pl-4 pr-5 text-foreground hover:bg-primary/5 data-[disabled]:pointer-events-none [&[data-state=open]>svg]:rotate-180">
-          <div className="relative flex grow items-center">
+        <AccordionTrigger className="flex h-10 w-full items-center justify-between px-4 py-2 text-foreground hover:bg-primary/5 data-[disabled]:pointer-events-none [&[data-state=open]>svg]:rotate-180">
+          <div className="relative flex grow items-center gap-3">
             <Icon className="z-10 size-5 shrink-0" />
             <span
               className={cn(
-                'duration-plico relative z-10 ml-4 max-w-full truncate text-sm font-medium text-neutral-700 opacity-100 transition-[margin,max-width,opacity] ease-in-out',
+                'duration-plico relative z-10 max-w-full truncate text-sm font-medium text-neutral-700 opacity-100 transition-[margin,max-width,opacity] ease-in-out',
                 collapsed &&
                   'ml-0 max-w-0 opacity-0 group-[.category]:ml-4 group-[.category]:max-w-full group-[.category]:opacity-100'
               )}
@@ -403,15 +405,21 @@ const NavCollapsable: React.FC<NavCollapsableProps> = ({
         )}
       >
         {links &&
-          links.map((link, i) => (
-            <Link
-              key={i}
-              href={link.href}
-              className="flex items-center py-1.5 pl-16 font-semibold text-foreground/70 hover:bg-primary/5"
-            >
-              {link.label}
-            </Link>
-          ))}
+          links.map((link, i) => {
+            let isActive = pathname === link.href
+            return (
+              <Link
+                key={i}
+                href={link.href}
+                className={cn(
+                  'flex items-center py-1.5 pl-12 font-semibold text-foreground/70 hover:bg-primary/5',
+                  isActive && 'text-primary'
+                )}
+              >
+                {link.label}
+              </Link>
+            )
+          })}
       </AccordionContent>
     </AccordionItem>
   )
@@ -668,7 +676,7 @@ const NavLink: React.FC<NavLinkProps> = ({
             className="flex h-10 items-center px-4 py-2 text-foreground hover:bg-primary/5 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed"
             aria-disabled={tag === 'Soon'}
           >
-            <div className="relative flex items-center">
+            <div className="relative flex items-center gap-3">
               <div className="relative">
                 {tag && collapsed && (
                   <motion.div
@@ -687,7 +695,7 @@ const NavLink: React.FC<NavLinkProps> = ({
               </div>
               <span
                 className={cn(
-                  'duration-plico relative z-10 ml-4 max-w-full truncate text-sm font-medium text-neutral-700 opacity-100 transition-[margin,max-width,opacity] ease-in-out',
+                  'duration-plico relative z-10 max-w-full truncate text-sm font-medium text-neutral-700 opacity-100 transition-[margin,max-width,opacity] ease-in-out',
                   collapsed &&
                     'ml-0 max-w-0 opacity-0 group-[.category]:ml-4 group-[.category]:max-w-full group-[.category]:opacity-100'
                 )}
