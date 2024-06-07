@@ -374,7 +374,7 @@ const NavCollapsable: React.FC<NavCollapsableProps> = ({
       {...props}
     >
       <AccordionHeader>
-        <AccordionTrigger className="flex h-10 w-full items-center justify-between px-4 py-2 text-foreground hover:bg-primary/5 data-[disabled]:pointer-events-none [&[data-state=open]>svg]:rotate-180">
+        <AccordionTrigger className="flex h-10 w-full items-center justify-between px-4 py-2 text-foreground hover:bg-primary/5 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&[data-state=open]>svg]:rotate-180">
           <div className="relative flex grow items-center gap-3">
             <Icon className="z-10 size-5 shrink-0" />
             <span
