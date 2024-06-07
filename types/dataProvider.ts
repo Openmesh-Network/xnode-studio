@@ -63,6 +63,7 @@ export type TemplatesProducts = {
   network?: string
   priceHour?: string
   priceMonth?: string
+  priceSale?: string
   availability?: string
   source?: string
   unit?: string
