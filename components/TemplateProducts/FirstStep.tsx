@@ -307,90 +307,103 @@ const TemplateProducts = () => {
             <p>No results found</p>
           ) : (
             <ul className="flex max-h-[calc(100svh-5rem)] flex-col gap-8 overflow-y-auto text-black">
-              {providerData.data.map((provider) => {
-                const selected = templateSelected?.id === String(provider.id)
-                let config = ''
-                if (provider.cpuGHZ) config += `${provider.cpuGHZ}GHz `
-                if (provider.cpuCores) config += `${provider.cpuCores}-Core `
-                if (provider.cpuThreads) config += `(${provider.cpuThreads})`
-                if (provider.ram) config += `, ${provider.ram}GB RAM`
-                if (provider.storageTotal)
-                  config += `, ${provider.storageTotal} GB`
-                if (provider.network) config += `, ${provider.network} Gbps`
-                return (
-                  <li
-                    key={provider.id}
-                    className="flex items-start gap-12 rounded-lg border border-darkGray/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
-                  >
-                    <div>
-                      {/* <Image
+              {providerData.data
+                .slice(
+                  0,
+                  loadingProgress > -1
+                    ? Math.round(
+                        (providerData.data.length *
+                          Math.max(loadingProgress, 0)) /
+                          TEMP_FETCH_ENDPOINTS
+                      )
+                    : undefined
+                )
+                .map((provider) => {
+                  const selected = templateSelected?.id === String(provider.id)
+                  let config = ''
+                  if (provider.cpuGHZ) config += `${provider.cpuGHZ}GHz `
+                  if (provider.cpuCores) config += `${provider.cpuCores}-Core `
+                  if (provider.cpuThreads) config += `(${provider.cpuThreads})`
+                  if (provider.ram) config += `, ${provider.ram}GB RAM`
+                  if (provider.storageTotal)
+                    config += `, ${provider.storageTotal} GB`
+                  if (provider.network) config += `, ${provider.network} Gbps`
+                  return (
+                    <li
+                      key={provider.id}
+                      className="flex items-start gap-12 rounded-lg border border-darkGray/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
+                    >
+                      <div>
+                        {/* <Image
                       src={`/images/template/${provider.providerName}.png`}
                       alt={provider.providerName}
                       width={50}
                       height={50}
                     /> */}
-                      <p className="font-bold">{provider.providerName}</p>
-                      <p>Bare Metal</p>
-                    </div>
-                    <div className="grow">
-                      <h3 className="text-lg font-semibold">
-                        {provider.productName}
-                      </h3>
-                      <p>{provider.location}</p>
-                      <p className="mt-4">{config}</p>
-                    </div>
-                    <div className="flex flex-col items-center gap-2">
-                      <p>
-                        Est.{' '}
-                        {provider.priceSale !== null ? (
-                          <span className="font-semibold">
-                            {formatPrice(provider.priceSale)}{' '}
+                        <p className="font-bold">{provider.providerName}</p>
+                        <p>Bare Metal</p>
+                      </div>
+                      <div className="grow">
+                        <h3 className="text-lg font-semibold">
+                          {provider.productName}
+                        </h3>
+                        <p>{provider.location}</p>
+                        <p className="mt-4">{config}</p>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <p>
+                          Est.{' '}
+                          {provider.priceSale !== null ? (
+                            <span className="font-semibold">
+                              {formatPrice(provider.priceSale)}{' '}
+                            </span>
+                          ) : null}
+                          <span
+                            className={cn(
+                              provider.priceSale ? 'line-through' : ''
+                            )}
+                          >
+                            {formatPrice(provider.priceMonth)}
                           </span>
-                        ) : null}
-                        <span
-                          className={cn(
-                            provider.priceSale ? 'line-through' : ''
-                          )}
-                        >
-                          {formatPrice(provider.priceMonth)}
-                        </span>
-                        /mo
-                      </p>
-                      <Button
-                        variant={selected ? 'default' : 'outlinePrimary'}
-                        size="lg"
-                        className="min-w-56"
-                        onClick={() => {
-                          if (selected) {
-                            setTemplateSelected(null)
-                          } else {
-                            setTemplateSelected({
-                              id: String(provider.id),
-                              providerName: provider.providerName,
-                              productName: provider.productName,
-                              location: provider.location,
-                              cpuCores: String(provider.cpuCores),
-                              ram: String(provider.ram),
-                              priceMonth: String(provider.priceMonth),
-                              priceHour: String(provider.priceHour),
-                            })
-                          }
-                        }}
-                      >
-                        {selected ? 'Selected' : 'Select'}
-                      </Button>
-                      {provider.priceSale !== null ? (
-                        <p className="font-semibold text-primary">
-                          {formatPrice(
-                            provider.priceMonth - provider.priceSale
-                          )}{' '}
-                          Cashback
+                          /mo
                         </p>
-                      ) : null}
-                    </div>
-                  </li>
-                )
-              })}
+                        <Button
+                          variant={selected ? 'default' : 'outlinePrimary'}
+                          size="lg"
+                          className="min-w-56"
+                          onClick={() => {
+                            if (selected) {
+                              setTemplateSelected(null)
+                            } else {
+                              setTemplateSelected({
+                                id: String(provider.id),
+                                providerName: provider.providerName,
+                                productName: provider.productName,
+                                location: provider.location,
+                                cpuCores: String(provider.cpuCores),
+                                ram: String(provider.ram),
+                                priceMonth: String(
+                                  provider.priceSale ?? provider.priceMonth
+                                ),
+                                priceHour: String(provider.priceHour),
+                              })
+                            }
+                          }}
+                        >
+                          {selected ? 'Selected' : 'Select'}
+                        </Button>
+                        {provider.priceSale !== null ? (
+                          <p className="font-semibold text-primary">
+                            {formatPrice(
+                              provider.priceMonth - provider.priceSale
+                            )}{' '}
+                            Cashback
+                          </p>
+                        ) : null}
+                      </div>
+                    </li>
+                  )
+                })}
             </ul>
           )
         ) : null}

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useContext, useEffect, useState } from 'react'
+import { Herr_Von_Muellerhoff } from 'next/font/google'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -53,7 +54,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavLink
             href="/deployments"
             icon={Icons.DeploymentsIcon}
-            label="deployments"
+            label="Deployments"
             isMobile={isMobile}
             tag="Soon"
           />
@@ -199,28 +200,25 @@ const SidebarNav: React.FC<SidebarNav> = ({
         </NavCategory>
         <NavCategory label="Pages">
           <NavLink
-            href="/profile"
-            icon={Icons.ProfileIcon}
-            label="Profile"
-            isMobile={isMobile}
-          />
-          <NavLink
             href="/staking"
             icon={Icons.StakingIcon}
             label="Staking & Reward Claiming"
             isMobile={isMobile}
+            tag="Soon"
           />
           <NavLink
             href="/settings"
             icon={Icons.SettingsIcon}
-            label="settings"
+            label="Settings"
             isMobile={isMobile}
+            tag="Soon"
           />
           <NavLink
             href="/faq"
             icon={Icons.FAQIcon}
             label="FAQs"
             isMobile={isMobile}
+            tag="Soon"
           />
         </NavCategory>
         <NavCategory label="Support">
@@ -231,13 +229,13 @@ const SidebarNav: React.FC<SidebarNav> = ({
             isMobile={isMobile}
           />
           <NavLink
-            href="/community"
+            href="https://discord.com/invite/openmesh"
             icon={Icons.CommunityIcon}
             label="Commmunity"
             isMobile={isMobile}
           />
           <NavLink
-            href="/circle"
+            href="https://circle.openmesh.network/"
             icon={Icons.CircleIcon}
             label="Circle"
             isMobile={isMobile}
@@ -662,6 +660,7 @@ const NavLink: React.FC<NavLinkProps> = ({
         <TooltipTrigger asChild>
           <Link
             href={href}
+            target={href.startsWith('https://') ? '_blank' : undefined}
             className="flex h-10 items-center px-4 py-2 text-foreground hover:bg-primary/5 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed"
             aria-disabled={tag === 'Soon'}
           >
