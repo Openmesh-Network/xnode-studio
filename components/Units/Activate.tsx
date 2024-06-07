@@ -28,7 +28,7 @@ const Activate = ({ chainId }: { chainId: number }) => {
     }
 
     findXueForAccount()
-  }, [account?.address])
+  }, [account?.address, nfts])
 
   useEffect(() => {
     // This can be replaced with a dropdown, but will look more intimidating to the user and most will only own a single NFT.
@@ -98,7 +98,7 @@ const Activate = ({ chainId }: { chainId: number }) => {
       <div className="space-y-5">
         <w3m-button />
         <button
-          className="cursor-pointer items-center rounded-[5px] border border-[#000] bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
+          className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
           disabled={selectedNft === undefined}
           onClick={() => activeNFT().catch(console.error)}
         >

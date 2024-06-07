@@ -2,8 +2,7 @@ import { useContext, useEffect } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import nookies, { parseCookies, setCookie } from 'nookies'
 import { toast } from 'react-toastify'
-
-// import { getWeb3Login } from 'utils/auth'
+import { getWeb3Login } from 'utils/auth'
 
 import LogIn from './LogIn'
 
@@ -65,12 +64,12 @@ const Signup = () => {
   const tryLogin = async () => {
     console.log('Login initiated!')
     try {
-      // const res = await getWeb3Login(address)
-      // if (res) {
-      //   setCookie(null, 'userSessionToken', res.sessionToken)
-      //   nookies.set(null, 'userSessionToken', res.sessionToken)
-      //   setUser(res)
-      // }
+      const res = await getWeb3Login(address)
+      if (res) {
+        setCookie(null, 'userSessionToken', res.sessionToken)
+        nookies.set(null, 'userSessionToken', res.sessionToken)
+        setUser(res)
+      }
     } catch (err) {
       console.log('Error loging in with Web3', err)
       toast.error(err)
@@ -96,7 +95,7 @@ const Signup = () => {
           </p>
           <w3m-button />
           <button
-            className="cursor-pointer items-center rounded-[5px] border border-[#0059FF] bg-[#0059FF] px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
+            className="cursor-pointer items-center rounded-[5px] border border-blue-500 bg-blue-500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-white hover:bg-[#064DD2] lg:text-[16px]"
             onClick={() => tryLogin()}
           >
             {' '}
