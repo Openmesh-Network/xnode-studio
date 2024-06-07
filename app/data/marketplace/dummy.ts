@@ -126,3 +126,11 @@ export const MARKETPLACE_DATA = [
     useCases: ['DEXs', 'CEXs'],
   },
 ]
+
+export const DATA_PRODUCT_DATA = [
+  {
+    status: 'live',
+    endpoint: 'wss://ws.tech.l3a.xyz',
+    linkedIds: [1, 2, 3, 4, 5, 6],
+  },
+]
