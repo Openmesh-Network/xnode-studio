@@ -85,20 +85,17 @@ const Claim = ({chainId} : {chainId: number}) => {
   }, [code]);
 
   const redeemCode = async () => {
-
-    setConfirmOpen(true)
-    setSuccessOpen(true)
-
     // XXX: THIS IS A STUB TO TEST UI, REMOVE BEFORE PROD
-    if (1 + 3 == 4) {
-      return;
-    }
+    // if (1 + 3 == 4) {
+    //   return;
+    // }
 
     if (!walletClient) {
       alert("WalletClient undefined.");
       return;
     }
 
+    console.log("sending request to xue-signer")
     const response = await axios
       .post("/xue-signer/getSig", {
         code: code,
@@ -116,12 +113,14 @@ const Claim = ({chainId} : {chainId: number}) => {
         return err.response.data;
       });
 
+    console.log("got response")
     if (typeof response === "string") {
       // An error has occurred, likely an invalid code
       alert(response);
       return;
     }
 
+    console.log("making transaction request")
     const transactionRequest = await publicClient
       .simulateContract({
         account: walletClient.account,
@@ -147,14 +146,17 @@ const Claim = ({chainId} : {chainId: number}) => {
           if (revertError instanceof ContractFunctionRevertedError) {
             errorName += ` -> ${revertError.data?.errorName}` ?? "";
           }
+          console.log("simulation error")
           return errorName;
         }
+        console.log("simulation failed")
         return "Simulation failed.";
       });
     if (typeof transactionRequest === "string") {
       alert(transactionRequest);
       return;
     }
+    console.log('Getting transaction hash')
     const transactionHash = await walletClient
       .writeContract(transactionRequest.request)
       .catch((err) => {
@@ -166,10 +168,13 @@ const Claim = ({chainId} : {chainId: number}) => {
       return;
     }
 
+    console.log('Getting receipt')
+
     const receipt = await publicClient.waitForTransactionReceipt({
       hash: transactionHash,
     });
 
+    console.log('Got receipt')
     alert(`Success: ${receipt.transactionHash}`);
 
 
@@ -178,6 +183,7 @@ const Claim = ({chainId} : {chainId: number}) => {
     // TODO: Trigger success animation.
     // TODO: Popup that explains next step.
     // TODO: Redirect to deployment page.
+    setSuccessOpen(true)
     
   };
 

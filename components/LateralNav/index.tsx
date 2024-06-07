@@ -24,7 +24,6 @@ import {
   TradingIcon,
   WorkspaceIcon,
 } from '../Icons'
-import { ProfileIcon } from '../Icons/ProfileIcon'
 import { LateralNavListCollapsableItem } from './CollapsableListItem'
 import { LateralNavListItem } from './ListItem'
 

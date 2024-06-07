@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import axios from 'axios'
-// import { getXueNfts } from "utils/nft";
+import { getXueNfts } from "utils/nft";
 import { BaseError, ContractFunctionRevertedError } from 'viem'
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
 
@@ -21,7 +21,7 @@ const Activate = ({ chainId }: { chainId: number }) => {
     }
 
     const findXueForAccount = async () => {
-      // let nfts = await getXueNfts(account).catch(console.error)
+      let nfts = await getXueNfts(account).catch(console.error)
       if (nfts) {
         setNfts(nfts)
       }

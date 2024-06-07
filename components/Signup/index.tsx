@@ -3,7 +3,7 @@ import { AccountContext } from '@/contexts/AccountContext'
 import nookies, { parseCookies, setCookie } from 'nookies'
 import { toast } from 'react-toastify'
 
-// import { getWeb3Login } from 'utils/auth'
+import { getWeb3Login } from 'utils/auth'
 
 import LogIn from './LogIn'
 
@@ -65,12 +65,12 @@ const Signup = () => {
   const tryLogin = async () => {
     console.log('Login initiated!')
     try {
-      // const res = await getWeb3Login(address)
-      // if (res) {
-      //   setCookie(null, 'userSessionToken', res.sessionToken)
-      //   nookies.set(null, 'userSessionToken', res.sessionToken)
-      //   setUser(res)
-      // }
+      const res = await getWeb3Login(address)
+      if (res) {
+        setCookie(null, 'userSessionToken', res.sessionToken)
+        nookies.set(null, 'userSessionToken', res.sessionToken)
+        setUser(res)
+      }
     } catch (err) {
       console.log('Error loging in with Web3', err)
       toast.error(err)
