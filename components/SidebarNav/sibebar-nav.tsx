@@ -93,7 +93,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="Data"
             icon={Icons.DataIcon}
-            disabled={true}
+            disabled
             links={[
               {
                 label: 'Data',
@@ -104,7 +104,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="Compute"
             icon={Icons.ComputeIcon}
-            disabled={true}
+            disabled
             links={[
               {
                 label: 'Compute',
@@ -115,7 +115,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="Storage"
             icon={Icons.StorageIcon}
-            disabled={true}
+            disabled
             links={[
               {
                 label: 'Storage',
@@ -126,7 +126,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="Analytics"
             icon={Icons.AnalyticsIcon}
-            disabled={true}
+            disabled
             links={[
               {
                 label: 'Analytics',
@@ -137,7 +137,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="RPC"
             icon={Icons.RPCIcon}
-            disabled={true}
+            disabled
             links={[
               {
                 label: 'RPC',
@@ -148,7 +148,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="APIs"
             icon={Icons.APIIcon}
-            disabled={true}
+            disabled
             links={[
               {
                 label: 'APIs',
@@ -202,7 +202,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavLink
             href="/staking"
             icon={Icons.StakingIcon}
-            label="Staking & Reward Claiming"
+            label="Rewards"
             isMobile={isMobile}
             tag="Soon"
           />
@@ -361,32 +361,30 @@ const NavCollapsable: React.FC<NavCollapsableProps> = ({
   return (
     <AccordionItem
       value={label}
-      className={cn('relative cursor-pointer', className)}
-      disabled={true}
+      className={cn('relative', className)}
+      disabled={disabled}
       {...props}
     >
       <AccordionHeader>
-        <AccordionTrigger asChild>
-          <div className="flex h-10 w-full items-center justify-between py-2 pl-4 pr-5 text-foreground hover:bg-primary/5 [&[data-state=open]>.chevron]:rotate-180">
-            <div className="relative flex grow items-center">
-              <Icon className="z-10 size-5 shrink-0" />
-              <span
-                className={cn(
-                  'duration-plico relative z-10 ml-4 max-w-full truncate text-sm font-medium text-neutral-700 opacity-100 transition-[margin,max-width,opacity] ease-in-out',
-                  collapsed &&
-                    'ml-0 max-w-0 opacity-0 group-[.category]:ml-4 group-[.category]:max-w-full group-[.category]:opacity-100'
-                )}
-              >
-                {label}
-              </span>
-            </div>
-            <ChevronDown
+        <AccordionTrigger className="flex h-10 w-full items-center justify-between py-2 pl-4 pr-5 text-foreground hover:bg-primary/5 data-[disabled]:pointer-events-none [&[data-state=open]>svg]:rotate-180">
+          <div className="relative flex grow items-center">
+            <Icon className="z-10 size-5 shrink-0" />
+            <span
               className={cn(
-                'chevron size-5 shrink-0 text-gray-600 transition-[transform,opacity] duration-300',
-                collapsed ? 'opacity-0' : 'opacity-100'
+                'duration-plico relative z-10 ml-4 max-w-full truncate text-sm font-medium text-neutral-700 opacity-100 transition-[margin,max-width,opacity] ease-in-out',
+                collapsed &&
+                  'ml-0 max-w-0 opacity-0 group-[.category]:ml-4 group-[.category]:max-w-full group-[.category]:opacity-100'
               )}
-            />
+            >
+              {label}
+            </span>
           </div>
+          <ChevronDown
+            className={cn(
+              'chevron size-5 shrink-0 text-gray-600 transition-[transform,opacity] duration-300',
+              collapsed ? 'opacity-0' : 'opacity-100'
+            )}
+          />
         </AccordionTrigger>
       </AccordionHeader>
       <AccordionContent

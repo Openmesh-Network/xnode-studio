@@ -154,7 +154,18 @@ export default function TemplateProgress() {
                           {templateSelected.productName}
                         </TableCell>
                         <TableCell>
-                          {formatPrice(templateSelected.priceMonth)}
+                          {templateSelected.priceSale ? (
+                            <span className="font-semibold">
+                              {formatPrice(templateSelected.priceSale)}{' '}
+                            </span>
+                          ) : null}
+                          <span
+                            className={cn(
+                              templateSelected.priceSale && 'line-through'
+                            )}
+                          >
+                            {formatPrice(templateSelected.priceMonth)}
+                          </span>
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -164,7 +175,9 @@ export default function TemplateProgress() {
                     <p>Total</p>
                     <div className="flex flex-col items-end">
                       <p className="text-3xl font-bold text-primary">
-                        {formatPrice(templateSelected.priceMonth)}
+                        {templateSelected.priceSale
+                          ? formatPrice(templateSelected.priceSale)
+                          : formatPrice(templateSelected.priceMonth)}
                         <span className="text-base font-semibold">/mo</span>
                       </p>
                       <p className="text-xs">
