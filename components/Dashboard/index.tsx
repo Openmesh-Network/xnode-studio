@@ -2,7 +2,7 @@
 
 /* eslint-disable no-unused-vars */
 import { useCallback, useContext, useEffect, useState } from 'react'
-// import { getXueNfts } from "utils/nft";
+import { getXueNfts } from "utils/nft";
 import { toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -132,13 +132,18 @@ const Dashboard = () => {
     //  - Ask for login to view actual deployments?
     //  - Keep list of pending deployments available.
     if (!account?.address) {
-      setXueNfts([])
+      // setXueNfts([])
     } else {
       const findXueForAccount = async () => {
-        // let nfts = await getXueNfts(account).catch(console.error)
-        // if (nfts) {
-        //   setXueNfts(nfts)
-        // }
+        let nfts = await getXueNfts(account).catch(console.error)
+        if (nfts) {
+          setXueNfts(nfts)
+          console.log('Got them:')
+          console.log(nfts)
+        } else {
+          console.log('Did not get them')
+          console.log(nfts)
+        }
       }
 
       findXueForAccount()
@@ -149,7 +154,7 @@ const Dashboard = () => {
         `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
     }
-  }, [push, user, account, userHasAnyCookie])
+  }, [user, account, userHasAnyCookie])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
@@ -158,7 +163,7 @@ const Dashboard = () => {
     return (
       <div className="mx-auto flex text-black">
         {/* Table of all the unactivated Xnodes */}
-        {xueNfts.map((node) => (
+        {xueNfts?.map((node) => (
           <div className="">
             <p> Your id is: {node.toString()} </p>
           </div>
