@@ -57,10 +57,10 @@ export default function ComputeOverviewPage() {
         <Header level={2}>Features</Header>
         <div className="grid grid-cols-3 gap-8">
           {COMPUTE_DATA.map((data, index) => (
-            <Card key={index}>
+            <Card key={index} className="bg-white">
               <CardHeader>
-                <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-muted">
-                  <data.icon className="size-7 stroke-[1.5] text-muted-foreground" />
+                <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10">
+                  <data.icon className="size-7 stroke-[1.5] text-primary" />
                 </div>
                 <CardTitle>{data.name}</CardTitle>
                 <CardDescription>{data.description}</CardDescription>
