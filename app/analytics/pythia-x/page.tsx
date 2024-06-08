@@ -104,7 +104,7 @@ function Cards() {
           title={item.title}
           description={item.description}
           Icon={item.icon}
-          className=""
+          className="bg-white"
         />
       ))}
     </div>
