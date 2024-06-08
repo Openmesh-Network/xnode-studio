@@ -257,7 +257,7 @@ const NavLayout: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   return (
     <TooltipProvider>
       <div className={cn('flex', className)}>
-        <SidebarNav className="hidden lg:block z-50" />
+        <SidebarNav className="z-50 hidden lg:block" />
         <main className="mt-16 flex-1">{children}</main>
       </div>
     </TooltipProvider>
