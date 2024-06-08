@@ -133,6 +133,7 @@ const Dashboard = () => {
     //  - Keep list of pending deployments available.
     if (!account?.address) {
       // setXueNfts([])
+      alert('no address ' + account?.address)
     } else {
       const findXueForAccount = async () => {
         let nfts = await getXueNfts(account).catch(console.error)
@@ -153,8 +154,10 @@ const Dashboard = () => {
       push(
         `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       )
+    } else {
+      alert('User has a cookie.')
     }
-  }, [user, account, userHasAnyCookie, push])
+  }, [])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
@@ -164,9 +167,7 @@ const Dashboard = () => {
       <div className="mx-auto flex text-black">
         {/* Table of all the unactivated Xnodes */}
         {xueNfts?.map((node) => (
-          <div className="">
-            <p> Your id is: {node.toString()} </p>
-          </div>
+          <p> Your id is: {node.toString()} </p>
         ))}
 
         <table className="mx-auto w-full">
@@ -240,19 +241,6 @@ const Dashboard = () => {
     getData()
   }, [getData, user])
 
-  if (xnodesData.length === 0) {
-    return (
-      <div>
-        <div className="mb-[100px] mt-[64px] flex items-center justify-center text-black">
-          <div className="">
-            <SmileySad size={32} className="mx-auto mb-2" />
-            <div>No Xnodes found</div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   if (isLoading) {
     return (
       <section className="w-[700px] bg-white px-[20px] pb-[50px] pt-[46px] text-black md:w-[840px] lg:w-[980px] xl:w-[1120px] 2xl:w-[1400px]">
@@ -273,47 +261,119 @@ const Dashboard = () => {
     )
   }
 
+  if (xnodesData.length === 0) {
+    return (
+      <div>
+        <div className="mb-[100px] mt-[64px] flex items-center justify-center text-black">
+          <div className="">
+            <SmileySad size={32} className="mx-auto mb-2" />
+            <div>No Xnodes found</div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
-      <div className="mx-auto mb-[100px] w-[750px] rounded-[10px] bg-[#F9F9F9] px-[50px] pb-[70px] pt-[30px] shadow-[1px_1px_6px_0px_rgba(124,124,124,0.20)] md:w-[900px] md:px-[60px] md:pb-[90px] md:pt-[36px] lg:w-[1050px] lg:px-[70px] lg:pb-[110px] lg:pt-[42px] xl:w-[1200px] xl:px-[80px] xl:pb-[144px] xl:pt-[48px] 2xl:w-[1500px] 2xl:px-[100px] 2xl:pb-[155px] 2xl:pt-[60px]">
-        <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
-          Your deployments
-        </div>
-        <div className="mt-[22.5px] overflow-x-auto md:mt-[27px] lg:mt-[31.5px] xl:mt-[36px] 2xl:mt-[45px]">
-          {' '}
-          {renderTable()}
-        </div>
-        <div className="mt-[40px] text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
-          Dashboards to display{' '}
-        </div>
-        <div className="mt-[50px] hidden md:flex">
-          <h2 className="mb-[20px] ml-[50px] text-lg font-semibold text-black">
-            Xnode Uptime
-          </h2>
-          <LineChart
-            width={500}
-            height={300}
-            data={chartData}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="uptime"
-              stroke="#0354EC"
-              activeDot={{ r: 8 }}
-            />
-          </LineChart>
-        </div>
+      <div className="m-20 flex-1">
+        <section>
+          <h1 className="text-4xl font-semibold text-black">Dashboard</h1>
+          <div className="my-12"/>
+
+          {
+            xueNfts && (
+              <div>
+                <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
+                  Wallet has {xueNfts.length} { xueNfts.length > 1 ? "Xnodes" : "Xnode" } available for activation.
+                </div>
+
+                <ul className="flex mt-4 max-h-[calc(100svh-5rem)] flex-col items-center gap-8 overflow-y-auto text-black">
+                  {
+                    xueNfts.map((node) => (
+                      <li className="flex w-fit items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
+                        {/* <p> Your id is: {node.toString()} </p> */}
+
+                        {/* <div> */}
+                        {/*   { node.toString() } */}
+                        {/* </div> */}
+
+                        <div>
+                          <ul>
+                            <li> 8 vCPU </li>
+                            <li> 16GB RAM </li>
+                            <li> 320GB SSD </li>
+                            <li> 12 months </li>
+                          </ul>
+                        </div>
+
+                        <div className="h-full w-fit my-auto flex align-middle items-center justify-center">
+                          <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-primary text-primary hover:bg-primary/10 h-10 rounded-md px-4 min-w-56"
+                            onClick={ () => alert('ACTIVATING!!!!')}> 
+                            Activate Now
+                          </button>
+                        </div>
+
+                        <p> <a className="underline text-blue-500" href={
+                          "https://sepolia.etherscan.io/nft/0x36dcd679652e484786d4b94621b36d61c17f5dac/" + node.toString()
+                          }> View on etherscan  </a> </p>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+            )
+          }
+
+          <div className="my-12"/>
+          <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
+            Deployments
+          </div>
+
+          {
+            xueNfts && (
+              <div className="border-1 border-solid/20 border-black">
+                <ul className="flex mt-4 max-h-[calc(100svh-5rem)] flex-col items-center gap-8 text-black">
+                  {
+                    xnodesData?.map((node: Xnode) => (
+                      <li className="flex w-fit items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
+                        {/* <p> Your id is: {node.toString()} </p> */}
+
+                        {/* <div> */}
+                        {/*   { node.toString() } */}
+                        {/* </div> */}
+
+                        <div>
+                          <ul>
+                            <li> { node.name } </li>
+                            <li> { node.description } </li>
+                          </ul>
+                        </div>
+                        <div>
+                          <ul>
+                            <li> 8 vCPU </li>
+                            <li> 16GB RAM </li>
+                            <li> 320GB SSD </li>
+                            <li> 12 months </li>
+                          </ul>
+                        </div>
+
+                        <div className="h-full flex align-center justify-center">
+                          <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-primary text-primary hover:bg-primary/10 h-10 rounded-md px-4 min-w-56"
+                            onClick={ () => alert('ACTIVATING!!!!')}> 
+                            Edit
+                          </button>
+                        </div>
+
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+            )
+          }
+
+        </section>
       </div>
     </>
   )

@@ -9,6 +9,7 @@ const nextConfig = {
   ],
   // assetPrefix: 'https://openmesh-xnode.vercel.app',
   // assetPrefix: 'http://localhost:3334',
+  reactStrictMode: false,
 }
 
 export default nextConfig
