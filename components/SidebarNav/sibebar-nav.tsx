@@ -116,6 +116,10 @@ const SidebarNav: React.FC<SidebarNav> = ({
                 label: 'Overview',
                 href: '/compute',
               },
+              {
+                label: 'Deploy',
+                href: '/compute/deploy',
+              },
             ]}
           />
           <NavCollapsable
