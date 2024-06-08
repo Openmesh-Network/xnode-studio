@@ -2,6 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Search } from 'lucide-react'
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import Header from '@/components/ui/header'
 import { InfoCard } from '@/components/ui/info-card'
@@ -44,15 +50,63 @@ export default function DataDocumentation() {
         <Links />
         <PieChartGraph />
       </Section>
+      <Section fullWidth className="bg-white py-16">
+        <div className="container">
+          <Cards />
+        </div>
+      </Section>
       <Section
-        aria-labelledby="basics-heading"
-        fullWidth
-        className="bg-white pb-12"
-      ></Section>
-      <Section
-        aria-labelledby="core-docs-heading"
-        className="mt-12 space-y-6 pb-12"
-      ></Section>
+        aria-labelledby="faq-heading"
+        className="space-y-6 pb-12 text-center"
+      >
+        <Header level={2} id="faq-heading">
+          Frequently Asked Questions
+        </Header>
+        <Faqs />
+      </Section>
+    </div>
+  )
+}
+
+const cardData = [
+  {
+    title: 'Data Search',
+    description:
+      'Pythia’s search function allows you to query and access vast amounts of on-chain and off-chain data seamlessly.',
+    icon: Icons.MagnifyingGlassAnalyticsIcon,
+  },
+  {
+    title: 'Development',
+    description:
+      'Design and build custom data products directly within your wallet, integrating them as ERC20-like assets.',
+    icon: Icons.DevelopmentIcon,
+  },
+  {
+    title: 'Query Tool',
+    description:
+      'Write and execute SQL queries efficiently, accessing a rich dataset to drive insights and innovation.',
+    icon: Icons.QueryToolIcon,
+  },
+  {
+    title: 'Customization',
+    description:
+      'Tailor your products with extensive customization and visual features to meet your needs.',
+    icon: Icons.CustomizationIcon,
+  },
+]
+
+function Cards() {
+  return (
+    <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-4">
+      {cardData.map((item, index) => (
+        <InfoCard
+          key={index}
+          title={item.title}
+          description={item.description}
+          Icon={item.icon}
+          className=""
+        />
+      ))}
     </div>
   )
 }
@@ -143,6 +197,57 @@ function PieChartGraph() {
           </div>
         ))}
       </div>
+    </div>
+  )
+}
+
+const faqs = [
+  {
+    question: 'What is Pythia and how does it work?',
+    answer:
+      'Pythia is an open-source Web3 data search and product development platform that allows users to search, design, build, and store their own crypto and Web3 data products directly within their wallet. It functions like a decentralized Google, offering instant answers and access to both on-chain and off-chain data through high-performance queries.',
+  },
+  {
+    question: 'How can I get started with Pythia?',
+    answer:
+      "To get started with Pythia, visit our official website and sign up for an account. Once registered, you can explore our documentation and tutorials to learn how to use Pythia's features and tools.",
+  },
+  {
+    question: 'What types of data can I access with Pythia?',
+    answer:
+      "Pythia allows access to a wide range of data, including on-chain transaction data, off-chain analytics, market data, and custom datasets created by users. You can query this data using Pythia's intuitive interface or through API integrations.",
+  },
+  {
+    question: 'Is Pythia suitable for beginners?',
+    answer:
+      'Yes, Pythia is designed to be user-friendly and accessible for beginners. We offer comprehensive guides, support resources, and a community forum to help you get started and make the most of our platform.',
+  },
+]
+
+function Faqs() {
+  return (
+    <div className="mx-auto max-w-5xl">
+      <Accordion
+        type="single"
+        collapsible
+        defaultValue="item-0"
+        className="space-y-2"
+      >
+        {faqs.map((faq, index) => (
+          <AccordionItem
+            className="border-none"
+            key={index}
+            value={`item-${index}`}
+          >
+            <AccordionTrigger className="rounded-md bg-accent/70 px-6 text-accent-foreground/80">
+              {faq.question}
+            </AccordionTrigger>
+            <AccordionContent className="text-pretty px-12 pt-4 text-left">
+              {faq.answer}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
     </div>
   )
 }
