@@ -684,19 +684,6 @@ const NavLink: React.FC<NavLinkProps> = ({
           >
             <div className="relative flex items-center gap-3">
               <div className="relative">
-                {tag && collapsed && (
-                  <motion.div
-                    layoutId={`${label} ${isMobile} notification`}
-                    className="absolute right-0 top-0 z-20 size-2 rounded-full bg-primary"
-                    style={{
-                      borderRadius: 9999,
-                    }}
-                    transition={{
-                      duration: transitionDuration,
-                      ease: [0.4, 0, 0.2, 1],
-                    }}
-                  />
-                )}
                 <Icon className="relative z-10 size-5 shrink-0" />
               </div>
               <span
@@ -709,24 +696,19 @@ const NavLink: React.FC<NavLinkProps> = ({
                 {label}
               </span>
               {tag && !collapsed && (
-                <motion.div
-                  layoutId={`${label} ${isMobile} notification`}
+                <div
                   className={cn(
                     'absolute -top-2 left-full z-10 ml-2 bg-primary px-1.5 py-1 text-[0.675rem] font-semibold leading-[0.625rem] text-white',
                     tag === 'Beta' && 'bg-primary',
                     tag === 'New' && 'bg-primary',
                     tag === 'Soon' && 'bg-[#959595]'
                   )}
-                  transition={{
-                    duration: transitionDuration,
-                    ease: [0.4, 0, 0.2, 1],
-                  }}
                   style={{
                     borderRadius: '8px 0px 8px 0px ',
                   }}
                 >
                   {tag}
-                </motion.div>
+                </div>
               )}
             </div>
           </Link>

@@ -1,8 +1,9 @@
 import Image from 'next/image'
 
-import { cn, formatPrice } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Header from '@/components/ui/header'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupCard } from '@/components/ui/radio-group'
 import { Section } from '@/components/ui/section'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -14,23 +15,105 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Icons } from '@/components/Icons'
+import {
+  NameDropdown,
+  RegionDropdown,
+  ZoneDropdown,
+} from '@/app/compute/deploy/selects'
 
-export default function ComputDeploy() {
+export default function ComputeDeploy() {
   return (
-    <Section className="flex gap-x-2 py-20">
-      <div className="grow">
-        <Header level={1} className="text-3xl">
-          Compute
-        </Header>
-        <ComputeOptions />
-      </div>
-      <MonthlyEstimate />
-    </Section>
+    <div>
+      <Section className="flex gap-x-16 py-20">
+        <div className="grow">
+          <Header level={1} className="mb-6 text-3xl">
+            Compute
+          </Header>
+          <ComputeOptions />
+        </div>
+        <MonthlyEstimate />
+      </Section>
+      <Section className="">Table</Section>
+    </div>
   )
 }
 
 function ComputeOptions() {
-  return <div></div>
+  return (
+    <div className="space-y-6">
+      <ServerTabs />
+      <NameDropdown />
+      <div className="flex w-full gap-6">
+        <RegionDropdown />
+        <ZoneDropdown />
+      </div>
+      <div className="space-y-2">
+        <Header level={2} className="text-xl">
+          Use case
+        </Header>
+        <UseCaseTabs />
+      </div>
+    </div>
+  )
+}
+
+function ServerTabs() {
+  return (
+    <RadioGroup
+      defaultValue="server"
+      className="flex gap-0 divide-x divide-border overflow-hidden rounded-md border drop-shadow-lg"
+    >
+      <RadioGroupCard value="server" id="server" className="grow">
+        <Label htmlFor="server">Server</Label>
+      </RadioGroupCard>
+
+      <RadioGroupCard value="storage" id="storage" className="grow">
+        <Label htmlFor="storage">Storage</Label>
+      </RadioGroupCard>
+      <RadioGroupCard value="gpu" id="gpu" className="grow">
+        <Label htmlFor="gpu">GPU</Label>
+      </RadioGroupCard>
+    </RadioGroup>
+  )
+}
+
+function UseCaseTabs() {
+  return (
+    <RadioGroup
+      defaultValue="general-optimized"
+      className="flex gap-0 divide-x divide-border overflow-hidden rounded-md border drop-shadow-lg"
+    >
+      <RadioGroupCard
+        value="general-optimized"
+        id="general-optimized"
+        className="basis-1/4 px-0"
+      >
+        <Label htmlFor="general-optimized">General</Label>
+      </RadioGroupCard>
+
+      <RadioGroupCard
+        value="storage-optimized"
+        id="storage-optimized"
+        className="basis-1/4 px-0"
+      >
+        <Label htmlFor="storage-optimized">Storage optimized</Label>
+      </RadioGroupCard>
+      <RadioGroupCard
+        value="gpu-optimized"
+        id="gpu-optimized"
+        className="basis-1/4 px-0"
+      >
+        <Label htmlFor="gpu-optimized">GPU optimized</Label>
+      </RadioGroupCard>
+      <RadioGroupCard
+        value="memory-optimized"
+        id="memory-optimized"
+        className="basis-1/4 px-0"
+      >
+        <Label htmlFor="memory-optimized">Memory optimized</Label>
+      </RadioGroupCard>
+    </RadioGroup>
+  )
 }
 
 function MonthlyEstimate() {
