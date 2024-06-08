@@ -11,14 +11,14 @@ const config = {
   ],
   prefix: '',
   theme: {
-    container: {
-      center: true,
-      padding: '5rem',
-      screens: {
-        '2xl': '1400px',
-      },
-    },
     extend: {
+      container: {
+        center: true,
+        padding: '5rem',
+        screens: {
+          '2xl': '1400px',
+        },
+      },
       colors: {
         dark: '#1D2144',
         yellow: '#FBB040',

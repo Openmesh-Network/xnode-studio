@@ -102,6 +102,10 @@ const SidebarNav: React.FC<SidebarNav> = ({
                 label: 'Data Marketplace',
                 href: '/data/marketplace',
               },
+              {
+                label: 'Documentation',
+                href: '/data/documentation',
+              },
             ]}
           />
           <NavCollapsable
