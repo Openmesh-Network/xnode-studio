@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input'
 import { Section } from '@/components/ui/section'
 import { Icon, Icons } from '@/components/Icons'
 
-export default function DataDocumentation() {
+export default function PythiaX() {
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-white">
       <Section
