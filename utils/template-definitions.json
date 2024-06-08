@@ -11,7 +11,7 @@
     },
     {
         "id": "1",
-        "logo": "https://banner2.cleanpng.com/20180705/pr/kisspng-visual-studio-code-microsoft-visual-studio-source-programming-paradigm-5b3ebd01ad9c22.7702532615308382737111.jpg",
+        "logo": "https://raw.githubusercontent.com/coder/modules/main/.icons/code.svg",
         "name": "CodeServer",
         "category": "Development Tools",
         "tags": ["IDE", "Remote Development", "Web-UI", "Open-source"],
@@ -41,7 +41,7 @@
     },
     {
         "id": "4",
-        "logo": "https://e7.pngegg.com/pngimages/355/332/png-clipart-metabase-logo-landscape-tech-companies-thumbnail.png",
+        "logo": "https://i.ibb.co/BcTCfR1/metabase-svgrepo-com.png",
         "name": "Metabase",
         "category": "Data Analytics",
         "tags": ["Data Visualization", "Business Intelligence", "Open-source"],
@@ -71,7 +71,7 @@
     },
     {
         "id": "7",
-        "logo": "https://www.mycryptopedia.com/wp-content/uploads/2019/12/Go-Ethereum-Logo.jpg",
+        "logo": "https://img.stackshare.io/service/9003/DOnqq1OM_400x400.jpg",
         "name": "Go Ethereum",
         "category": "Blockchain",
         "tags": ["Ethereum", "Blockchain", "Open-source"],
@@ -91,7 +91,7 @@
     },
     {
         "id": "9",
-        "logo": "https://s3-alpha.figma.com/hub/file/1223735372/e78e523c-8003-4dee-abb2-31f7665696b4-cover.png",
+        "logo": "https://static.wikia.nocookie.net/logopedia/images/f/f9/Minecraft_Bedrock_icon.svg",
         "name": "Minecraft Server",
         "category": "Gaming",
         "tags": ["Minecraft", "Server", "Gaming"],
