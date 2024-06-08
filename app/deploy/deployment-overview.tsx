@@ -76,18 +76,26 @@ export default function DeploymentTemplate({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {services?.map((service, index) => (
-              <TableRow key={index}>
-                <TableCell>{service.name}</TableCell>
-                <TableCell className="max-w-48">
-                  {service.description}
+            {services?.length ? (
+              services.map((service, index) => (
+                <TableRow key={index}>
+                  <TableCell>{service.name}</TableCell>
+                  <TableCell className="max-w-48">
+                    {service.description}
+                  </TableCell>
+                  <TableCell className="capitalize">
+                    {service.tags?.join(', ')}
+                  </TableCell>
+                  <TableCell>{service.nixName}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={4} className="h-16 text-center">
+                  No services available
                 </TableCell>
-                <TableCell className="capitalize">
-                  {service.tags?.join(', ')}
-                </TableCell>
-                <TableCell>{service.nixName}</TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>
