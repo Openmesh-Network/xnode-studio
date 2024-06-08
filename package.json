@@ -43,6 +43,8 @@
     "contentful": "^10.11.7",
     "date-fns": "^2.30.0",
     "drizzle-orm": "^0.31.1",
+    "embla-carousel": "^8.1.3",
+    "embla-carousel-react": "^8.1.3",
     "encoding": "^0.1.13",
     "framer-motion": "^11.2.10",
     "i18next": "^23.11.5",

@@ -128,11 +128,10 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="Analytics"
             icon={Icons.AnalyticsIcon}
-            disabled
             links={[
               {
-                label: 'Analytics',
-                href: '/analytics',
+                label: 'Pythia Pro',
+                href: '/analytics/pythia-pro',
               },
             ]}
           />
@@ -258,7 +257,7 @@ const NavLayout: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   return (
     <TooltipProvider>
       <div className={cn('flex', className)}>
-        <SidebarNav className="hidden lg:block" />
+        <SidebarNav className="hidden lg:block z-50" />
         <main className="mt-16 flex-1">{children}</main>
       </div>
     </TooltipProvider>
