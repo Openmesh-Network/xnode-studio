@@ -1,13 +1,15 @@
 import Image from 'next/image'
 
 import { cn, formatPrice } from '@/lib/utils'
+import Header from '@/components/ui/header'
+import { Section } from '@/components/ui/section'
 
 import { RPC_DATA } from './dummy'
 
 export default function DataRPC() {
   return (
-    <section className="space-y-4 p-12">
-      <h1 className="text-2xl font-semibold">Data</h1>
+    <Section className="my-20 space-y-4">
+      <Header level={2}>Data</Header>
       <div className="grid grid-cols-2 gap-4">
         {RPC_DATA.map((data) => (
           <div
@@ -47,6 +49,6 @@ export default function DataRPC() {
           </div>
         ))}
       </div>
-    </section>
+    </Section>
   )
 }

@@ -6,6 +6,7 @@ import { z } from 'zod'
 
 import { cn, formatPrice } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
+import { Section } from '@/components/ui/section'
 import { Separator } from '@/components/ui/separator'
 
 import { DATA_PRODUCT_DATA, MARKETPLACE_DATA } from '../dummy'
@@ -22,7 +23,7 @@ export default function DataMarketplaceItem({
   const data = MARKETPLACE_DATA.find((d) => d.id === itemId)
   if (!data) redirect('/data/marketplace')
   return (
-    <div className="flex p-12">
+    <Section className="my-20 flex">
       <section className="flex-1">
         <div className="flex items-start gap-4">
           <div className="flex flex-col items-center gap-1">
@@ -131,6 +132,6 @@ export default function DataMarketplaceItem({
           )}
         </ul>
       </section>
-    </div>
+    </Section>
   )
 }

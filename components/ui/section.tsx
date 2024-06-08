@@ -14,7 +14,7 @@ export function Section({
 }: SectionProps) {
   const Comp = asChild ? Slot : 'section'
   return (
-    <Comp className={cn('container', className)} {...props}>
+    <Comp className={cn('container max-w-none', className)} {...props}>
       {children}
     </Comp>
   )
