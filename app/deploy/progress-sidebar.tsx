@@ -19,7 +19,7 @@ import {
 
 import { Separator } from '../../components/ui/separator'
 
-export default function TemplateProgress() {
+export default function DeploymentProgress() {
   const {
     indexerDeployerStep,
     setIndexerDeployerStep,

@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 
 import {
@@ -11,7 +11,6 @@ import {
   TemplateFromId,
   TemplateGetSpecs,
 } from '@/types/dataProvider'
-
 import {
   Dialog,
   DialogContent,
@@ -19,9 +18,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog'
 
-const Template = (id: any) => {
+type DeploymentTemplateProps = {
+  id: string
+  workspace?: boolean
+}
+export default function DeploymentTemplate({
+  id,
+  workspace,
+}: DeploymentTemplateProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   // const [data, setTemplateData] = useState<TemplateData>()
   const [data, setDeployConfig] = useState<DeploymentConfiguration>()
@@ -29,11 +35,11 @@ const Template = (id: any) => {
   const { draft } = useContext(AccountContext)
 
   const getData = useCallback(
-    (id: any) => {
+    (id: string) => {
       setIsLoading(true)
 
       // XXX: Not sure if this is the best place to put this but whatever.
-      if (id.id == 'edit') {
+      if (id == 'edit') {
         // Problem with this is the draft contains extra info like the location or whatever.
         if (draft) {
           setDeployConfig(draft)
@@ -48,7 +54,7 @@ const Template = (id: any) => {
         console.log(id)
 
         console.log('Aca viene la data!')
-        let template = TemplateFromId(id.id)
+        let template = TemplateFromId(id)
 
         console.log(template)
 
@@ -95,7 +101,7 @@ const Template = (id: any) => {
     })
 
     if (id) {
-      getData(id.id)
+      getData(id)
     }
   }, [id, getData])
 
@@ -210,8 +216,9 @@ const Template = (id: any) => {
                         <DialogHeader>
                           <DialogTitle>Are you absolutely sure?</DialogTitle>
                           <DialogDescription>
-                            This action cannot be undone. This will permanently delete your account
-                            and remove your data from our servers.
+                            This action cannot be undone. This will permanently
+                            delete your account and remove your data from our
+                            servers.
                           </DialogDescription>
                         </DialogHeader>
                       </DialogContent>
@@ -237,5 +244,3 @@ const Template = (id: any) => {
     </section>
   )
 }
-
-export default Template

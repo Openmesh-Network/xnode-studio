@@ -491,8 +491,8 @@ const TemplateStep = () => {
                     <a
                       href={
                         process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? '/xnode/template-products/' + element.id
-                          : '/template-products/' + element.id
+                          ? '/xnode/deploy?tId=' + element.id
+                          : '/deploy?tId=' + element.id
                       }
                     >
                       <div className="mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200">

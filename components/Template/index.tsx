@@ -8,7 +8,7 @@ import TemplateProgress from '@/app/template-products/template-progress'
 import FinalBuild from '../FinalBuild'
 import Signup from '../Signup'
 import TemplateProducts from '../TemplateProducts/FirstStep'
-import Template from './TemplatePage'
+import DeploymentTemplate from './TemplatePage'
 
 const IndexerDeployer = (id: any) => {
   const { indexerDeployerStep } = useContext(AccountContext)
@@ -16,7 +16,7 @@ const IndexerDeployer = (id: any) => {
   return (
     <div className="flex h-full">
       <div className="m-20 flex-1">
-        {indexerDeployerStep === -1 ? <Template id={id} /> : null}
+        {indexerDeployerStep === -1 ? <DeploymentTemplate id={id} /> : null}
         {indexerDeployerStep === 0 ? <TemplateProducts /> : null}
         {indexerDeployerStep === 1 ? <Signup /> : null}
         {indexerDeployerStep === 2 ? <FinalBuild /> : null}
