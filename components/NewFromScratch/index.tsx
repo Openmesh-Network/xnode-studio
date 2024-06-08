@@ -403,7 +403,7 @@ const FromScratch = () => {
                   $276.97
                 </div>
                 <div className="text-[12px] font-normal">
-                  That&aptos;s about $0.04 hourly
+                  That&apos;s about $0.04 hourly
                 </div>
               </div>
             </div>
