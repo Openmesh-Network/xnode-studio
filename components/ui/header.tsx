@@ -11,12 +11,12 @@ interface HeaderProps
 
 const Header = ({ className, children, level = 1, ...props }: HeaderProps) => {
   const headerClasses = [
-    'text-5xl font-bold leading-10',
-    'text-2xl font-bold leading-6',
-    'text-xl font-bold',
-    'text-lg font-bold',
-    'text-base font-bold',
-    'text-sm font-bold',
+    'text-5xl font-semibold leading-10',
+    'text-2xl font-semibold leading-6',
+    'text-xl font-semibold',
+    'text-lg font-semibold',
+    'text-base font-semibold',
+    'text-sm font-semibold',
   ]
 
   const headerTag = `h${level}`

@@ -12,7 +12,7 @@ export function Section({
   asChild = false,
   ...props
 }: SectionProps) {
-  const Comp = asChild ? Slot : 'button'
+  const Comp = asChild ? Slot : 'section'
   return (
     <Comp className={cn('container', className)} {...props}>
       {children}
