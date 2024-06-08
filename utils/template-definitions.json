@@ -1,32 +1,142 @@
 [
-  {
-    "id": "234",
-    "logo": "https://images.ctfassets.net/y6pyp0ob27zb/5fcVJIxJWOD3YH6qdKMfUK/ff20aab62ffb7a15300febb72fe7b312/minecraftlogo.jpg",
-    "name": "Minecraft Server",
-    "desc": "A minecraft game server",
-    "category": "Server",
-    "tags": ["Game", "Server", "Multiplayer"],
-    "dateAdded": "2024-09-27T18:25:43.511Z",
-    "serviceNames": ["Minecraft"]
-  },
-  {
-    "id": "69",
-    "logo": "<url>",
-    "name": "Xnode Validator",
-    "category": "Blockchain",
-    "tags": ["test"],
-    "dateAdded": "2024-05-27T19:28:33.106Z",
-    "desc": "Computer pre-configured with Openmesh's services.",
-    "serviceNames": ["core", "openapis"]
-  },
-  {
-    "id": "1",
-    "logo": "https://github.com/ollama/ollama/assets/3325447/0d0b44e2-8f4a-4e99-9b52-a5c1c741c8f7",
-    "name": "Ollama AI (REST)",
-    "category": "AI",
-    "tags": ["GPU", "LLM", "Xnode", "API", "Open-source"],
-    "dateAdded": "2024-05-27T19:28:33.106Z",
-    "desc": "Make use of your GPU-enabled instance with Ollama installed as a REST API. Find the documentation here: https://github.com/ollama/ollama/blob/main/docs/api.md ",
-    "serviceNames": ["core", "Ollama"]
-  }
+    {
+        "id": "0",
+        "logo": "https://bookface-images.s3.amazonaws.com/logos/ee60f430e8cb6ae769306860a9c03b2672e0eaf2.png",
+        "name": "Ollama + Open-webui",
+        "category": "AI",
+        "tags": ["Artificial Intelligence", "Web-UI", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "Ollama + Open-webui is an AI platform with a web-based user interface for easy access and interaction. Utilize advanced AI capabilities with ease. Find documentation and guides at https://ollama.ai/docs.",
+        "serviceNames": ["ollama-open-webui"]
+    },
+    {
+        "id": "1",
+        "logo": "https://banner2.cleanpng.com/20180705/pr/kisspng-visual-studio-code-microsoft-visual-studio-source-programming-paradigm-5b3ebd01ad9c22.7702532615308382737111.jpg",
+        "name": "CodeServer",
+        "category": "Development Tools",
+        "tags": ["IDE", "Remote Development", "Web-UI", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "CodeServer allows you to run a VS Code instance on any machine and access it through a web-based interface. Perfect for remote development and collaborative coding sessions. Learn more at https://github.com/cdr/code-server.",
+        "serviceNames": ["codeserver"]
+    },
+    {
+        "id": "2",
+        "logo": "https://en.wikipedia.org/wiki/InterPlanetary_File_System#/media/File:Ipfs-logo-1024-ice-text.png",
+        "name": "Iroh: IPFS",
+        "category": "Distributed Storage",
+        "tags": ["IPFS", "Decentralized Storage", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "Iroh is an IPFS node implementation, providing decentralized storage solutions. Store and retrieve files securely and efficiently with IPFS. Check out Iroh's documentation at https://github.com/iroh/iroh.",
+        "serviceNames": ["iroh-ipfs"]
+    },
+    {
+        "id": "3",
+        "logo": "https://en.wikipedia.org/wiki/Project_Jupyter#/media/File:Jupyter_logo.svg",
+        "name": "Jupyter Notebook",
+        "category": "Data Science",
+        "tags": ["Data Analysis", "Interactive Computing", "Python", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "Jupyter Notebook provides an interactive computing environment for data analysis, visualization, and machine learning. Write and execute code in Python and other languages. Learn more at https://jupyter.org.",
+        "serviceNames": ["jupyter-notebook"]
+    },
+    {
+        "id": "4",
+        "logo": "https://e7.pngegg.com/pngimages/355/332/png-clipart-metabase-logo-landscape-tech-companies-thumbnail.png",
+        "name": "Metabase",
+        "category": "Data Analytics",
+        "tags": ["Data Visualization", "Business Intelligence", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "Metabase is a simple and powerful analytics tool that lets anyone in your company ask questions and learn from data. Get started with Metabase at https://www.metabase.com.",
+        "serviceNames": ["metabase"]
+    },
+    {
+        "id": "5",
+        "logo": "https://camo.githubusercontent.com/bbc7ceaccc568c103f9db2bdd9dc53b7999a957bbbf62cb8c8544dac47316626/68747470733a2f2f61726368697665626f782e696f2f69636f6e2e706e67",
+        "name": "ArchiveBox",
+        "category": "Data Preservation",
+        "tags": ["Web Archiving", "Data Backup", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "ArchiveBox is an open-source self-hosted web archiving tool used to create snapshots of web pages and websites. Preserve online content for future reference. Learn more at https://archivebox.io.",
+        "serviceNames": ["archivebox"]
+    },
+    {
+        "id": "6",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/WordPress_blue_logo.svg/768px-WordPress_blue_logo.svg.png",
+        "name": "WordPress",
+        "category": "Content Management",
+        "tags": ["Blogging", "CMS", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "WordPress is a popular content management system (CMS) that powers millions of websites and blogs worldwide. Create, manage, and publish content easily with WordPress. Learn more at https://wordpress.org.",
+        "serviceNames": ["wordpress"]
+    },
+    {
+        "id": "7",
+        "logo": "https://www.mycryptopedia.com/wp-content/uploads/2019/12/Go-Ethereum-Logo.jpg",
+        "name": "Go Ethereum",
+        "category": "Blockchain",
+        "tags": ["Ethereum", "Blockchain", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "Go Ethereum is one of the three original implementations of the Ethereum protocol. Run an Ethereum node and interact with the Ethereum network. Learn more at https://geth.ethereum.org.",
+        "serviceNames": ["go-ethereum"]
+    },
+    {
+        "id": "8",
+        "logo": "https://moralis.io/wp-content/uploads/web3wiki/49-lighthouse/637b9296c78e5825c0b80dec_ErubQ-vV0f3AnHXh9rz46CCorSCGf5nji_VzxmBX_8w.png",
+        "name": "Lighthouse",
+        "category": "Web Development",
+        "tags": ["Performance", "SEO", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "Lighthouse is an open-source tool from Google that helps developers improve the quality of their web pages. Audit web pages for performance, accessibility, and more. Learn more at https://developers.google.com/web/tools/lighthouse.",
+        "serviceNames": ["lighthouse"]
+    },
+    {
+        "id": "9",
+        "logo": "https://s3-alpha.figma.com/hub/file/1223735372/e78e523c-8003-4dee-abb2-31f7665696b4-cover.png",
+        "name": "Minecraft Server",
+        "category": "Gaming",
+        "tags": ["Minecraft", "Server", "Gaming"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "Minecraft Server allows players to create and play on their own Minecraft worlds. Host a Minecraft server to enjoy multiplayer gaming with friends. Learn more at https://www.minecraft.net/en-us/download/server.",
+        "serviceNames": ["minecraft-server"]
+    },
+    {
+        "id": "10",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Grafana_logo.svg/768px-Grafana_logo.svg.png?20230113183101",
+        "name": "Grafana",
+        "category": "Monitoring",
+        "tags": ["Metrics", "Monitoring", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "Grafana is an open-source analytics and monitoring platform. Visualize metrics, logs, and traces from multiple sources. Learn more at https://grafana.com.",
+        "serviceNames": ["grafana"]
+    },
+    {
+        "id": "11",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/3/38/Prometheus_software_logo.svg",
+        "name": "Prometheus",
+        "category": "Monitoring",
+        "tags": ["Metrics", "Monitoring", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "Prometheus is an open-source monitoring and alerting toolkit. Monitor your systems and services and generate alerts based on predefined conditions. Learn more at https://prometheus.io.",
+        "serviceNames": ["prometheus"]
+    },
+    {
+        "id": "12",
+        "logo": "https://i.ibb.co/XCFXD35/image.png",
+        "name": "Static Web Server",
+        "category": "Web Hosting",
+        "tags": ["Web Server", "Static Hosting", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "A static web server is a web server that serves static content, such as HTML, CSS, and JavaScript files, without processing server-side scripts. Host your static websites with ease. Learn more at https://en.wikipedia.org/wiki/Web_server.",
+        "serviceNames": ["static-web-server"]
+    },
+    {
+        "id": "13",
+        "logo": "https://b.thumbs.redditmedia.com/I0eJLPD4tT36qV2Jr5alNXC_QAhZvzfexiqo6GrCvVY.png",
+        "name": "Lidarr",
+        "category": "Media Management",
+        "tags": ["Music", "Management", "Open-source"],
+        "dateAdded": "2024-06-08T12:00:00Z",
+        "desc": "Lidarr is an open-source music collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new tracks from your favorite artists and will grab, sort, and rename them. Learn more at https://lidarr.audio.",
+        "serviceNames": ["lidarr"]
+    }
 ]
