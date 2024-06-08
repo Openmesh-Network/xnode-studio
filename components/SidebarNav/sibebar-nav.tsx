@@ -138,6 +138,10 @@ const SidebarNav: React.FC<SidebarNav> = ({
             icon={Icons.AnalyticsIcon}
             links={[
               {
+                label: 'Pythia X',
+                href: '/analytics/pythia-x',
+              },
+              {
                 label: 'Pythia Pro',
                 href: '/analytics/pythia-pro',
               },
