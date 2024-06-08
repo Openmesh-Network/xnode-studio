@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { db } from '@/db'
 import { Providers } from '@/db/schema'
-import { count, countDistinct, eq, like, sql, sum } from 'drizzle-orm'
+import { count, countDistinct, like, sum } from 'drizzle-orm'
 
 import ResourcesTable from './resources-table'
 
