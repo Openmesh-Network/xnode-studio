@@ -1,12 +1,13 @@
-const getFlagImageURL = (locationString: string) => {
+export function getFlagImageURL(locationString: string) {
   const countryCode = countryCodes[locationString]
+
   if (countryCode) {
-    return `https://flagicons.lipis.dev/flags/4x3/${countryCode}.svg`
+    return `https://flagicons.lipis.dev/flags/4x3/${countryCode.toLowerCase()}.svg`
   }
-  return null
+  return 'https://flagicons.lipis.dev/flags/4x3/xx.svg'
 }
 
-const countryCodes = {
+const countryCodes: { [key: string]: string } = {
   'Los Angeles, CA': 'US',
   'Washington, D.C.': 'US',
   Amsterdam: 'NL',

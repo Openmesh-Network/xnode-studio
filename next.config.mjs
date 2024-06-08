@@ -7,6 +7,15 @@ const nextConfig = {
       destination: 'https://remote-signer.plopmenz.com/xue-signer/:call*',
     },
   ],
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'flagicons.lipis.dev',
+        protocol: 'https',
+        pathname: '/flags/*',
+      },
+    ],
+  },
   // assetPrefix: 'https://openmesh-xnode.vercel.app',
   // assetPrefix: 'http://localhost:3334',
   reactStrictMode: false,

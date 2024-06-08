@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Check, X } from 'phosphor-react'
 
+import { getFlagImageURL } from '@/lib/countryFlags'
 import { cn, formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -135,7 +136,16 @@ export default function DeploymentProgress() {
                 <div className="w-full">
                   <ul className="flex flex-col gap-1 text-sm">
                     <li>Bare Metal Provider</li>
-                    <li>{templateSelected.location}</li>
+                    <li className="flex items-center gap-1.5">
+                      <Image
+                        src={getFlagImageURL(templateSelected.location.trim())}
+                        alt={templateSelected.location}
+                        width={24}
+                        height={16}
+                        className="aspect-[3/2] rounded"
+                      />
+                      {templateSelected.location.trim()}
+                    </li>
                   </ul>
                   <p className="mt-1.5 font-semibold">
                     {templateSelected.cpuCores} vCPU Cores +{' '}
