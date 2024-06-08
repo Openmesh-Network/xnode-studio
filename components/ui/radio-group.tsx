@@ -60,4 +60,5 @@ const RadioGroupCard = React.forwardRef<
 })
 RadioGroupCard.displayName = RadioGroupPrimitive.Item.displayName
 
-export { RadioGroup, RadioGroupItem, RadioGroupCard }
+const RadioGroupIndicator = RadioGroupPrimitive.Indicator
+export { RadioGroup, RadioGroupItem, RadioGroupCard, RadioGroupIndicator }

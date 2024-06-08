@@ -15,6 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Icons } from '@/components/Icons'
+import { DeployTable } from '@/app/compute/deploy/deploy-table'
 import {
   NameDropdown,
   RegionDropdown,
@@ -24,7 +25,7 @@ import {
 export default function ComputeDeploy() {
   return (
     <div>
-      <Section className="flex gap-x-16 py-20">
+      <Section className="flex gap-x-16 pb-12 pt-20">
         <div className="grow">
           <Header level={1} className="mb-6 text-3xl">
             Compute
@@ -33,7 +34,9 @@ export default function ComputeDeploy() {
         </div>
         <MonthlyEstimate />
       </Section>
-      <Section className="">Table</Section>
+      <Section className="">
+        <DeployTable />
+      </Section>
     </div>
   )
 }
