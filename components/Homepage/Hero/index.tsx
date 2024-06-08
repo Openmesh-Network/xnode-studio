@@ -16,8 +16,8 @@ export function HomeHero() {
         <Link
           href={`${
             process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/template-products`
-              : `/template-products`
+              ? `/xnode/templates`
+              : `/templates`
           }`}
         >
           <button className="h-14 w-[190px] rounded-md bg-blue500 px-5 font-bold tracking-[-2%] text-white transition-colors duration-300 hover:bg-blue500/80">

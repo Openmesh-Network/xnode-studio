@@ -76,7 +76,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
         </NavCategory>
         <NavCategory>
           <NavLink
-            href="/template-products"
+            href="/templates"
             icon={Icons.Templates}
             label="Templates"
             isMobile={isMobile}

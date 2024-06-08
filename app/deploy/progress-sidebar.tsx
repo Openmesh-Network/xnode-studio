@@ -30,10 +30,10 @@ export default function DeploymentProgress() {
     <aside className="relative min-w-96 shrink-0 border-l border-zinc-200 bg-zinc-50 p-8">
       <h4 className="font-bold text-black">Your Progress</h4>
       <Link
-        href="/template-products"
+        href="/templates"
         className="absolute right-8 top-8 flex size-8 items-center justify-center"
       >
-        <X size={20} className="text-muted" />
+        <X className="size-5" />
       </Link>
       <div className="mt-8 flex flex-col gap-6">
         <div>
