@@ -107,10 +107,9 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="Compute"
             icon={Icons.ComputeIcon}
-            disabled
             links={[
               {
-                label: 'Compute',
+                label: 'Overview',
                 href: '/compute',
               },
             ]}
