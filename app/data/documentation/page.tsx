@@ -1,24 +1,26 @@
+import { LinkIcon } from 'lucide-react'
+
 import Header from '@/components/ui/header'
 import { InfoCard } from '@/components/ui/info-card'
 import { Section } from '@/components/ui/section'
-import { Icons } from '@/components/Icons'
+import { Icon, Icons } from '@/components/Icons'
 
 const basicsData = [
   {
     title: 'Understanding Xnode',
     description:
       "An introduction to Xnode's role in decentralizing data infrastructure.",
-    Icon: Icons.HomeIcon,
+    Icon: Icons.BoxIcon,
   },
   {
     title: 'Setting Up',
     description: 'Step-by-step guide to deploying an Xnode.',
-    Icon: Icons.HomeIcon,
+    Icon: Icons.SettingUpIcon,
   },
   {
     title: 'Docs & Research',
     description: 'Developer support and resources.',
-    Icon: Icons.HomeIcon,
+    Icon: Icons.DocsResearchIcon,
   },
 ]
 
@@ -33,31 +35,31 @@ const coreDocsData = [
     title: 'Analytics',
     description:
       'Detailed guides and references for all Analytics related inquiries.',
-    Icon: Icons.HomeIcon,
+    Icon: Icons.MagnifyingGlassAnalyticsIcon,
   },
   {
     title: 'Integration Guides',
     description:
       'Instructions for integrating Openmesh with other tools and platforms.',
-    Icon: Icons.HomeIcon,
+    Icon: LinkIcon as Icon,
   },
   {
     title: 'Servers',
     description:
       'Best practices and protocols to ensure the security of your data and operations.',
-    Icon: Icons.HomeIcon,
+    Icon: Icons.ServersIcon,
   },
   {
     title: 'Templates',
     description:
       'Detailed guides and references for all Template related inquiries.',
-    Icon: Icons.HomeIcon,
+    Icon: Icons.TemplatesIcon,
   },
   {
     title: 'Troubleshooting',
     description:
       'Comprehensive guides to help you resolve issues and optimize performance.',
-    Icon: Icons.HomeIcon,
+    Icon: Icons.TroubleShootingIcon,
   },
 ]
 

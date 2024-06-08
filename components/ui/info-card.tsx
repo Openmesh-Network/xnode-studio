@@ -16,7 +16,6 @@ export interface InfoCardProps extends ComponentProps<typeof Card> {
   description: string
   Icon: Icon
   href?: string
-  linkDisabled?: boolean
 }
 
 export function InfoCard({
@@ -25,14 +24,13 @@ export function InfoCard({
   description,
   Icon,
   href,
-  linkDisabled = false,
   ...props
 }: InfoCardProps) {
   const cardContent = (
     <>
       <CardHeader className="pb-4">
         <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
-          <Icon className="size-7 text-primary" />
+          <Icon className="size-6 text-primary" />
         </div>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -44,7 +42,7 @@ export function InfoCard({
     </>
   )
 
-  if (href && !linkDisabled) {
+  if (href) {
     return (
       <Link
         href={href}
