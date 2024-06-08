@@ -12,6 +12,15 @@ import {
   TemplateGetSpecs,
 } from '@/types/dataProvider'
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 const Template = (id: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   // const [data, setTemplateData] = useState<TemplateData>()
@@ -194,6 +203,19 @@ const Template = (id: any) => {
                     >
                       Edit
                     </button>
+
+                    <Dialog>
+                      <DialogTrigger>Open</DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Are you absolutely sure?</DialogTitle>
+                          <DialogDescription>
+                            This action cannot be undone. This will permanently delete your account
+                            and remove your data from our servers.
+                          </DialogDescription>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
 
                     {
                       // TODO: Save a record of the state here? Since it's where the services' configuration will be changed.

@@ -205,7 +205,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
 
   return (
     <>
-      <p className="text-[32px] font-semibold"> Claim your Xnode </p>
+      <h1 className="text-4xl font-semibold text-black"> Claim your Xnode </h1>
       <p>
         {' '}
         Unleash the power of Xnode, your gateway to building a personalized
