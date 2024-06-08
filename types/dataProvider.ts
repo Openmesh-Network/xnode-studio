@@ -63,6 +63,7 @@ export type TemplatesProducts = {
   network?: string
   priceHour?: string
   priceMonth?: string
+  priceSale?: string
   availability?: string
   source?: string
   unit?: string
@@ -161,7 +162,7 @@ export function ServiceFromName(name: string): ServiceData | undefined {
     serviceMap = new Map<string, ServiceData>()
 
     for (let i = 0; i < ServiceDefinitions.length; i++) {
-      serviceMap.set(ServiceDefinitions[i].name, ServiceDefinitions[i])
+      serviceMap.set(ServiceDefinitions[i].nixName, ServiceDefinitions[i])
     }
   }
 

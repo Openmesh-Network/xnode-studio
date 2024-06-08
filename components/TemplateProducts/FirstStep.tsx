@@ -50,7 +50,7 @@ const TemplateProducts = () => {
   const params = useParams()
 
   const [page, setPage] = useState<number>(0)
-  const [searchInput, setSearchInput] = useState<string>()
+  const [searchInput, setSearchInput] = useState<string>('')
   const debouncedSearchInput = useDebounce(searchInput, 500)
   const [region, setRegion] = useState<string | null>()
   const [priceRange, setPriceRange] = useState<[number, number]>([1, 1000])
@@ -289,6 +289,12 @@ const TemplateProducts = () => {
           </div>
         </div>
         <Button
+          disabled={
+            region === null &&
+            searchInput === '' &&
+            priceRange[0] === 1 &&
+            priceRange[1] === 1000
+          }
           size="lg"
           variant="outline"
           onClick={() => {
@@ -382,10 +388,11 @@ const TemplateProducts = () => {
                                 location: provider.location,
                                 cpuCores: String(provider.cpuCores),
                                 ram: String(provider.ram),
-                                priceMonth: String(
-                                  provider.priceSale ?? provider.priceMonth
-                                ),
+                                priceMonth: String(provider.priceMonth),
                                 priceHour: String(provider.priceHour),
+                                priceSale: provider.priceSale
+                                  ? String(provider.priceSale)
+                                  : undefined,
                               })
                             }
                           }}

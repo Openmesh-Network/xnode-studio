@@ -7,7 +7,7 @@
         "tags": ["Artificial Intelligence", "Web-UI", "Open-source"],
         "dateAdded": "2024-06-08T12:00:00Z",
         "desc": "Ollama + Open-webui is an AI platform with a web-based user interface for easy access and interaction. Utilize advanced AI capabilities with ease. Find documentation and guides at https://ollama.ai/docs.",
-        "serviceNames": ["ollama-open-webui"]
+        "serviceNames": ["ollama", "open-webui"]
     },
     {
         "id": "1",
@@ -27,7 +27,7 @@
         "tags": ["IPFS", "Decentralized Storage", "Open-source"],
         "dateAdded": "2024-06-08T12:00:00Z",
         "desc": "Iroh is an IPFS node implementation, providing decentralized storage solutions. Store and retrieve files securely and efficiently with IPFS. Check out Iroh's documentation at https://github.com/iroh/iroh.",
-        "serviceNames": ["iroh-ipfs"]
+        "serviceNames": ["iroh"]
     },
     {
         "id": "3",
@@ -37,7 +37,7 @@
         "tags": ["Data Analysis", "Interactive Computing", "Python", "Open-source"],
         "dateAdded": "2024-06-08T12:00:00Z",
         "desc": "Jupyter Notebook provides an interactive computing environment for data analysis, visualization, and machine learning. Write and execute code in Python and other languages. Learn more at https://jupyter.org.",
-        "serviceNames": ["jupyter-notebook"]
+        "serviceNames": ["jupyter"]
     },
     {
         "id": "4",
