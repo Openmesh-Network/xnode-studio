@@ -33,7 +33,7 @@ export default function ScreenProvider({ children }: ScreenProviderProps) {
   }, [])
 
   return (
-    <div className="relative">
+    <>
       {showDialog ? (
         <Dialog open>
           <DialogContent canClose={false}>
@@ -48,6 +48,6 @@ export default function ScreenProvider({ children }: ScreenProviderProps) {
         </Dialog>
       ) : null}
       {children}
-    </div>
+    </>
   )
 }
