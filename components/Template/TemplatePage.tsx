@@ -205,7 +205,7 @@ const Template = (id: any) => {
                     </button>
 
                     <Dialog>
-                      <DialogTrigger>Open</DialogTrigger>
+                      <DialogTrigger> Open </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
                           <DialogTitle>Are you absolutely sure?</DialogTitle>

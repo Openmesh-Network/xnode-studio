@@ -505,7 +505,7 @@ const TemplateStep = () => {
                           <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-gray200 px-[12px] py-[4px]">
                             <div className="size-[10px] rounded-full bg-[#0059ff]"></div>
                             <div className="text-[12px] font-bold leading-[24px] text-[#0059ff] 2xl:text-[14px]">
-                              Category
+                              { element.category }
                             </div>
                           </div>
                         </div>

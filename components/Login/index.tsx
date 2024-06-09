@@ -70,15 +70,23 @@ const Login = () => {
       data,
     }
 
-    let dado
+    let res
 
     await axios(config).then(function (response) {
       if (response.data) {
-        dado = response.data
+        res = response.data
       }
     })
 
-    return dado
+    setCookie(null, 'userSessionToken', res.sessionToken)
+    nookies.set(null, 'userSessionToken', res.sessionToken, {
+      maxAge: 10 * 24 * 60 * 60,
+      path: '/',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Lax',
+    })
+
+    return res
   }
 
   async function onSubmit(data: LoginForm) {
@@ -88,8 +96,6 @@ const Login = () => {
     }
     try {
       const res = await loginUser(finalData)
-      setCookie(null, 'userSessionToken', res.sessionToken)
-      nookies.set(null, 'userSessionToken', res.sessionToken)
       setUser(res)
       setIsLoading(false)
       push(

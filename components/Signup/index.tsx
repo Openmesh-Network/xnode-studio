@@ -66,8 +66,6 @@ const Signup = () => {
     try {
       const res = await getWeb3Login(address)
       if (res) {
-        setCookie(null, 'userSessionToken', res.sessionToken)
-        nookies.set(null, 'userSessionToken', res.sessionToken)
         setUser(res)
       }
     } catch (err) {

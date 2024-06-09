@@ -1,7 +1,10 @@
 import axios from 'axios'
 import { hashObject } from '@/utils/functions'
 import { wagmiConfig } from '@/app/providers'
+import { useContext, useState } from 'react'
+import { AccountContext } from 'contexts/AccountContext'
 import { signMessage } from '@wagmi/core'
+import nookies, { destroyCookie, setCookie } from 'nookies'
 
 async function getUserNonce(userAddress: string) {
   const config = {
@@ -24,6 +27,13 @@ async function getUserNonce(userAddress: string) {
   })
   return dado
 }
+export function signOutUser() {
+  const { setUser } = useContext(AccountContext)
+
+  destroyCookie(undefined, 'userSessionToken')
+  nookies.destroy(null, 'userSessionToken')
+  setUser(null)
+}
 
 
 export async function getWeb3Login(address) {
@@ -42,6 +52,12 @@ export async function getWeb3Login(address) {
       })
 
       const res = await loginWeb3User(address, signature)
+      nookies.set(null, 'userSessionToken', res.sessionToken, {
+        maxAge: 10 * 24 * 60 * 60,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Lax',
+      })
       return res;
     } catch (err) {
       throw err;
@@ -69,6 +85,9 @@ async function loginWeb3User(userAddress: string, signature: string) {
       dado = response.data
     }
   })
+
+  console.log('Logged in user data: ', dado)
+  console.log('Logged in user session token ', dado.sessionToken)
 
   return dado
 }

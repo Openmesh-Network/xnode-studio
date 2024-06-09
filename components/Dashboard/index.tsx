@@ -8,94 +8,24 @@ import { getXueNfts } from 'utils/nft'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { useRouter } from 'next/navigation'
-import { AccountContext } from '@/contexts/AccountContext'
 import axios from 'axios'
 import { parseCookies } from 'nookies'
 import { SmileySad } from 'phosphor-react'
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
 import { useAccount } from 'wagmi'
+import { useUser } from 'hooks/useUser'
 
 import { Xnode } from '../../types/node'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [isViewingMore, setIsViewingMore] = useState<any>('')
   const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
   const [xueNfts, setXueNfts] = useState<BigInt[]>(undefined)
 
-  const cookies = parseCookies()
-  const userHasAnyCookie = cookies.userSessionToken
+  const user = useUser()
 
-  const generateFakeData = () => {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ]
-    return months.map((month) => ({
-      name: month,
-      uptime: Math.floor(Math.random() * 100),
-    }))
-  }
-
-  const [chartData, setChartData] = useState(generateFakeData())
   const account = useAccount()
 
-  const {
-    // selectionSideNavBar,
-    // setSelectionSideNavBar,
-    // next,
-    // setNext,
-    // reviewYourBuild,
-    // setReviewYourBuild,
-    // finalNodes,
-    // tagXnode,
-    // projectName,
-    // setProjectName,
-    // setProjectDescription,
-    // setSignup,
-    // setNextFromScratch,
-    // setConnections,
-    // setFinalBuild,
-    // setTagXnode,
-    // setXnodeType,
-    // xnodeType,
-    user,
-  } = useContext(AccountContext)
-
   const { push } = useRouter()
-
-  function renderURLsXnode(data: string[]) {
-    return (
-      <div className="grid gap-y-[10px] text-[#0354EC] underline-offset-1 md:gap-y-[12px] lg:gap-y-[14px] xl:gap-y-[16px] xl:text-[12px] 2xl:gap-y-[20px] 2xl:text-[14px]">
-        {data.map((url, index) => (
-          // eslint-disable-next-line react/jsx-key
-          <a href={url} target="_blank" rel="noreferrer">
-            <div className="cursor-pointer hover:text-[#031c49]" key={index}>
-              {url}
-            </div>
-          </a>
-        ))}
-      </div>
-    )
-  }
 
   const getData = useCallback(async () => {
     setIsLoading(true)
@@ -132,8 +62,8 @@ const Dashboard = () => {
     //  - Ask for login to view actual deployments?
     //  - Keep list of pending deployments available.
     if (!account?.address) {
-      // setXueNfts([])
-      alert('no address ' + account?.address)
+      setXueNfts([])
+      // alert('no address ' + account?.address)
     } else {
       const findXueForAccount = async () => {
         let nfts = await getXueNfts(account).catch(console.error)
@@ -150,14 +80,15 @@ const Dashboard = () => {
       findXueForAccount()
     }
 
-    if (!userHasAnyCookie) {
-      push(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
-      )
+    if (!user) {
+      // TODO: Prompt log-in in this case.
+      // push(
+      //   `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
+      // )
     } else {
-      alert('User has a cookie.')
+      // alert('User has a cookie.')
     }
-  }, [])
+  }, [user])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
@@ -241,7 +172,7 @@ const Dashboard = () => {
     getData()
   }, [getData, user])
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return (
       <section className="w-[700px] bg-white px-[20px] pb-[50px] pt-[46px] text-black md:w-[840px] lg:w-[980px] xl:w-[1120px] 2xl:w-[1400px]">
         <div className="hidden h-60 animate-pulse px-0 pb-12 md:flex">
@@ -261,18 +192,22 @@ const Dashboard = () => {
     )
   }
 
-  if (xnodesData.length === 0) {
-    return (
-      <div>
-        <div className="mb-[100px] mt-[64px] flex items-center justify-center text-black">
-          <div className="">
-            <SmileySad size={32} className="mx-auto mb-2" />
-            <div>No Xnodes found</div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  // if (xnodesData.length === 0) {
+  //   return (
+  //     <div>
+  //       {
+  //         /* TODO: re-enable this or replace with a login prompt
+  //         <div className="mb-[100px] mt-[64px] flex items-center justify-center text-black">
+  //           <div className="">
+  //             <SmileySad size={32} className="mx-auto mb-2" />
+  //             <div>No Xnodes found</div>
+  //           </div>
+  //         </div>
+  //       */
+  //       }
+  //     </div>
+  //   )
+  // }
 
   return (
     <>
@@ -282,10 +217,21 @@ const Dashboard = () => {
           <div className="my-12"/>
 
           {
-            xueNfts && (
+            (!account?.isConnected) && (
+              <div>
+                <p> Connect your wallet to view available Xnodes. </p>
+                <w3m-connect-button />
+              </div>
+            )
+          }
+
+          {
+            // TODO: Add check with wallet connect here.
+
+            (xueNfts && account?.isConnected) && (
               <div>
                 <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
-                  Wallet has {xueNfts.length} { xueNfts.length > 1 ? "Xnodes" : "Xnode" } available for activation.
+                  Wallet has {xueNfts.length} { xueNfts.length == 1 ? "Xnode" : "Xnodes" } available for activation.
                 </div>
 
                 <ul className="flex mt-4 max-h-[calc(100svh-5rem)] flex-col items-center gap-8 overflow-y-auto text-black">
@@ -331,7 +277,7 @@ const Dashboard = () => {
           </div>
 
           {
-            xueNfts && (
+            xnodesData && (
               <div className="border-1 border-solid/20 border-black">
                 <ul className="flex mt-4 max-h-[calc(100svh-5rem)] flex-col items-center gap-8 text-black">
                   {
@@ -371,6 +317,7 @@ const Dashboard = () => {
                 </ul>
               </div>
             )
+
           }
 
         </section>

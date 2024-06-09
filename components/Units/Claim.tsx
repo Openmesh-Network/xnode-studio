@@ -187,9 +187,6 @@ const Claim = ({ chainId }: { chainId: number }) => {
     try {
       const res = await getWeb3Login(address)
       if (res) {
-        setCookie(null, 'userSessionToken', res.sessionToken)
-        nookies.set(null, 'userSessionToken', res.sessionToken)
-
         console.log(user)
         console.log(res)
         setUser(res)

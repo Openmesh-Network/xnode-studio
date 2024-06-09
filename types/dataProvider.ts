@@ -44,6 +44,7 @@ export type DataProvider = {
   linkGithub?: string
 }
 
+// NOTE: A "template product" is a baremetal offering from a provider.
 export type TemplatesProducts = {
   id: string
   providerName?: string
@@ -136,6 +137,7 @@ export type ServiceData = {
   desc: string
   // Url to the logo.
   logo?: string
+  implmented?: boolean
 
   nixName: string
   options: ServiceOption[]
@@ -147,6 +149,7 @@ export type TemplateData = {
   desc: string
   tags: string[]
   source?: string
+  website?: string
 
   // Url to image.
   logo: string
