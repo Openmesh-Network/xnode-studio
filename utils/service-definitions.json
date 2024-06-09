@@ -14712,5 +14712,21 @@
         },
         "nixName": "go-ethereum",
         "options": []
+    },
+    {
+        "name": "Open-webui",
+        "desc": "Ui interface for ollama",
+        "tags": [
+            "Webui"
+        ],
+        "website": "https://openwebui.com/",
+        "implmented": false,
+        "logo": "https://docs.openwebui.com/img/logo.png",
+        "specs": {
+            "ram": 512,
+            "storage": 1024
+        },
+        "nixName": "open-webui",
+        "options": []
     }
 ]
