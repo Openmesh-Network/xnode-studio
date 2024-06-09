@@ -49,6 +49,9 @@ import {
 const Claim = ({ chainId }: { chainId: number }) => {
   const [code, setCode] = useState<string>('')
   const [invalidCode, setInvalidCode] = useState<string | undefined>(undefined)
+  const [loadingOpen, setLoadingOpen] = useState<boolean>(false)
+  const [redeemStage, setRedeemStage] = useState<string>("")
+
   const [successOpen, setSuccessOpen] = useState<boolean>(false)
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false)
   const account = useAccount()
@@ -101,7 +104,11 @@ const Claim = ({ chainId }: { chainId: number }) => {
       return
     }
 
+    setLoadingOpen(true)
+
     console.log('recaptcha request')
+    setRedeemStage("Waiting for captcha...")
+
     const recaptchaToken: string = await recaptchaRef.current.executeAsync()
     console.log('recaptcha solved', recaptchaToken)
     console.log('sending request to xue-signer')
@@ -130,6 +137,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
     }
 
     console.log('making transaction request')
+    setRedeemStage("Making transaction request...")
     const transactionRequest = await publicClient
       .simulateContract({
         account: walletClient.account,
@@ -164,6 +172,8 @@ const Claim = ({ chainId }: { chainId: number }) => {
       alert(transactionRequest)
       return
     }
+
+    setRedeemStage("Getting transaction hash.")
     console.log('Getting transaction hash')
     const transactionHash = await walletClient
       .writeContract(transactionRequest.request)
@@ -177,6 +187,9 @@ const Claim = ({ chainId }: { chainId: number }) => {
     }
 
     console.log('Getting receipt')
+    setRedeemStage("Getting receipt, waiting on block confirmations...")
+    setRedeemStage("Done!")
+    setLoadingOpen(false)
 
     const receipt = await publicClient.waitForTransactionReceipt({
       hash: transactionHash,
@@ -360,12 +373,25 @@ const Claim = ({ chainId }: { chainId: number }) => {
         </AlertDialogContent>
       </AlertDialog>
 
+      {/* Loading alert. */}
+      <AlertDialog open={loadingOpen} onOpenChange={setLoadingOpen}>
+        <AlertDialogTrigger/>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle> Redeeming Code... </AlertDialogTitle>
+            <AlertDialogDescription>
+              Starting claiming
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {/* Success alert. */}
       <AlertDialog open={successOpen} onOpenChange={setSuccessOpen}>
         <AlertDialogTrigger />
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Success!</AlertDialogTitle>
+            <AlertDialogTitle>{ redeemStage }</AlertDialogTitle>
             <AlertDialogDescription>
               You have succesfully claimed your Xnode. It will now be available
               for activation on the dashboard.

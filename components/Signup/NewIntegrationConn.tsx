@@ -112,7 +112,7 @@ const NewIntegrationConn = () => {
           {/* </div> */}
 
           {showTooltipCloudProvider && (
-            <div className="absolute left-[130px] top-0 w-full max-w-[270px] rounded-[10px] bg-black font-medium text-white px-[17px] py-[14px] text-[11px] !leading-[19px] ">
+            <div className="absolute left-[130px] top-0 w-full max-w-[270px] rounded-[10px] bg-black px-[17px] py-[14px] text-[11px] font-medium !leading-[19px] text-white ">
               <div>If you have any third party that needs connection</div>
             </div>
           )}
@@ -137,11 +137,11 @@ const NewIntegrationConn = () => {
               </div>
 
 
-              <div className="flex justify-center flex-rows items-center">
+              <div className="flex-rows flex items-center justify-center">
                 {
                   user?.apiKey ? (
                     <>
-                      <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-primary text-primary hover:bg-primary/10 h-10 rounded-md px-4 min-w-56"
+                      <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                         onClick={ () => { 
                           let newUser = user
                           newUser.apiKey = null
@@ -182,7 +182,7 @@ const NewIntegrationConn = () => {
                       </div>
 
                       {!isLoading && (
-                        <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-primary text-primary hover:bg-primary/10 h-10 rounded-md px-4 min-w-56"
+                        <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                           onClick={handleSubmit(onSubmit)}> 
                           Connect
                         </button>
