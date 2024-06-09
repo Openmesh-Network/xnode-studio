@@ -185,7 +185,7 @@ const TemplateStep = () => {
                         />
                         <div
                           onClick={() => handleCategoryFilter(category)}
-                          className={`cursor-pointer text-[14px] font-normal select-none leading-[20px] 2xl:text-[16px] ${categoryFilter.includes(category) ? 'text-black font-semibold' : 'text-[#959595]'}`}
+                          className={`cursor-pointer select-none text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes(category) ? 'font-semibold text-black' : 'text-[#959595]'}`}
                         >
                           {category.length > 20 ? `${category.slice(0, 10)}..` : category} ({categoryMap.get(category)})
                         </div>

@@ -1,6 +1,6 @@
 import React from 'react'
-import cn from 'classnames'
 
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import Header from '@/components/ui/header'
