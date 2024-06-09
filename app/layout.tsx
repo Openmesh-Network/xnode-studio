@@ -5,6 +5,7 @@ import '../styles/index.css'
 
 import { type Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { prefix } from '@/utils/prefix'
 
 import { cn } from '@/lib/utils'
 import { Header } from '@/components/Header'
@@ -21,7 +22,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Openmesh Xnode',
   icons: {
-    icon: '/openmesh-blue.png',
+    icon: `${prefix}/openmesh-blue.png`,
   },
 }
 
