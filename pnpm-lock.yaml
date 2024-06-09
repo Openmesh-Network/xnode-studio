@@ -238,6 +238,9 @@ devDependencies:
   prettier-plugin-tailwindcss:
     specifier: ^0.6.1
     version: 0.6.1(@ianvs/prettier-plugin-sort-imports@4.2.1)(prettier@3.3.1)
+  shiki:
+    specifier: ^1.6.3
+    version: 1.6.3
   tailwindcss:
     specifier: ^3.4.3
     version: 3.4.3
@@ -4925,6 +4928,10 @@ packages:
       '@noble/hashes': 1.3.3
       '@scure/base': 1.1.6
     dev: false
+
+  /@shikijs/core@1.6.3:
+    resolution: {integrity: sha512-QnJKHFUW95GnlJLJGP6QLx4M69HM0KlXk+R2Y8lr/x4nAx1Yb/lsuxq4XwybuUjTxbJk+BT0g/kvn0bcsjGGHg==}
+    dev: true
 
   /@sideway/address@4.1.5:
     resolution: {integrity: sha512-IqO/DUQHUkPeixNQ8n0JA6102hT9CmaljNTPmQ1u8MEhBo/R4Q8eKLN/vGZxuebwOroDB4cbpjheD4+/sKFK4Q==}
@@ -12340,6 +12347,12 @@ packages:
   /shell-quote@1.8.1:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
     dev: false
+
+  /shiki@1.6.3:
+    resolution: {integrity: sha512-lE1/YGlzFY0hQSyEfsZj18xGrTWxyhFQkaiILALqTBZPbJeYFWpbUhlmTGPOupYB/qC+H6sV4UznJzcEh3WMHQ==}
+    dependencies:
+      '@shikijs/core': 1.6.3
+    dev: true
 
   /side-channel@1.0.6:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
