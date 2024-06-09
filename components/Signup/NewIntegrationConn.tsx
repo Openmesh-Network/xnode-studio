@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { prefix } from '@/utils/prefix'
 import { Eye, EyeSlash } from 'phosphor-react'
+import { useUser } from '@/hooks/useUser'
 
 type EquinixAPIForm = {
   apiKey: string
@@ -21,9 +22,10 @@ const NewIntegrationConn = () => {
   const { setConnections, templateSelected } = useContext(AccountContext)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
-  const { user, setUser } = useContext(AccountContext)
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(true)
   const [isCreatingNewChannel, setIsCreatingNewChannel] = useState(false)
+
+  const [ user, setUser ] = useUser()
 
   const validSchema = Yup.object().shape({
     apiKey: Yup.string().max(500).required('Key is required'),
@@ -72,15 +74,18 @@ const NewIntegrationConn = () => {
     }
     try {
       // TODO: Actually implement this later ofc. Removing now for testing internally.
-      // const res = await connectEquinix(finalData)
       toast.success('Success')
+
+      console.log(data)
       const finalUser = user
       finalUser.apiKey = data.apiKey
       setUser(finalUser)
+      setConnections(true)
 
       setIsEditing(false)
       setIsLoading(false)
     } catch (err) {
+      console.error(err)
       toast.error(`Error: ${err.response.data.message}`)
       setIsLoading(false)
     }
@@ -107,7 +112,7 @@ const NewIntegrationConn = () => {
           {/* </div> */}
 
           {showTooltipCloudProvider && (
-            <div className="absolute left-[130px] top-0 w-full max-w-[270px] rounded-[10px] bg-black px-[13px] py-[10px] text-[8px] font-medium text-white px-[17px] py-[14px] text-[11px] !leading-[19px] ">
+            <div className="absolute left-[130px] top-0 w-full max-w-[270px] rounded-[10px] bg-black font-medium text-white px-[17px] py-[14px] text-[11px] !leading-[19px] ">
               <div>If you have any third party that needs connection</div>
             </div>
           )}
@@ -140,7 +145,8 @@ const NewIntegrationConn = () => {
                         onClick={ () => { 
                           let newUser = user
                           newUser.apiKey = null
-                          setUser(newUser) 
+                          setUser(newUser)
+                          setConnections(false)
                         }}> 
                         Disconnect
                       </button>
@@ -148,13 +154,6 @@ const NewIntegrationConn = () => {
                   ) : (
                     <>
                       <div className="">
-                        {/* <span className="flex flex-row"> */}
-                        {/*   Deployment API Key */}
-                        {/*   <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]"> */}
-                        {/*     {errors.apiKey?.message} */}
-                        {/*   </p> */}
-
-                        {/* </span> */}
                         <div className="flex gap-x-[20px]">
                           <input
                             disabled={isLoading}

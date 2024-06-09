@@ -247,6 +247,23 @@ const Template = (id: any) => {
                           // Loop through each of the options and make a two column input thingy, with the default value set to the value of the thing.
                         }
                         <p> Here are the options: </p>
+
+                        <ul>
+                        { item.options.map((option, optionIndex) => (
+                          <li key={optionIndex}>
+                            { /* TODO:  */ }
+                            <p> { option.name } </p>
+                            <p> { option.type } </p>
+
+                            {/* If it's a heckin boolean do checkbox, etc */}
+                            <input type="text" value={option.value} onKeyDown={ () => {
+                              alert(optionIndex)
+                            }}></input>
+                          </li>
+                        ))}
+                        </ul>
+
+
                       </DialogContent>
                     </Dialog>
 

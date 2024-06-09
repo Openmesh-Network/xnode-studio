@@ -446,7 +446,7 @@ const TemplateStep = () => {
                       href={`${prefix}/template-products/${element.id}`}
                     >
                       <div className="mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200">
-                        <div className="flex gap-x-[75px]">
+                        <div className="flex gap-x-[35px]">
                           <img
                             src={
                               element.logo.startsWith('https://')
@@ -458,7 +458,7 @@ const TemplateStep = () => {
                           ></img>
                           <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-gray200 px-[12px] py-[4px]">
                             <div className="size-[10px] rounded-full bg-[#0059ff]"></div>
-                            <div className="text-[12px] font-bold leading-[24px] text-[#0059ff] 2xl:text-[14px]">
+                            <div className="text-[12px] w-min-fit font-bold leading-[24px] text-[#0059ff]">
                               {element.category}
                             </div>
                           </div>

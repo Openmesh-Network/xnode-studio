@@ -129,12 +129,12 @@ const Signup = () => {
     }
   }
 
-  useEffect(() => {
-    // XXX: This is a stub, to remove ugly UI for video demo.
-    if (user) {
-      setIndexerDeployerStep(indexerDeployerStep + 1)
-    }
-  }, [ user ]);
+  // useEffect(() => {
+  //   // XXX: This is a stub, to remove ugly UI for video demo.
+  //   if (user) {
+  //     setIndexerDeployerStep(indexerDeployerStep + 1)
+  //   }
+  // }, [ user ]);
 
 
   return (
@@ -154,9 +154,10 @@ const Signup = () => {
         {
           user ? (
             <>
+              { /* XXX: Show some account info? Possibly make into component later. */ }
               <p> Logged in </p>
 
-              { /* XXX: Add option to log out here. */ }
+              { /* XXX: Add better sign out button. */ }
 
               <p onClick={ () => { setUser(null) } }> Log out </p>
 

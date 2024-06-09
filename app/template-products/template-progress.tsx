@@ -27,15 +27,16 @@ export default function TemplateProgress() {
     indexerDeployerStep,
     setIndexerDeployerStep,
     templateSelected,
+    connections
   } = useContext(AccountContext)
 
-  const [ user ] = useUser()
+  const [ user, setUser ] = useUser()
 
   useEffect(() => {
     if (user) {
       console.log(user)
     }
-  }, [user])
+  }, [user, setUser])
 
   return (
     <aside className="relative min-w-96 shrink-0 border-l border-zinc-200 bg-zinc-50 p-8">
@@ -59,8 +60,7 @@ export default function TemplateProgress() {
                   : 'enabled:hover:bg-primary/10'
               )}
               onClick={() => setIndexerDeployerStep(-1)}
-            >
-              {indexerDeployerStep === -1 ? (
+            > {indexerDeployerStep === -1 ? (
                 <div className="absolute inset-y-0 left-0 w-0.5 bg-primary" />
               ) : null}
               <div
@@ -301,15 +301,16 @@ export default function TemplateProgress() {
               </p>
             </button>
           </div>
+
           {indexerDeployerStep === 2 ? (
             <div className="mt-4 flex flex-col items-center justify-center gap-4">
               <Button
-                disabled={ user === undefined || !("apiKey" in user) || user?.apiKey == "" }
-                variant={ user !== undefined ? 'default' : 'outlinePrimary' }
+                disabled={ !connections }
+                variant={ connections ? 'default' : 'outlinePrimary'}
                 className="h-12 w-full"
-                onClick={ () => setIndexerDeployerStep(3) }
+                onClick={() => setIndexerDeployerStep(3)}
               >
-                Create and Deploy
+                Create and deploy
               </Button>
             </div>
           ) : null}
