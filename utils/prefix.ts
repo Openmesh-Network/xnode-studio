@@ -1,2 +1,1 @@
-export const prefix =
-  process.env.NODE_ENV === 'production' ? '/xnode' : undefined
+export const prefix = process.env.NODE_ENV === 'production' ? '/xnode' : ''
