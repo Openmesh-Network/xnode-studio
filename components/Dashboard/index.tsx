@@ -77,12 +77,12 @@ const Dashboard = () => {
             doUpdate = true;
           } else if (xueNfts.length != nfts.length) {
             doUpdate = true;
-          }
-
-          for (let i = 0; i < xueNfts.length; i++) {
-            if (xueNfts[i] != nfts[i]) {
-              doUpdate = true
-              break
+          } else {
+            for (let i = 0; i < xueNfts.length; i++) {
+              if (xueNfts[i] != nfts[i]) {
+                doUpdate = true
+                break
+              }
             }
           }
 

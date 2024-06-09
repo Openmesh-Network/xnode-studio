@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { prefix } from '@/utils/prefix'
 import { ArrowUpRight } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -40,7 +41,7 @@ export default function RPCOverviewPage() {
           </div>
           <div className="absolute right-0 top-1/2 isolate -translate-y-1/2">
             <Image
-              src="/images/rpc/hero.png"
+              src={`${prefix}/images/rpc/hero.png`}
               width={500}
               height={500}
               alt="Compute Overview"
@@ -51,49 +52,49 @@ export default function RPCOverviewPage() {
       </section>
       <section className="flex justify-between gap-12 bg-foreground px-20 py-8">
         <Image
-          src="/images/rpc/logos/equinix.svg"
+          src={`${prefix}/images/rpc/logos/equinix.svg`}
           width={120}
           height={50}
           alt="Equinix"
           className="object-contain"
         />
         <Image
-          src="/images/rpc/logos/singularitynet.svg"
+          src={`${prefix}/images/rpc/logos/singularitynet.svg`}
           width={120}
           height={50}
           alt="SingularityNET"
           className="object-contain"
         />
         <Image
-          src="/images/rpc/logos/vultr.svg"
+          src={`${prefix}/images/rpc/logos/vultr.svg`}
           width={120}
           height={50}
           alt="VULTR"
           className="object-contain"
         />
         <Image
-          src="/images/rpc/logos/snowflake.svg"
+          src={`${prefix}/images/rpc/logos/snowflake.svg`}
           width={120}
           height={50}
           alt="Snowflake"
           className="object-contain"
         />
         <Image
-          src="/images/rpc/logos/aiven.svg"
+          src={`${prefix}/images/rpc/logos/aiven.svg`}
           width={120}
           height={50}
           alt="Aiven"
           className="object-contain"
         />
         <Image
-          src="/images/rpc/logos/polygon.png"
+          src={`${prefix}/images/rpc/logos/polygon.png`}
           width={120}
           height={50}
           alt="Polygon"
           className="object-contain brightness-0 grayscale invert"
         />
         <Image
-          src="/images/rpc/logos/chainlink.svg"
+          src={`${prefix}/images/rpc/logos/chainlink.svg`}
           width={120}
           height={50}
           alt="Chainlink"

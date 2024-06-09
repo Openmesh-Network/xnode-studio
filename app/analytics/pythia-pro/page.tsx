@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { prefix } from '@/utils/prefix'
 import { type EmblaCarouselType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ArrowUpRight, MoveLeft, MoveRight } from 'lucide-react'
@@ -55,7 +56,7 @@ export default function PythiaProPage() {
               Pythia <strong>Pro</strong>
             </Header>
             <Image
-              src={'/images/addOns/pythia.png'}
+              src={`${prefix}/images/addOns/pythia.png`}
               alt="Pythia Logo"
               width={24}
               height={24}
@@ -106,14 +107,14 @@ export default function PythiaProPage() {
             </div>
           </div>
           <Image
-            src={'/images/analytics/pythia-info-1.png'}
+            src={`${prefix}/images/analytics/pythia-info-1.png`}
             alt="Pythia Pro"
             width={250}
             height={500}
             className="absolute left-20 top-0"
           />
           <Image
-            src={'/images/analytics/pythia-info-2.png'}
+            src={`${prefix}/images/analytics/pythia-info-2.png`}
             alt="Pythia Pro"
             width={250}
             height={500}
@@ -155,7 +156,7 @@ export default function PythiaProPage() {
                 >
                   <div className="flex h-full flex-col rounded border p-6">
                     <Image
-                      src={help.image}
+                      src={`${prefix}${help.image}`}
                       alt={help.title}
                       width={250}
                       height={250}

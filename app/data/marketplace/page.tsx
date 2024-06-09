@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { prefix } from '@/utils/prefix'
 
 import { cn, formatPrice } from '@/lib/utils'
 import Header from '@/components/ui/header'
@@ -21,7 +22,7 @@ export default function DataMarketplace() {
             <div className="flex flex-col items-center gap-1">
               <div className="flex size-12 items-center justify-center rounded shadow-lg">
                 <Image
-                  src={data.image}
+                  src={`${prefix}${data.image}`}
                   alt={data.name}
                   width={24}
                   height={24}
