@@ -43,6 +43,7 @@ const Dashboard = () => {
       try {
         await axios(config).then(function (response) {
           if (response.data) {
+            console.log("Got the Xnode data")
             setXnodesData(response.data)
           }
         })
@@ -53,7 +54,7 @@ const Dashboard = () => {
       }
     }
     setIsLoading(false)
-  }, [user])
+  }, [])
 
   useEffect(() => {
     // XXX: User isn't logged in!
@@ -61,18 +62,36 @@ const Dashboard = () => {
     // Correct behaviour:
     //  - Ask for login to view actual deployments?
     //  - Keep list of pending deployments available.
+
     if (!account?.address) {
+      console.error('No address on account!')
       setXueNfts([])
-      // alert('no address ' + account?.address)
     } else {
       const findXueForAccount = async () => {
         let nfts = await getXueNfts(account).catch(console.error)
         if (nfts) {
-          setXueNfts(nfts)
-          console.log('Got them:')
+          // Only update XueNfts if the nfts don't match. Don't want to trigger pointless updates.
+
+          let doUpdate = false
+          if (xueNfts.length != nfts.length) {
+            doUpdate = true;
+          }
+
+          for (let i = 0; i < xueNfts.length; i++) {
+            if (xueNfts[i] != nfts[i]) {
+              doUpdate = true
+              break
+            }
+          }
+
+          if (doUpdate) {
+              setXueNfts(nfts)
+          }
+
+          console.log('Found NFT array for current wallet address:')
           console.log(nfts)
         } else {
-          console.log('Did not get them')
+          console.log('Failed to get NFTS.')
           console.log(nfts)
         }
       }
@@ -88,7 +107,7 @@ const Dashboard = () => {
     } else {
       // alert('User has a cookie.')
     }
-  }, [user])
+  }, [ account ])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
@@ -143,7 +162,8 @@ const Dashboard = () => {
                 }
                 <td className={commonClasses}>??? P/m</td>
                 <td className="pb-[17.5px] text-[7px] font-medium text-[#0354EC] underline underline-offset-2 md:pb-[21px] md:text-[8.4px] lg:pb-[24.5px] lg:text-[9.8px] xl:pb-[28px] xl:text-[11.2px] 2xl:pb-[35px] 2xl:text-[14px]">
-                  {/* <div
+                  {
+                  /* <div
                     className=" cursor-pointer "
                     onClick={() => {
                       handleEdit(
@@ -158,7 +178,8 @@ const Dashboard = () => {
                     }}
                   >
                     Edit
-                  </div> */}
+                  </div> */
+                  }
                 </td>
               </tr>
             ))}

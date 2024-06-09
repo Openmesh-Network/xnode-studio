@@ -17,8 +17,16 @@ const IndexerDeployer = (id: any) => {
     <div className="flex h-full">
       <div className="m-20 flex-1">
         {indexerDeployerStep === -1 ? <Template id={id} /> : null}
+        { /* TODO: If deploying a unit skip this stuff. */ }
         {indexerDeployerStep === 0 ? <TemplateProducts /> : null}
+
+        { /* TODO: If deploying a unit skip this stuff. */ }
         {indexerDeployerStep === 1 ? <Signup /> : null}
+
+        { /* TODO: Add an API stage here. */ }
+        {}
+
+        { /* TODO: If deploying a unit skip this stuff. */ }
         {indexerDeployerStep === 2 ? <FinalBuild /> : null}
       </div>
       <TemplateProgress />

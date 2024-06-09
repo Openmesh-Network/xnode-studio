@@ -9,7 +9,7 @@ import { reviver } from '@/utils/json'
 import axios from 'axios'
 import nookies, { setCookie } from 'nookies'
 import { toast } from 'react-toastify'
-import { getWeb3Login } from 'utils/auth'
+import { getWeb3Login, signOutUser } from 'utils/auth'
 import {
   Address,
   BaseError,
@@ -83,7 +83,13 @@ const Claim = ({ chainId }: { chainId: number }) => {
       return undefined // Success
     }
 
-    checkAlreadyMinted().then(setInvalidCode)
+    checkAlreadyMinted().then((err) => {
+      if (err) {
+        toast.error("Error: " + err)
+      } else {
+        toast.success("Success")
+      }
+    })
   }, [code, publicClient])
 
   const redeemCode = async () => {
@@ -141,6 +147,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
           const revertError = err.walk(
             (err) => err instanceof ContractFunctionRevertedError
           )
+
           if (revertError instanceof ContractFunctionRevertedError) {
             errorName += ` -> ${revertError.data?.errorName}` ?? ''
           }
@@ -191,6 +198,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
         console.log(res)
         setUser(res)
         console.log('Success!')
+        toast.success('Logged in!')
       }
     } catch (err) {
       console.log('Error loging in with Web3', err)
@@ -255,56 +263,14 @@ const Claim = ({ chainId }: { chainId: number }) => {
           )}
         </div>
       </div>
-
-      <br />
-      <br />
-      <br />
-      <div className="flex flex-row justify-between">
-        <div className="">
-          <p className="font-semibold"> Step 02. </p>
-          <p> Log in with wallet. </p>
-          <Popover>
-            <PopoverTrigger className="text-blue-700 underline">
-              {' '}
-              Why do I need to do this?{' '}
-            </PopoverTrigger>
-            <PopoverContent>
-              Our backend needs to be able to track previous deployments, so we
-              ask you to sign a challenge to create an account on our database.
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div className="">
-          {user != undefined && user?.sessionToken == '' ? (
-            <button
-              className="cursor-pointer items-center rounded-[5px] border border-blue500 bg-blue500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
-              disabled={
-                false /* invalidCode !== undefined || walletClient === undefined || account.address !== undefined */
-              }
-              onClick={() => alert('You wish >:)')}
-            >
-              Log out
-            </button>
-          ) : (
-            <button
-              className="cursor-pointer items-center rounded-[5px] border border-blue500 bg-blue500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
-              disabled={
-                false /* invalidCode !== undefined || walletClient === undefined || account.address !== undefined */
-              }
-              onClick={() => tryLogin()}
-            >
-              Log In
-            </button>
-          )}
-        </div>
-      </div>
+      
       <br />
       <br />
       <br />
 
       <div className="flex flex-row justify-between">
         <div>
-          <p className="font-semibold"> Step 03. </p>
+          <p className="font-semibold"> Step 02. </p>
           <p> Enter your pin from the Xnode card. </p>
           <Popover>
             <PopoverTrigger className="text-blue-700 underline">
@@ -341,7 +307,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
 
       <div className="flex flex-row justify-between">
         <div>
-          <p className="font-semibold"> Step 04. </p>
+          <p className="font-semibold"> Step 03. </p>
           <p> Claim your Xnode. </p>
           <p> Build 100s of apps. Trade. Rent. </p>
         </div>
@@ -350,6 +316,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
           <button
             className="cursor-pointer items-center rounded-[5px] border border-blue500 bg-blue500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
             disabled={
+              /* XXX: Reenable this:  */
               false /* invalidCode !== undefined || walletClient === undefined || account.address !== undefined */
             }
             onClick={() => setConfirmOpen(true)}

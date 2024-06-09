@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { hashObject } from '@/utils/functions'
 import { wagmiConfig } from '@/app/providers'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { useUser } from '@/hooks/useUser'
 import { AccountContext } from 'contexts/AccountContext'
 import { signMessage } from '@wagmi/core'
 import nookies, { destroyCookie, setCookie } from 'nookies'
@@ -27,14 +28,6 @@ async function getUserNonce(userAddress: string) {
   })
   return dado
 }
-export function signOutUser() {
-  const { setUser } = useContext(AccountContext)
-
-  destroyCookie(undefined, 'userSessionToken')
-  nookies.destroy(null, 'userSessionToken')
-  setUser(null)
-}
-
 
 export async function getWeb3Login(address) {
   if (address) {
