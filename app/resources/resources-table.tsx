@@ -2,6 +2,7 @@
 
 import { Dispatch, SetStateAction, useState } from 'react'
 import { Provider } from '@/db/schema'
+import { prefix } from '@/utils/prefix'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import {
   ColumnDef,
@@ -150,7 +151,7 @@ export default function ResourcesTable() {
         params.append('sort', sort.id)
         params.append('order', sort.desc ? 'desc' : 'asc')
       }
-      const res = await fetch(`/api/providers?${params.toString()}`)
+      const res = await fetch(`${prefix}/api/providers?${params.toString()}`)
       if (!res.ok) {
         throw new Error('Network response was not ok')
       }
