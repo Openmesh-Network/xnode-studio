@@ -129,12 +129,12 @@ const Signup = () => {
     }
   }
 
-  // useEffect(() => {
-  //   // XXX: This is a stub, to remove ugly UI for video demo.
-  //   if (user) {
-  //     setIndexerDeployerStep(indexerDeployerStep + 1)
-  //   }
-  // }, [ user ]);
+  useEffect(() => {
+    // XXX: This is a stub, to remove ugly UI for video demo.
+    if (user) {
+      setIndexerDeployerStep(indexerDeployerStep + 1)
+    }
+  }, [ user ]);
 
 
   return (
