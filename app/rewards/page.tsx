@@ -61,7 +61,7 @@ export default function RewardsPage() {
       <Section className="mt-20">
         <Stats />
       </Section>
-      <Section className="mt-20">
+      <Section className="py-20">
         <Header level={2} className="mb-4 text-xl">
           Active validators
         </Header>
