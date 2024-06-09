@@ -215,11 +215,10 @@ const SidebarNav: React.FC<SidebarNav> = ({
         </NavCategory>
         <NavCategory label="Pages">
           <NavLink
-            href="/staking"
+            href="/rewards"
             icon={Icons.StakingIcon}
             label="Rewards"
             isMobile={isMobile}
-            tag="Soon"
           />
           <NavLink
             href="/settings"
