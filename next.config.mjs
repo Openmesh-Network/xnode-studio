@@ -7,6 +7,15 @@ const nextConfig = {
     },
   ],
   basePath: process.env.NEXT_PUBLIC_PREFIX,
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'flagicons.lipis.dev',
+        protocol: 'https',
+        pathname: '/flags/*',
+      },
+    ],
+  },
   reactStrictMode: false,
 }
 

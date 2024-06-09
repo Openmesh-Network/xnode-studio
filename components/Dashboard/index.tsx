@@ -169,7 +169,7 @@ const Dashboard = () => {
                   Wallet has {xueNfts.length} { xueNfts.length == 1 ? "Xnode" : "Xnodes" } available for activation.
                 </div>
 
-                <ul className="flex mt-4 max-h-[calc(100svh-5rem)] flex-col items-center gap-8 overflow-y-auto text-black">
+                <ul className="mt-4 flex max-h-[calc(100svh-5rem)] flex-col items-center gap-8 overflow-y-auto text-black">
                   {
                     xueNfts.map((node, index) => (
                       <li key={index} className="flex w-fit items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
@@ -188,14 +188,14 @@ const Dashboard = () => {
                           </ul>
                         </div>
 
-                        <div className="h-full w-fit my-auto flex align-middle items-center justify-center">
-                          <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-primary text-primary hover:bg-primary/10 h-10 rounded-md px-4 min-w-56"
+                        <div className="my-auto flex h-full w-fit items-center justify-center align-middle">
+                          <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                             onClick={ () => alert('ACTIVATING!!!!')}> 
                             Activate Now
                           </button>
                         </div>
 
-                        <p> <a className="underline text-blue-500" href={
+                        <p> <a className="text-blue-500 underline" href={
                           "https://sepolia.etherscan.io/nft/0x36dcd679652e484786d4b94621b36d61c17f5dac/" + node.toString()
                           }> View on etherscan  </a> </p>
                       </li>
@@ -214,7 +214,7 @@ const Dashboard = () => {
           {
             xnodesData && (
               <div className="border-1 border-solid/20 border-black">
-                <ul className="flex mt-4 overflow-y-auto flex-col items-center gap-8 text-black">
+                <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
                   {
                     xnodesData?.map((node: Xnode) => (
                       <li className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
@@ -236,8 +236,8 @@ const Dashboard = () => {
                           </ul>
                         </div>
 
-                        <div className="h-full flex align-center justify-center">
-                          <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-primary text-primary hover:bg-primary/10 h-10 rounded-md px-4 min-w-56"
+                        <div className="align-center flex h-full justify-center">
+                          <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                             onClick={ () => alert('ACTIVATING!!!!')}> 
                             Manage
                           </button>

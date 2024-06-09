@@ -4,10 +4,9 @@ import { useContext } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { AccountContext } from '@/contexts/AccountContext'
-import { prefix } from '@/utils/prefix'
 import { Check, X } from 'phosphor-react'
 
-import { useEffect } from 'react'
+import { getFlagImageURL } from '@/lib/countryFlags'
 import { cn, formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -20,32 +19,22 @@ import {
 } from '@/components/ui/table'
 
 import { Separator } from '../../components/ui/separator'
-import { useUser } from '@/hooks/useUser'
 
-export default function TemplateProgress() {
+export default function DeploymentProgress() {
   const {
     indexerDeployerStep,
     setIndexerDeployerStep,
     templateSelected,
-    connections
+    user,
   } = useContext(AccountContext)
-
-  const [ user, setUser ] = useUser()
-
-  useEffect(() => {
-    if (user) {
-      console.log(user)
-    }
-  }, [user, setUser])
-
   return (
     <aside className="relative min-w-96 shrink-0 border-l border-zinc-200 bg-zinc-50 p-8">
       <h4 className="font-bold text-black">Your Progress</h4>
       <Link
-        href="/template-products"
+        href="/templates"
         className="absolute right-8 top-8 flex size-8 items-center justify-center"
       >
-        <X size={20} className="text-muted" />
+        <X className="size-5" />
       </Link>
       <div className="mt-8 flex flex-col gap-6">
         <div>
@@ -60,7 +49,8 @@ export default function TemplateProgress() {
                   : 'enabled:hover:bg-primary/10'
               )}
               onClick={() => setIndexerDeployerStep(-1)}
-            > {indexerDeployerStep === -1 ? (
+            >
+              {indexerDeployerStep === -1 ? (
                 <div className="absolute inset-y-0 left-0 w-0.5 bg-primary" />
               ) : null}
               <div
@@ -80,14 +70,14 @@ export default function TemplateProgress() {
                   indexerDeployerStep === -1 ? 'text-black' : 'text-black/50'
                 )}
               >
-                Edit configuration
+                Select a Template
               </p>
             </button>
           </div>
           {indexerDeployerStep === -1 ? (
             <div className="mt-4 flex flex-col items-center justify-center gap-4">
               <Image
-                src={`${prefix}/images/template/bare-metal.svg`}
+                src={`/images/template/bare-metal.svg`}
                 alt="Bare Metal"
                 width={200}
                 height={100}
@@ -146,7 +136,16 @@ export default function TemplateProgress() {
                 <div className="w-full">
                   <ul className="flex flex-col gap-1 text-sm">
                     <li>Bare Metal Provider</li>
-                    <li>{templateSelected.location}</li>
+                    <li className="flex items-center gap-1.5">
+                      <Image
+                        src={getFlagImageURL(templateSelected.location.trim())}
+                        alt={templateSelected.location}
+                        width={24}
+                        height={16}
+                        className="aspect-[3/2] rounded"
+                      />
+                      {templateSelected.location.trim()}
+                    </li>
                   </ul>
                   <p className="mt-1.5 font-semibold">
                     {templateSelected.cpuCores} vCPU Cores +{' '}
@@ -243,12 +242,10 @@ export default function TemplateProgress() {
                   indexerDeployerStep === 1 ? 'text-black' : 'text-black/50'
                 )}
               >
-                Sign in
+                Choose your configuration
               </p>
             </button>
           </div>
-
-          
           {indexerDeployerStep === 1 ? (
             <div className="mt-4 flex flex-col items-center justify-center gap-4">
               <Button
@@ -257,60 +254,7 @@ export default function TemplateProgress() {
                 className="h-12 w-full"
                 onClick={() => setIndexerDeployerStep(2)}
               >
-                Continue
-              </Button>
-            </div>
-          ) : null}
-        </div>
-
-        <div>
-          <div className="-mx-8">
-            <button
-              disabled={indexerDeployerStep <= 2}
-              type="button"
-              className={cn(
-                'relative flex w-full items-center gap-6 px-8 py-3 transition-colors',
-                indexerDeployerStep === 2
-                  ? 'bg-primary/10'
-                  : 'enabled:hover:bg-primary/10'
-              )}
-              onClick={() => setIndexerDeployerStep(2)}
-            >
-              {indexerDeployerStep === 2 ? (
-                <div className="absolute inset-y-0 left-0 w-0.5 bg-primary" />
-              ) : null}
-              <div
-                className={cn(
-                  'flex size-10 items-center justify-center rounded-full border border-zinc-400',
-                  indexerDeployerStep <= 2 && 'border-dashed',
-                  indexerDeployerStep === 2 && 'border-primary',
-                  indexerDeployerStep > 2 && 'border-primary'
-                )}
-              >
-                {indexerDeployerStep > 2 ? (
-                  <Check size={20} weight="bold" className="text-primary" />
-                ) : null}
-              </div>
-              <p
-                className={cn(
-                  'font-bold',
-                  indexerDeployerStep === 2 ? 'text-black' : 'text-black/50'
-                )}
-              >
-                Perform connections
-              </p>
-            </button>
-          </div>
-
-          {indexerDeployerStep === 2 ? (
-            <div className="mt-4 flex flex-col items-center justify-center gap-4">
-              <Button
-                disabled={ !connections }
-                variant={ connections ? 'default' : 'outlinePrimary'}
-                className="h-12 w-full"
-                onClick={() => setIndexerDeployerStep(3)}
-              >
-                Create and deploy
+                Create and Deploy
               </Button>
             </div>
           ) : null}

@@ -50,7 +50,7 @@ export function Header() {
         </nav>
 
         <Link
-          href={`/template-products/`}
+          href={`/deploy?workspace=1`}
           className="flex h-full items-center gap-x-[10px] bg-blue500 px-9 transition-colors duration-300 hover:bg-blue500/80"
         >
           <Image src={thunderIcon} alt="Thunder icon" />

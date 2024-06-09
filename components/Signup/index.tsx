@@ -166,7 +166,7 @@ const Signup = () => {
           : (
             <>
             <div className="w-1/2 border-r">
-              <div className="w-fit mx-auto">
+              <div className="mx-auto w-fit">
                 <h3 className="text-2xl font-semibold">
                   Connect your wallet to continue
                 </h3>
@@ -193,11 +193,11 @@ const Signup = () => {
             </div>
 
             <div className="w-1/2 border-l">
-              <div className="w-min m-auto">
-                <div className="text-xl w-fit mt-5 font-medium flex flex-cols">Not a web3 user?</div>
+              <div className="m-auto w-min">
+                <div className="flex-cols mt-5 flex w-fit text-xl font-medium">Not a web3 user?</div>
 
                 <Dialog>
-                  <DialogTrigger className=" mt-5 inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary/95 border border-primary text-white font-semibold hover:bg-primary h-10 rounded-md px-4 min-w-56"> Openmesh Expert Login </DialogTrigger>
+                  <DialogTrigger className=" mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> Openmesh Expert Login </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle>Log in</DialogTitle>
@@ -270,7 +270,7 @@ const Signup = () => {
                 href={`https://www.openmesh.network/oec/register`}
                 className="border-b-1 cursor-pointer text-[#3253FE]"
               >
-                <button className="mt-5 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-primary text-primary hover:bg-primary/10 h-10 rounded-md px-4 min-w-56"> 
+                <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> 
                   Register
                 </button>
                 </a>

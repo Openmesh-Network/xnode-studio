@@ -9,20 +9,22 @@ import { ToastContainer } from 'react-toastify'
 import { cookieStorage, createStorage, State, WagmiProvider } from 'wagmi'
 import { mainnet, sepolia } from 'wagmi/chains'
 
+import ScreenProvider from '@/components/screen-provider'
 
-const chains = [mainnet, sepolia] as const;
+const chains = [mainnet, sepolia] as const
 const queryClient = new QueryClient()
 
-const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
+const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
 
 if (!projectId) throw new Error('Project ID is not defined')
 
 const metadata = {
-  name: "Xnode",
-  description: "Your Gateway to Building Personalized Data Ecosystems in minutes, instead of weeks.",
-  url: "https://www.openmesh.network/xnode",
-  icons: ["https://www.openmesh.network/xnode/openmesh-blue.png"],
-};
+  name: 'Xnode',
+  description:
+    'Your Gateway to Building Personalized Data Ecosystems in minutes, instead of weeks.',
+  url: 'https://www.openmesh.network/xnode',
+  icons: ['https://www.openmesh.network/xnode/openmesh-blue.png'],
+}
 
 export const wagmiConfig = defaultWagmiConfig({
   chains,
@@ -32,7 +34,7 @@ export const wagmiConfig = defaultWagmiConfig({
   storage: createStorage({
     storage: cookieStorage,
   }),
-});
+})
 
 createWeb3Modal({
   wagmiConfig: wagmiConfig,
@@ -48,21 +50,21 @@ export function Providers({
   children,
   initialState,
 }: {
-  children: React.ReactNode;
-  initialState?: State;
+  children: React.ReactNode
+  initialState?: State
 }) {
   return (
     <AccountContextProvider>
       <WagmiProvider config={wagmiConfig} initialState={initialState}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider attribute="class" enableSystem={false}>
-            {children}
-            <ToastContainer />
+            <ScreenProvider>
+              {children}
+              <ToastContainer />
+            </ScreenProvider>
           </ThemeProvider>
         </QueryClientProvider>
       </WagmiProvider>
     </AccountContextProvider>
   )
 }
-
-// Get projectId at https://cloud.walletconnect.com

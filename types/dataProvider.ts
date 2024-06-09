@@ -101,6 +101,20 @@ export type OldTemplatesData = {
   includedIntegrations?: IncludedIntegrations[]
 }
 
+export type DeploymentTemplate = {
+  name: string
+  description: string
+  tags?: string[]
+  minSpecs?: Specs
+  services?: {
+    name: string
+    description?: string
+    tags?: string[]
+    nixName?: string
+  }[]
+  custom?: boolean
+}
+
 export type DeploymentConfiguration = {
   name: string
   desc: string
@@ -165,7 +179,9 @@ export function ServiceFromName(name: string): ServiceData | undefined {
     serviceMap = new Map<string, ServiceData>()
 
     for (let i = 0; i < ServiceDefinitions.length; i++) {
-      serviceMap.set(ServiceDefinitions[i].nixName, ServiceDefinitions[i])
+      const service = ServiceDefinitions[i]
+      if (service === undefined) continue
+      serviceMap.set(ServiceDefinitions[i].nixName, service)
     }
   }
 
@@ -175,18 +191,13 @@ export function ServiceFromName(name: string): ServiceData | undefined {
 let templateMap: Map<string, TemplateData> = null
 export function TemplateFromId(id: string): TemplateData | undefined {
   if (templateMap == null) {
-    console.log('Inicialisando mapa.')
     templateMap = new Map<string, TemplateData>()
 
-    console.log('Tamano ', TemplateDefinitions.length)
     for (let i = 0; i < TemplateDefinitions.length; i++) {
-      console.log('Seteando ', TemplateDefinitions[i].id, id)
       templateMap.set(TemplateDefinitions[i].id, TemplateDefinitions[i])
-      console.log('Viene:', templateMap.get(TemplateDefinitions[i].id))
     }
   }
 
-  console.log('Ahora vuelve el resultado.', templateMap.get(id))
   return templateMap.get(id)
 }
 
