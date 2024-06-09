@@ -68,11 +68,10 @@ const SidebarNav: React.FC<SidebarNav> = ({
         </NavCategory>
         <NavCategory>
           <NavLink
-            href="/xnode"
+            href="/units"
             icon={Icons.XNodeIcon}
             label="Xnode"
             isMobile={isMobile}
-            tag="Soon"
           />
         </NavCategory>
         <NavCategory>

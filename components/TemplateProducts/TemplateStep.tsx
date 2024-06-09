@@ -152,55 +152,50 @@ const TemplateStep = () => {
               Jumpstart your development process with our pre-built templates
             </div>
             <div className="relative mt-[48px]">
-              <img
-                src={`${prefix}/images/template/small.svg`}
-                alt="image"
-                className="absolute -top-2.5 left-0"
-              />
-              <div className="mx-auto flex w-fit gap-x-[12px] text-[14px] font-normal leading-[16px] text-[#4d4d4d] 2xl:text-[16px]">
-                <div
-                  onClick={() => {
-                    setFilterSelection('All Templates')
-                    handleNewFilteredTemplatesData(
-                      categoryFilter,
-                      'All Templates'
-                    )
-                  }}
-                  className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
-                    filterSelection === 'All Templates'
-                      ? 'bg-[#4d4d4d] font-bold text-white'
-                      : 'hover:text-[#252525]'
-                  }`}
-                >
-                  All Templates
-                </div>
-                <div
-                  onClick={() => {
-                    setFilterSelection('openmesh')
-                    handleNewFilteredTemplatesData(categoryFilter, 'openmesh')
-                  }}
-                  className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
-                    filterSelection === 'openmesh'
-                      ? 'bg-[#4d4d4d] font-bold text-white'
-                      : 'hover:text-[#252525]'
-                  }`}
-                >
-                  Openmesh
-                </div>
-                <div
-                  onClick={() => {
-                    setFilterSelection('community')
-                    handleNewFilteredTemplatesData(categoryFilter, 'community')
-                  }}
-                  className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
-                    filterSelection === 'community'
-                      ? 'bg-[#4d4d4d] font-bold text-white'
-                      : 'hover:text-[#252525]'
-                  }`}
-                >
-                  Community
-                </div>
-              </div>
+              {/* <div className="mx-auto flex w-fit gap-x-[13px] text-[14px] font-normal leading-[16px] text-[#4d4d4d] 2xl:text-[16px]"> */}
+              {/*   <div */}
+              {/*     onClick={() => { */}
+              {/*       setFilterSelection('All Templates') */}
+              {/*       handleNewFilteredTemplatesData( */}
+              {/*         categoryFilter, */}
+              {/*         'All Templates' */}
+              {/*       ) */}
+              {/*     }} */}
+              {/*     className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${ */}
+              {/*       filterSelection === 'All Templates' */}
+              {/*         ? 'bg-[#4d4d4d] font-bold text-white' */}
+              {/*         : 'hover:text-[#252525]' */}
+              {/*     }`} */}
+              {/*   > */}
+              {/*     All Templates */}
+              {/*   </div> */}
+              {/*   <div */}
+              {/*     onClick={() => { */}
+              {/*       setFilterSelection('openmesh') */}
+              {/*       handleNewFilteredTemplatesData(categoryFilter, 'openmesh') */}
+              {/*     }} */}
+              {/*     className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${ */}
+              {/*       filterSelection === 'openmesh' */}
+              {/*         ? 'bg-[#4d4d4d] font-bold text-white' */}
+              {/*         : 'hover:text-[#252525]' */}
+              {/*     }`} */}
+              {/*   > */}
+              {/*     Openmesh */}
+              {/*   </div> */}
+              {/*   <div */}
+              {/*     onClick={() => { */}
+              {/*       setFilterSelection('community') */}
+              {/*       handleNewFilteredTemplatesData(categoryFilter, 'community') */}
+              {/*     }} */}
+              {/*     className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${ */}
+              {/*       filterSelection === 'community' */}
+              {/*         ? 'bg-[#4d4d4d] font-bold text-white' */}
+              {/*         : 'hover:text-[#252525]' */}
+              {/*     }`} */}
+              {/*   > */}
+              {/*     Community */}
+              {/*   </div> */}
+              {/* </div> */}
             </div>
             <div className="mt-[34px] h-px w-full bg-[#E6E8EC]"></div>
             <div className="mt-[30px] flex gap-x-[70px]">
@@ -348,38 +343,38 @@ const TemplateStep = () => {
                   </div>
                 </div>
                 <div className="mt-[29px] h-px w-full bg-[#E6E8EC]"></div>
-                <div className="mt-[24px] text-start">
-                  <div className="text-[14px] font-medium leading-[12px] text-black 2xl:text-[16px]">
-                    Creator
-                  </div>
-                  <div className="mt-[12px]">
-                    <Dropdown
-                      optionSelected={selectedCreator}
-                      options={optionsCreator}
-                      placeholder="Filter"
-                      onValueChange={(value) => {
-                        setSelectedCreator(value)
-                      }}
-                    />
-                  </div>
-                  <div
-                    onClick={() => {
-                      setCategoryFilter([])
-                      setFilterSelection('All Templates')
-                      handleNewFilteredTemplatesData([], 'All Templates')
-                    }}
-                    className="mt-[24px] flex cursor-pointer gap-x-[10px]"
-                  >
-                    <img
-                      src={`${prefix}/images/template/remove.svg`}
-                      alt="image"
-                      className=""
-                    />
-                    <div className="text-[14px] font-normal text-[#4d4d4d] hover:text-[#3b3b3b] 2xl:text-[16px]">
-                      Reset filter
-                    </div>
-                  </div>
-                </div>
+                {/* <div className="mt-[24px] text-start"> */}
+                {/*   <div className="text-[14px] font-medium leading-[12px] text-black 2xl:text-[16px]"> */}
+                {/*     Creator */}
+                {/*   </div> */}
+                {/*   <div className="mt-[12px]"> */}
+                {/*     <Dropdown */}
+                {/*       optionSelected={selectedCreator} */}
+                {/*       options={optionsCreator} */}
+                {/*       placeholder="Filter" */}
+                {/*       onValueChange={(value) => { */}
+                {/*         setSelectedCreator(value) */}
+                {/*       }} */}
+                {/*     /> */}
+                {/*   </div> */}
+                {/*   <div */}
+                {/*     onClick={() => { */}
+                {/*       setCategoryFilter([]) */}
+                {/*       setFilterSelection('All Templates') */}
+                {/*       handleNewFilteredTemplatesData([], 'All Templates') */}
+                {/*     }} */}
+                {/*     className="mt-[24px] flex cursor-pointer gap-x-[10px]" */}
+                {/*   > */}
+                {/*     <img */}
+                {/*       src={`${prefix}/images/template/remove.svg`} */}
+                {/*       alt="image" */}
+                {/*       className="" */}
+                {/*     /> */}
+                {/*     <div className="text-[14px] font-normal text-[#4d4d4d] hover:text-[#3b3b3b] 2xl:text-[16px]"> */}
+                {/*       Reset filter */}
+                {/*     </div> */}
+                {/*   </div> */}
+                {/* </div> */}
               </div>
               <div className="w-full">
                 <div className="flex justify-end gap-x-[20px]">
@@ -392,50 +387,6 @@ const TemplateStep = () => {
                       handleSortByFilter(value.value)
                     }}
                   />
-                  <div className="flex">
-                    <div
-                      onClick={() => {}}
-                      className={`${
-                        displayToggle === 'list' ? 'bg-[#0059ff]' : 'bg-white'
-                      } rounded-l-[5px] border border-r-0 border-[#d1d5da] p-[16px]`}
-                    >
-                      {displayToggle === 'list' ? (
-                        <img
-                          src={`${prefix}/images/template/list.svg`}
-                          alt="image"
-                          className=""
-                        />
-                      ) : (
-                        <img
-                          src={`${prefix}/images/template/list-cinza.svg`}
-                          alt="image"
-                          className=""
-                        />
-                      )}
-                    </div>
-                    <div
-                      onClick={() => {
-                        setDisplayToggle('square')
-                      }}
-                      className={`${
-                        displayToggle === 'square' ? 'bg-[#0059ff]' : 'bg-white'
-                      } cursor-pointer rounded-r-[5px] border border-l-0 border-[#d1d5da] p-[16px]`}
-                    >
-                      {displayToggle === 'square' ? (
-                        <img
-                          src={`${prefix}/images/template/quadrados.svg`}
-                          alt="image"
-                          className=""
-                        />
-                      ) : (
-                        <img
-                          src={`${prefix}/images/template/quadrados-cinza.svg`}
-                          alt="image"
-                          className=""
-                        />
-                      )}
-                    </div>
-                  </div>
                 </div>
 
                 {/* XXX: Code duplication here. Refactor into component? */}
