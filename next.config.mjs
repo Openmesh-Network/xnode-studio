@@ -7,7 +7,7 @@ const nextConfig = {
       destination: 'https://remote-signer.plopmenz.com/xue-signer/:call*',
     },
   ],
-  assetPrefix: process.env.PREFIX,
+  assetPrefix: process.env.NEXT_PUBLIC_PREFIX,
   // assetPrefix: 'http://localhost:3334',
   reactStrictMode: false,
 }

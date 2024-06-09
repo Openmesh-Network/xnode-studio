@@ -1,1 +1,1 @@
-export const prefix = process.env.PREFIX ?? ''
+export const prefix = process.env.NEXT_PUBLIC_PREFIX ?? ''
