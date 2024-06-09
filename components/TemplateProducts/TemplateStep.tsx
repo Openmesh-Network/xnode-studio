@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
 import { prefix } from '@/utils/prefix'
+import CategoryDefinitions from 'utils/category.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
 
 import { TemplateData } from '@/types/dataProvider'
@@ -52,6 +53,7 @@ const TemplateStep = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<string>('')
   const [displayToggle, setDisplayToggle] = useState<string>('square')
   const [categoryFilter, setCategoryFilter] = useState<string[]>([])
+  const categoryMap: Map<string, number> = new Map(Object.entries(CategoryDefinitions));
 
   const [categoryOpen, setCategoryOpen] = useState<boolean>(true)
   const [page, setPage] = useState<number>(1)
@@ -166,11 +168,10 @@ const TemplateStep = () => {
                       'All Templates'
                     )
                   }}
-                  className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
-                    filterSelection === 'All Templates'
-                      ? 'bg-[#4d4d4d] font-bold text-white'
-                      : 'hover:text-[#252525]'
-                  }`}
+                  className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${filterSelection === 'All Templates'
+                    ? 'bg-[#4d4d4d] font-bold text-white'
+                    : 'hover:text-[#252525]'
+                    }`}
                 >
                   All Templates
                 </div>
@@ -179,11 +180,10 @@ const TemplateStep = () => {
                     setFilterSelection('openmesh')
                     handleNewFilteredTemplatesData(categoryFilter, 'openmesh')
                   }}
-                  className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
-                    filterSelection === 'openmesh'
-                      ? 'bg-[#4d4d4d] font-bold text-white'
-                      : 'hover:text-[#252525]'
-                  }`}
+                  className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${filterSelection === 'openmesh'
+                    ? 'bg-[#4d4d4d] font-bold text-white'
+                    : 'hover:text-[#252525]'
+                    }`}
                 >
                   Openmesh
                 </div>
@@ -192,11 +192,10 @@ const TemplateStep = () => {
                     setFilterSelection('community')
                     handleNewFilteredTemplatesData(categoryFilter, 'community')
                   }}
-                  className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${
-                    filterSelection === 'community'
-                      ? 'bg-[#4d4d4d] font-bold text-white'
-                      : 'hover:text-[#252525]'
-                  }`}
+                  className={`cursor-pointer rounded-[100px] px-[12px] py-[6px] ${filterSelection === 'community'
+                    ? 'bg-[#4d4d4d] font-bold text-white'
+                    : 'hover:text-[#252525]'
+                    }`}
                 >
                   Community
                 </div>
@@ -216,135 +215,29 @@ const TemplateStep = () => {
                       }}
                       src={`${prefix}/images/template/arrow-top.svg`}
                       alt="image"
-                      className={`${
-                        !categoryOpen && 'rotate-180'
-                      } cursor-pointer transition-all duration-300`}
+                      className={`${!categoryOpen && 'rotate-180'
+                        } cursor-pointer transition-all duration-300`}
                     />
                   </div>
-                  <div
-                    className={`${
-                      !categoryOpen && 'hidden'
-                    } mt-[30px] flex gap-x-[6px]`}
-                  >
-                    <img
-                      src={`${prefix}/images/template/xnode-circle.svg`}
-                      alt="image"
-                      className=""
-                    />
-                    <div
-                      onClick={() => {
-                        handleCategoryFilter('blockchain')
-                      }}
-                      className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes('blockchain') ? 'text-[#0059ff]' : 'text-[#959595]'}`}
-                    >
-                      Blockchain (
-                      {
-                        templatesData?.filter(
-                          (data) => data.category === 'blockchain'
-                        ).length
-                      }
-                      )
-                    </div>
-                  </div>
-                  <div
-                    className={`${
-                      !categoryOpen && 'hidden'
-                    } mt-[20px] flex gap-x-[6px]`}
-                  >
-                    <img
-                      src={`${prefix}/images/template/xnode-circle.svg`}
-                      alt="image"
-                      className=""
-                    />
-                    <div
-                      onClick={() => {
-                        handleCategoryFilter('data')
-                      }}
-                      className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes('data') ? 'text-[#0059ff]' : 'text-[#959595]'}`}
-                    >
-                      Data (
-                      {
-                        templatesData?.filter(
-                          (data) => data.category === 'data'
-                        ).length
-                      }
-                      )
-                    </div>
-                  </div>
-                  <div
-                    className={`${
-                      !categoryOpen && 'hidden'
-                    } mt-[20px] flex gap-x-[6px]`}
-                  >
-                    <img
-                      src={`${prefix}/images/template/xnode-circle.svg`}
-                      alt="image"
-                      className=""
-                    />
-                    <div
-                      onClick={() => {
-                        handleCategoryFilter('developer')
-                      }}
-                      className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes('developer') ? 'text-[#0059ff]' : 'text-[#959595]'}`}
-                    >
-                      Developer (
-                      {
-                        templatesData?.filter(
-                          (data) => data.category === 'developer'
-                        ).length
-                      }
-                      )
-                    </div>
-                  </div>
-                  <div
-                    className={`${
-                      !categoryOpen && 'hidden'
-                    } mt-[20px] flex gap-x-[6px]`}
-                  >
-                    <img
-                      src={`${prefix}/images/template/xnode-circle.svg`}
-                      alt="image"
-                      className=""
-                    />
-                    <div
-                      onClick={() => {
-                        handleCategoryFilter('server')
-                      }}
-                      className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes('server') ? 'text-[#0059ff]' : 'text-[#959595]'}`}
-                    >
-                      Server (
-                      {
-                        templatesData?.filter(
-                          (data) => data.category === 'server'
-                        ).length
-                      }
-                      )
-                    </div>
-                  </div>
-                  <div
-                    className={`${
-                      !categoryOpen && 'hidden'
-                    } mt-[20px] flex gap-x-[6px]`}
-                  >
-                    <img
-                      src={`${prefix}/images/template/xnode-circle.svg`}
-                      alt="image"
-                      className=""
-                    />
-                    <div
-                      onClick={() => {
-                        handleCategoryFilter('validatorNode')
-                      }}
-                      className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes('validatorNode') ? 'text-[#0059ff]' : 'text-[#959595]'}`}
-                    >
-                      Validator Node (
-                      {
-                        templatesData?.filter(
-                          (data) => data.category === 'validatorNode'
-                        ).length
-                      }
-                      )
-                    </div>
+                  <div className={`${!categoryOpen && 'hidden'} mt-[30px] flex flex-col gap-x-[6px] `}>
+                    {Array.from(categoryMap.keys()).slice(0, 5).map((category) => (
+                      <div key={category} className="mt-6 flex items-center ">
+                        <img
+
+                          src={`${prefix}/images/template/xnode-circle.svg`}
+                          alt="image"
+                          className="mr-2" // Adjust margin as needed
+                        />
+                        <div
+                          onClick={() => handleCategoryFilter(category)}
+                          className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes(category.toLowerCase()) ? 'text-[#0059ff]' : 'text-[#959595]'
+                            }`}
+                        >
+                          {category.length > 20 ? `${category.slice(0, 10)}..` : category} ({categoryMap.get(category)})
+                        </div>
+                      </div>
+                    ))}
+
                   </div>
                 </div>
                 <div className="mt-[29px] h-px w-full bg-[#E6E8EC]"></div>
@@ -394,10 +287,9 @@ const TemplateStep = () => {
                   />
                   <div className="flex">
                     <div
-                      onClick={() => {}}
-                      className={`${
-                        displayToggle === 'list' ? 'bg-[#0059ff]' : 'bg-white'
-                      } rounded-l-[5px] border border-r-0 border-[#d1d5da] p-[16px]`}
+                      onClick={() => { }}
+                      className={`${displayToggle === 'list' ? 'bg-[#0059ff]' : 'bg-white'
+                        } rounded-l-[5px] border border-r-0 border-[#d1d5da] p-[16px]`}
                     >
                       {displayToggle === 'list' ? (
                         <img
@@ -417,9 +309,8 @@ const TemplateStep = () => {
                       onClick={() => {
                         setDisplayToggle('square')
                       }}
-                      className={`${
-                        displayToggle === 'square' ? 'bg-[#0059ff]' : 'bg-white'
-                      } cursor-pointer rounded-r-[5px] border border-l-0 border-[#d1d5da] p-[16px]`}
+                      className={`${displayToggle === 'square' ? 'bg-[#0059ff]' : 'bg-white'
+                        } cursor-pointer rounded-r-[5px] border border-l-0 border-[#d1d5da] p-[16px]`}
                     >
                       {displayToggle === 'square' ? (
                         <img
