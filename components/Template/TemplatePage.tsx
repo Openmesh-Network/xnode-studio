@@ -261,7 +261,7 @@ const Template = (id: any) => {
 
                     <div className="w-[25%]">
                       {
-                        (item.specs.ram == 0 ? ( "- " ) : ( item.specs.ram )) + "mb ram, " + (item.specs.storage == 0 ? ( "- " ) : ( item.specs.storage )) + "mb disk"
+                        (item.specs.ram == 0 ? ( "- " ) : ( item.specs.ram + "MB")) + " ram, " + (item.specs.storage == 0 ? ( "- " ) : ( item.specs.storage + "MB" )) + " disk"
                       }
                     </div>
 
