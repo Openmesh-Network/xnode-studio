@@ -9,8 +9,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "gnunet",
         "options": [
@@ -89,8 +89,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "awstats",
         "options": [
@@ -197,8 +197,8 @@
         "implmented": false,
         "logo": "https://metabase.com/images/favicon.ico",
         "specs": {
-            "ram": "1000",
-            "storage": "10000"
+            "ram": 1000,
+            "storage": 10000
         },
         "nixName": "metabase",
         "options": [
@@ -263,8 +263,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "4000",
-            "storage": "0"
+            "ram": 4000,
+            "storage": 0
         },
         "nixName": "python311Packages.posthog",
         "options": []
@@ -279,8 +279,8 @@
         "implmented": false,
         "logo": "https://goaccess.io/assets/ico/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "goaccess",
         "options": []
@@ -295,8 +295,8 @@
         "implmented": false,
         "logo": "https://m-img.org/spai/q_lossless+ret_img+to_webp/matomo.org/wp-content/uploads/2018/11/cropped-DefaultIcon-32x32.png",
         "specs": {
-            "ram": "512",
-            "storage": "500"
+            "ram": 512,
+            "storage": 500
         },
         "nixName": "matomo",
         "options": [
@@ -662,8 +662,8 @@
         "implmented": false,
         "logo": "https://plausible.io/assets/images/icon/favicon-16x16.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "plausible",
         "options": [
@@ -840,8 +840,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "8192",
-            "storage": "0"
+            "ram": 8192,
+            "storage": 0
         },
         "nixName": "ollama",
         "options": [
@@ -920,8 +920,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "500",
-            "storage": "0"
+            "ram": 500,
+            "storage": 0
         },
         "nixName": "archivebox",
         "options": []
@@ -936,8 +936,8 @@
         "implmented": false,
         "logo": "https://bitmagnet.io/assets/images/favicon.png",
         "specs": {
-            "ram": "300",
-            "storage": "51200"
+            "ram": 300,
+            "storage": 51200
         },
         "nixName": "bitmagnet",
         "options": []
@@ -952,8 +952,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "4096",
-            "storage": "20480"
+            "ram": 4096,
+            "storage": 20480
         },
         "nixName": "ckan",
         "options": []
@@ -968,8 +968,8 @@
         "implmented": false,
         "logo": "https://hackage.haskell.org/static/favicon.png",
         "specs": {
-            "ram": "1024",
-            "storage": "51200"
+            "ram": 1024,
+            "storage": 51200
         },
         "nixName": "haskellPackages.Ganymede",
         "options": []
@@ -984,8 +984,8 @@
         "implmented": false,
         "logo": "http://wallabag.org/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "wallabag",
         "options": []
@@ -1000,8 +1000,8 @@
         "implmented": false,
         "logo": "https://airflow.apache.org/favicons/android-icon-192x192.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "apache-airflow",
         "options": []
@@ -1016,8 +1016,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "changedetection-io",
         "options": [
@@ -1117,8 +1117,8 @@
         "implmented": false,
         "logo": "https://lidarr.audio/img/favicon.ico",
         "specs": {
-            "ram": "2048",
-            "storage": "20480"
+            "ram": 2048,
+            "storage": 20480
         },
         "nixName": "lidarr",
         "options": [
@@ -1302,8 +1302,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "headphones",
         "options": [
@@ -1368,8 +1368,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "128",
-            "storage": "0"
+            "ram": 128,
+            "storage": 0
         },
         "nixName": "pyload-ng",
         "options": []
@@ -1384,8 +1384,8 @@
         "implmented": false,
         "logo": "https://sonarr.tv/img/favicon.ico",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "sonarr",
         "options": [
@@ -1576,8 +1576,8 @@
         "implmented": false,
         "logo": "https://radarr.video/img/favicon.ico",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "radarr",
         "options": [
@@ -1768,8 +1768,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "healthchecks",
         "options": [
@@ -1883,8 +1883,8 @@
         "implmented": false,
         "logo": "https://syncthing.net/img/favicon.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "syncthing",
         "options": [
@@ -2229,8 +2229,8 @@
         "implmented": false,
         "logo": "https://docs.wabarc.eu.org/assets/images/favicon.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "wayback",
         "options": []
@@ -2245,8 +2245,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "stalwart-mail",
         "options": [
@@ -2283,8 +2283,8 @@
         "implmented": false,
         "logo": "https://www.dovecot.org/wp-content/uploads/2021/09/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "dovecot",
         "options": [
@@ -2650,8 +2650,8 @@
         "implmented": false,
         "logo": "https://www.discourse.org/a/img/favicon.ico",
         "specs": {
-            "ram": "1024",
-            "storage": "10240"
+            "ram": 1024,
+            "storage": 10240
         },
         "nixName": "discourse",
         "options": [
@@ -2975,8 +2975,8 @@
         "implmented": false,
         "logo": "https://joinmastodon.org/_next/static/media/favicon-32x32.3a702fe9.png",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "mastodon",
         "options": [
@@ -3342,8 +3342,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "jitsi-meet",
         "options": [
@@ -3485,8 +3485,8 @@
         "implmented": false,
         "logo": "https://www.pgbarman.org/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "barman",
         "options": []
@@ -3501,8 +3501,8 @@
         "implmented": false,
         "logo": "https://www.borgbackup.org/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "borgbackup",
         "options": [
@@ -3833,8 +3833,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "burp",
         "options": []
@@ -3849,8 +3849,8 @@
         "implmented": false,
         "logo": "http://dar.linux.free.fr/favicon.png",
         "specs": {
-            "ram": "256",
-            "storage": "0"
+            "ram": 256,
+            "storage": 0
         },
         "nixName": "dar",
         "options": [
@@ -4216,8 +4216,8 @@
         "implmented": false,
         "logo": "https://framerusercontent.com/images/X7jKnThcZvMtDy6jL3AneV66g.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "duplicati",
         "options": [
@@ -4289,8 +4289,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "duplicity",
         "options": [
@@ -4390,8 +4390,8 @@
         "implmented": false,
         "logo": "https://pbs.proxmox.com/docs/_static/favicon.ico",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "proxmox-backup-client",
         "options": []
@@ -4406,8 +4406,8 @@
         "implmented": false,
         "logo": "https://rclone.org/img/rclone-32x32.png",
         "specs": {
-            "ram": "256",
-            "storage": "0"
+            "ram": 256,
+            "storage": 0
         },
         "nixName": "rclone",
         "options": [
@@ -4465,8 +4465,8 @@
         "implmented": false,
         "logo": "https://rdiff-backup.net/resources/logo-32.png",
         "specs": {
-            "ram": "256",
-            "storage": "0"
+            "ram": 256,
+            "storage": 0
         },
         "nixName": "rdiff-backup",
         "options": []
@@ -4481,8 +4481,8 @@
         "implmented": false,
         "logo": "https://restic.net/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "restic",
         "options": [
@@ -4827,8 +4827,8 @@
         "implmented": false,
         "logo": "https://rsnapshot.org/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "rsnapshot",
         "options": [
@@ -4872,8 +4872,8 @@
         "implmented": false,
         "logo": "https://www.urbackup.org/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "urbackup-client",
         "options": []
@@ -4888,8 +4888,8 @@
         "implmented": false,
         "logo": "https://gotosocial.org/assets/logo.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "gotosocial",
         "options": [
@@ -4947,8 +4947,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "isso",
         "options": [
@@ -4978,8 +4978,8 @@
         "implmented": false,
         "logo": "https://join-lemmy.org/static/assets/icons/favicon.svg",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "lemmy-ui",
         "options": [
@@ -5009,8 +5009,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "libreddit",
         "options": [
@@ -5061,8 +5061,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "nitter",
         "options": [
@@ -5372,8 +5372,8 @@
         "implmented": false,
         "logo": "https://git.pleroma.social/uploads/-/system/appearance/favicon/1/favicon.png",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "pleroma",
         "options": [
@@ -5592,8 +5592,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "galene",
         "options": [
@@ -5707,8 +5707,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "1024",
-            "storage": "0"
+            "ram": 1024,
+            "storage": 0
         },
         "nixName": "janus-gateway",
         "options": []
@@ -5723,8 +5723,8 @@
         "implmented": false,
         "logo": "https://baserow.io/img/favicon_16.png",
         "specs": {
-            "ram": "2048",
-            "storage": "10240"
+            "ram": 2048,
+            "storage": 10240
         },
         "nixName": "baserow",
         "options": []
@@ -5739,8 +5739,8 @@
         "implmented": false,
         "logo": "https://nextcloud.com/c/uploads/2022/03/favicon.png",
         "specs": {
-            "ram": "512",
-            "storage": "5120"
+            "ram": 512,
+            "storage": 5120
         },
         "nixName": "nextcloud-client",
         "options": []
@@ -5755,8 +5755,8 @@
         "implmented": false,
         "logo": "https://www.samba.org/samba/style/2010/grey/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "samba4Full",
         "options": []
@@ -5771,8 +5771,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "seafile-shared",
         "options": []
@@ -5787,8 +5787,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "unison",
         "options": []
@@ -5803,8 +5803,8 @@
         "implmented": false,
         "logo": "https://ceph.io/assets/favicons/favicon-16x16.png",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "ceph-client",
         "options": []
@@ -5819,8 +5819,8 @@
         "implmented": false,
         "logo": "https://linbit.com/wp-content/uploads/2019/07/cropped-Linbit_Site_Icon-32x32.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "drbd",
         "options": [
@@ -5850,8 +5850,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "1024",
-            "storage": "0"
+            "ram": 1024,
+            "storage": 0
         },
         "nixName": "glusterfs",
         "options": [
@@ -5944,8 +5944,8 @@
         "implmented": false,
         "logo": "https://static1.juicefs.com/images/favicon.d6e4afae8198.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "juicefs",
         "options": []
@@ -5960,8 +5960,8 @@
         "implmented": false,
         "logo": "https://ipfs.io/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "kubo",
         "options": [
@@ -6117,8 +6117,8 @@
         "implmented": false,
         "logo": "https://www.minio.io/resources/favs/favicon-32x32.png",
         "specs": {
-            "ram": "1024",
-            "storage": "0"
+            "ram": 1024,
+            "storage": 0
         },
         "nixName": "minio_legacy_fs",
         "options": []
@@ -6133,8 +6133,8 @@
         "implmented": false,
         "logo": "https://moosefs.com/wp-content/themes/Moose/img/android-icon-192x192.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "moosefs",
         "options": [
@@ -6262,8 +6262,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "openafs",
         "options": [
@@ -6587,8 +6587,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "8192",
-            "storage": "102400"
+            "ram": 8192,
+            "storage": 102400
         },
         "nixName": "swiftclient",
         "options": []
@@ -6603,8 +6603,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "perkeep",
         "options": []
@@ -6619,8 +6619,8 @@
         "implmented": false,
         "logo": "https://www.minio.io/resources/favs/favicon-32x32.png",
         "specs": {
-            "ram": "1024",
-            "storage": "0"
+            "ram": 1024,
+            "storage": 0
         },
         "nixName": "minio_legacy_fs",
         "options": []
@@ -6635,8 +6635,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "1024",
-            "storage": "0"
+            "ram": 1024,
+            "storage": 0
         },
         "nixName": "seaweedfs",
         "options": []
@@ -6651,8 +6651,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "sftpgo",
         "options": [
@@ -6871,8 +6871,8 @@
         "implmented": false,
         "logo": "https://deluge-torrent.org/images/deluge-icon.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "deluged",
         "options": [
@@ -6895,8 +6895,8 @@
         "implmented": false,
         "logo": "https://www.qbittorrent.org/favicon.ico",
         "specs": {
-            "ram": "100",
-            "storage": "0"
+            "ram": 100,
+            "storage": 0
         },
         "nixName": "qbittorrent-qt5",
         "options": []
@@ -6911,8 +6911,8 @@
         "implmented": false,
         "logo": "https://www.raylib.com/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "transmission",
         "options": [
@@ -7173,8 +7173,8 @@
         "implmented": false,
         "logo": "https://www.audiobookshelf.org/favicon.ico",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "audiobookshelf",
         "options": [
@@ -7246,8 +7246,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "beets",
         "options": []
@@ -7262,8 +7262,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "gonic",
         "options": [
@@ -7293,8 +7293,8 @@
         "implmented": false,
         "logo": "https://www.mopidy.com/media/favicon/favicon-32x32.png",
         "specs": {
-            "ram": "1024",
-            "storage": "2048"
+            "ram": 1024,
+            "storage": 2048
         },
         "nixName": "mopidy",
         "options": [
@@ -7345,8 +7345,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "2048",
-            "storage": "10240"
+            "ram": 2048,
+            "storage": 10240
         },
         "nixName": "mpd-small",
         "options": []
@@ -7361,8 +7361,8 @@
         "implmented": false,
         "logo": "https://www.navidrome.org/favicons/favicon.ico",
         "specs": {
-            "ram": "1024",
-            "storage": "0"
+            "ram": 1024,
+            "storage": 0
         },
         "nixName": "navidrome",
         "options": [
@@ -7434,8 +7434,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "snapcast",
         "options": []
@@ -7450,8 +7450,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "gerbera",
         "options": [
@@ -7495,8 +7495,8 @@
         "implmented": false,
         "logo": "https://jellyfin.org/images/favicon.ico",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "jellyfin",
         "options": [
@@ -7582,8 +7582,8 @@
         "implmented": false,
         "logo": "https://kodi.tv/favicon-32x32.png?v=0f7311d6dfc6bbfa30848b0c28f33af2",
         "specs": {
-            "ram": "2048",
-            "storage": "500"
+            "ram": 2048,
+            "storage": 500
         },
         "nixName": "kodi",
         "options": [
@@ -7613,8 +7613,8 @@
         "implmented": false,
         "logo": "https://lbry.com/img/fav/favicon-32x32.png",
         "specs": {
-            "ram": "4096",
-            "storage": "10240"
+            "ram": 4096,
+            "storage": 10240
         },
         "nixName": "lbry",
         "options": []
@@ -7629,8 +7629,8 @@
         "implmented": false,
         "logo": "https://gitlab.gnome.org/uploads/-/system/appearance/favicon/1/GnomeLogoVertical.svg.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "gnome.rygel",
         "options": [
@@ -7653,8 +7653,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "1024",
-            "storage": "8"
+            "ram": 1024,
+            "storage": 8
         },
         "nixName": "ustreamer",
         "options": []
@@ -7669,8 +7669,8 @@
         "implmented": false,
         "logo": "https://invidious.io/favicon-32x32.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "invidious",
         "options": [
@@ -7854,8 +7854,8 @@
         "implmented": false,
         "logo": "https://owncast.online/favicon.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "owncast",
         "options": [
@@ -7927,8 +7927,8 @@
         "implmented": false,
         "logo": "https://alerta.io/favicon.ico",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "alerta",
         "options": [
@@ -8049,8 +8049,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "cadvisor",
         "options": [
@@ -8143,8 +8143,8 @@
         "implmented": false,
         "logo": "https://nicolargo.github.io/glances/favicon.ico",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "glances",
         "options": []
@@ -8159,8 +8159,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "healthchecks",
         "options": [
@@ -8274,8 +8274,8 @@
         "implmented": false,
         "logo": "https://munin-monitoring.org/assets/favicons/favicon-32x32.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "munin",
         "options": [
@@ -8361,8 +8361,8 @@
         "implmented": false,
         "logo": "https://www.netdata.cloud/favicon-32x32.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "netdata",
         "options": [
@@ -8469,8 +8469,8 @@
         "implmented": false,
         "logo": "https://prometheus.io/assets/favicons/favicon.ico",
         "specs": {
-            "ram": "512",
-            "storage": "1024"
+            "ram": 512,
+            "storage": 1024
         },
         "nixName": "prometheus",
         "options": [
@@ -8836,8 +8836,8 @@
         "implmented": false,
         "logo": "https://sensu.io/img/sensu-logo.png",
         "specs": {
-            "ram": "8192",
-            "storage": "102400"
+            "ram": 8192,
+            "storage": 102400
         },
         "nixName": "sensu-go-cli",
         "options": []
@@ -8852,8 +8852,8 @@
         "implmented": false,
         "logo": "https://assets.zabbix.com/img/favicon.ico",
         "specs": {
-            "ram": "4096",
-            "storage": "10240"
+            "ram": 4096,
+            "storage": 10240
         },
         "nixName": "zabbix.web",
         "options": []
@@ -8868,8 +8868,8 @@
         "implmented": false,
         "logo": "https://bitwarden.com/favicon-32x32.png?v=1abf57d1154002a9fac426a2c5c04d85",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "bitwarden",
         "options": [
@@ -9137,8 +9137,8 @@
         "implmented": false,
         "logo": "https://passky.org/images/logo.png",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "passky-desktop",
         "options": []
@@ -9153,8 +9153,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "512",
-            "storage": "100"
+            "ram": 512,
+            "storage": 100
         },
         "nixName": "vaultwarden-postgresql",
         "options": []
@@ -9169,8 +9169,8 @@
         "implmented": false,
         "logo": "https://imgproxy.net/favicon-32x32-990a9600d71a9d34102940a7895d251b.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "imgproxy",
         "options": []
@@ -9185,8 +9185,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "32",
-            "storage": "10"
+            "ram": 32,
+            "storage": 10
         },
         "nixName": "iodine",
         "options": [
@@ -9272,8 +9272,8 @@
         "implmented": false,
         "logo": "https://www.pomerium.com/wp-content/themes/pomerium/assets/img/favicon.png?t=1662653195",
         "specs": {
-            "ram": "1024",
-            "storage": "100"
+            "ram": 1024,
+            "storage": 100
         },
         "nixName": "pomerium",
         "options": [
@@ -9324,8 +9324,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "256",
-            "storage": "50"
+            "ram": 256,
+            "storage": 50
         },
         "nixName": "privoxy",
         "options": [
@@ -9418,8 +9418,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "128",
-            "storage": "50"
+            "ram": 128,
+            "storage": 50
         },
         "nixName": "sish",
         "options": []
@@ -9434,8 +9434,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "2048",
-            "storage": "100"
+            "ram": 2048,
+            "storage": 100
         },
         "nixName": "squid",
         "options": [
@@ -9493,8 +9493,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "128",
-            "storage": "50"
+            "ram": 128,
+            "storage": 50
         },
         "nixName": "tinyproxy",
         "options": [
@@ -9559,8 +9559,8 @@
         "implmented": false,
         "logo": "https://guacamole.apache.org/images/logos/guac-classic-logo.svg",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "guacamole-server",
         "options": [
@@ -9625,8 +9625,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "4096",
-            "storage": "51200"
+            "ram": 4096,
+            "storage": 51200
         },
         "nixName": "meshcentral",
         "options": [
@@ -9663,8 +9663,8 @@
         "implmented": false,
         "logo": "https://rustdesk.com/images/favicon.png?v2",
         "specs": {
-            "ram": "4096",
-            "storage": "102400"
+            "ram": 4096,
+            "storage": 102400
         },
         "nixName": "rustdesk",
         "options": [
@@ -9722,8 +9722,8 @@
         "implmented": false,
         "logo": "https://shellhub.io/favicon-32x32.png?v=b7691a4d022678a921902ece55ea2058",
         "specs": {
-            "ram": "4096",
-            "storage": "20480"
+            "ram": 4096,
+            "storage": 20480
         },
         "nixName": "shellhub-agent",
         "options": [
@@ -9788,8 +9788,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "0",
-            "storage": "0"
+            "ram": 0,
+            "storage": 0
         },
         "nixName": "hound",
         "options": [
@@ -9854,8 +9854,8 @@
         "implmented": false,
         "logo": "https://manticoresearch.com/images/favicon_huef5b6b9b4667cfcb07efebc9f11841a5_5793_32x0_resize_box_3.png",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "manticoresearch",
         "options": [
@@ -9885,8 +9885,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "2048",
-            "storage": "500"
+            "ram": 2048,
+            "storage": 500
         },
         "nixName": "opensearch",
         "options": [
@@ -10014,8 +10014,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "512",
-            "storage": "50"
+            "ram": 512,
+            "storage": 50
         },
         "nixName": "searxng",
         "options": [
@@ -10052,8 +10052,8 @@
         "implmented": false,
         "logo": "https://typesense.org/favicon.png",
         "specs": {
-            "ram": "1024",
-            "storage": "100"
+            "ram": 1024,
+            "storage": 100
         },
         "nixName": "typesense",
         "options": [
@@ -10118,8 +10118,8 @@
         "implmented": false,
         "logo": "https://zincsearch-docs.zinc.dev/images/zinc.png",
         "specs": {
-            "ram": "1024",
-            "storage": "100"
+            "ram": 1024,
+            "storage": 100
         },
         "nixName": "zincsearch",
         "options": []
@@ -10134,8 +10134,8 @@
         "implmented": false,
         "logo": "https://dockstarter.com/assets/favicon.ico",
         "specs": {
-            "ram": "1024",
-            "storage": "250"
+            "ram": 1024,
+            "storage": 250
         },
         "nixName": "dockstarter",
         "options": []
@@ -10150,8 +10150,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "2048",
-            "storage": "10240"
+            "ram": 2048,
+            "storage": 10240
         },
         "nixName": "svix-server",
         "options": []
@@ -10166,8 +10166,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "2048",
-            "storage": "20480"
+            "ram": 2048,
+            "storage": 20480
         },
         "nixName": "buildbot",
         "options": [
@@ -10470,8 +10470,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "drone-oss",
         "options": []
@@ -10486,8 +10486,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "gitlab",
         "options": [
@@ -10853,8 +10853,8 @@
         "implmented": false,
         "logo": "http://www.go.cd/assets/images/favicon.ico",
         "specs": {
-            "ram": "2048",
-            "storage": "1024"
+            "ram": 2048,
+            "storage": 1024
         },
         "nixName": "gocd-server",
         "options": [
@@ -10968,8 +10968,8 @@
         "implmented": false,
         "logo": "https://jenkins.io/favicon.ico",
         "specs": {
-            "ram": "256",
-            "storage": "1024"
+            "ram": 256,
+            "storage": 1024
         },
         "nixName": "jenkins",
         "options": [
@@ -11174,8 +11174,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "8192",
-            "storage": "0"
+            "ram": 8192,
+            "storage": 0
         },
         "nixName": "laminar",
         "options": []
@@ -11190,8 +11190,8 @@
         "implmented": false,
         "logo": "https://werf.io/favicon-32x32.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "werf",
         "options": []
@@ -11206,8 +11206,8 @@
         "implmented": false,
         "logo": "https://woodpecker-ci.org/img/favicon.ico",
         "specs": {
-            "ram": "4096",
-            "storage": "20480"
+            "ram": 4096,
+            "storage": 20480
         },
         "nixName": "woodpecker-cli",
         "options": []
@@ -11222,8 +11222,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "1024",
-            "storage": "32768"
+            "ram": 1024,
+            "storage": 32768
         },
         "nixName": "openvscode-server",
         "options": [
@@ -11365,8 +11365,8 @@
         "implmented": false,
         "logo": "https://posit.co/wp-content/themes/Posit/dist/images/favicon/favicon-32x32.png",
         "specs": {
-            "ram": "2048",
-            "storage": "200"
+            "ram": 2048,
+            "storage": 200
         },
         "nixName": "rstudio-server",
         "options": [
@@ -11424,8 +11424,8 @@
         "implmented": false,
         "logo": "https://wakapi.dev/assets/images/favicon-32x32.png",
         "specs": {
-            "ram": "256",
-            "storage": "100"
+            "ram": 256,
+            "storage": 100
         },
         "nixName": "wakapi",
         "options": []
@@ -11440,8 +11440,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "pocketbase",
         "options": []
@@ -11456,8 +11456,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "sqlpage",
         "options": []
@@ -11472,8 +11472,8 @@
         "implmented": false,
         "logo": "https://git.zx2c4.com/favicon.ico",
         "specs": {
-            "ram": "128",
-            "storage": "0"
+            "ram": 128,
+            "storage": 0
         },
         "nixName": "cgit",
         "options": [
@@ -11594,8 +11594,8 @@
         "implmented": false,
         "logo": "https://forgejo.org/favicon.ico",
         "specs": {
-            "ram": "1024",
-            "storage": "0"
+            "ram": 1024,
+            "storage": 0
         },
         "nixName": "forgejo",
         "options": [
@@ -11898,8 +11898,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "2048",
-            "storage": "0"
+            "ram": 2048,
+            "storage": 0
         },
         "nixName": "gerrit",
         "options": [
@@ -11992,8 +11992,8 @@
         "implmented": false,
         "logo": "https://gitolite.com/gitolite/img/favicon.ico",
         "specs": {
-            "ram": "128",
-            "storage": "0"
+            "ram": 128,
+            "storage": 0
         },
         "nixName": "gitolite",
         "options": [
@@ -12079,8 +12079,8 @@
         "implmented": false,
         "logo": "https://gogs.io/img/favicon.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "gogs",
         "options": [
@@ -12243,8 +12243,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "128",
-            "storage": "0"
+            "ram": 128,
+            "storage": 0
         },
         "nixName": "klaus",
         "options": []
@@ -12259,8 +12259,8 @@
         "implmented": false,
         "logo": "https://d3uafhn8yrvdfn.cloudfront.net/website/production/_next/static/media/favicon.d289b25a.ico",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "appflowy",
         "options": []
@@ -12275,8 +12275,8 @@
         "implmented": false,
         "logo": "https://taskwarrior.org/images/favicon.ico",
         "specs": {
-            "ram": "128",
-            "storage": "20"
+            "ram": 128,
+            "storage": 20
         },
         "nixName": "taskwarrior",
         "options": [
@@ -12299,8 +12299,8 @@
         "implmented": false,
         "logo": "https://zammad.org/assets/images/favicon.ico",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "zammad",
         "options": [
@@ -12456,8 +12456,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "4096",
-            "storage": "102400"
+            "ram": 4096,
+            "storage": 102400
         },
         "nixName": "zoneminder",
         "options": [
@@ -12564,8 +12564,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "4096",
-            "storage": "0"
+            "ram": 4096,
+            "storage": 0
         },
         "nixName": "headscale",
         "options": [
@@ -12882,8 +12882,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "nebula",
         "options": [
@@ -13025,8 +13025,8 @@
         "implmented": false,
         "logo": "https://gitlab.com/assets/favicon-72a2cad5025aa931d6ea56c3201d1f18e68a8cd39788c7c80d5b2b82aa5143ef.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "ocserv",
         "options": [
@@ -13056,8 +13056,8 @@
         "implmented": false,
         "logo": "https://www.softether.org/favicon.ico",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "softether",
         "options": [
@@ -13129,8 +13129,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": "4096",
-            "storage": "20480"
+            "ram": 4096,
+            "storage": 20480
         },
         "nixName": "sshuttle",
         "options": []
@@ -13145,8 +13145,8 @@
         "implmented": false,
         "logo": "https://www.strongswan.org/favicon-32x32.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "strongswan",
         "options": [
@@ -13512,8 +13512,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "apacheHttpd",
         "options": []
@@ -13528,8 +13528,8 @@
         "implmented": false,
         "logo": "https://caddyserver.com/resources/images/favicon.png?v=ca9ce7b",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "caddy",
         "options": [
@@ -13727,8 +13727,8 @@
         "implmented": false,
         "logo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAFVBMVEX////n5+dRUf//AAAA5+fn5wAA5wCtv7miAAAAUUlEQVQI12PABhgFBQUFQAwmIUFDCENJWBgqImwMZUBFFASAECTAyMTIyMTAIAgFDEoijmKiooaGDIoqIomJgUAGUATIEBZkUBQRAUoBGRgAALrGCAzjYWFDAAAAAElFTkSuQmCC",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "haproxy",
         "options": [
@@ -13779,8 +13779,8 @@
         "implmented": false,
         "logo": "https://www.hiawatha-webserver.org/images/favicon/favicon-coast.png",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "hiawatha",
         "options": []
@@ -13795,8 +13795,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "512",
-            "storage": "100"
+            "ram": 512,
+            "storage": 100
         },
         "nixName": "lighttpd",
         "options": [
@@ -13924,8 +13924,8 @@
         "implmented": false,
         "logo": "https://static-web-server.net/assets/sws.svg",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "static-web-server",
         "options": [
@@ -13969,8 +13969,8 @@
         "implmented": false,
         "logo": "https://traefik.io/favicon.svg",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "traefik",
         "options": [
@@ -14063,8 +14063,8 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": "512",
-            "storage": "0"
+            "ram": 512,
+            "storage": 0
         },
         "nixName": "varnish",
         "options": [
@@ -14244,8 +14244,7 @@
                 "value": "null"
             }
         ]
-    },
-    {
+    },{
         "name": "Minecraft Server",
         "desc": "Host Minecraft Server with this",
         "tags": [
