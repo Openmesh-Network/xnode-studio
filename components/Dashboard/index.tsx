@@ -110,7 +110,7 @@ const Dashboard = () => {
       // getData()
       // alert('User has a cookie.')
     }
-  }, [])
+  }, [user])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
@@ -138,23 +138,6 @@ const Dashboard = () => {
       </section>
     )
   }
-
-  // if (xnodesData.length === 0) {
-  //   return (
-  //     <div>
-  //       {
-  //         /* TODO: re-enable this or replace with a login prompt
-  //         <div className="mb-[100px] mt-[64px] flex items-center justify-center text-black">
-  //           <div className="">
-  //             <SmileySad size={32} className="mx-auto mb-2" />
-  //             <div>No Xnodes found</div>
-  //           </div>
-  //         </div>
-  //       */
-  //       }
-  //     </div>
-  //   )
-  // }
 
   return (
     <>
@@ -231,10 +214,10 @@ const Dashboard = () => {
           {
             xnodesData && (
               <div className="border-1 border-solid/20 border-black">
-                <ul className="flex mt-4 max-h-[calc(100svh-5rem)] flex-col items-center gap-8 text-black">
+                <ul className="flex mt-4 max-h-[calc(100svh-5rem)] overflow-y-auto flex-col items-center gap-8 text-black">
                   {
                     xnodesData?.map((node: Xnode) => (
-                      <li className="flex w-fit items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
+                      <li className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
                         {/* <p> Your id is: {node.toString()} </p> */}
 
                         {/* <div> */}
@@ -245,21 +228,18 @@ const Dashboard = () => {
                           <ul>
                             <li> { node.name } </li>
                             <li> { node.description } </li>
+                            <li> <b> { node.provider } </b> </li>
                           </ul>
                         </div>
                         <div>
                           <ul>
-                            <li> 8 vCPU </li>
-                            <li> 16GB RAM </li>
-                            <li> 320GB SSD </li>
-                            <li> 12 months </li>
                           </ul>
                         </div>
 
                         <div className="h-full flex align-center justify-center">
                           <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-primary text-primary hover:bg-primary/10 h-10 rounded-md px-4 min-w-56"
                             onClick={ () => alert('ACTIVATING!!!!')}> 
-                            Edit
+                            Manage
                           </button>
                         </div>
 
