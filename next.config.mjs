@@ -5,22 +5,6 @@ const nextConfig = {
       source: '/xue-signer/:call*',
       destination: 'https://remote-signer.plopmenz.com/xue-signer/:call*',
     },
-    {
-      basePath: false,
-      source: '/',
-      destination:
-        'https://openmesh.network/xnode' +
-        (process.env.NEXT_PUBLIC_PREFIX ?? '/'),
-    },
-    {
-      basePath: false,
-      source: '/:call*',
-      destination:
-        'https://openmesh.network/xnode' +
-        (process.env.NEXT_PUBLIC_PREFIX
-          ? `${process.env.NEXT_PUBLIC_PREFIX}/:call*`
-          : '/:call*'),
-    },
   ],
   basePath: process.env.NEXT_PUBLIC_PREFIX,
   reactStrictMode: false,
