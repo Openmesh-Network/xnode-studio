@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { prefix } from '@/utils/prefix'
 import { ChevronRightIcon, Cloud, PlusIcon } from 'lucide-react'
 import { codeToHtml } from 'shiki'
 
@@ -61,7 +62,7 @@ export default function DataOverview() {
             </div>
           </div>
           <Image
-            src={'/images/data/data-overview-hero.png'}
+            src={`${prefix}/images/data/data-overview-hero.png`}
             alt="OpenAPI hero image"
             width={409}
             height={477}

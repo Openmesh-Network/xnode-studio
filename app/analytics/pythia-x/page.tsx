@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { prefix } from '@/utils/prefix'
 import { Search } from 'lucide-react'
 
 import {
@@ -23,7 +24,7 @@ export default function PythiaX() {
         className="flex flex-col items-center gap-y-4 bg-neutral-50 py-20"
       >
         <Image
-          src={'/images/analytics/pythia-x/pythia-x-logo.svg'}
+          src={`${prefix}/images/analytics/pythia-x/pythia-x-logo.svg`}
           alt="PythiaX logo"
           width={428}
           height={175}
@@ -174,7 +175,7 @@ function PieChartGraph() {
   return (
     <div className="mt-12 flex w-full items-center justify-center gap-x-10">
       <Image
-        src={'/images/analytics/pythia-x/pie-chart.svg'}
+        src={`${prefix}/images/analytics/pythia-x/pie-chart.svg`}
         alt="PythiaX logo"
         width={275}
         height={275}

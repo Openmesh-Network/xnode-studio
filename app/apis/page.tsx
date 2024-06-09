@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { prefix } from '@/utils/prefix'
 
 import Header from '@/components/ui/header'
 import { Section } from '@/components/ui/section'
@@ -27,7 +28,7 @@ export default function APIOverview() {
           Single endpoint for data
         </Header>
         <Image
-          src="/images/apis/APIOverview.png"
+          src={`${prefix}/images/apis/APIOverview.png`}
           alt="API overview"
           width={819}
           height={565}
