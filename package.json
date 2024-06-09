@@ -60,6 +60,7 @@
     "react-dom": "18.3.1",
     "react-google-recaptcha": "^3.1.0",
     "react-hook-form": "^7.51.5",
+    "react-lottie-player": "^2.0.0",
     "react-modal-video": "^2.0.2",
     "react-quill": "^2.0.0",
     "react-simple-maps": "^3.0.0",
