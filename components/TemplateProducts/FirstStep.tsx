@@ -127,7 +127,7 @@ const TemplateProducts = () => {
   }, [providersFetching])
 
   useEffect(() => {
-    if (templateSelected) {
+    if (templateSelected && draft) {
       let d = draft
       d.location = templateSelected.location
       d.provider = templateSelected.providerName

@@ -214,7 +214,7 @@ const Dashboard = () => {
           {
             xnodesData && (
               <div className="border-1 border-solid/20 border-black">
-                <ul className="flex mt-4 max-h-[calc(100svh-5rem)] overflow-y-auto flex-col items-center gap-8 text-black">
+                <ul className="flex mt-4 overflow-y-auto flex-col items-center gap-8 text-black">
                   {
                     xnodesData?.map((node: Xnode) => (
                       <li className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">

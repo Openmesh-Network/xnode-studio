@@ -29,6 +29,7 @@ import { useUser } from '@/hooks/useUser'
 const Signup = () => {
   const {
     setFinalBuild,
+    indexerDeployerStep,
     setIndexerDeployerStep,
   } = useContext(AccountContext)
 
@@ -96,6 +97,7 @@ const Signup = () => {
     }
   }
 
+
   async function onSubmit(data: LoginForm) {
     setIsLoading(true)
     const finalData = {
@@ -110,9 +112,7 @@ const Signup = () => {
       //   `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       // )
     } catch (err) {
-      console.error(err)
       setIsLoading(false)
-      return
 
       if (err.response.data.message === 'Unconfirmed Email') {
         toast.error('Unconfirmed email')
@@ -128,6 +128,14 @@ const Signup = () => {
       setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    // XXX: This is a stub, to remove ugly UI for video demo.
+    if (user) {
+      setIndexerDeployerStep(indexerDeployerStep + 1)
+    }
+  }, [ user ]);
+
 
   return (
     <section id="home">

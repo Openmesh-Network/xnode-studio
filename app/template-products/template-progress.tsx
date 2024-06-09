@@ -7,6 +7,7 @@ import { AccountContext } from '@/contexts/AccountContext'
 import { prefix } from '@/utils/prefix'
 import { Check, X } from 'phosphor-react'
 
+import { useEffect } from 'react'
 import { cn, formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -19,14 +20,23 @@ import {
 } from '@/components/ui/table'
 
 import { Separator } from '../../components/ui/separator'
+import { useUser } from '@/hooks/useUser'
 
 export default function TemplateProgress() {
   const {
     indexerDeployerStep,
     setIndexerDeployerStep,
     templateSelected,
-    user,
   } = useContext(AccountContext)
+
+  const [ user ] = useUser()
+
+  useEffect(() => {
+    if (user) {
+      console.log(user)
+    }
+  }, [user])
+
   return (
     <aside className="relative min-w-96 shrink-0 border-l border-zinc-200 bg-zinc-50 p-8">
       <h4 className="font-bold text-black">Your Progress</h4>
@@ -237,6 +247,8 @@ export default function TemplateProgress() {
               </p>
             </button>
           </div>
+
+          
           {indexerDeployerStep === 1 ? (
             <div className="mt-4 flex flex-col items-center justify-center gap-4">
               <Button
@@ -244,6 +256,58 @@ export default function TemplateProgress() {
                 variant={user !== undefined ? 'default' : 'outlinePrimary'}
                 className="h-12 w-full"
                 onClick={() => setIndexerDeployerStep(2)}
+              >
+                Continue
+              </Button>
+            </div>
+          ) : null}
+        </div>
+
+        <div>
+          <div className="-mx-8">
+            <button
+              disabled={indexerDeployerStep <= 2}
+              type="button"
+              className={cn(
+                'relative flex w-full items-center gap-6 px-8 py-3 transition-colors',
+                indexerDeployerStep === 2
+                  ? 'bg-primary/10'
+                  : 'enabled:hover:bg-primary/10'
+              )}
+              onClick={() => setIndexerDeployerStep(2)}
+            >
+              {indexerDeployerStep === 2 ? (
+                <div className="absolute inset-y-0 left-0 w-0.5 bg-primary" />
+              ) : null}
+              <div
+                className={cn(
+                  'flex size-10 items-center justify-center rounded-full border border-zinc-400',
+                  indexerDeployerStep <= 2 && 'border-dashed',
+                  indexerDeployerStep === 2 && 'border-primary',
+                  indexerDeployerStep > 2 && 'border-primary'
+                )}
+              >
+                {indexerDeployerStep > 2 ? (
+                  <Check size={20} weight="bold" className="text-primary" />
+                ) : null}
+              </div>
+              <p
+                className={cn(
+                  'font-bold',
+                  indexerDeployerStep === 2 ? 'text-black' : 'text-black/50'
+                )}
+              >
+                Perform connections
+              </p>
+            </button>
+          </div>
+          {indexerDeployerStep === 2 ? (
+            <div className="mt-4 flex flex-col items-center justify-center gap-4">
+              <Button
+                disabled={ user === undefined || !("apiKey" in user) || user?.apiKey == "" }
+                variant={ user !== undefined ? 'default' : 'outlinePrimary' }
+                className="h-12 w-full"
+                onClick={ () => setIndexerDeployerStep(3) }
               >
                 Create and Deploy
               </Button>
