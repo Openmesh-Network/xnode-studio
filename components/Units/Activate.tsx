@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import axios from 'axios'
-import { getXueNfts } from "utils/nft";
+import { getXueNfts } from 'utils/nft'
 import { BaseError, ContractFunctionRevertedError } from 'viem'
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
 
@@ -28,7 +28,7 @@ const Activate = ({ chainId }: { chainId: number }) => {
     }
 
     findXueForAccount()
-  }, [account?.address, nfts])
+  }, [account, nfts])
 
   useEffect(() => {
     // This can be replaced with a dropdown, but will look more intimidating to the user and most will only own a single NFT.
