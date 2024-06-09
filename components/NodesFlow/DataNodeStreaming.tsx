@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { categoriesOptions } from '@/utils/constants'
+import { prefix } from '@/utils/prefix'
 import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
 
 import withProps from './withProps'
@@ -114,11 +115,7 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
             >
               <div className="my-[10px] ml-[10px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }${item.icon}`}
+                  src={`${prefix}${item.icon}`}
                   alt="image"
                   className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
                 />
@@ -152,11 +149,7 @@ function DataNodeStreaming({ id, data, handleNodeRemove }) {
         </button>
         <div className="flex w-full flex-row items-start gap-[10px]">
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/nodesFlow/databaseStreaming.svg`}
+            src={`${prefix}/images/nodesFlow/databaseStreaming.svg`}
             alt="image"
             className={
               'w-[32 px] md:w-[29px] lg:w-[36.5px] xl:w-[39px] 2xl:w-[45px]'

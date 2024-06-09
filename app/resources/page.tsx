@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { db } from '@/db'
 import { Providers } from '@/db/schema'
+import { prefix } from '@/utils/prefix'
 import { count, countDistinct, eq, like, sql, sum } from 'drizzle-orm'
 
 import ResourcesTable from './resources-table'
@@ -76,7 +77,7 @@ export default async function ResourcesPage() {
       </section>
       <section className="mx-auto my-12 max-w-6xl">
         <Image
-          src={'/images/resources/world-map.svg'}
+          src={`${prefix}/images/resources/world-map.svg`}
           alt="World map"
           width={1920}
           height={1080}

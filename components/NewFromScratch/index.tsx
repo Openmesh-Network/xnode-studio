@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 
 import { TemplatesProducts } from '@/types/dataProvider'
 
@@ -157,11 +158,7 @@ const FromScratch = () => {
                 <div>Server</div>
                 {deployOption === 'Server' && (
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/check-now.svg`}
+                    src={`${prefix}/images/template/check-now.svg`}
                     alt="image"
                     className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                   />
@@ -178,11 +175,7 @@ const FromScratch = () => {
                 <div>Storage</div>
                 {deployOption === 'Storage' && (
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/check-now.svg`}
+                    src={`${prefix}/images/template/check-now.svg`}
                     alt="image"
                     className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                   />
@@ -199,11 +192,7 @@ const FromScratch = () => {
                 <div>GPU</div>
                 {deployOption === 'GPU' && (
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/check-now.svg`}
+                    src={`${prefix}/images/template/check-now.svg`}
                     alt="image"
                     className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                   />
@@ -260,11 +249,7 @@ const FromScratch = () => {
                   <div>General purpose</div>
                   {deployConfig === 'General purpose' && (
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/check-now.svg`}
+                      src={`${prefix}/images/template/check-now.svg`}
                       alt="image"
                       className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                     />
@@ -281,11 +266,7 @@ const FromScratch = () => {
                   <div>Storage optimized</div>
                   {deployConfig === 'Storage optimized' && (
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/check-now.svg`}
+                      src={`${prefix}/images/template/check-now.svg`}
                       alt="image"
                       className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                     />
@@ -302,11 +283,7 @@ const FromScratch = () => {
                   <div>GPU optimized</div>
                   {deployConfig === 'GPU optimized' && (
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/check-now.svg`}
+                      src={`${prefix}/images/template/check-now.svg`}
                       alt="image"
                       className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                     />
@@ -323,11 +300,7 @@ const FromScratch = () => {
                   <div>CPU</div>
                   {deployConfig === 'CPU optimized' && (
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/check-now.svg`}
+                      src={`${prefix}/images/template/check-now.svg`}
                       alt="image"
                       className={`absolute right-0 top-0 z-50 -translate-y-2 translate-x-2`}
                     />
@@ -342,11 +315,7 @@ const FromScratch = () => {
                 Monthly Estimate
               </div>
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/x-new.svg`}
+                src={`${prefix}/images/template/x-new.svg`}
                 alt="image"
                 className={``}
               />
@@ -354,11 +323,7 @@ const FromScratch = () => {
             <div className="mt-[21px] grid gap-y-[10px] px-[32px]">
               <div className="flex items-center gap-x-[7px]">
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/template/mini-equinix.svg`}
+                  src={`${prefix}/images/template/mini-equinix.svg`}
                   alt="image"
                   className=""
                 />
@@ -368,11 +333,7 @@ const FromScratch = () => {
               </div>
               <div className="flex items-center gap-x-[5px]">
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/template/australia.svg`}
+                  src={`${prefix}/images/template/australia.svg`}
                   alt="image"
                   className=""
                 />

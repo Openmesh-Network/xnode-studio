@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { prefix } from '@/utils/prefix'
 import ModalVideo from 'react-modal-video'
 
 import SectionTitle from '../Common/SectionTitle'
@@ -27,11 +28,7 @@ const Video = () => {
             >
               <div className="relative aspect-[77/40] items-center justify-center">
                 <Image
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/video/video.jpg`}
+                  src={`${prefix}/images/video/video.jpg`}
                   alt="video image"
                   fill
                 />
@@ -67,11 +64,7 @@ const Video = () => {
 
       <div className="absolute inset-x-0 bottom-0 z-[-1]">
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/video/shape.svg`}
+          src={`${prefix}/images/video/shape.svg`}
           alt="shape"
           className="w-full"
         />

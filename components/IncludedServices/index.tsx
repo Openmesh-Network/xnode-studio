@@ -1,3 +1,5 @@
+import { prefix } from '@/utils/prefix'
+
 interface ModalProps {
   includedServicesArray: string[]
   onChangeIncludedService(string): void
@@ -41,11 +43,7 @@ const IncludedServices = ({ ...data }: ModalProps) => {
               Added to deployment
             </div>
             <img
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }/images/includedServices/rectangle.svg`}
+              src={`${prefix}/images/includedServices/rectangle.svg`}
               alt="image"
               className="size-[10px] md:size-[12px] lg:size-[14px] xl:size-[16px] 2xl:size-[20px]"
             />
@@ -75,11 +73,7 @@ const IncludedServices = ({ ...data }: ModalProps) => {
                 {data.includedServicesArray.includes(option.title) && (
                   <div className="absolute right-0 top-px">
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/presets/check-gray.svg`}
+                      src={`${prefix}/images/presets/check-gray.svg`}
                       alt="image"
                       className={
                         'h-[21px] w-[25px] md:h-[25px] md:w-[30px] lg:h-[29.5px] lg:w-[35px] xl:h-[33px] xl:w-[40px] 2xl:h-[42px] 2xl:w-[50px]'

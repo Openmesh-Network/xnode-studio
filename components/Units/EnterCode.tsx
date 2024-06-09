@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { XnodeUnitEntitlementClaimerContract } from '@/contracts/XnodeUnitEntitlementClaimer'
 import { reviver } from '@/utils/json'
+import { prefix } from '@/utils/prefix'
 import axios from 'axios'
 import {
   Address,
@@ -67,7 +68,7 @@ const EnterCode = ({ chainId }: { chainId: number }) => {
     }
 
     const response = await axios
-      .post('/xue-signer/getSig', {
+      .post(`${prefix}/xue-signer/getSig`, {
         code: code,
         receiver: account.address,
       })

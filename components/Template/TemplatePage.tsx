@@ -2,6 +2,7 @@
 
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 
 import {
   DeploymentConfiguration,
@@ -11,7 +12,7 @@ import {
   TemplateFromId,
   TemplateGetSpecs,
 } from '@/types/dataProvider'
-
+import { useDraft } from '@/hooks/useDraftDeploy'
 import {
   Dialog,
   DialogContent,
@@ -19,75 +20,71 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-
-import { useDraft } from '@/hooks/useDraftDeploy'
+} from '@/components/ui/dialog'
 
 const Template = (id: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   // const [data, setTemplateData] = useState<TemplateData>()
-  const [ templateSpecs, setTemplateSpecs ] = useState<Specs>()
-  const [ draft, setDraftDeploy ] = useDraft()
+  const [templateSpecs, setTemplateSpecs] = useState<Specs>()
+  const [draft, setDraftDeploy] = useDraft()
 
-  const getData = useCallback(
-    (id: any) => {
-      setIsLoading(true)
+  const getData = useCallback((id: any) => {
+    setIsLoading(true)
 
-      // XXX: Not sure if this is the best place to put this but whatever.
-      if (id.id == 'edit') {
-        // Problem with this is the draft contains extra info like the location or whatever.
-        if (draft) {
-          setDraftDeploy(draft)
-        } else {
-          setDraftDeploy(
-            JSON.parse(localStorage.getItem('draft')) as DeploymentConfiguration
-          )
-        }
+    // XXX: Not sure if this is the best place to put this but whatever.
+    if (id.id == 'edit') {
+      // Problem with this is the draft contains extra info like the location or whatever.
+      if (draft) {
+        setDraftDeploy(draft)
       } else {
-        // Generate the config from the template id.
-        console.log('o id q vai chamar')
-        console.log(id)
-
-        console.log('Aca viene la data!')
-        let template = TemplateFromId(id.id)
-
-        console.log(template)
-
-        if (template) {
-          let svs: ServiceData[] = []
-
-          for (let i = 0; i < template.serviceNames.length; i++) {
-            let s = ServiceFromName(template.serviceNames[i])
-            if (s) {
-              svs.push(s)
-            }
-          }
-
-          const d: DeploymentConfiguration = {
-            name: template.name,
-            desc: template.desc,
-            location: '',
-            services: svs,
-            // XXX: Actually check from AccountContext.
-            isUnit: false,
-            provider: '',
-          }
-
-          console.log(d)
-
-          setTemplateSpecs(TemplateGetSpecs(template))
-
-          setDraftDeploy(d)
-        } else {
-          // XXX:
-          // NUCLEAR APOCALYPSE TIER!
-          // Should just redirect probably.
-        }
+        setDraftDeploy(
+          JSON.parse(localStorage.getItem('draft')) as DeploymentConfiguration
+        )
       }
+    } else {
+      // Generate the config from the template id.
+      console.log('o id q vai chamar')
+      console.log(id)
 
-      setIsLoading(false)
-    },
-    [])
+      console.log('Aca viene la data!')
+      let template = TemplateFromId(id.id)
+
+      console.log(template)
+
+      if (template) {
+        let svs: ServiceData[] = []
+
+        for (let i = 0; i < template.serviceNames.length; i++) {
+          let s = ServiceFromName(template.serviceNames[i])
+          if (s) {
+            svs.push(s)
+          }
+        }
+
+        const d: DeploymentConfiguration = {
+          name: template.name,
+          desc: template.desc,
+          location: '',
+          services: svs,
+          // XXX: Actually check from AccountContext.
+          isUnit: false,
+          provider: '',
+        }
+
+        console.log(d)
+
+        setTemplateSpecs(TemplateGetSpecs(template))
+
+        setDraftDeploy(d)
+      } else {
+        // XXX:
+        // NUCLEAR APOCALYPSE TIER!
+        // Should just redirect probably.
+      }
+    }
+
+    setIsLoading(false)
+  }, [])
 
   useEffect(() => {
     setIsLoading(true)
@@ -116,11 +113,7 @@ const Template = (id: any) => {
       <div className="flex justify-between gap-x-[10px]">
         <div className="flex items-center gap-x-[9px]">
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/template/line.svg`}
+            src={`${prefix}/images/template/line.svg`}
             alt="image"
             className={`w-[48px]`}
           />
@@ -161,7 +154,6 @@ const Template = (id: any) => {
         />
 
         <div className="mt-[40px] text-[10px] md:text-[12px] lg:mt-[59px] 2xl:text-[14px]">
-
           <div className="text-[16px] font-semibold 2xl:text-[18px]">
             System requirements
           </div>
@@ -172,65 +164,38 @@ const Template = (id: any) => {
           </div>
 
           <div className="mt-[15px] flex gap-x-[10px] px-[20px] font-normal lg:gap-x-0">
-            <div className="w-[10%]">
-              Ram
-            </div>
+            <div className="w-[10%]">Ram</div>
 
             <div className="w-1/2">
-            {
-              templateSpecs?.ram == 0 ? (
-                <>
-                  { "-" }  
-                </>
+              {templateSpecs?.ram == 0 ? (
+                <>{'-'}</>
               ) : (
-                <>
-                  { templateSpecs?.ram + "MB" }  
-                </>
-              )
-            } 
+                <>{templateSpecs?.ram + 'MB'}</>
+              )}
             </div>
             <div>
-            {
-              templateSpecs?.ram == 0 ? (
-                <>
-                  { "-" }  
-                </>
+              {templateSpecs?.ram == 0 ? (
+                <>{'-'}</>
               ) : (
-                <>
-                  { templateSpecs?.ram + "MB" }  
-                </>
-              )
-            }</div>
+                <>{templateSpecs?.ram + 'MB'}</>
+              )}
+            </div>
           </div>
           <div className="mt-[15px] flex gap-x-[10px] px-[20px] font-normal lg:gap-x-0">
-            <div className="w-[10%]">
-              Disk
-            </div>
+            <div className="w-[10%]">Disk</div>
             <div className="w-1/2">
-            { 
-              templateSpecs?.storage == 0 ? (
-                <>
-                  { "-" }  
-                </>
+              {templateSpecs?.storage == 0 ? (
+                <>{'-'}</>
               ) : (
-                <>
-                  { templateSpecs?.storage + "MB disk" }  
-                </>
-              )
-            }
+                <>{templateSpecs?.storage + 'MB disk'}</>
+              )}
             </div>
             <div>
-            { 
-              templateSpecs?.storage == 0 ? (
-                <>
-                  { "-" }  
-                </>
+              {templateSpecs?.storage == 0 ? (
+                <>{'-'}</>
               ) : (
-                <>
-                  { templateSpecs?.storage + "MB disk" }  
-                </>
-              )
-            }
+                <>{templateSpecs?.storage + 'MB disk'}</>
+              )}
             </div>
           </div>
 
@@ -260,9 +225,12 @@ const Template = (id: any) => {
                     <div className="w-1/5">{item.desc}</div>
 
                     <div className="w-[25%]">
-                      {
-                        (item.specs.ram == 0 ? ( "- " ) : ( item.specs.ram + "MB")) + " ram, " + (item.specs.storage == 0 ? ( "- " ) : ( item.specs.storage + "MB" )) + " disk"
-                      }
+                      {(item.specs.ram == 0 ? '- ' : item.specs.ram + 'MB') +
+                        ' ram, ' +
+                        (item.specs.storage == 0
+                          ? '- '
+                          : item.specs.storage + 'MB') +
+                        ' disk'}
                     </div>
 
                     <div className="w-1/4">{item?.tags.join(', ')}</div>
@@ -271,17 +239,14 @@ const Template = (id: any) => {
                       <DialogTrigger> Edit </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>{ item.name + " Options" }</DialogTitle>
-                          <DialogDescription>
-                            { item.desc }
-                          </DialogDescription>
+                          <DialogTitle>{item.name + ' Options'}</DialogTitle>
+                          <DialogDescription>{item.desc}</DialogDescription>
                         </DialogHeader>
 
                         {
                           // Loop through each of the options and make a two column input thingy, with the default value set to the value of the thing.
                         }
                         <p> Here are the options: </p>
-
                       </DialogContent>
                     </Dialog>
 

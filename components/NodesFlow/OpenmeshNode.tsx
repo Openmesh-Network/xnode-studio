@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
 
 import withProps from './withProps'
@@ -106,11 +107,7 @@ function OpenmeshNode({ id, data, handleNodeRemove }) {
         </button>
         <div className="flex items-center gap-x-[5px]">
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/nodesFlow/openmesh-new.svg`}
+            src={`${prefix}/images/nodesFlow/openmesh-new.svg`}
             alt="image"
             className={
               'w-[16px] md:w-[20px] lg:w-[22.5px] xl:w-[25.5px] 2xl:w-[32px]'

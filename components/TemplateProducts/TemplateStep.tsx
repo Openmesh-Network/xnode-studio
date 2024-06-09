@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { useRouter } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 import TemplateDefinitions from 'utils/template-definitions.json'
 
 import { TemplateData } from '@/types/dataProvider'
@@ -152,11 +153,7 @@ const TemplateStep = () => {
             </div>
             <div className="relative mt-[48px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/small.svg`}
+                src={`${prefix}/images/template/small.svg`}
                 alt="image"
                 className="absolute -top-2.5 left-0"
               />
@@ -217,11 +214,7 @@ const TemplateStep = () => {
                       onClick={() => {
                         setCategoryOpen(!categoryOpen)
                       }}
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/arrow-top.svg`}
+                      src={`${prefix}/images/template/arrow-top.svg`}
                       alt="image"
                       className={`${
                         !categoryOpen && 'rotate-180'
@@ -234,11 +227,7 @@ const TemplateStep = () => {
                     } mt-[30px] flex gap-x-[6px]`}
                   >
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/xnode-circle.svg`}
+                      src={`${prefix}/images/template/xnode-circle.svg`}
                       alt="image"
                       className=""
                     />
@@ -263,11 +252,7 @@ const TemplateStep = () => {
                     } mt-[20px] flex gap-x-[6px]`}
                   >
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/xnode-circle.svg`}
+                      src={`${prefix}/images/template/xnode-circle.svg`}
                       alt="image"
                       className=""
                     />
@@ -292,11 +277,7 @@ const TemplateStep = () => {
                     } mt-[20px] flex gap-x-[6px]`}
                   >
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/xnode-circle.svg`}
+                      src={`${prefix}/images/template/xnode-circle.svg`}
                       alt="image"
                       className=""
                     />
@@ -321,11 +302,7 @@ const TemplateStep = () => {
                     } mt-[20px] flex gap-x-[6px]`}
                   >
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/xnode-circle.svg`}
+                      src={`${prefix}/images/template/xnode-circle.svg`}
                       alt="image"
                       className=""
                     />
@@ -350,11 +327,7 @@ const TemplateStep = () => {
                     } mt-[20px] flex gap-x-[6px]`}
                   >
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/xnode-circle.svg`}
+                      src={`${prefix}/images/template/xnode-circle.svg`}
                       alt="image"
                       className=""
                     />
@@ -398,11 +371,7 @@ const TemplateStep = () => {
                     className="mt-[24px] flex cursor-pointer gap-x-[10px]"
                   >
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/remove.svg`}
+                      src={`${prefix}/images/template/remove.svg`}
                       alt="image"
                       className=""
                     />
@@ -432,21 +401,13 @@ const TemplateStep = () => {
                     >
                       {displayToggle === 'list' ? (
                         <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? process.env.NEXT_PUBLIC_BASE_PATH
-                              : ''
-                          }/images/template/list.svg`}
+                          src={`${prefix}/images/template/list.svg`}
                           alt="image"
                           className=""
                         />
                       ) : (
                         <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? process.env.NEXT_PUBLIC_BASE_PATH
-                              : ''
-                          }/images/template/list-cinza.svg`}
+                          src={`${prefix}/images/template/list-cinza.svg`}
                           alt="image"
                           className=""
                         />
@@ -462,21 +423,13 @@ const TemplateStep = () => {
                     >
                       {displayToggle === 'square' ? (
                         <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? process.env.NEXT_PUBLIC_BASE_PATH
-                              : ''
-                          }/images/template/quadrados.svg`}
+                          src={`${prefix}/images/template/quadrados.svg`}
                           alt="image"
                           className=""
                         />
                       ) : (
                         <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? process.env.NEXT_PUBLIC_BASE_PATH
-                              : ''
-                          }/images/template/quadrados-cinza.svg`}
+                          src={`${prefix}/images/template/quadrados-cinza.svg`}
                           alt="image"
                           className=""
                         />
@@ -490,23 +443,23 @@ const TemplateStep = () => {
                   {filteredTemplatesData.map((element, index) => (
                     <a
                       key={index}
-                      href={
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? '/xnode/template-products/' + element.id
-                          : '/template-products/' + element.id
-                      }
+                      href={`${prefix}/template-products/${element.id}`}
                     >
                       <div className="mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200">
                         <div className="flex gap-x-[75px]">
                           <img
-                            src={element.logo}
+                            src={
+                              element.logo.startsWith('https://')
+                                ? element.logo
+                                : `${prefix}${element.logo}`
+                            }
                             alt="image"
                             className="size-[33px] max-h-[33px] max-w-[33px]"
                           ></img>
                           <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-gray200 px-[12px] py-[4px]">
                             <div className="size-[10px] rounded-full bg-[#0059ff]"></div>
                             <div className="text-[12px] font-bold leading-[24px] text-[#0059ff] 2xl:text-[14px]">
-                              { element.category }
+                              {element.category}
                             </div>
                           </div>
                         </div>

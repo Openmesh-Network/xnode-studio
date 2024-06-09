@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { optionServerLocation } from '@/utils/constants'
+import { prefix } from '@/utils/prefix'
 
 import DropdownServiceRegion from '../DropdownServiceRegion'
 
@@ -261,21 +262,11 @@ const SubBarServers = ({ onValueChange }) => {
             <div key={index} className="relative flex">
               <div className="flex gap-x-[4px]">
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }${option.src}`}
+                  src={`${prefix}${option.src}`}
                   alt="image"
                   className={`absolute left-[-5px] top-[15px] my-auto ${option.style}`}
                 />
-                <a
-                  href={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? `/xnode${option.pageRef}`
-                      : `${option.pageRef}`
-                  }`}
-                >
+                <a href={`${prefix}${option.pageRef}`}>
                   <div
                     className={` ${
                       option.enabled ? 'text-black' : 'text-[#B1B1B1]'
@@ -321,13 +312,7 @@ const SubBarServers = ({ onValueChange }) => {
           Choose your server{' '}
         </div>
         <div>{renderChooseYourServerOptions()}</div>
-        <a
-          href={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/data-products?category=Servers`
-              : `/data-products?category=Servers`
-          }`}
-        >
+        <a href={`${prefix}/data-products?category=Servers`}>
           <div className="mt-[35px] flex w-full justify-center text-[8px] font-medium hover:text-[#3a3a3a] md:mt-[41px] md:text-[9.6px] lg:mt-[48px] lg:text-[11.5px] lg:!leading-[300%] xl:mt-[55px] xl:text-[13px] 2xl:mt-[69px] 2xl:text-[16px]">
             View More
           </div>

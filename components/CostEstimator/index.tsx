@@ -1,3 +1,5 @@
+import { prefix } from '@/utils/prefix'
+
 interface dataSourceType {
   title: string
   list: string[]
@@ -95,11 +97,7 @@ const CostEstimator = ({ ...data }: ModalProps) => {
         <div className="mt-[10px] grid gap-y-[8px] text-[7px] font-medium md:mt-[12px] md:gap-y-[9px] md:text-[8.4px] lg:mt-[14px] lg:gap-y-[10.5px] lg:text-[10px] lg:!leading-[17px] xl:text-[11.2px] 2xl:mt-[20px] 2xl:gap-y-[15px] 2xl:text-[14px]">
           <div className="flex w-full cursor-pointer items-center justify-center gap-x-[5px] rounded-[5px] border border-[#959595] p-[5px] py-[7px] text-center text-[#959595] hover:bg-[#f1f1f1] md:gap-x-[6px] md:py-[7.5px] lg:gap-x-[7px] lg:py-[8.75px] xl:gap-x-[8px] xl:py-[9.6px] 2xl:gap-x-[10px] 2xl:py-[12.5px]">
             <img
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }/images/costEstimator/arrow.svg`}
+              src={`${prefix}/images/costEstimator/arrow.svg`}
               alt="image"
               className="h-[6px] w-[8px] md:h-[6.6px] md:w-[9.3px] lg:h-[7.7px] lg:w-[10.85px] xl:h-[8.8px] xl:w-[12.4px] 2xl:h-[11px] 2xl:w-[15.5px]"
             />
@@ -107,11 +105,7 @@ const CostEstimator = ({ ...data }: ModalProps) => {
           </div>
           <div className="flex w-full cursor-pointer items-center justify-center gap-x-[5px] rounded-[5px] bg-[#0354EC] p-[5px] py-[7px] text-center text-white hover:bg-[#123981] md:gap-x-[6px] md:py-[7.5px] lg:gap-x-[7px] lg:py-[8.75px] xl:gap-x-[8px] xl:py-[9.6px] 2xl:gap-x-[10px] 2xl:py-[12.5px]">
             <img
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }/images/costEstimator/lightning.svg`}
+              src={`${prefix}/images/costEstimator/lightning.svg`}
               alt="image"
               className="h-[8px] w-[5px] md:h-[9.6px] md:w-[6px] lg:h-[11.2px] lg:w-[7px] xl:h-[12.8px] xl:w-[8px] 2xl:h-[16px] 2xl:w-[10px]"
             />

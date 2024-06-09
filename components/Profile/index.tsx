@@ -24,6 +24,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
+import { prefix } from '@/utils/prefix'
 import { Autocomplete, TextField } from '@mui/material'
 
 import { AccountContext } from '../../contexts/AccountContext'
@@ -123,11 +124,7 @@ const Profile = () => {
         {files.map((file, index) => (
           <li key={`selected-${index}`} className="mb-2 ml-4 mr-2 flex">
             <img
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }${imagePreview}`}
+              src={`${prefix}${imagePreview}`}
               alt="Preview"
               className={`size-[150px] cursor-pointer rounded-[100%]`}
             />

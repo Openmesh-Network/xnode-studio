@@ -27,11 +27,7 @@ const Breadcrumb = ({
                 <ul className="flex items-center md:justify-end">
                   <li className="flex items-center">
                     <Link
-                      href={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? `/xnode/`
-                          : `/`
-                      }`}
+                      href={`/`}
                       className="pr-1 text-base font-medium text-body-color hover:text-primary"
                     >
                       Home

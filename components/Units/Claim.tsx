@@ -6,6 +6,7 @@ import { AccountContext } from '@/contexts/AccountContext'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { XnodeUnitEntitlementClaimerContract } from '@/contracts/XnodeUnitEntitlementClaimer'
 import { reviver } from '@/utils/json'
+import { prefix } from '@/utils/prefix'
 import axios from 'axios'
 import nookies, { setCookie } from 'nookies'
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -87,9 +88,9 @@ const Claim = ({ chainId }: { chainId: number }) => {
 
     checkAlreadyMinted().then((err) => {
       if (err) {
-        toast.error("Error: " + err)
+        toast.error('Error: ' + err)
       } else {
-        toast.success("Success")
+        toast.success('Success')
       }
     })
   }, [code, publicClient])
@@ -105,7 +106,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
     console.log('recaptcha solved', recaptchaToken)
     console.log('sending request to xue-signer')
     const response = await axios
-      .post('/xue-signer/getSig', {
+      .post(`${prefix}/xue-signer/getSig`, {
         code: code,
         receiver: account.address,
         recaptcha: recaptchaToken,
@@ -267,7 +268,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
           )}
         </div>
       </div>
-      
+
       <br />
       <br />
       <br />

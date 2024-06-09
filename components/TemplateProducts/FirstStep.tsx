@@ -4,6 +4,7 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Provider } from '@/db/schema'
+import { prefix } from '@/utils/prefix'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
 import { Check, ChevronsUpDown, Loader, Search, X } from 'lucide-react'
@@ -12,6 +13,7 @@ import { z } from 'zod'
 
 import { TemplateFromId, TemplateGetSpecs } from '@/types/dataProvider'
 import { cn, formatPrice } from '@/lib/utils'
+import { useDraft } from '@/hooks/useDraftDeploy'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -30,8 +32,6 @@ import {
 import { Separator } from '@/components/ui/separator'
 
 import { Slider } from '../ui/slider'
-
-import { useDraft } from '@/hooks/useDraftDeploy'
 
 const STEP_MIN = 1
 const STEP_MAX = 1000
@@ -63,7 +63,7 @@ const TemplateProducts = () => {
     return TemplateGetSpecs(template)
   }, [params.id])
 
-  const [ draft, setDraft ] = useDraft();
+  const [draft, setDraft] = useDraft()
   const { data: providerData, isFetching: providersFetching } = useQuery({
     queryKey: [
       'resources',
@@ -92,7 +92,7 @@ const TemplateProducts = () => {
       }
       params.append('min', String(debouncedPriceRange[0]))
       params.append('max', String(debouncedPriceRange[1]))
-      const res = await fetch(`/api/providers?${params.toString()}`)
+      const res = await fetch(`${prefix}/api/providers?${params.toString()}`)
       return res.json() as Promise<{ data: Provider[] }>
     },
     placeholderData: keepPreviousData,
@@ -138,7 +138,7 @@ const TemplateProducts = () => {
   const { data: regionData, isLoading: regionLoading } = useQuery({
     queryKey: ['regions'],
     queryFn: async () => {
-      const res = await fetch('/api/providers/regions')
+      const res = await fetch(`${prefix}/api/providers/regions`)
       return res.json() as Promise<string[]>
     },
   })

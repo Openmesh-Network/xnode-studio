@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 
 export const categoriesOptionsRPC = [
   {
@@ -81,21 +82,11 @@ const SubBarCompute = ({ onValueChange }) => {
                   } relative flex w-fit gap-x-[7px] md:gap-x-[8.5px] lg:gap-x-[10px] xl:gap-x-[11.2px] 2xl:gap-x-[14px]`}
                 >
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }${option.src}`}
+                    src={`${prefix}${option.src}`}
                     alt="image"
                     className={option.style} // Adicionando uma transição de 2 segundos
                   />
-                  <a
-                    href={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? `/xnode${option.pageRef}`
-                        : `${option.pageRef}`
-                    }`}
-                  >
+                  <a href={`${prefix}${option.pageRef}`}>
                     <div className="font-semibold">{option.title}</div>
                   </a>
                   {option.isFree && (
@@ -124,11 +115,7 @@ const SubBarCompute = ({ onValueChange }) => {
                 </a>
                 {option.thirdParty && (
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/subNavBarAnalytics/third.svg`}
+                    src={`${prefix}/images/subNavBarAnalytics/third.svg`}
                     alt="image"
                     className="mt-[4.5px] w-[35px] md:w-[105px] lg:w-[40px] xl:mt-[9px] xl:w-[47px] 2xl:w-[58px]"
                   />
@@ -160,11 +147,7 @@ const SubBarCompute = ({ onValueChange }) => {
     <>
       <div className="z-100 relative bg-white px-[16px] py-[21px] text-black shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[26px] lg:px-[23px] lg:py-[30px] xl:px-[26.5px] xl:py-[35px] 2xl:px-[33px] 2xl:py-[43px]">
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/subNavBarCompute/compute.svg`}
+          src={`${prefix}/images/subNavBarCompute/compute.svg`}
           onClick={() => setSelectionSideNavBar('')}
           alt="image"
           className="w-[20px] md:w-[24px] lg:w-[28px] xl:w-[32px] 2xl:w-[40px]"
@@ -182,13 +165,7 @@ const SubBarCompute = ({ onValueChange }) => {
         {/* {renderOptions(false)}
         <div className="mt-[37px] h-[1px] w-full bg-[#C6C6C6] md:mt-[45px] lg:mt-[52px] xl:mt-[60px] 2xl:mt-[74px]"></div> */}
         {renderOptions(true)}
-        <a
-          href={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/data-products?category=RPC`
-              : `/data-products?category=RPC`
-          }`}
-        >
+        <a href={`${prefix}/data-products?category=RPC`}>
           <div className="mt-[35px] flex w-full justify-center text-[8px] font-medium hover:text-[#3a3a3a] md:mt-[41px] md:text-[9.6px] lg:mt-[48px] lg:text-[11.5px] lg:!leading-[300%] xl:mt-[55px] xl:text-[13px] 2xl:mt-[69px] 2xl:text-[16px]">
             View More
           </div>

@@ -1,5 +1,6 @@
 'use client'
 
+import { prefix } from '@/utils/prefix'
 import { thirds } from '@/utils/third'
 
 import { CoreServices } from '@/types/node'
@@ -36,42 +37,26 @@ const YourCore = ({ ...data }: ModalProps) => {
               <div key={index}>
                 <div className="flex items-center gap-x-[4px]">
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/reviewYourBuild/arrow-item.svg`}
+                    src={`${prefix}/images/reviewYourBuild/arrow-item.svg`}
                     alt="image"
                     className="w-[8px] md:w-[9.6px] lg:w-[11.2px] xl:w-[12.8px] 2xl:w-[16px]"
                   />
                   <div className="relative text-[9px] font-bold text-[#313131] md:text-[10.8px] lg:text-[12.6px] xl:text-[14.4px] 2xl:text-[18px]">
                     {option.name}
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/reviewYourBuild/question.svg`}
+                      src={`${prefix}/images/reviewYourBuild/question.svg`}
                       alt="image"
                       className="absolute right-[-6px] top-0 w-[4px] md:right-[-7.2px] md:w-[4.8px] lg:right-[-8.4px] lg:w-[5.6px] xl:right-[-9.6px] xl:w-[6.4px] 2xl:right-[-12px] 2xl:w-[8px]"
                     />
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/reviewYourBuild/third.svg`}
+                      src={`${prefix}/images/reviewYourBuild/third.svg`}
                       alt="image"
                       className="absolute right-[-40px] top-[-7.5px] w-[29px] md:right-[-48px] md:top-[-9px] md:w-[34px] lg:right-[-56px] lg:top-[-10.5px] lg:w-[40px] xl:right-[-64px] xl:top-[-12px] xl:w-[46px] 2xl:right-[-80px] 2xl:top-[-15px] 2xl:w-[58px]"
                     />
                   </div>
                   {/* {option.chain && <div>{option.chain}</div>} */}
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/reviewYourBuild/check.svg`}
+                    src={`${prefix}/images/reviewYourBuild/check.svg`}
                     alt="image"
                     className="absolute right-[37.5px] ml-auto w-[8.5px] md:right-[45px] md:w-[10.2px] lg:right-[52.5px] lg:w-[11.9px] xl:right-[60px] xl:w-[13.6px] 2xl:right-[75px] 2xl:w-[17px]"
                   />

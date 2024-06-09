@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 
 /* eslint-disable react/no-unescaped-entities */
 const SubBarUtility = ({ onValueChange }) => {
@@ -141,21 +142,11 @@ const SubBarUtility = ({ onValueChange }) => {
                   } relative flex w-fit gap-x-[7px] md:gap-x-[8.5px] lg:gap-x-[10px] xl:gap-x-[11.2px] 2xl:gap-x-[14px]`}
                 >
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }${option.src}`}
+                    src={`${prefix}${option.src}`}
                     alt="image"
                     className={option.style} // Adicionando uma transição de 2 segundos
                   />
-                  <a
-                    href={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? `/xnode${option.pageRef}`
-                        : `${option.pageRef}`
-                    }`}
-                  >
+                  <a href={`${prefix}${option.pageRef}`}>
                     <div className="font-semibold">{option.title}</div>
                   </a>
                   {option.isFree && (
@@ -184,11 +175,7 @@ const SubBarUtility = ({ onValueChange }) => {
                 </a>
                 {option.thirdParty && (
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/subNavBarAnalytics/third.svg`}
+                    src={`${prefix}/images/subNavBarAnalytics/third.svg`}
                     alt="image"
                     className="mt-[4.5px] w-[35px] md:w-[105px] lg:w-[40px] xl:mt-[9px] xl:w-[47px] 2xl:w-[58px]"
                   />
@@ -244,13 +231,7 @@ const SubBarUtility = ({ onValueChange }) => {
           Admin Tools
         </div>
         {renderOptions('Admin Tools')}
-        <a
-          href={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/data-products?category=Utility`
-              : `/data-products?category=Utility`
-          }`}
-        >
+        <a href={`${prefix}/data-products?category=Utility`}>
           <div className="mt-[35px] flex w-full justify-center text-[8px] font-medium hover:text-[#3a3a3a] md:mt-[41px] md:text-[9.6px] lg:mt-[48px] lg:text-[11.5px] lg:!leading-[300%] xl:mt-[55px] xl:text-[13px] 2xl:mt-[69px] 2xl:text-[16px]">
             View More
           </div>

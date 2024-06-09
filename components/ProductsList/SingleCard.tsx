@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { useRouter } from 'next/navigation'
 import { optionServerLocation } from '@/utils/constants'
+import { prefix } from '@/utils/prefix'
 
 export const categoriesOptionsRPC = {
   ValidationCloud: '/images/subNavBarRPC/validateCloud.svg',
@@ -183,17 +184,15 @@ const SingleCard = ({
       <div className="grow-1 size-[52px] 2xl:size-[64px]">
         {logoURL ? (
           <img
-            src={`${logoURL}`}
+            src={
+              logoURL.startsWith('https://') ? logoURL : `${prefix}${logoURL}`
+            }
             alt="image"
             className={`mx-auto flex rounded-[5px] p-[3px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)]`}
           />
         ) : (
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/openmesh-ico-logo.png`}
+            src={`${prefix}/openmesh-ico-logo.png`}
             alt="image"
             className={`mx-auto flex size-[25px] rounded-[5px] p-[3px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] lg:size-[30px] lg:p-[7px] xl:size-[40px]`}
           />
@@ -202,11 +201,7 @@ const SingleCard = ({
         {isThirdParty && (
           <div className="mx-auto mt-[7px] flex justify-center xl:mt-[8px] 2xl:mt-[10px]">
             <img
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }/images/dataset/third.svg`}
+              src={`${prefix}/images/dataset/third.svg`}
               alt="image"
               className={`w-[46.5] 2xl:w-[58px]`}
             />
@@ -221,13 +216,7 @@ const SingleCard = ({
       <div className="grow-0">
         <div>
           <div className="flex gap-x-[5px] lg:gap-x-[8px] 2xl:gap-x-[10px]">
-            <a
-              href={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? `/xnode/data-product/${id}`
-                  : `data-product/${id}`
-              }`}
-            >
+            <a href={`${prefix}/data-product/${id}`}>
               <div
                 className={`text-[10px] font-bold text-[#313131] hover:text-black hover:underline md:text-[12px] lg:text-[14px] lg:!leading-[22px] 2xl:text-[18px]`}
               >

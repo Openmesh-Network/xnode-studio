@@ -1,3 +1,5 @@
+import { prefix } from '@/utils/prefix'
+
 export function HomeAdvantages() {
   const possibilities = [
     {
@@ -72,14 +74,7 @@ export function HomeAdvantages() {
                   className="flex w-full max-w-[280px] items-start gap-x-[28px]"
                   key={title}
                 >
-                  <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/cube.svg`}
-                    alt="image"
-                  />
+                  <img src={`${prefix}/images/template/cube.svg`} alt="image" />
                   <div>
                     <div className="text-lg font-semibold leading-[22px] text-black">
                       {title}

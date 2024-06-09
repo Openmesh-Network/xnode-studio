@@ -4,6 +4,7 @@ import { useContext } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 import { Check, X } from 'phosphor-react'
 
 import { cn, formatPrice } from '@/lib/utils'
@@ -76,7 +77,7 @@ export default function TemplateProgress() {
           {indexerDeployerStep === -1 ? (
             <div className="mt-4 flex flex-col items-center justify-center gap-4">
               <Image
-                src={`/images/template/bare-metal.svg`}
+                src={`${prefix}/images/template/bare-metal.svg`}
                 alt="Bare Metal"
                 width={200}
                 height={100}

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 
 /* eslint-disable react/no-unescaped-entities */
 const SubBarAPIs = ({ onValueChange }) => {
@@ -97,21 +98,11 @@ const SubBarAPIs = ({ onValueChange }) => {
           <div key={index} className="relative flex text-black">
             <div className="flex gap-x-[9px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }${option.icon}`}
+                src={`${prefix}${option.icon}`}
                 alt="image"
                 className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
               />
-              <a
-                href={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? `/xnode/data-products`
-                    : `/data-products`
-                }`}
-              >
+              <a href={`${prefix}/data-products`}>
                 <div className="cursor-pointer text-[7.5px] font-light underline underline-offset-[2.5px] hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                   {option.title}
                 </div>
@@ -136,11 +127,7 @@ const SubBarAPIs = ({ onValueChange }) => {
     <>
       <div className="z-100 relative min-w-[260px] bg-white px-[16px] py-[21px] text-black shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[26px] lg:px-[23px] lg:py-[30px] xl:px-[26.5px] xl:py-[35px] 2xl:min-w-[330px] 2xl:px-[33px] 2xl:py-[43px]">
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/subNavBarAPIs/unifiedAPIs.svg`}
+          src={`${prefix}/images/subNavBarAPIs/unifiedAPIs.svg`}
           onClick={() => setSelectionSideNavBar('')}
           alt="image"
           className="w-[90px] md:w-[108px] lg:w-[126px] xl:w-[144px] 2xl:w-[180px]"
@@ -173,11 +160,7 @@ const SubBarAPIs = ({ onValueChange }) => {
                   } relative flex w-fit gap-x-[5px]`}
                 >
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }${option.src}`}
+                    src={`${prefix}${option.src}`}
                     alt="image"
                     className={option.style} // Adicionando uma transição de 2 segundos
                   />
