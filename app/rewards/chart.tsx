@@ -36,7 +36,11 @@ const RewardsChart = () => (
         bottom: 5,
       }}
     >
-      <XAxis dataKey="date" tickLine={false} />
+      <XAxis
+        dataKey="date"
+        tickLine={false}
+        tick={{ fontWeight: '600', fontSize: '0.875rem', color: '#000' }}
+      />
       <YAxis tickLine={false} tick={false} />
       <Tooltip />
       <Line
