@@ -49,6 +49,57 @@ export default function RPCOverviewPage() {
           </div>
         </div>
       </section>
+      <section className="flex justify-between gap-12 bg-foreground px-20 py-8">
+        <Image
+          src="/images/rpc/logos/equinix.svg"
+          width={120}
+          height={50}
+          alt="Equinix"
+          className="object-contain"
+        />
+        <Image
+          src="/images/rpc/logos/singularitynet.svg"
+          width={120}
+          height={50}
+          alt="SingularityNET"
+          className="object-contain"
+        />
+        <Image
+          src="/images/rpc/logos/vultr.svg"
+          width={120}
+          height={50}
+          alt="VULTR"
+          className="object-contain"
+        />
+        <Image
+          src="/images/rpc/logos/snowflake.svg"
+          width={120}
+          height={50}
+          alt="Snowflake"
+          className="object-contain"
+        />
+        <Image
+          src="/images/rpc/logos/aiven.svg"
+          width={120}
+          height={50}
+          alt="Aiven"
+          className="object-contain"
+        />
+        <Image
+          src="/images/rpc/logos/polygon.png"
+          width={120}
+          height={50}
+          alt="Polygon"
+          className="object-contain brightness-0 grayscale invert"
+        />
+        <Image
+          src="/images/rpc/logos/chainlink.svg"
+          width={120}
+          height={50}
+          alt="Chainlink"
+          className="object-contain"
+        />
+      </section>
       <Section className="flex gap-40 py-20">
         <Header level={2} className="text-4xl font-bold">
           Why
