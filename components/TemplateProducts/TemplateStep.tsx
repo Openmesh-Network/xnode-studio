@@ -487,8 +487,9 @@ const TemplateStep = () => {
 
                 {/* XXX: Code duplication here. Refactor into component? */}
                 <div className="flex size-full flex-wrap">
-                  {filteredTemplatesData.map((element) => (
+                  {filteredTemplatesData.map((element, index) => (
                     <a
+                      key={index}
                       href={
                         process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
                           ? '/xnode/template-products/' + element.id

@@ -69,7 +69,7 @@ export default function TemplateProgress() {
                   indexerDeployerStep === -1 ? 'text-black' : 'text-black/50'
                 )}
               >
-                Select a Template
+                Edit configuration
               </p>
             </button>
           </div>
@@ -232,7 +232,7 @@ export default function TemplateProgress() {
                   indexerDeployerStep === 1 ? 'text-black' : 'text-black/50'
                 )}
               >
-                Choose your configuration
+                Sign in
               </p>
             </button>
           </div>

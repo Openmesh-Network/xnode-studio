@@ -160,32 +160,28 @@ const ReviewYourBuild = () => {
   )
 
   useEffect(() => {
-    let draft = localStorage.getItem('draft')
+    // {
+    //   // XXX: This is just here for testing purposes.
+    //   let config: DeploymentConfiguration = {
+    //     name: "My Minecraft Server",
+    //     desc: "This is my favourite videogame, so I'm running it on my Xnode!",
+    //     location: "ny",
+    //     provider: "Unit",
+    //     isUnit: true,
+    //     services: [ ServiceFromName("Minecraft") ]
+    //   }
 
-    {
-      // XXX: This is just here for testing purposes.
-      let config: DeploymentConfiguration = {
-        name: "My Minecraft Server",
-        desc: "This is my favourite videogame, so I'm running it on my Xnode!",
-        location: "ny",
-        provider: "Unit",
-        isUnit: true,
-        services: [ ServiceFromName("Minecraft") ]
-      }
-
-      // draft = JSON.stringify(config)
-      createXnode(config)
-    }
+    //   // draft = JSON.stringify(config)
+    //   createXnode(config)
+    // }
 
     // XXX: This runs twice for some reason!!
     //  - Some nextjs config that runs all effects twice.
     //  - Maybe component is included/rendered twice?
 
-    console.log('Effect has been run')
-    console.log(draft)
     if (draft && !sentRequest) {
       console.log('Draft exists! Creating Xnode.', sentRequest)
-      // createXnode(draft)
+      createXnode(draft)
     }
   }, [])
 
@@ -214,8 +210,9 @@ const ReviewYourBuild = () => {
           </div>
           <div className="mt-[25px] text-[18px] font-normal tracking-[-2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
             {/* XXX: Incorrect! */}
-            Estimate time to deployment ~ 31 min
+            Average deployment time ~ 2 mins
           </div>
+
           <div className="mt-[15px] grid gap-y-[10px] md:mt-[18px] md:gap-y-[12px] lg:mt-[21px] lg:gap-y-[14px] 2xl:mt-[30px] 2xl:gap-y-[20px]">
             <CloudProvider
               onValueChange={() => setReviewYourBuild(false)}

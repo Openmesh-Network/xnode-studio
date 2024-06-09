@@ -49,7 +49,7 @@ export async function getWeb3Login(address) {
         maxAge: 10 * 24 * 60 * 60,
         path: '/',
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Lax',
+        sameSite: 'Strict',
       })
       return res;
     } catch (err) {

@@ -73,7 +73,9 @@ const Dashboard = () => {
           // Only update XueNfts if the nfts don't match. Don't want to trigger pointless updates.
 
           let doUpdate = false
-          if (xueNfts.length != nfts.length) {
+          if (!xueNfts) {
+            doUpdate = true;
+          } else if (xueNfts.length != nfts.length) {
             doUpdate = true;
           }
 
@@ -105,93 +107,17 @@ const Dashboard = () => {
       //   `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
       // )
     } else {
+      // getData()
       // alert('User has a cookie.')
     }
-  }, [ account ])
+  }, [])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
 
-  const renderTable = () => {
-    return (
-      <div className="mx-auto flex text-black">
-        {/* Table of all the unactivated Xnodes */}
-        {xueNfts?.map((node) => (
-          <p> Your id is: {node.toString()} </p>
-        ))}
-
-        <table className="mx-auto w-full">
-          <thead className="">
-            <tr>
-              <th
-                scope="col"
-                className="text-left text-[8px] font-bold tracking-wider md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
-              >
-                Deployment summary{' '}
-              </th>
-              <th
-                scope="col"
-                className="text-left text-[8px] font-bold tracking-wider md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
-              >
-                Creation Date
-              </th>
-              <th
-                scope="col"
-                className="text-left text-[8px] font-bold tracking-wider md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px] 2xl:text-[16px]"
-              >
-                Average Cost
-              </th>
-            </tr>
-          </thead>
-          <div className="mt-[25px]"></div>
-
-          <tbody className="">
-            {xnodesData.map((node) => (
-              <tr key={node.id}>
-                <td className={`${commonClasses}`}>
-                  <div>{node.name}</div>
-                  <div className="mt-[2px] text-[6px] text-[#8D8D8D] md:text-[7.2px] lg:text-[8.4px] xl:text-[9.6px] 2xl:text-[12px]">
-                    {node.description}
-                  </div>
-                </td>
-                <td className={commonClasses}>
-                  {new Date(node.createdAt).toLocaleDateString()}
-                </td>
-                {
-                  // XXX: Find an actual good value here?
-                }
-                <td className={commonClasses}>??? P/m</td>
-                <td className="pb-[17.5px] text-[7px] font-medium text-[#0354EC] underline underline-offset-2 md:pb-[21px] md:text-[8.4px] lg:pb-[24.5px] lg:text-[9.8px] xl:pb-[28px] xl:text-[11.2px] 2xl:pb-[35px] 2xl:text-[14px]">
-                  {
-                  /* <div
-                    className=" cursor-pointer "
-                    onClick={() => {
-                      handleEdit(
-                        node.id,
-                        JSON.parse(node.consoleNodes),
-                        JSON.parse(node.consoleEdges),
-                        node.useCase,
-                        node.name,
-                        node.description,
-                        node.type,
-                      )
-                    }}
-                  >
-                    Edit
-                  </div> */
-                  }
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    )
-  }
-
   useEffect(() => {
     getData()
-  }, [getData, user])
+  }, [])
 
   if (isLoading || !user) {
     return (
@@ -238,11 +164,16 @@ const Dashboard = () => {
           <div className="my-12"/>
 
           {
-            (!account?.isConnected) && (
+            (!account?.isConnected) ? (
               <div>
                 <p> Connect your wallet to view available Xnodes. </p>
                 <w3m-connect-button />
               </div>
+            )
+            : (
+              <>
+                <w3m-button />
+              </>
             )
           }
 
@@ -257,8 +188,8 @@ const Dashboard = () => {
 
                 <ul className="flex mt-4 max-h-[calc(100svh-5rem)] flex-col items-center gap-8 overflow-y-auto text-black">
                   {
-                    xueNfts.map((node) => (
-                      <li className="flex w-fit items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
+                    xueNfts.map((node, index) => (
+                      <li key={index} className="flex w-fit items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
                         {/* <p> Your id is: {node.toString()} </p> */}
 
                         {/* <div> */}

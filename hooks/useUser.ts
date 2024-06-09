@@ -4,9 +4,25 @@ import { UserProps } from '@/contexts/AccountContext'
 import axios from 'axios'
 import nookies, { parseCookies } from 'nookies'
 
-export function useUser(): UserProps | null {
+export function useUser(): [ UserProps | null, (user: UserProps | null) => void ] {
   const { user, setUser } = useContext(AccountContext)
   const [localUser, setLocalUser] = useState<UserProps | null>(user);
+
+  const setUserGlobal = (user: UserProps | null) => {
+    setLocalUser(user)
+    setUser(user)
+
+    if (user) {
+      nookies.set(null, 'userSessionToken', user.sessionToken, {
+        maxAge: 10 * 24 * 60 * 60,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict',
+      })
+    } else {
+      nookies.destroy(null, 'userSessionToken')
+    }
+  }
 
   useEffect(() => {
     if (!user) {
@@ -46,7 +62,7 @@ export function useUser(): UserProps | null {
     } else {
       setLocalUser(user)
     }
-  }, [user, setUser])
+  }, [])
 
-  return localUser;
+  return [ localUser, setUserGlobal ];
 }

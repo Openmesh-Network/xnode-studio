@@ -161,6 +161,7 @@ const Template = (id: any) => {
         />
 
         <div className="mt-[40px] text-[10px] md:text-[12px] lg:mt-[59px] 2xl:text-[14px]">
+
           <div className="text-[16px] font-semibold 2xl:text-[18px]">
             System requirements
           </div>
@@ -169,21 +170,28 @@ const Template = (id: any) => {
             <div className="lg:w-1/2">Recommended requirements</div>
           </div>
           <div className="mt-[15px] flex gap-x-[10px] px-[20px] font-normal lg:gap-x-0">
-            <div className="lg:w-1/2">{templateSpecs?.ram}</div>
-            <div>{templateSpecs?.ram}</div>
+            <div className="lg:w-1/2">{templateSpecs?.ram + "MB ram"} </div>
+            <div>{templateSpecs?.ram + "MB ram"}</div>
           </div>
+          <div className="mt-[15px] flex gap-x-[10px] px-[20px] font-normal lg:gap-x-0">
+            <div className="lg:w-1/2">{templateSpecs?.storage + "MB disk"} </div>
+            <div>{templateSpecs?.storage + "MB disk"}</div>
+          </div>
+
           <div className="mt-[30px] border-b border-[#DDDDDD]"></div>
         </div>
         <div className="mt-[40px] text-[10px] md:text-[12px] lg:mt-[59px] 2xl:text-[14px]">
           <div className="text-[16px] font-semibold 2xl:text-[18px]">
             Services{' '}
           </div>
+
           <div className="mt-[15px] flex border-[0.7px] border-[#CDCDCD] px-[5px] py-[8px] font-medium lg:px-[20px]">
             <div className="w-[15%]">Name</div>
             <div className="w-1/5">Description</div>
-            <div className="w-[15%]">Specs</div>
+            <div className="w-[25%]">Specs</div>
             <div className="w-1/4">Tags</div>
           </div>
+
           {draft?.services && (
             <div>
               {draft.services?.map((item, index) => (
@@ -195,28 +203,25 @@ const Template = (id: any) => {
                     </div>
                     <div className="w-1/5">{item.desc}</div>
 
-                    <div className="w-[15%]">{'CPU, 1-Core'}</div>
+                    <div className="w-[25%]">{item.specs.ram + "mb ram, " + item.specs.storage + "mb disk"}</div>
 
                     <div className="w-1/4">{item?.tags.join(', ')}</div>
 
-                    <button
-                      data-modal-target="idname"
-                      type="button"
-                      data-modal-toggle="idname"
-                    >
-                      Edit
-                    </button>
-
                     <Dialog>
-                      <DialogTrigger> Open </DialogTrigger>
+                      <DialogTrigger> Edit </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Are you absolutely sure?</DialogTitle>
+                          <DialogTitle>{ item.name + " Options" }</DialogTitle>
                           <DialogDescription>
-                            This action cannot be undone. This will permanently delete your account
-                            and remove your data from our servers.
+                            { item.desc }
                           </DialogDescription>
                         </DialogHeader>
+
+                        {
+                          // Loop through each of the options and make a two column input thingy, with the default value set to the value of the thing.
+                        }
+                        <p> Here are the options: </p>
+
                       </DialogContent>
                     </Dialog>
 

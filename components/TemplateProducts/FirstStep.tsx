@@ -31,6 +31,8 @@ import { Separator } from '@/components/ui/separator'
 
 import { Slider } from '../ui/slider'
 
+import { useDraft } from '@/hooks/useDraftDeploy'
+
 const STEP_MIN = 1
 const STEP_MAX = 1000
 const PRICE_MAX = 50000
@@ -61,6 +63,7 @@ const TemplateProducts = () => {
     return TemplateGetSpecs(template)
   }, [params.id])
 
+  const [ draft, setDraft ] = useDraft();
   const { data: providerData, isFetching: providersFetching } = useQuery({
     queryKey: [
       'resources',
@@ -120,6 +123,15 @@ const TemplateProducts = () => {
       }
     }
   }, [providersFetching])
+
+  useEffect(() => {
+    if (templateSelected) {
+      let d = draft
+      d.location = templateSelected.location
+      d.provider = templateSelected.providerName
+      setDraft(d)
+    }
+  }, [templateSelected, setTemplateSelected])
 
   const { data: regionData, isLoading: regionLoading } = useQuery({
     queryKey: ['regions'],

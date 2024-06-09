@@ -9,7 +9,7 @@ import { reviver } from '@/utils/json'
 import axios from 'axios'
 import nookies, { setCookie } from 'nookies'
 import { toast } from 'react-toastify'
-import { getWeb3Login, signOutUser } from 'utils/auth'
+import { getWeb3Login } from 'utils/auth'
 import {
   Address,
   BaseError,

@@ -1,16 +1,14 @@
 'use client'
 
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
-import nookies, { destroyCookie, setCookie } from 'nookies'
+import nookies, { setCookie } from 'nookies'
 import { Eye, EyeSlash } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
-
-import { AccountContext } from '../../contexts/AccountContext'
-
+import { useUser } from '@/hooks/useUser'
 import 'react-toastify/dist/ReactToastify.css'
 
 type LoginForm = {
@@ -23,7 +21,7 @@ const LogIn = () => {
     useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(true)
-  const { user, setUser } = useContext(AccountContext)
+  const { user, setUser } = useUser()
 
   const validSchema = Yup.object().shape({
     email: Yup.string().max(500).required('Email is required'),
@@ -93,8 +91,6 @@ const LogIn = () => {
     }
   }
   function signOutUser() {
-    destroyCookie(undefined, 'userSessionToken')
-    nookies.destroy(null, 'userSessionToken')
     setUser(null)
   }
   if (user?.sessionToken) {
@@ -124,27 +120,7 @@ const LogIn = () => {
 
   return (
     <div className="rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] pb-[60px] pr-[100px] text-black md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[20px] xl:pb-[80px] xl:pr-[192px] 2xl:px-[20px] 2xl:py-[25px] 2xl:pb-[100px] 2xl:pr-[140px]">
-      <div className="relative flex gap-x-[10px]">
-        <div className="text-[10px] font-bold md:text-[12px] lg:text-[14px] lg:!leading-[24px] xl:pl-[5px] xl:text-[16px] 2xl:text-[20px]">
-          Sign in section{' '}
-        </div>
-        <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/firstStep/question-mark.svg`}
-          alt="image"
-          className="size-[9px] cursor-pointer transition-transform hover:scale-105 md:size-[11px] lg:size-[12px] xl:size-[14px] 2xl:size-[18px]"
-          onMouseEnter={() => setShowTooltipCloudProvider(true)}
-          onMouseLeave={() => setShowTooltipCloudProvider(false)}
-        />
-        {showTooltipCloudProvider && (
-          <div className="absolute left-[100px] top-0 w-full max-w-[270px] rounded-[10px] bg-black px-[13px] py-[10px] text-[8px] font-medium text-white md:left-[120px] md:px-[15px] md:py-[12px] md:text-[9px] lg:left-[140px] lg:px-[17px] lg:py-[14px] lg:text-[11px] lg:!leading-[19px] xl:left-[180px] xl:px-[20px] xl:py-[16px] xl:text-[13px] 2xl:left-[200px] 2xl:px-[25px] 2xl:py-[20px] 2xl:text-[16px]">
-            <div className="">Sign in to proceed with the Xnode deployment</div>
-          </div>
-        )}
-      </div>
+      
       <div className="grid gap-y-[20px] md:flex md:gap-x-[30px] lg:gap-x-[60px] xl:gap-x-[120px] 2xl:gap-x-[200px]">
         <form onSubmit={handleSubmit(onSubmit)} className="">
           <div className="">

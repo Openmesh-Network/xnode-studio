@@ -3,68 +3,67 @@ import { AccountContext } from '@/contexts/AccountContext'
 import nookies, { parseCookies, setCookie } from 'nookies'
 import { toast } from 'react-toastify'
 import { getWeb3Login } from 'utils/auth'
+import { useForm } from 'react-hook-form'
+import * as Yup from 'yup'
 
-import LogIn from './LogIn'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 import 'react-toastify/dist/ReactToastify.css'
 
+import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
 import { useAccount } from 'wagmi'
+import { Eye, EyeSlash } from 'phosphor-react'
 
-import { Separator } from '../ui/separator'
-import EquinixConnection from './EquinixConnecton'
+import { useState } from 'react'
+import { useUser } from '@/hooks/useUser'
 
 const Signup = () => {
   const {
-    selectionSideNavBar,
-    setSelectionSideNavBar,
-    next,
-    setNext,
-    reviewYourBuild,
-    setReviewYourBuild,
     setFinalBuild,
-    finalNodes,
-    setSignup,
-    tagXnode,
-    user,
     setIndexerDeployerStep,
-    projectName,
-    xnodeType,
-    setUser,
   } = useContext(AccountContext)
 
-  const cookies = parseCookies()
-  const userHasAnyCookie = cookies.userSessionToken
+  const [ user, setUser ] = useUser()
 
-  function handleFinalBuild() {
-    if (!user) {
-      toast.error('Please log in before proceeding')
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      })
-    } else if (!user.apiKey) {
-      toast.error('Please connect your equinix api before proceeding')
-      window.scrollTo({
-        top: 40,
-        behavior: 'smooth',
-      })
-    } else {
-      setFinalBuild(true)
-      setIndexerDeployerStep(2)
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      })
-    }
+  const [ isLoading, setIsLoading ] = useState<boolean>(false)
+  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(true)
+  type LoginForm = {
+    email: string
+    password: string
   }
+  const validSchema = Yup.object().shape({
+    email: Yup.string().max(500).required('Email is required'),
+    password: Yup.string()
+      .min(8, 'Min of 8 digits')
+      .max(500)
+      .required('Password is required'),
+  })
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control, // Adicione esta linha
+    // eslint-disable-next-line no-unused-vars
+    reset,
+    formState: { errors },
+  } = useForm<LoginForm>({
+    resolver: yupResolver<any>(validSchema),
+  })
 
-  const { address } = useAccount()
+  const account = useAccount()
 
   const tryLogin = async () => {
     console.log('Login initiated!')
     try {
-      const res = await getWeb3Login(address)
+      const res = await getWeb3Login(account.address)
       if (res) {
         setUser(res)
       }
@@ -76,103 +75,203 @@ const Signup = () => {
     console.log('Login over!')
   }
 
+  async function loginUser(data: any) {
+    const config = {
+      method: 'post' as 'post',
+      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/openmesh-experts/functions/loginOpenRD`,
+      headers: {
+        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+      },
+      data,
+    }
+
+    try {
+      let res = await axios(config)
+      setUser(res as UserProps)
+      return res
+    } catch(err) {
+      toast.error("Error logging in: ", err)
+      return null
+    }
+  }
+
+  async function onSubmit(data: LoginForm) {
+    setIsLoading(true)
+    const finalData = {
+      ...data,
+    }
+    try {
+      const res = await loginUser(finalData)
+      setUser(res)
+      setIsLoading(false)
+
+      // push(
+      //   `${process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`}`
+      // )
+    } catch (err) {
+      console.error(err)
+      setIsLoading(false)
+      return
+
+      if (err.response.data.message === 'Unconfirmed Email') {
+        toast.error('Unconfirmed email')
+      } else if (err.response.data.message === 'User disabled') {
+        toast.error(
+          'Please allow 24 to 48 hours for the community to approve your application'
+        )
+      } else {
+        toast.error('Incorrect credentials')
+      }
+      const element = document.getElementById('emailId')
+      element.scrollIntoView({ behavior: 'smooth' })
+      setIsLoading(false)
+    }
+  }
+
   return (
     <section id="home">
+      {/* <h1 className="text-4xl font-semibold text-black"> Sign in </h1> */}
       <h1 className="text-center text-3xl font-medium">
         Connect <span className="text-primary">your wallet</span>
       </h1>
-      <p>Connect your wallet to deploy</p>
-      <div className="flex flex-col">
-        <div>
-          <h3 className="text-3xl font-bold">
-            Connect your wallet to continue
-          </h3>
-          <p>
-            Integrate APIs from different exchanges, allowing seamless data flow
-            on the L3A platform.
-          </p>
-          <w3m-button />
-          <button
-            className="cursor-pointer items-center rounded-[5px] border border-blue-500 bg-blue-500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-white hover:bg-[#064DD2] lg:text-[16px]"
-            onClick={() => tryLogin()}
-          >
-            {' '}
-            Actually attempt login.{' '}
-          </button>
-        </div>
-        <Separator className="my-4" />
-        <div>
-          <h3 className="text-xl font-medium">Not a web3 user?</h3>
-          <LogIn />
-        </div>
-      </div>
-      {/* <div>
-        <div className="text-[18px] font-bold tracking-[-2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
-          Connect your wallet
-        </div>
-        <div className="mb-[30px] mt-[15px]">
-          <w3m-button />
-        </div>{' '}
-        <div className="my-[30px] text-black">or</div>
-        <div className="text-[18px] font-bold tracking-[-2%] text-black md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:text-[32px]">
-          Signin for Xnode
-        </div>
-        <div className="mt-[15px] text-[18px] font-normal tracking-[-2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[15px] 2xl:text-[32px]">
-          Finalise your integrations easily
-        </div>
-        <div className="mt-[15px]">
-          <LogIn />
-        </div>
-        {user && (
-          <div className="mt-[50px] md:mt-[60px] lg:mt-[70px] xl:mt-[80px] 2xl:mt-[100px]">
-            <EquinixConnection />
-          </div>
-        )}
-        <div className="flex gap-x-[25px]">
-          <div
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' })
-              setSignup(false)
-              setIndexerDeployerStep(1)
-            }}
-            className="mt-[41px] flex size-fit cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#787d86] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-white hover:bg-[#5d6066] md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[14.5px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[17px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]"
-          >
-            <img
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }/images/header/arrow-left-new.svg`}
-              alt="image"
-              className={`w-[5px] md:w-[6px] lg:w-[7px] xl:w-[8px] 2xl:w-[12px]`}
-            />
-            <div>Back</div>
-          </div>
 
-          <div
-            onClick={() => {
-              console.log(finalNodes)
-              handleFinalBuild()
-            }}
-            className={`mt-[41px] flex size-fit justify-center gap-x-[8px] rounded-[5px] ${
-              !user
-                ? 'bg-[#578ae9]'
-                : 'cursor-pointer bg-[#0354EC] hover:bg-[#0e2e69]'
-            } px-[11px] py-[6.2px] text-center text-[7px] font-medium text-white md:mt-[49px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:mt-[57px] lg:px-[14.5px] lg:py-[8.75px] lg:text-[10px] xl:mt-[65px] xl:px-[17px] xl:py-[10px] xl:text-[11.2px] 2xl:mt-[82px] 2xl:gap-x-[10px] 2xl:px-[21px] 2xl:py-[12.5px] 2xl:text-[14px]`}
-          >
-            <img
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }/images/header/storm.svg`}
-              alt="image"
-              className={`w-[5px] md:w-[6px] lg:w-[7px] xl:w-[8px] 2xl:w-[10px]`}
-            />
-            <div>Deploy</div>
-          </div>
-        </div>
-      </div> */}
+      <p className="text-center">Connect your wallet to deploy</p>
+
+
+      <div className="mt-16"/>
+      {/* Two column layout */}
+
+      <div className="flex flex-row">
+        {
+          user ? (
+            <>
+              <p> Logged in </p>
+
+              { /* XXX: Add option to log out here. */ }
+
+              <p onClick={ setUser(null) }> Log out </p>
+
+            </>
+          )
+          : (
+            <>
+            <div className="w-1/2 border-r">
+              <div className="w-fit mx-auto">
+                <h3 className="text-2xl font-semibold">
+                  Connect your wallet to continue
+                </h3>
+
+                <div className="mt-5"/>
+
+                <w3m-button />
+                {
+                  account?.isConnected && (
+                    <div>
+                      {
+                        <button
+                          className="cursor-pointer items-center rounded-[5px] border border-blue-500 bg-blue-500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-white hover:bg-[#064DD2] lg:text-[16px]"
+                          onClick={() => tryLogin()}
+                        >
+                          {' '}
+                          Verify wallet{' '}
+                        </button>
+                      }
+                    </div>
+                  )
+                }
+              </div>
+            </div>
+
+            <div className="w-1/2 border-l">
+              <div className="w-min m-auto">
+                <div className="text-xl w-fit mt-5 font-medium flex flex-cols">Not a web3 user?</div>
+
+                <Dialog>
+                  <DialogTrigger className=" mt-5 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary/95 border border-primary text-white font-semibold hover:bg-primary h-10 rounded-md px-4 min-w-56"> Openmesh Expert Login </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Log in</DialogTitle>
+                      <DialogDescription>
+                        {  }
+                      </DialogDescription>
+                    </DialogHeader>
+
+                    <form onSubmit={handleSubmit(onSubmit)} className="">
+                      <span className="flex flex-row">
+                        Email
+                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
+                          {errors.email?.message}
+                        </p>
+                      </span>
+                      <input
+                        className="mt-[10px] h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0"
+                        type="text"
+                        maxLength={500}
+                        placeholder=""
+                        {...register('email')}
+                      />
+                      <div className="mt-[20px]">
+                        <span className="flex flex-row">
+                          Password
+                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
+                            {errors.password?.message}
+                          </p>
+                        </span>
+                        <div className="flex">
+                          <input
+                            className="mr-[20px] mt-[10px] h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0"
+                            type={passwordVisibility ? 'password' : 'text'}
+                            maxLength={120}
+                            placeholder=""
+                            {...register('password')}
+                          />
+                          {passwordVisibility ? (
+                            <div
+                              onClick={() => setPasswordVisibility(false)}
+                              className="flex cursor-pointer items-center text-center"
+                            >
+                              <EyeSlash className="cursor-pointer" />
+                            </div>
+                          ) : (
+                            <div
+                              onClick={() => setPasswordVisibility(true)}
+                              className="flex cursor-pointer items-center text-center"
+                            >
+                              <Eye className="cursor-pointer" />
+                            </div>
+                          )}
+                          <button
+                            type="submit"
+                            className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
+                            onClick={handleSubmit(onSubmit)}
+                          >
+                            <span className="">Sign in</span>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+
+                  </DialogContent>
+                </Dialog>
+
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={`https://www.openmesh.network/oec/register`}
+                className="border-b-1 cursor-pointer text-[#3253FE]"
+              >
+                <button className="mt-5 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-primary text-primary hover:bg-primary/10 h-10 rounded-md px-4 min-w-56"> 
+                  Register
+                </button>
+                </a>
+              </div>
+            </div>
+            </>
+          )
+        }
+
+
+      </div>
     </section>
   )
 }

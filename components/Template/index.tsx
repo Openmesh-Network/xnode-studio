@@ -23,8 +23,9 @@ const IndexerDeployer = (id: any) => {
         { /* TODO: If deploying a unit skip this stuff. */ }
         {indexerDeployerStep === 1 ? <Signup /> : null}
 
-        { /* TODO: Add an API stage here. */ }
-        {}
+        { /* TODO: Add back the connection / api stage here. */ }
+        {
+        }
 
         { /* TODO: If deploying a unit skip this stuff. */ }
         {indexerDeployerStep === 2 ? <FinalBuild /> : null}
