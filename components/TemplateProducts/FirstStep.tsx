@@ -83,10 +83,12 @@ const TemplateProducts = () => {
         params.append('r', region)
       }
       if (specs.ram > 0) {
-        params.append('minRAM', String(specs.ram))
+        const ramGB = specs.ram / 1024
+        params.append('minRAM', String(ramGB))
       }
       if (specs.storage > 0) {
-        params.append('minStorage', String(specs.storage))
+        const storageGB = specs.storage / 1024
+        params.append('minStorage', String(storageGB))
       }
       params.append('min', String(debouncedPriceRange[0]))
       params.append('max', String(debouncedPriceRange[1]))
