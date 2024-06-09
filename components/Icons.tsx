@@ -626,21 +626,21 @@ export const Icons = {
     >
       <path
         d="M16.873 16.8747V9.02618C16.873 8.9391 16.8548 8.85298 16.8196 8.77334C16.7844 8.6937 16.7329 8.6223 16.6685 8.56373L10.418 2.8813C10.303 2.7767 10.1531 2.71874 9.9976 2.71875C9.84211 2.71876 9.6922 2.77672 9.57716 2.88132L3.32759 8.56373C3.26316 8.62231 3.21169 8.6937 3.17646 8.77333C3.14124 8.85297 3.12305 8.93908 3.12305 9.02616V16.8747"
-        stroke-width="1.25"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M1.24805 16.875H18.748"
-        stroke-width="1.25"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M11.8721 16.874V12.499C11.8721 12.3333 11.8062 12.1743 11.689 12.0571C11.5718 11.9399 11.4128 11.874 11.2471 11.874H8.74707C8.58131 11.874 8.42234 11.9399 8.30513 12.0571C8.18792 12.1743 8.12207 12.3333 8.12207 12.499V16.874"
-        stroke-width="1.25"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   ),

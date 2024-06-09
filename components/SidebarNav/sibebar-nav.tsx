@@ -164,15 +164,14 @@ const SidebarNav: React.FC<SidebarNav> = ({
           <NavCollapsable
             label="APIs"
             icon={Icons.APIIcon}
-            disabled
             links={[
               {
-                label: 'APIs',
+                label: 'Overview',
                 href: '/apis',
               },
               {
-                label: 'test',
-                href: '/apis',
+                label: 'APIs',
+                href: '/apis/apis',
               },
             ]}
           />
