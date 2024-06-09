@@ -6,12 +6,14 @@ const nextConfig = {
       destination: 'https://remote-signer.plopmenz.com/xue-signer/:call*',
     },
     {
-      source: '/xnode',
-      destination: '/',
+      source: '/',
+      destination: process.env.NEXT_PUBLIC_PREFIX ?? '/',
     },
     {
-      source: '/xnode/:call*',
-      destination: '/:call*',
+      source: '/:call*',
+      destination: process.env.NEXT_PUBLIC_PREFIX
+        ? `${process.env.NEXT_PUBLIC_PREFIX}/:call*`
+        : '/:call*',
     },
   ],
   basePath: process.env.NEXT_PUBLIC_PREFIX,
