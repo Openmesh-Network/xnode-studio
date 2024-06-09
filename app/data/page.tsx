@@ -11,7 +11,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import Heading from '@/components/ui/header'
+import Header from '@/components/ui/header'
 import { Section } from '@/components/ui/section'
 import {
   Select,
@@ -31,9 +31,9 @@ export default function DataOverview() {
         <div className="container flex w-full max-w-6xl justify-start gap-x-32">
           <div className="flex max-w-sm flex-col gap-y-6">
             <div className="">
-              <Heading level={1} className="text-[5rem]">
+              <Header level={1} className="text-[5rem]">
                 OpenAPI
-              </Heading>
+              </Header>
               <p className="text-pretty font-light">
                 Power thousands of applications (mobile & web), dAps, protocols,
                 DAOs. Built for developers, data scientists, game developers,
@@ -71,12 +71,12 @@ export default function DataOverview() {
       </Section>
       <Section fullWidth className="bg-[#0C0C0C] py-16 text-white">
         <div className="container max-w-6xl space-y-2">
-          <Heading level={2} className="text-4xl">
+          <Header level={2} className="text-4xl">
             UnifiedAPI
-          </Heading>
-          <Heading level={3} className="text-white">
+          </Header>
+          <Header level={3} className="text-white">
             Single endpoint for data, APIs, no registration, no licenses.
-          </Heading>
+          </Header>
           <p className="text-balance">
             Power thousands of applications (mobile & web), dAps. protocols,
             DAOs. Built for developers, data scientists, game developers,
@@ -89,9 +89,9 @@ export default function DataOverview() {
         aria-labelledby="faq-heading"
         className="my-24 space-y-6 text-center"
       >
-        <Heading level={2} id="faq-heading">
+        <Header level={2} id="faq-heading">
           Frequently Asked Questions
-        </Heading>
+        </Header>
         <Faqs />
       </Section>
     </div>
@@ -149,7 +149,7 @@ function Faqs() {
   )
 }
 
-function CodeCalculator() {
+export function CodeCalculator() {
   return (
     <div className="flex w-full gap-x-6 py-6">
       <CalculatorSettings />
@@ -159,7 +159,7 @@ function CodeCalculator() {
   )
 }
 
-export const selectData = [
+const selectData = [
   {
     label: 'Use Case',
     options: [
@@ -263,12 +263,12 @@ function RightAside() {
       </Button>
       <Connections />
       <div>
-        <Heading
+        <Header
           level={4}
           className="text-md mb-1 w-full border-b border-gray-700 pb-1"
         >
           Support Articles
-        </Heading>
+        </Header>
         <Link
           href="/data"
           className="text-balance text-xs text-gray-300 underline"
@@ -283,12 +283,12 @@ function RightAside() {
 function Connections() {
   return (
     <div className="">
-      <Heading
+      <Header
         level={4}
         className="text-md mb-3 w-full border-b border-gray-700 pb-1"
       >
         Dozens of Connections
-      </Heading>
+      </Header>
 
       <div className="grid grid-cols-4 gap-2">
         <Icons.SnowflakeLogo className="size-7" />
