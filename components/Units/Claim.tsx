@@ -124,7 +124,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
 
     if (typeof response === 'string') {
       // An error has occurred, likely an invalid code
-      alert(response)
+      toast.error('Error: ' + response)
       return
     }
 
