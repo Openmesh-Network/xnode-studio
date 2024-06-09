@@ -8,14 +8,18 @@ const nextConfig = {
     {
       basePath: false,
       source: '/',
-      destination: process.env.NEXT_PUBLIC_PREFIX ?? '/',
+      destination:
+        'https://openmesh.network/xnode' +
+        (process.env.NEXT_PUBLIC_PREFIX ?? '/'),
     },
     {
       basePath: false,
       source: '/:call*',
-      destination: process.env.NEXT_PUBLIC_PREFIX
-        ? `${process.env.NEXT_PUBLIC_PREFIX}/:call*`
-        : '/:call*',
+      destination:
+        'https://openmesh.network/xnode' +
+        (process.env.NEXT_PUBLIC_PREFIX
+          ? `${process.env.NEXT_PUBLIC_PREFIX}/:call*`
+          : '/:call*'),
     },
   ],
   basePath: process.env.NEXT_PUBLIC_PREFIX,
