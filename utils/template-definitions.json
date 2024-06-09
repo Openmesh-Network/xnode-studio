@@ -384,18 +384,7 @@
         "quality": false,
         "implementation": false
     },
-    {
-        "id": "34",
-        "logo": "https://galene.org/logo.png",
-        "name": "Galene",
-        "category": "Video Conferencing",
-        "tags": ["Video Conferencing", "WebRTC", "Open-source"],
-        "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "This template deploys Galene, a video conferencing server that uses WebRTC technology. It includes settings for creating secure video calls, managing participants, and optimizing video quality. The setup is designed for reliable and easy-to-use video conferencing.",
-        "serviceNames": ["galene"],
-        "quality": false,
-        "implementation": false
-    },
+  
     {
         "id": "35",
         "logo": "https://canada1.discourse-cdn.com/free1/uploads/janus/original/1X/ed8aa8413a7d5b06ef3543e119fea32b1d6e76fe.png",
@@ -925,30 +914,8 @@
                 "quality": false,
                 "implementation": false
             },
-            {
-                "id": "79",
-                "logo": "https://avatars.githubusercontent.com/u/348978?s=200&v=4",
-                "name": "SQLPage",
-                "category": "Database",
-                "tags": ["Database", "Documentation", "Open-source"],
-                "dateAdded": "2024-06-08T12:00:00Z",
-                "desc": "SQLPage is an open-source tool for generating documentation from SQL database schemas. It analyzes database metadata and generates HTML documentation with details on tables, columns, indexes, and relationships.",
-                "serviceNames": ["sqlpage"],
-                "quality": false,
-                "implementation": false
-            },
-            {
-                "id": "80",
-                "logo": "https://avatars.githubusercontent.com/u/4370554?s=200&v=4",
-                "name": "Cgit",
-                "category": "Version Control",
-                "tags": ["Version Control", "Web Interface", "Open-source"],
-                "dateAdded": "2024-06-08T12:00:00Z",
-                "desc": "Cgit is a web-based Git repository browser with a focus on simplicity and performance. It allows users to browse repositories, view commit history, and inspect file changes through a web interface.",
-                "serviceNames": ["cgit"],
-                "quality": false,
-                "implementation": false
-            },
+          
+         
             {
                 "id": "81",
                 "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Forgejo_logo.svg/800px-Forgejo_logo.svg.png",
