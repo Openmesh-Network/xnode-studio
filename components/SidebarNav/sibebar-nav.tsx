@@ -38,7 +38,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
   return (
     <NavContainer className={className}>
       {/* <NavHeader isMobile={isMobile}></NavHeader> */}
-      <NavContent className="mt-0 overflow-y-scroll pb-2">
+      <NavContent className="mt-0 overflow-y-scroll py-2">
         <NavCategory label="Studio">
           <NavLink
             href="/"
@@ -336,9 +336,7 @@ const NavContainer = React.forwardRef<
           orientation={collapsed ? 'horizontal' : 'vertical'}
           asChild
         >
-          <nav className="flex h-full flex-col justify-between py-2">
-            {children}
-          </nav>
+          <nav className="flex h-full flex-col justify-between">{children}</nav>
         </Accordion>
       </aside>
     </NavContext.Provider>
