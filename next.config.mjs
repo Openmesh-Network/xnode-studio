@@ -1,14 +1,20 @@
+const rewrites = [
+  {
+    source: `${process.env.NEXT_PUBLIC_PREFIX ?? ''}/xue-signer/:call*`,
+    destination: 'https://remote-signer.plopmenz.com/xue-signer/:call*',
+  },
+]
+if (process.env.NEXT_PUBLIC_BASE_PATH) {
+  rewrites.push({
+    source: `${process.env.NEXT_PUBLIC_PREFIX ?? ''}/api/:call*`,
+    destination: `${process.env.NEXT_PUBLIC_BASE_PATH}/api/:call*`,
+  })
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // TODO: Change this before deployment?
-  rewrites: () => [
-    {
-      source: '/xue-signer/:call*',
-      destination: 'https://remote-signer.plopmenz.com/xue-signer/:call*',
-    },
-  ],
+  rewrites: () => rewrites,
   assetPrefix: process.env.NEXT_PUBLIC_PREFIX,
-  // assetPrefix: 'http://localhost:3334',
   reactStrictMode: false,
 }
 
