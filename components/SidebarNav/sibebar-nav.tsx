@@ -658,7 +658,7 @@ const NavLink: React.FC<NavLinkProps> = ({
       <Tooltip open={!collapsed ? false : undefined} delayDuration={500}>
         <TooltipTrigger asChild>
           <Link
-            href={`${prefix}${href}`}
+            href={href}
             target={href.startsWith('https://') ? '_blank' : undefined}
             className="flex h-10 items-center px-4 py-2 text-foreground hover:bg-primary/5 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed"
             aria-disabled={tag === 'Soon'}

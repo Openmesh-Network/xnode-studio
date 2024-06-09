@@ -74,13 +74,7 @@ const SubBarTrading = ({ onValueChange }) => {
                     alt="image"
                     className={option.style} // Adicionando uma transição de 2 segundos
                   />
-                  <a
-                    href={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? `/xnode${option.pageRef}`
-                        : `${option.pageRef}`
-                    }`}
-                  >
+                  <a href={`${prefix}${option.pageRef}`}>
                     <div className="font-semibold">{option.title}</div>
                   </a>
                   {option.isFree && (
@@ -159,13 +153,7 @@ const SubBarTrading = ({ onValueChange }) => {
         {/* {renderOptions(false)}
         <div className="mt-[37px] h-[1px] w-full bg-[#C6C6C6] md:mt-[45px] lg:mt-[52px] xl:mt-[60px] 2xl:mt-[74px]"></div> */}
         {renderOptions(true)}
-        <a
-          href={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/data-products?category=RPC`
-              : `/data-products?category=RPC`
-          }`}
-        >
+        <a href={`${prefix}/data-products?category=RPC`}>
           <div className="mt-[35px] flex w-full justify-center text-[8px] font-medium hover:text-[#3a3a3a] md:mt-[41px] md:text-[9.6px] lg:mt-[48px] lg:text-[11.5px] lg:!leading-[300%] xl:mt-[55px] xl:text-[13px] 2xl:mt-[69px] 2xl:text-[16px]">
             View More
           </div>

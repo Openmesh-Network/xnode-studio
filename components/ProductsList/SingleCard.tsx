@@ -216,13 +216,7 @@ const SingleCard = ({
       <div className="grow-0">
         <div>
           <div className="flex gap-x-[5px] lg:gap-x-[8px] 2xl:gap-x-[10px]">
-            <a
-              href={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? `/xnode/data-product/${id}`
-                  : `data-product/${id}`
-              }`}
-            >
+            <a href={`${prefix}/data-product/${id}`}>
               <div
                 className={`text-[10px] font-bold text-[#313131] hover:text-black hover:underline md:text-[12px] lg:text-[14px] lg:!leading-[22px] 2xl:text-[18px]`}
               >

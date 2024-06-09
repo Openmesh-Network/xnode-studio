@@ -488,11 +488,7 @@ const DataProduct = (id: any) => {
                   {data?.dataSpace}
                 </div>
                 <a
-                  href={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? `/xnode/${data?.downloadCSVLink}`
-                      : `${data?.downloadCSVLink}`
-                  }`}
+                  href={`${prefix}${data?.downloadCSVLink}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -513,11 +509,7 @@ const DataProduct = (id: any) => {
                 </div>
                 {data?.addToXnodeMessage === 'Add to Xnode' ? (
                   <a
-                    href={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? `/xnode/${data?.liveLink}`
-                        : `${data?.liveLink}`
-                    }`}
+                    href={`${prefix}${data?.liveLink}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -561,11 +553,7 @@ const DataProduct = (id: any) => {
                   {data?.liveLink}
                 </div>
                 <a
-                  href={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? `/xnode/${data?.liveLink}`
-                      : `${data?.liveLink}`
-                  }`}
+                  href={`${prefix}${data?.liveLink}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -584,11 +572,7 @@ const DataProduct = (id: any) => {
           <div className="mt-[35px] justify-center text-[7px] font-medium text-[#959595] md:mt-[35px] md:text-[10px] lg:mt-[40px] lg:text-[11px] lg:!leading-[17px] 2xl:mt-[51px] 2xl:text-[14px]">
             {data?.dataCloudName && data?.dataCloudName && (
               <a
-                href={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? `/xnode/${data?.dataCloudLink}`
-                    : `${data?.dataCloudLink}`
-                }`}
+                href={`${prefix}${data?.dataCloudLink}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#0354EC]"
@@ -601,11 +585,7 @@ const DataProduct = (id: any) => {
             )}
             {data?.dataGithubLink && data?.dataGithubName && (
               <a
-                href={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? `/xnode/${data?.dataGithubLink}`
-                    : `${data?.dataGithubLink}`
-                }`}
+                href={`${prefix}${data?.dataGithubLink}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#0354EC]"
@@ -672,7 +652,7 @@ const DataProduct = (id: any) => {
                 ([key, value], index, array) =>
                   value && (
                     <a
-                      href={`${`${value}`}`}
+                      href={`${value}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       key={index}
@@ -696,11 +676,7 @@ const DataProduct = (id: any) => {
                 ([value1, value2, value3], index, array) => (
                   <>
                     <a
-                      href={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? `/xnode/dataset/${value1}`
-                          : `/dataset/${value1}`
-                      }`}
+                      href={`${prefix}/dataset/${value1}`}
                       className="transition-transform hover:scale-105"
                     >
                       <div className="flex gap-x-[6px] lg:gap-x-[8px] 2xl:gap-x-[12px]">

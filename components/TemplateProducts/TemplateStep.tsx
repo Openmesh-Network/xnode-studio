@@ -443,11 +443,7 @@ const TemplateStep = () => {
                   {filteredTemplatesData.map((element, index) => (
                     <a
                       key={index}
-                      href={
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? '/xnode/template-products/' + element.id
-                          : '/template-products/' + element.id
-                      }
+                      href={`${prefix}/template-products/${element.id}`}
                     >
                       <div className="mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200">
                         <div className="flex gap-x-[75px]">

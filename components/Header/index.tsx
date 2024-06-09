@@ -50,11 +50,7 @@ export function Header() {
         </nav>
 
         <Link
-          href={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/template-products/`
-              : `/template-products/`
-          }`}
+          href={`/template-products/`}
           className="flex h-full items-center gap-x-[10px] bg-blue500 px-9 transition-colors duration-300 hover:bg-blue500/80"
         >
           <Image src={thunderIcon} alt="Thunder icon" />

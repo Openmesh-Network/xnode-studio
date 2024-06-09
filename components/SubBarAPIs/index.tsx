@@ -102,13 +102,7 @@ const SubBarAPIs = ({ onValueChange }) => {
                 alt="image"
                 className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
               />
-              <a
-                href={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? `/xnode/data-products`
-                    : `/data-products`
-                }`}
-              >
+              <a href={`${prefix}/data-products`}>
                 <div className="cursor-pointer text-[7.5px] font-light underline underline-offset-[2.5px] hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                   {option.title}
                 </div>

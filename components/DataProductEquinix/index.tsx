@@ -507,11 +507,7 @@ const DataProductEquinix = (id: any) => {
                 ([value1, value2, value3, value4, value5], index, array) => (
                   <>
                     <a
-                      href={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? `/xnode/dataset/${value1}`
-                          : `/dataset/${value1}`
-                      }`}
+                      href={`${prefix}/dataset/${value1}`}
                       className="transition-transform hover:scale-105"
                     >
                       <div className="flex gap-x-[6px] lg:gap-x-[8px] 2xl:gap-x-[12px]">

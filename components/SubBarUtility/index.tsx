@@ -146,13 +146,7 @@ const SubBarUtility = ({ onValueChange }) => {
                     alt="image"
                     className={option.style} // Adicionando uma transição de 2 segundos
                   />
-                  <a
-                    href={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? `/xnode${option.pageRef}`
-                        : `${option.pageRef}`
-                    }`}
-                  >
+                  <a href={`${prefix}${option.pageRef}`}>
                     <div className="font-semibold">{option.title}</div>
                   </a>
                   {option.isFree && (
@@ -237,13 +231,7 @@ const SubBarUtility = ({ onValueChange }) => {
           Admin Tools
         </div>
         {renderOptions('Admin Tools')}
-        <a
-          href={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/data-products?category=Utility`
-              : `/data-products?category=Utility`
-          }`}
-        >
+        <a href={`${prefix}/data-products?category=Utility`}>
           <div className="mt-[35px] flex w-full justify-center text-[8px] font-medium hover:text-[#3a3a3a] md:mt-[41px] md:text-[9.6px] lg:mt-[48px] lg:text-[11.5px] lg:!leading-[300%] xl:mt-[55px] xl:text-[13px] 2xl:mt-[69px] 2xl:text-[16px]">
             View More
           </div>

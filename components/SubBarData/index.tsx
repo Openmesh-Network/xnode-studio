@@ -53,13 +53,7 @@ const SubBarData = ({ onValueChange }) => {
                 alt="image"
                 className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
               />
-              <a
-                href={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? `/xnode${dataOption.href}`
-                    : `${dataOption.href}`
-                }`}
-              >
+              <a href={`${prefix}${dataOption.href}`}>
                 <div className="cursor-pointer text-[7.5px] font-light text-[#0354EC] underline underline-offset-[2.5px] hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                   {dataOption.title}
                 </div>
@@ -228,13 +222,7 @@ const SubBarData = ({ onValueChange }) => {
           )}
         </>
 
-        <a
-          href={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/data-products?category=Data`
-              : `/data-products?category=Data`
-          }`}
-        >
+        <a href={`${prefix}/data-products?category=Data`}>
           <div className="mt-[35px] flex w-full justify-center text-[8px] font-medium hover:text-[#3a3a3a] md:mt-[41px] md:text-[9.6px] lg:mt-[48px] lg:text-[11.5px] lg:!leading-[300%] xl:mt-[55px] xl:text-[13px] 2xl:mt-[69px] 2xl:text-[16px]">
             View More
           </div>
