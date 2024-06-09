@@ -50,7 +50,7 @@ export default function DataOverview() {
               <Button
                 asChild
                 size="xl"
-                variant="outline"
+                variant="outlinePrimary"
                 className="rounded-sm"
               >
                 <Link href="/data">
