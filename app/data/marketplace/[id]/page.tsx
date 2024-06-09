@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { prefix } from '@/utils/prefix'
 import { ArrowRight, Building, MapPin, Search } from 'lucide-react'
 import { z } from 'zod'
 
@@ -29,7 +30,7 @@ export default function DataMarketplaceItem({
           <div className="flex flex-col items-center gap-1">
             <div className="flex size-12 items-center justify-center rounded shadow-lg">
               <Image
-                src={data.image}
+                src={`${prefix}${data.image}`}
                 alt={data.name}
                 width={24}
                 height={24}
@@ -100,7 +101,7 @@ export default function DataMarketplaceItem({
                 <div className="flex items-center justify-between">
                   <div>
                     <Image
-                      src={data.image}
+                      src={`${prefix}${data.image}`}
                       alt={data.name}
                       width={24}
                       height={24}

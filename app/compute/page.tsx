@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { prefix } from '@/utils/prefix'
 import { ChevronRight } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -28,7 +29,7 @@ export default function ComputeOverviewPage() {
             </Header>
           </div>
           <Image
-            src="/images/compute/hero.png"
+            src={`${prefix}/images/compute/hero.png`}
             width={600}
             height={600}
             alt="Compute Overview"
