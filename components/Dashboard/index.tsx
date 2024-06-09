@@ -21,7 +21,7 @@ const Dashboard = () => {
   const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
   const [xueNfts, setXueNfts] = useState<BigInt[]>(undefined)
 
-  const user = useUser()
+  const [ user ]  = useUser()
 
   const account = useAccount()
 

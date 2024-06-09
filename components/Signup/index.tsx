@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import { getWeb3Login } from 'utils/auth'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
+import { UserProps } from '@/contexts/AccountContext'
 
 import {
   Dialog,
@@ -87,8 +88,8 @@ const Signup = () => {
 
     try {
       let res = await axios(config)
-      setUser(res as UserProps)
-      return res
+      setUser(res.data as UserProps)
+      return res.data
     } catch(err) {
       toast.error("Error logging in: ", err)
       return null
@@ -102,7 +103,7 @@ const Signup = () => {
     }
     try {
       const res = await loginUser(finalData)
-      setUser(res)
+      setUser(res.data as UserProps)
       setIsLoading(false)
 
       // push(
@@ -149,7 +150,7 @@ const Signup = () => {
 
               { /* XXX: Add option to log out here. */ }
 
-              <p onClick={ setUser(null) }> Log out </p>
+              <p onClick={ () => { setUser(null) } }> Log out </p>
 
             </>
           )
@@ -187,7 +188,7 @@ const Signup = () => {
                 <div className="text-xl w-fit mt-5 font-medium flex flex-cols">Not a web3 user?</div>
 
                 <Dialog>
-                  <DialogTrigger className=" mt-5 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary/95 border border-primary text-white font-semibold hover:bg-primary h-10 rounded-md px-4 min-w-56"> Openmesh Expert Login </DialogTrigger>
+                  <DialogTrigger className=" mt-5 inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary/95 border border-primary text-white font-semibold hover:bg-primary h-10 rounded-md px-4 min-w-56"> Openmesh Expert Login </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle>Log in</DialogTitle>

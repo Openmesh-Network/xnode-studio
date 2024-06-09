@@ -21,7 +21,7 @@ const LogIn = () => {
     useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(true)
-  const { user, setUser } = useUser()
+  const [ user, setUser ] = useUser()
 
   const validSchema = Yup.object().shape({
     email: Yup.string().max(500).required('Email is required'),
