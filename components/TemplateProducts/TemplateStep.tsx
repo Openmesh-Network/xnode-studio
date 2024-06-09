@@ -53,7 +53,9 @@ const TemplateStep = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<string>('')
   const [displayToggle, setDisplayToggle] = useState<string>('square')
   const [categoryFilter, setCategoryFilter] = useState<string[]>([])
-  const categoryMap: Map<string, number> = new Map(Object.entries(CategoryDefinitions));
+  const categoryMap: Map<string, number> = new Map(
+    Object.entries(CategoryDefinitions)
+  )
 
   const [categoryOpen, setCategoryOpen] = useState<boolean>(true)
   const [page, setPage] = useState<number>(1)
@@ -153,7 +155,7 @@ const TemplateStep = () => {
             <div className="mt-[7px] text-[14px] font-normal leading-[32px] text-[#4d4d4d] 2xl:text-[16px]">
               Jumpstart your development process with our pre-built templates
             </div>
-            
+
             <div className="mt-[34px] h-px w-full bg-[#E6E8EC]"></div>
             <div className="mt-[30px] flex gap-x-[70px]">
               <div>
@@ -168,29 +170,38 @@ const TemplateStep = () => {
                       }}
                       src={`${prefix}/images/template/arrow-top.svg`}
                       alt="image"
-                      className={`${!categoryOpen && 'rotate-180'
-                        } cursor-pointer transition-all duration-300`}
+                      className={`${
+                        !categoryOpen && 'rotate-180'
+                      } cursor-pointer transition-all duration-300`}
                     />
                   </div>
-                  <div className={`${!categoryOpen && 'hidden'} mt-[30px] flex flex-col gap-x-[6px] `}>
-                    {Array.from(categoryMap.keys()).slice(0, 5).map((category) => (
-                      <div key={category} className="mt-6 flex items-center ">
-                        <img
-
-                          src={`${prefix}/images/template/xnode-circle.svg`}
-                          alt="image"
-                          className="mr-2" // Adjust margin as needed
-                        />
-                        <div
-                          onClick={() => handleCategoryFilter(category)}
-                          className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes(category.toLowerCase()) ? 'text-[#0059ff]' : 'text-[#959595]'
+                  <div
+                    className={`${!categoryOpen && 'hidden'} mt-[30px] flex flex-col gap-x-[6px]`}
+                  >
+                    {Array.from(categoryMap.keys())
+                      .slice(0, 5)
+                      .map((category) => (
+                        <div key={category} className="mt-6 flex items-center">
+                          <img
+                            src={`${prefix}/images/template/xnode-circle.svg`}
+                            alt="image"
+                            className="mr-2" // Adjust margin as needed
+                          />
+                          <div
+                            onClick={() => handleCategoryFilter(category)}
+                            className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${
+                              categoryFilter.includes(category.toLowerCase())
+                                ? 'text-[#0059ff]'
+                                : 'text-[#959595]'
                             }`}
-                        >
-                          {category.length > 20 ? `${category.slice(0, 10)}..` : category} ({categoryMap.get(category)})
+                          >
+                            {category.length > 20
+                              ? `${category.slice(0, 10)}..`
+                              : category}{' '}
+                            ({categoryMap.get(category)})
+                          </div>
                         </div>
-                      </div>
-                    ))}
-
+                      ))}
                   </div>
                 </div>
                 <div className="mt-[29px] h-px w-full bg-[#E6E8EC]"></div>
@@ -243,10 +254,7 @@ const TemplateStep = () => {
                 {/* XXX: Code duplication here. Refactor into component? */}
                 <div className="flex size-full flex-wrap">
                   {filteredTemplatesData.map((element, index) => (
-                    <a
-                      key={index}
-                      href={`${prefix}/template-products/${element.id}`}
-                    >
+                    <a key={index} href={`${prefix}/deploy?tId=${element.id}`}>
                       <div className="mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200">
                         <div className="flex gap-x-[35px]">
                           <img
@@ -260,7 +268,7 @@ const TemplateStep = () => {
                           ></img>
                           <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-gray200 px-[12px] py-[4px]">
                             <div className="size-[10px] rounded-full bg-[#0059ff]"></div>
-                            <div className="text-[12px] w-min-fit font-bold leading-[24px] text-[#0059ff]">
+                            <div className="w-min-fit text-[12px] font-bold leading-[24px] text-[#0059ff]">
                               {element.category}
                             </div>
                           </div>

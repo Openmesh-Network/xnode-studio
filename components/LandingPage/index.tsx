@@ -217,7 +217,7 @@ const LandingPage = () => {
                 Many Integrations. Endless Possibilities
               </p>
               <h1 className="text-[12px] font-bold leading-[30px] text-black md:text-[14.4px] lg:text-[17px] xl:text-[19.2px] 2xl:text-[24px]">
-                Xnode&aptos;s modularized design and SDKs{' '}
+                Xnode&apos;s modularized design and SDKs{' '}
               </h1>
             </div>
             <div className="mt-[30px] flex flex-col items-start text-[#0354EC] md:mt-0 md:w-[204px] lg:w-[238px] xl:w-[272px] 2xl:w-[340px]">
@@ -235,7 +235,7 @@ const LandingPage = () => {
                 rel="noopener noreferrer"
                 className="font-inter mt-[4px] text-justify text-[8px] font-medium leading-[24px] md:ml-[5px] md:text-[8.4px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]"
               >
-                An introduction to xNode&aptos;s role in decentralizing data
+                An introduction to xNode&apos;s role in decentralizing data
                 infrastructure.
               </a>
 
