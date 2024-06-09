@@ -33,5 +33,5 @@ export function useDraft(): [ DeploymentConfiguration | null, (draft: Deployment
     }
   }
 
-  return [ null, null ]
+  return [ null, setDraftDeploy ]
 }

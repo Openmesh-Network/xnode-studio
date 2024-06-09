@@ -187,7 +187,7 @@ const ReviewYourBuild = () => {
       console.log('Draft exists! Creating Xnode.', sentRequest)
       // createXnode(draft)
     }
-  }, [createXnode, draft, sentRequest])
+  }, [])
 
   if (!isDeploying) {
     return (

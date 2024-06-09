@@ -77,7 +77,7 @@ const Template = (id: any) => {
 
           setTemplateSpecs(TemplateGetSpecs(template))
 
-          // setDraftDeploy(d)
+          setDraftDeploy(d)
         } else {
           // XXX:
           // NUCLEAR APOCALYPSE TIER!
@@ -87,8 +87,7 @@ const Template = (id: any) => {
 
       setIsLoading(false)
     },
-    [draft]
-  )
+    [])
 
   useEffect(() => {
     setIsLoading(true)
@@ -101,7 +100,7 @@ const Template = (id: any) => {
     if (id) {
       getData(id.id)
     }
-  }, [id, getData])
+  }, [])
 
   if (isLoading) {
     return (
