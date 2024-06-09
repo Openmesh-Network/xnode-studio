@@ -173,18 +173,16 @@ const TemplateStep = () => {
                     />
                   </div>
                   <div className={`${!categoryOpen && 'hidden'} mt-[30px] flex flex-col gap-x-[6px] `}>
-                    {Array.from(categoryMap.keys()).slice(0, 5).map((category) => (
-                      <div key={category} className="mt-6 flex items-center ">
+                    {Array.from(categoryMap.keys()).slice(0, 10).map((category) => (
+                      <div key={category} className="mt-6 flex items-center">
                         <img
-
                           src={`${prefix}/images/template/xnode-circle.svg`}
                           alt="image"
                           className="mr-2" // Adjust margin as needed
                         />
                         <div
                           onClick={() => handleCategoryFilter(category)}
-                          className={`cursor-pointer text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes(category.toLowerCase()) ? 'text-[#0059ff]' : 'text-[#959595]'
-                            }`}
+                          className={`cursor-pointer text-[14px] font-normal select-none leading-[20px] 2xl:text-[16px] ${categoryFilter.includes(category) ? 'text-black font-semibold' : 'text-[#959595]'}`}
                         >
                           {category.length > 20 ? `${category.slice(0, 10)}..` : category} ({categoryMap.get(category)})
                         </div>
@@ -194,38 +192,6 @@ const TemplateStep = () => {
                   </div>
                 </div>
                 <div className="mt-[29px] h-px w-full bg-[#E6E8EC]"></div>
-                {/* <div className="mt-[24px] text-start"> */}
-                {/*   <div className="text-[14px] font-medium leading-[12px] text-black 2xl:text-[16px]"> */}
-                {/*     Creator */}
-                {/*   </div> */}
-                {/*   <div className="mt-[12px]"> */}
-                {/*     <Dropdown */}
-                {/*       optionSelected={selectedCreator} */}
-                {/*       options={optionsCreator} */}
-                {/*       placeholder="Filter" */}
-                {/*       onValueChange={(value) => { */}
-                {/*         setSelectedCreator(value) */}
-                {/*       }} */}
-                {/*     /> */}
-                {/*   </div> */}
-                {/*   <div */}
-                {/*     onClick={() => { */}
-                {/*       setCategoryFilter([]) */}
-                {/*       setFilterSelection('All Templates') */}
-                {/*       handleNewFilteredTemplatesData([], 'All Templates') */}
-                {/*     }} */}
-                {/*     className="mt-[24px] flex cursor-pointer gap-x-[10px]" */}
-                {/*   > */}
-                {/*     <img */}
-                {/*       src={`${prefix}/images/template/remove.svg`} */}
-                {/*       alt="image" */}
-                {/*       className="" */}
-                {/*     /> */}
-                {/*     <div className="text-[14px] font-normal text-[#4d4d4d] hover:text-[#3b3b3b] 2xl:text-[16px]"> */}
-                {/*       Reset filter */}
-                {/*     </div> */}
-                {/*   </div> */}
-                {/* </div> */}
               </div>
               <div className="w-full">
                 <div className="flex justify-end gap-x-[20px]">
