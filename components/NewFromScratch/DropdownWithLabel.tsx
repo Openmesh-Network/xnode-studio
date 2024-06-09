@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { prefix } from '@/utils/prefix'
 
 export type ValueObject = {
   name: string
@@ -58,7 +59,11 @@ const DropdownWithLabel = ({
         <div className="flex justify-between gap-x-[10px]">
           {optionSelected?.imageSrc && (
             <img
-              src={optionSelected.imageSrc}
+              src={
+                optionSelected.imageSrc.startsWith('https://')
+                  ? optionSelected.imageSrc
+                  : `${prefix}${optionSelected.imageSrc}`
+              }
               alt="image"
               className={optionSelected.imageStyle}
             />
@@ -68,11 +73,7 @@ const DropdownWithLabel = ({
         </div>
         <img
           alt="ethereum avatar"
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/header/line.svg`}
+          src={`${prefix}/images/header/line.svg`}
           className={`transition-transform duration-200 ${
             isOpen && 'rotate-180'
           }`}
@@ -95,7 +96,11 @@ const DropdownWithLabel = ({
               >
                 {option.imageSrc && (
                   <img
-                    src={option.imageSrc}
+                    src={
+                      option.imageSrc.startsWith('https://')
+                        ? option.imageSrc
+                        : `${prefix}${option.imageSrc}`
+                    }
                     alt="image"
                     className={option.imageStyle}
                   />

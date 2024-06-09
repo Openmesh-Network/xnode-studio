@@ -1,5 +1,6 @@
 'use client'
 
+import { prefix } from '@/utils/prefix'
 import { formatDistanceToNow } from 'date-fns'
 
 interface ModalProps {
@@ -27,11 +28,7 @@ const Congratulations = ({ ...data }: ModalProps) => {
   return (
     <section className="mx-auto text-center text-black xl:max-w-[605.6px] 2xl:max-w-[757px]">
       <img
-        src={`${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? process.env.NEXT_PUBLIC_BASE_PATH
-            : ''
-        }/images/validator/validator.svg`}
+        src={`${prefix}/images/validator/validator.svg`}
         alt="image"
         className={`mx-auto w-[48px] md:w-[57.6px] lg:w-[67.2px] xl:w-[76.8px] 2xl:w-[96px]`}
       />

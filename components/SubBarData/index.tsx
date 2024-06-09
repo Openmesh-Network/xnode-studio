@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { categoriesOptions } from '@/utils/constants'
+import { prefix } from '@/utils/prefix'
 
 /* eslint-disable react/no-unescaped-entities */
 const SubBarData = ({ onValueChange }) => {
@@ -48,11 +49,7 @@ const SubBarData = ({ onValueChange }) => {
           <div key={index} className="relative flex text-black">
             <div className="flex gap-x-[9px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }${dataOption.icon}`}
+                src={`${prefix}${dataOption.icon}`}
                 alt="image"
                 className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
               />
@@ -159,21 +156,13 @@ const SubBarData = ({ onValueChange }) => {
                   >
                     {selectionSubBar === option.title ? (
                       <img
-                        src={`${
-                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                            ? process.env.NEXT_PUBLIC_BASE_PATH
-                            : ''
-                        }/images/lateralNavBar/seta-baixo.svg`}
+                        src={`${prefix}/images/lateralNavBar/seta-baixo.svg`}
                         alt="image"
                         className="flex w-[8px] items-center lg:w-[9px] 2xl:w-[11px]" // Adicionando uma transição de 2 segundos
                       />
                     ) : (
                       <img
-                        src={`${
-                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                            ? process.env.NEXT_PUBLIC_BASE_PATH
-                            : ''
-                        }/images/lateralNavBar/seta-lado.svg`}
+                        src={`${prefix}/images/lateralNavBar/seta-lado.svg`}
                         alt="image"
                         className="flex w-[7px] items-center lg:w-[7px] 2xl:w-[9px]" // Adicionando uma transição de 2 segundos
                       />
@@ -213,21 +202,13 @@ const SubBarData = ({ onValueChange }) => {
                   >
                     {selectionSubBar === option.title ? (
                       <img
-                        src={`${
-                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                            ? process.env.NEXT_PUBLIC_BASE_PATH
-                            : ''
-                        }/images/lateralNavBar/seta-baixo.svg`}
+                        src={`${prefix}/images/lateralNavBar/seta-baixo.svg`}
                         alt="image"
                         className="flex w-[8px] items-center lg:w-[9px] 2xl:w-[11px]" // Adicionando uma transição de 2 segundos
                       />
                     ) : (
                       <img
-                        src={`${
-                          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                            ? process.env.NEXT_PUBLIC_BASE_PATH
-                            : ''
-                        }/images/lateralNavBar/seta-lado.svg`}
+                        src={`${prefix}/images/lateralNavBar/seta-lado.svg`}
                         alt="image"
                         className="flex w-[7px] items-center lg:w-[7px] 2xl:w-[9px]" // Adicionando uma transição de 2 segundos
                       />

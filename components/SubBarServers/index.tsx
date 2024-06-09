@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { optionServerLocation } from '@/utils/constants'
+import { prefix } from '@/utils/prefix'
 
 import DropdownServiceRegion from '../DropdownServiceRegion'
 
@@ -261,11 +262,7 @@ const SubBarServers = ({ onValueChange }) => {
             <div key={index} className="relative flex">
               <div className="flex gap-x-[4px]">
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }${option.src}`}
+                  src={`${prefix}${option.src}`}
                   alt="image"
                   className={`absolute left-[-5px] top-[15px] my-auto ${option.style}`}
                 />

@@ -1,5 +1,6 @@
 import { memo, useState } from 'react'
 import { optionServerLocation } from '@/utils/constants'
+import { prefix } from '@/utils/prefix'
 import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
 
 const options = [
@@ -90,11 +91,7 @@ function ServerNode({ id, data }) {
     <>
       <div className="relative rounded-[7px] bg-[#EAEAEA] px-[10px] py-[7px] pb-[23px] pr-[17px] text-[8px] text-black md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[20.4px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[23px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[27px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[34px] 2xl:text-[16px]">
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/nodesFlow/server.svg`}
+          src={`${prefix}/images/nodesFlow/server.svg`}
           alt="image"
           className={
             'w-[19px] md:w-[22px] lg:w-[26px] xl:w-[30px] 2xl:w-[37px]'
@@ -103,11 +100,7 @@ function ServerNode({ id, data }) {
 
         <img
           onClick={() => setIsHelpOpen(!isHelpOpen)}
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/nodesFlow/arrow.svg`}
+          src={`${prefix}/images/nodesFlow/arrow.svg`}
           alt="image"
           className={`absolute right-[8px] top-[8px] cursor-pointer xl:w-[7px] 2xl:w-[9px] ${
             isHelpOpen ? 'rotate-90' : ''

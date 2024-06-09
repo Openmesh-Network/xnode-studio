@@ -1,3 +1,5 @@
+import { prefix } from '@/utils/prefix'
+
 interface ModalProps {
   onValueChange(): void
 }
@@ -31,11 +33,7 @@ const AddOns = ({ ...data }: ModalProps) => {
         Edit
       </div>
       <img
-        src={`${
-          process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-            ? process.env.NEXT_PUBLIC_BASE_PATH
-            : ''
-        }/images/header/group-test.svg`}
+        src={`${prefix}/images/header/group-test.svg`}
         alt="image"
         className={`absolute w-[370px] md:w-[446px] lg:w-[520px] xl:left-[152px] xl:top-[40px] xl:w-[595px] 2xl:left-[190px] 2xl:top-[50px] 2xl:w-[743px]`}
       />

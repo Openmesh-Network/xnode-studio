@@ -7,7 +7,7 @@ const nextConfig = {
       destination: 'https://remote-signer.plopmenz.com/xue-signer/:call*',
     },
   ],
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/xnode' : undefined, // Can we import prefix.ts from this file?
+  assetPrefix: process.env.PREFIX,
   // assetPrefix: 'http://localhost:3334',
   reactStrictMode: false,
 }

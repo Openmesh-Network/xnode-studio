@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { prefix } from '@/utils/prefix'
 
 interface ModalProps {
   serviceRegion: string
@@ -16,11 +17,7 @@ const ServiceRegion = ({ ...data }: ModalProps) => {
           Service region
         </div>
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/firstStep/question-mark.svg`}
+          src={`${prefix}/images/firstStep/question-mark.svg`}
           alt="image"
           className="size-[9px] cursor-pointer transition-transform hover:scale-105 md:size-[11px] lg:size-[12px] xl:size-[14px] 2xl:size-[18px]"
           onMouseEnter={() => setShowTooltipServiceRegion(true)}
@@ -40,9 +37,7 @@ const ServiceRegion = ({ ...data }: ModalProps) => {
         <div>{data.serviceRegion}</div>
         {/* <img
           src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
+            prefix
           }/images/header/arrow-down.svg`}
           alt="image"
           className={`ml-[8px] w-[7px] md:w-[9px] lg:w-[10.5px] xl:w-[12px] 2xl:ml-[10px] 2xl:w-[15px]`}

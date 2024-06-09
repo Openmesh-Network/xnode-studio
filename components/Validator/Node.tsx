@@ -12,6 +12,7 @@ import { Xnode } from '@/types/node'
 
 import 'react-toastify/dist/ReactToastify.css'
 
+import { prefix } from '@/utils/prefix'
 import { Address } from 'viem'
 
 interface ModalProps {
@@ -125,11 +126,7 @@ const Node = ({ ...data }: ModalProps) => {
         <div className="mt-[14px] md:mt-[17px] lg:mt-[19.6px] xl:mt-[22.4px] 2xl:mt-[28px]">
           <div className="flex gap-x-[10px] md:gap-x-[12px] lg:gap-x-[14px] xl:gap-x-[16px] 2xl:gap-x-[20px]">
             <img
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }/images/validator/validatorLogoNew.svg`}
+              src={`${prefix}/images/validator/validatorLogoNew.svg`}
               alt="image"
               className={`w-[40px] md:w-[47px] lg:w-[55px] xl:w-[63px] 2xl:w-[79px]`}
             />

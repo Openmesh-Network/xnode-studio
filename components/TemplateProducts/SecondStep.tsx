@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 
 import { TemplatesProducts } from '@/types/dataProvider'
 import { formatPrice } from '@/lib/utils'
@@ -102,11 +103,7 @@ const Configuration = () => {
                     onClick={() => {
                       setIndexerDeployerStep(0)
                     }}
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/arrow-right-2.svg`}
+                    src={`${prefix}/images/template/arrow-right-2.svg`}
                     alt="image"
                     className="cursor-pointer"
                   />
@@ -122,11 +119,7 @@ const Configuration = () => {
                     onClick={() => {
                       setIndexerDeployerStep(0)
                     }}
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/arrow-right-2.svg`}
+                    src={`${prefix}/images/template/arrow-right-2.svg`}
                     alt="image"
                     className="cursor-pointer"
                   />
@@ -142,11 +135,7 @@ const Configuration = () => {
                     onClick={() => {
                       setIndexerDeployerStep(0)
                     }}
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/template/arrow-right-2.svg`}
+                    src={`${prefix}/images/template/arrow-right-2.svg`}
                     alt="image"
                     className="cursor-pointer"
                   />
@@ -163,11 +152,7 @@ const Configuration = () => {
                       onClick={() => {
                         setIndexerDeployerStep(0)
                       }}
-                      src={`${
-                        process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                          ? process.env.NEXT_PUBLIC_BASE_PATH
-                          : ''
-                      }/images/template/arrow-right-2.svg`}
+                      src={`${prefix}/images/template/arrow-right-2.svg`}
                       alt="image"
                       className="cursor-pointer"
                     />
@@ -180,11 +165,7 @@ const Configuration = () => {
                     <div className="w-full">
                       <div className="mt-[22px] flex items-start">
                         <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? process.env.NEXT_PUBLIC_BASE_PATH
-                              : ''
-                          }/images/template/arrow-end-circle.svg`}
+                          src={`${prefix}/images/template/arrow-end-circle.svg`}
                           alt="image"
                           className="mr-[10px] pt-[12px]"
                         />
@@ -210,11 +191,7 @@ const Configuration = () => {
                           }`}
                         >
                           <img
-                            src={`${
-                              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                ? process.env.NEXT_PUBLIC_BASE_PATH
-                                : ''
-                            }/images/template/check-white.svg`}
+                            src={`${prefix}/images/template/check-white.svg`}
                             alt="image"
                             className="m-auto"
                           />
@@ -222,11 +199,7 @@ const Configuration = () => {
                       </div>
                       <div className="mt-[26px] flex items-start">
                         <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? process.env.NEXT_PUBLIC_BASE_PATH
-                              : ''
-                          }/images/template/arrow-end-circle.svg`}
+                          src={`${prefix}/images/template/arrow-end-circle.svg`}
                           alt="image"
                           className="mr-[10px] pt-[12px]"
                         />
@@ -252,11 +225,7 @@ const Configuration = () => {
                           }`}
                         >
                           <img
-                            src={`${
-                              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                ? process.env.NEXT_PUBLIC_BASE_PATH
-                                : ''
-                            }/images/template/check-white.svg`}
+                            src={`${prefix}/images/template/check-white.svg`}
                             alt="image"
                             className="m-auto"
                           />
@@ -264,11 +233,7 @@ const Configuration = () => {
                       </div>
                       <div className="mt-[26px] flex items-start">
                         <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? process.env.NEXT_PUBLIC_BASE_PATH
-                              : ''
-                          }/images/template/arrow-end-circle.svg`}
+                          src={`${prefix}/images/template/arrow-end-circle.svg`}
                           alt="image"
                           className="mr-[10px] pt-[12px]"
                         />
@@ -294,11 +259,7 @@ const Configuration = () => {
                           }`}
                         >
                           <img
-                            src={`${
-                              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                ? process.env.NEXT_PUBLIC_BASE_PATH
-                                : ''
-                            }/images/template/check-white.svg`}
+                            src={`${prefix}/images/template/check-white.svg`}
                             alt="image"
                             className="m-auto"
                           />
@@ -306,11 +267,7 @@ const Configuration = () => {
                       </div>
                       <div className="mt-[26px] flex items-start">
                         <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? process.env.NEXT_PUBLIC_BASE_PATH
-                              : ''
-                          }/images/template/arrow-end-circle.svg`}
+                          src={`${prefix}/images/template/arrow-end-circle.svg`}
                           alt="image"
                           className="mr-[10px] pt-[12px]"
                         />
@@ -336,11 +293,7 @@ const Configuration = () => {
                           }`}
                         >
                           <img
-                            src={`${
-                              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                ? process.env.NEXT_PUBLIC_BASE_PATH
-                                : ''
-                            }/images/template/check-white.svg`}
+                            src={`${prefix}/images/template/check-white.svg`}
                             alt="image"
                             className="m-auto"
                           />
@@ -348,11 +301,7 @@ const Configuration = () => {
                       </div>
                       <div className="mt-[26px] flex items-start">
                         <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                              ? process.env.NEXT_PUBLIC_BASE_PATH
-                              : ''
-                          }/images/template/arrow-end-circle.svg`}
+                          src={`${prefix}/images/template/arrow-end-circle.svg`}
                           alt="image"
                           className="mr-[10px] pt-[12px]"
                         />
@@ -378,11 +327,7 @@ const Configuration = () => {
                           }`}
                         >
                           <img
-                            src={`${
-                              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                ? process.env.NEXT_PUBLIC_BASE_PATH
-                                : ''
-                            }/images/template/check-white.svg`}
+                            src={`${prefix}/images/template/check-white.svg`}
                             alt="image"
                             className="m-auto"
                           />
@@ -401,22 +346,14 @@ const Configuration = () => {
                 Your progress
               </div>
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/x-new.svg`}
+                src={`${prefix}/images/template/x-new.svg`}
                 alt="image"
                 className={``}
               />
             </div>
             <div className="mt-[22px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/circle-dashed-complete.svg`}
+                src={`${prefix}/images/template/circle-dashed-complete.svg`}
                 alt="image"
                 className={``}
               />
@@ -426,11 +363,7 @@ const Configuration = () => {
             </div>
             <div className="mt-[31px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/circle-dashed-complete.svg`}
+                src={`${prefix}/images/template/circle-dashed-complete.svg`}
                 alt="image"
                 className={``}
               />
@@ -440,11 +373,7 @@ const Configuration = () => {
             </div>
             <div className="mt-[31px] flex items-center gap-x-[20px] border-l-[3px] border-[#0354EC] bg-gray200 px-[32px] py-[10px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/circled-dashed.svg`}
+                src={`${prefix}/images/template/circled-dashed.svg`}
                 alt="image"
                 className={``}
               />
@@ -554,11 +483,7 @@ const Configuration = () => {
             </div>
             <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/circled-dashed-gray.svg`}
+                src={`${prefix}/images/template/circled-dashed-gray.svg`}
                 alt="image"
                 className={``}
               />
@@ -568,11 +493,7 @@ const Configuration = () => {
             </div>
             <div className="mt-[39px] flex items-center gap-x-[20px] px-[32px] py-[10px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/template/circled-dashed-gray.svg`}
+                src={`${prefix}/images/template/circled-dashed-gray.svg`}
                 alt="image"
                 className={``}
               />

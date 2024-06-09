@@ -3,6 +3,7 @@ import {
   optionServerLocation,
   valueOptionsServerLocation,
 } from '@/utils/constants'
+import { prefix } from '@/utils/prefix'
 
 const DropdownServiceRegion = ({ onValueChange }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -115,11 +116,7 @@ const DropdownServiceRegion = ({ onValueChange }) => {
                 </div>
                 {option.title === value && (
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/dropdown/check.svg`}
+                    src={`${prefix}/images/dropdown/check.svg`}
                     alt="image"
                     className="ml-auto w-[20px]"
                   />

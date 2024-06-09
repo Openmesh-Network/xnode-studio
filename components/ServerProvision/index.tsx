@@ -1,3 +1,5 @@
+import { prefix } from '@/utils/prefix'
+
 interface ModalProps {
   serversNumber: number
   serverType: string
@@ -42,11 +44,7 @@ const ServerProvision = ({ ...data }: ModalProps) => {
             {Array.from({ length: data.serversNumber }).map((_, index) => (
               <img
                 key={index}
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/presets/server.svg`}
+                src={`${prefix}/images/presets/server.svg`}
                 alt="image"
                 className={`h-[18px] w-[22.5px] md:h-[21.5px] md:w-[27px] lg:h-[25px] lg:w-[31.5px] xl:h-[29px] xl:w-[36px] 2xl:h-[36px] 2xl:w-[45px]`}
               />

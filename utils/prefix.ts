@@ -1,1 +1,1 @@
-export const prefix = process.env.NODE_ENV === 'production' ? '/xnode' : ''
+export const prefix = process.env.PREFIX ?? ''

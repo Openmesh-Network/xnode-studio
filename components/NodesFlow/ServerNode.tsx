@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { optionServerLocation } from '@/utils/constants'
+import { prefix } from '@/utils/prefix'
 import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
 
 import withProps from './withProps'
@@ -148,11 +149,7 @@ function ServerNode({ id, data, handleNodeRemove }) {
           X
         </button>
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/nodesFlow/server.svg`}
+          src={`${prefix}/images/nodesFlow/server.svg`}
           alt="image"
           className={
             'w-[19px] md:w-[22px] lg:w-[26px] xl:w-[30px] 2xl:w-[37px]'
@@ -161,11 +158,7 @@ function ServerNode({ id, data, handleNodeRemove }) {
 
         <img
           onClick={() => setIsHelpOpen(!isHelpOpen)}
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/nodesFlow/arrow.svg`}
+          src={`${prefix}/images/nodesFlow/arrow.svg`}
           alt="image"
           className={`absolute right-[8px] top-[8px] cursor-pointer xl:w-[7px] 2xl:w-[9px] ${
             isHelpOpen ? 'rotate-90' : ''

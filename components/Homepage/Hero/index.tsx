@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import heroImage from '@/assets/homeHero.svg'
+import { prefix } from '@/utils/prefix'
 
 export function HomeHero() {
   return (
@@ -13,13 +14,7 @@ export function HomeHero() {
           Unleash the Power of Xnode: Your Gateway to Building Personalized Data
           Ecosystems in minutes, instead of weeks.
         </p>
-        <Link
-          href={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? `/xnode/template-products`
-              : `/template-products`
-          }`}
-        >
+        <Link href={`${prefix}/template-products`}>
           <button className="h-14 w-[190px] rounded-md bg-blue500 px-5 font-bold tracking-[-2%] text-white transition-colors duration-300 hover:bg-blue500/80">
             Start now
           </button>

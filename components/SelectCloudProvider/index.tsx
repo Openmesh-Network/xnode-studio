@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { prefix } from '@/utils/prefix'
 
 interface ModalProps {
   next: Boolean
@@ -19,11 +20,7 @@ const SelectCloudProvider = ({ ...data }: ModalProps) => {
             1. Select cloud provider
           </div>
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/firstStep/question-mark.svg`}
+            src={`${prefix}/images/firstStep/question-mark.svg`}
             alt="image"
             className="size-[9px] cursor-pointer transition-transform hover:scale-105 md:size-[11px] lg:size-[12px] xl:size-[14px] 2xl:size-[18px]"
             onMouseEnter={() => setShowTooltipCloudProvider(true)}
@@ -67,11 +64,7 @@ const SelectCloudProvider = ({ ...data }: ModalProps) => {
           1. Select cloud provider
         </div>
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/firstStep/question-mark.svg`}
+          src={`${prefix}/images/firstStep/question-mark.svg`}
           alt="image"
           className="size-[9px] cursor-pointer transition-transform hover:scale-105 md:size-[11px] lg:size-[12px] xl:size-[14px] 2xl:size-[18px]"
           onMouseEnter={() => setShowTooltipCloudProvider(true)}
@@ -98,11 +91,7 @@ const SelectCloudProvider = ({ ...data }: ModalProps) => {
           ></div>
           <div className="flex 2xl:gap-x-[10px]">
             <img
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }/images/cloudLogo/equinix.svg`}
+              src={`${prefix}/images/cloudLogo/equinix.svg`}
               alt="image"
               className="2xl:w-[50px]"
             />
@@ -124,11 +113,7 @@ const SelectCloudProvider = ({ ...data }: ModalProps) => {
           ></div>
           <div className="flex 2xl:gap-x-[10px]">
             <img
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }/images/cloudLogo/aws-2.svg`}
+              src={`${prefix}/images/cloudLogo/aws-2.svg`}
               alt="image"
               className="2xl:w-[30px]"
             />

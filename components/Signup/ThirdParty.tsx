@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 
 const ThirdParty = () => {
   const [showTooltipCloudProvider, setShowTooltipCloudProvider] =
@@ -13,11 +14,7 @@ const ThirdParty = () => {
           You will also need to connect to 3rd party services by integrations{' '}
         </div>
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/firstStep/question-mark.svg`}
+          src={`${prefix}/images/firstStep/question-mark.svg`}
           alt="image"
           className="size-[9px] cursor-pointer transition-transform hover:scale-105 md:size-[11px] lg:size-[12px] xl:size-[14px] 2xl:size-[18px]"
           onMouseEnter={() => setShowTooltipCloudProvider(true)}
@@ -32,11 +29,7 @@ const ThirdParty = () => {
       <div className="ml-[112px] mt-[56px] 2xl:ml-[140px] 2xl:mt-[70px]">
         <div>
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/header/connections-data.svg`}
+            src={`${prefix}/images/header/connections-data.svg`}
             alt="image"
             className="w-[187px] md:w-[224px] lg:w-[260px] xl:w-[300px] 2xl:w-[374px]"
           />{' '}

@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 
 export const categoriesOptionsRPC = [
   {
@@ -106,11 +107,7 @@ const SubBarStorage = ({ onValueChange }) => {
                   } relative flex w-fit gap-x-[7px] md:gap-x-[8.5px] lg:gap-x-[10px] xl:gap-x-[11.2px] 2xl:gap-x-[14px]`}
                 >
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }${option.src}`}
+                    src={`${prefix}${option.src}`}
                     alt="image"
                     className={option.style} // Adicionando uma transição de 2 segundos
                   />
@@ -149,11 +146,7 @@ const SubBarStorage = ({ onValueChange }) => {
                 </a>
                 {option.thirdParty && (
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/subNavBarAnalytics/third.svg`}
+                    src={`${prefix}/images/subNavBarAnalytics/third.svg`}
                     alt="image"
                     className="mt-[4.5px] w-[35px] md:w-[105px] lg:w-[40px] xl:mt-[9px] xl:w-[47px] 2xl:w-[58px]"
                   />
@@ -185,11 +178,7 @@ const SubBarStorage = ({ onValueChange }) => {
     <>
       <div className="z-100 relative bg-white px-[16px] py-[21px] text-black shadow-[0_0px_5px_0px_rgba(0,0,0,0.12)] md:px-[20px] md:py-[26px] lg:px-[23px] lg:py-[30px] xl:px-[26.5px] xl:py-[35px] 2xl:px-[33px] 2xl:py-[43px]">
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/subNavBarStorage/storage.svg`}
+          src={`${prefix}/images/subNavBarStorage/storage.svg`}
           onClick={() => setSelectionSideNavBar('')}
           alt="image"
           className="w-[20px] md:w-[24px] lg:w-[28px] xl:w-[32px] 2xl:w-[40px]"

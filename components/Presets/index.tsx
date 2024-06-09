@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { prefix } from '@/utils/prefix'
 
 const Presets = ({ onValueChange }) => {
   const [presetId, setPresetId] = useState(0)
@@ -104,11 +105,7 @@ const Presets = ({ onValueChange }) => {
             >
               <div className="relative size-full max-w-[300px]">
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }${option.icon}`}
+                  src={`${prefix}${option.icon}`}
                   alt="image"
                   className={`cursor-pointer transition-transform hover:scale-105${option.iconStyle}`}
                 />
@@ -129,20 +126,12 @@ const Presets = ({ onValueChange }) => {
                   className={`absolute bottom-0 flex gap-x-[5px] md:gap-x-[6px] lg:gap-x-[7px] xl:gap-x-[8px] 2xl:gap-x-[10px]`}
                 >
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/presets/server.svg`}
+                    src={`${prefix}/images/presets/server.svg`}
                     alt="image"
                     className={`h-[18px] w-[22.5px] md:h-[21.5px] md:w-[27px] lg:h-[25px] lg:w-[31.5px] xl:h-[29px] xl:w-[36px] 2xl:h-[36px] 2xl:w-[45px]`}
                   />
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/presets/server.svg`}
+                    src={`${prefix}/images/presets/server.svg`}
                     alt="image"
                     className={`h-[18px] w-[22.5px] md:h-[21.5px] md:w-[27px] lg:h-[25px] lg:w-[31.5px] xl:h-[29px] xl:w-[36px] 2xl:h-[36px] 2xl:w-[45px]`}
                   />
@@ -151,11 +140,7 @@ const Presets = ({ onValueChange }) => {
               {presetId === index && (
                 <div className="absolute right-0 top-px">
                   <img
-                    src={`${
-                      process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                        ? process.env.NEXT_PUBLIC_BASE_PATH
-                        : ''
-                    }/images/presets/check.svg`}
+                    src={`${prefix}/images/presets/check.svg`}
                     alt="image"
                     className={
                       'h-[21px] w-[25px] md:h-[25px] md:w-[30px] lg:h-[29.5px] lg:w-[35px] xl:h-[33px] xl:w-[40px] 2xl:h-[42px] 2xl:w-[50px]'
@@ -179,11 +164,7 @@ const Presets = ({ onValueChange }) => {
           >
             <div className="relative size-full max-w-[300px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/presets/robot.svg`}
+                src={`${prefix}/images/presets/robot.svg`}
                 alt="image"
                 className={`h-[12.5px] w-[15.5px] cursor-pointer transition-transform hover:scale-105 md:h-[15px] md:w-[18.5px] lg:h-[17.5px] lg:w-[21.7px] xl:h-[20px] xl:w-[25px] 2xl:h-[25px] 2xl:w-[31px]`}
               />
@@ -199,11 +180,7 @@ const Presets = ({ onValueChange }) => {
               </div>
               <div className={`absolute bottom-0`}>
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/presets/config.svg`}
+                  src={`${prefix}/images/presets/config.svg`}
                   alt="image"
                   className={`h-[18px] w-[22.5px] md:h-[21.5px] md:w-[27px] lg:h-[25px] lg:w-[31.5px] xl:h-[29px] xl:w-[36px] 2xl:h-[36px] 2xl:w-[45px]`}
                 />
@@ -212,11 +189,7 @@ const Presets = ({ onValueChange }) => {
             {presetId === 5 && (
               <div className="absolute right-0 top-px">
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/presets/check.svg`}
+                  src={`${prefix}/images/presets/check.svg`}
                   alt="image"
                   className={
                     'h-[21px] w-[25px] md:h-[25px] md:w-[30px] lg:h-[29.5px] lg:w-[35px] xl:h-[33px] xl:w-[40px] 2xl:h-[42px] 2xl:w-[50px]'
@@ -239,11 +212,7 @@ const Presets = ({ onValueChange }) => {
           >
             <div className="relative size-full max-w-[300px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/presets/custom.svg`}
+                src={`${prefix}/images/presets/custom.svg`}
                 alt="image"
                 className={`h-[12.5px] w-[15.5px] cursor-pointer transition-transform hover:scale-105 md:h-[15px] md:w-[18.5px] lg:h-[17.5px] lg:w-[21.7px] xl:h-[20px] xl:w-[25px] 2xl:h-[25px] 2xl:w-[28px]`}
               />
@@ -256,11 +225,7 @@ const Presets = ({ onValueChange }) => {
               </div>
               <div className={`absolute bottom-0`}>
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/presets/config.svg`}
+                  src={`${prefix}/images/presets/config.svg`}
                   alt="image"
                   className={`h-[18px] w-[22.5px] md:h-[21.5px] md:w-[27px] lg:h-[25px] lg:w-[31.5px] xl:h-[29px] xl:w-[36px] 2xl:h-[36px] 2xl:w-[45px]`}
                 />
@@ -269,11 +234,7 @@ const Presets = ({ onValueChange }) => {
             {presetId === 6 && (
               <div className="absolute right-0 top-px">
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }/images/presets/check.svg`}
+                  src={`${prefix}/images/presets/check.svg`}
                   alt="image"
                   className={
                     'h-[21px] w-[25px] md:h-[25px] md:w-[30px] lg:h-[29.5px] lg:w-[35px] xl:h-[33px] xl:w-[40px] 2xl:h-[42px] 2xl:w-[50px]'

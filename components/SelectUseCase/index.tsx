@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { prefix } from '@/utils/prefix'
 
 import Presets from '../Presets'
 
@@ -83,11 +84,7 @@ const SelectUseCase = ({ presetValueFromParent, ...data }: ModalProps) => {
         </div>
         <div className="ml-[121px] flex gap-x-[7.5px] md:ml-[145px] md:gap-x-[10.5px] lg:ml-[170px] lg:gap-x-[9px] xl:ml-[195px] xl:gap-x-[12px] 2xl:ml-[243px] 2xl:gap-x-[15px]">
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }${presetIndexToName[preset].icon}`}
+            src={`${prefix}${presetIndexToName[preset].icon}`}
             alt="image"
             className={`cursor-pointer transition-transform hover:scale-105${presetIndexToName[preset].iconStyle}`}
           />

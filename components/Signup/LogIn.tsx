@@ -8,8 +8,12 @@ import { Eye, EyeSlash } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
+
 import { useUser } from '@/hooks/useUser'
+
 import 'react-toastify/dist/ReactToastify.css'
+
+import { prefix } from '@/utils/prefix'
 
 type LoginForm = {
   email: string
@@ -21,7 +25,7 @@ const LogIn = () => {
     useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(true)
-  const [ user, setUser ] = useUser()
+  const [user, setUser] = useUser()
 
   const validSchema = Yup.object().shape({
     email: Yup.string().max(500).required('Email is required'),
@@ -98,11 +102,7 @@ const LogIn = () => {
       <>
         <div className="mt-[25px] flex items-center gap-x-[10px] text-[16px] text-black">
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/reviewYourBuild/user-circle.svg`}
+            src={`${prefix}/images/reviewYourBuild/user-circle.svg`}
             alt="image"
             className="w-[25px] md:w-[30px] lg:w-[35px] xl:w-[40px] 2xl:w-[40px]"
           />
@@ -120,7 +120,6 @@ const LogIn = () => {
 
   return (
     <div className="rounded-[10px] bg-[#F9F9F9] px-[10px] py-[8px] pb-[60px] pr-[100px] text-black md:px-[12px] md:py-[9px] lg:px-[14px] lg:py-[11px] xl:px-[16px] xl:py-[20px] xl:pb-[80px] xl:pr-[192px] 2xl:px-[20px] 2xl:py-[25px] 2xl:pb-[100px] 2xl:pr-[140px]">
-      
       <div className="grid gap-y-[20px] md:flex md:gap-x-[30px] lg:gap-x-[60px] xl:gap-x-[120px] 2xl:gap-x-[200px]">
         <form onSubmit={handleSubmit(onSubmit)} className="">
           <div className="">
@@ -213,11 +212,7 @@ const LogIn = () => {
           >
             <div className="my-auto flex h-fit w-[125px] cursor-pointer justify-center gap-x-[8px] rounded-[5px] bg-[#0354EC] px-[11px] py-[6.2px] text-center text-[7px] font-medium text-white hover:bg-[#0e2e69] md:w-[150px] md:px-[12.5px] md:py-[7.5px] md:text-[8.4px] lg:w-[175px] lg:px-[42px] lg:py-[8.75px] lg:text-[10px] xl:w-[200px] xl:px-[48px] xl:py-[10px] xl:text-[11.2px] 2xl:w-[250px] 2xl:gap-x-[10px] 2xl:px-[60px] 2xl:py-[12.5px] 2xl:text-[14px]">
               <img
-                src={`${
-                  process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                    ? process.env.NEXT_PUBLIC_BASE_PATH
-                    : ''
-                }/images/header/storm.svg`}
+                src={`${prefix}/images/header/storm.svg`}
                 alt="image"
                 className={`w-[5px] md:w-[6px] lg:w-[7px] xl:w-[8px] 2xl:w-[10px]`}
               />

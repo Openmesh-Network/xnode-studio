@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { prefix } from '@/utils/prefix'
 
 import Dropdown from '../Dropdown'
 
@@ -25,11 +26,7 @@ const SelectServiceRegion = ({ ...data }: ModalProps) => {
             2. Select service region
           </div>
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/firstStep/question-mark.svg`}
+            src={`${prefix}/images/firstStep/question-mark.svg`}
             alt="image"
             className="size-[9px] cursor-pointer transition-transform hover:scale-105 md:size-[11px] lg:size-[12px] xl:size-[14px] 2xl:size-[18px]"
             onMouseEnter={() => setShowTooltipServiceRegion(true)}
@@ -67,11 +64,7 @@ const SelectServiceRegion = ({ ...data }: ModalProps) => {
           2. Select service region
         </div>
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/firstStep/question-mark.svg`}
+          src={`${prefix}/images/firstStep/question-mark.svg`}
           alt="image"
           className="size-[9px] cursor-pointer transition-transform hover:scale-105 md:size-[11px] lg:size-[12px] xl:size-[14px] 2xl:size-[18px]"
           onMouseEnter={() => setShowTooltipServiceRegion(true)}

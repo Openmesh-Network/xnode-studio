@@ -1,5 +1,6 @@
 import React, { memo, useContext, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
+import { prefix } from '@/utils/prefix'
 import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
 
 const options = [
@@ -93,11 +94,7 @@ function DataNode({ id, data }) {
     <>
       <div className="relative rounded-[7px] bg-[#EAEAEA] px-[10px] py-[7px] pb-[23px] pr-[33px] text-[8px] text-black md:px-[12px] md:py-[8.4px] md:pb-[15.6px] md:pr-[46px] md:text-[9.6px] lg:px-[14px] lg:py-[10px] lg:pb-[18px] lg:pr-[53px] lg:text-[11.2px] xl:px-[16px] xl:py-[11.2px] xl:pb-[21px] xl:pr-[61px] xl:text-[12.8px] 2xl:px-[20px] 2xl:py-[14px] 2xl:pb-[46px] 2xl:pr-[77px] 2xl:text-[16px]">
         <img
-          src={`${
-            process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-              ? process.env.NEXT_PUBLIC_BASE_PATH
-              : ''
-          }/images/nodesFlow/database.svg`}
+          src={`${prefix}/images/nodesFlow/database.svg`}
           alt="image"
           className={
             'w-[18 px] md:w-[21px] lg:w-[24.5px] xl:w-[28px] 2xl:w-[35px]'
@@ -114,11 +111,7 @@ function DataNode({ id, data }) {
             <div key={index} className="relative flex text-black">
               <div className="flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal md:text-[8.5px] lg:text-[10px] xl:text-[11.2px] 2xl:text-[14px]">
                 <img
-                  src={`${
-                    process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                      ? process.env.NEXT_PUBLIC_BASE_PATH
-                      : ''
-                  }${list.icon}`}
+                  src={`${prefix}${list.icon}`}
                   alt="image"
                   className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
                 />

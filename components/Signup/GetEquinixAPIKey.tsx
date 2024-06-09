@@ -1,5 +1,7 @@
 'use client'
 
+import { prefix } from '@/utils/prefix'
+
 const GetEquinixAPIKey = ({ isOpen, onClose }) => {
   return (
     <div
@@ -46,11 +48,7 @@ const GetEquinixAPIKey = ({ isOpen, onClose }) => {
             </div>
           </a>
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/signup/equinix.png`}
+            src={`${prefix}/images/signup/equinix.png`}
             alt="image"
             className="mt-[20px] w-full"
           />

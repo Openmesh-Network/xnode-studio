@@ -7,6 +7,7 @@ import SingleCard from './SingleCard'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { usePathname } from 'next/navigation'
+import { prefix } from '@/utils/prefix'
 import { Autocomplete, TextField } from '@mui/material'
 import { SmileySad } from 'phosphor-react'
 
@@ -161,11 +162,7 @@ const ProductsList = ({ dataTestimonial }: ProductsListProps) => {
       <div>
         <div className="flex h-[32px] min-w-[150px] max-w-[250px] rounded-[5px] border border-[#D9D9D9] bg-white px-[5px] md:h-[40px] md:max-w-[500px] md:px-[15px] md:py-[10px] lg:!leading-[30px] 2xl:h-[50px] 2xl:max-w-[600px]">
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/hero/searchVector.svg`}
+            src={`${prefix}/images/hero/searchVector.svg`}
             alt="image"
             className={`my-auto mr-[10px] md:size-[18px]`}
           />

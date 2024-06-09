@@ -1,3 +1,5 @@
+import { prefix } from '@/utils/prefix'
+
 interface IndividualModulesProps {
   title: string
   strongTitle: string
@@ -15,11 +17,7 @@ export default function IndividualModules(props: IndividualModulesProps) {
           <div className="ml-[18px] mt-[78px] flex h-[61px] w-[81px] flex-col items-center justify-between gap-[]">
             <img
               className="mr-[10px]"
-              src={`${
-                process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                  ? process.env.NEXT_PUBLIC_BASE_PATH
-                  : ''
-              }${icon}`}
+              src={`${prefix}${icon}`}
               alt="cuboimage"
             />
             <h2 className="font inter mt-[4px] text-[16px] font-medium text-black">

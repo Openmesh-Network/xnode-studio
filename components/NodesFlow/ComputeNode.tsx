@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { prefix } from '@/utils/prefix'
 import { Handle, Position, useReactFlow, useStoreApi } from 'reactflow'
 
 import withProps from './withProps'
@@ -102,11 +103,7 @@ function ComputeNode({ id, data, handleNodeRemove }) {
         </button>
         <div className="flex w-full flex-row items-start gap-[10px]">
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }/images/subNavBarCompute/compute.svg`}
+            src={`${prefix}/images/subNavBarCompute/compute.svg`}
             alt="image"
             className={
               'w-[12px] md:w-[14.4px] lg:w-[16.8px] xl:w-[19.2px] 2xl:w-[24px]'
@@ -119,11 +116,7 @@ function ComputeNode({ id, data, handleNodeRemove }) {
         <div className="absolute left-0 h-[0.5px] w-full bg-[#C1C1C1] lg:mt-[10px] 2xl:mt-[12px]"></div>
         <div className="mt-[7px] flex gap-x-[9px] text-[7.5px] font-normal hover:font-normal md:text-[8.5px] lg:mt-[20px] lg:text-[10px] xl:mt-[24px] xl:text-[11.2px] 2xl:mt-[30px] 2xl:text-[14px]">
           <img
-            src={`${
-              process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? process.env.NEXT_PUBLIC_BASE_PATH
-                : ''
-            }${data.icon}`}
+            src={`${prefix}${data.icon}`}
             alt="image"
             className={`w-[10px] md:w-[12px] lg:w-[14px] xl:w-[16px] 2xl:w-[20px]`}
           />
