@@ -21,12 +21,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+import { useDraft } from '@/hooks/useDraftDeploy'
+
 const Template = (id: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   // const [data, setTemplateData] = useState<TemplateData>()
-  const [data, setDeployConfig] = useState<DeploymentConfiguration>()
-  const [templateSpecs, setTemplateSpecs] = useState<Specs>()
-  const { draft } = useContext(AccountContext)
+  const [ templateSpecs, setTemplateSpecs ] = useState<Specs>()
+  const [ draft, setDraftDeploy ] = useDraft()
 
   const getData = useCallback(
     (id: any) => {
@@ -36,9 +37,9 @@ const Template = (id: any) => {
       if (id.id == 'edit') {
         // Problem with this is the draft contains extra info like the location or whatever.
         if (draft) {
-          setDeployConfig(draft)
+          setDraftDeploy(draft)
         } else {
-          setDeployConfig(
+          setDraftDeploy(
             JSON.parse(localStorage.getItem('draft')) as DeploymentConfiguration
           )
         }
@@ -72,11 +73,14 @@ const Template = (id: any) => {
             provider: '',
           }
 
-          setDeployConfig(d)
+          console.log(d)
+
           setTemplateSpecs(TemplateGetSpecs(template))
+
+          // setDraftDeploy(d)
         } else {
           // XXX:
-          // NUCLEAR APOCALIPSE TIER!
+          // NUCLEAR APOCALYPSE TIER!
           // Should just redirect probably.
         }
       }
@@ -122,13 +126,13 @@ const Template = (id: any) => {
             className={`w-[48px]`}
           />
           <input
-            value={data?.name}
+            value={draft?.name}
             placeholder=""
             onChange={(e) => {
               if (e.target.value.length < 1000) {
-                const newData = { ...data }
+                const newData = { ...draft }
                 newData.name = e.target.value
-                setDeployConfig(newData)
+                setDraftDeploy(newData)
               }
             }}
             className="w-full bg-white text-[44px] font-semibold leading-[64px] placeholder:text-[#6B7280] 2xl:text-[48px]"
@@ -145,13 +149,13 @@ const Template = (id: any) => {
           ))}
         </div>
         <textarea
-          value={data?.desc}
+          value={draft?.desc}
           placeholder=""
           onChange={(e) => {
             if (e.target.value.length < 1000) {
-              const newData = { ...data }
+              const newData = { ...draft }
               newData.desc = e.target.value
-              setDeployConfig(newData)
+              setDraftDeploy(newData)
             }
           }}
           className="mt-[23px] h-[100px] max-h-[100px] w-full max-w-[735px] bg-white text-[14px] leading-[22px] placeholder:text-[#6B7280] 2xl:text-[16px]"
@@ -181,9 +185,9 @@ const Template = (id: any) => {
             <div className="w-[15%]">Specs</div>
             <div className="w-1/4">Tags</div>
           </div>
-          {data?.services && (
+          {draft?.services && (
             <div>
-              {data.services?.map((item, index) => (
+              {draft.services?.map((item, index) => (
                 <div key={index}>
                   <div className="mt-[8px] border-b border-[#DDDDDD]"></div>
                   <div className="mt-[8px] flex px-[20px] font-normal">

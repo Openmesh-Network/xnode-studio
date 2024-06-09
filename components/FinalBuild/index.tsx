@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { optionsFeature } from '@/utils/constants'
 
 import { DeploymentConfiguration, ServiceFromName } from '@/types/dataProvider'
+import { useDraft } from '@/hooks/useDraftDeploy'
 
 export function findServerDefaultType(array) {
   const serverObject = array.find((item) => item.type === 'server')
@@ -103,8 +104,9 @@ const ReviewYourBuild = () => {
     setProjectName,
     setSignup,
     xnodeType,
-    draft,
   } = useContext(AccountContext)
+
+  const [ draft, setDraft ] = useDraft()
 
   const { push } = useRouter()
 
