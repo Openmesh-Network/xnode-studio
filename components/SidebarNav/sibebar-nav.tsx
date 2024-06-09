@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Herr_Von_Muellerhoff } from 'next/font/google'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { prefix } from '@/utils/prefix'
 import {
   Accordion,
   AccordionContent,
@@ -657,7 +658,7 @@ const NavLink: React.FC<NavLinkProps> = ({
       <Tooltip open={!collapsed ? false : undefined} delayDuration={500}>
         <TooltipTrigger asChild>
           <Link
-            href={href}
+            href={`${prefix}${href}`}
             target={href.startsWith('https://') ? '_blank' : undefined}
             className="flex h-10 items-center px-4 py-2 text-foreground hover:bg-primary/5 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed"
             aria-disabled={tag === 'Soon'}
