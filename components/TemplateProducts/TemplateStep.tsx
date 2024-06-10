@@ -202,7 +202,7 @@ const TemplateStep = (nftId) => {
                 <div className="flex size-full flex-wrap">
                   {filteredTemplatesData.map((element, index) => (
                     <a key={index} href={
-                      prefix + "deploy?tId=" + element.id + (nftId.nftId ? ( "&nftId=" + nftId.nftId ) : "")
+                      prefix + "/deploy?tId=" + element.id + (nftId.nftId ? ( "&nftId=" + nftId.nftId ) : "")
                       }>
                       <div className="mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200">
                         <div className="flex gap-x-[35px]">
