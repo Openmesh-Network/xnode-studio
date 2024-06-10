@@ -8,6 +8,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
 import { Check, ChevronsUpDown, Loader, Search, X } from 'lucide-react'
 import { z } from 'zod'
+import { prefix } from 'utils/prefix'
 
 import {
   TemplateFromId,
@@ -91,7 +92,7 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
       }
       params.append('min', String(debouncedPriceRange[0]))
       params.append('max', String(debouncedPriceRange[1]))
-      const res = await fetch(`/api/providers?${params.toString()}`)
+      const res = await fetch(prefix + `/api/providers?${params.toString()}`)
       return res.json() as Promise<{ data: Provider[] }>
     },
     placeholderData: keepPreviousData,
@@ -138,7 +139,7 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
   const { data: regionData, isLoading: regionLoading } = useQuery({
     queryKey: ['regions'],
     queryFn: async () => {
-      const res = await fetch('/api/providers/regions')
+      const res = await fetch(prefix + '/api/providers/regions')
       return res.json() as Promise<string[]>
     },
   })
