@@ -110,7 +110,7 @@ const Dashboard = () => {
       // getData()
       // alert('User has a cookie.')
     }
-  }, [user])
+  }, [ account?.isConnected ])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
@@ -119,25 +119,25 @@ const Dashboard = () => {
     getData()
   }, [])
 
-  if (isLoading || !user) {
-    return (
-      <section className="w-[700px] bg-white px-[20px] pb-[50px] pt-[46px] text-black md:w-[840px] lg:w-[980px] xl:w-[1120px] 2xl:w-[1400px]">
-        <div className="hidden h-60 animate-pulse px-0 pb-12 md:flex">
-          <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
-          <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
-        </div>
-        <div className="hidden h-60 animate-pulse px-0 pb-12 md:flex">
-          <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
-          <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
-        </div>
-        <div className="h-60 animate-pulse px-0 pb-12 md:hidden">
-          <div className="mt-[10px] h-10 w-full animate-pulse bg-[#dfdfdf]"></div>
-          <div className="mt-[10px] h-10 w-full animate-pulse bg-[#dfdfdf]"></div>
-          <div className="mt-[20px] h-32 w-full animate-pulse bg-[#dfdfdf]"></div>
-        </div>
-      </section>
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //     <section className="w-[700px] bg-white px-[20px] pb-[50px] pt-[46px] text-black md:w-[840px] lg:w-[980px] xl:w-[1120px] 2xl:w-[1400px]">
+  //       <div className="hidden h-60 animate-pulse px-0 pb-12 md:flex">
+  //         <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
+  //         <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
+  //       </div>
+  //       <div className="hidden h-60 animate-pulse px-0 pb-12 md:flex">
+  //         <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
+  //         <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
+  //       </div>
+  //       <div className="h-60 animate-pulse px-0 pb-12 md:hidden">
+  //         <div className="mt-[10px] h-10 w-full animate-pulse bg-[#dfdfdf]"></div>
+  //         <div className="mt-[10px] h-10 w-full animate-pulse bg-[#dfdfdf]"></div>
+  //         <div className="mt-[20px] h-32 w-full animate-pulse bg-[#dfdfdf]"></div>
+  //       </div>
+  //     </section>
+  //   )
+  // }
 
   return (
     <>
@@ -190,7 +190,7 @@ const Dashboard = () => {
 
                         <div className="my-auto flex h-full w-fit items-center justify-center align-middle">
                           <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                            onClick={ () => alert('ACTIVATING!!!!')}> 
+                            onClick={ () => push((process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`) + 'templates?nftId=' + node.toString()) }> 
                             Activate Now
                           </button>
                         </div>
@@ -212,7 +212,7 @@ const Dashboard = () => {
           </div>
 
           {
-            xnodesData && (
+            xnodesData ? (
               <div className="border-1 border-solid/20 border-black">
                 <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
                   {
@@ -226,21 +226,29 @@ const Dashboard = () => {
 
                         <div>
                           <ul>
+                            <li> <b> { node.provider } </b> </li>
+
                             <li> { node.name } </li>
                             <li> { node.description } </li>
-                            <li> <b> { node.provider } </b> </li>
                           </ul>
                         </div>
+
+                        <div>
+                          <ul>
+                            <li> <b> { node.createdAt } </b> </li>
+                          </ul>
+                        </div>
+
                         <div>
                           <ul>
                           </ul>
                         </div>
 
                         <div className="align-center flex h-full justify-center">
-                          <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                            onClick={ () => alert('ACTIVATING!!!!')}> 
-                            Manage
-                          </button>
+                          {/* <button className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" */}
+                          {/*   onClick={ () => alert('ACTIVATING!!!!')}> */} 
+                          {/*   Manage */}
+                          {/* </button> */}
                         </div>
 
                       </li>
@@ -248,6 +256,9 @@ const Dashboard = () => {
                   }
                 </ul>
               </div>
+            ) : (
+              <>
+              </>
             )
 
           }

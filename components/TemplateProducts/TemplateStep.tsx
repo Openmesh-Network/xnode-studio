@@ -45,7 +45,7 @@ export const providerNameToLogo = {
   },
 }
 
-const TemplateStep = () => {
+const TemplateStep = (nftId) => {
   const [templatesData, setTemplatesData] = useState<TemplateData[]>([])
   const [filteredTemplatesData, setFilteredTemplatesData] = useState<
     TemplateData[]
@@ -67,16 +67,6 @@ const TemplateStep = () => {
   const [selectedCreator, setSelectedCreator] = useState<ValueObject | null>(
     null
   )
-
-  const {
-    setIndexerDeployerStep,
-    templateSelected,
-    setTemplateSelected,
-    setIsEditingXnode,
-    setNextFromScratch,
-    setFinalNodes,
-    setNext,
-  } = useContext(AccountContext)
 
   async function getData() {
     let data: TemplateData[]
@@ -211,7 +201,9 @@ const TemplateStep = () => {
                 {/* XXX: Code duplication here. Refactor into component? */}
                 <div className="flex size-full flex-wrap">
                   {filteredTemplatesData.map((element, index) => (
-                    <a key={index} href={`${prefix}/deploy?tId=${element.id}`}>
+                    <a key={index} href={
+                      prefix + "deploy?tId=" + element.id + (nftId.nftId ? ( "&nftId=" + nftId.nftId ) : "")
+                      }>
                       <div className="mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200">
                         <div className="flex gap-x-[35px]">
                           <img

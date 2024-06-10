@@ -3,8 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ListTree } from 'lucide-react'
+import { useEffect } from 'react'
 
-import { type DeploymentTemplate } from '@/types/dataProvider'
+import { DeploymentConfiguration, type DeploymentTemplate } from '@/types/dataProvider'
 import Header from '@/components/ui/header'
 import {
   Table,
@@ -15,6 +16,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import { useDraft } from '@/hooks/useDraftDeploy'
+
 type DeploymentTemplateProps = DeploymentTemplate
 export default function DeploymentTemplate({
   custom,
@@ -24,6 +27,21 @@ export default function DeploymentTemplate({
   minSpecs,
   services,
 }: DeploymentTemplateProps) {
+
+
+  const [ draft, setDraft ] = useDraft()
+
+  useEffect(() => {
+
+    let newDraft = {
+      name: name,
+      desc: description,
+      services: services,
+    }
+
+    setDraft(newDraft as DeploymentConfiguration)
+  }, [])
+
   return (
     <>
       <div className="flex items-center justify-between gap-4">
@@ -42,7 +60,7 @@ export default function DeploymentTemplate({
       ) : null}
       <p className="mt-4">{description}</p>
       <div className="mt-12 space-y-2">
-        <Header level={2}>System requirements</Header>
+        <Header level={2}> System requirements </Header>
         <Table>
           <TableHeader className="bg-muted text-muted-foreground">
             <TableRow>

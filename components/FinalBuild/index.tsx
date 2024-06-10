@@ -120,6 +120,8 @@ const ReviewYourBuild = () => {
         description: config.desc,
         provider: config.provider,
         isUnit: config.isUnit,
+        // XXX: Actually include correct one here.
+        nftId: "",
         services: JSON.stringify(config.services),
       }
 

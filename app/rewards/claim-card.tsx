@@ -84,7 +84,7 @@ export function ClaimCard() {
           address: XnodeUnitsOPENVestingContract.address,
           functionName: 'release',
           args: [XuNFTs?.at(0) ?? BigInt(0)],
-          chain,
+          // chain,
         })
         .catch((err) => {
           console.error(err)

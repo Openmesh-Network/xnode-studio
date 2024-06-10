@@ -33,6 +33,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 
 import { Slider } from '../../components/ui/slider'
+import { useDraft } from '@/hooks/useDraftDeploy'
 
 const STEP_MIN = 1
 const STEP_MAX = 1000
@@ -60,6 +61,7 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
   const [region, setRegion] = useState<string | null>()
   const [priceRange, setPriceRange] = useState<[number, number]>([1, 1000])
   const debouncedPriceRange = useDebounce(priceRange, 500)
+  const [ draft, setDraft ] = useDraft()
 
   const { data: providerData, isFetching: providersFetching } = useQuery({
     queryKey: [
@@ -80,10 +82,12 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
         params.append('r', region)
       }
       if (specs?.ram > 0) {
-        params.append('minRAM', String(specs.ram))
+        const ramGB = specs.ram / 1024
+        params.append('minRAM', String(ramGB))
       }
       if (specs?.storage > 0) {
-        params.append('minStorage', String(specs.storage))
+        const storageGB = specs.storage / 1024
+        params.append('minStorage', String(storageGB))
       }
       params.append('min', String(debouncedPriceRange[0]))
       params.append('max', String(debouncedPriceRange[1]))
@@ -120,6 +124,16 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
       }
     }
   }, [providersFetching])
+
+  useEffect(() =>  {
+    if (templateSelected) {
+      let newDraft = draft
+      newDraft.location = templateSelected.location
+      newDraft.provider = templateSelected.providerName
+      newDraft.isUnit = false
+      setDraft(newDraft)
+    }
+  }, [templateSelected, setTemplateSelected])
 
   const { data: regionData, isLoading: regionLoading } = useQuery({
     queryKey: ['regions'],

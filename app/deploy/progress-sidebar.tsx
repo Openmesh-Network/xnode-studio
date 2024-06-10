@@ -86,7 +86,7 @@ export default function DeploymentProgress() {
               />
               <Button
                 className="h-12 w-full"
-                onClick={() => setIndexerDeployerStep(0)}
+                onClick={() => { setIndexerDeployerStep(0) }}
               >
                 Select
               </Button>
@@ -243,10 +243,11 @@ export default function DeploymentProgress() {
                   indexerDeployerStep === 1 ? 'text-black' : 'text-black/50'
                 )}
               >
-                Choose your configuration
+                Sign in
               </p>
             </button>
           </div>
+
           {indexerDeployerStep === 1 ? (
             <div className="mt-4 flex flex-col items-center justify-center gap-4">
               <Button
@@ -254,6 +255,58 @@ export default function DeploymentProgress() {
                 variant={user !== undefined ? 'default' : 'outlinePrimary'}
                 className="h-12 w-full"
                 onClick={() => setIndexerDeployerStep(2)}
+              >
+                Continue
+              </Button>
+            </div>
+          ) : null}
+        </div>
+        <div>
+          <div className="-mx-8">
+            <button
+              disabled={indexerDeployerStep <= 2}
+              type="button"
+              className={cn(
+                'relative flex w-full items-center gap-6 px-8 py-3 transition-colors',
+                indexerDeployerStep === 2
+                  ? 'bg-primary/10'
+                  : 'enabled:hover:bg-primary/10'
+              )}
+              onClick={() => setIndexerDeployerStep(2)}
+            >
+              {indexerDeployerStep === 2 ? (
+                <div className="absolute inset-y-0 left-0 w-0.5 bg-primary" />
+              ) : null}
+              <div
+                className={cn(
+                  'flex size-10 items-center justify-center rounded-full border border-zinc-400',
+                  indexerDeployerStep <= 2 && 'border-dashed',
+                  indexerDeployerStep === 2 && 'border-primary',
+                  indexerDeployerStep > 2 && 'border-primary'
+                )}
+              >
+                {indexerDeployerStep > 2 ? (
+                  <Check size={20} weight="bold" className="text-primary" />
+                ) : null}
+              </div>
+              <p
+                className={cn(
+                  'font-bold',
+                  indexerDeployerStep === 2 ? 'text-black' : 'text-black/50'
+                )}
+              >
+                Perform connections
+              </p>
+            </button>
+          </div>
+
+          {indexerDeployerStep === 2 ? (
+            <div className="mt-4 flex flex-col items-center justify-center gap-4">
+              <Button
+                disabled={user === undefined}
+                variant={user !== undefined ? 'default' : 'outlinePrimary'}
+                className="h-12 w-full"
+                onClick={() => setIndexerDeployerStep(3)}
               >
                 Create and Deploy
               </Button>
