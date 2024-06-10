@@ -23,12 +23,14 @@ import { Section } from '@/components/ui/section'
 import ReviewYourBuild from '@/components/FinalBuild'
 import { Icons } from '@/components/Icons'
 import Signup from '@/components/Signup'
+import { mainnet, sepolia } from 'wagmi/chains'
 
 import DeploymentTemplatePage from './deployment-overview'
 import DeploymentProvider from './deployment-provider'
 import DeploymentProgress from './progress-sidebar'
 import NewIntegrationConn from '@/components/Signup/NewIntegrationConn'
 import { useDraft } from '@/hooks/useDraftDeploy'
+import Activate from '@/components/Units/Activate'
 
 type DeployPageProps = {
   searchParams: {
@@ -38,10 +40,12 @@ type DeployPageProps = {
   }
 }
 export default function DeployPage({ searchParams }: DeployPageProps) {
-  const { indexerDeployerStep } = useContext(AccountContext)
+  const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
   const [ draft, setDraft ] = useDraft()
 
   const tId = z.string().optional().parse(searchParams.tId)
+  const nftId = z.string().optional().parse(searchParams.nftId)
+  const isUnit = (nftId != "" && nftId != undefined)
 
   const workspace = z.coerce
     .boolean()
@@ -106,13 +110,31 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
       {templateData ? (
         <Section className="my-20 flex-1">
           {indexerDeployerStep === -1 ? (
-            <DeploymentTemplatePage {...templateData} />
+            <DeploymentTemplatePage 
+              isUnit={isUnit} 
+              custom={templateData.custom}
+              name={templateData.name}
+              tags={templateData.tags}
+              description={templateData.description}
+              minSpecs={templateData.minSpecs}
+              services={templateData.services}
+            />
           ) : null}
           {indexerDeployerStep === 0 ? (
             <DeploymentProvider specs={templateData.minSpecs} />
           ) : null}
           {indexerDeployerStep === 1 ? <Signup /> : null}
-          {indexerDeployerStep === 2 ? <NewIntegrationConn /> : null}
+
+          { indexerDeployerStep === 2 ? (
+            isUnit ? (
+              setIndexerDeployerStep(3)
+            ) : (
+              <div>
+                <NewIntegrationConn />
+              </div>
+            )
+          ) : ( null )}
+
           {indexerDeployerStep === 3 ? <ReviewYourBuild /> : null}
         </Section>
       ) : (
@@ -146,7 +168,8 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
           </Dialog>
         </>
       )}
-      <DeploymentProgress />
+
+      <DeploymentProgress isUnit={ isUnit } />
     </div>
   )
 }

@@ -28,7 +28,7 @@ const Activate = ({ chainId }: { chainId: number }) => {
     }
 
     findXueForAccount()
-  }, [account, nfts])
+  }, [account.isConnected])
 
   useEffect(() => {
     // This can be replaced with a dropdown, but will look more intimidating to the user and most will only own a single NFT.
@@ -46,37 +46,37 @@ const Activate = ({ chainId }: { chainId: number }) => {
     }
 
     const transactionRequest = await publicClient
-      .simulateContract({
-        account: walletClient.account,
-        abi: XnodeUnitEntitlementContract.abi,
-        address: XnodeUnitEntitlementContract.address,
-        functionName: 'activate',
-        args: [selectedNft],
-      })
-      .catch((err) => {
-        console.error(err)
-        if (err instanceof BaseError) {
-          let errorName = err.shortMessage ?? 'Simulation failed.'
-          const revertError = err.walk(
-            (err) => err instanceof ContractFunctionRevertedError
-          )
-          if (revertError instanceof ContractFunctionRevertedError) {
-            errorName += ` -> ${revertError.data?.errorName}` ?? ''
-          }
-          return errorName
+    .simulateContract({
+      account: walletClient.account,
+      abi: XnodeUnitEntitlementContract.abi,
+      address: XnodeUnitEntitlementContract.address,
+      functionName: 'activate',
+      args: [selectedNft],
+    })
+    .catch((err) => {
+      console.error(err)
+      if (err instanceof BaseError) {
+        let errorName = err.shortMessage ?? 'Simulation failed.'
+        const revertError = err.walk(
+          (err) => err instanceof ContractFunctionRevertedError
+        )
+        if (revertError instanceof ContractFunctionRevertedError) {
+          errorName += ` -> ${revertError.data?.errorName}` ?? ''
         }
-        return 'Simulation failed.'
-      })
+        return errorName
+      }
+      return 'Simulation failed.'
+    })
     if (typeof transactionRequest === 'string') {
       alert(transactionRequest)
       return
     }
     const transactionHash = await walletClient
-      .writeContract(transactionRequest.request)
-      .catch((err) => {
-        console.error(err)
-        return undefined
-      })
+    .writeContract(transactionRequest.request)
+    .catch((err) => {
+      console.error(err)
+      return undefined
+    })
     if (!transactionHash) {
       alert('Transaction rejected.')
       return
@@ -89,14 +89,12 @@ const Activate = ({ chainId }: { chainId: number }) => {
     alert(`Success: ${receipt.transactionHash}`)
   }
 
-  if (selectedNft === undefined) {
-    return <></>
-  }
-
   return (
     <div className="mx-auto flex w-fit justify-center rounded-[8px] p-[10px] md:border md:border-[#cacaca] md:p-[50px] lg:p-[100px]">
       <div className="space-y-5">
+        <p> hello? </p>
         <w3m-button />
+
         <button
           className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
           disabled={selectedNft === undefined}

@@ -24,8 +24,8 @@ export function ClaimCard() {
   const { open } = useWeb3Modal()
 
   const account = useAccount()
-
   const { address, isConnecting, isDisconnected, isConnected } = account
+
   const {
     data: XuNFTs,
     isFetching: isFetchingXuNFTs,

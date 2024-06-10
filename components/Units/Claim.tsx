@@ -174,7 +174,6 @@ const Claim = ({ chainId }: { chainId: number }) => {
       return
     }
 
-    setRedeemStage("Getting transaction hash.")
     console.log('Getting transaction hash')
     setLoadingOpen(true)
     const transactionHash = await walletClient
@@ -189,14 +188,13 @@ const Claim = ({ chainId }: { chainId: number }) => {
     }
 
     console.log('Getting receipt')
-    setRedeemStage("Getting receipt, waiting on block confirmations...")
+    setRedeemStage("Getting receipt, waiting for block confirmations...")
     setLoadingOpen(true)
 
     const receipt = await publicClient.waitForTransactionReceipt({
       hash: transactionHash,
     })
 
-    alert(`Success: ${receipt.transactionHash}`)
     setRedeemStage("Done!")
     setLoadingOpen(false)
 
@@ -405,7 +403,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => router.push('/dashboard')}>
+            <AlertDialogAction onClick={() => router.push(prefix + '/dashboard')}>
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>

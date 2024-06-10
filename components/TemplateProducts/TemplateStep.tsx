@@ -45,7 +45,7 @@ export const providerNameToLogo = {
   },
 }
 
-const TemplateStep = (nftId) => {
+const TemplateStep = ({nftId = ""}) => {
   const [templatesData, setTemplatesData] = useState<TemplateData[]>([])
   const [filteredTemplatesData, setFilteredTemplatesData] = useState<
     TemplateData[]
@@ -186,23 +186,23 @@ const TemplateStep = (nftId) => {
                 <div className="mt-[29px] h-px w-full bg-[#E6E8EC]"></div>
               </div>
               <div className="w-full">
-                <div className="flex justify-end gap-x-[20px]">
-                  <Dropdown
-                    optionSelected={selected}
-                    options={optionsNetwork}
-                    placeholder="Sort By"
-                    onValueChange={(value) => {
-                      setSelected(value)
-                      handleSortByFilter(value.value)
-                    }}
-                  />
-                </div>
+                {/* <div className="flex justify-end gap-x-[20px]"> */}
+                {/*   <Dropdown */}
+                {/*     optionSelected={selected} */}
+                {/*     options={optionsNetwork} */}
+                {/*     placeholder="Sort By" */}
+                {/*     onValueChange={(value) => { */}
+                {/*       setSelected(value) */}
+                {/*       handleSortByFilter(value.value) */}
+                {/*     }} */}
+                {/*   /> */}
+                {/* </div> */}
 
                 {/* XXX: Code duplication here. Refactor into component? */}
                 <div className="flex size-full flex-wrap">
                   {filteredTemplatesData.map((element, index) => (
                     <a key={index} href={
-                      prefix + "/deploy?tId=" + element.id + (nftId.nftId ? ( "&nftId=" + nftId.nftId ) : "")
+                      prefix + "/deploy?tId=" + element.id + (nftId ? ( "&nftId=" + nftId ) : "")
                       }>
                       <div className="mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200">
                         <div className="flex gap-x-[35px]">
