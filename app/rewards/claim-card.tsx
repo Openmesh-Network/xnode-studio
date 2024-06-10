@@ -25,7 +25,7 @@ export function ClaimCard() {
 
   const account = useAccount()
 
-  const { address, isConnecting, isDisconnected, isConnected } = account
+  const { address, isConnecting, isConnected } = account
   const {
     data: XuNFTs,
     isFetching: isFetchingXuNFTs,
@@ -33,7 +33,7 @@ export function ClaimCard() {
   } = useXuNfts(address)
   const {
     data,
-    isError,
+    error,
     isFetching: isFetchingReleasable,
     refetch: refetchReleasable,
   } = useReadContract({
@@ -168,8 +168,13 @@ export function ClaimCard() {
     <Card className="max-w-xs p-2 px-3">
       <CardHeader className="space-y-4">
         <div className="w-full px-2">
+          <span className="flex flex-row">
+            <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
+              {error?.shortMessage}
+            </p>
+          </span>
           <p className="w-full rounded-lg border bg-slate-50 px-3 py-1.5 text-center text-lg shadow-inner">
-            {!isConnected
+            {!isConnected || !hasXuNFT
               ? '-'
               : data !== undefined
                 ? formatUnits(data, 18)
@@ -185,7 +190,7 @@ export function ClaimCard() {
           </p>
           <p>
             {!hasXuNFT
-              ? 'This wallet does not hold a Xnode Unit NFT. Did you activate your Xnode Unit Entitlement NFT?'
+              ? 'This wallet does not hold an Xnode Unit NFT. Did you activate your Xnode Unit Entitlement NFT?'
               : 'Success! Your wallet has a valid Xnode Unit NFT!'}
           </p>
         </div>
