@@ -27,15 +27,19 @@ import Signup from '@/components/Signup'
 import DeploymentTemplatePage from './deployment-overview'
 import DeploymentProvider from './deployment-provider'
 import DeploymentProgress from './progress-sidebar'
+import NewIntegrationConn from '@/components/Signup/NewIntegrationConn'
+import { useDraft } from '@/hooks/useDraftDeploy'
 
 type DeployPageProps = {
   searchParams: {
     tId: string
     workspace: string
+    nftId: string
   }
 }
 export default function DeployPage({ searchParams }: DeployPageProps) {
   const { indexerDeployerStep } = useContext(AccountContext)
+  const [ draft, setDraft ] = useDraft()
 
   const tId = z.string().optional().parse(searchParams.tId)
 
@@ -108,7 +112,8 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
             <DeploymentProvider specs={templateData.minSpecs} />
           ) : null}
           {indexerDeployerStep === 1 ? <Signup /> : null}
-          {indexerDeployerStep === 2 ? <ReviewYourBuild /> : null}
+          {indexerDeployerStep === 2 ? <NewIntegrationConn /> : null}
+          {indexerDeployerStep === 3 ? <ReviewYourBuild /> : null}
         </Section>
       ) : (
         <>

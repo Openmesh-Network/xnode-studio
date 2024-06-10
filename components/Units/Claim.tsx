@@ -138,6 +138,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
 
     console.log('making transaction request')
     setRedeemStage("Making transaction request...")
+    setLoadingOpen(true)
     const transactionRequest = await publicClient
       .simulateContract({
         account: walletClient.account,
@@ -175,6 +176,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
 
     setRedeemStage("Getting transaction hash.")
     console.log('Getting transaction hash')
+    setLoadingOpen(true)
     const transactionHash = await walletClient
       .writeContract(transactionRequest.request)
       .catch((err) => {
@@ -188,14 +190,15 @@ const Claim = ({ chainId }: { chainId: number }) => {
 
     console.log('Getting receipt')
     setRedeemStage("Getting receipt, waiting on block confirmations...")
-    setRedeemStage("Done!")
-    setLoadingOpen(false)
+    setLoadingOpen(true)
 
     const receipt = await publicClient.waitForTransactionReceipt({
       hash: transactionHash,
     })
 
     alert(`Success: ${receipt.transactionHash}`)
+    setRedeemStage("Done!")
+    setLoadingOpen(false)
 
     // At this point the user has successfully claimed the Xnode.
 
@@ -378,9 +381,10 @@ const Claim = ({ chainId }: { chainId: number }) => {
         <AlertDialogTrigger/>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle> Redeeming Code... </AlertDialogTitle>
+            <AlertDialogTitle> { redeemStage } </AlertDialogTitle>
             <AlertDialogDescription>
-              Starting claiming
+              <div className="mx-auto size-[50px] animate-spin rounded-full border-b-2 border-[#0354EC]"></div>
+              {/* Add a spinner here */}
             </AlertDialogDescription>
           </AlertDialogHeader>
         </AlertDialogContent>

@@ -1,9 +1,18 @@
 import TemplateStep from '@/components/TemplateProducts/TemplateStep'
+import { z } from 'zod'
 
-export default function TemplateProductsPage() {
+type TemplatesPageProps = {
+  searchParams: {
+    nftId: string
+  }
+}
+
+export default function TemplateProductsPage({ searchParams }: TemplatesPageProps) {
+  const nftId = z.string().optional().parse(searchParams.nftId)
+
   return (
     <>
-      <TemplateStep />
+      <TemplateStep nftId={ nftId } />
     </>
   )
 }
