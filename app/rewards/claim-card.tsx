@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 import { XnodeUnitsOPENVestingContract } from '@/contracts/XnodeUnitsOPENVesting'
+import { chain } from '@/utils/chain'
 import { useXuNfts } from '@/utils/nft'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { RefreshCcw } from 'lucide-react'
 import { BaseError, ContractFunctionRevertedError, formatUnits } from 'viem'
-import { sepolia } from 'viem/chains'
 import {
   useAccount,
   usePublicClient,
@@ -63,6 +63,7 @@ export function ClaimCard() {
       return
     }
     const submit = async () => {
+      setSubmitting(true)
       let { dismiss } = toast({
         title: 'Generating transaction',
         description: 'Please sign the transaction in your wallet...',
@@ -76,7 +77,7 @@ export function ClaimCard() {
         })
         return
       }
-      const chain = sepolia
+
       const transactionRequest = await publicClient
         .simulateContract({
           account: walletClient.account,
@@ -84,7 +85,7 @@ export function ClaimCard() {
           address: XnodeUnitsOPENVestingContract.address,
           functionName: 'release',
           args: [XuNFTs?.at(0) ?? BigInt(0)],
-          // chain,
+          chain: chain,
         })
         .catch((err) => {
           console.error(err)
@@ -101,7 +102,13 @@ export function ClaimCard() {
           return 'Simulation failed.'
         })
       if (typeof transactionRequest === 'string') {
-        return alert(transactionRequest)
+        dismiss()
+        toast({
+          title: 'Claim failed',
+          description: transactionRequest,
+          variant: 'destructive',
+        })
+        return
       }
       const transactionHash = await walletClient
         .writeContract(transactionRequest.request)
@@ -187,7 +194,7 @@ export function ClaimCard() {
             size="xl"
             className="w-full"
             onClick={() => onClick().catch(console.error)}
-            disabled={!hasXuNFT}
+            disabled={isConnected && !hasXuNFT}
           >
             {isConnecting ? 'Connecting...' : isConnected ? 'Claim' : 'Connect'}
           </Button>

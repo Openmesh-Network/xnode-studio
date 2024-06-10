@@ -1,17 +1,14 @@
 'use client'
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { AccountContext } from '@/contexts/AccountContext'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { XnodeUnitEntitlementClaimerContract } from '@/contracts/XnodeUnitEntitlementClaimer'
+import { chain } from '@/utils/chain'
 import { reviver } from '@/utils/json'
 import { prefix } from '@/utils/prefix'
 import axios from 'axios'
-import nookies, { setCookie } from 'nookies'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { toast } from 'react-toastify'
-import { getWeb3Login } from 'utils/auth'
 import {
   Address,
   BaseError,
@@ -46,26 +43,27 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
+import { ToastAction } from '../ui/toast'
+import { useToast } from '../ui/use-toast'
+
+const codeRegex = new RegExp('^.{3}-.{3}-.{3}$')
+
 const Claim = ({ chainId }: { chainId: number }) => {
   const [code, setCode] = useState<string>('')
   const [invalidCode, setInvalidCode] = useState<string | undefined>(undefined)
-  const [loadingOpen, setLoadingOpen] = useState<boolean>(false)
-  const [redeemStage, setRedeemStage] = useState<string>("")
-
   const [successOpen, setSuccessOpen] = useState<boolean>(false)
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false)
-  const account = useAccount()
   const { disconnect } = useDisconnect()
   const publicClient = usePublicClient({ chainId })
   const { data: walletClient } = useWalletClient({ chainId })
+  const { toast } = useToast()
   const router = useRouter()
-  const { user, setUser } = useContext(AccountContext)
   const recaptchaRef = React.useRef<ReCAPTCHA>()
 
   useEffect(() => {
     // Check if semantics of the code are valid
-    if (code.length != 9) {
-      setInvalidCode('Code must be 9 characters long.')
+    if (!code.match(codeRegex)) {
+      setInvalidCode('Code must be of format ABC-ABC-ABC')
       return
     }
 
@@ -89,144 +87,164 @@ const Claim = ({ chainId }: { chainId: number }) => {
       return undefined // Success
     }
 
-    checkAlreadyMinted().then((err) => {
-      if (err) {
-        toast.error('Error: ' + err)
-      } else {
-        toast.success('Success')
-      }
-    })
+    checkAlreadyMinted().then(setInvalidCode).catch(console.error)
   }, [code, publicClient])
 
+  const [submitting, setSubmitting] = useState<boolean>(false)
   const redeemCode = async () => {
-    if (!walletClient) {
-      alert('WalletClient undefined.')
+    if (submitting) {
+      toast({
+        title: 'Please wait',
+        description: 'The past submission is still running.',
+        variant: 'destructive',
+      })
       return
     }
 
-    setLoadingOpen(true)
-
-    console.log('recaptcha request')
-    setRedeemStage("Waiting for captcha...")
-
-    const recaptchaToken: string = await recaptchaRef.current.executeAsync()
-    console.log('recaptcha solved', recaptchaToken)
-    console.log('sending request to xue-signer')
-    const response = await axios
-      .post(`${prefix}/xue-signer/getSig`, {
-        code: code,
-        receiver: account.address,
-        recaptcha: recaptchaToken,
+    const submit = async () => {
+      setSubmitting(true)
+      let { dismiss } = toast({
+        title: 'Generating transaction',
+        description: 'Please sign the transaction in your wallet...',
       })
-      .then(
-        (res) =>
-          JSON.parse(JSON.stringify(res.data), reviver) as {
-            message: { receiver: Address; codeHash: Hex; claimBefore: number }
-            signature: Signature
-          }
-      )
-      .catch((err: { response: { data: string } }) => {
-        console.error(err)
-        return err.response.data
-      })
-
-    if (typeof response === 'string') {
-      // An error has occurred, likely an invalid code
-      toast.error('Error: ' + response)
-      return
-    }
-
-    console.log('making transaction request')
-    setRedeemStage("Making transaction request...")
-    setLoadingOpen(true)
-    const transactionRequest = await publicClient
-      .simulateContract({
-        account: walletClient.account,
-        abi: XnodeUnitEntitlementClaimerContract.abi,
-        address: XnodeUnitEntitlementClaimerContract.address,
-        functionName: 'claim',
-        args: [
-          response.message.receiver,
-          response.message.codeHash,
-          response.message.claimBefore,
-          Number(response.signature.v),
-          response.signature.r,
-          response.signature.s,
-        ],
-      })
-      .catch((err) => {
-        console.error(err)
-        if (err instanceof BaseError) {
-          let errorName = err.shortMessage ?? 'Simulation failed.'
-          const revertError = err.walk(
-            (err) => err instanceof ContractFunctionRevertedError
-          )
-
-          if (revertError instanceof ContractFunctionRevertedError) {
-            errorName += ` -> ${revertError.data?.errorName}` ?? ''
-          }
-          return errorName
-        }
-        return 'Simulation failed.'
-      })
-    if (typeof transactionRequest === 'string') {
-      alert(transactionRequest)
-      return
-    }
-
-    setRedeemStage("Getting transaction hash.")
-    console.log('Getting transaction hash')
-    setLoadingOpen(true)
-    const transactionHash = await walletClient
-      .writeContract(transactionRequest.request)
-      .catch((err) => {
-        console.error(err)
-        return undefined
-      })
-    if (!transactionHash) {
-      alert('Transaction rejected.')
-      return
-    }
-
-    console.log('Getting receipt')
-    setRedeemStage("Getting receipt, waiting on block confirmations...")
-    setLoadingOpen(true)
-
-    const receipt = await publicClient.waitForTransactionReceipt({
-      hash: transactionHash,
-    })
-
-    alert(`Success: ${receipt.transactionHash}`)
-    setRedeemStage("Done!")
-    setLoadingOpen(false)
-
-    // At this point the user has successfully claimed the Xnode.
-
-    // TODO: Trigger success animation.
-    // TODO: Popup that explains next step.
-    // TODO: Redirect to deployment page.
-    setSuccessOpen(true)
-  }
-
-  const { address } = useAccount()
-
-  const tryLogin = async () => {
-    console.log('Login initiated!')
-    try {
-      const res = await getWeb3Login(address)
-      if (res) {
-        console.log(user)
-        console.log(res)
-        setUser(res)
-        console.log('Success!')
-        toast.success('Logged in!')
+      if (!publicClient || !walletClient?.account) {
+        dismiss()
+        toast({
+          title: 'Claim failed',
+          description: `${publicClient ? 'Wallet' : 'Public'}Client is undefined.`,
+          variant: 'destructive',
+        })
+        return
       }
-    } catch (err) {
-      console.log('Error loging in with Web3', err)
-      toast.error(err)
-      return
+
+      console.log('recaptcha request')
+
+      const recaptchaToken: string = await recaptchaRef.current
+        .executeAsync()
+        .finally(() => {
+          recaptchaRef.current.reset()
+        })
+      console.log('recaptcha solved', recaptchaToken)
+      console.log('sending request to xue-signer')
+      const response = await axios
+        .post(`${prefix}/xue-signer/getSig`, {
+          code: code,
+          receiver: walletClient.account.address,
+          recaptcha: recaptchaToken,
+        })
+        .then(
+          (res) =>
+            JSON.parse(JSON.stringify(res.data), reviver) as {
+              message: { receiver: Address; codeHash: Hex; claimBefore: number }
+              signature: Signature
+            }
+        )
+        .catch((err: { response: { data: string } }) => {
+          console.error(err)
+          return err.response.data
+        })
+
+      if (typeof response === 'string') {
+        // An error has occurred, likely an invalid code
+        dismiss()
+        toast({
+          title: 'Claim failed',
+          description: response,
+          variant: 'destructive',
+        })
+        return
+      }
+
+      console.log('making transaction request')
+      const transactionRequest = await publicClient
+        .simulateContract({
+          account: walletClient.account,
+          abi: XnodeUnitEntitlementClaimerContract.abi,
+          address: XnodeUnitEntitlementClaimerContract.address,
+          functionName: 'claim',
+          args: [
+            response.message.receiver,
+            response.message.codeHash,
+            response.message.claimBefore,
+            Number(response.signature.v),
+            response.signature.r,
+            response.signature.s,
+          ],
+          chain: chain,
+        })
+        .catch((err) => {
+          console.error(err)
+          if (err instanceof BaseError) {
+            let errorName = err.shortMessage ?? 'Simulation failed.'
+            const revertError = err.walk(
+              (err) => err instanceof ContractFunctionRevertedError
+            )
+
+            if (revertError instanceof ContractFunctionRevertedError) {
+              errorName += ` -> ${revertError.data?.errorName}` ?? ''
+            }
+            return errorName
+          }
+          return 'Simulation failed.'
+        })
+      if (typeof transactionRequest === 'string') {
+        dismiss()
+        toast({
+          title: 'Claim failed',
+          description: transactionRequest,
+          variant: 'destructive',
+        })
+        return
+      }
+
+      console.log('Getting transaction hash')
+      const transactionHash = await walletClient
+        .writeContract(transactionRequest.request)
+        .catch((err) => {
+          console.error(err)
+          return undefined
+        })
+      if (!transactionHash) {
+        dismiss()
+        toast({
+          title: 'Claim failed',
+          description: 'Transaction rejected.',
+          variant: 'destructive',
+        })
+        return
+      }
+
+      console.log('Getting receipt')
+      dismiss()
+      dismiss = toast({
+        duration: 120_000, // 2 minutes
+        title: 'Claim transaction submitted',
+        description: 'Waiting until confirmed on the blockchain...',
+        action: (
+          <ToastAction
+            altText="View on explorer"
+            onClick={() => {
+              window.open(
+                `${chain.blockExplorers.default.url}/tx/${transactionHash}`,
+                '_blank'
+              )
+            }}
+          >
+            View on explorer
+          </ToastAction>
+        ),
+      }).dismiss
+
+      const receipt = await publicClient.waitForTransactionReceipt({
+        hash: transactionHash,
+      })
+
+      dismiss()
+      setSuccessOpen(true)
     }
-    console.log('Login over!')
+
+    await submit().catch(console.error)
+    setSubmitting(false)
   }
 
   return (
@@ -246,8 +264,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
           <p> Connect your wallet. </p>
           <Popover>
             <PopoverTrigger className="text-blue-700 underline">
-              {' '}
-              How to get a wallet?{' '}
+              How to get a wallet?
             </PopoverTrigger>
             <PopoverContent>
               <ol>
@@ -262,7 +279,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
         </div>
         <div className="">
           <span className="flex flex-row">
-            {account.address !== undefined && (
+            {walletClient?.account.address !== undefined && (
               <p
                 className="ml-[8px] text-[10px] font-normal"
                 onClick={() => disconnect()}
@@ -272,11 +289,11 @@ const Claim = ({ chainId }: { chainId: number }) => {
             )}
           </span>
 
-          {account.address !== undefined ? (
+          {walletClient?.account.address !== undefined ? (
             <input
               className="m-0 h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0"
               type="text"
-              value={account.address ?? ''}
+              value={walletClient?.account.address ?? ''}
               readOnly={true}
             />
           ) : (
@@ -295,29 +312,27 @@ const Claim = ({ chainId }: { chainId: number }) => {
           <p> Enter your pin from the Xnode card. </p>
           <Popover>
             <PopoverTrigger className="text-blue-700 underline">
-              {' '}
-              I don&apos;t have one.{' '}
+              I don&apos;t have one.
             </PopoverTrigger>
             <PopoverContent>
-              {' '}
               A code is required to redeem the Xnode NFT.
               <br /> Be on the look out on social media or IRL events for
-              giveaways!{' '}
+              giveaways!
             </PopoverContent>
           </Popover>
         </div>
 
         <div className="">
-          {/* <span className="flex flex-row"> */}
-          {/* <p className="ml-[8px] text-[10px] font-normal text-[#ff0000] "> */}
-          {/* {invalidCode !== undefined ? "* " + invalidCode : "" } */}
-          {/* </p> */}
-          {/* </span> */}
+          <span className="flex flex-row">
+            <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
+              {invalidCode !== undefined ? '* ' + invalidCode : ''}
+            </p>
+          </span>
           <input
             className="mt-[10px] h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0"
             type="text"
             value={code}
-            onChange={(e) => setCode(e.target.value)}
+            onChange={(e) => setCode(e.target.value.toUpperCase())}
           />
         </div>
       </div>
@@ -337,8 +352,9 @@ const Claim = ({ chainId }: { chainId: number }) => {
           <button
             className="cursor-pointer items-center rounded-[5px] border border-blue500 bg-blue500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
             disabled={
-              /* XXX: Reenable this:  */
-              false /* invalidCode !== undefined || walletClient === undefined || account.address !== undefined */
+              invalidCode !== undefined ||
+              walletClient?.account === undefined ||
+              submitting
             }
             onClick={() => setConfirmOpen(true)}
           >
@@ -363,6 +379,8 @@ const Claim = ({ chainId }: { chainId: number }) => {
             <AlertDialogDescription>
               This will mint an entitlement for the currently selected wallet.
               By clicking continue you also agree to our terms and conditions.
+              Claiming requires your wallet to have enough funds to cover the
+              gas fee.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -376,28 +394,14 @@ const Claim = ({ chainId }: { chainId: number }) => {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Loading alert. */}
-      <AlertDialog open={loadingOpen} onOpenChange={setLoadingOpen}>
-        <AlertDialogTrigger/>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle> { redeemStage } </AlertDialogTitle>
-            <AlertDialogDescription>
-              <div className="mx-auto size-[50px] animate-spin rounded-full border-b-2 border-[#0354EC]"></div>
-              {/* Add a spinner here */}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-        </AlertDialogContent>
-      </AlertDialog>
-
       {/* Success alert. */}
       <AlertDialog open={successOpen} onOpenChange={setSuccessOpen}>
         <AlertDialogTrigger />
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{ redeemStage }</AlertDialogTitle>
+            <AlertDialogTitle>Success!</AlertDialogTitle>
             <AlertDialogDescription>
-              You have succesfully claimed your Xnode. It will now be available
+              You have successfully claimed your Xnode. It will now be available
               for activation on the dashboard.
               <br />
               Click continue to be redirected there.
