@@ -8,11 +8,14 @@ import { getXueNfts } from 'utils/nft'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { useRouter } from 'next/navigation'
+import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
+import { chain } from '@/utils/chain'
+import { prefix } from '@/utils/prefix'
 import axios from 'axios'
+import { useUser } from 'hooks/useUser'
 import { parseCookies } from 'nookies'
 import { SmileySad } from 'phosphor-react'
 import { useAccount } from 'wagmi'
-import { useUser } from 'hooks/useUser'
 
 import { Xnode } from '../../types/node'
 
@@ -21,7 +24,7 @@ const Dashboard = () => {
   const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
   const [xueNfts, setXueNfts] = useState<BigInt[]>(undefined)
 
-  const [ user ]  = useUser()
+  const [user] = useUser()
 
   const account = useAccount()
 
@@ -43,7 +46,7 @@ const Dashboard = () => {
       try {
         await axios(config).then(function (response) {
           if (response.data) {
-            console.log("Got the Xnode data")
+            console.log('Got the Xnode data')
             setXnodesData(response.data)
           }
         })
@@ -74,9 +77,9 @@ const Dashboard = () => {
 
           let doUpdate = false
           if (!xueNfts) {
-            doUpdate = true;
+            doUpdate = true
           } else if (xueNfts.length != nfts.length) {
-            doUpdate = true;
+            doUpdate = true
           } else {
             for (let i = 0; i < xueNfts.length; i++) {
               if (xueNfts[i] != nfts[i]) {
@@ -87,7 +90,7 @@ const Dashboard = () => {
           }
 
           if (doUpdate) {
-              setXueNfts(nfts)
+            setXueNfts(nfts)
           }
 
           console.log('Found NFT array for current wallet address:')
@@ -110,7 +113,7 @@ const Dashboard = () => {
       // getData()
       // alert('User has a cookie.')
     }
-  }, [ account?.isConnected ])
+  }, [account?.isConnected])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
@@ -144,125 +147,132 @@ const Dashboard = () => {
       <div className="m-20 flex-1">
         <section>
           <h1 className="text-4xl font-semibold text-black">Dashboard</h1>
-          <div className="my-12"/>
+          <div className="my-12" />
 
-          {
-            (!account?.isConnected) ? (
-              <div>
-                <p> Connect your wallet to view available Xnodes. </p>
-                <w3m-connect-button />
-              </div>
-            )
-            : (
-              <>
-                <w3m-button />
-              </>
-            )
-          }
+          {!account?.isConnected ? (
+            <div>
+              <p> Connect your wallet to view available Xnodes. </p>
+              <w3m-connect-button />
+            </div>
+          ) : (
+            <>
+              <w3m-button />
+            </>
+          )}
 
           {
             // TODO: Add check with wallet connect here.
 
-            (xueNfts && account?.isConnected) && (
+            xueNfts && account?.isConnected && (
               <div>
                 <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
-                  Wallet has {xueNfts.length} { xueNfts.length == 1 ? "Xnode" : "Xnodes" } available for activation.
+                  Wallet has {xueNfts.length}{' '}
+                  {xueNfts.length == 1 ? 'Xnode' : 'Xnodes'} available for
+                  activation.
                 </div>
 
                 <ul className="mt-4 flex max-h-[calc(100svh-5rem)] flex-col items-center gap-8 overflow-y-auto text-black">
-                  {
-                    xueNfts.map((node, index) => (
-                      <li key={index} className="flex w-fit items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
-                        {/* <p> Your id is: {node.toString()} </p> */}
+                  {xueNfts.map((node, index) => (
+                    <li
+                      key={index}
+                      className="flex w-fit items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
+                    >
+                      {/* <p> Your id is: {node.toString()} </p> */}
 
-                        {/* <div> */}
-                        {/*   { node.toString() } */}
-                        {/* </div> */}
+                      {/* <div> */}
+                      {/*   { node.toString() } */}
+                      {/* </div> */}
 
-                        <div>
-                          <ul>
-                            <li> 8 vCPU </li>
-                            <li> 16GB RAM </li>
-                            <li> 320GB SSD </li>
-                            <li> 12 months </li>
-                          </ul>
-                        </div>
+                      <div>
+                        <ul>
+                          <li> 8 vCPU </li>
+                          <li> 16GB RAM </li>
+                          <li> 320GB SSD </li>
+                          <li> 12 months </li>
+                        </ul>
+                      </div>
 
-                        <div className="my-auto flex h-full w-fit items-center justify-center align-middle">
-                          <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                            onClick={ () => push((process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`) + 'templates?nftId=' + node.toString()) }> 
-                            Activate Now
-                          </button>
-                        </div>
+                      <div className="my-auto flex h-full w-fit items-center justify-center align-middle">
+                        <button
+                          className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                          onClick={() =>
+                            push(prefix + 'templates?nftId=' + node.toString())
+                          }
+                        >
+                          Activate Now
+                        </button>
+                      </div>
 
-                        <p> <a className="text-blue-500 underline" href={
-                          "https://sepolia.etherscan.io/nft/0x36dcd679652e484786d4b94621b36d61c17f5dac/" + node.toString()
-                          }> View on etherscan  </a> </p>
-                      </li>
-                    ))
-                  }
+                      <p>
+                        <a
+                          className="text-blue-500 underline"
+                          href={`${chain.blockExplorers.default.url}/nft/${XnodeUnitEntitlementContract.address}/${node}`}
+                          target="_blank"
+                        >
+                          View on etherscan
+                        </a>
+                      </p>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )
           }
 
-          <div className="my-12"/>
+          <div className="my-12" />
           <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
             Deployments
           </div>
 
-          {
-            xnodesData ? (
-              <div className="border-1 border-solid/20 border-black">
-                <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
-                  {
-                    xnodesData?.map((node: Xnode) => (
-                      <li className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
-                        {/* <p> Your id is: {node.toString()} </p> */}
+          {xnodesData ? (
+            <div className="border-1 border-solid/20 border-black">
+              <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
+                {xnodesData?.map((node: Xnode) => (
+                  <li className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
+                    {/* <p> Your id is: {node.toString()} </p> */}
 
-                        {/* <div> */}
-                        {/*   { node.toString() } */}
-                        {/* </div> */}
+                    {/* <div> */}
+                    {/*   { node.toString() } */}
+                    {/* </div> */}
 
-                        <div>
-                          <ul>
-                            <li> <b> { node.provider } </b> </li>
+                    <div>
+                      <ul>
+                        <li>
+                          {' '}
+                          <b> {node.provider} </b>{' '}
+                        </li>
 
-                            <li> { node.name } </li>
-                            <li> { node.description } </li>
-                          </ul>
-                        </div>
+                        <li> {node.name} </li>
+                        <li> {node.description} </li>
+                      </ul>
+                    </div>
 
-                        <div>
-                          <ul>
-                            <li> <b> { node.createdAt } </b> </li>
-                          </ul>
-                        </div>
+                    <div>
+                      <ul>
+                        <li>
+                          {' '}
+                          <b> {node.createdAt} </b>{' '}
+                        </li>
+                      </ul>
+                    </div>
 
-                        <div>
-                          <ul>
-                          </ul>
-                        </div>
+                    <div>
+                      <ul></ul>
+                    </div>
 
-                        <div className="align-center flex h-full justify-center">
-                          {/* <button className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" */}
-                          {/*   onClick={ () => alert('ACTIVATING!!!!')}> */} 
-                          {/*   Manage */}
-                          {/* </button> */}
-                        </div>
-
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-            ) : (
-              <>
-              </>
-            )
-
-          }
-
+                    <div className="align-center flex h-full justify-center">
+                      {/* <button className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" */}
+                      {/*   onClick={ () => alert('ACTIVATING!!!!')}> */}
+                      {/*   Manage */}
+                      {/* </button> */}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <></>
+          )}
         </section>
       </div>
     </>
