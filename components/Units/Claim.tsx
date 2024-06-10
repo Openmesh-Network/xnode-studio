@@ -332,7 +332,16 @@ const Claim = ({ chainId }: { chainId: number }) => {
             className="mt-[10px] h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0"
             type="text"
             value={code}
-            onChange={(e) => setCode(e.target.value.toUpperCase())}
+            onChange={(e) => {
+              let newCode = e.target.value.toUpperCase()
+              if (newCode.length == 3 || newCode.length == 7) {
+                newCode += '-'
+              }
+              if (newCode.endsWith('--')) {
+                newCode = newCode.substring(0, newCode.length - 1)
+              }
+              setCode(newCode)
+            }}
           />
         </div>
       </div>
