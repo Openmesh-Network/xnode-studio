@@ -491,13 +491,7 @@ const Dashboard = () => {
                         <button
                           className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                           onClick={() =>
-                            push(
-                              (process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                ? `/xnode/`
-                                : `/`) +
-                                'templates?nftId=' +
-                                xuId.toString()
-                            )
+                            push(`${prefix}/templates?nftId=${xuId.toString()}`)
                           }
                         >
                           Deploy
