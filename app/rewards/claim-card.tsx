@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 import { XnodeUnitsOPENVestingContract } from '@/contracts/XnodeUnitsOPENVesting'
+import { chain } from '@/utils/chain'
 import { useXuNfts } from '@/utils/nft'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { RefreshCcw } from 'lucide-react'
 import { BaseError, ContractFunctionRevertedError, formatUnits } from 'viem'
-import { sepolia } from 'viem/chains'
 import {
   useAccount,
   usePublicClient,
@@ -24,8 +24,8 @@ export function ClaimCard() {
   const { open } = useWeb3Modal()
 
   const account = useAccount()
-  const { address, isConnecting, isDisconnected, isConnected } = account
 
+  const { address, isConnecting, isConnected } = account
   const {
     data: XuNFTs,
     isFetching: isFetchingXuNFTs,
@@ -33,7 +33,7 @@ export function ClaimCard() {
   } = useXuNfts(address)
   const {
     data,
-    isError,
+    error,
     isFetching: isFetchingReleasable,
     refetch: refetchReleasable,
   } = useReadContract({
@@ -63,6 +63,7 @@ export function ClaimCard() {
       return
     }
     const submit = async () => {
+      setSubmitting(true)
       let { dismiss } = toast({
         title: 'Generating transaction',
         description: 'Please sign the transaction in your wallet...',
@@ -76,7 +77,7 @@ export function ClaimCard() {
         })
         return
       }
-      const chain = sepolia
+
       const transactionRequest = await publicClient
         .simulateContract({
           account: walletClient.account,
@@ -84,7 +85,7 @@ export function ClaimCard() {
           address: XnodeUnitsOPENVestingContract.address,
           functionName: 'release',
           args: [XuNFTs?.at(0) ?? BigInt(0)],
-          // chain,
+          chain: chain,
         })
         .catch((err) => {
           console.error(err)
@@ -101,7 +102,13 @@ export function ClaimCard() {
           return 'Simulation failed.'
         })
       if (typeof transactionRequest === 'string') {
-        return alert(transactionRequest)
+        dismiss()
+        toast({
+          title: 'Claim failed',
+          description: transactionRequest,
+          variant: 'destructive',
+        })
+        return
       }
       const transactionHash = await walletClient
         .writeContract(transactionRequest.request)
@@ -161,8 +168,13 @@ export function ClaimCard() {
     <Card className="max-w-xs p-2 px-3">
       <CardHeader className="space-y-4">
         <div className="w-full px-2">
+          <span className="flex flex-row">
+            <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
+              {error?.shortMessage}
+            </p>
+          </span>
           <p className="w-full rounded-lg border bg-slate-50 px-3 py-1.5 text-center text-lg shadow-inner">
-            {!isConnected
+            {!isConnected || !hasXuNFT
               ? '-'
               : data !== undefined
                 ? formatUnits(data, 18)
@@ -178,7 +190,7 @@ export function ClaimCard() {
           </p>
           <p>
             {!hasXuNFT
-              ? 'This wallet does not hold a Xnode Unit NFT. Did you activate your Xnode Unit Entitlement NFT?'
+              ? 'This wallet does not hold an Xnode Unit NFT. Did you activate your Xnode Unit Entitlement NFT?'
               : 'Success! Your wallet has a valid Xnode Unit NFT!'}
           </p>
         </div>
@@ -187,7 +199,7 @@ export function ClaimCard() {
             size="xl"
             className="w-full"
             onClick={() => onClick().catch(console.error)}
-            disabled={!hasXuNFT}
+            disabled={isConnected && !hasXuNFT}
           >
             {isConnecting ? 'Connecting...' : isConnected ? 'Claim' : 'Connect'}
           </Button>

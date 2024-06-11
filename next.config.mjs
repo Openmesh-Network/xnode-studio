@@ -3,7 +3,7 @@ const nextConfig = {
   rewrites: () => [
     {
       source: '/xue-signer/:call*',
-      destination: 'https://remote-signer.plopmenz.com/xue-signer/:call*',
+      destination: `https://remote-signer.plopmenz.com/xue-signer${process.env.NEXT_PUBLIC_TESTNET ? '-testnet' : ''}/:call*`,
     },
   ],
   basePath: process.env.NEXT_PUBLIC_PREFIX,

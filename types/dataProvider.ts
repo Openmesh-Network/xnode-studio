@@ -207,6 +207,7 @@ export function TemplateGetSpecs(template: TemplateData): Specs {
       specs.ram += service.specs.ram
       specs.storage += service.specs.storage
     } else {
+      console.log(template.serviceNames[i])
       // XXX: Need a test to quality check all templates ahead of time.
       console.log("This shouldn't run")
     }

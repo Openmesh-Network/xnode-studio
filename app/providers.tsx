@@ -1,18 +1,18 @@
 'use client'
 
 import AccountContextProvider from '@/contexts/AccountContext'
+import { chain } from '@/utils/chain'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import { ThemeProvider } from 'next-themes'
 import { ToastContainer } from 'react-toastify'
 import { cookieStorage, createStorage, State, WagmiProvider } from 'wagmi'
-import { mainnet, sepolia } from 'wagmi/chains'
 
 import { Toaster } from '@/components/ui/toaster'
 import ScreenProvider from '@/components/screen-provider'
 
-const chains = [mainnet, sepolia] as const
+const chains = [chain] as const
 const queryClient = new QueryClient()
 
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID

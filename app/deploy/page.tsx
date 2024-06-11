@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Node } from 'reactflow'
 import { z } from 'zod'
+import { useEffect } from 'react'
 
 import {
   ServiceFromName,
@@ -105,6 +106,13 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
     return null
   }, [tId, workspace])
 
+
+  useEffect(() => {
+    if (indexerDeployerStep == 2 && isUnit) {
+      setIndexerDeployerStep(3)
+    }
+  }, [indexerDeployerStep, setIndexerDeployerStep])
+
   return (
     <div className="flex h-full">
       {templateData ? (
@@ -127,7 +135,8 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
 
           { indexerDeployerStep === 2 ? (
             isUnit ? (
-              setIndexerDeployerStep(3)
+              <>
+                </>
             ) : (
               <div>
                 <NewIntegrationConn />
