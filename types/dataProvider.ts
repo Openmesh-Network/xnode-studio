@@ -157,6 +157,8 @@ export type TemplateData = {
   name: string
   desc: string
   tags: string[]
+  quality?: boolean
+  isUnitRunnable?: boolean
   source?: string
   website?: string
 

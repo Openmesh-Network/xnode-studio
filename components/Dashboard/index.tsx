@@ -276,7 +276,7 @@ const Dashboard = () => {
       // getData()
       // alert('User has a cookie.')
     }
-  }, [account?.isConnected, setSubmitting])
+  }, [account?.isConnected, setSuccessOpen, submitting, setSubmitting])
 
   useEffect(() => {
     startCountdown()
