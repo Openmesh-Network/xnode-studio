@@ -14512,7 +14512,7 @@
         "logo": "https://s3-alpha.figma.com/hub/file/1223735372/e78e523c-8003-4dee-abb2-31f7665696b4-cover.png",
         "specs": {
             "ram": 32000,
-            "storage": 12884900
+            "storage": 1288490
         },
         "nixName": "go-ethereum",
         "options": []
