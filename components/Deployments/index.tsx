@@ -22,11 +22,11 @@ import { useToast } from '../ui/use-toast'
 
 const Deployments = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
   const [activateWarnOpen, setActivateWarnOpen] = useState<boolean>(false)
   const [waitOpen, setWaitOpen] = useState<boolean>(false)
   const [successOpen, setSuccessOpen] = useState<boolean>(false)
   const [submitting, setSubmitting] = useState<boolean>(false)
+  const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
   const account = useAccount()
 
   const [user] = useUser()
@@ -51,6 +51,7 @@ const Deployments = () => {
         await axios(config).then(function (response) {
           if (response.data) {
             console.log('Got the Xnode data')
+            console.log(response.data)
             setXnodesData(response.data)
             setIsLoading(false)
           }
@@ -71,6 +72,10 @@ const Deployments = () => {
 
   useEffect(() => {
     getData()
+  }, [ ])
+
+  useEffect(() => {
+    getData()
   }, [ user?.sessionToken, user ])
 
   return (
@@ -80,9 +85,9 @@ const Deployments = () => {
           <h1 className="text-4xl font-semibold text-black">Deployments</h1>
           <div className="my-12" />
 
-          {!user && <Signup />}
+          <Signup />
 
-          {xnodesData ? (
+          { xnodesData ? (
             <div className="border-1 border-solid/20 border-black">
               <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
                 {xnodesData?.map((node: Xnode) => (

@@ -841,7 +841,7 @@
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
             "ram": 8192,
-            "storage": 0
+            "storage": 12280
         },
         "nixName": "ollama",
         "options": [
@@ -921,7 +921,7 @@
         "logo": "",
         "specs": {
             "ram": 500,
-            "storage": 0
+            "storage": 5000
         },
         "nixName": "archivebox",
         "options": []
@@ -13784,8 +13784,8 @@
         "implmented": true,
         "logo": "https://static-web-server.net/assets/sws.svg",
         "specs": {
-            "ram": 512,
-            "storage": 0
+            "ram": 256,
+            "storage": 256 
         },
         "nixName": "static-web-server",
         "options": [
@@ -14146,8 +14146,8 @@
         "implmented": true,
         "logo": "https://www.hiawatha-webserver.org/images/favicon/favicon-coast.png",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 33554432,
+            "storage": 12884901888
         },
         "nixName": "lighthouse",
         "options": [
@@ -14511,15 +14511,15 @@
         "implmented": true,
         "logo": "https://s3-alpha.figma.com/hub/file/1223735372/e78e523c-8003-4dee-abb2-31f7665696b4-cover.png",
         "specs": {
-            "ram": 512,
-            "storage": 1024
+            "ram": 33554432,
+            "storage": 12884901888
         },
         "nixName": "go-ethereum",
         "options": []
     },
     {
         "name": "Open WebUI",
-        "desc": "WebUI for Ollama",
+        "desc": "WebUI for Ollama AI language models",
         "tags": [
             "Website"
         ],
@@ -14961,7 +14961,7 @@
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Grafana_logo.svg/768px-Grafana_logo.svg.png?20230113183101",
         "specs": {
             "ram": 512,
-            "storage": 1024
+            "storage": 200
         },
         "nixName": "grafana",
         "options": [
