@@ -56,7 +56,11 @@ const Dashboard = () => {
 
   const tryActivateNFT = () => {
     // We check if the user is whitelisted since we don't want users to activate machines that can't be deployed yet.
-    const whitelist = ['0xc2859E9e0B92bf70075Cd47193fe9E59f857dFA5']
+    const whitelist = [
+      '0xc2859E9e0B92bf70075Cd47193fe9E59f857dFA5',
+      "0x99acBe5d487421cbd63bBa3673132E634a6b4720",
+      "0x7703d5753C54852D4249F9784A3e8A6eeA08e1dD",
+    ]
 
     let isWhitelisted = false
     for (let i = 0; i < whitelist.length; i++) {
