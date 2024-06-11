@@ -6,19 +6,17 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { useRouter } from 'next/navigation'
+import { XnodeUnitContract } from '@/contracts/XnodeUnit'
 import { prefix } from '@/utils/prefix'
 import axios from 'axios'
 import { useUser } from 'hooks/useUser'
-import { useAccount } from 'wagmi'
-
-import Signup from '@/components/Signup'
-import { Xnode } from '../../types/node'
-
 import { useXuNfts } from 'utils/nft'
 import { BaseError, ContractFunctionRevertedError } from 'viem'
-import { useWalletClient, usePublicClient } from 'wagmi'
-import { XnodeUnitContract } from '@/contracts/XnodeUnit'
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
 
+import Signup from '@/components/Signup'
+
+import { Xnode } from '../../types/node'
 import { ToastAction } from '../ui/toast'
 import { useToast } from '../ui/use-toast'
 
@@ -31,7 +29,7 @@ const Deployments = () => {
   const [submitting, setSubmitting] = useState<boolean>(false)
   const account = useAccount()
 
-  const { address} = account
+  const { address } = account
 
   const publicClient = usePublicClient()
   const { data: walletClient } = useWalletClient()
@@ -40,7 +38,6 @@ const Deployments = () => {
 
   const { push } = useRouter()
   const { toast } = useToast()
-
 
   const getData = useCallback(async () => {
     setIsLoading(true)
@@ -64,14 +61,15 @@ const Deployments = () => {
           }
         })
       } catch (err) {
-        toast.error(
-          `Error getting the Xnode list: ${err.response.data.message}`
-        )
-            setIsLoading(false)
+        toast({
+          title: 'Error getting the Xnode list',
+          description: err.response.data.message,
+          variant: 'destructive',
+        })
+        setIsLoading(false)
       }
     }
-
-  }, [user?.sessionToken, user, account?.isConnected ])
+  }, [user?.sessionToken, user, account?.isConnected])
 
   const commonClasses =
     'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
@@ -87,11 +85,7 @@ const Deployments = () => {
           <h1 className="text-4xl font-semibold text-black">Deployments</h1>
           <div className="my-12" />
 
-          {
-            !user && !isLoading && (
-              <Signup/>
-            )
-          }
+          {!user && !isLoading && <Signup />}
 
           {xnodesData ? (
             <div className="border-1 border-solid/20 border-black">
@@ -100,8 +94,14 @@ const Deployments = () => {
                   <li className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
                     <div>
                       <ul>
-                        <li> <b> { node.provider } </b> </li>
-                        <li> <b> { node.nftId } </b> </li>
+                        <li>
+                          {' '}
+                          <b> {node.provider} </b>{' '}
+                        </li>
+                        <li>
+                          {' '}
+                          <b> {node.nftId} </b>{' '}
+                        </li>
 
                         <li> {node.name} </li>
                         <li> {node.description} </li>
@@ -117,10 +117,12 @@ const Deployments = () => {
                     </div>
 
                     <div className="align-center flex h-full justify-center">
-                       <button className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                         onClick={ () => push(prefix + '/xnode?uuid=' + node.id)}>
-                         Manage
-                       </button>
+                      <button
+                        className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                        onClick={() => push(prefix + '/xnode?uuid=' + node.id)}
+                      >
+                        Manage
+                      </button>
                     </div>
                   </li>
                 ))}
@@ -131,8 +133,6 @@ const Deployments = () => {
           )}
         </section>
       </div>
-
-      
     </>
   )
 }

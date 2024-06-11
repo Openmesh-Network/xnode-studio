@@ -1,22 +1,17 @@
 'use client'
 
 /* eslint-disable no-unused-vars */
-import { useCallback, useContext, useEffect, useState } from 'react'
-import { useToast } from '../ui/use-toast'
-import { ToastAction } from '../ui/toast'
-import { getXueNfts } from 'utils/nft'
-
-import 'react-toastify/dist/ReactToastify.css'
-
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { XnodeUnitContract } from '@/contracts/XnodeUnit'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { chain } from '@/utils/chain'
 import { prefix } from '@/utils/prefix'
-import axios from 'axios'
 import { useUser } from 'hooks/useUser'
-import { parseCookies } from 'nookies'
-import { SmileySad } from 'phosphor-react'
-import { useAccount } from 'wagmi'
+import { getXueNfts, useXuNfts } from 'utils/nft'
+import { BaseError, ContractFunctionRevertedError } from 'viem'
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,11 +25,8 @@ import {
 } from '@/components/ui/alert-dialog'
 
 import { Xnode } from '../../types/node'
-
-import { useXuNfts } from 'utils/nft'
-import { BaseError, ContractFunctionRevertedError } from 'viem'
-import { useWalletClient, usePublicClient } from 'wagmi'
-import { XnodeUnitContract } from '@/contracts/XnodeUnit'
+import { ToastAction } from '../ui/toast'
+import { useToast } from '../ui/use-toast'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -42,7 +34,9 @@ const Dashboard = () => {
   const [activateWarnOpen, setActivateWarnOpen] = useState<boolean>(false)
   const [waitOpen, setWaitOpen] = useState<boolean>(false)
   const [successOpen, setSuccessOpen] = useState<boolean>(false)
-  const [timeTillActivation, setTimeTillActivation] = useState<string>("72 hours 0 minutes 0 seconds")
+  const [timeTillActivation, setTimeTillActivation] = useState<string>(
+    '72 hours 0 minutes 0 seconds'
+  )
   const [xueNfts, setXueNfts] = useState<BigInt[]>(undefined)
   const [selectedNft, setSelectedNft] = useState<BigInt>(undefined)
   const [submitting, setSubmitting] = useState<boolean>(false)
@@ -50,10 +44,7 @@ const Dashboard = () => {
 
   const { address, isConnecting, isDisconnected, isConnected } = account
 
-  const { 
-    data : xuNfts,
-    refetch: refetchXuNFTs,
-  } = useXuNfts(address)
+  const { data: xuNfts, refetch: refetchXuNFTs } = useXuNfts(address)
 
   const publicClient = usePublicClient()
   const { data: walletClient } = useWalletClient()
@@ -65,9 +56,7 @@ const Dashboard = () => {
 
   const tryActivateNFT = () => {
     // We check if the user is whitelisted since we don't want users to activate machines that can't be deployed yet.
-    const whitelist = [
-      "0xc2859E9e0B92bf70075Cd47193fe9E59f857dFA5",
-    ];
+    const whitelist = ['0xc2859E9e0B92bf70075Cd47193fe9E59f857dFA5']
 
     let isWhitelisted = false
     for (let i = 0; i < whitelist.length; i++) {
@@ -95,146 +84,133 @@ const Dashboard = () => {
       return
     }
 
-    if (!selectedNft) {
-      alert('No NFT selected.')
-      return
-    }
-    if (!walletClient) {
-      alert('WalletClient undefined.')
-      return
-    }
+    const submit = async () => {
+      setSubmitting(true)
 
-    let dismiss = toast({
-      title: 'Generating transaction',
-      description: 'Please sign the transaction in your wallet...',
-    }).dismiss
-
-    const transactionRequest = await publicClient
-    .simulateContract({
-      account: walletClient.account,
-      abi: XnodeUnitEntitlementContract.abi,
-      address: XnodeUnitEntitlementContract.address,
-      functionName: 'activate',
-      args: [selectedNft as bigint],
-    })
-    .catch((err) => {
-      console.error(err)
-      if (err instanceof BaseError) {
-        let errorName = err.shortMessage ?? 'Simulation failed.'
-        const revertError = err.walk(
-          (err) => err instanceof ContractFunctionRevertedError
-        )
-        if (revertError instanceof ContractFunctionRevertedError) {
-          errorName += ` -> ${revertError.data?.errorName}` ?? ''
-        }
-        return errorName
+      if (selectedNft === undefined) {
+        toast({
+          title: 'No NFT selected',
+          description: 'Please select which NFT you want to activate.',
+          variant: 'destructive',
+        })
+        return
       }
-      return 'Simulation failed.'
-    })
 
-    if (typeof transactionRequest === 'string') {
-      dismiss()
-      dismiss = toast({
-        title: 'Transaction failed',
+      let { dismiss } = toast({
+        title: 'Generating transaction',
         description: 'Please sign the transaction in your wallet...',
       })
-      return
-    }
 
-    setSubmitting(true)
-    dismiss = toast({
-      title: 'Submitting',
-      description: 'Please sign the transaction in your wallet...',
-    })
-    const transactionHash = await walletClient
-    .writeContract(transactionRequest.request)
-    .catch((err) => {
-      console.error(err)
-      return undefined
-    })
-    if (!transactionHash) {
-      alert('Transaction rejected.')
-      dismiss = toast({
-        title: 'Transaction rejected',
-        description: '...',
-      })
-      return
-    }
+      if (!publicClient || !walletClient?.account) {
+        dismiss()
+        toast({
+          title: 'Claim failed',
+          description: `${publicClient ? 'Wallet' : 'Public'}Client is undefined.`,
+          variant: 'destructive',
+        })
+        return
+      }
 
-    dismiss = toast({
-      duration: 120_000, // 2 minutes
-      title: 'Claim transaction submitted',
-      description: 'Waiting until confirmed on the blockchain...',
-      action: (
-        <ToastAction
-          altText="View on explorer"
-          onClick={() => {
-            window.open(
-              `${chain.blockExplorers.default.url}/tx/${transactionHash}`,
-              '_blank'
+      const transactionRequest = await publicClient
+        .simulateContract({
+          account: walletClient.account,
+          abi: XnodeUnitEntitlementContract.abi,
+          address: XnodeUnitEntitlementContract.address,
+          functionName: 'activate',
+          args: [selectedNft as bigint],
+        })
+        .catch((err) => {
+          console.error(err)
+          if (err instanceof BaseError) {
+            let errorName = err.shortMessage ?? 'Simulation failed.'
+            const revertError = err.walk(
+              (err) => err instanceof ContractFunctionRevertedError
             )
-          }}
-        >
-          View on explorer
-        </ToastAction>
-      ),
-    }).dismiss()
+            if (revertError instanceof ContractFunctionRevertedError) {
+              errorName += ` -> ${revertError.data?.errorName}` ?? ''
+            }
+            return errorName
+          }
+          return 'Simulation failed.'
+        })
 
-    const receipt = await publicClient.waitForTransactionReceipt({
-      hash: transactionHash,
-    })
+      if (typeof transactionRequest === 'string') {
+        dismiss()
+        dismiss = toast({
+          title: 'Transaction failed',
+          description: 'Please sign the transaction in your wallet...',
+        }).dismiss
+        return
+      }
 
-    // alert(`Success: ${receipt.transactionHash}`)
+      const transactionHash = await walletClient
+        .writeContract(transactionRequest.request)
+        .catch((err) => {
+          console.error(err)
+          return undefined
+        })
+      if (!transactionHash) {
+        dismiss()
+        dismiss = toast({
+          title: 'Transaction rejected',
+          description: transactionHash,
+        }).dismiss
+        return
+      }
 
-    setSuccessOpen(true)
+      dismiss = toast({
+        duration: 120_000, // 2 minutes
+        title: 'Activate transaction submitted',
+        description: 'Waiting until confirmed on the blockchain...',
+        action: (
+          <ToastAction
+            altText="View on explorer"
+            onClick={() => {
+              window.open(
+                `${chain.blockExplorers.default.url}/tx/${transactionHash}`,
+                '_blank'
+              )
+            }}
+          >
+            View on explorer
+          </ToastAction>
+        ),
+      }).dismiss
+
+      const receipt = await publicClient.waitForTransactionReceipt({
+        hash: transactionHash,
+      })
+
+      setSuccessOpen(true)
+    }
+
+    await submit().catch(console.error)
     setSubmitting(false)
   }
 
-  const getEtherscanUrl = (isXue: boolean, id: string) => {
-    let prefix = ""
-    if (chain.name === "Sepolia") {
-      prefix = "sepolia."
-    }
-
-    let contractAddress = ""
-    if (isXue) {
-      contractAddress = XnodeUnitEntitlementContract.address
-    } else {
-      contractAddress = XnodeUnitContract.address
-    }
-
-    return "https://" + prefix + "etherscan.io/nft/" + contractAddress + "/" + id
-  }
-
-
   const startCountdown = () => {
-
     setInterval(() => {
-      let newTime = ""
+      let newTime = ''
       const today = new Date()
-      const total = Date.parse("2024-06-14T22:30:00+10:00") - today.getTime();
-      const seconds = Math.floor((total / 1000) % 60);
-      const minutes = Math.floor(
-        (total / 1000 / 60) % 60
-      );
-      const hours = Math.floor(
-        (total / 1000 / 60 / 60) % 128
-      );
+      const total = Date.parse('2024-06-14T22:30:00+10:00') - today.getTime()
+      const seconds = Math.floor((total / 1000) % 60)
+      const minutes = Math.floor((total / 1000 / 60) % 60)
+      const hours = Math.floor((total / 1000 / 60 / 60) % 128)
 
-      let m = "" + minutes
+      let m = '' + minutes
       if (minutes < 10) {
-        m = "0" + m
+        m = '0' + m
       }
 
-      let s = "" + seconds
+      let s = '' + seconds
       if (seconds < 10) {
-        s = "0" + seconds
+        s = '0' + seconds
       }
 
-      newTime = hours + ":" + m + ":" + s
+      newTime = hours + ':' + m + ':' + s
 
       setTimeTillActivation(newTime)
-    }, 1000);
+    }, 1000)
   }
 
   useEffect(() => {
@@ -295,7 +271,7 @@ const Dashboard = () => {
   }, [account?.isConnected, setSubmitting])
 
   useEffect(() => {
-    startCountdown()   
+    startCountdown()
   }, [])
 
   const commonClasses =
@@ -310,18 +286,24 @@ const Dashboard = () => {
             <AlertDialogTitle>Warning!</AlertDialogTitle>
             <AlertDialogDescription>
               You are about to activate your Xnode.
-              <br/>
-              Doing this will trigger the 12 month countdown after which your VPS will no longer work.
-
-              <br/>
-              You can transfer your entitlement NFT as well as your Xnode NFT at any time.
-
-              <br/>
-              <br/>
-              <b>By activating your Xnode NFT you agree to our <a className="text-blue-500 underline" href=""> terms and conditions</a>.</b>
-
-              <br/>
-              <br/>
+              <br />
+              Doing this will trigger the 12 month countdown after which your
+              VPS will no longer work.
+              <br />
+              You can transfer your entitlement NFT as well as your Xnode NFT at
+              any time.
+              <br />
+              <br />
+              <b>
+                By activating your Xnode NFT you agree to our{' '}
+                <a className="text-blue-500 underline" href="">
+                  {' '}
+                  terms and conditions
+                </a>
+                .
+              </b>
+              <br />
+              <br />
               Are you sure you want to proceed?
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -338,17 +320,31 @@ const Dashboard = () => {
         <AlertDialogTrigger />
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{ timeTillActivation } Until Xnodes can be Activated </AlertDialogTitle>
+            <AlertDialogTitle>
+              {timeTillActivation} Until Xnodes can be Activated{' '}
+            </AlertDialogTitle>
             <AlertDialogDescription>
               <p>
-                Stay posted on our <a className="text-blue-500 underline" href="https://discord.gg/GsYFuwGp">discord</a> or <a className="text-blue-500 underline" href="https://x.com/OpenmeshNetwork">twitter</a>.
+                Stay posted on our{' '}
+                <a
+                  className="text-blue-500 underline"
+                  href="https://discord.com/invite/openmesh"
+                >
+                  discord
+                </a>{' '}
+                or{' '}
+                <a
+                  className="text-blue-500 underline"
+                  href="https://x.com/OpenmeshNetwork"
+                >
+                  twitter
+                </a>
+                .
               </p>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction>
-              Ok
-            </AlertDialogAction>
+            <AlertDialogAction>Ok</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -367,9 +363,7 @@ const Dashboard = () => {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             {/* <AlertDialogAction onClick={() => router.push(prefix + '/dashboard')}> */}
-            <AlertDialogAction>
-              Continue
-            </AlertDialogAction>
+            <AlertDialogAction>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -379,115 +373,157 @@ const Dashboard = () => {
           <h1 className="text-4xl font-semibold text-black">Dashboard</h1>
           <div className="my-12" />
 
-          {
-            (!account?.isConnected) ? (
-              <div>
-                <p> Connect your wallet to view available Xnodes and entitlements. </p>
-                <w3m-connect-button />
-              </div>
-            )
-            : (
-              <>
-                <w3m-button />
-              </>
-            )
-          }
+          {!account?.isConnected ? (
+            <div>
+              <p>
+                {' '}
+                Connect your wallet to view available Xnodes and entitlements.{' '}
+              </p>
+              <w3m-connect-button />
+            </div>
+          ) : (
+            <>
+              <w3m-button />
+            </>
+          )}
 
-          <div className="flex flex-rows justify-around">
-          {
-            // TODO: Add check with wallet connect here.
-            (xueNfts && account?.isConnected && xueNfts?.length > 0) && (
-              <div>
-                <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
-                  Wallet has {xueNfts.length}{' '}
-                  {xueNfts.length == 1 ? 'Xnode' : 'Xnodes'} available for
-                  activation.
-                </div>
+          <div className="flex-rows flex justify-around">
+            {
+              // TODO: Add check with wallet connect here.
+              xueNfts && account?.isConnected && xueNfts?.length > 0 && (
+                <div>
+                  <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
+                    Wallet has {xueNfts.length}{' '}
+                    {xueNfts.length == 1 ? 'Xnode' : 'Xnodes'} available for
+                    activation.
+                  </div>
 
-                <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
-                  {
-                    xueNfts.map((xueId, index) => (
-                      <li key={index} className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
+                  <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
+                    {xueNfts.map((xueId, index) => (
+                      <li
+                        key={index}
+                        className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
+                      >
                         {/* <p> Your id is: {node.toString()} </p> */}
 
-                      {/* <div> */}
-                      {/*   { node.toString() } */}
-                      {/* </div> */}
+                        {/* <div> */}
+                        {/*   { node.toString() } */}
+                        {/* </div> */}
 
                         <div>
                           <ul>
-                            <li> <b>Xnode Entitlement NFT</b> </li>
+                            <li>
+                              {' '}
+                              <b>Xnode Entitlement NFT</b>{' '}
+                            </li>
                             <li> 2 weeks GPU </li>
                             <li> 11.5 months CPU </li>
                           </ul>
                         </div>
 
-                        <div className="flex flex-col h-full w-fit items-center justify-center align-middle">
-                          <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                            onClick={ () => { setSelectedNft(xueId); tryActivateNFT() } }> 
-                            {
-                              xueId == selectedNft && submitting ? (
-                                "Activating..."
-                              ) : (
-                              "Activate Now"
-                              )
-                            }
+                        <div className="flex h-full w-fit flex-col items-center justify-center align-middle">
+                          <button
+                            className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                            onClick={() => {
+                              setSelectedNft(xueId)
+                              tryActivateNFT()
+                            }}
+                          >
+                            {xueId == selectedNft && submitting
+                              ? 'Activating...'
+                              : 'Activate Now'}
                           </button>
 
-                          <p className="mt-5"> <a className="text-blue-500 underline" href={
-                              getEtherscanUrl(true, xueId.toString())
-                            }> View on etherscan  </a> </p>
+                          <p className="mt-5">
+                            {' '}
+                            <a
+                              className="text-blue-500 underline"
+                              href={`${chain.blockExplorers.default.url}/nft/${XnodeUnitEntitlementContract.address}/${xueId.toString()}`}
+                              target="_blank"
+                            >
+                              {' '}
+                              View on etherscan{' '}
+                            </a>{' '}
+                          </p>
                         </div>
-
                       </li>
-                    ))
-                  }
-                </ul>
-              </div>
-            )
-          }
+                    ))}
+                  </ul>
+                </div>
+              )
+            }
 
-          {
-            (xuNfts && account?.isConnected && xuNfts?.length > 0) && (
+            {xuNfts && account?.isConnected && xuNfts?.length > 0 && (
               <div>
                 <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
-                  Wallet has {xuNfts.length} active { xuNfts.length == 1 ? "Xnode" : "Xnodes" } waiting to be configured.
+                  Wallet has {xuNfts.length} active{' '}
+                  {xuNfts.length == 1 ? 'Xnode' : 'Xnodes'} waiting to be
+                  configured.
                 </div>
 
                 <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
-                  {
-                    xuNfts.map((xuId, index) => (
-                      <li key={index} className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
-                        <div>
-                          <ul>
-                            <li> <b> Xnode </b> </li>
-                            <li> 2 weeks GPU </li>
-                            <li> 11.5 months CPU </li>
-                          </ul>
-                        </div>
+                  {xuNfts.map((xuId, index) => (
+                    <li
+                      key={index}
+                      className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
+                    >
+                      <div>
+                        <ul>
+                          <li>
+                            {' '}
+                            <b> Xnode </b>{' '}
+                          </li>
+                          <li> 2 weeks GPU </li>
+                          <li> 11.5 months CPU </li>
+                        </ul>
+                      </div>
 
-                        <div className="flex flex-col h-full w-fit items-center justify-center">
-                          <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                            onClick={ () => push((process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`) + 'templates?nftId=' + xuId.toString()) }> 
+                      <div className="flex h-full w-fit flex-col items-center justify-center">
+                        <button
+                          className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                          onClick={() =>
+                            push(
+                              (process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
+                                ? `/xnode/`
+                                : `/`) +
+                                'templates?nftId=' +
+                                xuId.toString()
+                            )
+                          }
+                        >
+                          Deploy
+                        </button>
 
-                            Deploy
-                          </button>
-
-                          <p className="mt-5"> <a className="text-blue-500 underline" href={
-                            // XXX: Change this to eth, not sepolia!
-                            getEtherscanUrl(false, xuId.toString())
-                            }> View on etherscan  </a> </p>
-                        </div>
-                      </li>
-                    ))
-                  }
+                        <p className="mt-5">
+                          {' '}
+                          <a
+                            className="text-blue-500 underline"
+                            href={`${chain.blockExplorers.default.url}/nft/${XnodeUnitContract.address}/${xuId.toString()}`}
+                            target="_blank"
+                          >
+                            {' '}
+                            View on etherscan{' '}
+                          </a>{' '}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
-            )
-          }
-
+            )}
           </div>
-          <p> View configured nodes on <a className="text-blue-500 underline" href={prefix + '/deployments'}> Deployments tab </a>. </p>
+          <p>
+            {' '}
+            View configured nodes on{' '}
+            <a
+              className="text-blue-500 underline"
+              href={prefix + '/deployments'}
+            >
+              {' '}
+              Deployments tab{' '}
+            </a>
+            .{' '}
+          </p>
         </section>
       </div>
     </>
