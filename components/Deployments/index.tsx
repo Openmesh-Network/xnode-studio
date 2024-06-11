@@ -71,7 +71,7 @@ const Deployments = () => {
 
   useEffect(() => {
     getData()
-  }, [user?.sessionToken])
+  }, [ user?.sessionToken, user ])
 
   return (
     <>
@@ -80,7 +80,7 @@ const Deployments = () => {
           <h1 className="text-4xl font-semibold text-black">Deployments</h1>
           <div className="my-12" />
 
-          {!user && !isLoading && <Signup />}
+          {!user && <Signup />}
 
           {xnodesData ? (
             <div className="border-1 border-solid/20 border-black">
@@ -91,15 +91,16 @@ const Deployments = () => {
                       <ul>
                         <li>
                           {' '}
-                          <b> {node.provider} </b>{' '}
-                        </li>
-                        <li>
-                          {' '}
                           <b> {node.nftId} </b>{' '}
                         </li>
 
                         <li> {node.name} </li>
                         <li> {node.description} </li>
+
+                        <li>
+                          {' '}
+                          <b> {node.provider} </b>{' '}
+                        </li>
                       </ul>
                     </div>
 
@@ -111,14 +112,14 @@ const Deployments = () => {
                       </ul>
                     </div>
 
-                    <div className="align-center flex h-full justify-center">
-                      <button
-                        className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                        onClick={() => push(prefix + '/xnode?uuid=' + node.id)}
-                      >
-                        Manage
-                      </button>
-                    </div>
+                    {/* <div className="align-center flex h-full justify-center"> */}
+                    {/*   <button */}
+                    {/*     className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" */}
+                    {/*     onClick={() => push(prefix + '/xnode?uuid=' + node.id)} */}
+                    {/*   > */}
+                    {/*     Manage */}
+                    {/*   </button> */}
+                    {/* </div> */}
                   </li>
                 ))}
               </ul>
