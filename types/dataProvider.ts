@@ -106,12 +106,7 @@ export type DeploymentTemplate = {
   description: string
   tags?: string[]
   minSpecs?: Specs
-  services?: {
-    name: string
-    description?: string
-    tags?: string[]
-    nixName?: string
-  }[]
+  services?: ServiceData[]
   custom?: boolean
 }
 
