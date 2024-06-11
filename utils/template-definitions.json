@@ -10,13 +10,14 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying Ollama + Open-webui, an AI platform with a web-based user interface for easy access and interaction. This template sets up advanced AI capabilities with ease. Find documentation and guides at https://ollama.ai/docs.",
+        "desc": "With this template, you can easily deploy Ollama + Open-webui, an advanced AI platform with a web-based user interface. This setup allows you to access and interact with powerful AI capabilities directly from your web browser, effortlessly manage and configure AI tools without needing deep technical knowledge, and utilize comprehensive documentation and guides available at ollama.ai/docs to get the most out of the platform. This template streamlines the process, making it simple for you to leverage cutting-edge AI technology for your projects.",
         "serviceNames": [
             "ollama",
             "open-webui"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "1",
@@ -30,12 +31,13 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying CodeServer, enabling you to run a VS Code instance on any machine and access it through a web-based interface. Perfect for remote development and collaborative coding sessions. Learn more at https://github.com/cdr/code-server.",
+        "desc": "Template for deploying OpenVS CodeServer,With CodeServer, you can effortlessly deploy a VS Code instance on any machine, enabling access through a web-based interface. This setup is ideal for remote development and collaborative coding sessions, allowing you to code from anywhere and share your workspace with others in real-time. Whether you're working on a personal project, collaborating with a team, or accessing your development environment on the go, OpenVSCodeServer makes it simple and efficient. ",
         "serviceNames": [
             "openvscode-server"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "2",
@@ -48,12 +50,13 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying Iroh, an IPFS node implementation. This template sets up a decentralized storage solution for storing and retrieving files securely and efficiently. Check out Iroh's documentation at https://github.com/iroh/iroh.",
+        "desc": "Template for deploying Iroh, Deploying Iroh sets up an IPFS node implementation, providing a decentralized storage solution for securely and efficiently storing and retrieving files. With Iroh, users can harness the power of the InterPlanetary File System (IPFS) to store files in a distributed network, ensuring redundancy and availability. Users can upload files to Iroh's IPFS node, generating content-based addresses for easy retrieval. Additionally, Iroh enables users to interact with the IPFS network, facilitating data sharing and collaboration across a decentralized ecosystem. Explore Iroh's documentation at https://github.com/iroh/iroh to learn more about setting up and leveraging this powerful decentralized storage solution..",
         "serviceNames": [
             "iroh"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "3",
@@ -67,12 +70,13 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying Jupyter Notebook, providing an interactive computing environment for data analysis, visualization, and machine learning. Write and execute code in Python and other languages. Learn more at https://jupyter.org.",
+        "desc": "Template for deploying Jupyter Notebook, Deploying Jupyter Notebook sets up an interactive computing environment that empowers users to conduct data analysis, visualization, and machine learning seamlessly. With Jupyter Notebook, users can write and execute code in Python and other languages, fostering a versatile workspace for exploring datasets, experimenting with algorithms, and building predictive models. Users can leverage Jupyter's rich ecosystem of libraries and tools to analyze data, create visualizations, and collaborate with colleagues. Additionally, Jupyter Notebook supports markdown, allowing users to document their analyses, share insights, and communicate findings effectively. Explore the possibilities of interactive computing with Jupyter Notebook at https://jupyter.org.",
         "serviceNames": [
             "jupyter"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "4",
@@ -85,12 +89,13 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying Metabase, a simple and powerful analytics tool that lets anyone in your company ask questions and learn from data. Get started with Metabase at https://www.metabase.com.",
+        "desc": "Template for deploying Metabase, Deploying Metabase provides you, as a single user, with a powerful analytics tool, allowing you to ask questions, analyze data, and gain insights efficiently. With Metabase, you can explore your data through intuitive queries, create visualizations to understand trends, and derive valuable insights to drive informed decision-making. Experience the capabilities of Metabase by deploying it today",
         "serviceNames": [
             "metabase"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "5",
@@ -103,12 +108,13 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying ArchiveBox, an open-source self-hosted web archiving tool used to create snapshots of web pages and websites. Preserve online content for future reference. Learn more at https://archivebox.io.",
+        "desc": "Template for deploying ArchiveBox, you gain the ability to create snapshots of web pages and entire websites, effectively preserving online content for future reference. With ArchiveBox, you can organize and store valuable information from the web, ensuring it remains accessible even if the original content is altered or removed. Users can customize archiving settings to specify the depth and frequency of snapshots, tailoring the archiving process to their specific needs. Additionally, ArchiveBox offers robust search and indexing features, allowing users to quickly locate archived content when needed. Whether you're archiving research materials, blog posts, or online documentation, ArchiveBox provides a reliable solution for preserving and accessing online content over time. Experience the convenience and reliability of web archiving with ArchiveBox today.",
         "serviceNames": [
             "archivebox"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "6",
@@ -126,7 +132,8 @@
             "wordpress"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "7",
@@ -144,16 +151,17 @@
             "go-ethereum"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "8",
         "logo": "https://moralis.io/wp-content/uploads/web3wiki/49-lighthouse/637b9296c78e5825c0b80dec_ErubQ-vV0f3AnHXh9rz46CCorSCGf5nji_VzxmBX_8w.png",
         "name": "Lighthouse",
-        "category": "Web Development",
+        "category": "Blockchain",
         "tags": [
-            "Performance",
-            "SEO",
+            "Ethereum",
+            "Blockchain",
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
@@ -162,7 +170,8 @@
             "lighthouse"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "9",
@@ -180,7 +189,8 @@
             "minecraft-server"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "10",
@@ -198,7 +208,8 @@
             "grafana"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "11",
@@ -216,7 +227,8 @@
             "prometheus"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "12",
@@ -234,7 +246,8 @@
             "static-web-server"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "13",
@@ -252,7 +265,8 @@
             "lidarr"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "14",
