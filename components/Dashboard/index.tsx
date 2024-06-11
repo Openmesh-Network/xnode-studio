@@ -9,7 +9,7 @@ import { chain } from '@/utils/chain'
 import { prefix } from '@/utils/prefix'
 import { useUser } from 'hooks/useUser'
 import { getXueNfts, useXuNfts } from 'utils/nft'
-import { BaseError, ContractFunctionRevertedError } from 'viem'
+import { Address, BaseError, ContractFunctionRevertedError } from 'viem'
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
 
 import {
@@ -56,11 +56,14 @@ const Dashboard = () => {
 
   const tryActivateNFT = () => {
     // We check if the user is whitelisted since we don't want users to activate machines that can't be deployed yet.
-    const whitelist = ['0xc2859E9e0B92bf70075Cd47193fe9E59f857dFA5']
+    const whitelist: Address[] = [
+      '0xc2859E9e0B92bf70075Cd47193fe9E59f857dFA5',
+      '0x7703d5753C54852D4249F9784A3e8A6eeA08e1dD',
+    ]
 
     let isWhitelisted = false
     for (let i = 0; i < whitelist.length; i++) {
-      if (whitelist[i] == address) {
+      if (whitelist[i].toLowerCase() == address.toLowerCase()) {
         isWhitelisted = true
         break
       }
