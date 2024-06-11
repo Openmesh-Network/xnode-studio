@@ -63,6 +63,7 @@ const Dashboard = () => {
       '0xc2859E9e0B92bf70075Cd47193fe9E59f857dFA5',
       '0x99acBe5d487421cbd63bBa3673132E634a6b4720',
       '0x7703d5753C54852D4249F9784A3e8A6eeA08e1dD',
+      '0xaF7E68bCb2Fc7295492A00177f14F59B92814e70',
     ]
 
     let isWhitelisted = false
@@ -363,18 +364,18 @@ const Dashboard = () => {
       </AlertDialog>
 
       <AlertDialog open={successOpen} onOpenChange={setSuccessOpen}>
-        <div
-          className="fixed inset-0"
-          style={{ transform: `translate(-300%, -300%)` }}
-        >
-          <ReactConfetti
-            width={width * 3}
-            height={height * 3}
-            numberOfPieces={1000}
-          />
-        </div>
         <AlertDialogTrigger />
         <AlertDialogContent>
+          <div
+            className="fixed inset-0"
+            style={{ transform: `translate(-300%, -300%)` }}
+          >
+            <ReactConfetti
+              width={width * 3}
+              height={height * 3}
+              numberOfPieces={1000}
+            />
+          </div>
           <AlertDialogHeader>
             <AlertDialogTitle>Congratulations!</AlertDialogTitle>
             <AlertDialogDescription>
