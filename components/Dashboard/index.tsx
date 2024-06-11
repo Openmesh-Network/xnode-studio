@@ -74,6 +74,37 @@ const Dashboard = () => {
     }
   }
 
+  const findXueForAccount = async () => {
+    let nfts = await getXueNfts(account).catch(console.error)
+    if (nfts) {
+      // Only update XueNfts if the nfts don't match. Don't want to trigger pointless updates.
+
+      let doUpdate = false
+      if (!xueNfts) {
+        doUpdate = true
+      } else if (xueNfts.length != nfts.length) {
+        doUpdate = true
+      } else {
+        for (let i = 0; i < xueNfts.length; i++) {
+          if (xueNfts[i] != nfts[i]) {
+            doUpdate = true
+            break
+          }
+        }
+      }
+
+      if (doUpdate) {
+        setXueNfts(nfts)
+      }
+
+      console.log('Found NFT array for current wallet address:')
+      console.log(nfts)
+    } else {
+      console.log('Failed to get NFTS.')
+      console.log(nfts)
+    }
+  }
+
   const activateNFT = async () => {
     if (submitting) {
       toast({
@@ -181,7 +212,11 @@ const Dashboard = () => {
         hash: transactionHash,
       })
 
+      dismiss()
       setSuccessOpen(true)
+
+      await findXueForAccount()
+      await refetchXuNFTs()
     }
 
     await submit().catch(console.error)
@@ -224,37 +259,6 @@ const Dashboard = () => {
       console.error('No address on account!')
       setXueNfts([])
     } else {
-      const findXueForAccount = async () => {
-        let nfts = await getXueNfts(account).catch(console.error)
-        if (nfts) {
-          // Only update XueNfts if the nfts don't match. Don't want to trigger pointless updates.
-
-          let doUpdate = false
-          if (!xueNfts) {
-            doUpdate = true
-          } else if (xueNfts.length != nfts.length) {
-            doUpdate = true
-          } else {
-            for (let i = 0; i < xueNfts.length; i++) {
-              if (xueNfts[i] != nfts[i]) {
-                doUpdate = true
-                break
-              }
-            }
-          }
-
-          if (doUpdate) {
-            setXueNfts(nfts)
-          }
-
-          console.log('Found NFT array for current wallet address:')
-          console.log(nfts)
-        } else {
-          console.log('Failed to get NFTS.')
-          console.log(nfts)
-        }
-      }
-
       findXueForAccount()
       refetchXuNFTs()
     }
@@ -329,6 +333,7 @@ const Dashboard = () => {
                 <a
                   className="text-blue-500 underline"
                   href="https://discord.com/invite/openmesh"
+                  target="_blank"
                 >
                   discord
                 </a>{' '}
@@ -336,6 +341,7 @@ const Dashboard = () => {
                 <a
                   className="text-blue-500 underline"
                   href="https://x.com/OpenmeshNetwork"
+                  target="_blank"
                 >
                   twitter
                 </a>
