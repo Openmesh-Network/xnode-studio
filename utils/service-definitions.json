@@ -14124,7 +14124,7 @@
                 "nixName": "package",
                 "desc": "The minecraft-server package to use.",
                 "name": "nixos/modules/services/games/minecraft-server.nix",
-                "type": "string",
+                "type": "int",
                 "value": "pkgs.minecraft-server"
             },
             {

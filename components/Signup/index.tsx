@@ -129,42 +129,30 @@ const Signup = () => {
     }
   }
 
-  useEffect(() => {
-    // XXX: This is a stub, to remove ugly UI for video demo.
-    if (user) {
-      setIndexerDeployerStep(indexerDeployerStep + 1)
-    }
-  }, [ user ]);
-
 
   return (
-    <section id="home">
-      {/* <h1 className="text-4xl font-semibold text-black"> Sign in </h1> */}
-      <h1 className="text-center text-3xl font-medium">
-        Connect <span className="text-primary">your wallet</span>
-      </h1>
-
-      <p className="text-center">Connect your wallet to deploy</p>
-
-
-      <div className="mt-16"/>
-      {/* Two column layout */}
-
-      <div className="flex flex-row">
-        {
-          user ? (
-            <>
+    <>
+    <div className="flex flex-row">
+      {
+        user ? (
+          <>
+            <div>
               { /* XXX: Show some account info? Possibly make into component later. */ }
               <p> Logged in </p>
 
               { /* XXX: Add better sign out button. */ }
 
-              <p onClick={ () => { setUser(null) } }> Log out </p>
+              <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                onClick={ () => { setUser(null) }}
+              >
+                Log out
+              </button>
 
-            </>
-          )
-          : (
-            <>
+            </div>
+          </>
+        )
+        : (
+          <>
             <div className="w-1/2 border-r">
               <div className="mx-auto w-fit">
                 <h3 className="text-2xl font-semibold">
@@ -197,7 +185,7 @@ const Signup = () => {
                 <div className="flex-cols mt-5 flex w-fit text-xl font-medium">Not a web3 user?</div>
 
                 <Dialog>
-                  <DialogTrigger className=" mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> Openmesh Expert Login </DialogTrigger>
+                  <DialogTrigger className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> Openmesh Expert Login </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle>Log in</DialogTitle>
@@ -264,25 +252,23 @@ const Signup = () => {
                   </DialogContent>
                 </Dialog>
 
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href={`https://www.openmesh.network/oec/register`}
-                className="border-b-1 cursor-pointer text-[#3253FE]"
-              >
-                <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> 
-                  Register
-                </button>
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href={`https://www.openmesh.network/oec/register`}
+                  className="border-b-1 cursor-pointer text-[#3253FE]"
+                >
+                  <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> 
+                    Register
+                  </button>
                 </a>
               </div>
             </div>
-            </>
-          )
-        }
-
-
-      </div>
-    </section>
+          </>
+        )
+      }
+    </div>
+      </>
   )
 }
 

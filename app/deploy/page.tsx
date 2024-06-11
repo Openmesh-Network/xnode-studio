@@ -131,7 +131,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
           {indexerDeployerStep === 0 ? (
             <DeploymentProvider specs={templateData.minSpecs} />
           ) : null}
-          {indexerDeployerStep === 1 ? <Signup /> : null}
+          { indexerDeployerStep === 1 ? <Signup /> : null }
 
           { indexerDeployerStep === 2 ? (
             isUnit ? (

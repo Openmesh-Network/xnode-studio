@@ -43,8 +43,8 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
-import { ToastAction } from '../ui/toast'
 import { useToast } from '../ui/use-toast'
+import { ToastAction } from '../ui/toast'
 
 const codeRegex = new RegExp('^.{3}-.{3}-.{3}$')
 
@@ -205,11 +205,9 @@ const Claim = ({ chainId }: { chainId: number }) => {
           return undefined
         })
       if (!transactionHash) {
-        dismiss()
-        toast({
-          title: 'Claim failed',
-          description: 'Transaction rejected.',
-          variant: 'destructive',
+        dismiss = toast({
+          title: 'Transaction rejected',
+          description: '...',
         })
         return
       }

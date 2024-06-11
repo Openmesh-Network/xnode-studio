@@ -87,6 +87,9 @@ export const DeploymentProgress = ({ isUnit = false }) => {
               />
               <Button
                 className="h-12 w-full"
+                disabled={
+                  false
+                }
                 onClick={() => { 
                   isUnit ? (
                     // We skip the chose provider step because units have their specs automatically assigned.
@@ -268,7 +271,15 @@ export const DeploymentProgress = ({ isUnit = false }) => {
                 disabled={user === undefined}
                 variant={user !== undefined ? 'default' : 'outlinePrimary'}
                 className="h-12 w-full"
-                onClick={() => setIndexerDeployerStep(3)}
+                onClick={
+                  () => {
+                  if (isUnit) {
+                    setIndexerDeployerStep(3) 
+                  } else {
+                    alert("Coming soon...")
+                  }
+                }
+                }
               >
                 {
                   isUnit ? (
@@ -327,10 +338,18 @@ export const DeploymentProgress = ({ isUnit = false }) => {
               {indexerDeployerStep === 2 ? (
                 <div className="mt-4 flex flex-col items-center justify-center gap-4">
                   <Button
-                    disabled={user === undefined}
-                    variant={user !== undefined ? 'default' : 'outlinePrimary'}
+                    disabled={ user === undefing }
+                    variant={ user !== undefined ? 'default' : 'outlinePrimary'}
                     className="h-12 w-full"
-                    onClick={() => setIndexerDeployerStep(3)}
+                    onClick={ 
+                    () => {
+                      if (isUnit) {
+                        setIndexerDeployerStep(3) 
+                      } else {
+                        alert("Coming soon...")
+                      }
+                    }
+                    }
                   >
                     Create and Deploy
                   </Button>

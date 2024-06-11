@@ -57,7 +57,6 @@ const SidebarNav: React.FC<SidebarNav> = ({
             icon={Icons.DeploymentsIcon}
             label="Deployments"
             isMobile={isMobile}
-            tag="Soon"
           />
           <NavLink
             href="/resources"
