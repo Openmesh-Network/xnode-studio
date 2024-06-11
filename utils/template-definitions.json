@@ -284,7 +284,8 @@
             "bitmagnet"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "15",
@@ -302,7 +303,8 @@
             "ckan"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "17",
@@ -320,7 +322,8 @@
             "wallabag"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "18",
@@ -338,7 +341,8 @@
             "apache-airflow"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "19",
@@ -356,7 +360,8 @@
             "changedetection-io"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "20",
@@ -374,7 +379,8 @@
             "lidarr"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "21",
@@ -392,7 +398,8 @@
             "headphones"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "22",
@@ -410,7 +417,8 @@
             "pyload-ng"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "23",
@@ -428,7 +436,8 @@
             "sonarr"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "24",
@@ -446,7 +455,8 @@
             "radarr"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "25",
@@ -464,7 +474,8 @@
             "healthchecks"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "26",
@@ -482,7 +493,8 @@
             "syncthing"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "27",
@@ -500,7 +512,8 @@
             "wayback"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "28",
@@ -518,7 +531,8 @@
             "stalwart-mail"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "30",
@@ -536,7 +550,8 @@
             "lemmy-ui"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "31",
@@ -554,7 +569,8 @@
             "libreddit"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "32",
@@ -572,7 +588,8 @@
             "nitter"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "33",
@@ -590,7 +607,8 @@
             "pleroma"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "35",
@@ -608,7 +626,8 @@
             "janus-gateway"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "36",
@@ -626,7 +645,8 @@
             "baserow"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "37",
@@ -644,7 +664,8 @@
             "nextcloud-client"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "38",
@@ -662,7 +683,8 @@
             "samba4Full"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "39",
@@ -680,7 +702,8 @@
             "seafile-shared"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "40",
@@ -698,7 +721,8 @@
             "openafs"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "41",
@@ -716,7 +740,8 @@
             "netdata"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "42",
@@ -734,7 +759,8 @@
             "prometheus"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "43",
@@ -752,7 +778,8 @@
             "sensu-go-cli"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "44",
@@ -770,7 +797,8 @@
             "zabbix.web"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "45",
@@ -788,7 +816,8 @@
             "bitwarden"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "46",
@@ -806,7 +835,8 @@
             "passky-desktop"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "47",
@@ -824,7 +854,8 @@
             "vaultwarden-postgresql"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "48",
@@ -842,7 +873,8 @@
             "imgproxy"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "49",
@@ -860,7 +892,8 @@
             "iodine"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "50",
@@ -878,7 +911,8 @@
             "iodine"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "51",
@@ -896,7 +930,8 @@
             "privoxy"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "52",
@@ -914,7 +949,8 @@
             "sish"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "53",
@@ -932,7 +968,8 @@
             "squid"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "54",
@@ -950,7 +987,8 @@
             "tinyproxy"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "55",
@@ -968,7 +1006,8 @@
             "guacamole-server"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "56",
@@ -986,7 +1025,8 @@
             "meshcentral"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "57",
@@ -1004,7 +1044,8 @@
             "rustdesk"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "58",
@@ -1022,7 +1063,8 @@
             "shellhub-agent"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "59",
@@ -1040,7 +1082,8 @@
             "hound"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "60",
@@ -1058,7 +1101,8 @@
             "manticoresearch"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "61",
@@ -1076,7 +1120,8 @@
             "opensearch"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "62",
@@ -1094,7 +1139,8 @@
             "searxng"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "63",
@@ -1112,7 +1158,8 @@
             "typesense"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "64",
@@ -1130,7 +1177,8 @@
             "zincsearch"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "65",
@@ -1148,7 +1196,8 @@
             "dockstarter"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "66",
@@ -1166,7 +1215,8 @@
             "svix-server"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "67",
@@ -1184,7 +1234,8 @@
             "buildbot"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "68",
@@ -1202,7 +1253,8 @@
             "drone-oss"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "69",
@@ -1220,7 +1272,8 @@
             "gitlab"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "70",
@@ -1238,7 +1291,8 @@
             "gocd-server"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "71",
@@ -1256,7 +1310,8 @@
             "jenkins"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "72",
@@ -1274,7 +1329,8 @@
             "laminar"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "73",
@@ -1292,7 +1348,8 @@
             "werf"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "74",
@@ -1310,7 +1367,8 @@
             "woodpecker-cli"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "75",
@@ -1328,7 +1386,8 @@
             "openvscode-server"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "76",
@@ -1346,7 +1405,8 @@
             "rstudio-server"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "77",
@@ -1364,7 +1424,8 @@
             "wakapi"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "78",
@@ -1382,7 +1443,8 @@
             "pocketbase"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "81",
@@ -1400,7 +1462,8 @@
             "forgejo"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "82",
@@ -1418,7 +1481,8 @@
             "gerrit"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "83",
@@ -1436,7 +1500,8 @@
             "gitolite"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "84",
@@ -1454,7 +1519,8 @@
             "gogs"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "85",
@@ -1472,7 +1538,8 @@
             "klaus"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "86",
@@ -1490,6 +1557,7 @@
             "appflowy"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     }
 ]
