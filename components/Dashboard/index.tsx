@@ -240,10 +240,10 @@ const Dashboard = () => {
       const hours = Math.floor((total / 1000 / 60 / 60) % 24)
       const days = Math.floor((total / 1000 / 60 / 60 / 24) % 900)
 
-      newTime  =       days     + " day"      + (days     != 1 ? ("s") : ("")) 
-      newTime += " " + hours    + " hour"     + (hours    != 1 ? ("s") : (""))
-      newTime += " " + minutes  + " minute"   + (minutes  != 1 ? ("s") : (""))
-      newTime += " " + seconds  + " second"   + (seconds  != 1 ? ("s") : (""))
+      newTime = days + ' day' + (days != 1 ? 's' : '')
+      newTime += ' ' + hours + ' hour' + (hours != 1 ? 's' : '')
+      newTime += ' ' + minutes + ' minute' + (minutes != 1 ? 's' : '')
+      newTime += ' ' + seconds + ' second' + (seconds != 1 ? 's' : '')
 
       setTimeTillActivation(newTime)
     }, 1000)
@@ -326,33 +326,33 @@ const Dashboard = () => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Xnode Activation will be enabled in {' '}
+              Xnode Activation will be enabled in{' '}
             </AlertDialogTitle>
             <AlertDialogDescription>
               <center>
-              <p className="text-xl text-bold">{timeTillActivation} </p>
+                <p className="text-bold text-xl">{timeTillActivation} </p>
 
-              <br/>
+                <br />
 
-              <p>
-                Stay posted on our{' '}
-                <a
-                  className="text-blue-500 underline"
-                  href="https://discord.com/invite/openmesh"
-                  target="_blank"
-                >
-                  discord
-                </a>{' '}
-                or{' '}
-                <a
-                  className="text-blue-500 underline"
-                  href="https://x.com/OpenmeshNetwork"
-                  target="_blank"
-                >
-                  twitter
-                </a>
-                .
-              </p>
+                <p>
+                  Stay posted on our{' '}
+                  <a
+                    className="text-blue-500 underline"
+                    href="https://discord.com/invite/openmesh"
+                    target="_blank"
+                  >
+                    discord
+                  </a>{' '}
+                  or{' '}
+                  <a
+                    className="text-blue-500 underline"
+                    href="https://x.com/OpenmeshNetwork"
+                    target="_blank"
+                  >
+                    twitter
+                  </a>
+                  .
+                </p>
               </center>
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -364,10 +364,14 @@ const Dashboard = () => {
 
       <AlertDialog open={successOpen} onOpenChange={setSuccessOpen}>
         <div
-          className="fixed bottom-0 left-0 right-0 top-0"
-          style={{ transform: 'translate(-200%, -200%)' }}
+          className="fixed inset-0"
+          style={{ transform: `translate(-${width}, -${height})` }}
         >
-          <ReactConfetti width={width} height={height} />
+          <ReactConfetti
+            width={width * 2}
+            height={height * 2}
+            numberOfPieces={1000}
+          />
         </div>
         <AlertDialogTrigger />
         <AlertDialogContent>

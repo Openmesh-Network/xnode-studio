@@ -53,7 +53,7 @@ const codeRegex = new RegExp('^.{3}-.{3}-.{3}$')
 const Claim = ({ chainId }: { chainId: number }) => {
   const [code, setCode] = useState<string>('')
   const [invalidCode, setInvalidCode] = useState<string | undefined>(undefined)
-  const [successOpen, setSuccessOpen] = useState<boolean>(false)
+  const [successOpen, setSuccessOpen] = useState<boolean>(true)
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false)
   const { disconnect } = useDisconnect()
   const publicClient = usePublicClient({ chainId })
@@ -421,10 +421,14 @@ const Claim = ({ chainId }: { chainId: number }) => {
         <AlertDialogTrigger />
         <AlertDialogContent>
           <div
-            className="fixed bottom-0 left-0 right-0 top-0"
-            style={{ transform: 'translate(-200%, -200%)' }}
+            className="fixed inset-0"
+            style={{ transform: `translate(-${width}, -${height})` }}
           >
-            <ReactConfetti width={width} height={height} />
+            <ReactConfetti
+              width={width * 2}
+              height={height * 2}
+              numberOfPieces={1000}
+            />
           </div>
           <AlertDialogHeader>
             <AlertDialogTitle>Congratulations!</AlertDialogTitle>
