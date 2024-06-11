@@ -7,7 +7,9 @@ import { XnodeUnitContract } from '@/contracts/XnodeUnit'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { chain } from '@/utils/chain'
 import { prefix } from '@/utils/prefix'
+import { useWindowSize } from '@uidotdev/usehooks'
 import { useUser } from 'hooks/useUser'
+import ReactConfetti from 'react-confetti'
 import { getXueNfts, useXuNfts } from 'utils/nft'
 import { Address, BaseError, ContractFunctionRevertedError } from 'viem'
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
@@ -53,13 +55,14 @@ const Dashboard = () => {
 
   const { push } = useRouter()
   const { toast } = useToast()
+  const { width, height } = useWindowSize()
 
   const tryActivateNFT = () => {
     // We check if the user is whitelisted since we don't want users to activate machines that can't be deployed yet.
     const whitelist = [
       '0xc2859E9e0B92bf70075Cd47193fe9E59f857dFA5',
-      "0x99acBe5d487421cbd63bBa3673132E634a6b4720",
-      "0x7703d5753C54852D4249F9784A3e8A6eeA08e1dD",
+      '0x99acBe5d487421cbd63bBa3673132E634a6b4720',
+      '0x7703d5753C54852D4249F9784A3e8A6eeA08e1dD',
     ]
 
     let isWhitelisted = false
@@ -360,10 +363,16 @@ const Dashboard = () => {
       </AlertDialog>
 
       <AlertDialog open={successOpen} onOpenChange={setSuccessOpen}>
+        <div
+          className="fixed bottom-0 left-0 right-0 top-0"
+          style={{ transform: 'translate(-200%, -200%)' }}
+        >
+          <ReactConfetti width={width} height={height} />
+        </div>
         <AlertDialogTrigger />
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Success!</AlertDialogTitle>
+            <AlertDialogTitle>Congratulations!</AlertDialogTitle>
             <AlertDialogDescription>
               Your Xnode is now activated, but it&apos;s running no software.
               <br />
