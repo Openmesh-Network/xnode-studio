@@ -33,8 +33,10 @@ export async function getWeb3Login(address) {
   if (address) {
     // trying web3 login
     try {
+      console.log('Getting user nonce')
       let nonceUser = await getUserNonce(address)
       nonceUser = nonceUser || '0'
+      console.log('hasing object')
       const hash = hashObject(`${address}-${nonceUser}`)
       console.log('message to hash')
       console.log(hash)
@@ -53,6 +55,7 @@ export async function getWeb3Login(address) {
       })
       return res;
     } catch (err) {
+      console.error(err)
       throw err;
     }
   }

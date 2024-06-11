@@ -418,7 +418,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => router.push('/dashboard')}>
+            <AlertDialogAction onClick={() => router.push(prefix + '/dashboard')}>
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>

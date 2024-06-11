@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Node } from 'reactflow'
 import { z } from 'zod'
+import { useEffect } from 'react'
 
 import {
   ServiceFromName,
@@ -23,12 +24,14 @@ import { Section } from '@/components/ui/section'
 import ReviewYourBuild from '@/components/FinalBuild'
 import { Icons } from '@/components/Icons'
 import Signup from '@/components/Signup'
+import { mainnet, sepolia } from 'wagmi/chains'
 
 import DeploymentTemplatePage from './deployment-overview'
 import DeploymentProvider from './deployment-provider'
 import DeploymentProgress from './progress-sidebar'
 import NewIntegrationConn from '@/components/Signup/NewIntegrationConn'
 import { useDraft } from '@/hooks/useDraftDeploy'
+import Activate from '@/components/Units/Activate'
 
 type DeployPageProps = {
   searchParams: {
@@ -38,10 +41,12 @@ type DeployPageProps = {
   }
 }
 export default function DeployPage({ searchParams }: DeployPageProps) {
-  const { indexerDeployerStep } = useContext(AccountContext)
+  const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
   const [ draft, setDraft ] = useDraft()
 
   const tId = z.string().optional().parse(searchParams.tId)
+  const nftId = z.string().optional().parse(searchParams.nftId)
+  const isUnit = (nftId != "" && nftId != undefined)
 
   const workspace = z.coerce
     .boolean()
@@ -55,18 +60,18 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
         .map((service) => ServiceFromName(service))
         .filter(Boolean)
 
+      // let services = []
+      // for (let i = 0; i < template.serviceNames.length; i++) {
+      //   services.push(ServiceFromName(template.serviceNames[i]))
+      // }
+
       const specs = TemplateGetSpecs(template)
       return {
         name: template.name,
         description: template.desc,
         tags: template.tags,
         minSpecs: specs,
-        services: services?.map((service) => ({
-          name: service.name,
-          description: service.desc,
-          tags: service.tags,
-          nixName: service.nixName,
-        })),
+        services: services,
       } satisfies DeploymentTemplate
     }
     if (workspace) {
@@ -101,18 +106,44 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
     return null
   }, [tId, workspace])
 
+
+  useEffect(() => {
+    if (indexerDeployerStep == 2 && isUnit) {
+      setIndexerDeployerStep(3)
+    }
+  }, [indexerDeployerStep, setIndexerDeployerStep])
+
   return (
     <div className="flex h-full">
       {templateData ? (
         <Section className="my-20 flex-1">
           {indexerDeployerStep === -1 ? (
-            <DeploymentTemplatePage {...templateData} />
+            <DeploymentTemplatePage 
+              isUnit={isUnit} 
+              custom={templateData.custom}
+              name={templateData.name}
+              tags={templateData.tags}
+              description={templateData.description}
+              minSpecs={templateData.minSpecs}
+              services={templateData.services}
+            />
           ) : null}
           {indexerDeployerStep === 0 ? (
             <DeploymentProvider specs={templateData.minSpecs} />
           ) : null}
           {indexerDeployerStep === 1 ? <Signup /> : null}
-          {indexerDeployerStep === 2 ? <NewIntegrationConn /> : null}
+
+          { indexerDeployerStep === 2 ? (
+            isUnit ? (
+              <>
+                </>
+            ) : (
+              <div>
+                <NewIntegrationConn />
+              </div>
+            )
+          ) : ( null )}
+
           {indexerDeployerStep === 3 ? <ReviewYourBuild /> : null}
         </Section>
       ) : (
@@ -146,7 +177,8 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
           </Dialog>
         </>
       )}
-      <DeploymentProgress />
+
+      <DeploymentProgress isUnit={ isUnit } />
     </div>
   )
 }

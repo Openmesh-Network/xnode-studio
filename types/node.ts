@@ -14,6 +14,7 @@ export type Xnode = {
   openmeshExpertUserId: string
   provider: string
   isUnit: boolean
+  nftId: string
   location: string
   createdAt: string
   updatedAt: string

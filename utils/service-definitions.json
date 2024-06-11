@@ -14107,7 +14107,7 @@
     },
     {
         "name": "Minecraft Server",
-        "desc": "Host Minecraft Server with this",
+        "desc": "Host Minecraft Server with this.",
         "tags": [
             "Web Servers"
         ],
@@ -14121,65 +14121,65 @@
         "nixName": "minecraft-server",
         "options": [
             {
-                "name": "services.minecraft-server.package",
+                "nixName": "package",
                 "desc": "The minecraft-server package to use.",
-                "nixName": "nixos/modules/services/games/minecraft-server.nix",
+                "name": "nixos/modules/services/games/minecraft-server.nix",
                 "type": "string",
                 "value": "pkgs.minecraft-server"
             },
             {
-                "name": "services.minecraft-server.whitelist",
-                "desc": "Whitelisted players, only has an effect when services.minecraft-server.declarative istrue and the whitelist is enabled via services.minecraft-server.serverProperties bysetting white-list to true. This is a mappingfrom Minecraft usernames to UUIDs. You can use https://mcuuid.net/ to get a MinecraftUUID for a username.",
-                "nixName": "nixos/modules/services/games/minecraft-server.nix",
+                "nixName": "whitelist",
+                "desc": "Whitelisted players, only has an effect when declarative istrue and the whitelist is enabled via services.minecraft-server.serverProperties bysetting white-list to true. This is a mappingfrom Minecraft usernames to UUIDs. You can use https://mcuuid.net/ to get a MinecraftUUID for a username.",
+                "name": "nixos/modules/services/games/minecraft-server.nix",
                 "type": "string",
                 "value": "{ }"
             },
             {
-                "name": "services.minecraft-server.serverProperties",
-                "desc": "Minecraft server properties for the server.properties file. Only hasan effect when services.minecraft-server.declarative is set totrue. See https://minecraft.gamepedia.com/Server.properties#Java_Edition_3for documentation on these values.",
-                "nixName": "nixos/modules/services/games/minecraft-server.nix",
+                "nixName": "serverProperties",
+                "desc": "Minecraft server properties for the server.properties file. Only hasan effect when declarative is set totrue. See https://minecraft.gamepedia.com/Server.properties#Java_Edition_3for documentation on these values.",
+                "name": "nixos/modules/services/games/minecraft-server.nix",
                 "type": "string",
                 "value": "{ }"
             },
             {
-                "name": "services.minecraft-server.openFirewall",
+                "nixName": "openFirewall",
                 "desc": "Whether to open ports in the firewall for the server.",
-                "nixName": "nixos/modules/services/games/minecraft-server.nix",
+                "name": "nixos/modules/services/games/minecraft-server.nix",
                 "type": "boolean",
-                "value": "false"
+                "value": "true"
             },
             {
-                "name": "services.minecraft-server.jvmOpts",
+                "nixName": "jvmOpts",
                 "desc": "JVM options for the Minecraft server.",
-                "nixName": "nixos/modules/services/games/minecraft-server.nix",
+                "name": "nixos/modules/services/games/minecraft-server.nix",
                 "type": "string",
                 "value": "-Xmx2048M -Xms2048M"
             },
             {
-                "name": "services.minecraft-server.eula",
+                "nixName": "eula",
                 "desc": "Whether you agree to  MojangsEULA. This option must be set to true to run Minecraftserver.",
-                "nixName": "nixos/modules/services/games/minecraft-server.nix",
+                "name": "nixos/modules/services/games/minecraft-server.nix",
+                "type": "boolean",
+                "value": "true"
+            },
+            {
+                "nixName": "enable",
+                "desc": "If enabled, start a Minecraft Server. The server data will be loadedfrom and saved to dataDir.",
+                "name": "nixos/modules/services/games/minecraft-server.nix",
+                "type": "boolean",
+                "value": "true"
+            },
+            {
+                "nixName": "declarative",
+                "desc": "Whether to use a declarative Minecraft server configuration. Only ifset to true, the options whitelist and services.minecraft-server.serverProperties will beapplied.",
+                "name": "nixos/modules/services/games/minecraft-server.nix",
                 "type": "boolean",
                 "value": "false"
             },
             {
-                "name": "services.minecraft-server.enable",
-                "desc": "If enabled, start a Minecraft Server. The server data will be loadedfrom and saved to services.minecraft-server.dataDir.",
-                "nixName": "nixos/modules/services/games/minecraft-server.nix",
-                "type": "boolean",
-                "value": "false"
-            },
-            {
-                "name": "services.minecraft-server.declarative",
-                "desc": "Whether to use a declarative Minecraft server configuration. Only ifset to true, the options services.minecraft-server.whitelist and services.minecraft-server.serverProperties will beapplied.",
-                "nixName": "nixos/modules/services/games/minecraft-server.nix",
-                "type": "boolean",
-                "value": "false"
-            },
-            {
-                "name": "services.minecraft-server.dataDir",
+                "nixName": "dataDir",
                 "desc": "Directory to store Minecraft database and other state/data files.",
-                "nixName": "nixos/modules/services/games/minecraft-server.nix",
+                "name": "nixos/modules/services/games/minecraft-server.nix",
                 "type": "string",
                 "value": "/var/lib/minecraft"
             }

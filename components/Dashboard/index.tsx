@@ -19,16 +19,83 @@ import { useAccount } from 'wagmi'
 
 import { Xnode } from '../../types/node'
 
+import { useXuNfts } from 'utils/nft'
+import { BaseError, ContractFunctionRevertedError } from 'viem'
+import { useWalletClient, usePublicClient } from 'wagmi'
+import { XnodeUnitContract } from '@/contracts/XnodeUnit'
+
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
   const [xueNfts, setXueNfts] = useState<BigInt[]>(undefined)
+  const account = useAccount()
+  const { address, isConnecting, isDisconnected, isConnected } = account
+
+  const { 
+    data : xuNfts,
+    refetch: refetchXuNFTs,
+  } = useXuNfts(address)
+
+  const publicClient = usePublicClient()
+  const { data: walletClient } = useWalletClient()
 
   const [user] = useUser()
 
-  const account = useAccount()
-
   const { push } = useRouter()
+
+  const activateNFT = async (selectedNft: BigInt) => {
+    if (!selectedNft) {
+      alert('No NFT selected.')
+      return
+    }
+    if (!walletClient) {
+      alert('WalletClient undefined.')
+      return
+    }
+
+    const transactionRequest = await publicClient
+    .simulateContract({
+      account: walletClient.account,
+      abi: XnodeUnitEntitlementContract.abi,
+      address: XnodeUnitEntitlementContract.address,
+      functionName: 'activate',
+      args: [selectedNft as bigint],
+    })
+    .catch((err) => {
+      console.error(err)
+      if (err instanceof BaseError) {
+        let errorName = err.shortMessage ?? 'Simulation failed.'
+        const revertError = err.walk(
+          (err) => err instanceof ContractFunctionRevertedError
+        )
+        if (revertError instanceof ContractFunctionRevertedError) {
+          errorName += ` -> ${revertError.data?.errorName}` ?? ''
+        }
+        return errorName
+      }
+      return 'Simulation failed.'
+    })
+    if (typeof transactionRequest === 'string') {
+      alert(transactionRequest)
+      return
+    }
+    const transactionHash = await walletClient
+    .writeContract(transactionRequest.request)
+    .catch((err) => {
+      console.error(err)
+      return undefined
+    })
+    if (!transactionHash) {
+      alert('Transaction rejected.')
+      return
+    }
+
+    const receipt = await publicClient.waitForTransactionReceipt({
+      hash: transactionHash,
+    })
+
+    alert(`Success: ${receipt.transactionHash}`)
+  }
 
   const getData = useCallback(async () => {
     setIsLoading(true)
@@ -56,8 +123,9 @@ const Dashboard = () => {
         )
       }
     }
+
     setIsLoading(false)
-  }, [])
+  }, [user?.sessionToken, user, account?.isConnected ])
 
   useEffect(() => {
     // XXX: User isn't logged in!
@@ -102,6 +170,7 @@ const Dashboard = () => {
       }
 
       findXueForAccount()
+      refetchXuNFTs()
     }
 
     if (!user) {
@@ -122,26 +191,6 @@ const Dashboard = () => {
     getData()
   }, [])
 
-  // if (isLoading) {
-  //   return (
-  //     <section className="w-[700px] bg-white px-[20px] pb-[50px] pt-[46px] text-black md:w-[840px] lg:w-[980px] xl:w-[1120px] 2xl:w-[1400px]">
-  //       <div className="hidden h-60 animate-pulse px-0 pb-12 md:flex">
-  //         <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
-  //         <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
-  //       </div>
-  //       <div className="hidden h-60 animate-pulse px-0 pb-12 md:flex">
-  //         <div className="mr-10 w-3/4 animate-pulse bg-[#dfdfdf]"></div>
-  //         <div className="w-1/4 animate-pulse bg-[#dfdfdf]"></div>
-  //       </div>
-  //       <div className="h-60 animate-pulse px-0 pb-12 md:hidden">
-  //         <div className="mt-[10px] h-10 w-full animate-pulse bg-[#dfdfdf]"></div>
-  //         <div className="mt-[10px] h-10 w-full animate-pulse bg-[#dfdfdf]"></div>
-  //         <div className="mt-[20px] h-32 w-full animate-pulse bg-[#dfdfdf]"></div>
-  //       </div>
-  //     </section>
-  //   )
-  // }
-
   return (
     <>
       <div className="m-20 flex-1">
@@ -149,21 +198,24 @@ const Dashboard = () => {
           <h1 className="text-4xl font-semibold text-black">Dashboard</h1>
           <div className="my-12" />
 
-          {!account?.isConnected ? (
-            <div>
-              <p> Connect your wallet to view available Xnodes. </p>
-              <w3m-connect-button />
-            </div>
-          ) : (
-            <>
-              <w3m-button />
-            </>
-          )}
+          {
+            (!account?.isConnected) ? (
+              <div>
+                <p> Connect your wallet to view available Xnodes and entitlements. </p>
+                <w3m-connect-button />
+              </div>
+            )
+            : (
+              <>
+                <w3m-button />
+              </>
+            )
+          }
 
+          <div className="flex flex-rows justify-around">
           {
             // TODO: Add check with wallet connect here.
-
-            xueNfts && account?.isConnected && (
+            (xueNfts && account?.isConnected) && (
               <div>
                 <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
                   Wallet has {xueNfts.length}{' '}
@@ -171,55 +223,84 @@ const Dashboard = () => {
                   activation.
                 </div>
 
-                <ul className="mt-4 flex max-h-[calc(100svh-5rem)] flex-col items-center gap-8 overflow-y-auto text-black">
-                  {xueNfts.map((node, index) => (
-                    <li
-                      key={index}
-                      className="flex w-fit items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
-                    >
-                      {/* <p> Your id is: {node.toString()} </p> */}
+                <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
+                  {
+                    xueNfts.map((xueId, index) => (
+                      <li key={index} className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
+                        {/* <p> Your id is: {node.toString()} </p> */}
 
                       {/* <div> */}
                       {/*   { node.toString() } */}
                       {/* </div> */}
 
-                      <div>
-                        <ul>
-                          <li> 8 vCPU </li>
-                          <li> 16GB RAM </li>
-                          <li> 320GB SSD </li>
-                          <li> 12 months </li>
-                        </ul>
-                      </div>
+                        <div>
+                          <ul>
+                            <li> <b>Xnode Entitlement NFT</b> </li>
+                            <li> 2 weeks GPU </li>
+                            <li> 11.5 months CPU </li>
+                          </ul>
+                        </div>
 
-                      <div className="my-auto flex h-full w-fit items-center justify-center align-middle">
-                        <button
-                          className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                          onClick={() =>
-                            push(prefix + 'templates?nftId=' + node.toString())
-                          }
-                        >
-                          Activate Now
-                        </button>
-                      </div>
+                        <div className="flex flex-col h-full w-fit items-center justify-center align-middle">
+                          <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                            onClick={ () => activateNFT(xueId) }> 
+                            Activate Now
+                          </button>
 
-                      <p>
-                        <a
-                          className="text-blue-500 underline"
-                          href={`${chain.blockExplorers.default.url}/nft/${XnodeUnitEntitlementContract.address}/${node}`}
-                          target="_blank"
-                        >
-                          View on etherscan
-                        </a>
-                      </p>
-                    </li>
-                  ))}
+                          <p className="mt-5"> <a className="text-blue-500 underline" href={
+                            "https://sepolia.etherscan.io/nft/" + XnodeUnitEntitlementContract.address + "/" + xueId.toString()
+                            }> View on etherscan  </a> </p>
+                        </div>
+
+                      </li>
+                    ))
+                  }
                 </ul>
               </div>
             )
           }
 
-          <div className="my-12" />
+          {
+            (xuNfts && account?.isConnected) && (
+              <div>
+                <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
+                  Wallet has {xuNfts.length} active { xuNfts.length == 1 ? "Xnode" : "Xnodes" }, with no configuration.
+                </div>
+
+                <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
+                  {
+                    xuNfts.map((xuId, index) => (
+                      <li key={index} className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
+                        <div>
+                          <ul>
+                            <li> <b> Xnode </b> </li>
+                            <li> 2 weeks GPU </li>
+                            <li> 11.5 months CPU </li>
+                          </ul>
+                        </div>
+
+                        <div className="flex flex-col h-full w-fit items-center justify-center">
+                          <button className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                            onClick={ () => push((process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD' ? `/xnode/` : `/`) + 'templates?nftId=' + xuId.toString()) }> 
+
+                            Deploy
+                          </button>
+
+                          <p className="mt-5"> <a className="text-blue-500 underline" href={
+                            // XXX: Change this to eth, not sepolia!
+                            "https://sepolia.etherscan.io/nft/" + XnodeUnitContract.address + "/" + xuId.toString()
+                            }> View on etherscan  </a> </p>
+                        </div>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+            )
+          }
+          </div>
+
+          <div className="my-12"/>
           <div className="text-[10px] font-bold text-[#313131] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px]">
             Deployments
           </div>
@@ -235,12 +316,10 @@ const Dashboard = () => {
                     {/*   { node.toString() } */}
                     {/* </div> */}
 
-                    <div>
-                      <ul>
-                        <li>
-                          {' '}
-                          <b> {node.provider} </b>{' '}
-                        </li>
+                        <div>
+                          <ul>
+                            <li> <b> { node.provider } </b> </li>
+                            <li> <b> { node.nftId } </b> </li>
 
                         <li> {node.name} </li>
                         <li> {node.description} </li>
