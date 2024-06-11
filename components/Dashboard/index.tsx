@@ -365,11 +365,11 @@ const Dashboard = () => {
       <AlertDialog open={successOpen} onOpenChange={setSuccessOpen}>
         <div
           className="fixed inset-0"
-          style={{ transform: `translate(-${width}, -${height})` }}
+          style={{ transform: `translate(-300%, -300%)` }}
         >
           <ReactConfetti
-            width={width * 2}
-            height={height * 2}
+            width={width * 3}
+            height={height * 3}
             numberOfPieces={1000}
           />
         </div>
