@@ -1,11 +1,10 @@
 'use client'
 
-import { useContext, useMemo } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Node } from 'reactflow'
 import { z } from 'zod'
-import { useEffect } from 'react'
 
 import {
   ServiceFromName,
@@ -13,6 +12,7 @@ import {
   TemplateGetSpecs,
   type DeploymentTemplate,
 } from '@/types/dataProvider'
+import { useDraft } from '@/hooks/useDraftDeploy'
 import {
   Dialog,
   DialogContent,
@@ -24,14 +24,12 @@ import { Section } from '@/components/ui/section'
 import ReviewYourBuild from '@/components/FinalBuild'
 import { Icons } from '@/components/Icons'
 import Signup from '@/components/Signup'
-import { mainnet, sepolia } from 'wagmi/chains'
+import NewIntegrationConn from '@/components/Signup/NewIntegrationConn'
+import Activate from '@/components/Units/Activate'
 
 import DeploymentTemplatePage from './deployment-overview'
 import DeploymentProvider from './deployment-provider'
 import DeploymentProgress from './progress-sidebar'
-import NewIntegrationConn from '@/components/Signup/NewIntegrationConn'
-import { useDraft } from '@/hooks/useDraftDeploy'
-import Activate from '@/components/Units/Activate'
 
 type DeployPageProps = {
   searchParams: {
@@ -41,12 +39,13 @@ type DeployPageProps = {
   }
 }
 export default function DeployPage({ searchParams }: DeployPageProps) {
-  const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
-  const [ draft, setDraft ] = useDraft()
+  const { indexerDeployerStep, setIndexerDeployerStep } =
+    useContext(AccountContext)
+  const [draft, setDraft] = useDraft()
 
   const tId = z.string().optional().parse(searchParams.tId)
   const nftId = z.string().optional().parse(searchParams.nftId)
-  const isUnit = (nftId != "" && nftId != undefined)
+  const isUnit = nftId != '' && nftId != undefined
 
   const workspace = z.coerce
     .boolean()
@@ -106,7 +105,6 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
     return null
   }, [tId, workspace])
 
-
   useEffect(() => {
     if (indexerDeployerStep == 2 && isUnit) {
       setIndexerDeployerStep(3)
@@ -118,8 +116,8 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
       {templateData ? (
         <Section className="my-20 flex-1">
           {indexerDeployerStep === -1 ? (
-            <DeploymentTemplatePage 
-              isUnit={isUnit} 
+            <DeploymentTemplatePage
+              isUnit={isUnit}
               custom={templateData.custom}
               name={templateData.name}
               tags={templateData.tags}
@@ -133,16 +131,15 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
           ) : null}
           {indexerDeployerStep === 1 ? <Signup /> : null}
 
-          { indexerDeployerStep === 2 ? (
+          {indexerDeployerStep === 2 ? (
             isUnit ? (
-              <>
-                </>
+              <></>
             ) : (
               <div>
                 <NewIntegrationConn />
               </div>
             )
-          ) : ( null )}
+          ) : null}
 
           {indexerDeployerStep === 3 ? <ReviewYourBuild /> : null}
         </Section>
@@ -178,7 +175,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
         </>
       )}
 
-      <DeploymentProgress isUnit={ isUnit } />
+      <DeploymentProgress isUnit={isUnit} />
     </div>
   )
 }
