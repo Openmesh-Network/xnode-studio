@@ -7,9 +7,11 @@ import { XnodeUnitContract } from '@/contracts/XnodeUnit'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { chain } from '@/utils/chain'
 import { prefix } from '@/utils/prefix'
+import { useWindowSize } from '@uidotdev/usehooks'
 import { useUser } from 'hooks/useUser'
+import ReactConfetti from 'react-confetti'
 import { getXueNfts, useXuNfts } from 'utils/nft'
-import { BaseError, ContractFunctionRevertedError } from 'viem'
+import { Address, BaseError, ContractFunctionRevertedError } from 'viem'
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
 
 import {
@@ -53,14 +55,19 @@ const Dashboard = () => {
 
   const { push } = useRouter()
   const { toast } = useToast()
+  const { width, height } = useWindowSize()
 
   const tryActivateNFT = () => {
     // We check if the user is whitelisted since we don't want users to activate machines that can't be deployed yet.
-    const whitelist = ['0xc2859E9e0B92bf70075Cd47193fe9E59f857dFA5']
+    const whitelist = [
+      '0xc2859E9e0B92bf70075Cd47193fe9E59f857dFA5',
+      '0x99acBe5d487421cbd63bBa3673132E634a6b4720',
+      '0x7703d5753C54852D4249F9784A3e8A6eeA08e1dD',
+    ]
 
     let isWhitelisted = false
     for (let i = 0; i < whitelist.length; i++) {
-      if (whitelist[i] == address) {
+      if (whitelist[i].toLowerCase() == address.toLowerCase()) {
         isWhitelisted = true
         break
       }
@@ -227,22 +234,16 @@ const Dashboard = () => {
     setInterval(() => {
       let newTime = ''
       const today = new Date()
-      const total = Date.parse('2024-06-14T22:30:00+10:00') - today.getTime()
+      const total = Date.parse('2024-06-19T22:30:00+10:00') - today.getTime()
       const seconds = Math.floor((total / 1000) % 60)
       const minutes = Math.floor((total / 1000 / 60) % 60)
-      const hours = Math.floor((total / 1000 / 60 / 60) % 128)
+      const hours = Math.floor((total / 1000 / 60 / 60) % 24)
+      const days = Math.floor((total / 1000 / 60 / 60 / 24) % 900)
 
-      let m = '' + minutes
-      if (minutes < 10) {
-        m = '0' + m
-      }
-
-      let s = '' + seconds
-      if (seconds < 10) {
-        s = '0' + seconds
-      }
-
-      newTime = hours + ':' + m + ':' + s
+      newTime = days + ' day' + (days != 1 ? 's' : '')
+      newTime += ' ' + hours + ' hour' + (hours != 1 ? 's' : '')
+      newTime += ' ' + minutes + ' minute' + (minutes != 1 ? 's' : '')
+      newTime += ' ' + seconds + ' second' + (seconds != 1 ? 's' : '')
 
       setTimeTillActivation(newTime)
     }, 1000)
@@ -272,7 +273,7 @@ const Dashboard = () => {
       // getData()
       // alert('User has a cookie.')
     }
-  }, [account?.isConnected, setSubmitting])
+  }, [account?.isConnected, setSuccessOpen, submitting, setSubmitting])
 
   useEffect(() => {
     startCountdown()
@@ -325,28 +326,34 @@ const Dashboard = () => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {timeTillActivation} Until Xnodes can be Activated{' '}
+              Xnode Activation will be enabled in{' '}
             </AlertDialogTitle>
             <AlertDialogDescription>
-              <p>
-                Stay posted on our{' '}
-                <a
-                  className="text-blue-500 underline"
-                  href="https://discord.com/invite/openmesh"
-                  target="_blank"
-                >
-                  discord
-                </a>{' '}
-                or{' '}
-                <a
-                  className="text-blue-500 underline"
-                  href="https://x.com/OpenmeshNetwork"
-                  target="_blank"
-                >
-                  twitter
-                </a>
-                .
-              </p>
+              <center>
+                <p className="text-bold text-xl">{timeTillActivation} </p>
+
+                <br />
+
+                <p>
+                  Stay posted on our{' '}
+                  <a
+                    className="text-blue-500 underline"
+                    href="https://discord.com/invite/openmesh"
+                    target="_blank"
+                  >
+                    discord
+                  </a>{' '}
+                  or{' '}
+                  <a
+                    className="text-blue-500 underline"
+                    href="https://x.com/OpenmeshNetwork"
+                    target="_blank"
+                  >
+                    twitter
+                  </a>
+                  .
+                </p>
+              </center>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -356,10 +363,20 @@ const Dashboard = () => {
       </AlertDialog>
 
       <AlertDialog open={successOpen} onOpenChange={setSuccessOpen}>
+        <div
+          className="fixed inset-0"
+          style={{ transform: `translate(-300%, -300%)` }}
+        >
+          <ReactConfetti
+            width={width * 3}
+            height={height * 3}
+            numberOfPieces={1000}
+          />
+        </div>
         <AlertDialogTrigger />
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Success!</AlertDialogTitle>
+            <AlertDialogTitle>Congratulations!</AlertDialogTitle>
             <AlertDialogDescription>
               Your Xnode is now activated, but it&apos;s running no software.
               <br />
@@ -410,12 +427,6 @@ const Dashboard = () => {
                         key={index}
                         className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
                       >
-                        {/* <p> Your id is: {node.toString()} </p> */}
-
-                        {/* <div> */}
-                        {/*   { node.toString() } */}
-                        {/* </div> */}
-
                         <div>
                           <ul>
                             <li>
@@ -488,13 +499,7 @@ const Dashboard = () => {
                         <button
                           className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                           onClick={() =>
-                            push(
-                              (process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                ? `/xnode/`
-                                : `/`) +
-                                'templates?nftId=' +
-                                xuId.toString()
-                            )
+                            push(`${prefix}/templates?nftId=${xuId.toString()}`)
                           }
                         >
                           Deploy

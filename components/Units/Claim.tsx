@@ -7,7 +7,9 @@ import { XnodeUnitEntitlementClaimerContract } from '@/contracts/XnodeUnitEntitl
 import { chain } from '@/utils/chain'
 import { reviver } from '@/utils/json'
 import { prefix } from '@/utils/prefix'
+import { useWindowSize } from '@uidotdev/usehooks'
 import axios from 'axios'
+import ReactConfetti from 'react-confetti'
 import ReCAPTCHA from 'react-google-recaptcha'
 import {
   Address,
@@ -59,6 +61,7 @@ const Claim = ({ chainId }: { chainId: number }) => {
   const { toast } = useToast()
   const router = useRouter()
   const recaptchaRef = React.useRef<ReCAPTCHA>()
+  const { width, height } = useWindowSize()
 
   useEffect(() => {
     // Check if semantics of the code are valid
@@ -417,8 +420,18 @@ const Claim = ({ chainId }: { chainId: number }) => {
       <AlertDialog open={successOpen} onOpenChange={setSuccessOpen}>
         <AlertDialogTrigger />
         <AlertDialogContent>
+          <div
+            className="fixed inset-0"
+            style={{ transform: `translate(-300%, -300%)` }}
+          >
+            <ReactConfetti
+              width={width * 3}
+              height={height * 3}
+              numberOfPieces={1000}
+            />
+          </div>
           <AlertDialogHeader>
-            <AlertDialogTitle>Success!</AlertDialogTitle>
+            <AlertDialogTitle>Congratulations!</AlertDialogTitle>
             <AlertDialogDescription>
               You have successfully claimed your Xnode. It will now be available
               for activation on the dashboard.

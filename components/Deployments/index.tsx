@@ -22,17 +22,12 @@ import { useToast } from '../ui/use-toast'
 
 const Deployments = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
   const [activateWarnOpen, setActivateWarnOpen] = useState<boolean>(false)
   const [waitOpen, setWaitOpen] = useState<boolean>(false)
   const [successOpen, setSuccessOpen] = useState<boolean>(false)
   const [submitting, setSubmitting] = useState<boolean>(false)
+  const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
   const account = useAccount()
-
-  const { address } = account
-
-  const publicClient = usePublicClient()
-  const { data: walletClient } = useWalletClient()
 
   const [user] = useUser()
 
@@ -56,6 +51,7 @@ const Deployments = () => {
         await axios(config).then(function (response) {
           if (response.data) {
             console.log('Got the Xnode data')
+            console.log(response.data)
             setXnodesData(response.data)
             setIsLoading(false)
           }
@@ -76,7 +72,11 @@ const Deployments = () => {
 
   useEffect(() => {
     getData()
-  }, [user?.sessionToken])
+  }, [ ])
+
+  useEffect(() => {
+    getData()
+  }, [ user?.sessionToken, user ])
 
   return (
     <>
@@ -85,9 +85,9 @@ const Deployments = () => {
           <h1 className="text-4xl font-semibold text-black">Deployments</h1>
           <div className="my-12" />
 
-          {!user && !isLoading && <Signup />}
+          <Signup />
 
-          {xnodesData ? (
+          { xnodesData ? (
             <div className="border-1 border-solid/20 border-black">
               <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
                 {xnodesData?.map((node: Xnode) => (
@@ -96,15 +96,16 @@ const Deployments = () => {
                       <ul>
                         <li>
                           {' '}
-                          <b> {node.provider} </b>{' '}
-                        </li>
-                        <li>
-                          {' '}
                           <b> {node.nftId} </b>{' '}
                         </li>
 
                         <li> {node.name} </li>
                         <li> {node.description} </li>
+
+                        <li>
+                          {' '}
+                          <b> {node.provider} </b>{' '}
+                        </li>
                       </ul>
                     </div>
 
@@ -116,14 +117,14 @@ const Deployments = () => {
                       </ul>
                     </div>
 
-                    <div className="align-center flex h-full justify-center">
-                      <button
-                        className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                        onClick={() => push(prefix + '/xnode?uuid=' + node.id)}
-                      >
-                        Manage
-                      </button>
-                    </div>
+                    {/* <div className="align-center flex h-full justify-center"> */}
+                    {/*   <button */}
+                    {/*     className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" */}
+                    {/*     onClick={() => push(prefix + '/xnode?uuid=' + node.id)} */}
+                    {/*   > */}
+                    {/*     Manage */}
+                    {/*   </button> */}
+                    {/* </div> */}
                   </li>
                 ))}
               </ul>

@@ -68,8 +68,8 @@ const YourCore = ({ isLoadingFeatures, coreServices, ...data }: ModalProps) => {
           push(
             `${
               process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                ? `/xnode/dashboard`
-                : `/dashboard`
+                ? `/xnode/deployments`
+                : `/deployments`
             }`
           )
         }
