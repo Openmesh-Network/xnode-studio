@@ -85,7 +85,7 @@ export default function DeploymentTemplate({
             <TableRow>
               <TableCell>Storage</TableCell>
               <TableCell>
-                {minSpecs?.storage ? `${minSpecs.storage}GB` : '-'}
+                {minSpecs?.storage ? `${minSpecs.storage}MB` : '-'}
               </TableCell>
             </TableRow>
           </TableBody>
