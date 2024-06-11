@@ -234,22 +234,16 @@ const Dashboard = () => {
     setInterval(() => {
       let newTime = ''
       const today = new Date()
-      const total = Date.parse('2024-06-14T22:30:00+10:00') - today.getTime()
+      const total = Date.parse('2024-06-19T22:30:00+10:00') - today.getTime()
       const seconds = Math.floor((total / 1000) % 60)
       const minutes = Math.floor((total / 1000 / 60) % 60)
-      const hours = Math.floor((total / 1000 / 60 / 60) % 128)
+      const hours = Math.floor((total / 1000 / 60 / 60) % 24)
+      const days = Math.floor((total / 1000 / 60 / 60 / 24) % 900)
 
-      let m = '' + minutes
-      if (minutes < 10) {
-        m = '0' + m
-      }
-
-      let s = '' + seconds
-      if (seconds < 10) {
-        s = '0' + seconds
-      }
-
-      newTime = hours + ':' + m + ':' + s
+      newTime  =       days     + " day"      + (days     != 1 ? ("s") : ("")) 
+      newTime += " " + hours    + " hour"     + (hours    != 1 ? ("s") : (""))
+      newTime += " " + minutes  + " minute"   + (minutes  != 1 ? ("s") : (""))
+      newTime += " " + seconds  + " second"   + (seconds  != 1 ? ("s") : (""))
 
       setTimeTillActivation(newTime)
     }, 1000)
@@ -279,7 +273,7 @@ const Dashboard = () => {
       // getData()
       // alert('User has a cookie.')
     }
-  }, [account?.isConnected, setSubmitting])
+  }, [account?.isConnected, setSuccessOpen, submitting, setSubmitting])
 
   useEffect(() => {
     startCountdown()
@@ -332,9 +326,14 @@ const Dashboard = () => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {timeTillActivation} Until Xnodes can be Activated{' '}
+              Xnode Activation will be enabled in {' '}
             </AlertDialogTitle>
             <AlertDialogDescription>
+              <center>
+              <p className="text-xl text-bold">{timeTillActivation} </p>
+
+              <br/>
+
               <p>
                 Stay posted on our{' '}
                 <a
@@ -354,6 +353,7 @@ const Dashboard = () => {
                 </a>
                 .
               </p>
+              </center>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -423,12 +423,6 @@ const Dashboard = () => {
                         key={index}
                         className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
                       >
-                        {/* <p> Your id is: {node.toString()} </p> */}
-
-                        {/* <div> */}
-                        {/*   { node.toString() } */}
-                        {/* </div> */}
-
                         <div>
                           <ul>
                             <li>
