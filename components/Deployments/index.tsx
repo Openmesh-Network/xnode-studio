@@ -29,11 +29,6 @@ const Deployments = () => {
   const [submitting, setSubmitting] = useState<boolean>(false)
   const account = useAccount()
 
-  const { address } = account
-
-  const publicClient = usePublicClient()
-  const { data: walletClient } = useWalletClient()
-
   const [user] = useUser()
 
   const { push } = useRouter()

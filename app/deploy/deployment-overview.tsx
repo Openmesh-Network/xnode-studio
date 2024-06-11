@@ -80,7 +80,7 @@ export default function DeploymentTemplate({
           <TableBody>
             <TableRow>
               <TableCell>RAM</TableCell>
-              <TableCell>{minSpecs?.ram ? `${minSpecs.ram}GB` : '-'}</TableCell>
+              <TableCell>{minSpecs?.ram ? `${minSpecs.ram}MB` : '-'}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Storage</TableCell>
