@@ -14518,6 +14518,72 @@
         "options": []
     },
     {
+        "name": "Open WebUI",
+        "desc": "WebUI for Ollama",
+        "tags": [
+            "Website"
+        ],
+        "website": "https://openwebui.com/",
+        "implmented": true,
+        "logo": "https://openwebui.com/favicon.png",
+        "specs": {
+            "ram": 512,
+            "storage": 1024
+        },
+        "nixName": "open-webui",
+        "options": [
+            {
+                "name": "services.open-webui.package",
+                "desc": "The open-webui package to use.",
+                "nixName": "nixos/modules/services/misc/open-webui.nix",
+                "type": "int",
+                "value": "pkgs.open-webui"
+            },
+            {
+                "name": "services.open-webui.stateDir",
+                "desc": "State directory of Open-WebUI.",
+                "nixName": "nixos/modules/services/misc/open-webui.nix",
+                "type": "string",
+                "value": "/var/lib/open-webui"
+            },
+            {
+                "name": "services.open-webui.enable",
+                "desc": "Whether to enable Open-WebUI server.",
+                "nixName": "nixos/modules/services/misc/open-webui.nix",
+                "type": "boolean",
+                "value": "false"
+            },
+            {
+                "name": "services.open-webui.port",
+                "desc": "Which port the Open-WebUI server listens to.",
+                "nixName": "nixos/modules/services/misc/open-webui.nix",
+                "type": "int",
+                "value": "8080"
+            },
+            {
+                "name": "services.open-webui.environment",
+                "desc": "Extra environment variables for Open-WebUI",
+                "nixName": "nixos/modules/services/misc/open-webui.nix",
+                "type": "string",
+                "value": "{ ANONYMIZED_TELEMETRY = False;  DO_NOT_TRACK = True;  SCARF_NO_ANALYTICS = True;}"
+            },
+            {
+                "name": "services.open-webui.host",
+                "desc": "The host address which the Open-WebUI server HTTP interface listensto.",
+                "nixName": "nixos/modules/services/misc/open-webui.nix",
+                "type": "string",
+                "value": "127.0.0.1"
+            },
+            {
+                "name": "services.open-webui.openFirewall",
+                "desc": "Whether to open the firewall for Open-WebUI. This addsservices.open-webui.port tonetworking.firewall.allowedTCPPorts.",
+                "nixName": "nixos/modules/services/misc/open-webui.nix",
+                "type": "boolean",
+                "value": "false"
+            }
+        ]
+    },
+    {
         "name": "Wordpress",
         "desc": "WordPress is open source software you can use to create a beautiful website, blog, or app",
         "tags": [
