@@ -106,12 +106,7 @@ export type DeploymentTemplate = {
   description: string
   tags?: string[]
   minSpecs?: Specs
-  services?: {
-    name: string
-    description?: string
-    tags?: string[]
-    nixName?: string
-  }[]
+  services?: ServiceData[]
   custom?: boolean
 }
 
@@ -212,6 +207,7 @@ export function TemplateGetSpecs(template: TemplateData): Specs {
       specs.ram += service.specs.ram
       specs.storage += service.specs.storage
     } else {
+      console.log(template.serviceNames[i])
       // XXX: Need a test to quality check all templates ahead of time.
       console.log("This shouldn't run")
     }

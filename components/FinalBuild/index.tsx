@@ -151,6 +151,8 @@ const ReviewYourBuild = () => {
           toast.error(
             `Error during Xnode deployment: ${err.response.data.message}`
           )
+          console.error("Failed to deploy")
+          console.error(err)
         }
       } else {
         push(
@@ -158,7 +160,7 @@ const ReviewYourBuild = () => {
         )
       }
     },
-    [push, user.sessionToken]
+    [push, user?.sessionToken]
   )
 
   useEffect(() => {

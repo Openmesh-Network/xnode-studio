@@ -104,8 +104,8 @@ const Claim = ({ chainId }: { chainId: number }) => {
     const submit = async () => {
       setSubmitting(true)
       let { dismiss } = toast({
-        title: 'Generating transaction',
-        description: 'Please sign the transaction in your wallet...',
+        title: 'Verify you are human',
+        description: 'Solve the captcha request.',
       })
       if (!publicClient || !walletClient?.account) {
         dismiss()
@@ -125,6 +125,11 @@ const Claim = ({ chainId }: { chainId: number }) => {
           recaptchaRef.current.reset()
         })
       console.log('recaptcha solved', recaptchaToken)
+      dismiss()
+      dismiss = toast({
+        title: 'Validating code',
+        description: 'Getting smart contract proof...',
+      }).dismiss
       console.log('sending request to xue-signer')
       const response = await axios
         .post(`${prefix}/xue-signer/getSig`, {
@@ -155,6 +160,11 @@ const Claim = ({ chainId }: { chainId: number }) => {
         return
       }
 
+      dismiss()
+      dismiss = toast({
+        title: 'Generating transaction',
+        description: 'Please sign the transaction in your wallet...',
+      }).dismiss
       console.log('making transaction request')
       const transactionRequest = await publicClient
         .simulateContract({
@@ -418,7 +428,9 @@ const Claim = ({ chainId }: { chainId: number }) => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => router.push('/dashboard')}>
+            <AlertDialogAction
+              onClick={() => router.push(prefix + '/dashboard')}
+            >
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>

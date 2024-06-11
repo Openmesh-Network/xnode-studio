@@ -26,7 +26,8 @@ export default function DeploymentTemplate({
   description,
   minSpecs,
   services,
-}: DeploymentTemplateProps) {
+  isUnit = false
+}) {
 
 
   const [ draft, setDraft ] = useDraft()
@@ -37,6 +38,14 @@ export default function DeploymentTemplate({
       name: name,
       desc: description,
       services: services,
+      isUnit: isUnit,
+      location: "",
+      provider: ""
+    }
+
+    if (isUnit) {
+      newDraft.location = "NYC1"
+      newDraft.provider = "Unit"
     }
 
     setDraft(newDraft as DeploymentConfiguration)

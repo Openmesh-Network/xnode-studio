@@ -10,13 +10,14 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying Ollama + Open-webui, an AI platform with a web-based user interface for easy access and interaction. This template sets up advanced AI capabilities with ease. Find documentation and guides at https://ollama.ai/docs.",
+        "desc": "With this template, you can easily deploy Ollama + Open-webui, an advanced AI platform with a web-based user interface. This setup allows you to access and interact with powerful AI capabilities directly from your web browser, effortlessly manage and configure AI tools without needing deep technical knowledge, and utilize comprehensive documentation and guides available at ollama.ai/docs to get the most out of the platform. This template streamlines the process, making it simple for you to leverage cutting-edge AI technology for your projects.",
         "serviceNames": [
             "ollama",
             "open-webui"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "1",
@@ -30,12 +31,13 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying CodeServer, enabling you to run a VS Code instance on any machine and access it through a web-based interface. Perfect for remote development and collaborative coding sessions. Learn more at https://github.com/cdr/code-server.",
+        "desc": "Template for deploying OpenVS CodeServer,With CodeServer, you can effortlessly deploy a VS Code instance on any machine, enabling access through a web-based interface. This setup is ideal for remote development and collaborative coding sessions, allowing you to code from anywhere and share your workspace with others in real-time. Whether you're working on a personal project, collaborating with a team, or accessing your development environment on the go, OpenVSCodeServer makes it simple and efficient. ",
         "serviceNames": [
             "openvscode-server"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "2",
@@ -48,12 +50,13 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying Iroh, an IPFS node implementation. This template sets up a decentralized storage solution for storing and retrieving files securely and efficiently. Check out Iroh's documentation at https://github.com/iroh/iroh.",
+        "desc": "Template for deploying Iroh, Deploying Iroh sets up an IPFS node implementation, providing a decentralized storage solution for securely and efficiently storing and retrieving files. With Iroh, users can harness the power of the InterPlanetary File System (IPFS) to store files in a distributed network, ensuring redundancy and availability. Users can upload files to Iroh's IPFS node, generating content-based addresses for easy retrieval. Additionally, Iroh enables users to interact with the IPFS network, facilitating data sharing and collaboration across a decentralized ecosystem. Explore Iroh's documentation at https://github.com/iroh/iroh to learn more about setting up and leveraging this powerful decentralized storage solution..",
         "serviceNames": [
             "iroh"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "3",
@@ -67,12 +70,13 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying Jupyter Notebook, providing an interactive computing environment for data analysis, visualization, and machine learning. Write and execute code in Python and other languages. Learn more at https://jupyter.org.",
+        "desc": "Template for deploying Jupyter Notebook, Deploying Jupyter Notebook sets up an interactive computing environment that empowers users to conduct data analysis, visualization, and machine learning seamlessly. With Jupyter Notebook, users can write and execute code in Python and other languages, fostering a versatile workspace for exploring datasets, experimenting with algorithms, and building predictive models. Users can leverage Jupyter's rich ecosystem of libraries and tools to analyze data, create visualizations, and collaborate with colleagues. Additionally, Jupyter Notebook supports markdown, allowing users to document their analyses, share insights, and communicate findings effectively. Explore the possibilities of interactive computing with Jupyter Notebook at https://jupyter.org.",
         "serviceNames": [
             "jupyter"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "4",
@@ -85,12 +89,13 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying Metabase, a simple and powerful analytics tool that lets anyone in your company ask questions and learn from data. Get started with Metabase at https://www.metabase.com.",
+        "desc": "Template for deploying Metabase, Deploying Metabase provides you, as a single user, with a powerful analytics tool, allowing you to ask questions, analyze data, and gain insights efficiently. With Metabase, you can explore your data through intuitive queries, create visualizations to understand trends, and derive valuable insights to drive informed decision-making. Experience the capabilities of Metabase by deploying it today",
         "serviceNames": [
             "metabase"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "5",
@@ -103,12 +108,13 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying ArchiveBox, an open-source self-hosted web archiving tool used to create snapshots of web pages and websites. Preserve online content for future reference. Learn more at https://archivebox.io.",
+        "desc": "Template for deploying ArchiveBox, you gain the ability to create snapshots of web pages and entire websites, effectively preserving online content for future reference. With ArchiveBox, you can organize and store valuable information from the web, ensuring it remains accessible even if the original content is altered or removed. Users can customize archiving settings to specify the depth and frequency of snapshots, tailoring the archiving process to their specific needs. Additionally, ArchiveBox offers robust search and indexing features, allowing users to quickly locate archived content when needed. Whether you're archiving research materials, blog posts, or online documentation, ArchiveBox provides a reliable solution for preserving and accessing online content over time. Experience the convenience and reliability of web archiving with ArchiveBox today.",
         "serviceNames": [
             "archivebox"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "6",
@@ -126,7 +132,8 @@
             "wordpress"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "7",
@@ -144,16 +151,17 @@
             "go-ethereum"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "8",
         "logo": "https://moralis.io/wp-content/uploads/web3wiki/49-lighthouse/637b9296c78e5825c0b80dec_ErubQ-vV0f3AnHXh9rz46CCorSCGf5nji_VzxmBX_8w.png",
         "name": "Lighthouse",
-        "category": "Web Development",
+        "category": "Blockchain",
         "tags": [
-            "Performance",
-            "SEO",
+            "Ethereum",
+            "Blockchain",
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
@@ -162,7 +170,8 @@
             "lighthouse"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "9",
@@ -180,7 +189,8 @@
             "minecraft-server"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "10",
@@ -198,7 +208,8 @@
             "grafana"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "11",
@@ -216,7 +227,8 @@
             "prometheus"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "12",
@@ -234,7 +246,8 @@
             "static-web-server"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "13",
@@ -252,7 +265,8 @@
             "lidarr"
         ],
         "quality": true,
-        "implementation": true
+        "implementation": true,
+        "isUnitRunnable":true
     },
     {
         "id": "14",
@@ -270,7 +284,8 @@
             "bitmagnet"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "15",
@@ -288,7 +303,8 @@
             "ckan"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "17",
@@ -306,7 +322,8 @@
             "wallabag"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "18",
@@ -324,7 +341,8 @@
             "apache-airflow"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "19",
@@ -342,7 +360,8 @@
             "changedetection-io"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "20",
@@ -360,7 +379,8 @@
             "lidarr"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "21",
@@ -378,7 +398,8 @@
             "headphones"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "22",
@@ -396,7 +417,8 @@
             "pyload-ng"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "23",
@@ -414,7 +436,8 @@
             "sonarr"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "24",
@@ -432,7 +455,8 @@
             "radarr"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "25",
@@ -450,7 +474,8 @@
             "healthchecks"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "26",
@@ -468,7 +493,8 @@
             "syncthing"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "27",
@@ -486,7 +512,8 @@
             "wayback"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "28",
@@ -504,7 +531,8 @@
             "stalwart-mail"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "30",
@@ -522,7 +550,8 @@
             "lemmy-ui"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "31",
@@ -540,7 +569,8 @@
             "libreddit"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "32",
@@ -558,7 +588,8 @@
             "nitter"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "33",
@@ -576,7 +607,8 @@
             "pleroma"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "35",
@@ -594,7 +626,8 @@
             "janus-gateway"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "36",
@@ -612,7 +645,8 @@
             "baserow"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "37",
@@ -630,7 +664,8 @@
             "nextcloud-client"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "38",
@@ -648,7 +683,8 @@
             "samba4Full"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "39",
@@ -666,7 +702,8 @@
             "seafile-shared"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "40",
@@ -684,7 +721,8 @@
             "openafs"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "41",
@@ -702,7 +740,8 @@
             "netdata"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "42",
@@ -720,7 +759,8 @@
             "prometheus"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "43",
@@ -738,7 +778,8 @@
             "sensu-go-cli"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "44",
@@ -756,7 +797,8 @@
             "zabbix.web"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "45",
@@ -774,7 +816,8 @@
             "bitwarden"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "46",
@@ -792,7 +835,8 @@
             "passky-desktop"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "47",
@@ -810,7 +854,8 @@
             "vaultwarden-postgresql"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "48",
@@ -828,7 +873,8 @@
             "imgproxy"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "49",
@@ -846,7 +892,8 @@
             "iodine"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "50",
@@ -864,7 +911,8 @@
             "iodine"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "51",
@@ -882,7 +930,8 @@
             "privoxy"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "52",
@@ -900,7 +949,8 @@
             "sish"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "53",
@@ -918,7 +968,8 @@
             "squid"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "54",
@@ -936,7 +987,8 @@
             "tinyproxy"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "55",
@@ -954,7 +1006,8 @@
             "guacamole-server"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "56",
@@ -972,7 +1025,8 @@
             "meshcentral"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "57",
@@ -990,7 +1044,8 @@
             "rustdesk"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "58",
@@ -1008,7 +1063,8 @@
             "shellhub-agent"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "59",
@@ -1026,7 +1082,8 @@
             "hound"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "60",
@@ -1044,7 +1101,8 @@
             "manticoresearch"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "61",
@@ -1062,7 +1120,8 @@
             "opensearch"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "62",
@@ -1080,7 +1139,8 @@
             "searxng"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "63",
@@ -1098,7 +1158,8 @@
             "typesense"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "64",
@@ -1116,7 +1177,8 @@
             "zincsearch"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "65",
@@ -1134,7 +1196,8 @@
             "dockstarter"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "66",
@@ -1152,7 +1215,8 @@
             "svix-server"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "67",
@@ -1170,7 +1234,8 @@
             "buildbot"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "68",
@@ -1188,7 +1253,8 @@
             "drone-oss"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "69",
@@ -1206,7 +1272,8 @@
             "gitlab"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "70",
@@ -1224,7 +1291,8 @@
             "gocd-server"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "71",
@@ -1242,7 +1310,8 @@
             "jenkins"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "72",
@@ -1260,7 +1329,8 @@
             "laminar"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "73",
@@ -1278,7 +1348,8 @@
             "werf"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "74",
@@ -1296,7 +1367,8 @@
             "woodpecker-cli"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "75",
@@ -1314,7 +1386,8 @@
             "openvscode-server"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "76",
@@ -1332,7 +1405,8 @@
             "rstudio-server"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "77",
@@ -1350,7 +1424,8 @@
             "wakapi"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "78",
@@ -1368,7 +1443,8 @@
             "pocketbase"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "81",
@@ -1386,7 +1462,8 @@
             "forgejo"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "82",
@@ -1404,7 +1481,8 @@
             "gerrit"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "83",
@@ -1422,7 +1500,8 @@
             "gitolite"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "84",
@@ -1440,7 +1519,8 @@
             "gogs"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "85",
@@ -1458,7 +1538,8 @@
             "klaus"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     },
     {
         "id": "86",
@@ -1476,6 +1557,7 @@
             "appflowy"
         ],
         "quality": false,
-        "implementation": false
+        "implementation": false,
+        "isUnitRunnable":false
     }
 ]
