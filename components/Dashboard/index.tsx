@@ -9,7 +9,7 @@ import { chain } from '@/utils/chain'
 import { prefix } from '@/utils/prefix'
 import { useUser } from 'hooks/useUser'
 import { getXueNfts, useXuNfts } from 'utils/nft'
-import { BaseError, ContractFunctionRevertedError } from 'viem'
+import { Address, BaseError, ContractFunctionRevertedError } from 'viem'
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
 
 import {
@@ -64,7 +64,7 @@ const Dashboard = () => {
 
     let isWhitelisted = false
     for (let i = 0; i < whitelist.length; i++) {
-      if (whitelist[i] == address) {
+      if (whitelist[i].toLowerCase() == address.toLowerCase()) {
         isWhitelisted = true
         break
       }
@@ -75,6 +75,37 @@ const Dashboard = () => {
       setWaitOpen(true)
     } else {
       setActivateWarnOpen(true)
+    }
+  }
+
+  const findXueForAccount = async () => {
+    let nfts = await getXueNfts(account).catch(console.error)
+    if (nfts) {
+      // Only update XueNfts if the nfts don't match. Don't want to trigger pointless updates.
+
+      let doUpdate = false
+      if (!xueNfts) {
+        doUpdate = true
+      } else if (xueNfts.length != nfts.length) {
+        doUpdate = true
+      } else {
+        for (let i = 0; i < xueNfts.length; i++) {
+          if (xueNfts[i] != nfts[i]) {
+            doUpdate = true
+            break
+          }
+        }
+      }
+
+      if (doUpdate) {
+        setXueNfts(nfts)
+      }
+
+      console.log('Found NFT array for current wallet address:')
+      console.log(nfts)
+    } else {
+      console.log('Failed to get NFTS.')
+      console.log(nfts)
     }
   }
 
@@ -185,7 +216,11 @@ const Dashboard = () => {
         hash: transactionHash,
       })
 
+      dismiss()
       setSuccessOpen(true)
+
+      await findXueForAccount()
+      await refetchXuNFTs()
     }
 
     await submit().catch(console.error)
@@ -228,37 +263,6 @@ const Dashboard = () => {
       console.error('No address on account!')
       setXueNfts([])
     } else {
-      const findXueForAccount = async () => {
-        let nfts = await getXueNfts(account).catch(console.error)
-        if (nfts) {
-          // Only update XueNfts if the nfts don't match. Don't want to trigger pointless updates.
-
-          let doUpdate = false
-          if (!xueNfts) {
-            doUpdate = true
-          } else if (xueNfts.length != nfts.length) {
-            doUpdate = true
-          } else {
-            for (let i = 0; i < xueNfts.length; i++) {
-              if (xueNfts[i] != nfts[i]) {
-                doUpdate = true
-                break
-              }
-            }
-          }
-
-          if (doUpdate) {
-            setXueNfts(nfts)
-          }
-
-          console.log('Found NFT array for current wallet address:')
-          console.log(nfts)
-        } else {
-          console.log('Failed to get NFTS.')
-          console.log(nfts)
-        }
-      }
-
       findXueForAccount()
       refetchXuNFTs()
     }
@@ -333,6 +337,7 @@ const Dashboard = () => {
                 <a
                   className="text-blue-500 underline"
                   href="https://discord.com/invite/openmesh"
+                  target="_blank"
                 >
                   discord
                 </a>{' '}
@@ -340,6 +345,7 @@ const Dashboard = () => {
                 <a
                   className="text-blue-500 underline"
                   href="https://x.com/OpenmeshNetwork"
+                  target="_blank"
                 >
                   twitter
                 </a>
@@ -486,13 +492,7 @@ const Dashboard = () => {
                         <button
                           className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                           onClick={() =>
-                            push(
-                              (process.env.NEXT_PUBLIC_ENVIRONMENT === 'PROD'
-                                ? `/xnode/`
-                                : `/`) +
-                                'templates?nftId=' +
-                                xuId.toString()
-                            )
+                            push(`${prefix}/templates?nftId=${xuId.toString()}`)
                           }
                         >
                           Deploy
