@@ -104,10 +104,10 @@ const Dashboard = () => {
       return
     }
 
-    let { dismiss } = toast({
+    let dismiss = toast({
       title: 'Generating transaction',
       description: 'Please sign the transaction in your wallet...',
-    })
+    }).dismiss
 
     const transactionRequest = await publicClient
     .simulateContract({
@@ -131,6 +131,7 @@ const Dashboard = () => {
       }
       return 'Simulation failed.'
     })
+
     if (typeof transactionRequest === 'string') {
       dismiss()
       dismiss = toast({
@@ -358,7 +359,7 @@ const Dashboard = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Success!</AlertDialogTitle>
             <AlertDialogDescription>
-              Your Xnode is now activated, but it's running no software.
+              Your Xnode is now activated, but it&apos;s running no software.
               <br />
               Activate your Xnode by clicking the deploy button.
             </AlertDialogDescription>

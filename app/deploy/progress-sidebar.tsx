@@ -338,7 +338,7 @@ export const DeploymentProgress = ({ isUnit = false }) => {
               {indexerDeployerStep === 2 ? (
                 <div className="mt-4 flex flex-col items-center justify-center gap-4">
                   <Button
-                    disabled={ user === undefing }
+                    disabled={ user === undefined }
                     variant={ user !== undefined ? 'default' : 'outlinePrimary'}
                     className="h-12 w-full"
                     onClick={ 
