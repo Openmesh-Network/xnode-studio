@@ -105,7 +105,7 @@ const Signup = () => {
     }
     try {
       const res = await loginUser(finalData)
-      setUser(res.data as UserProps)
+      setUser(res as UserProps)
       setIsLoading(false)
 
       // push(
@@ -113,6 +113,10 @@ const Signup = () => {
       // )
     } catch (err) {
       setIsLoading(false)
+
+      toast.error(err)
+      console.error(err)
+      return
 
       if (err.response.data.message === 'Unconfirmed Email') {
         toast.error('Unconfirmed email')

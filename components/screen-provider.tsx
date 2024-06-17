@@ -38,7 +38,7 @@ export default function ScreenProvider({ children }: ScreenProviderProps) {
         <Dialog open>
           <DialogContent canClose={false}>
             <DialogHeader>
-              <DialogTitle>Xnode can only be accessed on desktop.</DialogTitle>
+              <DialogTitle>Xnode studio can only be accessed on desktop.</DialogTitle>
               <DialogDescription>
                 Please use a different device with a larger screen to use the
                 application.

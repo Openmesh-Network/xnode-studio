@@ -344,7 +344,7 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
                   let config = ''
                   if (provider.cpuGHZ) config += `${provider.cpuGHZ}GHz `
                   if (provider.cpuCores) config += `${provider.cpuCores}-Core `
-                  if (provider.cpuThreads) config += `(${provider.cpuThreads})`
+                  if (provider.cpuThreads) config += `(${provider.cpuThreads} threads)`
                   if (provider.ram) config += `, ${provider.ram}GB RAM`
                   if (provider.storageTotal)
                     config += `, ${provider.storageTotal} GB`
