@@ -40,6 +40,8 @@ const YourCore = ({ isLoadingFeatures, coreServices, ...data }: ModalProps) => {
   }, [coreServices])
 
   useEffect(() => {
+    // XXX: This is a mess!
+
     const updateIcon = () => {
       if (currentServiceIndex < coreServices.length) {
         setServiceIcons((prevIcons) =>
@@ -77,7 +79,7 @@ const YourCore = ({ isLoadingFeatures, coreServices, ...data }: ModalProps) => {
     }
 
     if (isLoadingFeatures && currentServiceIndex <= coreServices.length + 1) {
-      const timeout = setTimeout(updateIcon, 3000)
+      const timeout = setTimeout(updateIcon, 500)
       return () => clearTimeout(timeout)
     }
   }, [

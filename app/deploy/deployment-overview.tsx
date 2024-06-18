@@ -26,7 +26,8 @@ export default function DeploymentTemplate({
   description,
   minSpecs,
   services,
-  isUnit = false
+  isUnit = false,
+  nftId = ""
 }) {
 
 
@@ -40,12 +41,14 @@ export default function DeploymentTemplate({
       services: services,
       isUnit: isUnit,
       location: "",
-      provider: ""
+      provider: "",
+      deploymentAuth: "",
     }
 
     if (isUnit) {
       newDraft.location = "NYC1"
       newDraft.provider = "Unit"
+      newDraft.deploymentAuth = nftId
     }
 
     setDraft(newDraft as DeploymentConfiguration)
