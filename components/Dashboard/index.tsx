@@ -301,10 +301,10 @@ const Dashboard = () => {
               <br />
               <br />
               <b>
-                By activating your Xnode NFT you agree to our{' '}
+                {' '}
                 <a className="text-blue-500 underline" href="">
                   {' '}
-                  terms and conditions
+                  Additional notes 
                 </a>
                 .
               </b>
