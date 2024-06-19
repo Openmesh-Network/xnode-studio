@@ -8,6 +8,7 @@ import { Inter } from 'next/font/google'
 import { prefix } from '@/utils/prefix'
 
 import { cn } from '@/lib/utils'
+import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { NavLayout } from '@/components/SidebarNav/sibebar-nav'
 
@@ -22,7 +23,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Openmesh Xnode',
   icons: {
-    icon: `${prefix}/openmesh-blue.png`,
+    icon: '/openmesh-latest.svg',
   },
 }
 
@@ -48,6 +49,7 @@ export default function RootLayout({
             <ScrollToTop />
           </NavLayout>
         </Providers>
+        <Footer />
       </body>
     </html>
   )
