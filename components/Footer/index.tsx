@@ -27,7 +27,7 @@ export function Footer() {
     }
   ]
   return (
-    <footer className="fixed z-50 bottom-0 left-0 flex h-12 w-full items-center justify-between bg-[#19161C] pl-6 pr-6 md:pr-0">
+    <footer className="z-50 flex h-16 w-full items-center justify-between bg-[#19161C] pl-6 pr-6 pt-3 pb-3 md:pr-0">
       <div className="flex items-center">
         <Image src={logo} alt="Openmesh Logo" width={160} height={40} />
         <div className="hidden md:flex items-center text-sm text-gray-300 ml-6">
@@ -49,7 +49,7 @@ export function Footer() {
         ))}
       </nav>
         <div className="text-xs text-gray-300 md:mr-20 ml:auto">
-          © Openmesh 2024. All rights reserved
+          Openmesh 2024
         </div>
     </footer>
   );

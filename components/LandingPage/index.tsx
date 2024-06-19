@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { prefix } from '@/utils/prefix'
 
-import Footer from '../Homepage/Footer'
 import CostSaving from './lp-components/CostSaving'
 
 const LandingPage = () => {
@@ -283,7 +282,6 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <Footer></Footer>
     </>
   )
 }

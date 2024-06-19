@@ -48,8 +48,8 @@ export default function RootLayout({
             {children}
             <ScrollToTop />
           </NavLayout>
+          <Footer />
         </Providers>
-        <Footer />
       </body>
     </html>
   )
