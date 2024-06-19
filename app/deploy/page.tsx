@@ -124,7 +124,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
               description={templateData.description}
               minSpecs={templateData.minSpecs}
               services={templateData.services}
-              nftId={nftId.toString()}
+              nftId={ nftId ? nftId.toString() : "" }
             />
           ) : null}
           {indexerDeployerStep === 0 ? (

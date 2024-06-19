@@ -6,6 +6,7 @@ import { getWeb3Login } from 'utils/auth'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { UserProps } from '@/contexts/AccountContext'
+import Loading from 'components/Loading'
 
 import {
   Dialog,
@@ -139,7 +140,7 @@ const Signup = () => {
 
       {
         isUserLoading && (
-          <div className="size-8 animate-spin rounded-full border-b-2 border-[#0354EC]"></div>
+          <Loading />
         )
       }
 
