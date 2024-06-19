@@ -29,7 +29,7 @@ const Deployments = () => {
   const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
   const account = useAccount()
 
-  const [user] = useUser()
+  const [ user, isUserLoading ] = useUser()
 
   const { push } = useRouter()
   const { toast } = useToast()
@@ -57,11 +57,13 @@ const Deployments = () => {
           }
         })
       } catch (err) {
-        toast({
-          title: 'Error getting the Xnode list',
-          description: err.response.data.message,
-          variant: 'destructive',
-        })
+        // toast({
+        //   title: 'Error getting the Xnode list',
+        //   description: err.response.data.message,
+        //   variant: 'destructive',
+        // })
+
+        console.error("Couldnt get Xnode list: ", err)
         setIsLoading(false)
       }
     }
@@ -72,11 +74,11 @@ const Deployments = () => {
 
   useEffect(() => {
     getData()
-  }, [ ])
+  }, [])
 
   useEffect(() => {
     getData()
-  }, [ user?.sessionToken, user ])
+  }, [ user?.sessionToken, user, isUserLoading ])
 
   return (
     <>

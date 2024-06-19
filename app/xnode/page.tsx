@@ -37,9 +37,8 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     setIsLoading(true)
 
     if (user?.sessionToken) {
-      alert(id)
       const config = {
-        method: 'get' as 'get',
+        method: 'post' as 'post',
         url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/getXnode`,
         headers: {
           'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
@@ -53,19 +52,23 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
       try {
         await axios(config).then(function (response) {
+          console.log("Got response: ", response)
           if (response.data) {
             console.log('Got the Xnode data')
             setXnodeData(response.data)
+            setIsLoading(false)
           }
         })
       } catch (err) {
+        console.log(config)
+
         toast.error(
           `Error getting the Xnode list: ${err.response.data.message}`
         )
+        setIsLoading(false)
       }
     }
 
-    setIsLoading(false)
   }, [user?.sessionToken, user ])
 
   useEffect(() => {
@@ -78,7 +81,15 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       <section>
         <div className="flex h-full">
           {
-            user?.sessionToken ? (
+            isLoading && (
+              <div>
+                <div className="size-8 animate-spin rounded-full border-b-2 border-[#0354EC]"></div>
+              </div>
+            )
+          }
+
+          {
+            !isLoading && user?.sessionToken ? (
               <>
               {
                 xnodeData ? (

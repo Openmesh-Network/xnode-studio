@@ -9,7 +9,6 @@ export default function NewLandingPage() {
       <HomeHero />
       <HomeBenefits />
       <HomeAdvantages />
-      <Footer />
     </div>
   )
 }

@@ -116,6 +116,8 @@ export type DeploymentConfiguration = {
   location: string
   isUnit: boolean
   provider: string
+  // Either the api key or the NFT id.
+  deploymentAuth: string
 
   // An array to all the service ids being looked at.
   services: ServiceData[]
@@ -144,6 +146,7 @@ export type ServiceData = {
   tags: string[]
   specs: Specs
   desc: string
+
   // Url to the logo.
   logo?: string
   implmented?: boolean

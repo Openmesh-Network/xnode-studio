@@ -64,6 +64,7 @@ const Dashboard = () => {
       '0x99acBe5d487421cbd63bBa3673132E634a6b4720',
       '0x7703d5753C54852D4249F9784A3e8A6eeA08e1dD',
       '0xaF7E68bCb2Fc7295492A00177f14F59B92814e70',
+      `0xA4a336783326241acFf520D91eb8841Ad3B9BD1a`,
     ]
 
     let isWhitelisted = false
@@ -241,10 +242,14 @@ const Dashboard = () => {
       const hours = Math.floor((total / 1000 / 60 / 60) % 24)
       const days = Math.floor((total / 1000 / 60 / 60 / 24) % 900)
 
-      newTime = days + ' day' + (days != 1 ? 's' : '')
-      newTime += ' ' + hours + ' hour' + (hours != 1 ? 's' : '')
-      newTime += ' ' + minutes + ' minute' + (minutes != 1 ? 's' : '')
-      newTime += ' ' + seconds + ' second' + (seconds != 1 ? 's' : '')
+      if (total < 0) {
+        newTime = "Coming soon, stay posted on social media..."
+      } else {
+        newTime = days + ' day' + (days != 1 ? 's' : '')
+        newTime += ' ' + hours + ' hour' + (hours != 1 ? 's' : '')
+        newTime += ' ' + minutes + ' minute' + (minutes != 1 ? 's' : '')
+        newTime += ' ' + seconds + ' second' + (seconds != 1 ? 's' : '')
+      }
 
       setTimeTillActivation(newTime)
     }, 1000)
@@ -301,10 +306,10 @@ const Dashboard = () => {
               <br />
               <br />
               <b>
-                By activating your Xnode NFT you agree to our{' '}
+                {' '}
                 <a className="text-blue-500 underline" href="">
                   {' '}
-                  terms and conditions
+                  Additional notes 
                 </a>
                 .
               </b>

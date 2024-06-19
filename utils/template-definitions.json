@@ -152,7 +152,7 @@
         ],
         "quality": true,
         "implementation": true,
-        "isUnitRunnable":true
+        "isUnitRunnable":false
     },
     {
         "id": "8",
@@ -171,7 +171,7 @@
         ],
         "quality": true,
         "implementation": true,
-        "isUnitRunnable":true
+        "isUnitRunnable":false
     },
     {
         "id": "9",

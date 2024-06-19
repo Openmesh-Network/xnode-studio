@@ -210,7 +210,6 @@ export default function Tasks() {
           <IndividualModules {...modulesData[5]} />
         </div>
       </div>
-      <Footer></Footer>
     </>
   )
 }

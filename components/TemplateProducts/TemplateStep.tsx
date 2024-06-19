@@ -74,6 +74,19 @@ const TemplateStep = ({nftId = ""}) => {
 
     setTemplatesData(data)
     setFilteredTemplatesData(data)
+
+    if (nftId) {
+      // Only include templates that can be run by a unit.
+      let newFilteredTemplate = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].isUnitRunnable) {
+          newFilteredTemplate.push(data[i])
+        }
+      }
+
+      setFilteredTemplatesData(newFilteredTemplate)
+    }
   }
 
   function handleCategoryFilter(ct: string) {
@@ -108,27 +121,6 @@ const TemplateStep = ({nftId = ""}) => {
     setFilteredTemplatesData(newFilteredTemplate)
   }
   const { push } = useRouter()
-
-  function handleSortByFilter(value: string) {
-    console.log('entrei handle')
-    if (value === 'Date Created') {
-      const newFilteredTemplates = [...filteredTemplatesData]
-
-      newFilteredTemplates.sort((a, b) => {
-        // Convert dates to timestamps and compare
-        return new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime()
-      })
-
-      setFilteredTemplatesData(newFilteredTemplates)
-    }
-    if (value === 'Template Name') {
-      console.log('entrei aqui yes sir')
-      const newFilteredTemplates = [...filteredTemplatesData]
-
-      newFilteredTemplates.sort((a, b) => a.name.localeCompare(b.name))
-      setFilteredTemplatesData(newFilteredTemplates)
-    }
-  }
 
   useEffect(() => {
     getData()
@@ -177,7 +169,12 @@ const TemplateStep = ({nftId = ""}) => {
                           onClick={() => handleCategoryFilter(category)}
                           className={`cursor-pointer select-none text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes(category) ? 'font-semibold text-black' : 'text-[#959595]'}`}
                         >
-                          {category.length > 20 ? `${category.slice(0, 10)}..` : category} ({categoryMap.get(category)})
+                          {category.length > 20 ? `${category.slice(0, 10)}..` : category}
+
+                          { 
+                            /* TODO: Consider readding this, it's a nice UI feature that shows the count, but if we filter by more than category it will add some more complication to the code. */ 
+                          }
+                          {/* {category.length > 20 ? `${category.slice(0, 10)}..` : category} ({categoryMap.get(category)}) */}
                         </div>
                       </div>
                       ))}
@@ -198,7 +195,6 @@ const TemplateStep = ({nftId = ""}) => {
                 {/*   /> */}
                 {/* </div> */}
 
-                {/* XXX: Code duplication here. Refactor into component? */}
                 <div className="flex size-full flex-wrap">
                   {filteredTemplatesData.map((element, index) => (
                     <a key={index} href={

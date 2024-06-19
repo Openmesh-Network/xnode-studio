@@ -25,7 +25,7 @@ const NewIntegrationConn = () => {
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(true)
   const [isCreatingNewChannel, setIsCreatingNewChannel] = useState(false)
 
-  const [ user, setUser ] = useUser()
+  const [ user, isUserLoading, setUser ] = useUser()
 
   const validSchema = Yup.object().shape({
     apiKey: Yup.string().max(500).required('Key is required'),

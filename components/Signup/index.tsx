@@ -6,6 +6,7 @@ import { getWeb3Login } from 'utils/auth'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { UserProps } from '@/contexts/AccountContext'
+import Loading from 'components/Loading'
 
 import {
   Dialog,
@@ -33,9 +34,9 @@ const Signup = () => {
     setIndexerDeployerStep,
   } = useContext(AccountContext)
 
-  const [ user, setUser ] = useUser()
+  const [ user, isUserLoading, setUser ] = useUser()
 
-  const [ isLoading, setIsLoading ] = useState<boolean>(false)
+  const [ isLoading, setIsLoading ] = useState<boolean>(true)
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(true)
   type LoginForm = {
     email: string
@@ -133,142 +134,150 @@ const Signup = () => {
     }
   }
 
-
   return (
     <>
     <div className="flex flex-row">
+
       {
-        user ? (
-          <>
-            <div>
-              { /* XXX: Show some account info? Possibly make into component later. */ }
-              <p> Logged in </p>
-
-              { /* XXX: Add better sign out button. */ }
-
-              <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                onClick={ () => { setUser(null) }}
-              >
-                Log out
-              </button>
-
-            </div>
-          </>
+        isUserLoading && (
+          <Loading />
         )
-        : (
-          <>
-            <div className="w-1/2 border-r">
-              <div className="mx-auto w-fit">
-                <h3 className="text-2xl font-semibold">
-                  Connect your wallet to continue
-                </h3>
+      }
 
-                <div className="mt-5"/>
+      {
+        !isUserLoading && (
+          user ? (
+            <>
+              <div>
+                { /* XXX: Show some account info? Possibly make into component later. */ }
+                <p> Logged in </p>
 
-                <w3m-button />
-                {
-                  account?.isConnected && (
-                    <div>
-                      {
-                        <button
-                          className="cursor-pointer items-center rounded-[5px] border border-blue-500 bg-blue-500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-white hover:bg-[#064DD2] lg:text-[16px]"
-                          onClick={() => tryLogin()}
-                        >
-                          {' '}
-                          Verify wallet{' '}
-                        </button>
-                      }
-                    </div>
-                  )
-                }
-              </div>
-            </div>
+                { /* XXX: Add better sign out button. */ }
 
-            <div className="w-1/2 border-l">
-              <div className="m-auto w-min">
-                <div className="flex-cols mt-5 flex w-fit text-xl font-medium">Not a web3 user?</div>
-
-                <Dialog>
-                  <DialogTrigger className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> Openmesh Expert Login </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Log in</DialogTitle>
-                      <DialogDescription>
-                        {  }
-                      </DialogDescription>
-                    </DialogHeader>
-
-                    <form onSubmit={handleSubmit(onSubmit)} className="">
-                      <span className="flex flex-row">
-                        Email
-                        <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
-                          {errors.email?.message}
-                        </p>
-                      </span>
-                      <input
-                        className="mt-[10px] h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0"
-                        type="text"
-                        maxLength={500}
-                        placeholder=""
-                        {...register('email')}
-                      />
-                      <div className="mt-[20px]">
-                        <span className="flex flex-row">
-                          Password
-                          <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]">
-                            {errors.password?.message}
-                          </p>
-                        </span>
-                        <div className="flex">
-                          <input
-                            className="mr-[20px] mt-[10px] h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0"
-                            type={passwordVisibility ? 'password' : 'text'}
-                            maxLength={120}
-                            placeholder=""
-                            {...register('password')}
-                          />
-                          {passwordVisibility ? (
-                            <div
-                              onClick={() => setPasswordVisibility(false)}
-                              className="flex cursor-pointer items-center text-center"
-                            >
-                              <EyeSlash className="cursor-pointer" />
-                            </div>
-                          ) : (
-                            <div
-                              onClick={() => setPasswordVisibility(true)}
-                              className="flex cursor-pointer items-center text-center"
-                            >
-                              <Eye className="cursor-pointer" />
-                            </div>
-                          )}
-                          <button
-                            type="submit"
-                            className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
-                            onClick={handleSubmit(onSubmit)}
-                          >
-                            <span className="">Sign in</span>
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-
-                  </DialogContent>
-                </Dialog>
-
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href={`https://www.openmesh.network/oec/register`}
-                  className="border-b-1 cursor-pointer text-[#3253FE]"
+                <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                  onClick={ () => { setUser(null) }}
                 >
-                  <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> 
-                    Register
-                  </button>
-                </a>
+                  Log out
+                </button>
+
               </div>
-            </div>
-          </>
+            </>
+          )
+          : (
+            <>
+              <div className="w-full">
+                <div className="mx-auto w-fit">
+                  <h3 className="text-2xl font-semibold">
+                    Connect your wallet to continue
+                  </h3>
+
+                  <div className="mt-5"/>
+
+                  <w3m-button />
+                  {
+                    account?.isConnected && (
+                      <div>
+                        {
+                          <button
+                            className="cursor-pointer items-center rounded-[5px] border border-blue-500 bg-blue-500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-white hover:bg-[#064DD2] lg:text-[16px]"
+                            onClick={() => tryLogin()}
+                          >
+                            {' '}
+                            Verify wallet{' '}
+                          </button>
+                        }
+                      </div>
+                    )
+                  }
+                </div>
+              </div>
+
+              {/* <div className="w-1/2 border-l"> */}
+              {/*   <div className="m-auto w-min"> */}
+              {/*     <div className="flex-cols mt-5 flex w-fit text-xl font-medium">Not a web3 user?</div> */}
+
+              {/*     <Dialog> */}
+              {/*       <DialogTrigger className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> Openmesh Expert Login </DialogTrigger> */}
+              {/*       <DialogContent> */}
+              {/*         <DialogHeader> */}
+              {/*           <DialogTitle>Log in</DialogTitle> */}
+              {/*           <DialogDescription> */}
+              {/*             {  } */}
+              {/*           </DialogDescription> */}
+              {/*         </DialogHeader> */}
+
+              {/*         <form onSubmit={handleSubmit(onSubmit)} className=""> */}
+              {/*           <span className="flex flex-row"> */}
+              {/*             Email */}
+              {/*             <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]"> */}
+              {/*               {errors.email?.message} */}
+              {/*             </p> */}
+              {/*           </span> */}
+              {/*           <input */}
+              {/*             className="mt-[10px] h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0" */}
+              {/*             type="text" */}
+              {/*             maxLength={500} */}
+              {/*             placeholder="" */}
+              {/*             {...register('email')} */}
+              {/*           /> */}
+              {/*           <div className="mt-[20px]"> */}
+              {/*             <span className="flex flex-row"> */}
+              {/*               Password */}
+              {/*               <p className="ml-[8px] text-[10px] font-normal text-[#ff0000]"> */}
+              {/*                 {errors.password?.message} */}
+              {/*               </p> */}
+              {/*             </span> */}
+              {/*             <div className="flex"> */}
+              {/*               <input */}
+              {/*                 className="mr-[20px] mt-[10px] h-[50px] rounded-[10px] border border-[#D4D4D4] bg-white px-[12px] text-[17px] font-normal outline-0" */}
+              {/*                 type={passwordVisibility ? 'password' : 'text'} */}
+              {/*                 maxLength={120} */}
+              {/*                 placeholder="" */}
+              {/*                 {...register('password')} */}
+              {/*               /> */}
+              {/*               {passwordVisibility ? ( */}
+              {/*                 <div */}
+              {/*                   onClick={() => setPasswordVisibility(false)} */}
+              {/*                   className="flex cursor-pointer items-center text-center" */}
+              {/*                 > */}
+              {/*                   <EyeSlash className="cursor-pointer" /> */}
+              {/*                 </div> */}
+              {/*               ) : ( */}
+              {/*                 <div */}
+              {/*                   onClick={() => setPasswordVisibility(true)} */}
+              {/*                   className="flex cursor-pointer items-center text-center" */}
+              {/*                 > */}
+              {/*                   <Eye className="cursor-pointer" /> */}
+              {/*                 </div> */}
+              {/*               )} */}
+              {/*               <button */}
+              {/*                 type="submit" */}
+              {/*                 className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]" */}
+              {/*                 onClick={handleSubmit(onSubmit)} */}
+              {/*               > */}
+              {/*                 <span className="">Sign in</span> */}
+              {/*               </button> */}
+              {/*             </div> */}
+              {/*           </div> */}
+              {/*         </form> */}
+
+              {/*       </DialogContent> */}
+              {/*     </Dialog> */}
+
+              {/*     <a */}
+              {/*       target="_blank" */}
+              {/*       rel="noreferrer" */}
+              {/*       href={`https://www.openmesh.network/oec/register`} */}
+              {/*       className="border-b-1 cursor-pointer text-[#3253FE]" */}
+              {/*     > */}
+              {/*       <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> */} 
+              {/*         Register */}
+              {/*       </button> */}
+              {/*     </a> */}
+              {/*   </div> */}
+              {/* </div> */}
+            </>
+          )
         )
       }
     </div>

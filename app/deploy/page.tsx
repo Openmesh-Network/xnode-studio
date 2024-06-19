@@ -124,14 +124,15 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
               description={templateData.description}
               minSpecs={templateData.minSpecs}
               services={templateData.services}
+              nftId={ nftId ? nftId.toString() : "" }
             />
           ) : null}
           {indexerDeployerStep === 0 ? (
-            <DeploymentProvider specs={templateData.minSpecs} />
+            <DeploymentProvider specs={ templateData.minSpecs } />
           ) : null}
           { indexerDeployerStep === 1 ? <Signup /> : null }
 
-          {indexerDeployerStep === 2 ? (
+          { indexerDeployerStep === 2 ? (
             isUnit ? (
               <></>
             ) : (
@@ -139,7 +140,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
                 <NewIntegrationConn />
               </div>
             )
-          ) : null}
+          ) : null }
 
           {indexerDeployerStep === 3 ? <ReviewYourBuild /> : null}
         </Section>
