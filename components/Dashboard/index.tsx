@@ -242,10 +242,14 @@ const Dashboard = () => {
       const hours = Math.floor((total / 1000 / 60 / 60) % 24)
       const days = Math.floor((total / 1000 / 60 / 60 / 24) % 900)
 
-      newTime = days + ' day' + (days != 1 ? 's' : '')
-      newTime += ' ' + hours + ' hour' + (hours != 1 ? 's' : '')
-      newTime += ' ' + minutes + ' minute' + (minutes != 1 ? 's' : '')
-      newTime += ' ' + seconds + ' second' + (seconds != 1 ? 's' : '')
+      if (total < 0) {
+        newTime = "Coming soon, stay posted on social media..."
+      } else {
+        newTime = days + ' day' + (days != 1 ? 's' : '')
+        newTime += ' ' + hours + ' hour' + (hours != 1 ? 's' : '')
+        newTime += ' ' + minutes + ' minute' + (minutes != 1 ? 's' : '')
+        newTime += ' ' + seconds + ' second' + (seconds != 1 ? 's' : '')
+      }
 
       setTimeTillActivation(newTime)
     }, 1000)
