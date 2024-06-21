@@ -76,6 +76,18 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     getData()
   }, [user?.sessionToken])
 
+  function getExpirationDays(startDate: Date) {
+    let d = new Date(startDate)
+    console.error(d.getTime())
+
+    const today = new Date()
+    const total = today.getTime() - (d.getTime())
+
+    const days = 365 - (Math.floor((total / 1000 / 60 / 60 / 24) % 1000000))
+
+    return days + " days"
+  }
+
 
   return (
     <div className="m-20 flex-1">
@@ -92,10 +104,16 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
               <>
                 {
                   xnodeData ? (
-                    <>
-                      <h1> { xnodeData.name } </h1>
+                    <div>
 
-                    </>
+                      <p> { xnodeData.name } </p>
+
+                      { xnodeData.isUnit && (
+                        <p> { getExpirationDays(xnodeData.unitClaimTime) } </p>
+                      )
+                      }
+
+                    </div>
                   ) : (
                     <>
                       <p> No Xnode for that UUID found. </p>

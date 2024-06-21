@@ -8,13 +8,18 @@ export type CoreServices = {
 export type Xnode = {
   id: string
 
-  name: string
-  description: string
-  services: string
-  openmeshExpertUserId: string
   provider: string
+  services: string
+
   // Must be unmarshaled from json.
   heartbeatData: string
+
+  name: string
+  description: string
+
+  openmeshExpertUserId: string
+
+  ipAddress: string
 
   isUnit: boolean
   unitClaimTime: Date
