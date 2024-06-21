@@ -13,7 +13,12 @@ export type Xnode = {
   services: string
   openmeshExpertUserId: string
   provider: string
+  // Must be unmarshaled from json.
+  heartbeatData: string
+
   isUnit: boolean
+  unitClaimTime: Date
+
   nftId: string
   location: string
   createdAt: string

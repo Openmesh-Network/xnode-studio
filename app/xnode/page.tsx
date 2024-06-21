@@ -15,6 +15,7 @@ import Signup from '@/components/Signup'
 import { Xnode } from '../../types/node'
 
 import { useDraft } from '@/hooks/useDraftDeploy'
+import Loading from '@/components/Loading'
 
 type XnodePageProps = {
   searchParams: {
@@ -82,53 +83,36 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         <div className="flex h-full">
           {
             isLoading && (
-              <div>
-                <div className="size-8 animate-spin rounded-full border-b-2 border-[#0354EC]"></div>
-              </div>
+              <Loading />
             )
           }
 
           {
             !isLoading && user?.sessionToken ? (
               <>
-              {
-                xnodeData ? (
-                  <div className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
-                    <div>
-                      <ul>
-                        <li> <b> { xnodeData.provider } </b> </li>
-                        <li> <b> { xnodeData.nftId } </b> </li>
+                {
+                  xnodeData ? (
+                    <>
+                      <h1> { xnodeData.name } </h1>
 
-                        <li> {xnodeData.name} </li>
-                        <li> {xnodeData.description} </li>
-                      </ul>
-                    </div>
-
-                    <div>
-                      <ul>
-                        <li>
-                          <b> {xnodeData.createdAt} </b>{' '}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <p> No Xnode for that UUID found. </p>
-                  </>
-                )
-              }
+                    </>
+                  ) : (
+                    <>
+                      <p> No Xnode for that UUID found. </p>
+                    </>
+                  )
+                }
               </>
             ) : (
               <>
-              {
-                !isLoading && (
-                  <Signup/>
-                )
-              }
+                {
+                  !isLoading && (
+                    <Signup/>
+                  )
+                }
               </>
             )
-          }
+                }
         </div>
       </section>
     </div>
