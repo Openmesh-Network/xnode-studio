@@ -114,7 +114,7 @@ const Deployments = () => {
                     <div>
                       <ul>
                         <li>
-                          <b> {node.createdAt} </b>{' '}
+                          <b> {node.createdAt.toString()} </b>{' '}
                         </li>
                       </ul>
                     </div>
