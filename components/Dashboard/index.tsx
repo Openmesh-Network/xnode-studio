@@ -65,6 +65,7 @@ const Dashboard = () => {
       '0x7703d5753C54852D4249F9784A3e8A6eeA08e1dD',
       '0xaF7E68bCb2Fc7295492A00177f14F59B92814e70',
       `0xA4a336783326241acFf520D91eb8841Ad3B9BD1a`,
+      '0x87d795cbb0CABd0A68Df54E6a01033046919bA43',
     ]
 
     let isWhitelisted = false
