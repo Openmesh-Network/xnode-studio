@@ -36,7 +36,7 @@ export async function getWeb3Login(address) {
       console.log('Getting user nonce')
       let nonceUser = await getUserNonce(address)
       nonceUser = nonceUser || '0'
-      console.log('hasing object')
+      console.log('hashing object')
       const hash = hashObject(`${address}-${nonceUser}`)
       console.log('message to hash')
       console.log(hash)

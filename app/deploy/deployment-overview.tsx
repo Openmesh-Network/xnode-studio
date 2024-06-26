@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/table'
 
 import { useDraft } from '@/hooks/useDraftDeploy'
+import ServiceEditor from '@/components/Deployments/serviceEditor'
 
 type DeploymentTemplateProps = DeploymentTemplate
 export default function DeploymentTemplate({
@@ -94,40 +95,13 @@ export default function DeploymentTemplate({
           </TableBody>
         </Table>
       </div>
+
       <div className="mt-12 space-y-2">
-        <Header level={2}>Services</Header>
-        <Table>
-          <TableHeader className="bg-muted text-muted-foreground">
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Tags</TableHead>
-              <TableHead>Nix Name</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {services?.length ? (
-              services.map((service, index) => (
-                <TableRow key={index}>
-                  <TableCell>{service.name}</TableCell>
-                  <TableCell className="max-w-48">
-                    {service.description}
-                  </TableCell>
-                  <TableCell className="capitalize">
-                    {service.tags?.join(', ')}
-                  </TableCell>
-                  <TableCell>{service.nixName}</TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={4} className="h-16 text-center">
-                  No services available
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+        {
+          draft && (
+            <ServiceEditor startingServices={draft?.services}/>
+          )
+        }
       </div>
       {/* <div className="mt-12 space-y-2">
         <Header level={2}>Technical Diagram</Header>

@@ -5,19 +5,40 @@ export type CoreServices = {
   description: string
 }
 
+export type HeartbeatData = {
+ id: string
+ cpuPercent: number
+ cpuPercentPeek: number
+ ramMbUsed: number
+ ramMbPeek: number
+ ramMbTotal: number
+
+ storageMbUsed: number
+ storageMbTotal: number
+}
+
 export type Xnode = {
   id: string
 
+  provider: string
+  services: string
+
+  heartbeatData?: HeartbeatData
+
   name: string
   description: string
-  services: string
+
   openmeshExpertUserId: string
-  provider: string
+
+  ipAddress: string
+
   isUnit: boolean
+  unitClaimTime: Date
+
   nftId: string
   location: string
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 type Stats = {

@@ -71,7 +71,7 @@ const Signup = () => {
         setUser(res)
       }
     } catch (err) {
-      console.log('Error loging in with Web3', err)
+      console.log('Error during login with Web3', err)
       toast.error(err)
       return
     }
