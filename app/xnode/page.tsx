@@ -12,16 +12,69 @@ import axios from 'axios'
 import { useUser } from 'hooks/useUser'
 
 import Signup from '@/components/Signup'
-import { Xnode } from '../../types/node'
+import { HeartbeatData, Xnode } from '../../types/node'
 
 import { useDraft } from '@/hooks/useDraftDeploy'
 import Loading from '@/components/Loading'
+import SectionHeader from '@/components/SectionHeader'
+import ServiceEditor from '@/components/Deployments/serviceEditor'
 
 type XnodePageProps = {
   searchParams: {
     uuid: string
   }
 }
+
+const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercent}: {used: number, available: number, usedPercent: number, unit: string, name: string, isAvailable: boolean}) => {
+
+  const upperCaseFirstLetter = (str: string) => {
+
+    let newStr = "";
+
+    newStr += str[0].toUpperCase();
+    newStr += str.slice(1, str.length);
+    return newStr
+  }
+
+  return (
+    <div className="flex-1">
+      <p className="font-medium"> { upperCaseFirstLetter(name) } </p>
+      <div className="w-full flex">
+        { /* TODO: Add icon */ }
+        <div className="w-10 h-10 bg-blue-200 mr-2">
+        </div>
+
+        <div className="bg-gray-200 flex-1 flex align-middle min-h-5">
+
+          {
+            isAvailable ? (
+              <>
+                <div className="bg-blue-500 h-full" style={{width: usedPercent + "%"}}>
+                </div>
+
+                <div className="w-fit p-2">
+                  <p> { available + unit + " " } left </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-fit p-2">
+                  <p> No { name } data available. </p>
+                </div>
+              </>
+            )
+          }
+        </div>
+      </div>
+      {
+        isAvailable && (
+          <p className="ml-12"> { used + unit } </p>
+        )
+      }
+    </div>
+  )
+}
+
 export default function XnodePage({ searchParams }: XnodePageProps) {
   const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
   const [ draft, setDraft ] = useDraft()
@@ -56,7 +109,9 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
           console.log("Got response: ", response)
           if (response.data) {
             console.log('Got the Xnode data')
-            setXnodeData(response.data)
+            let node = response.data as Xnode
+            node.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
+            setXnodeData(node)
             setIsLoading(false)
           }
         })
@@ -76,6 +131,56 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     getData()
   }, [user?.sessionToken])
 
+  useEffect(() => {
+    console.log(xnodeData)
+    if (xnodeData?.heartbeatData) {
+      console.log(xnodeData.heartbeatData)
+    } else {
+      console.log("No heartbeat data. :(")
+    }
+  }, [xnodeData])
+
+  function timeSince(startDate: Date) {
+    let d = new Date(startDate)
+
+    const today = new Date()
+    const total = today.getTime() - (d.getTime())
+
+    const minutes = (Math.floor((total / 1000 / 60) % 60))
+    const hours   = (Math.floor((total / 1000 / 60 / 60) % 24))
+    const days    = (Math.floor((total / 1000 / 60 / 60 / 24) % 1000000))
+
+    let result = ""
+    if (days > 0) {
+      result += days
+
+      if (days == 1) {
+        result += " day, " 
+      } else {
+        result += " days, " 
+      }
+    }
+
+    if (hours > 0) {
+      result += hours
+
+      if (hours == 1) {
+        result += " hour, " 
+      } else {
+        result += " hours, " 
+      }
+    }
+
+    result += minutes
+    if (minutes == 1) {
+      result += " minute"
+    } else {
+      result += " minutes"
+    }
+
+    return result
+  }
+
   function getExpirationDays(startDate: Date) {
     let d = new Date(startDate)
     console.error(d.getTime())
@@ -85,7 +190,11 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
     const days = 365 - (Math.floor((total / 1000 / 60 / 60 / 24) % 1000000))
 
-    return days + " days"
+    return days
+  }
+
+  function round(x: number) {
+    return Math.floor(x * 100) / 100
   }
 
 
@@ -104,15 +213,56 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
               <>
                 {
                   xnodeData ? (
-                    <div>
+                    <div className="w-full">
+
+                      <SectionHeader> Your Xnode </SectionHeader>
 
                       <p> { xnodeData.name } </p>
 
                       { xnodeData.isUnit && (
-                        <p> { getExpirationDays(xnodeData.unitClaimTime) } </p>
+                        <p> { getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine." } </p>
                       )
                       }
 
+                      <div className="w-full mt-3 shadow-md p-8 h-fit border">  
+                        <p> Last update { timeSince(xnodeData.updatedAt) } ago </p>
+
+                        <div className="mt-4 flex w-full space-x-14">
+
+                          <XnodeMeasurement 
+                            name="CPU" 
+                            unit="%"
+                            isAvailable={xnodeData.heartbeatData != null} 
+                            used={round(xnodeData.heartbeatData?.cpuPercent)}
+                            available={round(100 - xnodeData.heartbeatData?.cpuPercent)}
+                            usedPercent={round(xnodeData.heartbeatData?.cpuPercent)}
+                          />
+
+                          <XnodeMeasurement 
+                            name="RAM" 
+                            unit="GB"
+                            isAvailable={xnodeData.heartbeatData != null} 
+                            used={round(xnodeData.heartbeatData?.ramMbUsed / 1024)}
+                            available={round((xnodeData.heartbeatData?.ramMbTotal - xnodeData.heartbeatData?.ramMbUsed) / 1024)}
+                            usedPercent={xnodeData.heartbeatData?.ramMbUsed / xnodeData.heartbeatData?.ramMbTotal * 100}
+                          />
+
+                          <XnodeMeasurement 
+                            name="storage" 
+                            unit="GB"
+                            isAvailable={xnodeData.heartbeatData != null} 
+                            used={round(xnodeData.heartbeatData?.storageMbUsed / 1024)}
+                            available={round((xnodeData.heartbeatData?.storageMbTotal - xnodeData.heartbeatData?.storageMbUsed) / 1024)}
+                            usedPercent={xnodeData.heartbeatData?.storageMbUsed / xnodeData.heartbeatData?.storageMbTotal * 100}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
+                        <ServiceEditor startingServices={JSON.parse(xnodeData.services)}/>
+
+                        <p> Running on { xnodeData.ipAddress } </p>
+                      </div>
                     </div>
                   ) : (
                     <>

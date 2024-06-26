@@ -35,6 +35,7 @@ import { Separator } from '@/components/ui/separator'
 
 import { Slider } from '../../components/ui/slider'
 import { useDraft } from '@/hooks/useDraftDeploy'
+import SectionHeader from '@/components/SectionHeader'
 
 const STEP_MIN = 1
 const STEP_MAX = 1000
@@ -146,7 +147,8 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
 
   return (
     <section>
-      <h1 className="text-4xl font-semibold text-black">Select a provider</h1>
+      <SectionHeader> Select a provider </SectionHeader>
+
       <div className="my-12">
         <Separator
           className={cn(loadingProgress > -1 ? 'opacity-0' : 'opacity-100')}
