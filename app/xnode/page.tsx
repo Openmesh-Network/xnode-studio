@@ -19,6 +19,7 @@ import Loading from '@/components/Loading'
 import SectionHeader from '@/components/SectionHeader'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
 import { ServiceData } from '@/types/dataProvider'
+import { Button } from '@/components/ui/button'
 
 type XnodePageProps = {
   searchParams: {
@@ -129,6 +130,28 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     }
 
   }, [user?.sessionToken, user ])
+
+  const updateServices = async () => {
+    const config = {
+      method: 'post' as 'post',
+      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/pushXnodeServices`,
+      headers: {
+        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+        'X-Parse-Session-Token': user.sessionToken,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        "id": id,
+        "services": services
+      }
+    }
+
+    await axios(config).then((response) => {
+      console.log(response)
+      setIsLoading(true)
+      getData()
+    })
+  }
 
   useEffect(() => {
     getData()
@@ -266,6 +289,13 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
                         <p> Running on { xnodeData.ipAddress } </p>
                       </div>
+
+                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
+                        <p> Actions </p>
+
+                        <Button onClick={() => updateServices()}> Push new services </Button>
+                      </div>
+
                     </div>
                   ) : (
                     <>

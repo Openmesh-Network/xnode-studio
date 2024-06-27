@@ -109,7 +109,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
 
 
                       {
-                        service.options.map((option, optionIndex) => (
+                        service.options?.map((option, optionIndex) => (
                           <div key={optionIndex}>
                             {/* <Popover> */}
                             {/*   <PopoverTrigger className="text-blue-700 underline"> */}
