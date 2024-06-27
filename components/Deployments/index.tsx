@@ -69,16 +69,13 @@ const Deployments = () => {
     }
   }, [user?.sessionToken, user, account?.isConnected])
 
-  const commonClasses =
-    'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
-
   useEffect(() => {
     getData()
   }, [])
 
   useEffect(() => {
     getData()
-  }, [ user?.sessionToken, user, isUserLoading ])
+  }, [ user?.sessionToken, user?.updatedAt, user, isUserLoading ])
 
   return (
     <>

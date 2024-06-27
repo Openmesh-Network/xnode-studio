@@ -123,7 +123,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
               tags={templateData.tags}
               description={templateData.description}
               minSpecs={templateData.minSpecs}
-              services={templateData.services}
+              defaultServices={templateData.services}
               nftId={ nftId ? nftId.toString() : "" }
             />
           ) : null}

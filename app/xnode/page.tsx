@@ -18,6 +18,7 @@ import { useDraft } from '@/hooks/useDraftDeploy'
 import Loading from '@/components/Loading'
 import SectionHeader from '@/components/SectionHeader'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
+import { ServiceData } from '@/types/dataProvider'
 
 type XnodePageProps = {
   searchParams: {
@@ -86,6 +87,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     .parse(String(searchParams.uuid))
 
   const [user] = useUser()
+  const [services, setServices] = useState<ServiceData[]>()
 
   const getData = useCallback(async () => {
     setIsLoading(true)
@@ -112,6 +114,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
             let node = response.data as Xnode
             node.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
             setXnodeData(node)
+            setServices(JSON.parse(node.services))
             setIsLoading(false)
           }
         })
@@ -259,7 +262,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                       </div>
 
                       <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <ServiceEditor startingServices={JSON.parse(xnodeData.services)}/>
+                        <ServiceEditor startingServices={services} updateServices={setServices}/>
 
                         <p> Running on { xnodeData.ipAddress } </p>
                       </div>
