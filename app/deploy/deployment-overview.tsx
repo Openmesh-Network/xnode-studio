@@ -3,9 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ListTree } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-import { DeploymentConfiguration, type DeploymentTemplate } from '@/types/dataProvider'
+import { DeploymentConfiguration, ServiceData, type DeploymentTemplate } from '@/types/dataProvider'
 import Header from '@/components/ui/header'
 import {
   Table,
@@ -26,13 +26,14 @@ export default function DeploymentTemplate({
   tags,
   description,
   minSpecs,
-  services,
+  defaultServices,
   isUnit = false,
   nftId = ""
 }) {
 
 
   const [ draft, setDraft ] = useDraft()
+  const [ services, setServices ] = useState<ServiceData[]>(defaultServices)
 
   useEffect(() => {
 
@@ -99,7 +100,7 @@ export default function DeploymentTemplate({
       <div className="mt-12 space-y-2">
         {
           draft && (
-            <ServiceEditor startingServices={draft?.services}/>
+            <ServiceEditor startingServices={services} updateServices={setServices}/>
           )
         }
       </div>

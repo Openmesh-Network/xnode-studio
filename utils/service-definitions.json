@@ -15,35 +15,35 @@
         "nixName": "gnunet",
         "options": [
             {
-                "name": "networking/gnunet.nix",
+                "name": "enable",
                 "desc": "Whether to run the GNUnet daemon. GNUnet is GNU\u2019s anonymouspeer-to-peer communication and file sharing framework.",
                 "nixName": "enable",
                 "type": "boolean",
                 "value": "true"
             },
             {
-                "name": "networking/gnunet.nix",
+                "name": "package",
                 "desc": "The gnunet package to use.",
                 "nixName": "package",
                 "type": "package",
                 "value": "pkgs.gnunet"
             },
             {
-                "name": "networking/gnunet.nix",
+                "name": "udp.port",
                 "desc": "The UDP port for use by GNUnet.",
                 "nixName": "udp.port",
                 "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
                 "value": "2086"
             },
             {
-                "name": "networking/gnunet.nix",
+                "name": "tcp.port",
                 "desc": "The TCP port for use by GNUnet.",
                 "nixName": "tcp.port",
                 "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
                 "value": "2086"
             },
             {
-                "name": "networking/gnunet.nix",
+                "name": "load.maxNetUpBandwidth",
                 "desc": "Maximum bandwidth usage (in bits per second) for GNUnet whendownloading data.",
                 "nixName": "load.maxNetUpBandwidth",
                 "type": "signed integer",
@@ -197,8 +197,8 @@
         "implmented": false,
         "logo": "https://metabase.com/images/favicon.ico",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 1000,
+            "storage": 10000
         },
         "nixName": "metabase",
         "options": [
@@ -263,8 +263,8 @@
         "implmented": false,
         "logo": "https://m-img.org/spai/q_lossless+ret_img+to_webp/matomo.org/wp-content/uploads/2018/11/cropped-DefaultIcon-32x32.png",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 512,
+            "storage": 500
         },
         "nixName": "matomo",
         "options": [
@@ -630,7 +630,7 @@
         "implmented": false,
         "logo": "https://plausible.io/assets/images/icon/favicon-16x16.png",
         "specs": {
-            "ram": 0,
+            "ram": 4096,
             "storage": 0
         },
         "nixName": "plausible",
@@ -808,8 +808,8 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 8192,
+            "storage": 12280
         },
         "nixName": "ollama",
         "options": [
@@ -989,8 +989,8 @@
         "implmented": false,
         "logo": "https://lidarr.audio/img/favicon.ico",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 2048,
+            "storage": 20480
         },
         "nixName": "lidarr",
         "options": [
@@ -1240,7 +1240,7 @@
         "implmented": false,
         "logo": "https://sonarr.tv/img/favicon.ico",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "sonarr",
@@ -1432,7 +1432,7 @@
         "implmented": false,
         "logo": "https://radarr.video/img/favicon.ico",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "radarr",
@@ -2490,8 +2490,8 @@
         "implmented": false,
         "logo": "https://www.discourse.org/a/img/favicon.ico",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 1024,
+            "storage": 10240
         },
         "nixName": "discourse",
         "options": [
@@ -2815,7 +2815,7 @@
         "implmented": false,
         "logo": "https://joinmastodon.org/_next/static/media/favicon-32x32.3a702fe9.png",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "mastodon",
@@ -3182,7 +3182,7 @@
         "implmented": false,
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "jitsi-meet",
@@ -3657,7 +3657,7 @@
         "implmented": false,
         "logo": "http://dar.linux.free.fr/favicon.png",
         "specs": {
-            "ram": 0,
+            "ram": 256,
             "storage": 0
         },
         "nixName": "dar",
@@ -4738,7 +4738,7 @@
         "implmented": false,
         "logo": "https://join-lemmy.org/static/assets/icons/favicon.svg",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "lemmy-ui",
@@ -5132,7 +5132,7 @@
         "implmented": false,
         "logo": "https://git.pleroma.social/uploads/-/system/appearance/favicon/1/favicon.png",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "pleroma",
@@ -5498,7 +5498,7 @@
         "implmented": false,
         "logo": "",
         "specs": {
-            "ram": 0,
+            "ram": 1024,
             "storage": 0
         },
         "nixName": "glusterfs",
@@ -12157,6 +12157,22 @@
         ]
     },
     {
+        "name": "sshuttle",
+        "desc": "Transparent proxy server that works as a poor man's VPN",
+        "tags": [
+            "VPN"
+        ],
+        "website": "https://github.com/sshuttle/sshuttle",
+        "implmented": false,
+        "logo": "https://github.githubassets.com/favicons/favicon.png",
+        "specs": {
+            "ram": 4096,
+            "storage": 20480
+        },
+        "nixName": "sshuttle",
+        "options": []
+    },
+    {
         "name": "strongSwan",
         "desc": "OpenSource IPsec-based VPN Solution",
         "tags": [
@@ -12775,6 +12791,22 @@
         ]
     },
     {
+        "name": "Hiawatha",
+        "desc": "An advanced and secure webserver",
+        "tags": [
+            "Web Servers"
+        ],
+        "website": "https://www.hiawatha-webserver.org",
+        "implmented": false,
+        "logo": "https://www.hiawatha-webserver.org/images/favicon/favicon-coast.png",
+        "specs": {
+            "ram": 512,
+            "storage": 0
+        },
+        "nixName": "hiawatha",
+        "options": []
+    },
+    {
         "name": "Lighttpd",
         "desc": "Lightweight high-performance web server",
         "tags": [
@@ -13341,7 +13373,124 @@
                 "value": "true"
             },
             {
-                "name": "Package",
+                "name": "group",
+                "desc": "Name of the group used to run the jupyter service. Use this if youwant to create a group of users that are able to view the notebookdirectory\u2019s content.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": "jupyter"
+            },
+            {
+                "name": "kernels",
+                "desc": "Declarative kernel config.Kernels can be declared in any language that supports and has therequired dependencies to communicate with a jupyter server. In python\u2019scase, it means that ipykernel package must always be included in thelist of packages of the targeted environment.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": "null"
+            },
+            {
+                "name": "password",
+                "desc": "Password to use with notebook. Can be generated using: In [1]: fromnotebook.auth import passwd In [2]: passwd(\u2018test\u2019) Out[2]:\u2018sha1:1b961dc713fb:88483270a63e57d18d43cf337e629539de1436ba\u2019 NOTE: youneed to keep the single quote inside the nix string. Or you can use apython oneliner: \u201copen(\u2018/path/secret_file\u2019, \u2018r\u2019,encoding=\u2018utf8\u2019).read().strip()\u201d It will be interpreted at the end ofthe notebookConfig.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": null
+            },
+            {
+                "name": "package",
+                "desc": "The notebook package to use.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": "pkgs.python3.pkgs.notebook"
+            },
+            {
+                "name": "notebookDir",
+                "desc": "Root directory for notebooks.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": "~/"
+            },
+            {
+                "name": "kernels.<name>.logo64",
+                "desc": "Path to 64x64 logo png.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": "null"
+            },
+            {
+                "name": "kernels.<name>.logo32",
+                "desc": "Path to 32x32 logo png.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": "null"
+            },
+            {
+                "name": "kernels.<name>.language",
+                "desc": "Language of the environment. Typically the name of the binary.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": null
+            },
+            {
+                "name": "kernels.<name>.extraPaths",
+                "desc": "Extra paths to link in kernel directory",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": "{ }"
+            },
+            {
+                "name": "kernels.<name>.env",
+                "desc": "Environment variables to set for the kernel.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": "{ }"
+            },
+            {
+                "name": "kernels.<name>.displayName",
+                "desc": "Name that will be shown to the user.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "kernels.<name>.argv",
+                "desc": "Command and arguments to start the kernel.",
+                "nixName": "nixos/modules/services/development/jupyter/default.nix",
+                "type": "string",
+                "value": null
+            }
+        ]
+    },
+    {
+        "name": "Go-Ethereum",
+        "desc": "Official golang implementation of the Ethereum",
+        "tags": [
+            "Validator"
+        ],
+        "website": "https://geth.ethereum.org/",
+        "implmented": true,
+        "logo": "https://s3-alpha.figma.com/hub/file/1223735372/e78e523c-8003-4dee-abb2-31f7665696b4-cover.png",
+        "specs": {
+            "ram": 16384,
+            "storage": 4194304
+        },
+        "nixName": "go-ethereum",
+        "options": []
+    },
+    {
+        "name": "Open WebUI",
+        "desc": "WebUI for Ollama AI language models",
+        "tags": [
+            "Website"
+        ],
+        "website": "https://openwebui.com/",
+        "implmented": true,
+        "logo": "https://openwebui.com/favicon.png",
+        "specs": {
+            "ram": 512,
+            "storage": 1024
+        },
+        "nixName": "open-webui",
+        "options": [
+            {
+                "name": "services.open-webui.package",
                 "desc": "The open-webui package to use.",
                 "nixName": "package",
                 "type": "package",

@@ -31,17 +31,10 @@ import { Button } from '@/components/ui/button'
 //  Consider having two arrays, one with the original services and another with the updated services.
 //  This would let the user see which services where changed before refreshing their configuration.
 
-const ServiceEditor = ({ startingServices }: { startingServices: ServiceData[] }) => {
+const ServiceEditor = ({ startingServices, updateServices }: { startingServices: ServiceData[], updateServices: any }) => {
 
-  const [ services, setServices ] = useState<ServiceData[]>(startingServices)
-
-  useEffect(() => {
-
-    // alert(services)
-    console.log("Services updated! ")
-    console.log(services)
-
-  }, [services])
+  const services = startingServices
+  const setServices = updateServices
 
   const getInputFromOption = (serviceIndex: number, optionIndex: number) => {
 
@@ -75,11 +68,6 @@ const ServiceEditor = ({ startingServices }: { startingServices: ServiceData[] }
           <input type="text" defaultValue={ option.value } onChange={ (e) => updateFunc(e.target.value, serviceIndex, optionIndex) }/>
         )
     }
-  }
-
-  // NOTE: Don't delete, this is meant to be accessed by parent component.
-  const getServices = () => {
-    return services
   }
 
   return (
@@ -121,7 +109,7 @@ const ServiceEditor = ({ startingServices }: { startingServices: ServiceData[] }
 
 
                       {
-                        service.options.map((option, optionIndex) => (
+                        service.options?.map((option, optionIndex) => (
                           <div key={optionIndex}>
                             {/* <Popover> */}
                             {/*   <PopoverTrigger className="text-blue-700 underline"> */}

@@ -5,6 +5,7 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 
 import 'react-toastify/dist/ReactToastify.css'
 
+import { timeSince } from '@/utils/time'
 import { useRouter } from 'next/navigation'
 import { XnodeUnitContract } from '@/contracts/XnodeUnit'
 import { prefix } from '@/utils/prefix'
@@ -69,16 +70,13 @@ const Deployments = () => {
     }
   }, [user?.sessionToken, user, account?.isConnected])
 
-  const commonClasses =
-    'pb-[17.5px] whitespace-nowrap font-normal text-[8px] md:pb-[21px] lg:pb-[24.5px] xl:pb-[28px] 2xl:pb-[35px] 2xl:text-[16px] md:text-[9.6px] lg:text-[11.2px] xl:text-[12.8px]'
-
   useEffect(() => {
     getData()
   }, [])
 
   useEffect(() => {
     getData()
-  }, [ user?.sessionToken, user, isUserLoading ])
+  }, [ user?.sessionToken, user?.updatedAt, user, isUserLoading ])
 
   return (
     <>
@@ -92,7 +90,12 @@ const Deployments = () => {
           { xnodesData ? (
             <div className="border-1 border-solid/20 border-black">
               <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
-                {xnodesData?.map((node: Xnode) => (
+                {xnodesData?.sort((a: Xnode, b: Xnode) => { 
+                  if (b.createdAt > a.createdAt) 
+                    return 1
+                  else
+                    return -1
+                }).map((node: Xnode) => (
                   <li className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
                     <div>
                       <ul>
@@ -102,19 +105,13 @@ const Deployments = () => {
                         </li>
 
                         <li> {node.name} </li>
-                        <li> {node.description} </li>
-
-                        <li>
-                          {' '}
-                          <b> {node.provider} </b>{' '}
-                        </li>
                       </ul>
                     </div>
 
                     <div>
                       <ul>
                         <li>
-                          <b> {node.createdAt.toString()} </b>{' '}
+                          <b> { timeSince(node.createdAt) } </b>{' '}
                         </li>
                       </ul>
                     </div>
