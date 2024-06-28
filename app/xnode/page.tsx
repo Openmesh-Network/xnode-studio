@@ -14,12 +14,15 @@ import { useUser } from 'hooks/useUser'
 import Signup from '@/components/Signup'
 import { HeartbeatData, Xnode } from '../../types/node'
 
+import Image from 'next/image'
 import { useDraft } from '@/hooks/useDraftDeploy'
 import Loading from '@/components/Loading'
 import SectionHeader from '@/components/SectionHeader'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
 import { ServiceData } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
+
+import stackIcon from '@/assets/stack.svg'
 
 type XnodePageProps = {
   searchParams: {
@@ -43,7 +46,8 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
       <p className="font-medium"> { upperCaseFirstLetter(name) } </p>
       <div className="w-full flex">
         { /* TODO: Add icon */ }
-        <div className="w-10 h-10 bg-blue-200 mr-2">
+        <div className="w-10 h-10 mr-2">
+          <Image src={stackIcon} alt={"Stack icon"} />
         </div>
 
         <div className="bg-gray-200 flex-1 flex align-middle min-h-5">
@@ -142,7 +146,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       },
       data: {
         "id": id,
-        "services": services
+        "services": JSON.stringify(services)
       }
     }
 
@@ -244,6 +248,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                       <SectionHeader> Your Xnode </SectionHeader>
 
                       <p> { xnodeData.name } </p>
+                      <p> { xnodeData.id } </p>
 
                       { xnodeData.isUnit && (
                         <p> { getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine." } </p>
