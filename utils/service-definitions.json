@@ -198,8 +198,8 @@
         "website": "https://metabase.com",
         "logo": "https://metabase.com/images/favicon.ico",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 1000,
+            "storage": 10000
         },
         "nixName": "metabase",
         "options": [
@@ -265,8 +265,8 @@
         "website": "https://matomo.org/",
         "logo": "https://m-img.org/spai/q_lossless+ret_img+to_webp/matomo.org/wp-content/uploads/2018/11/cropped-DefaultIcon-32x32.png",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 512,
+            "storage": 500
         },
         "nixName": "matomo",
         "options": [
@@ -654,7 +654,7 @@
         "website": "https://plausible.io/",
         "logo": "https://plausible.io/assets/images/icon/favicon-16x16.png",
         "specs": {
-            "ram": 0,
+            "ram": 4096,
             "storage": 0
         },
         "nixName": "plausible",
@@ -833,8 +833,8 @@
         "website": "https://github.com/ollama/ollama",
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 8192,
+            "storage": 12280
         },
         "nixName": "ollama",
         "options": [
@@ -1044,8 +1044,8 @@
         "website": "https://lidarr.audio/",
         "logo": "https://lidarr.audio/img/favicon.ico",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 2048,
+            "storage": 20480
         },
         "nixName": "lidarr",
         "options": [
@@ -1171,7 +1171,7 @@
         "website": "https://sonarr.tv/",
         "logo": "https://sonarr.tv/img/favicon.ico",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "sonarr",
@@ -1231,7 +1231,7 @@
         "website": "https://radarr.video/",
         "logo": "https://radarr.video/img/favicon.ico",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "radarr",
@@ -1800,8 +1800,8 @@
         "website": "https://www.discourse.org/",
         "logo": "https://www.discourse.org/a/img/favicon.ico",
         "specs": {
-            "ram": 0,
-            "storage": 0
+            "ram": 1024,
+            "storage": 10240
         },
         "nixName": "discourse",
         "options": [
@@ -2126,7 +2126,7 @@
         "website": "https://joinmastodon.org",
         "logo": "https://joinmastodon.org/_next/static/media/favicon-32x32.3a702fe9.png",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "mastodon",
@@ -2494,7 +2494,7 @@
         "website": "https://github.com/jitsi/jitsi-meet",
         "logo": "https://github.githubassets.com/favicons/favicon.png",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "jitsi-meet",
@@ -3864,7 +3864,7 @@
         "website": "https://git.pleroma.social/pleroma/pleroma",
         "logo": "https://git.pleroma.social/uploads/-/system/appearance/favicon/1/favicon.png",
         "specs": {
-            "ram": 0,
+            "ram": 2048,
             "storage": 0
         },
         "nixName": "pleroma",
@@ -4079,7 +4079,7 @@
         "website": "https://www.gluster.org",
         "logo": "",
         "specs": {
-            "ram": 0,
+            "ram": 1024,
             "storage": 0
         },
         "nixName": "glusterfs",
@@ -21952,8 +21952,8 @@
             "Web Application"
         ],
         "specs": {
-            "ram": 12000,
-            "storage": 12000
+            "ram": 512,
+            "storage": 1024
         },
         "nixName": "open-webui",
         "options": [
