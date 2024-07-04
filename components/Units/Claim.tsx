@@ -372,7 +372,10 @@ const Claim = ({ chainId }: { chainId: number }) => {
 
         <div className="">
           <button
-            className="cursor-pointer items-center rounded-[5px] border border-blue500 bg-blue500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#FFFFFF] hover:bg-[#064DD2] lg:text-[16px]"
+            className={`cursor-pointer items-center rounded-[5px] border px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] hover:bg-[#064DD2] lg:text-[16px] ${invalidCode !== undefined || walletClient?.account === undefined
+                ? 'border-gray-500 bg-gray-500 text-[#FFFFFF]'
+                : 'border-blue500 bg-blue500 text-[#FFFFFF]'
+              }`}
             disabled={
               invalidCode !== undefined ||
               walletClient?.account === undefined ||
