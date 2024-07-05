@@ -29,10 +29,11 @@ import {
 import { Xnode } from '../../types/node'
 import { ToastAction } from '../ui/toast'
 import { useToast } from '../ui/use-toast'
+import axios from 'axios'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
+  const [xnodesData, setXnodesData] = useState<Xnode[]>([]);
   const [activateWarnOpen, setActivateWarnOpen] = useState<boolean>(false)
   const [waitOpen, setWaitOpen] = useState<boolean>(false)
   const [successOpen, setSuccessOpen] = useState<boolean>(false)
@@ -115,7 +116,39 @@ const Dashboard = () => {
       console.log(nfts)
     }
   }
+  const getData = async () => {
+    if (user?.sessionToken) {
+      const config = {
+        method: 'get' as 'get',
+        url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/getXnodes`,
+        headers: {
+          'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+          'X-Parse-Session-Token': user.sessionToken,
+          'Content-Type': 'application/json',
+        },
+      }
 
+      try {
+        await axios(config).then(function (response) {
+          if (response.data) {
+            console.log('Got the Xnode data')
+            console.log(response.data)
+            setXnodesData(response.data)
+
+          }
+        })
+      } catch (err) {
+        // toast({
+        //   title: 'Error getting the Xnode list',
+        //   description: err.response.data.message,
+        //   variant: 'destructive',
+        // })
+
+        console.error("Couldnt get Xnode list: ", err)
+
+      }
+    }
+  }
   const activateNFT = async () => {
     if (submitting) {
       toast({
@@ -311,7 +344,7 @@ const Dashboard = () => {
                 {' '}
                 <a className="text-blue-500 underline" href="">
                   {' '}
-                  Additional notes 
+                  Additional notes
                 </a>
                 .
               </b>
@@ -487,46 +520,54 @@ const Dashboard = () => {
                 </div>
 
                 <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
-                  {xuNfts.map((xuId, index) => (
-                    <li
-                      key={index}
-                      className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
-                    >
-                      <div>
-                        <ul>
-                          <li>
-                            {' '}
-                            <b> Xnode </b>{' '}
-                          </li>
-                          <li> 2 weeks GPU </li>
-                          <li> 11.5 months CPU </li>
-                        </ul>
-                      </div>
+                  {xuNfts.map((xuId, index) => {
+                    const isDeployed = xnodesData.some(item => item.deploymentAuth.toString() == xuId.toString());
+                    return (
 
-                      <div className="flex h-full w-fit flex-col items-center justify-center">
-                        <button
-                          className="inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                          onClick={() =>
-                            push(`${prefix}/templates?nftId=${xuId.toString()}`)
-                          }
-                        >
-                          Deploy
-                        </button>
+                      <li
+                        key={index}
+                        className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
+                      >
+                        <div>
+                          <ul>
+                            <li>
+                              {' '}
+                              <b> Xnode </b>{' '}
+                            </li>
+                            <li> 2 weeks GPU </li>
+                            <li> 11.5 months CPU </li>
+                          </ul>
+                        </div>
 
-                        <p className="mt-5">
-                          {' '}
-                          <a
-                            className="text-blue-500 underline"
-                            href={`${chain.blockExplorers.default.url}/nft/${XnodeUnitContract.address}/${xuId.toString()}`}
-                            target="_blank"
+                        <div className="flex h-full w-fit flex-col items-center justify-center">
+                          <button
+                            disabled={isDeployed}
+                            className={`inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border  px-4 text-sm font-medium text-primary transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${isDeployed
+                                ? 'border-gray-400 text-gray-400 cursor-not-allowed'
+                                : 'border-primary text-primary hover:bg-primary/10'
+                              }`}
+                            onClick={() =>
+                              push(`${prefix}/templates?nftId=${xuId.toString()}`)
+                            }
                           >
+                            {isDeployed ? <span className="text-gray-400">Deployed</span> : 'Deploy'}
+                          </button>
+
+                          <p className="mt-5">
                             {' '}
-                            View on etherscan{' '}
-                          </a>{' '}
-                        </p>
-                      </div>
-                    </li>
-                  ))}
+                            <a
+                              className="text-blue-500 underline"
+                              href={`${chain.blockExplorers.default.url}/nft/${XnodeUnitContract.address}/${xuId.toString()}`}
+                              target="_blank"
+                            >
+                              {' '}
+                              View on etherscan{' '}
+                            </a>{' '}
+                          </p>
+                        </div>
+                      </li>
+                    )
+                  })}
                 </ul>
               </div>
             )}
