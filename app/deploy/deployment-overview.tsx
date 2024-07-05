@@ -16,11 +16,11 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import {convertSize} from "../../utils/functions"
+import { convertSize } from "../../utils/functions"
 
 import { useDraft } from '@/hooks/useDraftDeploy'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
-
+import EditHeader from '@/components/ui/editableHeader'
 type DeploymentTemplateProps = DeploymentTemplate
 export default function DeploymentTemplate({
   custom,
@@ -34,8 +34,10 @@ export default function DeploymentTemplate({
 }) {
 
 
-  const [ draft, setDraft ] = useDraft()
-  const [ services, setServices ] = useState<ServiceData[]>(defaultServices)
+  const [services, setServices] = useState<ServiceData[]>(defaultServices)
+  const [draft, setDraft] = useDraft()
+  const [templatename, setTemlatename] = useState<string>(name)
+
 
   useEffect(() => {
 
@@ -58,13 +60,20 @@ export default function DeploymentTemplate({
     setDraft(newDraft as DeploymentConfiguration)
   }, [])
 
- 
+  useEffect(() => {
+    if (draft) {
+      draft.name = templatename
+      console.log("this draft is deployed")
+      setDraft(draft)
+    }
+  }, [templatename])
+
   return (
     <>
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <ListTree className="size-10 stroke-1 text-primary" />
-          <Header level={1}>{name}</Header>
+          <EditHeader level={1} editable={true} input={templatename} State={setTemlatename}></EditHeader>
         </div>
         {custom ? (
           <Link href="/workspace" className="text-primary underline">
@@ -103,7 +112,7 @@ export default function DeploymentTemplate({
       <div className="mt-12 space-y-2">
         {
           draft && (
-            <ServiceEditor startingServices={services} updateServices={setServices}/>
+            <ServiceEditor startingServices={services} updateServices={setServices} />
           )
         }
       </div>
