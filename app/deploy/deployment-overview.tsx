@@ -16,6 +16,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import {convertSize} from "../../utils/functions"
+
 import { useDraft } from '@/hooks/useDraftDeploy'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
 
@@ -56,6 +58,7 @@ export default function DeploymentTemplate({
     setDraft(newDraft as DeploymentConfiguration)
   }, [])
 
+ 
   return (
     <>
       <div className="flex items-center justify-between gap-4">
@@ -85,12 +88,12 @@ export default function DeploymentTemplate({
           <TableBody>
             <TableRow>
               <TableCell>RAM</TableCell>
-              <TableCell>{minSpecs?.ram ? `${minSpecs.ram}MB` : '-'}</TableCell>
+              <TableCell>{minSpecs?.ram ? `${convertSize(minSpecs.ram)}` : '-'}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Storage</TableCell>
               <TableCell>
-                {minSpecs?.storage ? `${minSpecs.storage}MB` : '-'}
+                {minSpecs?.storage ? `${convertSize(minSpecs.storage)}` : '-'}
               </TableCell>
             </TableRow>
           </TableBody>

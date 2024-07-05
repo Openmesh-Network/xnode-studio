@@ -474,8 +474,8 @@ const Dashboard = () => {
                               {' '}
                               <b>Xnode Entitlement NFT</b>{' '}
                             </li>
-                            <li> 2 weeks GPU </li>
-                            <li> 11.5 months CPU </li>
+                          
+                            <li> 12 months CPU </li>
                           </ul>
                         </div>
 
@@ -534,8 +534,8 @@ const Dashboard = () => {
                               {' '}
                               <b> Xnode </b>{' '}
                             </li>
-                            <li> 2 weeks GPU </li>
-                            <li> 11.5 months CPU </li>
+                           
+                            <li> 12 months CPU </li>
                           </ul>
                         </div>
 
