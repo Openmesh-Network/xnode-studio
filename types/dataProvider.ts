@@ -121,7 +121,18 @@ export type DeploymentConfiguration = {
 
   // An array to all the service ids being looked at.
   services: ServiceData[]
+  xnodeConfig : XnodeConfig
 }
+
+
+export type XnodeConfig= {
+  "services" : ServiceData[]
+  "users.users" : ServiceData[]
+//can prettymuch anything inhere
+}
+
+
+
 
 export type ServiceOption = {
   name: string

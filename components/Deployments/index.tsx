@@ -20,6 +20,7 @@ import Signup from '@/components/Signup'
 import { Xnode } from '../../types/node'
 import { ToastAction } from '../ui/toast'
 import { useToast } from '../ui/use-toast'
+import TextInputPopup from './InputEditor'
 
 const Deployments = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -28,6 +29,8 @@ const Deployments = () => {
   const [successOpen, setSuccessOpen] = useState<boolean>(false)
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
+  const [isSSHPopupOpen, setSSHIsPopupOpen] = useState(false);
+  const [sshKey, setSSHKey] = useState<string>('');
   const account = useAccount()
 
   const [ user, isUserLoading ] = useUser()

@@ -23,7 +23,7 @@ import SectionHeader from '@/components/SectionHeader'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
 import { ServiceData } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
-
+import TextInputPopup from '@/components/Deployments/InputEditor'
 import stackIcon from '@/assets/stack.svg'
 
 type XnodePageProps = {
@@ -84,6 +84,9 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
 }
 
 export default function XnodePage({ searchParams }: XnodePageProps) {
+
+  const [isSSHPopupOpen, setSSHIsPopupOpen] = useState(false);
+  const [sshKey, setSSHKey] = useState<string>('');
   const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
   const [draft, setDraft] = useDraft()
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -144,7 +147,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       console.log(service)
       service.options = service.options.filter(option => {
         const defaultOption = defaultservice.options.find(defOption => defOption.name === option.name);
-        console.log(defaultOption.value,option.value)
+        console.log(defaultOption.value, option.value)
         return (option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean"
       });
     });
@@ -311,6 +314,28 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                         <p> Actions </p>
 
                         <Button onClick={() => updateServices()}> Push new services </Button>
+                      </div>
+
+                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
+                        <p>Edit SSH Key</p>
+                        <div className="flex items-center space-x-4">
+                         
+                          <Button
+                            onClick={() => setSSHIsPopupOpen(true)}
+                           
+                          >
+                            Edit
+                          </Button>
+                          <Button>Save</Button>
+                        </div>
+                        <TextInputPopup
+                          isOpen={isSSHPopupOpen}
+                          onClose={() => setSSHIsPopupOpen(false)}
+                          setInputValue={setSSHKey}
+                          curValue={sshKey}
+                        />
+                        {sshKey && <p className="mt-4">SSH key: {sshKey}</p>}
+
                       </div>
 
                     </div>
