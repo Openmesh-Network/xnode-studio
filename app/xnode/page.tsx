@@ -21,7 +21,7 @@ import { useDraft } from '@/hooks/useDraftDeploy'
 import Loading from '@/components/Loading'
 import SectionHeader from '@/components/SectionHeader'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
-import { ServiceData } from '@/types/dataProvider'
+import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
 import TextInputPopup from '@/components/Deployments/InputEditor'
 import stackIcon from '@/assets/stack.svg'
@@ -31,6 +31,8 @@ type XnodePageProps = {
     uuid: string
   }
 }
+
+
 
 const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercent }: { used: number, available: number, usedPercent: number, unit: string, name: string, isAvailable: boolean }) => {
 
@@ -151,6 +153,8 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         return (option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean"
       });
     });
+
+   
     const config = {
       method: 'post' as 'post',
       url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/pushXnodeServices`,
@@ -160,16 +164,48 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         'Content-Type': 'application/json',
       },
       data: {
-        "id": id,
-        "services": JSON.stringify(tempService)
+        "id": "TEST-XNODE-UUID",
+        "services": JSON.stringify({
+          "services":[],
+          "user.user": await makepayload()})
       }
     }
     console.log(services)
+   
     await axios(config).then((response) => {
       console.log(response)
       setIsLoading(true)
       getData()
     })
+  }
+
+  async function makepayload() {
+   return [{
+      name: "xnode",
+      tags: [""],
+      specs: {
+        ram: 100,
+        storage: 100
+
+      },
+      desc: "",
+
+      // Url to the logo.
+      logo: "",
+      implmented: true,
+
+      nixName: "xnode",
+      options: [{
+        name: "openssh.authorizedKeys.keys",
+        nixName: "openssh.authorizedKeys.keys",
+        desc: "ssh key",
+        type: "list of string",
+        value: `[${sshKey}]`
+
+      }]
+    }]
+    
+    
   }
 
   useEffect(() => {
@@ -319,10 +355,10 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                       <div className="w-full mt-3 shadow-md p-8 h-fit border">
                         <p>Edit SSH Key</p>
                         <div className="flex items-center space-x-4">
-                         
+
                           <Button
                             onClick={() => setSSHIsPopupOpen(true)}
-                           
+
                           >
                             Edit
                           </Button>
