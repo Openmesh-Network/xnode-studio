@@ -85,11 +85,12 @@ const Deployments = () => {
     <>
       <div className="m-20 flex-1">
         <section>
-          <h1 className="text-4xl font-semibold text-black">Deployments</h1>
-          <div className="my-12" />
-
-          <Signup />
-
+          <div className="flex justify-between items-center">
+            <h1 className="text-4xl font-semibold text-black flex-1">Deployments</h1>
+            <Signup />
+          </div>
+        <div className="my-12" />
+          <br />
           { xnodesData ? (
             <div className="border-1 border-solid/20 border-black">
               <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
@@ -104,7 +105,7 @@ const Deployments = () => {
                       <ul>
                         <li>
                           {' '}
-                          <b> {node.nftId} </b>{' '}
+                          <b> XU ID: {node.deploymentAuth.substring(0, 6)}... </b>{'   '}
                         </li>
 
                         <li> {node.name} </li>
@@ -114,7 +115,7 @@ const Deployments = () => {
                     <div>
                       <ul>
                         <li>
-                          <b> { timeSince(node.createdAt) } </b>{' '}
+                          <b> Created { timeSince(node.createdAt) } ago </b>{' '}
                         </li>
                       </ul>
                     </div>
@@ -126,6 +127,9 @@ const Deployments = () => {
                        >
                          Manage
                        </button>
+                     </div>
+                     <div >
+                       Last heard from {timeSince(node.updatedAt) } ago
                      </div>
                   </li>
                 ))}

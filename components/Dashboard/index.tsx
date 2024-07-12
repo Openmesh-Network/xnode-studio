@@ -474,8 +474,10 @@ const Dashboard = () => {
                               {' '}
                               <b>Xnode Entitlement NFT</b>{' '}
                             </li>
-                          
                             <li> 12 months CPU </li>
+                            <li> 
+                              <b> XUE ID: {String(xueNfts[index]).substring(0, 6)}... </b>
+                            </li>
                           </ul>
                         </div>
 
@@ -536,6 +538,9 @@ const Dashboard = () => {
                             </li>
                            
                             <li> 12 months CPU </li>
+                            <li> 
+                              <b> XU ID: {String(xuNfts[index]).substring(0, 6)}... </b>
+                            </li>
                           </ul>
                         </div>
 
