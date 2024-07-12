@@ -303,6 +303,8 @@ const Dashboard = () => {
     } else {
       findXueForAccount()
       refetchXuNFTs()
+      getData()
+
     }
 
     if (!user) {
@@ -318,6 +320,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     startCountdown()
+    
   }, [])
 
   const commonClasses =
@@ -522,7 +525,7 @@ const Dashboard = () => {
                 </div>
 
                 <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
-                  {xuNfts.map((xuId, index) => {
+                  {xuNfts.reverse().map((xuId, index) => {
                     const isDeployed = xnodesData.some(item => item.deploymentAuth.toString() == xuId.toString());
                     return (
 
