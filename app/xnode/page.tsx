@@ -99,7 +99,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     .parse(String(searchParams.uuid))
 
   const [user] = useUser()
-  const [services, setServices] = useState<ServiceData[]>()
+  const [services, setServices] = useState<ServiceData[]>([])
 
   const getData = useCallback(async () => {
     setIsLoading(true)
@@ -126,7 +126,16 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
             let node = response.data as Xnode
             node.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
             setXnodeData(node)
-            setServices(JSON.parse(node.services))
+            if (Array.isArray(JSON.parse(node.services))) {
+              console.log("in if")
+              setServices(JSON.parse(node.services))
+
+            }
+            else {
+              
+              console.log("in else")
+              setServices(JSON.parse(node.services)["services"])
+            }
             setIsLoading(false)
           }
         })
@@ -134,7 +143,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         console.log(config)
 
         toast.error(
-          `Error getting the Xnode list: ${err.response.data.message}`
+          `Error getting the Xnode list: ${err}`
         )
         setIsLoading(false)
       }
@@ -154,7 +163,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       });
     });
 
-   
+
     const config = {
       method: 'post' as 'post',
       url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/pushXnodeServices`,
@@ -164,14 +173,15 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         'Content-Type': 'application/json',
       },
       data: {
-        "id": "TEST-XNODE-UUID",
+        "id": id,
         "services": JSON.stringify({
-          "services":[],
-          "user.user": await makepayload()})
+          "services": tempService,
+          "user.user": await makepayload()
+        })
       }
     }
     console.log(services)
-   
+
     await axios(config).then((response) => {
       console.log(response)
       setIsLoading(true)
@@ -180,20 +190,8 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   }
 
   async function makepayload() {
-   return [{
+    return [{
       name: "xnode",
-      tags: [""],
-      specs: {
-        ram: 100,
-        storage: 100
-
-      },
-      desc: "",
-
-      // Url to the logo.
-      logo: "",
-      implmented: true,
-
       nixName: "xnode",
       options: [{
         name: "openssh.authorizedKeys.keys",
@@ -204,8 +202,8 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
       }]
     }]
-    
-    
+
+
   }
 
   useEffect(() => {
