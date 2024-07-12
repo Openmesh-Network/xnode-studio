@@ -21,6 +21,7 @@ import { useDraft } from '@/hooks/useDraftDeploy'
 import Loading from '@/components/Loading'
 import SectionHeader from '@/components/SectionHeader'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
+import ServiceAccess from '@/components/Deployments/serviceAccess'
 import { ServiceData } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
 import TextInputPopup from '@/components/Deployments/InputEditor'
@@ -305,9 +306,11 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                       </div>
 
                       <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <ServiceEditor startingServices={services} updateServices={setServices} />
+                        <ServiceEditor startingServices={services} updateServices={setServices} />     
+                      </div>
 
-                        <p> Running on {xnodeData.ipAddress} </p>
+                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
+                        <ServiceAccess startingServices={services} ip={xnodeData.ipAddress} />
                       </div>
 
                       <div className="w-full mt-3 shadow-md p-8 h-fit border">
