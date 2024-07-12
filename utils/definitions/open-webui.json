@@ -1,6 +1,6 @@
 {
     "name": "Open WebUI",
-    "desc": "Play around with AI in a web-based GUI! Runs alongside Ollama.",
+    "desc": "Use AI large language models in a web-based GUI for Ollama.",
     "logo": "https://docs.openwebui.com/img/favicon.png",
     "tags": [
         "AI",
