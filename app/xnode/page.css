@@ -10,7 +10,7 @@ html, body {
     flex-direction: column;
     height: 100%;
     width: 100%;
-    box-sizing: content-box; /* Include padding in the element's total width and height */
+    box-sizing: content-box;
   }
   
   .content {
@@ -42,3 +42,7 @@ html, body {
     gap: 3.5rem;
   }
   
+  .access {
+    display: flex;
+    flex-direction: column;
+  }

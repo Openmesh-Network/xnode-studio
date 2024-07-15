@@ -91,11 +91,8 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     "options": [{ "nixName": "enable", "type": "boolean", "value": "true" },
     { "nixName": "settings.PasswordAuthentication", "value": "false", "type": "boolean" }, { "nixName": "settings.KbdInteractiveAuthentication", "value": "false", "type": "boolean" }]
   }
-  const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
-  const [draft, setDraft] = useDraft()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [xnodeData, setXnodeData] = useState<Xnode | undefined>(undefined)
-  const [sshKey, setSSHKey] = useState<string>(''); // TODO: Render without "" or [], add a helper description to explain separation by newlines
   
   const id = z.coerce
     .string()
@@ -103,6 +100,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
   const [user] = useUser()
   const [services, setServices] = useState<ServiceData[]>([])
+  const [userData, setUserData] = useState<ServiceData>(undefined) // Always relates to the xnode user for now.
 
   const getData = useCallback(async () => {
     setIsLoading(true)
@@ -129,20 +127,21 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
           node.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
           setXnodeData(node)
 
-          if (Array.isArray(JSON.parse(response.data.services))) {
-            setServices(JSON.parse(response.data.services))
-          } else {
-            setServices(JSON.parse(response.data.services)["services"])
-            if (JSON.parse(response.data.services)["users.users"]?.length > 0) { // If there's no users.users data then this condition will error.
-              console.log("The xnode's userdata:",JSON.parse(response.data.services)["users.users"])
-              setSSHKey(JSON.parse(response.data.services)["users.users"][0].options.find(option => option.nixName === "openssh.authorizedKeys.keys").value)
+          let thisXnodeConfig = JSON.parse(response.data.services)
+          if (Array.isArray(thisXnodeConfig)) {
+            setServices(thisXnodeConfig)
+          } else if (Object.keys(thisXnodeConfig).includes("services")) {
+            setServices(thisXnodeConfig["services"])
+            if (thisXnodeConfig["users.users"]?.find(user => user?.nixName === "xnode")) { // If there's no users.users data then this condition will error.
+              console.log("The xnode's userdata:", thisXnodeConfig["users.users"]['options'])
+              setUserData(JSON.parse(thisXnodeConfig["users.users"])) 
             }
           }
         }
         setIsLoading(false)
 
       } catch (error) {
-        console.log(config);
+        console.log(config)
         toast.error(
           `Error getting the Xnode list: ${error}`
         )
@@ -167,7 +166,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       }
     });
 
-    if (sshKey != "") {
+    if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[]") {
      tempService.push(opensshconfig)
     }
     const config = {
@@ -182,7 +181,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         "id": id,
         "services": JSON.stringify({ // Should be XnodeConfig object
           "services": tempService,
-          "users.users": await sshUserData()
+          "users.users": "[${setUserData}]"
         })
       }
     }
@@ -196,27 +195,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       toast.error(`Error updating the Xnode services: ${error}`);
       setIsLoading(false);
     }
-  }
-
-  async function sshUserData() {
-    const formattedSSHKeys = formatSSHKeys(sshKey)
-    return [{
-      name: "xnode",
-      nixName: "\"xnode\"",
-      options: [{
-        name: "openssh.authorizedKeys.keys",
-        nixName: "openssh.authorizedKeys.keys",
-        desc: "ssh key",
-        type: "list of string",
-        value: `[${formattedSSHKeys}]`
-
-      }]
-    }]
-  }
-  
-  function formatSSHKeys(keys: string): string {
-    return keys.split('\n').map(key => key.trim()).join(' ');
-  }
+  } 
 
   useEffect(() => {
     getData()
@@ -333,7 +312,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                     <ServiceEditor startingServices={services} updateServices={setServices} />
                   </div>
                   <div className="box">
-                    <ServiceAccess startingServices={services} ip={xnodeData.ipAddress} />
+                    <ServiceAccess currentService={services} ip={xnodeData.ipAddress} startingUserData={userData} updatedUserData={setUserData}/>
                   </div>
                   <div className="box">
                     <p>Actions</p>
