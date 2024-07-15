@@ -22,7 +22,7 @@ import Loading from '@/components/Loading'
 import SectionHeader from '@/components/SectionHeader'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
 import ServiceAccess from '@/components/Deployments/serviceAccess'
-import { ServiceData } from '@/types/dataProvider'
+import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
 import TextInputPopup from '@/components/Deployments/InputEditor'
 import stackIcon from '@/assets/stack.svg'
@@ -32,6 +32,9 @@ type XnodePageProps = {
     uuid: string
   }
 }
+
+
+
 
 const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercent }: { used: number, available: number, usedPercent: number, unit: string, name: string, isAvailable: boolean }) => {
 
@@ -85,7 +88,11 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
 }
 
 export default function XnodePage({ searchParams }: XnodePageProps) {
-
+  const opensshconfig = {
+    "nixName": "openssh",
+    "options": [{ "nixName": "enable", "type": "boolean", "value": "true" },
+    { "nixName": "settings.PasswordAuthentication", "value": "false", "type": "boolean" }, { "nixName": "settings.KbdInteractiveAuthentication", "value": "false", "type": "boolean" }]
+  }
   const [isSSHPopupOpen, setSSHIsPopupOpen] = useState(false);
   const [sshKey, setSSHKey] = useState<string>('');
   const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
@@ -98,7 +105,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     .parse(String(searchParams.uuid))
 
   const [user] = useUser()
-  const [services, setServices] = useState<ServiceData[]>()
+  const [services, setServices] = useState<ServiceData[]>([])
 
   const getData = useCallback(async () => {
     setIsLoading(true)
@@ -125,7 +132,19 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
             let node = response.data as Xnode
             node.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
             setXnodeData(node)
-            setServices(JSON.parse(node.services))
+            if (Array.isArray(JSON.parse(node.services))) {
+              console.log("in if")
+              setServices(JSON.parse(node.services))
+
+            }
+            else {
+
+              console.log("in else")
+              setServices(JSON.parse(node.services)["services"])
+              if (JSON.parse(node.services)["user.user"].length > 0) {
+                setSSHKey(JSON.parse(node.services)["user.user"][0].options[0].value)
+              }
+            }
             setIsLoading(false)
           }
         })
@@ -133,7 +152,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         console.log(config)
 
         toast.error(
-          `Error getting the Xnode list: ${err.response.data.message}`
+          `Error getting the Xnode list: ${err}`
         )
         setIsLoading(false)
       }
@@ -152,6 +171,10 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         return (option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean"
       });
     });
+
+    if (sshKey != "") {
+     tempService.push(opensshconfig)
+    }
     const config = {
       method: 'post' as 'post',
       url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/pushXnodeServices`,
@@ -162,15 +185,36 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       },
       data: {
         "id": id,
-        "services": JSON.stringify(tempService)
+        "services": JSON.stringify({
+          "services": tempService,
+          "user.user": await makepayload()
+        })
       }
     }
     console.log(services)
+
     await axios(config).then((response) => {
       console.log(response)
       setIsLoading(true)
       getData()
     })
+  }
+
+  async function makepayload() {
+    return [{
+      name: "xnode",
+      nixName: "xnode",
+      options: [{
+        name: "openssh.authorizedKeys.keys",
+        nixName: "openssh.authorizedKeys.keys",
+        desc: "ssh key",
+        type: "list of string",
+        value: `[${sshKey}]`
+
+      }]
+    }]
+
+
   }
 
   useEffect(() => {
@@ -322,10 +366,10 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                       <div className="w-full mt-3 shadow-md p-8 h-fit border">
                         <p>Edit SSH Key</p>
                         <div className="flex items-center space-x-4">
-                         
+
                           <Button
                             onClick={() => setSSHIsPopupOpen(true)}
-                           
+
                           >
                             Edit
                           </Button>
