@@ -134,7 +134,6 @@ const Dashboard = () => {
             console.log('Got the Xnode data')
             console.log(response.data)
             setXnodesData(response.data)
-
           }
         })
       } catch (err) {
