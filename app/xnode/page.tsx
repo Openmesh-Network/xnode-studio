@@ -24,17 +24,15 @@ import ServiceEditor from '@/components/Deployments/serviceEditor'
 import ServiceAccess from '@/components/Deployments/serviceAccess'
 import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
-import TextInputPopup from '@/components/Deployments/InputEditor'
 import stackIcon from '@/assets/stack.svg'
+
+import './page.css'
 
 type XnodePageProps = {
   searchParams: {
     uuid: string
   }
 }
-
-
-
 
 const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercent }: { used: number, available: number, usedPercent: number, unit: string, name: string, isAvailable: boolean }) => {
 
@@ -93,13 +91,12 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     "options": [{ "nixName": "enable", "type": "boolean", "value": "true" },
     { "nixName": "settings.PasswordAuthentication", "value": "false", "type": "boolean" }, { "nixName": "settings.KbdInteractiveAuthentication", "value": "false", "type": "boolean" }]
   }
-  const [isSSHPopupOpen, setSSHIsPopupOpen] = useState(false);
-  const [sshKey, setSSHKey] = useState<string>('');
   const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
   const [draft, setDraft] = useDraft()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [xnodeData, setXnodeData] = useState<Xnode | undefined>(undefined)
-
+  const [sshKey, setSSHKey] = useState<string>(''); // TODO: Render without "" or [], add a helper description to explain separation by newlines
+  
   const id = z.coerce
     .string()
     .parse(String(searchParams.uuid))
@@ -123,53 +120,51 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
           "id": id
         }
       }
-
       try {
-        await axios(config).then(function (response) {
-          console.log("Got response: ", response)
-          if (response.data) {
-            console.log('Got the Xnode data')
-            let node = response.data as Xnode
-            node.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
-            setXnodeData(node)
-            if (Array.isArray(JSON.parse(node.services))) {
-              console.log("in if")
-              setServices(JSON.parse(node.services))
+        const response = await axios(config);
+        console.log("Got response: ", response)
 
-            }
-            else {
+        if (response.data) {
+          let node = response.data as Xnode
+          node.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
+          setXnodeData(node)
 
-              console.log("in else")
-              setServices(JSON.parse(node.services)["services"])
-              if (JSON.parse(node.services)["user.user"].length > 0) {
-                setSSHKey(JSON.parse(node.services)["user.user"][0].options[0].value)
-              }
+          if (Array.isArray(JSON.parse(response.data.services))) {
+            setServices(JSON.parse(response.data.services))
+          } else {
+            setServices(JSON.parse(response.data.services)["services"])
+            if (JSON.parse(response.data.services)["users.users"]?.length > 0) { // If there's no users.users data then this condition will error.
+              console.log("The xnode's userdata:",JSON.parse(response.data.services)["users.users"])
+              setSSHKey(JSON.parse(response.data.services)["users.users"][0].options.find(option => option.nixName === "openssh.authorizedKeys.keys").value)
             }
-            setIsLoading(false)
           }
-        })
-      } catch (err) {
-        console.log(config)
+        }
+        setIsLoading(false)
 
+      } catch (error) {
+        console.log(config);
         toast.error(
-          `Error getting the Xnode list: ${err}`
+          `Error getting the Xnode list: ${error}`
         )
         setIsLoading(false)
       }
     }
 
-  }, [user?.sessionToken, user])
+  }, [user, id])
 
   const updateServices = async () => {
     let tempService = JSON.parse(JSON.stringify(services))
     tempService.forEach(service => {
-      let defaultservice = ServiceFromName(service.nixName)
-      console.log(service)
-      service.options = service.options.filter(option => {
+      if (service.nixName != "openssh") {
+        let defaultservice = ServiceFromName(service.nixName)
+        console.log(service)
+        service.options = service.options.filter(option => {
         const defaultOption = defaultservice.options.find(defOption => defOption.name === option.name);
-        console.log(defaultOption.value, option.value)
+
+        console.log(defaultOption?.value, option.value)
         return (option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean"
       });
+      }
     });
 
     if (sshKey != "") {
@@ -185,36 +180,42 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       },
       data: {
         "id": id,
-        "services": JSON.stringify({
+        "services": JSON.stringify({ // Should be XnodeConfig object
           "services": tempService,
-          "user.user": await makepayload()
+          "users.users": await sshUserData()
         })
       }
     }
-    console.log(services)
-
-    await axios(config).then((response) => {
-      console.log(response)
-      setIsLoading(true)
-      getData()
-    })
+    try {
+      const response = await axios(config);
+      console.log(response);
+      setIsLoading(true);
+      getData();
+    } catch (error) {
+      console.log(config);
+      toast.error(`Error updating the Xnode services: ${error}`);
+      setIsLoading(false);
+    }
   }
 
-  async function makepayload() {
+  async function sshUserData() {
+    const formattedSSHKeys = formatSSHKeys(sshKey)
     return [{
       name: "xnode",
-      nixName: "xnode",
+      nixName: "\"xnode\"",
       options: [{
         name: "openssh.authorizedKeys.keys",
         nixName: "openssh.authorizedKeys.keys",
         desc: "ssh key",
         type: "list of string",
-        value: `[${sshKey}]`
+        value: `[${formattedSSHKeys}]`
 
       }]
     }]
-
-
+  }
+  
+  function formatSSHKeys(keys: string): string {
+    return keys.split('\n').map(key => key.trim()).join(' ');
   }
 
   useEffect(() => {
@@ -273,7 +274,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
   function getExpirationDays(startDate: Date) {
     let d = new Date(startDate)
-    console.error(d.getTime())
+    //console.error(d.getTime())
 
     const today = new Date()
     const total = today.getTime() - (d.getTime())
@@ -287,124 +288,67 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     return Math.floor(x * 100) / 100
   }
 
-
   return (
-    <div className="m-20 flex-1">
+    <div className="container">
       <section>
-        <div className="flex h-full">
-          {
-            isLoading && (
-              <Loading />
-            )
-          }
-
-          {
-            !isLoading && user?.sessionToken ? (
-              <>
-                {
-                  xnodeData ? (
-                    <div className="w-full">
-
-                      <SectionHeader> Your Xnode </SectionHeader>
-
-                      <p> {xnodeData.name} </p>
-                      <p> {xnodeData.id} </p>
-
-                      {xnodeData.isUnit && (
-                        <p> {getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine."} </p>
-                      )
-                      }
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <p> Last update {timeSince(xnodeData.updatedAt)} ago </p>
-
-                        <div className="mt-4 flex w-full space-x-14">
-
-                          <XnodeMeasurement
-                            name="CPU"
-                            unit="%"
-                            isAvailable={xnodeData.heartbeatData != null}
-                            used={round(xnodeData.heartbeatData?.cpuPercent)}
-                            available={round(100 - xnodeData.heartbeatData?.cpuPercent)}
-                            usedPercent={round(xnodeData.heartbeatData?.cpuPercent)}
-                          />
-
-                          <XnodeMeasurement
-                            name="RAM"
-                            unit="GB"
-                            isAvailable={xnodeData.heartbeatData != null}
-                            used={round(xnodeData.heartbeatData?.ramMbUsed / 1024)}
-                            available={round((xnodeData.heartbeatData?.ramMbTotal - xnodeData.heartbeatData?.ramMbUsed) / 1024)}
-                            usedPercent={xnodeData.heartbeatData?.ramMbUsed / xnodeData.heartbeatData?.ramMbTotal * 100}
-                          />
-
-                          <XnodeMeasurement
-                            name="storage"
-                            unit="GB"
-                            isAvailable={xnodeData.heartbeatData != null}
-                            used={round(xnodeData.heartbeatData?.storageMbUsed / 1024)}
-                            available={round((xnodeData.heartbeatData?.storageMbTotal - xnodeData.heartbeatData?.storageMbUsed) / 1024)}
-                            usedPercent={xnodeData.heartbeatData?.storageMbUsed / xnodeData.heartbeatData?.storageMbTotal * 100}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <ServiceEditor startingServices={services} updateServices={setServices} />     
-                      </div>
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <ServiceAccess startingServices={services} ip={xnodeData.ipAddress} />
-                      </div>
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <p> Actions </p>
-
-                        <Button onClick={() => updateServices()}> Push new services </Button>
-                      </div>
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <p>Edit SSH Key</p>
-                        <div className="flex items-center space-x-4">
-
-                          <Button
-                            onClick={() => setSSHIsPopupOpen(true)}
-
-                          >
-                            Edit
-                          </Button>
-                          <Button>Save</Button>
-                        </div>
-                        <TextInputPopup
-                          isOpen={isSSHPopupOpen}
-                          onClose={() => setSSHIsPopupOpen(false)}
-                          setInputValue={setSSHKey}
-                          curValue={sshKey}
-                        />
-                        {sshKey && <p className="mt-4">SSH key: {sshKey}</p>}
-
-                      </div>
-
+        <div className="content">
+          {isLoading && <Loading />}
+          {!isLoading && user?.sessionToken ? (
+            <>
+              {xnodeData ? (
+                <div className="xnode-details">
+                  <SectionHeader>Your Xnode       {xnodeData.id} </SectionHeader>
+                  <p>{xnodeData.name}</p>
+                  {xnodeData.isUnit && <p>{getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine."}</p>}
+                  <div className="box">
+                    <p>Last update {timeSince(xnodeData.updatedAt)} ago</p>
+                    <div className="measurements">
+                      <XnodeMeasurement
+                        name="CPU"
+                        unit="%"
+                        isAvailable={xnodeData.heartbeatData != null}
+                        used={round(xnodeData.heartbeatData?.cpuPercent)}
+                        available={round(100 - xnodeData.heartbeatData?.cpuPercent)}
+                        usedPercent={round(xnodeData.heartbeatData?.cpuPercent)}
+                      />
+                      <XnodeMeasurement
+                        name="RAM"
+                        unit="GB"
+                        isAvailable={xnodeData.heartbeatData != null}
+                        used={round(xnodeData.heartbeatData?.ramMbUsed / 1024)}
+                        available={round((xnodeData.heartbeatData?.ramMbTotal - xnodeData.heartbeatData?.ramMbUsed) / 1024)}
+                        usedPercent={xnodeData.heartbeatData?.ramMbUsed / xnodeData.heartbeatData?.ramMbTotal * 100}
+                      />
+                      <XnodeMeasurement
+                        name="storage"
+                        unit="GB"
+                        isAvailable={xnodeData.heartbeatData != null}
+                        used={round(xnodeData.heartbeatData?.storageMbUsed / 1024)}
+                        available={round((xnodeData.heartbeatData?.storageMbTotal - xnodeData.heartbeatData?.storageMbUsed) / 1024)}
+                        usedPercent={xnodeData.heartbeatData?.storageMbUsed / xnodeData.heartbeatData?.storageMbTotal * 100}
+                      />
                     </div>
-                  ) : (
-                    <>
-                      <p> No Xnode for that UUID found. </p>
-                    </>
-                  )
-                }
-              </>
-            ) : (
-              <>
-                {
-                  !isLoading && (
-                    <Signup />
-                  )
-                }
-              </>
-            )
-          }
+                  </div>
+                  <div className="box">
+                    <ServiceEditor startingServices={services} updateServices={setServices} />
+                  </div>
+                  <div className="box">
+                    <ServiceAccess startingServices={services} ip={xnodeData.ipAddress} />
+                  </div>
+                  <div className="box">
+                    <p>Actions</p>
+                    <Button onClick={() => updateServices()}>Push new services</Button>
+                  </div>
+                </div>
+              ) : (
+                <p>No Xnode for that UUID found.</p>
+              )}
+            </>
+          ) : (
+            !isLoading && <Signup />
+          )}
         </div>
       </section>
     </div>
-  )
+  );
 }

@@ -125,10 +125,11 @@ export type DeploymentConfiguration = {
 }
 
 
-export type XnodeConfig= {
+export type XnodeConfig = {
   "services" : ServiceData[]
   "users.users" : ServiceData[]
-//can prettymuch anything inhere
+  // Can add any other modules available in nix following the Module and Option format.
+  // "ModuleType" : ModuleData[]
 }
 
 
