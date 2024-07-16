@@ -22,10 +22,10 @@ import Loading from '@/components/Loading'
 import SectionHeader from '@/components/SectionHeader'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
 import ServiceAccess from '@/components/Deployments/serviceAccess'
+import { sshUserData } from '@/components/Deployments/serviceAccess'
 import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
 import stackIcon from '@/assets/stack.svg'
-
 import './page.css'
 
 type XnodePageProps = {
@@ -100,7 +100,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
   const [user] = useUser()
   const [services, setServices] = useState<ServiceData[]>([])
-  const [userData, setUserData] = useState<ServiceData>(undefined) // Always relates to the xnode user for now.
+  const [userData, setUserData] = useState<ServiceData>(sshUserData('')) // Always relates to the xnode user for now.
 
   const getData = useCallback(async () => {
     setIsLoading(true)
@@ -132,9 +132,15 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
             setServices(thisXnodeConfig)
           } else if (Object.keys(thisXnodeConfig).includes("services")) {
             setServices(thisXnodeConfig["services"])
-            if (thisXnodeConfig["users.users"]?.find(user => user?.nixName === "xnode")) { // If there's no users.users data then this condition will error.
-              console.log("The xnode's userdata:", thisXnodeConfig["users.users"]['options'])
-              setUserData(JSON.parse(thisXnodeConfig["users.users"])) 
+            console.log("The XnodeConfig: ", thisXnodeConfig)
+
+            const usersArray = thisXnodeConfig["users.users"]
+            if (Array.isArray(usersArray)) {
+              const user = thisXnodeConfig["users.users"]?.find(user => user?.nixName === "xnode"); // Use find instead of get
+              if (user) { // If there's no users.users data then this condition will error.
+                console.log("The xnode's userdata:", user["options"])
+                setUserData(user) 
+              }
             }
           }
         }
@@ -154,7 +160,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   const updateServices = async () => {
     let tempService = JSON.parse(JSON.stringify(services))
     tempService.forEach(service => {
-      if (service.nixName != "openssh") {
+      if (service.nixName.includes("openssh")) {
         let defaultservice = ServiceFromName(service.nixName)
         console.log(service)
         service.options = service.options.filter(option => {
@@ -181,17 +187,17 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         "id": id,
         "services": JSON.stringify({ // Should be XnodeConfig object
           "services": tempService,
-          "users.users": "[${setUserData}]"
+          "users.users": [userData]
         })
       }
     }
+    console.log(config)
     try {
       const response = await axios(config);
       console.log(response);
       setIsLoading(true);
       getData();
     } catch (error) {
-      console.log(config);
       toast.error(`Error updating the Xnode services: ${error}`);
       setIsLoading(false);
     }

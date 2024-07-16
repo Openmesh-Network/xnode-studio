@@ -42,6 +42,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
     let updatedServices = [...services];
 
     updatedServices.forEach((service, serviceIndex) => {
+
       let tempService = { ...service };
       const defaultService = JSON.parse(JSON.stringify(ServiceFromName(service.nixName)));
 

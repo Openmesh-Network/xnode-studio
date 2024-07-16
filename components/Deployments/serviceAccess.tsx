@@ -4,6 +4,34 @@ import { useState } from "react";
 import { Button } from '@/components/ui/button'
 import TextInputPopup from '@/components/Deployments/InputEditor'
 
+export function formatSSHKeys(keys: string): string {
+    if (keys.includes('[]')){
+        keys.replace('[]', '')
+    }
+    return keys.split('\n').map(key => key.trim()).join(' ');
+}
+
+export function sshUserData(inputSshKey) {
+    const formattedSSHKeys = formatSSHKeys(inputSshKey)
+    const userData: ServiceData ={
+        name: "xnode",
+        tags: [],
+        specs: {ram:0,storage:0},
+        desc: "Xnode access via SSH",
+        nixName: "\"xnode\"",
+        options: [{
+            name: "openssh.authorizedKeys.keys",
+            nixName: "openssh.authorizedKeys.keys",
+            desc: "ssh key",
+            type: "list of string",
+            value: `[${formattedSSHKeys}]`
+    
+        }]
+    };
+    return userData
+}
+
+// 
 const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }: 
     { currentService: ServiceData[], ip: string, startingUserData: ServiceData, updatedUserData: any}) => {
         const services = currentService
@@ -19,32 +47,7 @@ const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }
         const [sshKey, setSSHKey] = useState<string>(sshKeys);
 
         // Handle userdata logic here (for now)
-        function sshUserData() {
-            const formattedSSHKeys = formatSSHKeys(sshKey)
-            const userData: ServiceData ={
-                name: "xnode",
-                tags: [],
-                specs: {ram:0,storage:0},
-                desc: "Xnode access via SSH",
-                nixName: "\"xnode\"",
-                options: [{
-                    name: "openssh.authorizedKeys.keys",
-                    nixName: "openssh.authorizedKeys.keys",
-                    desc: "ssh key",
-                    type: "list of string",
-                    value: `[${formattedSSHKeys}]`
-            
-                }]
-            };
-            return userData
-        }
-        function formatSSHKeys(keys: string): string {
-            if (keys.includes('[]')){
-                keys.replace('[]', '')
-            }
-            return keys.split('\n').map(key => key.trim()).join(' ');
-        }
-
+        
         return (
             <>
             <Header level={2}>Access</Header>
@@ -68,7 +71,7 @@ const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }
             <p>Edit SSH Key</p>
             <div className="flex items-center space-x-4">
                 <Button onClick={() => setSSHIsPopupOpen(true)}>    Edit    </Button>                       
-                <Button onClick={() => updatedUserData(sshUserData())}>    Save    </Button>
+                <Button onClick={() => updatedUserData(sshUserData(sshKey))}>    Save    </Button>
             </div>
             <TextInputPopup
                 isOpen={isSSHPopupOpen}
