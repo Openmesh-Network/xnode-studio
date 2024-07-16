@@ -8,7 +8,7 @@ export function formatSSHKeys(keys: string): string {
     if (keys.includes('[]')){
         keys.replace('[]', '')
     }
-    return keys.split('\n').map(key => key.trim()).join(' ');
+    return keys.split('\n').map(key => "\"" + key.trim() + "\"").join(` `);
 }
 
 export function sshUserData(inputSshKey) {
@@ -42,11 +42,18 @@ const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }
         }
         const [isSSHPopupOpen, setSSHIsPopupOpen] = useState(false);
 
-        const sshKeyOption = startingUserData?.options?.find(option => option.nixName === "openssh.authorizedKeys.keys");
+        let userData = startingUserData
+
+        const sshKeyOption = userData?.options?.find(option => option.nixName === "openssh.authorizedKeys.keys");
         const sshKeys = sshKeyOption ? sshKeyOption.value.replace('[]',''): "";
         const [sshKey, setSSHKey] = useState<string>(sshKeys);
 
+
         // Handle userdata logic here (for now)
+
+        const nixSshKeyToHtmlString = (sshKey) => {
+            return sshKey.replaceAll("[", "").replaceAll("]","").replaceAll("\" ", "\n").replaceAll("\"", "")
+        } 
         
         return (
             <>
@@ -77,9 +84,9 @@ const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }
                 isOpen={isSSHPopupOpen}
                 onClose={() => setSSHIsPopupOpen(false)}
                 setInputValue = {setSSHKey}
-                curValue={sshKeys}
+                curValue={nixSshKeyToHtmlString(sshKeys)}
             />
-            {sshKey && <p className="mt-4">SSH key: {sshKey}</p>}
+            {sshKey && <p className="mt-4">SSH key: {nixSshKeyToHtmlString(sshKey)}</p>}
             </>
         )
     }

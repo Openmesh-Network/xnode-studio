@@ -136,7 +136,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
             const usersArray = thisXnodeConfig["users.users"]
             if (Array.isArray(usersArray)) {
-              const user = thisXnodeConfig["users.users"]?.find(user => user?.nixName === "xnode"); // Use find instead of get
+              const user = thisXnodeConfig["users.users"]?.find(user => user?.nixName.includes("xnode")); // Use find instead of get
               if (user) { // If there's no users.users data then this condition will error.
                 console.log("The xnode's userdata:", user["options"])
                 setUserData(user) 
@@ -158,9 +158,15 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   }, [user, id])
 
   const updateServices = async () => {
-    let tempService = JSON.parse(JSON.stringify(services))
+    let tempService = [] // services
+    
+    for (const service of services) {
+      if (service.nixName != "openssh") {
+        tempService.push(service)
+      }
+    }
+    
     tempService.forEach(service => {
-      if (service.nixName.includes("openssh")) {
         let defaultservice = ServiceFromName(service.nixName)
         console.log(service)
         service.options = service.options.filter(option => {
@@ -169,7 +175,6 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         console.log(defaultOption?.value, option.value)
         return (option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean"
       });
-      }
     });
 
     if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[]") {
@@ -191,7 +196,6 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         })
       }
     }
-    console.log(config)
     try {
       const response = await axios(config);
       console.log(response);
