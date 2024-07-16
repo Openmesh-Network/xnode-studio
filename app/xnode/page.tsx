@@ -226,6 +226,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     const today = new Date()
     const total = today.getTime() - (d.getTime())
 
+    const seconds = (Math.floor((total / 1000) % 60))
     const minutes = (Math.floor((total / 1000 / 60) % 60))
     const hours = (Math.floor((total / 1000 / 60 / 60) % 24))
     const days = (Math.floor((total / 1000 / 60 / 60 / 24) % 1000000))
@@ -251,11 +252,21 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       }
     }
 
-    result += minutes
+    if (minutes > 0) {
+      result += minutes
+
+      if (minutes == 1) {
+        result += " minute, "
+      } else {
+        result += " minutes, "
+      }
+    }
+
+    result += seconds
     if (minutes == 1) {
-      result += " minute"
+      result += " second"
     } else {
-      result += " minutes"
+      result += " seconds"
     }
 
     return result
