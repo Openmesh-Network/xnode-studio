@@ -42,7 +42,7 @@
     {
         "id": "2",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/1/18/Ipfs-logo-1024-ice-text.png",
-        "name": "Iroh: IPFS",
+        "name": "Kubo: IPFS",
         "category": "Distributed Storage",
         "tags": [
             "IPFS",
@@ -50,12 +50,12 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Template for deploying Iroh, Deploying Iroh sets up an IPFS node implementation, providing a decentralized storage solution for securely and efficiently storing and retrieving files. With Iroh, users can harness the power of the InterPlanetary File System (IPFS) to store files in a distributed network, ensuring redundancy and availability. Users can upload files to Iroh's IPFS node, generating content-based addresses for easy retrieval. Additionally, Iroh enables users to interact with the IPFS network, facilitating data sharing and collaboration across a decentralized ecosystem. Explore Iroh's documentation at https://github.com/iroh/iroh to learn more about setting up and leveraging this powerful decentralized storage solution..",
+        "desc": "Template for deploying Kubo, Deploying Kubo sets up an IPFS node implementation, providing a decentralized storage solution...",
         "serviceNames": [
-            "iroh"
+            "kubo"
         ],
-        "quality": true,
-        "implementation": true,
+        "quality": false,
+        "implementation": false,
         "isUnitRunnable":true
     },
     {
@@ -112,8 +112,8 @@
         "serviceNames": [
             "archivebox"
         ],
-        "quality": true,
-        "implementation": true,
+        "quality": false,
+        "implementation": false,
         "isUnitRunnable":true
     },
     {
@@ -131,8 +131,8 @@
         "serviceNames": [
             "wordpress"
         ],
-        "quality": true,
-        "implementation": true,
+        "quality": false,
+        "implementation": false,
         "isUnitRunnable":true
     },
     {
@@ -148,7 +148,7 @@
         "dateAdded": "2024-06-08T12:00:00Z",
         "desc": "Template for deploying Go Ethereum, one of the three original implementations of the Ethereum protocol. This template sets up an Ethereum node to interact with the Ethereum network. Learn more at https://geth.ethereum.org.",
         "serviceNames": [
-            "go-ethereum"
+            "geth"
         ],
         "quality": true,
         "implementation": true,
@@ -404,7 +404,7 @@
     {
         "id": "22",
         "logo": "https://avatars.githubusercontent.com/u/3521496?v=4",
-        "name": "pyLoad-ng",
+        "name": "pyLoad",
         "category": "Download Management",
         "tags": [
             "Download",
@@ -412,9 +412,9 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "This template deploys pyLoad-ng, a lightweight download manager. It includes settings for automated downloading, managing download queues, and handling different types of download sources. The setup is optimized for reliable and efficient downloading.",
+        "desc": "This template deploys pyLoad, a lightweight download manager. It includes settings for automated downloading, managing download queues, and handling different types of download sources. The setup is optimized for reliable and efficient downloading.",
         "serviceNames": [
-            "pyload-ng"
+            "pyload"
         ],
         "quality": false,
         "implementation": false,
@@ -537,7 +537,7 @@
     {
         "id": "30",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Lemmy_logo.svg/2560px-Lemmy_logo.svg.png",
-        "name": "Lemmy UI",
+        "name": "Lemmy",
         "category": "Social Networking",
         "tags": [
             "Social Media",
@@ -545,9 +545,9 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "This template deploys the Lemmy UI, providing a front-end interface for the Lemmy federated link aggregator. It includes configurations for setting up user accounts, managing communities, and interacting with other Lemmy instances. The setup is designed for hosting and participating in federated communities.",
+        "desc": "This template deploys the Lemmy UI, providing a front-end interface for the Lemmy federated alternative to reddit in rust. It includes configurations for setting up user accounts, managing communities, and interacting with other Lemmy instances. The setup is designed for hosting and participating in federated communities using the ActivityPub standard.",
         "serviceNames": [
-            "lemmy-ui"
+            "lemmy"
         ],
         "quality": false,
         "implementation": false,
@@ -659,9 +659,9 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "This template sets up the Nextcloud Client, enabling file synchronization between devices and a Nextcloud server. It includes configurations for secure file transfer, user account management, and integration with other Nextcloud services. The setup is designed to provide a private and secure file synchronization solution.",
+        "desc": "This template sets up the Nextcloud Server, enabling file synchronization between devices and a Nextcloud server. It includes configurations for secure file transfer, user account management, and integration with other Nextcloud services. The setup is designed to provide a private and secure file synchronization solution.",
         "serviceNames": [
-            "nextcloud-client"
+            "nextcloud"
         ],
         "quality": false,
         "implementation": false,
@@ -680,7 +680,7 @@
         "dateAdded": "2024-06-08T12:00:00Z",
         "desc": "This template sets up Samba, providing seamless file and print services to SMB/CIFS clients. It includes configurations for sharing files and printers across networks, managing user permissions, and ensuring secure access. The setup is optimized for reliable and efficient file sharing in networked environments.",
         "serviceNames": [
-            "samba4Full"
+            "samba"
         ],
         "quality": false,
         "implementation": false,
@@ -699,7 +699,7 @@
         "dateAdded": "2024-06-08T12:00:00Z",
         "desc": "This template deploys Seafile, an open-source file synchronization and sharing solution. It includes tools for managing file repositories, synchronizing data across devices, and collaborating on documents. The setup is designed for efficient and secure file synchronization and sharing.",
         "serviceNames": [
-            "seafile-shared"
+            "seafile"
         ],
         "quality": false,
         "implementation": false,
@@ -841,7 +841,7 @@
     {
         "id": "47",
         "logo": "https://developer.asustor.com/uploadIcons/0020_999_1594784775_bitwarden_new_256.png",
-        "name": "Vaultwarden PostgreSQL",
+        "name": "Vaultwarden",
         "category": "Security",
         "tags": [
             "Password Manager",
@@ -849,9 +849,9 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Vaultwarden PostgreSQL is a self-hosted password manager compatible with the Bitwarden ecosystem. It uses PostgreSQL as its backend database, providing scalability and robustness for securely storing users' passwords and other sensitive information.",
+        "desc": "Vaultwarden is a self-hosted password manager compatible with the Bitwarden ecosystem. It can use PostgreSQL as its backend database, providing scalability and robustness for securely storing users' passwords and other sensitive information.",
         "serviceNames": [
-            "vaultwarden-postgresql"
+            "vaultwarden"
         ],
         "quality": false,
         "implementation": false,
@@ -1096,9 +1096,9 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "Manticoresearch is a full-text search engine that delivers fast and accurate search results for applications, websites, and data analytics. It supports features like natural language processing, geospatial search, and real-time indexing.",
+        "desc": "Manticore search is a full-text search engine that delivers fast and accurate search results for applications, websites, and data analytics. It supports features like natural language processing, geospatial search, and real-time indexing.",
         "serviceNames": [
-            "manticoresearch"
+            "manticore"
         ],
         "quality": false,
         "implementation": false,
@@ -1126,7 +1126,7 @@
     {
         "id": "62",
         "logo": "https://static-00.iconduck.com/assets.00/searxng-icon-512x505-bhmi7cha.png",
-        "name": "SearxNG",
+        "name": "Searx",
         "category": "Search Engine",
         "tags": [
             "Search Engine",
@@ -1134,9 +1134,9 @@
             "Open-source"
         ],
         "dateAdded": "2024-06-08T12:00:00Z",
-        "desc": "SearxNG is a privacy-focused metasearch engine that aggregates results from various search engines while protecting user privacy. It does not track users or store personal information, making it an ideal choice for private web searches.",
+        "desc": "Searx is a privacy-focused metasearch engine that aggregates results from various search engines while protecting user privacy. It does not track users or store personal information, making it an ideal choice for private web searches.",
         "serviceNames": [
-            "searxng"
+            "searx"
         ],
         "quality": false,
         "implementation": false,
@@ -1273,7 +1273,7 @@
         ],
         "quality": false,
         "implementation": false,
-        "isUnitRunnable":false
+        "isUnitRunnable": true
     },
     {
         "id": "70",
