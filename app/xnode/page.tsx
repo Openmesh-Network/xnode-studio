@@ -30,7 +30,7 @@ type XnodePageProps = {
   }
 }
 
-const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercent}: {used: number, available: number, usedPercent: number, unit: string, name: string, isAvailable: boolean}) => {
+const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercent }: { used: number, available: number, usedPercent: number, unit: string, name: string, isAvailable: boolean }) => {
 
   const upperCaseFirstLetter = (str: string) => {
 
@@ -43,9 +43,9 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
 
   return (
     <div className="flex-1">
-      <p className="font-medium"> { upperCaseFirstLetter(name) } </p>
+      <p className="font-medium"> {upperCaseFirstLetter(name)} </p>
       <div className="w-full flex">
-        { /* TODO: Add icon */ }
+        { /* TODO: Add icon */}
         <div className="w-10 h-10 mr-2">
           <Image src={stackIcon} alt={"Stack icon"} />
         </div>
@@ -55,17 +55,17 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
           {
             isAvailable ? (
               <>
-                <div className="bg-blue-500 h-full" style={{width: usedPercent + "%"}}>
+                <div className="bg-blue-500 h-full" style={{ width: usedPercent + "%" }}>
                 </div>
 
                 <div className="w-fit p-2">
-                  <p> { available + unit + " " } left </p>
+                  <p> {available + unit + " "} left </p>
                 </div>
               </>
             ) : (
               <>
                 <div className="w-fit p-2">
-                  <p> No { name } data available. </p>
+                  <p> No {name} data available. </p>
                 </div>
               </>
             )
@@ -74,7 +74,7 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
       </div>
       {
         isAvailable && (
-          <p className="ml-12"> { used + unit } </p>
+          <p className="ml-12"> {used + unit} </p>
         )
       }
     </div>
@@ -83,9 +83,9 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
 
 export default function XnodePage({ searchParams }: XnodePageProps) {
   const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
-  const [ draft, setDraft ] = useDraft()
-  const [ isLoading, setIsLoading ] = useState<boolean>(true)
-  const [ xnodeData, setXnodeData ] = useState<Xnode | undefined>(undefined)
+  const [draft, setDraft] = useDraft()
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [xnodeData, setXnodeData] = useState<Xnode | undefined>(undefined)
 
   const id = z.coerce
     .string()
@@ -94,9 +94,11 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   const [user] = useUser()
   const [services, setServices] = useState<ServiceData[]>()
 
-  const getData = useCallback(async () => {
-    setIsLoading(true)
-
+  const getData = useCallback(async (doLoad:Boolean) => {
+    if (doLoad) {
+      setIsLoading(true)
+    }
+    console.log("the user token is:" + user?.sessionToken)
     if (user?.sessionToken) {
       const config = {
         method: 'post' as 'post',
@@ -133,7 +135,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       }
     }
 
-  }, [user?.sessionToken, user ])
+  }, [user?.sessionToken, user])
 
   const updateServices = async () => {
     const config = {
@@ -153,12 +155,13 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     await axios(config).then((response) => {
       console.log(response)
       setIsLoading(true)
-      getData()
+      getData(true)
     })
   }
 
   useEffect(() => {
-    getData()
+
+    getData(true)
   }, [user?.sessionToken])
 
   useEffect(() => {
@@ -170,6 +173,15 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     }
   }, [xnodeData])
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getData(false);
+    }, 10000); // 10000 ms = 10 seconds
+
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, [getData]);
+
   function timeSince(startDate: Date) {
     let d = new Date(startDate)
 
@@ -177,17 +189,17 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     const total = today.getTime() - (d.getTime())
 
     const minutes = (Math.floor((total / 1000 / 60) % 60))
-    const hours   = (Math.floor((total / 1000 / 60 / 60) % 24))
-    const days    = (Math.floor((total / 1000 / 60 / 60 / 24) % 1000000))
+    const hours = (Math.floor((total / 1000 / 60 / 60) % 24))
+    const days = (Math.floor((total / 1000 / 60 / 60 / 24) % 1000000))
 
     let result = ""
     if (days > 0) {
       result += days
 
       if (days == 1) {
-        result += " day, " 
+        result += " day, "
       } else {
-        result += " days, " 
+        result += " days, "
       }
     }
 
@@ -195,9 +207,9 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       result += hours
 
       if (hours == 1) {
-        result += " hour, " 
+        result += " hour, "
       } else {
-        result += " hours, " 
+        result += " hours, "
       }
     }
 
@@ -247,41 +259,41 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
                       <SectionHeader> Your Xnode </SectionHeader>
 
-                      <p> { xnodeData.name } </p>
-                      <p> { xnodeData.id } </p>
+                      <p> {xnodeData.name} </p>
+                      <p> {xnodeData.id} </p>
 
-                      { xnodeData.isUnit && (
-                        <p> { getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine." } </p>
+                      {xnodeData.isUnit && (
+                        <p> {getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine."} </p>
                       )
                       }
 
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">  
-                        <p> Last update { timeSince(xnodeData.updatedAt) } ago </p>
+                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
+                        <p> Last update {timeSince(xnodeData.updatedAt)} ago </p>
 
                         <div className="mt-4 flex w-full space-x-14">
 
-                          <XnodeMeasurement 
-                            name="CPU" 
+                          <XnodeMeasurement
+                            name="CPU"
                             unit="%"
-                            isAvailable={xnodeData.heartbeatData != null} 
+                            isAvailable={xnodeData.heartbeatData != null}
                             used={round(xnodeData.heartbeatData?.cpuPercent)}
                             available={round(100 - xnodeData.heartbeatData?.cpuPercent)}
                             usedPercent={round(xnodeData.heartbeatData?.cpuPercent)}
                           />
 
-                          <XnodeMeasurement 
-                            name="RAM" 
+                          <XnodeMeasurement
+                            name="RAM"
                             unit="GB"
-                            isAvailable={xnodeData.heartbeatData != null} 
+                            isAvailable={xnodeData.heartbeatData != null}
                             used={round(xnodeData.heartbeatData?.ramMbUsed / 1024)}
                             available={round((xnodeData.heartbeatData?.ramMbTotal - xnodeData.heartbeatData?.ramMbUsed) / 1024)}
                             usedPercent={xnodeData.heartbeatData?.ramMbUsed / xnodeData.heartbeatData?.ramMbTotal * 100}
                           />
 
-                          <XnodeMeasurement 
-                            name="storage" 
+                          <XnodeMeasurement
+                            name="storage"
                             unit="GB"
-                            isAvailable={xnodeData.heartbeatData != null} 
+                            isAvailable={xnodeData.heartbeatData != null}
                             used={round(xnodeData.heartbeatData?.storageMbUsed / 1024)}
                             available={round((xnodeData.heartbeatData?.storageMbTotal - xnodeData.heartbeatData?.storageMbUsed) / 1024)}
                             usedPercent={xnodeData.heartbeatData?.storageMbUsed / xnodeData.heartbeatData?.storageMbTotal * 100}
@@ -290,9 +302,9 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                       </div>
 
                       <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <ServiceEditor startingServices={services} updateServices={setServices}/>
+                        <ServiceEditor startingServices={services} updateServices={setServices} />
 
-                        <p> Running on { xnodeData.ipAddress } </p>
+                        <p> Running on {xnodeData.ipAddress} </p>
                       </div>
 
                       <div className="w-full mt-3 shadow-md p-8 h-fit border">
@@ -313,12 +325,12 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
               <>
                 {
                   !isLoading && (
-                    <Signup/>
+                    <Signup />
                   )
                 }
               </>
             )
-                }
+          }
         </div>
       </section>
     </div>
