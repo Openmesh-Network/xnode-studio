@@ -86,13 +86,6 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
 }
 
 export default function XnodePage({ searchParams }: XnodePageProps) {
-<<<<<<< HEAD
-  const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
-  const [draft, setDraft] = useDraft()
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [xnodeData, setXnodeData] = useState<Xnode | undefined>(undefined)
-
-=======
   const opensshconfig = {
     "nixName": "openssh",
     "options": [{ "nixName": "enable", "type": "boolean", "value": "true" },
@@ -101,7 +94,6 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [xnodeData, setXnodeData] = useState<Xnode | undefined>(undefined)
   
->>>>>>> 343535994533a45e7eefaf4a9328b6d3612d24a3
   const id = z.coerce
     .string()
     .parse(String(searchParams.uuid))
@@ -165,11 +157,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       }
     }
 
-<<<<<<< HEAD
-  }, [user?.sessionToken, user])
-=======
   }, [user, id])
->>>>>>> 343535994533a45e7eefaf4a9328b6d3612d24a3
 
   const updateServices = async () => {
     let tempService = [] // services
@@ -210,26 +198,16 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         })
       }
     }
-<<<<<<< HEAD
-
-    await axios(config).then((response) => {
-      console.log(response)
-      setIsLoading(true)
-      getData(true)
-    })
-  }
-=======
     try {
       const response = await axios(config);
       console.log(response);
       setIsLoading(true);
-      getData();
+      getData(true);
     } catch (error) {
       toast.error(`Error updating the Xnode services: ${error}`);
       setIsLoading(false);
     }
   } 
->>>>>>> 343535994533a45e7eefaf4a9328b6d3612d24a3
 
   useEffect(() => {
 
@@ -325,96 +303,6 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   return (
     <div className="container">
       <section>
-<<<<<<< HEAD
-        <div className="flex h-full">
-          {
-            isLoading && (
-              <Loading />
-            )
-          }
-
-          {
-            !isLoading && user?.sessionToken ? (
-              <>
-                {
-                  xnodeData ? (
-                    <div className="w-full">
-
-                      <SectionHeader> Your Xnode </SectionHeader>
-
-                      <p> {xnodeData.name} </p>
-                      <p> {xnodeData.id} </p>
-
-                      {xnodeData.isUnit && (
-                        <p> {getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine."} </p>
-                      )
-                      }
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <p> Last update {timeSince(xnodeData.updatedAt)} ago </p>
-
-                        <div className="mt-4 flex w-full space-x-14">
-
-                          <XnodeMeasurement
-                            name="CPU"
-                            unit="%"
-                            isAvailable={xnodeData.heartbeatData != null}
-                            used={round(xnodeData.heartbeatData?.cpuPercent)}
-                            available={round(100 - xnodeData.heartbeatData?.cpuPercent)}
-                            usedPercent={round(xnodeData.heartbeatData?.cpuPercent)}
-                          />
-
-                          <XnodeMeasurement
-                            name="RAM"
-                            unit="GB"
-                            isAvailable={xnodeData.heartbeatData != null}
-                            used={round(xnodeData.heartbeatData?.ramMbUsed / 1024)}
-                            available={round((xnodeData.heartbeatData?.ramMbTotal - xnodeData.heartbeatData?.ramMbUsed) / 1024)}
-                            usedPercent={xnodeData.heartbeatData?.ramMbUsed / xnodeData.heartbeatData?.ramMbTotal * 100}
-                          />
-
-                          <XnodeMeasurement
-                            name="storage"
-                            unit="GB"
-                            isAvailable={xnodeData.heartbeatData != null}
-                            used={round(xnodeData.heartbeatData?.storageMbUsed / 1024)}
-                            available={round((xnodeData.heartbeatData?.storageMbTotal - xnodeData.heartbeatData?.storageMbUsed) / 1024)}
-                            usedPercent={xnodeData.heartbeatData?.storageMbUsed / xnodeData.heartbeatData?.storageMbTotal * 100}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <ServiceEditor startingServices={services} updateServices={setServices} />
-
-                        <p> Running on {xnodeData.ipAddress} </p>
-                      </div>
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <p> Actions </p>
-
-                        <Button onClick={() => updateServices()}> Push new services </Button>
-                      </div>
-
-                    </div>
-                  ) : (
-                    <>
-                      <p> No Xnode for that UUID found. </p>
-                    </>
-                  )
-                }
-              </>
-            ) : (
-              <>
-                {
-                  !isLoading && (
-                    <Signup />
-                  )
-                }
-              </>
-            )
-          }
-=======
         <div className="content">
           {isLoading && <Loading />}
           {!isLoading && user?.sessionToken ? (
@@ -471,7 +359,6 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
           ) : (
             !isLoading && <Signup />
           )}
->>>>>>> 343535994533a45e7eefaf4a9328b6d3612d24a3
         </div>
       </section>
     </div>
