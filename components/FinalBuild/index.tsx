@@ -106,7 +106,7 @@ const ReviewYourBuild = () => {
     xnodeType,
   } = useContext(AccountContext)
 
-  const [ draft, setDraft ] = useDraft()
+  const [draft, setDraft] = useDraft()
 
   const { push } = useRouter()
 
@@ -123,7 +123,7 @@ const ReviewYourBuild = () => {
 
         // XXX: Actually include correct one here.
         deploymentAuth: config.deploymentAuth,
-        services: JSON.stringify(config.services),
+        services: JSON.stringify({ "services": config.services, "users.users": [] }),
       }
 
       console.log('Payload: ')
@@ -198,7 +198,7 @@ const ReviewYourBuild = () => {
       >
         {' '}
         {/* <div className="mx-auto size-[200px] animate-spin rounded-full border-b-2 border-[#0354EC]"></div> */}
-        <p onClick={ () => createXnode(draft) }>DEPLOY</p>
+        <p onClick={() => createXnode(draft)}>DEPLOY</p>
       </section>
     )
   }

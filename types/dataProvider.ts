@@ -121,7 +121,19 @@ export type DeploymentConfiguration = {
 
   // An array to all the service ids being looked at.
   services: ServiceData[]
+  xnodeConfig : XnodeConfig
 }
+
+
+export type XnodeConfig = {
+  "services" : ServiceData[]
+  "users.users" : ServiceData[]
+  // Can add any other modules available in nix following the Module and Option format.
+  // "ModuleType" : ModuleData[]
+}
+
+
+
 
 export type ServiceOption = {
   name: string

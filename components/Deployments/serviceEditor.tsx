@@ -24,7 +24,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
-
+import {
+  ServiceFromName,
+} from '@/types/dataProvider'
 
 
 // TODO:
@@ -36,6 +38,31 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
   const services = startingServices
   const setServices = updateServices
 
+  useEffect(() => {
+    let updatedServices = [...services];
+
+    updatedServices.forEach((service, serviceIndex) => {
+      
+      let tempService = { ...service };
+      const defaultService = JSON.parse(JSON.stringify(ServiceFromName(service.nixName)));
+
+      if (defaultService) {
+        const currentOptionsMap = new Map(tempService.options.map(option => [option.name, option]));
+
+
+        defaultService.options.forEach(defaultOption => {
+          if (!currentOptionsMap.has(defaultOption.name)) {
+            tempService.options.push(defaultOption);
+          }
+        });
+
+        updatedServices[serviceIndex] = tempService;
+      }
+    });
+
+    setServices(updatedServices);
+  }, []);
+
   const getInputFromOption = (serviceIndex: number, optionIndex: number) => {
 
     const updateFunc = (newValue: string, serviceIndex: number, optionIndex: number) => {
@@ -45,6 +72,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
 
       newServices[serviceIndex].options[optionIndex].value = newValue;
 
+
       setServices(newServices)
     }
 
@@ -53,7 +81,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
     switch (option.type) {
       case "string":
         return (
-          <input type="text" defaultValue={option.value} onChange={(e) => updateFunc(e.target.value, serviceIndex, optionIndex)} />
+          <input type="text" defaultValue={""} placeholder={option.value} onChange={(e) => updateFunc(e.target.value, serviceIndex, optionIndex)} />
         )
       case "boolean":
         return (
@@ -61,11 +89,11 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
         )
       case "int":
         return (
-          <input type="number" className="w-12 min-w-fit" defaultValue={option.value} onChange={(e) => updateFunc(e.target.value.toString(), serviceIndex, optionIndex)} />
+          <input type="number" className="w-12 min-w-fit" defaultValue={null} placeholder={option.value} onChange={(e) => updateFunc(e.target.value.toString(), serviceIndex, optionIndex)} />
         )
       default:
         return (
-          <input type="text" defaultValue={option.value} onChange={(e) => updateFunc(e.target.value, serviceIndex, optionIndex)} />
+          <input type="text" defaultValue={""} placeholder={option.value} onChange={(e) => updateFunc(e.target.value, serviceIndex, optionIndex)} />
         )
     }
   }

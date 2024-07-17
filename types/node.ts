@@ -1,3 +1,4 @@
+import { XnodeConfig } from "./dataProvider"
 export type CoreServices = {
   name: string
   isFree: boolean
@@ -21,13 +22,13 @@ export type Xnode = {
   id: string
 
   provider: string
-  services: string
+  services: XnodeConfig
 
   heartbeatData?: HeartbeatData
 
   name: string
   description: string
-  deploymentAuth: BigInt
+  deploymentAuth: string
   openmeshExpertUserId: string
 
   ipAddress: string
