@@ -550,7 +550,7 @@ const Dashboard = () => {
                           <button
                             disabled={isDeployed}
                             className={`inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border  px-4 text-sm font-medium text-primary transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${isDeployed
-                                ? 'border-gray-400 text-gray-400 cursor-not-allowed'
+                                ? 'cursor-not-allowed border-gray-400 text-gray-400'
                                 : 'border-primary text-primary hover:bg-primary/10'
                               }`}
                             onClick={() =>
