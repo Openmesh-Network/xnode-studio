@@ -155,10 +155,10 @@ export type Specs = {
 
 export type ServiceData = {
   name: string
-  tags: string[]
-  specs: Specs
-  desc: string
-
+  tags?: string[]
+  specs?: Specs
+  desc?: string
+  website?:string
   // Url to the logo.
   logo?: string
   implmented?: boolean
@@ -166,6 +166,7 @@ export type ServiceData = {
   nixName: string
   options: ServiceOption[]
 }
+
 
 export type TemplateData = {
   id: string
@@ -176,7 +177,7 @@ export type TemplateData = {
   isUnitRunnable?: boolean
   source?: string
   website?: string
-
+  implementation?: boolean
   // Url to image.
   logo: string
   category: string

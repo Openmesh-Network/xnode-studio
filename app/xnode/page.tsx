@@ -101,9 +101,11 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   const [services, setServices] = useState<ServiceData[]>([])
   const [userData, setUserData] = useState<ServiceData>(sshUserData('')) // Always relates to the xnode user for now.
 
-  const getData = useCallback(async () => {
-    setIsLoading(true)
-
+  const getData = useCallback(async (doLoad:Boolean) => {
+    if (doLoad) {
+      setIsLoading(true)
+    }
+    console.log("the user token is:" + user?.sessionToken)
     if (user?.sessionToken) {
       const config = {
         method: 'post' as 'post',
@@ -199,7 +201,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       const response = await axios(config);
       console.log(response);
       setIsLoading(true);
-      getData();
+      getData(true);
     } catch (error) {
       toast.error(`Error updating the Xnode services: ${error}`);
       setIsLoading(false);
@@ -207,7 +209,8 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   } 
 
   useEffect(() => {
-    getData()
+
+    getData(true)
   }, [user?.sessionToken])
 
   useEffect(() => {
@@ -218,6 +221,15 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       console.log("No heartbeat data. :(")
     }
   }, [xnodeData])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getData(false);
+    }, 10000); // 10000 ms = 10 seconds
+
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, [getData]);
 
   function timeSince(startDate: Date) {
     let d = new Date(startDate)
