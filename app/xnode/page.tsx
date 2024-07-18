@@ -26,7 +26,6 @@ import { sshUserData } from '@/components/Deployments/serviceAccess'
 import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
 import stackIcon from '@/assets/stack.svg'
-import './page.css'
 
 type XnodePageProps = {
   searchParams: {

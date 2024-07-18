@@ -20,7 +20,6 @@ import Signup from '@/components/Signup'
 import { Xnode } from '../../types/node'
 import { ToastAction } from '../ui/toast'
 import { useToast } from '../ui/use-toast'
-import TextInputPopup from './InputEditor'
 
 const Deployments = () => {
   const [isLoading, setIsLoading] = useState(true)
