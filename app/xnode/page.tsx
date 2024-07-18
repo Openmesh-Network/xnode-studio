@@ -209,9 +209,8 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   } 
 
   useEffect(() => {
-
     getData(true)
-  }, [user?.sessionToken])
+  }, [user?.sessionToken, getData])
 
   useEffect(() => {
     console.log(xnodeData)
@@ -222,14 +221,14 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     }
   }, [xnodeData])
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      getData(false);
-    }, 10000); // 10000 ms = 10 seconds
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     getData(false);
+  //   }, 10000); // 10000 ms = 10 seconds
 
-    // Cleanup function to clear the interval when the component unmounts
-    return () => clearInterval(interval);
-  }, [getData]);
+  //   // Cleanup function to clear the interval when the component unmounts
+  //   return () => clearInterval(interval);
+  // }, [getData]);
 
   function timeSince(startDate: Date) {
     let d = new Date(startDate)

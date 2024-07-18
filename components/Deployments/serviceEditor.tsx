@@ -107,7 +107,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
             <TableHead>Name</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Tags</TableHead>
-            <TableHead></TableHead>
+            <TableHead> { /* Edit button */ } </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -128,9 +128,9 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
                     </DialogTrigger>
                   </TableCell>
                 </TableRow>
-                <DialogContent style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                <DialogContent style={{ width: '600px', maxWidth: '800px', maxHeight: '400px', overflowY: 'auto' }}>
                   <DialogHeader>
-                    <DialogTitle>{service.name} Options</DialogTitle>
+                    <DialogTitle>{service.name} Options </DialogTitle>
                     <DialogDescription />
                     {service.options?.map((option, optionIndex) => (
                       <div key={optionIndex}>
@@ -143,8 +143,6 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
                   </DialogHeader>
                 </DialogContent>
               </Dialog>
-
-
             ))
           ) : (
             <TableRow>
