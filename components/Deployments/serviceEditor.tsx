@@ -115,7 +115,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
             services.map((service, index) => (
               <Dialog key={index}>
                 <TableRow>
-                  <TableCell>{service.name}</TableCell>
+                  <TableCell>{service.name ? service.name : service.nixName}</TableCell>
                   <TableCell className="max-w-48">
                     {service.desc}
                   </TableCell>
@@ -134,7 +134,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
                     <DialogDescription />
                     {service.options?.map((option, optionIndex) => (
                       <div key={optionIndex}>
-                        <div className="w-full flex justify-between">
+                        <div className="flex w-full justify-between">
                           <p>{option.name}</p>
                           {getInputFromOption(index, optionIndex)}
                         </div>
