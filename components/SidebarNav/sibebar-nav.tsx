@@ -265,9 +265,9 @@ const NavLayout: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 }) => {
   return (
     <TooltipProvider>
-      <div className={cn('flex', className)}>
+      <div className={cn('flex w-full', className)}>
         <SidebarNav className="z-40 hidden lg:block" />
-        <main className="mt-16 flex-1">{children}</main>
+        <main className="mt-16" style={{ width: "calc(100% - 17rem)" }}>{children}</main>
       </div>
     </TooltipProvider>
   )

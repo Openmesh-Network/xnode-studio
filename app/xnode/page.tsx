@@ -289,20 +289,23 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   }
 
   return (
-    <div className="container">
+    <div className="w-full flex-1 p-20">
       <section>
-        <div className="content">
+        <div className="flex h-full">
           {isLoading && <Loading />}
           {!isLoading && user?.sessionToken ? (
             <>
               {xnodeData ? (
-                <div className="xnode-details">
-                  <SectionHeader>Your Xnode       {xnodeData.id} </SectionHeader>
+                <div className="w-full">
+                  <SectionHeader>Your Xnode {xnodeData.id} </SectionHeader>
+
                   <p>{xnodeData.name}</p>
+                  <p>{xnodeData.deploymentAuth}</p>
                   {xnodeData.isUnit && <p>{getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine."}</p>}
-                  <div className="box">
+
+                  <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <p>Last update {timeSince(xnodeData.updatedAt)} ago</p>
-                    <div className="measurements">
+                    <div className="mt-4 flex w-full space-x-14">
                       <XnodeMeasurement
                         name="CPU"
                         unit="%"
@@ -329,13 +332,13 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                       />
                     </div>
                   </div>
-                  <div className="box">
+                  <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <ServiceEditor startingServices={services} updateServices={setServices} />
                   </div>
-                  <div className="box">
+                  <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <ServiceAccess currentService={services} ip={xnodeData.ipAddress} startingUserData={userData} updatedUserData={setUserData}/>
                   </div>
-                  <div className="box">
+                  <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <p>Actions</p>
                     <Button onClick={() => updateServices()}>Push new services</Button>
                   </div>

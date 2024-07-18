@@ -215,7 +215,7 @@ const ReviewYourBuild = () => {
           </div>
           <div className="mt-[25px] text-[18px] font-normal tracking-[-2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
             {/* XXX: Incorrect! */}
-            Average deployment time ~ 2 mins
+            Average deployment time 10 mins
           </div>
 
           <div className="mt-[15px] grid gap-y-[10px] md:mt-[18px] md:gap-y-[12px] lg:mt-[21px] lg:gap-y-[14px] 2xl:mt-[30px] 2xl:gap-y-[20px]">
