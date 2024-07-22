@@ -28,6 +28,7 @@ export type Xnode = {
 
   name: string
   description: string
+  status: string
   deploymentAuth: string
   openmeshExpertUserId: string
 

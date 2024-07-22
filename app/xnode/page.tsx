@@ -47,18 +47,18 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
   return (
     <div className="flex-1">
       <p className="font-medium"> {upperCaseFirstLetter(name)} </p>
-      <div className="w-full flex">
+      <div className="flex w-full">
         { /* TODO: Add icon */}
-        <div className="w-10 h-10 mr-2">
+        <div className="mr-2 size-10">
           <Image src={stackIcon} alt={"Stack icon"} />
         </div>
 
-        <div className="bg-gray-200 flex-1 flex align-middle min-h-5">
+        <div className="flex min-h-5 flex-1 bg-gray-200 align-middle">
 
           {
             isAvailable ? (
               <>
-                <div className="bg-blue-500 h-full" style={{ width: usedPercent + "%" }}>
+                <div className="h-full bg-blue-500" style={{ width: usedPercent + "%" }}>
                 </div>
 
                 <div className="w-fit p-2">
@@ -170,7 +170,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     tempService.forEach(service => {
         let defaultservice = ServiceFromName(service.nixName)
         console.log(service)
-        service.options = service.options.filter(option => {
+        service.options = service.options.filter((option: { name: string; value: string; type: string }) => {
         const defaultOption = defaultservice.options.find(defOption => defOption.name === option.name);
 
         console.log(defaultOption?.value, option.value)
@@ -298,6 +298,16 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     return Math.floor(x * 100) / 100
   }
 
+  function colorFromStatus(status: string) {
+    if (status == "online") {
+      return "bg-green-800"
+    } else if (status == "offline") {
+      return "bg-gray-400"
+    } else {
+      return "bg-amber-200"
+    }
+  }
+
   return (
     <div className="w-full flex-1 p-20">
       <section>
@@ -307,9 +317,26 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
             <>
               {xnodeData ? (
                 <div className="w-full">
-                  <SectionHeader>Your Xnode {xnodeData.id} </SectionHeader>
+                  <SectionHeader> 
+                    Your Xnode {xnodeData.id}
+                  </SectionHeader>
 
-                  <p>{xnodeData.name}</p>
+                  <div className="flex items-center">
+                    <div className={"inline-block size-5 rounded-full mr-2 " + 
+                      (
+                      xnodeData.status ? (
+                        colorFromStatus(xnodeData.status)   
+                      ) : (
+                        "offline"
+                      )
+                    )
+                    }/> 
+                    <div>
+                      Status: {xnodeData.status ? xnodeData.status : "offline"}
+                    </div>
+                  </div>
+
+                  <p>Template: {xnodeData.name}</p>
                   <p>{xnodeData.deploymentAuth}</p>
                   {xnodeData.isUnit && <p>{getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine."}</p>}
 

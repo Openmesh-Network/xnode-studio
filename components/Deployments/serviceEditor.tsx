@@ -100,7 +100,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
 
   return (
     <>
-      <Header level={2}>Services</Header>
+      <Header level={2}> Services </Header>
       <Table>
         <TableHeader className="bg-muted text-muted-foreground">
           <TableRow>
@@ -128,7 +128,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
                     </DialogTrigger>
                   </TableCell>
                 </TableRow>
-                <DialogContent style={{ width: '600px', maxWidth: '800px', maxHeight: '400px', overflowY: 'auto' }}>
+                <DialogContent style={{ width: '600px', maxWidth: '600px', maxHeight: '400px', overflowY: 'auto' }}>
                   <DialogHeader>
                     <DialogTitle>{service.name} Options </DialogTitle>
                     <DialogDescription />
