@@ -44,7 +44,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
     updatedServices.forEach((service, serviceIndex) => {
       
       let tempService = { ...service };
-      const defaultService = JSON.parse(JSON.stringify(ServiceFromName(service.nixName)));
+      const defaultService = ServiceFromName(service.nixName);
 
       if (defaultService) {
         const currentOptionsMap = new Map(tempService.options.map(option => [option.name, option]));
