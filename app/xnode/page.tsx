@@ -158,7 +158,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
   }, [user, id])
 
-  const updateServices = async () => {
+  const updateChanges = async () => {
     let tempService = [] // services
     
     for (const service of services) {
@@ -181,6 +181,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[]") {
      tempService.push(opensshconfig)
     }
+
     const config = {
       method: 'post' as 'post',
       url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/pushXnodeServices`,
@@ -285,7 +286,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   async function allowUpdate() {
     const config = {
       method: 'post' as 'post',
-      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/allowXnodeUpdate`,
+      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/allowXnodeGenerationUpdate`,
       headers: {
         'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
         'X-Parse-Session-Token': user.sessionToken,
@@ -336,10 +337,22 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
             <>
               {xnodeData ? (
                 <div className="w-full">
-                  <div className="flex h-fit w-full justify-between bg-amber-300 p-2 align-middle">
-                    <div className="h-fit align-middle"> There is an update available. </div>
-                    <Button onClick={allowUpdate}> Update </Button>
-                  </div>
+
+                  { // XXX: Make this prettier:
+                    xnodeData.heartbeatData && (
+                      <>
+                        {
+                          xnodeData.heartbeatData.wantUpdate && (
+                            <div className="flex h-fit w-full justify-between bg-amber-300 p-2 align-middle">
+                              <div className="h-fit align-middle"> There is an update available. </div>
+                              <Button onClick={allowUpdate}> Update </Button>
+                            </div>
+                          )
+                        }
+                      </>
+                    )
+                  }
+
                   <SectionHeader> 
                     Your Xnode {xnodeData.id}
                   </SectionHeader>
@@ -353,7 +366,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                         "offline"
                       )
                     )
-                    }/> 
+                    }/>
                     <div>
                       Status: {xnodeData.status ? xnodeData.status : "offline"}
                     </div>
@@ -400,7 +413,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                   </div>
                   <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <p>Actions</p>
-                    <Button onClick={() => updateServices()}>Push new services</Button>
+                    <Button onClick={() => updateChanges()}> Push changes </Button>
                   </div>
                 </div>
               ) : (

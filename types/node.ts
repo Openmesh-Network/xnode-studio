@@ -16,6 +16,8 @@ export type HeartbeatData = {
 
  storageMbUsed: number
  storageMbTotal: number
+
+ wantUpdate?: boolean
 }
 
 export type Xnode = {
@@ -39,6 +41,8 @@ export type Xnode = {
 
   updateGenerationWant: number
   updateGenerationHave: number
+  configGenerationWant: number
+  configGenerationHave: number
 
   nftId: string
   location: string
