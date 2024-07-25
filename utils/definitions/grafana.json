@@ -1,6 +1,13 @@
 {
     "name": "grafana",
+    "desc": "Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB",
     "nixName": "grafana",
+    "specs": [],
+    "tags": [],
+    "website": [
+        "https://grafana.com"
+    ],
+    "logo": "",
     "options": [
         {
             "name": "dataDir",
@@ -455,7 +462,7 @@
             "desc": "Url of the datasource.",
             "nixName": "provision.datasources.settings.datasources.*.url",
             "type": "string",
-            "value": "\"localhost\""
+            "value": "\"\""
         },
         {
             "name": "provision.datasources.settings.deleteDatasources",

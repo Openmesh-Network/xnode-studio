@@ -1,16 +1,18 @@
 {
     "name": "MeshCentral",
     "desc": "Computer management web app",
-    "tags": [
-        "Remote Access\r"
-    ],
-    "website": "https://meshcentral.com/",
-    "logo": "",
+    "nixName": "meshcentral",
     "specs": {
         "ram": 0,
         "storage": 0
     },
-    "nixName": "meshcentral",
+    "tags": [
+        "Remote Access\r"
+    ],
+    "website": [
+        "https://meshcentral.com/"
+    ],
+    "logo": "",
     "options": [
         {
             "name": "enable",
@@ -33,7 +35,5 @@
             "type": "JSON value",
             "value": null
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

@@ -1,6 +1,16 @@
 {
-    "name": "geth",
+    "name": "Go-Ethereum",
+    "desc": "Official golang implementation of the Ethereum protocol",
     "nixName": "geth",
+    "specs": {
+        "ram": 16384,
+        "storage": 4194304
+    },
+    "tags": [],
+    "website": [
+        "https://geth.ethereum.org/"
+    ],
+    "logo": "https://geth.ethereum.org/favicon.ico",
     "options": [
         {
             "name": "<name>.authrpc.address",

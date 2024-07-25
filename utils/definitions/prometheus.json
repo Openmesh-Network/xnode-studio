@@ -1,16 +1,18 @@
 {
     "name": "Prometheus",
     "desc": "Service monitoring system and time series database",
-    "tags": [
-        "Monitoring"
-    ],
-    "website": "https://prometheus.io",
-    "logo": "https://prometheus.io/assets/favicons/favicon.ico",
+    "nixName": "prometheus",
     "specs": {
         "ram": 0,
         "storage": 0
     },
-    "nixName": "prometheus",
+    "tags": [
+        "Monitoring"
+    ],
+    "website": [
+        "https://prometheus.io"
+    ],
+    "logo": "https://prometheus.io/assets/favicons/favicon.ico",
     "options": [
         {
             "name": "alertmanager.checkConfig",
@@ -755,6 +757,76 @@
             "value": "\"blackbox-exporter\""
         },
         {
+            "name": "exporters.borgmatic.configFile",
+            "desc": "The path to the borgmatic config file",
+            "nixName": "exporters.borgmatic.configFile",
+            "type": "path",
+            "value": "\"/etc/borgmatic/config.yaml\""
+        },
+        {
+            "name": "exporters.borgmatic.enable",
+            "desc": "Whether to enable the prometheus borgmatic exporter.",
+            "nixName": "exporters.borgmatic.enable",
+            "type": "boolean",
+            "value": "false"
+        },
+        {
+            "name": "exporters.borgmatic.extraFlags",
+            "desc": "Extra commandline options to pass to the borgmatic exporter.",
+            "nixName": "exporters.borgmatic.extraFlags",
+            "type": "list of string",
+            "value": "[ ]"
+        },
+        {
+            "name": "exporters.borgmatic.firewallFilter",
+            "desc": "Specify a filter for iptables to use when  services.prometheus.exporters.borgmatic.openFirewall is true. It is used as ip46tables -I nixos-fw firewallFilter -j nixos-fw-accept .",
+            "nixName": "exporters.borgmatic.firewallFilter",
+            "type": "null or string",
+            "value": "null"
+        },
+        {
+            "name": "exporters.borgmatic.firewallRules",
+            "desc": "Specify rules for nftables to add to the input chain when  services.prometheus.exporters.borgmatic.openFirewall is true.",
+            "nixName": "exporters.borgmatic.firewallRules",
+            "type": "null or strings concatenated with \"\\n\"",
+            "value": "null"
+        },
+        {
+            "name": "exporters.borgmatic.group",
+            "desc": "Group under which the borgmatic exporter shall be run.",
+            "nixName": "exporters.borgmatic.group",
+            "type": "string",
+            "value": "\"borgmatic-exporter\""
+        },
+        {
+            "name": "exporters.borgmatic.listenAddress",
+            "desc": "Address to listen on.",
+            "nixName": "exporters.borgmatic.listenAddress",
+            "type": "string",
+            "value": "\"0.0.0.0\""
+        },
+        {
+            "name": "exporters.borgmatic.openFirewall",
+            "desc": "Open port in firewall for incoming connections.",
+            "nixName": "exporters.borgmatic.openFirewall",
+            "type": "boolean",
+            "value": "false"
+        },
+        {
+            "name": "exporters.borgmatic.port",
+            "desc": "Port to listen on.",
+            "nixName": "exporters.borgmatic.port",
+            "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+            "value": "9996"
+        },
+        {
+            "name": "exporters.borgmatic.user",
+            "desc": "User name under which the borgmatic exporter shall be run.",
+            "nixName": "exporters.borgmatic.user",
+            "type": "string",
+            "value": "\"borgmatic-exporter\""
+        },
+        {
             "name": "exporters.buildkite-agent.enable",
             "desc": "Whether to enable the prometheus buildkite-agent exporter.",
             "nixName": "exporters.buildkite-agent.enable",
@@ -956,6 +1028,111 @@
             "nixName": "exporters.collectd.user",
             "type": "string",
             "value": "\"collectd-exporter\""
+        },
+        {
+            "name": "exporters.deluge.delugeHost",
+            "desc": "Hostname where deluge server is running.",
+            "nixName": "exporters.deluge.delugeHost",
+            "type": "string",
+            "value": "\"localhost\""
+        },
+        {
+            "name": "exporters.deluge.delugePassword",
+            "desc": "Password to connect to deluge server.  This stores the password unencrypted in the nix store and is thusconsidered unsafe. Prefer using the delugePasswordFile option.",
+            "nixName": "exporters.deluge.delugePassword",
+            "type": "null or string",
+            "value": "null"
+        },
+        {
+            "name": "exporters.deluge.delugePasswordFile",
+            "desc": "File containing the password to connect to deluge server.",
+            "nixName": "exporters.deluge.delugePasswordFile",
+            "type": "null or path",
+            "value": "null"
+        },
+        {
+            "name": "exporters.deluge.delugePort",
+            "desc": "Port where deluge server is listening.",
+            "nixName": "exporters.deluge.delugePort",
+            "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+            "value": "58846"
+        },
+        {
+            "name": "exporters.deluge.delugeUser",
+            "desc": "User to connect to deluge server.",
+            "nixName": "exporters.deluge.delugeUser",
+            "type": "string",
+            "value": "\"localclient\""
+        },
+        {
+            "name": "exporters.deluge.enable",
+            "desc": "Whether to enable the prometheus deluge exporter.",
+            "nixName": "exporters.deluge.enable",
+            "type": "boolean",
+            "value": "false"
+        },
+        {
+            "name": "exporters.deluge.exportPerTorrentMetrics",
+            "desc": "Enable per-torrent metrics.  This may significantly increase the number of time series dependingon the number of torrents in your Deluge instance.",
+            "nixName": "exporters.deluge.exportPerTorrentMetrics",
+            "type": "boolean",
+            "value": "false"
+        },
+        {
+            "name": "exporters.deluge.extraFlags",
+            "desc": "Extra commandline options to pass to the deluge exporter.",
+            "nixName": "exporters.deluge.extraFlags",
+            "type": "list of string",
+            "value": "[ ]"
+        },
+        {
+            "name": "exporters.deluge.firewallFilter",
+            "desc": "Specify a filter for iptables to use when  services.prometheus.exporters.deluge.openFirewall is true. It is used as ip46tables -I nixos-fw firewallFilter -j nixos-fw-accept .",
+            "nixName": "exporters.deluge.firewallFilter",
+            "type": "null or string",
+            "value": "null"
+        },
+        {
+            "name": "exporters.deluge.firewallRules",
+            "desc": "Specify rules for nftables to add to the input chain when  services.prometheus.exporters.deluge.openFirewall is true.",
+            "nixName": "exporters.deluge.firewallRules",
+            "type": "null or strings concatenated with \"\\n\"",
+            "value": "null"
+        },
+        {
+            "name": "exporters.deluge.group",
+            "desc": "Group under which the deluge exporter shall be run.",
+            "nixName": "exporters.deluge.group",
+            "type": "string",
+            "value": "\"deluge-exporter\""
+        },
+        {
+            "name": "exporters.deluge.listenAddress",
+            "desc": "Address to listen on.",
+            "nixName": "exporters.deluge.listenAddress",
+            "type": "string",
+            "value": "\"0.0.0.0\""
+        },
+        {
+            "name": "exporters.deluge.openFirewall",
+            "desc": "Open port in firewall for incoming connections.",
+            "nixName": "exporters.deluge.openFirewall",
+            "type": "boolean",
+            "value": "false"
+        },
+        {
+            "name": "exporters.deluge.port",
+            "desc": "Port to listen on.",
+            "nixName": "exporters.deluge.port",
+            "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+            "value": "9354"
+        },
+        {
+            "name": "exporters.deluge.user",
+            "desc": "User name under which the deluge exporter shall be run.",
+            "nixName": "exporters.deluge.user",
+            "type": "string",
+            "value": "\"deluge-exporter\""
         },
         {
             "name": "exporters.dmarc.debug",
@@ -4118,8 +4295,22 @@
             "name": "exporters.nginxlog.settings",
             "desc": "All settings of nginxlog expressed as an Nix attrset.  Check the official documentation for the corresponding YAML settingsthat can all be used here:  https://github.com/martin-helmich/prometheus-nginxlog-exporter   The  listen  object is already generated by port ,  listenAddress  and metricsEndpoint  and will be merged with the value of settings  before writing it as JSON.",
             "nixName": "exporters.nginxlog.settings",
-            "type": "attribute set",
+            "type": "submodule",
             "value": "{ }"
+        },
+        {
+            "name": "exporters.nginxlog.settings.consul",
+            "desc": "Consul integration options. For more information see the  exampleconfig .  This is disabled by default.",
+            "nixName": "exporters.nginxlog.settings.consul",
+            "type": "null or (attribute set of anything)",
+            "value": "null"
+        },
+        {
+            "name": "exporters.nginxlog.settings.namespaces",
+            "desc": "Namespaces to collect the metrics for. For more information see the exampleconfig .",
+            "nixName": "exporters.nginxlog.settings.namespaces",
+            "type": "list of attribute set of anything",
+            "value": "[ ]"
         },
         {
             "name": "exporters.nginxlog.user",
@@ -6157,6 +6348,13 @@
             "nixName": "exporters.snmp.enableConfigCheck",
             "type": "boolean",
             "value": "true"
+        },
+        {
+            "name": "exporters.snmp.environmentFile",
+            "desc": "EnvironmentFile as defined in   systemd.exec(5)  .  Secrets may be passed to the service without adding them to theworld-readable Nix store, by specifying placeholder variables as theoption value in Nix and setting these variables accordingly in theenvironment file.  Environment variables from this file will be interpolated into theconfig file using envsubst with this syntax: $ENVIRONMENT ${VARIABLE}   For variables to use see  PrometheusConfiguration .  If the file path is set to this option, the parameter --config.expand-environment-variables  is implicitly addedto  ExecStart .  Note that this file needs to be available on the host on which thisexporter is running.",
+            "nixName": "exporters.snmp.environmentFile",
+            "type": "null or path",
+            "value": "null"
         },
         {
             "name": "exporters.snmp.extraFlags",
@@ -11786,7 +11984,5 @@
             "type": "YAML value",
             "value": "{ }"
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

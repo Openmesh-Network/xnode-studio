@@ -1,16 +1,18 @@
 {
     "name": "Libreddit ",
-    "desc": "Private front-end for Reddit",
-    "tags": [
-        "Communication - Social Networks and Forums"
-    ],
-    "website": "https://github.com/libreddit/libreddit",
-    "logo": "https://github.githubassets.com/favicons/favicon.png",
+    "desc": "Private front-end for Reddit (Continued fork of Libreddit)",
+    "nixName": "libreddit",
     "specs": {
         "ram": 0,
         "storage": 0
     },
-    "nixName": "libreddit",
+    "tags": [
+        "Communication - Social Networks and Forums"
+    ],
+    "website": [
+        "https://github.com/redlib-org/redlib"
+    ],
+    "logo": "https://github.githubassets.com/favicons/favicon.png",
     "options": [
         {
             "name": "address",
@@ -47,7 +49,5 @@
             "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
             "value": "8080"
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

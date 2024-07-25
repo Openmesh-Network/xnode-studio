@@ -1,16 +1,18 @@
 {
     "name": "Radarr",
-    "desc": "A Usenet/BitTorrent movie downloader",
-    "tags": [
-        "Automation"
-    ],
-    "website": "https://radarr.video/",
-    "logo": "https://radarr.video/img/favicon.ico",
+    "desc": "Usenet/BitTorrent movie downloader",
+    "nixName": "radarr",
     "specs": {
         "ram": 2048,
         "storage": 0
     },
-    "nixName": "radarr",
+    "tags": [
+        "Automation"
+    ],
+    "website": [
+        "https://radarr.video/"
+    ],
+    "logo": "https://radarr.video/img/favicon.ico",
     "options": [
         {
             "name": "dataDir",
@@ -54,7 +56,5 @@
             "type": "string",
             "value": "\"radarr\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

@@ -1,6 +1,13 @@
 {
     "name": "lighthouse",
+    "desc": "Ethereum consensus client in Rust",
     "nixName": "lighthouse",
+    "specs": [],
+    "tags": [],
+    "website": [
+        "https://lighthouse.sigmaprime.io/"
+    ],
+    "logo": "",
     "options": [
         {
             "name": "beacon",
@@ -132,7 +139,7 @@
             "name": "network",
             "desc": "The network to connect to. Mainnet is the default ethereumnetwork.",
             "nixName": "network",
-            "type": "one of \"mainnet\", \"prater\", \"goerli\", \"gnosis\", \"kiln\", \"ropsten\", \"sepolia\"",
+            "type": "one of \"mainnet\", \"gnosis\", \"chiado\", \"sepolia\", \"holesky\"",
             "value": "\"mainnet\""
         },
         {

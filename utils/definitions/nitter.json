@@ -1,16 +1,18 @@
 {
     "name": "Nitter ",
     "desc": "Alternative Twitter front-end",
-    "tags": [
-        "Communication - Social Networks and Forums"
-    ],
-    "website": "https://github.com/zedeus/nitter",
-    "logo": "https://github.githubassets.com/favicons/favicon.png",
+    "nixName": "nitter",
     "specs": {
         "ram": 0,
         "storage": 0
     },
-    "nixName": "nitter",
+    "tags": [
+        "Communication - Social Networks and Forums"
+    ],
+    "website": [
+        "https://github.com/zedeus/nitter"
+    ],
+    "logo": "https://github.githubassets.com/favicons/favicon.png",
     "options": [
         {
             "name": "cache.listMinutes",
@@ -306,7 +308,5 @@
             "type": "attribute set",
             "value": "{ }"
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

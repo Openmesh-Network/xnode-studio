@@ -1,16 +1,19 @@
 {
     "name": "Stalwart JMAP",
     "desc": "Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)",
-    "tags": [
-        "Communication - Email - Mail Delivery Agents"
-    ],
-    "website": "https://github.com/stalwartlabs/mail-server",
-    "logo": "https://github.githubassets.com/favicons/favicon.png",
+    "nixName": "stalwart-mail",
     "specs": {
         "ram": 0,
         "storage": 0
     },
-    "nixName": "stalwart-mail",
+    "tags": [
+        "Server",
+        "Communication - Email - Mail Delivery Agents"
+    ],
+    "website": [
+        "https://github.com/stalwartlabs/mail-server"
+    ],
+    "logo": "https://github.githubassets.com/favicons/favicon.png",
     "options": [
         {
             "name": "enable",
@@ -18,6 +21,13 @@
             "nixName": "enable",
             "type": "boolean",
             "value": "true"
+        },
+        {
+            "name": "openFirewall",
+            "desc": "Whether to open TCP firewall ports, which are specified in  services.stalwart-mail.settings.listener  on allinterfaces.",
+            "nixName": "openFirewall",
+            "type": "boolean",
+            "value": "false"
         },
         {
             "name": "package",
@@ -33,7 +43,5 @@
             "type": "TOML value",
             "value": "{ }"
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

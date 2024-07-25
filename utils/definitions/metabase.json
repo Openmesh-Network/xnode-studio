@@ -1,16 +1,18 @@
 {
     "name": "Metabase",
-    "desc": "The easy, open source way for everyone in your company to ask questions and learn from data",
-    "tags": [
-        "Analytics"
-    ],
-    "website": "https://metabase.com",
-    "logo": "https://metabase.com/images/favicon.ico",
+    "desc": "Easy, open source way for everyone in your company to ask questions and learn from data",
+    "nixName": "metabase",
     "specs": {
         "ram": 1000,
         "storage": 10000
     },
-    "nixName": "metabase",
+    "tags": [
+        "Analytics"
+    ],
+    "website": [
+        "https://metabase.com"
+    ],
+    "logo": "https://metabase.com/images/favicon.ico",
     "options": [
         {
             "name": "enable",
@@ -61,7 +63,5 @@
             "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
             "value": "8443"
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

@@ -1,16 +1,18 @@
 {
     "name": "Headphones",
     "desc": "Automatic music downloader for SABnzbd",
-    "tags": [
-        "Automation"
-    ],
-    "website": "https://github.com/rembo10/headphones",
-    "logo": "https://github.githubassets.com/favicons/favicon.png",
+    "nixName": "headphones",
     "specs": {
         "ram": 0,
         "storage": 0
     },
-    "nixName": "headphones",
+    "tags": [
+        "Automation"
+    ],
+    "website": [
+        "https://github.com/rembo10/headphones"
+    ],
+    "logo": "https://github.githubassets.com/favicons/favicon.png",
     "options": [
         {
             "name": "configFile",
@@ -61,7 +63,5 @@
             "type": "string",
             "value": "\"headphones\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }
