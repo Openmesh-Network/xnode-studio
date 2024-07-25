@@ -9,9 +9,7 @@
     "tags": [
         "Automation"
     ],
-    "website": [
-        "https://github.com/dgtlmoon/changedetection.io"
-    ],
+    "website": "https://github.com/dgtlmoon/changedetection.io",
     "logo": "https://github.githubassets.com/favicons/favicon.png",
     "options": [
         {
@@ -30,7 +28,7 @@
         },
         {
             "name": "chromePort",
-            "desc": "A free port on which webDriverSupport or playwrightSupport listen onlocalhost.",
+            "desc": "A free port on which webDriverSupport or playwrightSupport listen on localhost.",
             "nixName": "chromePort",
             "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
             "value": "4444"

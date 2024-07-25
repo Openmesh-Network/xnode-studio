@@ -9,9 +9,7 @@
     "tags": [
         "Software Development - IDE & Tools\r"
     ],
-    "website": [
-        "https://www.rstudio.com/"
-    ],
+    "website": "https://www.rstudio.com/",
     "logo": "https://posit.co/wp-content/themes/Posit/dist/images/favicon/favicon-32x32.png",
     "options": [
         {

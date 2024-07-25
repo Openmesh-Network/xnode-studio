@@ -2,11 +2,12 @@
     "name": "grafana",
     "desc": "Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB",
     "nixName": "grafana",
-    "specs": [],
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [],
-    "website": [
-        "https://grafana.com"
-    ],
+    "website": "https://grafana.com",
     "logo": "",
     "options": [
         {

@@ -6,10 +6,8 @@
         "ram": 16384,
         "storage": 4194304
     },
-    "tags": [],
-    "website": [
-        "https://geth.ethereum.org/"
-    ],
+    "tags": ["RPC", "Validator", "Blockchain"],
+    "website": "https://geth.ethereum.org/",
     "logo": "https://geth.ethereum.org/favicon.ico",
     "options": [
         {
@@ -17,7 +15,7 @@
             "desc": "Listen address of Go Ethereum Auth RPC API.",
             "nixName": "<name>.authrpc.address",
             "type": "string",
-            "value": "\"127.0.0.1\""
+            "value": "127.0.0.1"
         },
         {
             "name": "<name>.authrpc.enable",

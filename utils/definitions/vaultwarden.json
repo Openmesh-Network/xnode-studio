@@ -2,11 +2,12 @@
     "name": "vaultwarden",
     "desc": "Unofficial Bitwarden compatible server written in Rust",
     "nixName": "vaultwarden",
-    "specs": [],
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [],
-    "website": [
-        "https://github.com/dani-garcia/vaultwarden"
-    ],
+    "website": "https://github.com/dani-garcia/vaultwarden",
     "logo": "",
     "options": [
         {
