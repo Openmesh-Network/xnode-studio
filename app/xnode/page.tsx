@@ -282,6 +282,25 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     return result
   }
 
+  async function allowUpdate() {
+    const config = {
+      method: 'post' as 'post',
+      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/allowXnodeUpdate`,
+      headers: {
+        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+        'X-Parse-Session-Token': user.sessionToken,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        "id": id,
+        "generation": xnodeData.updateGenerationWant + 1
+      }
+    }
+
+    const response = await axios(config);
+    console.log(response)
+  }
+
   function getExpirationDays(startDate: Date) {
     let d = new Date(startDate)
     //console.error(d.getTime())
@@ -298,13 +317,13 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     return Math.floor(x * 100) / 100
   }
 
-  function colorFromStatus(status: string) {
+  function styleFromStatus(status: string) {
     if (status == "online") {
       return "bg-green-800"
     } else if (status == "offline") {
       return "bg-gray-400"
     } else {
-      return "bg-amber-200"
+      return "bg-amber-200 animate-pulse "
     }
   }
 
@@ -317,15 +336,19 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
             <>
               {xnodeData ? (
                 <div className="w-full">
+                  <div className="flex h-fit w-full justify-between bg-amber-300 p-2 align-middle">
+                    <div className="h-fit align-middle"> There is an update available. </div>
+                    <Button onClick={allowUpdate}> Update </Button>
+                  </div>
                   <SectionHeader> 
                     Your Xnode {xnodeData.id}
                   </SectionHeader>
 
                   <div className="flex items-center">
-                    <div className={"inline-block size-5 rounded-full mr-2 " + 
+                    <div className={"inline-block size-3 rounded-full mr-2 " + 
                       (
                       xnodeData.status ? (
-                        colorFromStatus(xnodeData.status)   
+                        styleFromStatus(xnodeData.status)   
                       ) : (
                         "offline"
                       )

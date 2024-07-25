@@ -37,6 +37,9 @@ export type Xnode = {
   isUnit: boolean
   unitClaimTime: Date
 
+  updateGenerationWant: number
+  updateGenerationHave: number
+
   nftId: string
   location: string
   createdAt: Date
