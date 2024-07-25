@@ -1,16 +1,16 @@
 {
     "name": "Typesense",
-    "desc": "Typesense is a fast, typo-tolerant search engine for building delightful search experiences.",
+    "desc": "Typesense is a fast, typo-tolerant search engine for building delightful search experiences",
+    "nixName": "typesense",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Search Engines\r"
     ],
     "website": "https://typesense.org",
     "logo": "https://typesense.org/favicon.png",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "typesense",
     "options": [
         {
             "name": "apiKeyFile",
@@ -61,7 +61,5 @@
             "type": "string",
             "value": "\"/var/lib/typesense\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

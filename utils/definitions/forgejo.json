@@ -1,16 +1,16 @@
 {
     "name": "Forgejo",
-    "desc": "A self-hosted lightweight software forge",
+    "desc": "Self-hosted lightweight software forge",
+    "nixName": "forgejo",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Software Development - Project Management\r"
     ],
     "website": "https://forgejo.org",
     "logo": "https://forgejo.org/favicon.ico",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "forgejo",
     "options": [
         {
             "name": "customDir",
@@ -271,7 +271,5 @@
             "type": "string",
             "value": "\"forgejo\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

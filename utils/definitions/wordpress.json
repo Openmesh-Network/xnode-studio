@@ -1,6 +1,14 @@
 {
     "name": "wordpress",
+    "desc": "WordPress is open source software you can use to create a beautiful website, blog, or app",
     "nixName": "wordpress",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
+    "tags": [],
+    "website": "https://wordpress.org",
+    "logo": "",
     "options": [
         {
             "name": "sites",

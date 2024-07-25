@@ -1,6 +1,14 @@
 {
     "name": "samba",
+    "desc": "Standard Windows interoperability suite of programs for Linux and Unix",
     "nixName": "samba",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
+    "tags": [],
+    "website": "https://www.samba.org",
+    "logo": "",
     "options": [
         {
             "name": "configText",

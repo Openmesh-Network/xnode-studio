@@ -1,16 +1,16 @@
 {
     "name": "Netdata",
     "desc": "Real-time performance monitoring tool",
+    "nixName": "netdata",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Monitoring"
     ],
     "website": "https://www.netdata.cloud/",
     "logo": "https://www.netdata.cloud/favicon-32x32.png",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "netdata",
     "options": [
         {
             "name": "claimTokenFile",
@@ -110,7 +110,5 @@
             "type": "string",
             "value": "\"netdata\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

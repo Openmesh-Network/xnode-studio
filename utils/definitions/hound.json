@@ -1,16 +1,16 @@
 {
     "name": "Hound",
     "desc": "Lightning fast code searching made easy",
+    "nixName": "hound",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Search Engines\r"
     ],
     "website": "https://github.com/hound-search/hound",
     "logo": "https://github.githubassets.com/favicons/favicon.png",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "hound",
     "options": [
         {
             "name": "enable",
@@ -61,7 +61,5 @@
             "type": "string",
             "value": "\"hound\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

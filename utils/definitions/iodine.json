@@ -1,16 +1,16 @@
 {
     "name": "iodine",
     "desc": "Tool to tunnel IPv4 data through a DNS server",
+    "nixName": "iodine",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Proxy"
     ],
     "website": "http://code.kryo.se/iodine/",
     "logo": "",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "iodine",
     "options": [
         {
             "name": "clients",
@@ -82,7 +82,5 @@
             "type": "string",
             "value": "\"\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

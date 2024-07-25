@@ -1,16 +1,16 @@
 {
     "name": "Gogs",
-    "desc": "A painless self-hosted Git service",
+    "desc": "Painless self-hosted Git service",
+    "nixName": "gogs",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Software Development - Project Management\r"
     ],
     "website": "https://gogs.io",
     "logo": "https://gogs.io/img/favicon.png",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "gogs",
     "options": [
         {
             "name": "appName",
@@ -159,7 +159,5 @@
             "type": "string",
             "value": "\"gogs\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

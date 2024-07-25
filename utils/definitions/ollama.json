@@ -1,16 +1,16 @@
 {
     "name": "Ollama",
     "desc": "Get up and running with large language models locally",
+    "nixName": "ollama",
+    "specs": {
+        "ram": 8192,
+        "storage": 12280
+    },
     "tags": [
         "Analytics"
     ],
     "website": "https://github.com/ollama/ollama",
     "logo": "https://github.githubassets.com/favicons/favicon.png",
-    "specs": {
-        "ram": 8192,
-        "storage": 12280
-    },
-    "nixName": "ollama",
     "options": [
         {
             "name": "acceleration",
@@ -103,7 +103,5 @@
             "type": "list of string",
             "value": "[ ]"
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

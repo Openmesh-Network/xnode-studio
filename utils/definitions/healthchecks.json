@@ -1,16 +1,16 @@
 {
     "name": "Healthchecks",
-    "desc": "A cron monitoring tool written in Python & Django",
+    "desc": "Cron monitoring tool written in Python & Django ",
+    "nixName": "healthchecks",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Monitoring"
     ],
     "website": "https://github.com/healthchecks/healthchecks",
     "logo": "https://github.githubassets.com/favicons/favicon.png",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "healthchecks",
     "options": [
         {
             "name": "dataDir",
@@ -117,7 +117,5 @@
             "type": "string",
             "value": "\"healthchecks\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

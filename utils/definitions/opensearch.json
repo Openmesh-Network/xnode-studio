@@ -1,16 +1,16 @@
 {
     "name": "OpenSearch",
     "desc": "Open Source, Distributed, RESTful Search Engine",
+    "nixName": "opensearch",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Search Engines\r"
     ],
     "website": "https://github.com/opensearch-project/OpenSearch",
     "logo": "https://github.githubassets.com/favicons/favicon.png",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "opensearch",
     "options": [
         {
             "name": "dataDir",
@@ -124,7 +124,5 @@
             "type": "string",
             "value": "\"opensearch\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

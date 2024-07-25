@@ -1,16 +1,16 @@
 {
     "name": "Static Web Server",
-    "desc": "An asynchronous web server for static files-serving",
+    "desc": "Asynchronous web server for static files-serving",
+    "nixName": "static-web-server",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Web Servers"
     ],
     "website": "https://static-web-server.net/",
     "logo": "https://static-web-server.net/assets/sws.svg",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "static-web-server",
     "options": [
         {
             "name": "configuration",
@@ -40,7 +40,5 @@
             "type": "path",
             "value": null
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

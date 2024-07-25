@@ -1,16 +1,16 @@
 {
     "name": "Jenkins",
-    "desc": "An extendable open source continuous integration server",
+    "desc": "Extendable open source continuous integration server",
+    "nixName": "jenkins",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Software Development - Continuous Integration & Continuous Deployment"
     ],
     "website": "https://jenkins.io/",
     "logo": "https://jenkins.io/favicon.ico",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "jenkins",
     "options": [
         {
             "name": "enable",
@@ -166,7 +166,5 @@
             "type": "boolean",
             "value": "false"
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

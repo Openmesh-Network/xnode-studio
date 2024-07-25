@@ -1,16 +1,16 @@
 {
     "name": "Kubo",
-    "desc": "An IPFS implementation in Go",
+    "desc": "IPFS implementation in Go",
+    "nixName": "kubo",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "File Transfer - Distributed Filesystems"
     ],
     "website": "https://ipfs.io/",
     "logo": "https://ipfs.io/favicon.ico",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "kubo",
     "options": [
         {
             "name": "autoMigrate",
@@ -152,7 +152,5 @@
             "type": "string",
             "value": "\"ipfs\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

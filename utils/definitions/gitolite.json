@@ -1,16 +1,16 @@
 {
     "name": "Gitolite",
     "desc": "Finely-grained git repository hosting",
+    "nixName": "gitolite",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Software Development - Project Management\r"
     ],
     "website": "https://gitolite.com/gitolite/index.html",
     "logo": "https://gitolite.com/gitolite/img/favicon.ico",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "gitolite",
     "options": [
         {
             "name": "adminPubkey",
@@ -75,7 +75,5 @@
             "type": "string",
             "value": "\"gitolite\""
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }

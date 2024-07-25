@@ -1,16 +1,16 @@
 {
     "name": "Tinyproxy",
-    "desc": "A light-weight HTTP/HTTPS proxy daemon for POSIX operating systems",
+    "desc": "Light-weight HTTP/HTTPS proxy daemon for POSIX operating systems",
+    "nixName": "tinyproxy",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [
         "Proxy"
     ],
     "website": "https://tinyproxy.github.io/",
     "logo": "",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
-    "nixName": "tinyproxy",
     "options": [
         {
             "name": "enable",
@@ -61,7 +61,5 @@
             "type": "signed integer",
             "value": "8888"
         }
-    ],
-    "show": false,
-    "tested": false
+    ]
 }
