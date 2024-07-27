@@ -46,14 +46,15 @@ const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }
     { currentService: ServiceData[], ip: string, startingUserData: ServiceData, updatedUserData: any}) => {
         const services = currentService
 
-        function portFromName(serviceName) {
-            let accessingService = ServiceFromName(serviceName);
-            return accessingService?.options.find((option) => option.name === "port")?.value
+        function portFromService(service: ServiceData) {
+            // Ports may differ if the user has updated the value but not pushed changes.
+            // TODO: Logic to handle when there are multiple ports used by a service.
+            let port = service.options.find((option) => option.nixName?.includes("port"))?.value
+            if (port) return port
+            // Otherwise get the default port
+            return ServiceFromName(service.nixName)?.options.find((option) => option.nixName?.includes("port"))?.value
         }
-        const [isSSHPopupOpen, setSSHIsPopupOpen] = useState(false);
-
         let userData = startingUserData
-
 
         // Handle userdata logic here (for now)
         const nixSshKeyToHtmlString = (sshKey: string) => {
@@ -70,36 +71,31 @@ const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }
             <>
                 <Header level={2}>Access</Header>
 
-                <p> Running on {ip} </p>
+                <p> Your xnode is running at {ip}</p>
 
+                <ul className="flex flex-wrap">
                 {services.map((service) => (
-                    <div key={service.nixName} className="access">
-                        <a href={`http://${ip}:${portFromName(service.nixName)}`}
-                            style={{
-                            color: 'blue',
-                            textDecoration: 'underline',
-                            cursor: 'pointer',
-                            }}
-                        >
+                    <li key={service.nixName} className="mb-2 mr-2">
+                        <Button> 
+                            <a href={`http://${ip}:${portFromService(service)}`} 
+                            target="_blank" rel="noreferrer noopener">
                             {service.nixName}
-                        </a>            
+                            </a>
+                        </Button>          
                         <br />
-                    </div>
+                    </li>
                 ))}
+                </ul>
+                
 
-                {/* <TextInputPopup */}
-                {/*     isOpen={isSSHPopupOpen} */}
-                {/*     onClose={() => setSSHIsPopupOpen(false)} */}
-                {/*     setInputValue = {setSSHKey} */}
-                {/*     curValue={sshKeys} */}
-                {/* /> */}
-
-
-                { 
+                <p> The following openssh public keys are whitelisted on the xnode user: </p>
+                {
                     sshKey && (
                         <div className="auto block w-full overflow-auto border p-2"> <p className="text-nowrap"> {sshKey} </p> </div>
-                    )
+                    )   
                 }
+                <br></br>
+                <code> ssh -i path/to/key xnode@{ip} </code>
                 <Dialog>
                     <div className="flex items-center space-x-4">
                         <DialogTrigger className="inline-flex h-10 min-w-24 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
