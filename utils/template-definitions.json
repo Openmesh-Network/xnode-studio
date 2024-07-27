@@ -250,6 +250,25 @@
     "isUnitRunnable": true
   },
   {
+    "id": "26",
+    "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgDZNMJd_iCRI1k892Rlp2vqc5v-co2501SQ&s",
+    "name": "Syncthing",
+    "category": "File Synchronization",
+    "tags": [
+      "File Sync",
+      "Peer-to-Peer",
+      "Open-source"
+    ],
+    "dateAdded": "2024-06-08T12:00:00Z",
+    "desc": "This template deploys Syncthing, a continuous file synchronization program. It includes settings for synchronizing files between devices in real-time, ensuring data privacy and security, and managing synchronization tasks. The setup is designed for reliable and secure file synchronization.",
+    "serviceNames": [
+      "syncthing"
+    ],
+    "quality": false,
+    "implementation": true,
+    "isUnitRunnable": true
+  },
+  {
     "id": "2",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/1/18/Ipfs-logo-1024-ice-text.png",
     "name": "Kubo: IPFS",
@@ -495,25 +514,6 @@
     "quality": false,
     "implementation": false,
     "isUnitRunnable": false
-  },
-  {
-    "id": "26",
-    "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgDZNMJd_iCRI1k892Rlp2vqc5v-co2501SQ&s",
-    "name": "Syncthing",
-    "category": "File Synchronization",
-    "tags": [
-      "File Sync",
-      "Peer-to-Peer",
-      "Open-source"
-    ],
-    "dateAdded": "2024-06-08T12:00:00Z",
-    "desc": "This template deploys Syncthing, a continuous file synchronization program. It includes settings for synchronizing files between devices in real-time, ensuring data privacy and security, and managing synchronization tasks. The setup is designed for reliable and secure file synchronization.",
-    "serviceNames": [
-      "syncthing"
-    ],
-    "quality": false,
-    "implementation": true,
-    "isUnitRunnable": true
   },
   {
     "id": "27",

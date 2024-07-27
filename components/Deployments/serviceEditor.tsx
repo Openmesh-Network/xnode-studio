@@ -90,7 +90,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
           <input type="number" className="w-12 min-w-fit" defaultValue={null} placeholder={option.value} onChange={(e) => updateFunc(e.target.value.toString(), serviceIndex, optionIndex)} />
         )
       case "string":
-        if (option.value && option.value.includes(`"`)) {
+        if (option.value?.includes(`"`)) {
           let optionValueWithoutQuotes = option.value.replaceAll(`"`, ``)
           return (
             <input type="text" defaultValue={""} placeholder={optionValueWithoutQuotes} onChange={(e) => updateFunc(e.target.value, serviceIndex, optionIndex)} />
