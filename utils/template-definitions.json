@@ -79,6 +79,25 @@
     "isUnitRunnable": true
   },
   {
+    "id": "6",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/WordPress_blue_logo.svg/768px-WordPress_blue_logo.svg.png",
+    "name": "WordPress",
+    "category": "Content Management",
+    "tags": [
+      "Blogging",
+      "CMS",
+      "Open-source"
+    ],
+    "dateAdded": "2024-06-08T12:00:00Z",
+    "desc": "Template for deploying WordPress, a popular content management system (CMS) that powers millions of websites and blogs worldwide. Create, manage, and publish content easily with WordPress. Learn more at https://wordpress.org.",
+    "serviceNames": [
+      "wordpress"
+    ],
+    "quality": true,
+    "implementation": true,
+    "isUnitRunnable": true
+  },
+  {
     "id": "7",
     "logo": "https://img.stackshare.io/service/9003/DOnqq1OM_400x400.jpg",
     "name": "Go Ethereum",
@@ -212,6 +231,25 @@
     "isUnitRunnable": true
   },
   {
+    "id": "69",
+    "logo": "https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/144_Gitlab_logo_logos-512.png",
+    "name": "GitLab",
+    "category": "Version Control",
+    "tags": [
+      "Version Control",
+      "Collaboration",
+      "Open-source"
+    ],
+    "dateAdded": "2024-06-08T12:00:00Z",
+    "desc": "GitLab is a web-based DevOps lifecycle tool that provides a Git repository manager, issue tracking, CI/CD pipelines, and more. It offers a complete solution for version control, code review, and collaboration.",
+    "serviceNames": [
+      "gitlab"
+    ],
+    "quality": false,
+    "implementation": true,
+    "isUnitRunnable": true
+  },
+  {
     "id": "2",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/1/18/Ipfs-logo-1024-ice-text.png",
     "name": "Kubo: IPFS",
@@ -244,25 +282,6 @@
     "desc": "Template for deploying ArchiveBox, you gain the ability to create snapshots of web pages and entire websites, effectively preserving online content for future reference. With ArchiveBox, you can organize and store valuable information from the web, ensuring it remains accessible even if the original content is altered or removed. Users can customize archiving settings to specify the depth and frequency of snapshots, tailoring the archiving process to their specific needs. Additionally, ArchiveBox offers robust search and indexing features, allowing users to quickly locate archived content when needed. Whether you're archiving research materials, blog posts, or online documentation, ArchiveBox provides a reliable solution for preserving and accessing online content over time. Experience the convenience and reliability of web archiving with ArchiveBox today.",
     "serviceNames": [
       "archivebox"
-    ],
-    "quality": false,
-    "implementation": false,
-    "isUnitRunnable": true
-  },
-  {
-    "id": "6",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/WordPress_blue_logo.svg/768px-WordPress_blue_logo.svg.png",
-    "name": "WordPress",
-    "category": "Content Management",
-    "tags": [
-      "Blogging",
-      "CMS",
-      "Open-source"
-    ],
-    "dateAdded": "2024-06-08T12:00:00Z",
-    "desc": "Template for deploying WordPress, a popular content management system (CMS) that powers millions of websites and blogs worldwide. Create, manage, and publish content easily with WordPress. Learn more at https://wordpress.org.",
-    "serviceNames": [
-      "wordpress"
     ],
     "quality": false,
     "implementation": false,
@@ -493,8 +512,8 @@
       "syncthing"
     ],
     "quality": false,
-    "implementation": false,
-    "isUnitRunnable": false
+    "implementation": true,
+    "isUnitRunnable": true
   },
   {
     "id": "27",
@@ -1255,25 +1274,6 @@
     "quality": false,
     "implementation": false,
     "isUnitRunnable": false
-  },
-  {
-    "id": "69",
-    "logo": "https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/144_Gitlab_logo_logos-512.png",
-    "name": "GitLab",
-    "category": "Version Control",
-    "tags": [
-      "Version Control",
-      "Collaboration",
-      "Open-source"
-    ],
-    "dateAdded": "2024-06-08T12:00:00Z",
-    "desc": "GitLab is a web-based DevOps lifecycle tool that provides a Git repository manager, issue tracking, CI/CD pipelines, and more. It offers a complete solution for version control, code review, and collaboration.",
-    "serviceNames": [
-      "gitlab"
-    ],
-    "quality": false,
-    "implementation": false,
-    "isUnitRunnable": true
   },
   {
     "id": "70",

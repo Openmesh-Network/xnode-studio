@@ -78,11 +78,9 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
 
     const option = services[serviceIndex].options[optionIndex]
 
+    const defaultValue = <input type="text" defaultValue={""} placeholder={option.value} onChange={(e) => updateFunc(e.target.value, serviceIndex, optionIndex)} />
+
     switch (option.type) {
-      case "string":
-        return (
-          <input type="text" defaultValue={""} placeholder={option.value} onChange={(e) => updateFunc(e.target.value, serviceIndex, optionIndex)} />
-        )
       case "boolean":
         return (
           <input type="checkbox" defaultChecked={option.value == "true"} onChange={(e) => updateFunc(e.target.checked.toString(), serviceIndex, optionIndex)} />
@@ -91,10 +89,17 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
         return (
           <input type="number" className="w-12 min-w-fit" defaultValue={null} placeholder={option.value} onChange={(e) => updateFunc(e.target.value.toString(), serviceIndex, optionIndex)} />
         )
+      case "string":
+        if (option.value && option.value.includes(`"`)) {
+          let optionValueWithoutQuotes = option.value.replaceAll(`"`, ``)
+          return (
+            <input type="text" defaultValue={""} placeholder={optionValueWithoutQuotes} onChange={(e) => updateFunc(e.target.value, serviceIndex, optionIndex)} />
+          )
+        } else {
+          return defaultValue
+        }
       default:
-        return (
-          <input type="text" defaultValue={""} placeholder={option.value} onChange={(e) => updateFunc(e.target.value, serviceIndex, optionIndex)} />
-        )
+        return defaultValue
     }
   }
 
@@ -113,7 +118,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
         <TableBody>
           {services.length ? (
             services.map((service, index) => (
-              <Dialog key={index}>
+              <Dialog key={service.nixName}>
                 <TableRow>
                   <TableCell>{service.name ? service.name : service.nixName}</TableCell>
                   <TableCell className="max-w-48">
@@ -128,18 +133,30 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
                     </DialogTrigger>
                   </TableCell>
                 </TableRow>
-                <DialogContent style={{ width: '600px', maxWidth: '600px', maxHeight: '400px', overflowY: 'auto' }}>
+                <DialogContent style={{ width: '90vw', maxWidth: '100vw', maxHeight: '75vh', overflowY: 'auto' }}>
                   <DialogHeader>
                     <DialogTitle>{service.name} Options </DialogTitle>
                     <DialogDescription />
+                    <table className="options-table w-full border-collapse border border-gray-300">
+                  <thead>
+                    <tr>
+                      <th className="border border-gray-300 px-2 py-1">Option</th>
+                      <th className="border border-gray-300 px-2 py-1">Description</th>
+                      <th className="border border-gray-300 px-2 py-1">Input</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {service.options?.map((option, optionIndex) => (
-                      <div key={optionIndex}>
-                        <div className="flex w-full justify-between">
-                          <p>{option.name}</p>
+                      <tr key={option.name}>
+                        <td className="border border-gray-300 px-2 py-1">{option.name}</td>
+                        <td className="border border-gray-300 px-2 py-1">{option.desc}</td>
+                        <td className="border border-gray-300 px-2 py-1">
                           {getInputFromOption(index, optionIndex)}
-                        </div>
-                      </div>
+                        </td>
+                      </tr>
                     ))}
+                  </tbody>
+                </table>   
                   </DialogHeader>
                 </DialogContent>
               </Dialog>
