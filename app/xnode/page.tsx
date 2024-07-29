@@ -100,6 +100,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   const [user] = useUser()
   const [services, setServices] = useState<ServiceData[]>([])
   const [userData, setUserData] = useState<ServiceData>(sshUserData("")) // Always relates to the xnode user for now.
+
   const [timeSinceHeartbeat, setTimeSinceHeartbeat] = useState<string>("")
 
   const getData = useCallback(async (isInitialLoad:Boolean) => {
@@ -304,7 +305,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     }
 
     result += seconds
-    if (minutes == 1) {
+    if (seconds == 1) {
       result += " second"
     } else {
       result += " seconds"
@@ -330,6 +331,9 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
     const response = await axios(config);
     console.log(response)
+
+    setIsLoading(true);
+    getData(true);
   }
 
   function getExpirationDays(startDate: Date) {
@@ -372,7 +376,13 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                     xnodeData.heartbeatData && (
                       <>
                         {
-                          xnodeData.heartbeatData.wantUpdate && (
+                          (
+                            // Only show update banner if the admin service reports an update is available, 
+                            //  and the latest wanted update generation is already applied on the machine.
+                            xnodeData.heartbeatData.wantUpdate &&
+                            xnodeData.updateGenerationHave == xnodeData.updateGenerationWant &&
+                            xnodeData.status === "online"
+                          ) && (
                             <div className="flex h-fit w-full justify-between bg-amber-300 p-2 align-middle">
                               <div className="h-fit align-middle"> There is an update available. </div>
                               <Button onClick={allowUpdate}> Update </Button>
@@ -443,7 +453,10 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                   </div>
                   <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <p>Actions</p>
-                    <Button onClick={() => updateChanges()}> Push changes </Button>
+                    <div className="flex ">
+                      <Button onClick={updateChanges}> Push changes </Button>
+                      <Button onClick={allowUpdate}> Force update </Button>
+                    </div>
                   </div>
                 </div>
               ) : (
