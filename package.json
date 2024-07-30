@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node combineService.js && node sortTemplateService.js && next dev -p 3334",
-    "build": "node combineService.js && node sortTemplateService.js  && next build",
-    "start": "node combineService.js && node sortTemplateService.js && next start",
+    "dev": "node combineService.js && next dev -p 3334",
+    "build": "node combineService.js && next build",
+    "start": "node combineService.js && next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"**/*.{ts,tsx}\" --cache",
