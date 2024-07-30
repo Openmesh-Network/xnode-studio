@@ -145,9 +145,40 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
             console.log("The XnodeConfig: ", thisXnodeConfig)
 
             if (isInitialLoad) {
+
+
+              // Process options
+              let remoteServices = thisXnodeConfig["services"]
+              let newServices = []
+
+
+              for (let i = 0; i < remoteServices.length; i++) {
+                let service = remoteServices[i] as ServiceData
+                const defaultService = ServiceFromName(service.nixName)
+
+                let newOptions = []
+                const processOption = (option: ServiceOption) => {
+                  const defaultOption = defaultService.options.find(defOption => defOption.name === option.name);
+
+                  if (option.options) {
+                    processOption(option)
+                  }
+
+                  if (defaultOption) {
+                    option.desc = defaultOption.desc
+                  }
+
+                  newOptions.push(option)
+                }
+
+                for (let j = 0; j < service.options.length; j++) {
+                  processOption(service.options[i])
+                }
+              }
+
               setServices(thisXnodeConfig["services"])
             } else {
-              console.log("Not changing services as .")
+              console.log("Not changing services as they've already been downloaded and might have been edited.")
             }
 
             const usersArray = thisXnodeConfig["users.users"]
@@ -186,21 +217,33 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     tempService.forEach(service => {
         let defaultservice = ServiceFromName(service.nixName)
         console.log(service)
-        service.options = service.options.filter((option: ServiceOption ) => {
-        const defaultOption = defaultservice.options.find(defOption => defOption.name === option.name);
 
-        console.log(defaultOption?.value, option.value)
-        if (option.options) {
-          console.log("suboption detected, attempting to add")
-          delete option.value // remove value from keys so that it is processed correctly by xnode-admin
-          option.options = option.options.filter((suboption: ServiceOption) => {
-            const defaultSubOption = defaultOption.options.find(defSubOption => defSubOption.name === suboption.name);
-            return (suboption.value !== "" && suboption.value !== "null" && suboption.value !== null && defaultSubOption && suboption.value !== defaultSubOption.value) || suboption.type == "boolean"
-          });
-        } else {
-          return (option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean"
+        let finalOptions = []
+        const processOption = (option: ServiceOption) => {
+          if (option.options) {
+            delete option.value
+
+            for(let i = 0; i < option.options.length; i++) {
+              processOption(option.options[i])
+            }
+          }
+
+          delete option.desc
+          delete option.name
+
+          const defaultOption = defaultservice.options.find(defOption => defOption.name === option.name);
+          console.log(defaultOption?.value, option.value)
+
+          if ((option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean") {
+            finalOptions.push(option)
+          }
         }
-      });
+
+        for (let i = 0; i < service.length; i++) {
+          // Process all the top level options at least once.
+          // If they have options then we recurse.
+          processOption(service.options[i])
+        }
     });
 
     if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[]") {

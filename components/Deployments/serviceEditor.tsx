@@ -87,9 +87,9 @@ const OptionRow = ({ option, serviceIndex, optionIndex, parentUpdateFunc, parent
                   </tr>
                 </thead>
                 <tbody>
-                  {option.options.map((suboption, suboptionIndex) => (
+                  {option.options.map((suboption: ServiceOption, suboptionIndex: number) => (
                     <OptionRow
-                      key={suboption.nixName}
+                      key={suboptionIndex}
                       option={suboption}
                       serviceIndex={serviceIndex}
                       optionIndex={suboptionIndex}
