@@ -97,8 +97,8 @@ const Deployments = () => {
                     return 1
                   else
                     return -1
-                }).map((node: Xnode) => (
-                  <li className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
+                }).map((node: Xnode, index) => (
+                  <li key={index} className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
                     <div>
                       <ul>
                         <li>

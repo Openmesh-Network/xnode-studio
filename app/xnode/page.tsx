@@ -99,12 +99,15 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
   const [user] = useUser()
   const [services, setServices] = useState<ServiceData[]>([])
-  const [userData, setUserData] = useState<ServiceData>(sshUserData('')) // Always relates to the xnode user for now.
+  const [userData, setUserData] = useState<ServiceData>(sshUserData("")) // Always relates to the xnode user for now.
 
-  const getData = useCallback(async (doLoad:Boolean) => {
-    if (doLoad) {
+  const [timeSinceHeartbeat, setTimeSinceHeartbeat] = useState<string>("")
+
+  const getData = useCallback(async (isInitialLoad:Boolean) => {
+    if (isInitialLoad) {
       setIsLoading(true)
     }
+
     console.log("the user token is:" + user?.sessionToken)
     if (user?.sessionToken) {
       const config = {
@@ -124,23 +127,34 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         console.log("Got response: ", response)
 
         if (response.data) {
-          let node = response.data as Xnode
-          node.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
-          setXnodeData(node)
+          let remoteNode = response.data as Xnode
+          remoteNode.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
+
+          let newNode = remoteNode;
+          if (xnodeData) {
+            newNode.services = xnodeData.services;
+          }
+
+          setXnodeData(newNode)
 
           let thisXnodeConfig = JSON.parse(response.data.services)
-          if (Array.isArray(thisXnodeConfig)) {
-            setServices(thisXnodeConfig)
-          } else if (Object.keys(thisXnodeConfig).includes("services")) {
-            setServices(thisXnodeConfig["services"])
+
+          if (Object.keys(thisXnodeConfig).includes("services")) {
             console.log("The XnodeConfig: ", thisXnodeConfig)
+
+            if (isInitialLoad) {
+              setServices(thisXnodeConfig["services"])
+            } else {
+              console.log("Not changing services as .")
+            }
 
             const usersArray = thisXnodeConfig["users.users"]
             if (Array.isArray(usersArray)) {
               const user = thisXnodeConfig["users.users"]?.find(user => user?.nixName.includes("xnode")); // Use find instead of get
               if (user) { // If there's no users.users data then this condition will error.
                 console.log("The xnode's userdata:", user["options"])
-                setUserData(user) 
+
+                setUserData(user)
               }
             }
           }
@@ -222,14 +236,31 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     }
   }, [xnodeData])
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     getData(false);
-  //   }, 10000); // 10000 ms = 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getData(false);
+    }, 10000); // 1000 ms = 1 second
 
-  //   // Cleanup function to clear the interval when the component unmounts
-  //   return () => clearInterval(interval);
-  // }, [getData]);
+    return () => clearInterval(interval);
+  }, [getData]);
+
+  useEffect(() => {
+    if (xnodeData) {
+      setTimeSinceHeartbeat(timeSince(xnodeData.updatedAt)) 
+    } else {
+      setTimeSinceHeartbeat('...')
+    }
+
+    const interval = setInterval(() => {
+      if (xnodeData) {
+        setTimeSinceHeartbeat(timeSince(xnodeData.updatedAt)) 
+      } else {
+        setTimeSinceHeartbeat('...')
+      }
+    }, 1000); // 1000 ms = 1 second
+
+    return () => clearInterval(interval);
+  }, [timeSinceHeartbeat, xnodeData]);
 
   function timeSince(startDate: Date) {
     let d = new Date(startDate)
@@ -274,7 +305,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     }
 
     result += seconds
-    if (minutes == 1) {
+    if (seconds == 1) {
       result += " second"
     } else {
       result += " seconds"
@@ -300,6 +331,9 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
     const response = await axios(config);
     console.log(response)
+
+    setIsLoading(true);
+    getData(true);
   }
 
   function getExpirationDays(startDate: Date) {
@@ -342,7 +376,13 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                     xnodeData.heartbeatData && (
                       <>
                         {
-                          xnodeData.heartbeatData.wantUpdate && (
+                          (
+                            // Only show update banner if the admin service reports an update is available, 
+                            //  and the latest wanted update generation is already applied on the machine.
+                            xnodeData.heartbeatData.wantUpdate &&
+                            xnodeData.updateGenerationHave == xnodeData.updateGenerationWant &&
+                            xnodeData.status === "online"
+                          ) && (
                             <div className="flex h-fit w-full justify-between bg-amber-300 p-2 align-middle">
                               <div className="h-fit align-middle"> There is an update available. </div>
                               <Button onClick={allowUpdate}> Update </Button>
@@ -377,7 +417,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                   {xnodeData.isUnit && <p>{getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine."}</p>}
 
                   <div className="mt-3 h-fit w-full border p-8 shadow-md">
-                    <p>Last update {timeSince(xnodeData.updatedAt)} ago</p>
+                    <p>Last update { timeSinceHeartbeat } ago</p>
                     <div className="mt-4 flex w-full space-x-14">
                       <XnodeMeasurement
                         name="CPU"
@@ -413,7 +453,10 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                   </div>
                   <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <p>Actions</p>
-                    <Button onClick={() => updateChanges()}> Push changes </Button>
+                    <div className="flex ">
+                      <Button onClick={updateChanges}> Push changes </Button>
+                      <Button onClick={allowUpdate}> Force update </Button>
+                    </div>
                   </div>
                 </div>
               ) : (
