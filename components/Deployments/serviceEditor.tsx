@@ -89,7 +89,7 @@ const OptionRow = ({ option, serviceIndex, optionIndex, parentUpdateFunc, parent
                 <tbody>
                   {option.options.map((suboption, suboptionIndex) => (
                     <OptionRow
-                      key={suboption.name}
+                      key={suboption.nixName}
                       option={suboption}
                       serviceIndex={serviceIndex}
                       optionIndex={suboptionIndex}
@@ -138,8 +138,10 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
 
     if (parentOptionIndex === null) {
       newServices[serviceIndex].options[optionIndex].value = newValue;
+    } else if (newServices[serviceIndex].options[parentOptionIndex].options) {
+      newServices[serviceIndex].options[parentOptionIndex].options[optionIndex].value = newValue;
     } else {
-      newServices[serviceIndex].options[parentOptionIndex].suboptions[optionIndex].value = newValue;
+      console.error("Option not saved")
     }
 
     setServices(newServices);
@@ -190,7 +192,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
                       <tbody>
                         {service.options?.map((option, optionIndex) => (
                           <OptionRow
-                            key={option.name}
+                            key={option.nixName}
                             option={option}
                             serviceIndex={index}
                             optionIndex={optionIndex}

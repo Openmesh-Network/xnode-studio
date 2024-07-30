@@ -144,10 +144,10 @@ export type ServiceOption = {
 
   // One of: "string", "int", "float", "bool"
   type: string
-  value: string
+  value?: string
 
   // Suboptions for nested options.
-  suboptions?: ServiceOption[];
+  options?: ServiceOption[];
 }
 
 export type Specs = {

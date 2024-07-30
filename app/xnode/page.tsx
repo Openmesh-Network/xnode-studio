@@ -12,6 +12,7 @@ import axios from 'axios'
 import { useUser } from 'hooks/useUser'
 import {
   ServiceFromName,
+  ServiceOption,
 } from '@/types/dataProvider'
 import Signup from '@/components/Signup'
 import { HeartbeatData, Xnode } from '../../types/node'
@@ -26,6 +27,7 @@ import { sshUserData } from '@/components/Deployments/serviceAccess'
 import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
 import stackIcon from '@/assets/stack.svg'
+import { optionsCreator } from '@/components/TemplateProducts/TemplateStep'
 
 type XnodePageProps = {
   searchParams: {
@@ -184,11 +186,20 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     tempService.forEach(service => {
         let defaultservice = ServiceFromName(service.nixName)
         console.log(service)
-        service.options = service.options.filter((option: { name: string; value: string; type: string }) => {
+        service.options = service.options.filter((option: ServiceOption ) => {
         const defaultOption = defaultservice.options.find(defOption => defOption.name === option.name);
 
         console.log(defaultOption?.value, option.value)
-        return (option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean"
+        if (option.options) {
+          console.log("suboption detected, attempting to add")
+          delete option.value // remove value from keys so that it is processed correctly by xnode-admin
+          option.options = option.options.filter((suboption: ServiceOption) => {
+            const defaultSubOption = defaultOption.options.find(defSubOption => defSubOption.name === suboption.name);
+            return (suboption.value !== "" && suboption.value !== "null" && suboption.value !== null && defaultSubOption && suboption.value !== defaultSubOption.value) || suboption.type == "boolean"
+          });
+        } else {
+          return (option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean"
+        }
       });
     });
 
