@@ -75,7 +75,8 @@ const Signup = () => {
       toast.error(err)
       return
     }
-    console.log('Login over!')
+    console.log('Login over, refreshing.')
+    window.location.reload() // Might not be the correct way to do this
   }
 
   async function loginUser(data: any) {
