@@ -67,7 +67,7 @@ const OptionRow = ({ option, serviceIndex, optionIndex, parentUpdateFunc, parent
   return (
     <>
       <tr>
-        <td className="border border-gray-300 px-2 py-1">{option.name}</td>
+        <td className="border border-gray-300 px-2 py-1">{option.name ? (option.name) : (option.nixName)}</td>
         <td className="border border-gray-300 px-2 py-1">{option.desc}</td>
         <td className="border border-gray-300 px-2 py-1">
         {option.options?.length > 0 ? "Use suboptions" : getInputFromOption(option, serviceIndex, optionIndex, parentOptionIndex)}
@@ -110,28 +110,28 @@ const OptionRow = ({ option, serviceIndex, optionIndex, parentUpdateFunc, parent
 const ServiceEditor = ({ startingServices, updateServices }: { startingServices: ServiceData[], updateServices: any }) => {
   const [services, setServices] = useState(startingServices);
 
-  useEffect(() => {
-    let updatedServices = [...services];
+  // useEffect(() => {
+  //   let updatedServices = [...services];
 
-    updatedServices.forEach((service, serviceIndex) => {
-      let tempService = { ...service };
-      const defaultService = ServiceFromName(service.nixName);
+  //   updatedServices.forEach((service, serviceIndex) => {
+  //     let tempService = { ...service };
+  //     const defaultService = ServiceFromName(service.nixName);
 
-      if (defaultService) {
-        const currentOptionsMap = new Map(tempService.options.map(option => [option.name, option]));
+  //     if (defaultService) {
+  //       const currentOptionsMap = new Map(tempService.options.map(option => [option.name, option]));
 
-        defaultService.options.forEach(defaultOption => {
-          if (!currentOptionsMap.has(defaultOption.name)) {
-            tempService.options.push(defaultOption);
-          }
-        });
+  //       defaultService.options.forEach(defaultOption => {
+  //         if (!currentOptionsMap.has(defaultOption.name)) {
+  //           tempService.options.push(defaultOption);
+  //         }
+  //       });
 
-        updatedServices[serviceIndex] = tempService;
-      }
-    });
+  //       updatedServices[serviceIndex] = tempService;
+  //     }
+  //   });
 
-    setServices(updatedServices);
-  }, []);
+  //   setServices(updatedServices);
+  // }, []);
 
   const updateFunc = (newValue: string, serviceIndex: number, optionIndex: number, parentOptionIndex: number | null = null) => {
     let newServices = [...services];
@@ -147,6 +147,18 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
     setServices(newServices);
   };
 
+  function resetServiceToDefault(serviceNixName: string) {
+    for (let i = 0; i < services.length; i++) {
+      if(services[i].nixName === serviceNixName) {
+        let newServices = services
+        newServices[i] = ServiceFromName(serviceNixName)
+
+        setServices(newServices)
+        return
+      }
+    }
+  }
+
   return (
     <>
       <Header level={2}> Services </Header>
@@ -157,6 +169,7 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
             <TableHead>Description</TableHead>
             <TableHead>Tags</TableHead>
             <TableHead> { /* Edit button */ } </TableHead>
+            <TableHead> { /* Reset button */ } </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -175,6 +188,11 @@ const ServiceEditor = ({ startingServices, updateServices }: { startingServices:
                     <DialogTrigger className="inline-flex h-10 min-w-24 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
                       Edit
                     </DialogTrigger>
+                  </TableCell>
+                  <TableCell>
+                    <Button onClick={() => { resetServiceToDefault(service.nixName) } } className="inline-flex h-10 min-w-24 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                      Reset to default
+                    </Button>
                   </TableCell>
                 </TableRow>
                 <DialogContent style={{ width: '90vw', maxWidth: '100vw', maxHeight: '75vh', overflowY: 'auto' }}>

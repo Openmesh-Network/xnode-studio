@@ -144,20 +144,22 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
               for (let i = 0; i < remoteServices.length; i++) {
                 let service = remoteServices[i] as ServiceData
-                const defaultService = ServiceFromName(service.nixName)
 
-                const processOption = (option: ServiceOption, targetOptions: ServiceOption[]) => {
-                  const defaultOption = defaultService?.options?.find(defOption => defOption.nixName === option.nixName);
+                const processOption = (option: ServiceOption, parentOptions: ServiceOption[], targetOptions: ServiceOption[]) => {
+                  const defaultOption = parentOptions?.find(defOption => defOption.nixName === option.nixName);
 
-                  let newSubOptions = []
                   if (option.options) {
+                    let newSubOptions = []
                     for (let j = 0; j < option.options.length; j++) {
-                      processOption(option.options[j], newSubOptions)
+                      console.error("No default options for: ", option.nixName, " ", defaultOption)
+                      processOption(option.options[j], defaultOption.options, newSubOptions)
                     }
+
+                    option.options = newSubOptions
                   }
 
                   if (defaultOption) {
-                    console.error("Default name for option: ", option.nixName, " ", defaultOption.name)
+                    option.name = defaultOption.name
                     option.desc = defaultOption.desc
                   } else {
                     console.error("No default options for service: ", option.nixName)
@@ -167,8 +169,9 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                 }
 
                 let newOptions = []
+                const defaultService = ServiceFromName(service.nixName)
                 for (let j = 0; j < service.options.length; j++) {
-                  processOption(service.options[j], newOptions)
+                  processOption(service.options[j], defaultService?.options, newOptions)
                 }
 
                 service.options = newOptions
@@ -206,7 +209,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
   }, [user, id])
 
-  const updateChanges = async (services: ServiceData[]) => {
+  const updateChanges = async () => {
     let newServices = servicesCompressedForAdmin(services);
 
     if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[]") {
@@ -473,7 +476,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                   <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <p>Actions</p>
                     <div className="flex ">
-                      <Button onClick={() => { updateChanges(services) }}> Push changes </Button>
+                      <Button onClick={() => { updateChanges() }}> Push changes </Button>
                       <Button onClick={() => { allowUpdate() } }> Force update </Button>
                     </div>
                   </div>

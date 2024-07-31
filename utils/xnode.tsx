@@ -51,49 +51,46 @@ export async function getXnodeWithNodesValidatorsStats(id: any) {
 export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData[] {
   let newServices = []
 
+  // alert(JSON.stringify(services))
+
   for (const service of services) {
     if (service.nixName != "openssh") {
-      let defaultservice = ServiceFromName(service.nixName)
-      console.log(service)
 
       const processOption = (option: ServiceOption, targetOptions: ServiceOption[]) => {
         if (option.options) {
-          delete option.value
-
           let newSubOptions = []
-          for(let i = 0; i < option.options.length; i++) {
-            processOption(option.options[i], newSubOptions)
+          for (let j = 0; j < option.options.length; j++) {
+            processOption(option.options[j], newSubOptions)
           }
 
           option.options = newSubOptions
+
+          delete option.value
         }
 
-        delete option.desc
         delete option.name
+        delete option.desc
 
-        const defaultOption = defaultservice.options.find(defOption => defOption.name === option.name);
-        console.log(defaultOption?.value, option.value)
-
-        if ((option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean") {
-          targetOptions.push(option)
-        }
+        targetOptions.push(option)
       }
 
+      console.log(service)
+
       let newServiceOptions = []
+      console.log("Service length: ", service.options.length)
       for (let i = 0; i < service.options.length; i++) {
         // Process all the top level options at least once.
         // If they have options then we recurse.
-        if (service.options) {
-          processOption(service.options[i], newServiceOptions)
-          console.log("Processing option: ", i)
-        }
+        processOption(service.options[i], newServiceOptions)
+        console.log("Processing option: ", i)
       }
 
-      alert("Length of final options: " + newServiceOptions.length)
       service.options = newServiceOptions;
       newServices.push(service)
+      console.warn("Final options again: ", service.options)
     }
   }
+
 
   return newServices
 }
