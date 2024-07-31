@@ -28,6 +28,7 @@ import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
 import stackIcon from '@/assets/stack.svg'
 import { optionsCreator } from '@/components/TemplateProducts/TemplateStep'
+import { servicesCompressedForAdmin } from '@/utils/xnode'
 
 type XnodePageProps = {
   searchParams: {
@@ -89,8 +90,7 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
 export default function XnodePage({ searchParams }: XnodePageProps) {
   const opensshconfig = {
     "nixName": "openssh",
-    "options": [{ "nixName": "enable", "type": "boolean", "value": "true" },
-    { "nixName": "settings.PasswordAuthentication", "value": "false", "type": "boolean" }, { "nixName": "settings.KbdInteractiveAuthentication", "value": "false", "type": "boolean" }]
+    "options": [{ "nixName": "enable", "type": "boolean", "value": "true" }, { "nixName": "settings.PasswordAuthentication", "value": "false", "type": "boolean" }, { "nixName": "settings.KbdInteractiveAuthentication", "value": "false", "type": "boolean" }]
   }
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [xnodeData, setXnodeData] = useState<Xnode | undefined>(undefined)
@@ -168,7 +168,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
 
                 let newOptions = []
                 for (let j = 0; j < service.options.length; j++) {
-                  processOption(service.options[i], newOptions)
+                  processOption(service.options[j], newOptions)
                 }
 
                 service.options = newOptions
@@ -207,59 +207,13 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   }, [user, id])
 
   const updateChanges = async (services: ServiceData[]) => {
-    let tempService = [] // services
-    
-    alert("Services: " + services.length)
-
-    for (const service of services) {
-      if (service.nixName != "openssh") {
-        let defaultservice = ServiceFromName(service.nixName)
-        console.log(service)
-
-        const processOption = (option: ServiceOption, targetOptions: ServiceOption[]) => {
-          if (option.options) {
-            delete option.value
-
-            let newSubOptions = []
-            for(let i = 0; i < option.options.length; i++) {
-              processOption(option.options[i], newSubOptions)
-            }
-
-            option.options = newSubOptions
-          }
-
-          delete option.desc
-          delete option.name
-
-          const defaultOption = defaultservice.options.find(defOption => defOption.name === option.name);
-          console.log(defaultOption?.value, option.value)
-
-          if ((option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean") {
-            targetOptions.push(option)
-          }
-        }
-
-        let newServiceOptions = []
-        for (let i = 0; i < service.options.length; i++) {
-          // Process all the top level options at least once.
-          // If they have options then we recurse.
-          if (service.options) {
-            processOption(service.options[i], newServiceOptions)
-            console.log("Processing option: ", i)
-          }
-        }
-
-        alert("Length of final options: " + newServiceOptions.length)
-        service.options = newServiceOptions;
-        tempService.push(service)
-      }
-    }
+    let newServices = servicesCompressedForAdmin(services);
 
     if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[]") {
-      tempService.push(opensshconfig)
+      newServices.push(opensshconfig as ServiceData)
     }
 
-    console.log("Final services: ", tempService)
+    console.log("Final services: ", newServices)
 
     const config = {
       method: 'post' as 'post',
@@ -272,7 +226,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       data: {
         "id": id,
         "services": Buffer.from(JSON.stringify({
-          "services": tempService,
+          "services": newServices,
           "users.users": [userData]
         })).toString('base64')
       }

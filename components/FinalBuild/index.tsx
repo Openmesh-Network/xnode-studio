@@ -17,6 +17,7 @@ import { optionsFeature } from '@/utils/constants'
 
 import { DeploymentConfiguration, ServiceFromName } from '@/types/dataProvider'
 import { useDraft } from '@/hooks/useDraftDeploy'
+import { servicesCompressedForAdmin } from '@/utils/xnode'
 
 export function findServerDefaultType(array) {
   const serverObject = array.find((item) => item.type === 'server')
@@ -123,7 +124,10 @@ const ReviewYourBuild = () => {
 
         // XXX: Actually include correct one here.
         deploymentAuth: config.deploymentAuth,
-        services: JSON.stringify({ "services": config.services, "users.users": [] }),
+        services: Buffer.from(JSON.stringify({
+          "services": servicesCompressedForAdmin(config.services),
+          "users.users": []
+        })).toString('base64'),
       }
 
       console.log('Payload: ')
