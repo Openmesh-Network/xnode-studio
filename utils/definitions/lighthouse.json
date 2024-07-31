@@ -22,18 +22,18 @@
             "desc": "Listen address of Beacon node.",
             "nixName": "beacon.address",
             "type": "string",
-            "value": "\"0.0.0.0\""
+            "value": "0.0.0.0"
         },
         {
             "name": "beacon.dataDir",
-            "desc": "Directory where data will be stored. Each chain will be stored underit\u2019s own specific subdirectory.",
+            "desc": "Directory where data will be stored. Each chain will be stored under it\u2019s own specific subdirectory.",
             "nixName": "beacon.dataDir",
             "type": "string",
-            "value": "\"/var/lib/lighthouse-beacon\""
+            "value": "/var/lib/lighthouse-beacon"
         },
         {
             "name": "beacon.disableDepositContractSync",
-            "desc": "Explicitly disables syncing of deposit logs from the execution node.This overrides any previous option that depends on it. Useful if youintend to run a non-validating beacon node.",
+            "desc": "Explicitly disables syncing of deposit logs from the execution node. This overrides any previous option that depends on it. Useful if you intend to run a non-validating beacon node.",
             "nixName": "beacon.disableDepositContractSync",
             "type": "boolean",
             "value": "false"
@@ -50,18 +50,18 @@
             "desc": "Listen address for the execution layer.",
             "nixName": "beacon.execution.address",
             "type": "string",
-            "value": "\"127.0.0.1\""
+            "value": "127.0.0.1"
         },
         {
             "name": "beacon.execution.jwtPath",
-            "desc": "Path for the jwt secret required to connect to the executionlayer.",
+            "desc": "Path for the jwt secret required to connect to the execution layer.",
             "nixName": "beacon.execution.jwtPath",
             "type": "string",
-            "value": "\"\""
+            "value": ""
         },
         {
             "name": "beacon.execution.port",
-            "desc": "Port number the Beacon node will be listening on for the executionlayer.",
+            "desc": "Port number the Beacon node will be listening on for the execution layer.",
             "nixName": "beacon.execution.port",
             "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
             "value": "8551"
@@ -71,14 +71,14 @@
             "desc": "Additional arguments passed to the lighthouse beacon command.",
             "nixName": "beacon.extraArgs",
             "type": "string",
-            "value": "\"\""
+            "value": ""
         },
         {
             "name": "beacon.http.address",
             "desc": "Listen address of Beacon node RPC service.",
             "nixName": "beacon.http.address",
             "type": "string",
-            "value": "\"127.0.0.1\""
+            "value": "127.0.0.1"
         },
         {
             "name": "beacon.http.enable",
@@ -99,7 +99,7 @@
             "desc": "Listen address of Beacon node metrics service.",
             "nixName": "beacon.metrics.address",
             "type": "string",
-            "value": "\"127.0.0.1\""
+            "value": "127.0.0.1"
         },
         {
             "name": "beacon.metrics.enable",
@@ -134,11 +134,11 @@
             "desc": "Additional arguments passed to every lighthouse command.",
             "nixName": "extraArgs",
             "type": "string",
-            "value": "\"\""
+            "value": ""
         },
         {
             "name": "network",
-            "desc": "The network to connect to. Mainnet is the default ethereumnetwork.",
+            "desc": "The network to connect to. Mainnet is the default ethereum network.",
             "nixName": "network",
             "type": "one of \"mainnet\", \"gnosis\", \"chiado\", \"sepolia\", \"holesky\"",
             "value": "\"mainnet\""
@@ -159,10 +159,10 @@
         },
         {
             "name": "validator.dataDir",
-            "desc": "Directory where data will be stored. Each chain will be stored underit\u2019s own specific subdirectory.",
+            "desc": "Directory where data will be stored. Each chain will be stored under it\u2019s own specific subdirectory.",
             "nixName": "validator.dataDir",
             "type": "string",
-            "value": "\"/var/lib/lighthouse-validator\""
+            "value": "/var/lib/lighthouse-validator"
         },
         {
             "name": "validator.enable",
@@ -176,14 +176,14 @@
             "desc": "Additional arguments passed to the lighthouse validator command.",
             "nixName": "validator.extraArgs",
             "type": "string",
-            "value": "\"\""
+            "value": ""
         },
         {
             "name": "validator.metrics.address",
             "desc": "Listen address of Validator node metrics service.",
             "nixName": "validator.metrics.address",
             "type": "string",
-            "value": "\"127.0.0.1\""
+            "value": "127.0.0.1"
         },
         {
             "name": "validator.metrics.enable",
