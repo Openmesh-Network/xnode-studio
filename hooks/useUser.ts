@@ -76,7 +76,7 @@ export function useUser(): [ UserProps | null, boolean, (user: UserProps | null)
       setIsLoading(false)
       console.log("Found user")
     }
-  }, [])
+  }, [setUser, user])
 
   return [ localUser, isLoading, setUserGlobal ];
 }

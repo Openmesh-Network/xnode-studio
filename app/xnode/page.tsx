@@ -110,7 +110,6 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       setIsLoading(true)
     }
 
-    console.log("the user token is:" + user?.sessionToken)
     if (user?.sessionToken) {
       const config = {
         method: 'post' as 'post',
@@ -126,57 +125,57 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       }
       try {
         const response = await axios(config);
-        console.log("Got response: ", response)
+        // console.log("Got response: ", response)
 
         if (response.data) {
           let remoteNode = response.data as Xnode
           remoteNode.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
+          setXnodeData(remoteNode)
 
-          let newNode = remoteNode;
-          if (xnodeData) {
-            newNode.services = xnodeData.services;
-          }
-
-          setXnodeData(newNode)
-
-          let thisXnodeConfig = JSON.parse(response.data.services)
+          let thisXnodeConfig = JSON.parse(Buffer.from(response.data.services, 'base64').toString('utf-8')) as XnodeConfig
 
           if (Object.keys(thisXnodeConfig).includes("services")) {
             console.log("The XnodeConfig: ", thisXnodeConfig)
 
             if (isInitialLoad) {
-
-
               // Process options
               let remoteServices = thisXnodeConfig["services"]
-              let newServices = []
-
+              let newServices = [] as ServiceData[]
 
               for (let i = 0; i < remoteServices.length; i++) {
                 let service = remoteServices[i] as ServiceData
                 const defaultService = ServiceFromName(service.nixName)
 
-                let newOptions = []
-                const processOption = (option: ServiceOption) => {
-                  const defaultOption = defaultService.options.find(defOption => defOption.name === option.name);
+                const processOption = (option: ServiceOption, targetOptions: ServiceOption[]) => {
+                  const defaultOption = defaultService?.options?.find(defOption => defOption.nixName === option.nixName);
 
+                  let newSubOptions = []
                   if (option.options) {
-                    processOption(option)
+                    for (let j = 0; j < option.options.length; j++) {
+                      processOption(option.options[j], newSubOptions)
+                    }
                   }
 
                   if (defaultOption) {
+                    console.error("Default name for option: ", option.nixName, " ", defaultOption.name)
                     option.desc = defaultOption.desc
+                  } else {
+                    console.error("No default options for service: ", option.nixName)
                   }
 
-                  newOptions.push(option)
+                  targetOptions.push(option)
                 }
 
+                let newOptions = []
                 for (let j = 0; j < service.options.length; j++) {
-                  processOption(service.options[i])
+                  processOption(service.options[i], newOptions)
                 }
+
+                service.options = newOptions
+                newServices.push(service)
               }
 
-              setServices(thisXnodeConfig["services"])
+              setServices(newServices)
             } else {
               console.log("Not changing services as they've already been downloaded and might have been edited.")
             }
@@ -201,31 +200,32 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         )
         setIsLoading(false)
       }
+    } else {
+      setIsLoading(false)
     }
 
   }, [user, id])
 
-  const updateChanges = async () => {
+  const updateChanges = async (services: ServiceData[]) => {
     let tempService = [] // services
     
+    alert("Services: " + services.length)
+
     for (const service of services) {
       if (service.nixName != "openssh") {
-        tempService.push(service)
-      }
-    }
-    
-    tempService.forEach(service => {
         let defaultservice = ServiceFromName(service.nixName)
         console.log(service)
 
-        let finalOptions = []
-        const processOption = (option: ServiceOption) => {
+        const processOption = (option: ServiceOption, targetOptions: ServiceOption[]) => {
           if (option.options) {
             delete option.value
 
+            let newSubOptions = []
             for(let i = 0; i < option.options.length; i++) {
-              processOption(option.options[i])
+              processOption(option.options[i], newSubOptions)
             }
+
+            option.options = newSubOptions
           }
 
           delete option.desc
@@ -235,20 +235,31 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
           console.log(defaultOption?.value, option.value)
 
           if ((option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean") {
-            finalOptions.push(option)
+            targetOptions.push(option)
           }
         }
 
-        for (let i = 0; i < service.length; i++) {
+        let newServiceOptions = []
+        for (let i = 0; i < service.options.length; i++) {
           // Process all the top level options at least once.
           // If they have options then we recurse.
-          processOption(service.options[i])
+          if (service.options) {
+            processOption(service.options[i], newServiceOptions)
+            console.log("Processing option: ", i)
+          }
         }
-    });
+
+        alert("Length of final options: " + newServiceOptions.length)
+        service.options = newServiceOptions;
+        tempService.push(service)
+      }
+    }
 
     if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[]") {
-     tempService.push(opensshconfig)
+      tempService.push(opensshconfig)
     }
+
+    console.log("Final services: ", tempService)
 
     const config = {
       method: 'post' as 'post',
@@ -260,10 +271,10 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       },
       data: {
         "id": id,
-        "services": JSON.stringify({ // Should be XnodeConfig object
+        "services": Buffer.from(JSON.stringify({
           "services": tempService,
           "users.users": [userData]
-        })
+        })).toString('base64')
       }
     }
     try {
@@ -275,7 +286,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       toast.error(`Error updating the Xnode services: ${error}`);
       setIsLoading(false);
     }
-  } 
+  }
 
   useEffect(() => {
     getData(true)
@@ -508,8 +519,8 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                   <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <p>Actions</p>
                     <div className="flex ">
-                      <Button onClick={updateChanges}> Push changes </Button>
-                      <Button onClick={allowUpdate}> Force update </Button>
+                      <Button onClick={() => { updateChanges(services) }}> Push changes </Button>
+                      <Button onClick={() => { allowUpdate() } }> Force update </Button>
                     </div>
                   </div>
                 </div>

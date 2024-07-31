@@ -24,7 +24,7 @@ export type Xnode = {
   id: string
 
   provider: string
-  services: XnodeConfig
+  services: string
 
   heartbeatData?: HeartbeatData
 
