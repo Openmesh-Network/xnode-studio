@@ -29,7 +29,6 @@ const Deployments = () => {
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
   const [isSSHPopupOpen, setSSHIsPopupOpen] = useState(false);
-  const [sshKey, setSSHKey] = useState<string>('');
   const account = useAccount()
 
   const [ user, isUserLoading ] = useUser()

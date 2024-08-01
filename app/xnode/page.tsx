@@ -12,6 +12,7 @@ import axios from 'axios'
 import { useUser } from 'hooks/useUser'
 import {
   ServiceFromName,
+  ServiceOption,
 } from '@/types/dataProvider'
 import Signup from '@/components/Signup'
 import { HeartbeatData, Xnode } from '../../types/node'
@@ -26,6 +27,8 @@ import { sshUserData } from '@/components/Deployments/serviceAccess'
 import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
 import stackIcon from '@/assets/stack.svg'
+import { optionsCreator } from '@/components/TemplateProducts/TemplateStep'
+import { servicesCompressedForAdmin } from '@/utils/xnode'
 
 type XnodePageProps = {
   searchParams: {
@@ -87,8 +90,7 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
 export default function XnodePage({ searchParams }: XnodePageProps) {
   const opensshconfig = {
     "nixName": "openssh",
-    "options": [{ "nixName": "enable", "type": "boolean", "value": "true" },
-    { "nixName": "settings.PasswordAuthentication", "value": "false", "type": "boolean" }, { "nixName": "settings.KbdInteractiveAuthentication", "value": "false", "type": "boolean" }]
+    "options": [{ "nixName": "enable", "type": "boolean", "value": "true" }, { "nixName": "settings.PasswordAuthentication", "value": "false", "type": "boolean" }, { "nixName": "settings.KbdInteractiveAuthentication", "value": "false", "type": "boolean" }]
   }
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [xnodeData, setXnodeData] = useState<Xnode | undefined>(undefined)
@@ -108,7 +110,6 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       setIsLoading(true)
     }
 
-    console.log("the user token is:" + user?.sessionToken)
     if (user?.sessionToken) {
       const config = {
         method: 'post' as 'post',
@@ -124,28 +125,62 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       }
       try {
         const response = await axios(config);
-        console.log("Got response: ", response)
+        // console.log("Got response: ", response)
 
         if (response.data) {
           let remoteNode = response.data as Xnode
           remoteNode.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
+          setXnodeData(remoteNode)
 
-          let newNode = remoteNode;
-          if (xnodeData) {
-            newNode.services = xnodeData.services;
-          }
-
-          setXnodeData(newNode)
-
-          let thisXnodeConfig = JSON.parse(response.data.services)
+          let thisXnodeConfig = JSON.parse(Buffer.from(response.data.services, 'base64').toString('utf-8')) as XnodeConfig
 
           if (Object.keys(thisXnodeConfig).includes("services")) {
             console.log("The XnodeConfig: ", thisXnodeConfig)
 
             if (isInitialLoad) {
-              setServices(thisXnodeConfig["services"])
+              // Process options
+              let remoteServices = thisXnodeConfig["services"]
+              let newServices = [] as ServiceData[]
+
+              for (let i = 0; i < remoteServices.length; i++) {
+                let service = remoteServices[i] as ServiceData
+
+                const processOption = (option: ServiceOption, parentOptions: ServiceOption[], targetOptions: ServiceOption[]) => {
+                  const defaultOption = parentOptions?.find(defOption => defOption.nixName === option.nixName);
+
+                  if (option.options) {
+                    let newSubOptions = []
+                    for (let j = 0; j < option.options.length; j++) {
+                      console.error("No default options for: ", option.nixName, " ", defaultOption)
+                      processOption(option.options[j], defaultOption.options, newSubOptions)
+                    }
+
+                    option.options = newSubOptions
+                  }
+
+                  if (defaultOption) {
+                    option.name = defaultOption.name
+                    option.desc = defaultOption.desc
+                  } else {
+                    console.error("No default options for service: ", option.nixName)
+                  }
+
+                  targetOptions.push(option)
+                }
+
+                let newOptions = []
+                const defaultService = ServiceFromName(service.nixName)
+                for (let j = 0; j < service.options.length; j++) {
+                  processOption(service.options[j], defaultService?.options, newOptions)
+                }
+
+                service.options = newOptions
+                newServices.push(service)
+              }
+
+              setServices(newServices)
             } else {
-              console.log("Not changing services as .")
+              console.log("Not changing services as they've already been downloaded and might have been edited.")
             }
 
             const usersArray = thisXnodeConfig["users.users"]
@@ -168,33 +203,20 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
         )
         setIsLoading(false)
       }
+    } else {
+      setIsLoading(false)
     }
 
   }, [user, id])
 
   const updateChanges = async () => {
-    let tempService = [] // services
-    
-    for (const service of services) {
-      if (service.nixName != "openssh") {
-        tempService.push(service)
-      }
-    }
-    
-    tempService.forEach(service => {
-        let defaultservice = ServiceFromName(service.nixName)
-        console.log(service)
-        service.options = service.options.filter((option: { name: string; value: string; type: string }) => {
-        const defaultOption = defaultservice.options.find(defOption => defOption.name === option.name);
-
-        console.log(defaultOption?.value, option.value)
-        return (option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean"
-      });
-    });
+    let newServices = servicesCompressedForAdmin(services);
 
     if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[]") {
-     tempService.push(opensshconfig)
+      newServices.push(opensshconfig as ServiceData)
     }
+
+    console.log("Final services: ", newServices)
 
     const config = {
       method: 'post' as 'post',
@@ -206,10 +228,10 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       },
       data: {
         "id": id,
-        "services": JSON.stringify({ // Should be XnodeConfig object
-          "services": tempService,
+        "services": Buffer.from(JSON.stringify({
+          "services": newServices,
           "users.users": [userData]
-        })
+        })).toString('base64')
       }
     }
     try {
@@ -221,7 +243,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       toast.error(`Error updating the Xnode services: ${error}`);
       setIsLoading(false);
     }
-  } 
+  }
 
   useEffect(() => {
     getData(true)
@@ -454,8 +476,8 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                   <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <p>Actions</p>
                     <div className="flex ">
-                      <Button onClick={updateChanges}> Push changes </Button>
-                      <Button onClick={allowUpdate}> Force update </Button>
+                      <Button onClick={() => { updateChanges() }}> Push changes </Button>
+                      <Button onClick={() => { allowUpdate() } }> Force update </Button>
                     </div>
                   </div>
                 </div>
