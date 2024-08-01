@@ -1,17 +1,14 @@
 {
-    "name": "Lemmy",
-    "desc": "Building a federated alternative to reddit in rust",
-    "tags": [
-        "Communication - Social Networks and Forums"
-    ],
-    "website": "https://join-lemmy.org/",
-    "implmented": false,
-    "logo": "https://join-lemmy.org/static/assets/icons/favicon.svg",
+    "name": "lemmy-server",
+    "desc": "\ud83d\udc00 Building a federated alternative to reddit in rust",
+    "nixName": "lemmy",
     "specs": {
-        "ram": 2048,
+        "ram": 0,
         "storage": 0
     },
-    "nixName": "lemmy",
+    "tags": [],
+    "website": "https://join-lemmy.org",
+    "logo": "https://join-lemmy.org/static/assets/icons/favicon.svg",
     "options": [
         {
             "name": "adminPasswordFile",
