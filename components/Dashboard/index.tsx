@@ -441,12 +441,14 @@ const Dashboard = () => {
           <div className="my-12" />
 
           {!account?.isConnected ? (
-            <div>
+            <div className="flex flex-col gap-2">
               <p>
                 {' '}
                 Connect your wallet to view available Xnodes and entitlements.{' '}
               </p>
-              <w3m-connect-button />
+              <div className="m-0 inline-block">
+                <w3m-connect-button />
+              </div>
             </div>
           ) : (
             <>
@@ -478,8 +480,8 @@ const Dashboard = () => {
                               <b>Xnode Entitlement NFT</b>{' '}
                             </li>
                             <li> 12 months CPU </li>
-                            <li> 
-                              <b> XUE ID: {String(xueNfts[index]).substring(0, 6)}... </b>
+                            <li>
+                            <b> XUE ID: {String(xueNfts[index]).substring(0, 6)}... </b>
                             </li>
                           </ul>
                         </div>
@@ -539,27 +541,27 @@ const Dashboard = () => {
                               {' '}
                               <b> Xnode </b>{' '}
                             </li>
-                           
+
                             <li> 12 months CPU </li>
-                            <li> 
-                              <b> XU ID: {String(xuNfts[index]).substring(0, 6)}... </b>
+                            <li>
+                            <b> XU ID: {String(xuNfts[index]).substring(0, 6)}... </b>
                             </li>
                           </ul>
                         </div>
 
                         <div className="flex h-full w-fit flex-col items-center justify-center">
                           <button
-                            disabled={isDeployed}
-                            className={`inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border  px-4 text-sm font-medium text-primary transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${isDeployed
-                                ? 'cursor-not-allowed border-gray-400 text-gray-400'
-                                : 'border-primary text-primary hover:bg-primary/10'
-                              }`}
-                            onClick={() =>
-                              push(`${prefix}/templates?nftId=${xuId.toString()}`)
-                            }
-                          >
-                            {isDeployed ? <span className="text-gray-400">Deployed</span> : 'Deploy'}
-                          </button>
+                              disabled={isDeployed}
+                              className={`inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border  px-4 text-sm font-medium text-primary transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${isDeployed
+                                  ? 'cursor-not-allowed border-gray-400 text-gray-400'
+                                  : 'border-primary text-primary hover:bg-primary/10'
+                                }`}
+                              onClick={() =>
+                                push(`${prefix}/templates?nftId=${xuId.toString()}`)
+                              }
+                            >
+                              {isDeployed ? <span className="text-gray-400">Deployed</span> : 'Deploy'}
+                            </button>
 
                           <p className="mt-5">
                             {' '}
@@ -580,7 +582,7 @@ const Dashboard = () => {
               </div>
             )}
           </div>
-          <p>
+          <p className="mt-2">
             {' '}
             View configured nodes on{' '}
             <a

@@ -10,7 +10,7 @@ import { prefix } from '@/utils/prefix'
 import { cn } from '@/lib/utils'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
-import { NavLayout } from '@/components/SidebarNav/sibebar-nav'
+import {NavLayout,NavMobileTrigger} from '@/components/SidebarNav/sibebar-nav'
 
 import { Providers } from './providers'
 
@@ -44,7 +44,8 @@ export default function RootLayout({
           <div className="absolute inset-x-0 z-50">
             <Header />
           </div>
-          <NavLayout>
+          <NavLayout className="min-h-screen">
+            <NavMobileTrigger />
             {children}
             <ScrollToTop />
           </NavLayout>

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Herr_Von_Muellerhoff } from 'next/font/google'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -17,7 +17,12 @@ import { ChevronDown } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Button, ButtonProps } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 import {
   Tooltip,
   TooltipContent,
@@ -37,7 +42,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
 }) => {
   return (
     <NavContainer className={className}>
-      {/* <NavHeader isMobile={isMobile}></NavHeader> */}
+      <NavHeader isMobile={isMobile} />
       <NavContent className="mt-0 overflow-y-scroll py-2">
         <NavCategory label="Studio">
           <NavLink
@@ -267,7 +272,7 @@ const NavLayout: React.FC<React.HTMLAttributes<HTMLElement>> = ({
     <TooltipProvider>
       <div className={cn('flex w-full', className)}>
         <SidebarNav className="z-40 hidden lg:block" />
-        <main className="mt-16" style={{ width: "calc(100% - 17rem)" }}>{children}</main>
+        <main className="mt-16 flex-1 justify-center" style={{ width: 'calc(100% - 17rem)' }}>{children}</main>
       </div>
     </TooltipProvider>
   )
@@ -441,21 +446,87 @@ const NavMobileTrigger: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     setCollapsed(false)
   }
 
+  const [isOpen, setIsOpen] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [currentX, setCurrentX] = useState(0)
+  const [isSwiping, setIsSwiping] = useState(false)
+  const threshold = 50 // Minimum swipe distance
+
+  const sheetTriggerButtonRef = useRef<HTMLButtonElement>(null)
+  const sheetCloseButtonRef = useRef<HTMLButtonElement>(null)
+
+  const handleTouchStart = (event: globalThis.TouchEvent) => {
+    setStartX(event.touches[0].pageX)
+    setIsSwiping(true)
+  }
+
+  const handleTouchMove = (event: globalThis.TouchEvent) => {
+    if (!isSwiping) return
+    setCurrentX(event.touches[0].pageX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!isSwiping) return
+    setIsSwiping(false)
+    const diffX = currentX - startX
+    if (diffX > threshold) {
+      sheetTriggerButtonRef.current.click()
+      openNavbar()
+    } else if (diffX < -threshold) {
+      sheetCloseButtonRef.current?.click()
+      closeNavbar()
+    }
+  }
+
+  const handleTouchCancel = () => {
+    setIsSwiping(false)
+  }
+
+  const openNavbar = () => {
+    setIsOpen(true)
+  }
+
+  const closeNavbar = () => {
+    setIsOpen(false)
+  }
+
+  useEffect(() => {
+    const handleTouchStartWrapper = handleTouchStart as EventListener
+    const handleTouchMoveWrapper = handleTouchMove as EventListener
+    const handleTouchEndWrapper = handleTouchEnd as EventListener
+    const handleTouchCancelWrapper = handleTouchCancel as EventListener
+
+    window.addEventListener('touchstart', handleTouchStartWrapper)
+    window.addEventListener('touchmove', handleTouchMoveWrapper)
+    window.addEventListener('touchend', handleTouchEndWrapper)
+    window.addEventListener('touchcancel', handleTouchCancelWrapper)
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStartWrapper)
+      window.removeEventListener('touchmove', handleTouchMoveWrapper)
+      window.removeEventListener('touchend', handleTouchEndWrapper)
+      window.removeEventListener('touchcancel', handleTouchCancelWrapper)
+    }
+  }, [isSwiping, currentX, startX])
+
   return (
     <Sheet>
       <SheetTrigger asChild className="lg:hidden">
         <Button
           variant="outline"
           size={'icon'}
-          className={cn('p-2', className)}
+          className={cn('p-2 shadow-md shadow-gray-800', className)}
+          ref={sheetTriggerButtonRef}
           onClick={toggleCollapsed}
         >
           <NavCollapseIcon forcedCollapsed />
         </Button>
       </SheetTrigger>
-
-      <SheetContent side={'left'} className="w-56 p-0">
-        <SidebarNav isMobile />
+      <SheetClose asChild>
+        <button className="hidden" ref={sheetCloseButtonRef}></button>
+      </SheetClose>
+      <SheetContent side="left" className="w-56 p-0">
+        <SidebarNav isMobile={true} />
       </SheetContent>
     </Sheet>
   )
