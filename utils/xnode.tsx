@@ -51,16 +51,17 @@ export async function getXnodeWithNodesValidatorsStats(id: any) {
 export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData[] {
   let newServices = []
 
-  // alert(JSON.stringify(services))
-
   for (const service of services) {
     if (service.nixName != "openssh") {
 
-      const processOption = (option: ServiceOption, targetOptions: ServiceOption[]) => {
+      const processOption = (option: ServiceOption, parentOptions: ServiceOption[], targetOptions: ServiceOption[]) => {
+
+        const defaultOption = parentOptions?.find(defOption => defOption.nixName === option.nixName);
+
         if (option.options) {
           let newSubOptions = []
           for (let j = 0; j < option.options.length; j++) {
-            processOption(option.options[j], newSubOptions)
+            processOption(option.options[j], defaultOption?.options, newSubOptions)
           }
 
           option.options = newSubOptions
@@ -78,10 +79,11 @@ export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData
 
       let newServiceOptions = []
       console.log("Service length: ", service.options.length)
+      const defaultService = ServiceFromName(service.nixName)
       for (let i = 0; i < service.options.length; i++) {
         // Process all the top level options at least once.
         // If they have options then we recurse.
-        processOption(service.options[i], newServiceOptions)
+        processOption(service.options[i], defaultService.options, newServiceOptions)
         console.log("Processing option: ", i)
       }
 
