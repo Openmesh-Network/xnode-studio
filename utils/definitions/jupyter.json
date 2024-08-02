@@ -2,7 +2,10 @@
     "name": "Jupyter Notebook",
     "desc": "Web-based notebook environment for interactive computing",
     "nixName": "jupyter",
-    "specs": [],
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
     "tags": [],
     "website": [
         "https://www.python.org"
