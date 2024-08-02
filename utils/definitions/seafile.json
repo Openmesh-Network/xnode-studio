@@ -1,13 +1,15 @@
 {
-    "name": "seahub",
+    "name": "Seafile",
     "desc": "Web end of seafile server",
     "nixName": "seafile",
     "specs": {
-        "ram": 0,
-        "storage": 0
+        "ram":0,
+        "storage":0
     },
     "tags": [],
-    "website": "https://github.com/haiwen/seahub",
+    "website": [
+        "https://github.com/haiwen/seahub"
+    ],
     "logo": "",
     "options": [
         {

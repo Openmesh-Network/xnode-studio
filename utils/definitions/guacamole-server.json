@@ -31,11 +31,11 @@
             "desc": "The host name or IP address the server should listen to.",
             "nixName": "host",
             "type": "string",
-            "value": "\"127.0.0.1\""
+            "value": "127.0.0.1"
         },
         {
             "name": "logbackXml",
-            "desc": "Configuration file that correspond to  logback.xml .",
+            "desc": "Configuration file that correspond to logback.xml.",
             "nixName": "logbackXml",
             "type": "null or path",
             "value": "null"
@@ -56,7 +56,7 @@
         },
         {
             "name": "userMappingXml",
-            "desc": "Configuration file that correspond to user-mapping.xml .",
+            "desc": "Configuration file that correspond to user-mapping.xml.",
             "nixName": "userMappingXml",
             "type": "null or path",
             "value": "null"

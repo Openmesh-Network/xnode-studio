@@ -28,17 +28,17 @@
         },
         {
             "name": "host",
-            "desc": "The host address which the Open-WebUI server HTTP interface listensto.",
+            "desc": "The host address which the Open-WebUI server HTTP interface listens to.",
             "nixName": "host",
             "type": "string",
-            "value": "\"127.0.0.1\""
+            "value": "0.0.0.0"
         },
         {
             "name": "openFirewall",
-            "desc": "Whether to open the firewall for Open-WebUI. This adds services.open-webui.port  to networking.firewall.allowedTCPPorts .",
+            "desc": "Whether to open the firewall for Open-WebUI. This adds services.open-webui.port to networking.firewall.allowedTCPPorts.",
             "nixName": "openFirewall",
             "type": "boolean",
-            "value": "false"
+            "value": "true"
         },
         {
             "name": "package",

@@ -2,12 +2,11 @@
     "name": "Jupyter Notebook",
     "desc": "Web-based notebook environment for interactive computing",
     "nixName": "jupyter",
-    "specs": {
-        "ram": 0,
-        "storage": 0
-    },
+    "specs": [],
     "tags": [],
-    "website": "https://www.python.org",
+    "website": [
+        "https://www.python.org"
+    ],
     "logo": "",
     "options": [
         {

@@ -6,7 +6,11 @@
         "ram": 16384,
         "storage": 4194304
     },
-    "tags": ["RPC", "Validator", "Blockchain"],
+    "tags": [
+        "RPC",
+        "Validator",
+        "Blockchain"
+    ],
     "website": "https://geth.ethereum.org/",
     "logo": "https://geth.ethereum.org/favicon.ico",
     "options": [
@@ -29,7 +33,7 @@
             "desc": "Path to a JWT secret for authenticated RPC endpoint.",
             "nixName": "<name>.authrpc.jwtsecret",
             "type": "string",
-            "value": "\"\""
+            "value": ""
         },
         {
             "name": "<name>.authrpc.port",
@@ -71,7 +75,7 @@
             "desc": "Listen address of Go Ethereum HTTP API.",
             "nixName": "<name>.http.address",
             "type": "string",
-            "value": "\"127.0.0.1\""
+            "value": "127.0.0.1"
         },
         {
             "name": "<name>.http.apis",
@@ -106,7 +110,7 @@
             "desc": "Listen address of Go Ethereum metrics service.",
             "nixName": "<name>.metrics.address",
             "type": "string",
-            "value": "\"127.0.0.1\""
+            "value": "127.0.0.1"
         },
         {
             "name": "<name>.metrics.enable",
@@ -124,7 +128,7 @@
         },
         {
             "name": "<name>.network",
-            "desc": "The network to connect to. Mainnet (null) is the default ethereumnetwork.",
+            "desc": "The network to connect to. Mainnet (null) is the default ethereum network.",
             "nixName": "<name>.network",
             "type": "null or one of \"goerli\", \"rinkeby\", \"yolov2\", \"ropsten\"",
             "value": "null"
@@ -155,7 +159,7 @@
             "desc": "Listen address of Go Ethereum WebSocket API.",
             "nixName": "<name>.websocket.address",
             "type": "string",
-            "value": "\"127.0.0.1\""
+            "value": "127.0.0.1"
         },
         {
             "name": "<name>.websocket.apis",
