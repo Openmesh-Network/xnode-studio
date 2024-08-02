@@ -72,7 +72,10 @@ export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData
         delete option.name
         delete option.desc
 
-        targetOptions.push(option)
+        // XXX: Revise this! Might be too much or too little actually. Also null might not be the default value in some cases for example.
+        if ((option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean") {
+          targetOptions.push(option)
+        }
       }
 
       console.log(service)
