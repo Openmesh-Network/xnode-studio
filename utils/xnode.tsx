@@ -54,27 +54,27 @@ export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData
   for (const service of services) {
     if (service.nixName != "openssh") {
 
-      const processOption = (option: ServiceOption, parentOptions: ServiceOption[], targetOptions: ServiceOption[]) => {
-
-        const defaultOption = parentOptions?.find(defOption => defOption.nixName === option.nixName);
+      const processOption = (option: ServiceOption, targetOptions: ServiceOption[]) => {
+        delete option.name
+        delete option.desc
 
         if (option.options) {
           let newSubOptions = []
           for (let j = 0; j < option.options.length; j++) {
-            processOption(option.options[j], defaultOption?.options, newSubOptions)
+            processOption(option.options[j], newSubOptions)
           }
 
           option.options = newSubOptions
 
           delete option.value
-        }
 
-        delete option.name
-        delete option.desc
-
-        // XXX: Revise this! Might be too much or too little actually. Also null might not be the default value in some cases for example.
-        if ((option.value !== "" && option.value !== "null" && option.value !== null && defaultOption && option.value !== defaultOption.value) || option.type == "boolean") {
           targetOptions.push(option)
+        } else {
+          // XXX: Revise this! Might be too much or too little actually. Also null might not be the default value in some cases for example.
+
+          if ((option.value !== "" && option.value !== "null" && option.value !== null) || option.type == "boolean") {
+            targetOptions.push(option)
+          }
         }
       }
 
@@ -82,11 +82,10 @@ export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData
 
       let newServiceOptions = []
       console.log("Service length: ", service.options.length)
-      const defaultService = ServiceFromName(service.nixName)
       for (let i = 0; i < service.options.length; i++) {
         // Process all the top level options at least once.
         // If they have options then we recurse.
-        processOption(service.options[i], defaultService.options, newServiceOptions)
+        processOption(service.options[i], newServiceOptions)
         console.log("Processing option: ", i)
       }
 
@@ -95,7 +94,6 @@ export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData
       console.warn("Final options again: ", service.options)
     }
   }
-
 
   return newServices
 }
