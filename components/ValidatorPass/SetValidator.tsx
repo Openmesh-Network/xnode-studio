@@ -4,16 +4,19 @@ import { useEffect, useState } from 'react'
 import { ValidatorPassContract } from '@/contracts/ValidatorPass'
 import { chain } from '@/utils/chain'
 import { useEVPNfts } from 'utils/nft'
-import { BaseError, ContractFunctionRevertedError } from 'viem'
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
+import { Hex } from 'viem'
+import { useAccount } from 'wagmi'
+
+import { usePerformTransaction } from '@/hooks/usePerformTransaction'
 
 const SetValidator = () => {
   const account = useAccount()
   const { data: nfts } = useEVPNfts(account.address)
   const [selectedNft, setSelectedNft] = useState<bigint | undefined>(undefined)
-  const publicClient = usePublicClient({ chainId: chain.id })
-  const { data: walletClient } = useWalletClient({ chainId: chain.id })
-  const validatorAddress = '0x<RETRIEVE VALIDATOR ADDRESS>' // should be 32 bytes or otherwise encoded as such
+  const validatorAddress: Hex = '0x<RETRIEVE VALIDATOR ADDRESS>' // should be 32 bytes or otherwise encoded as such
+  const { performingTransaction, performTransaction } = usePerformTransaction({
+    chainId: chain.id,
+  })
 
   useEffect(() => {
     // This can be replaced with a dropdown, but will look more intimidating to the user and most will only own a single NFT.
@@ -25,53 +28,18 @@ const SetValidator = () => {
       alert('No NFT selected.')
       return
     }
-    if (!walletClient) {
-      alert('WalletClient undefined.')
-      return
-    }
 
-    const transactionRequest = await publicClient
-      .simulateContract({
-        account: walletClient.account,
-        abi: ValidatorPassContract.abi,
-        address: ValidatorPassContract.address,
-        functionName: 'setValidator',
-        args: [selectedNft, validatorAddress],
-      })
-      .catch((err) => {
-        console.error(err)
-        if (err instanceof BaseError) {
-          let errorName = err.shortMessage ?? 'Simulation failed.'
-          const revertError = err.walk(
-            (err) => err instanceof ContractFunctionRevertedError
-          )
-          if (revertError instanceof ContractFunctionRevertedError) {
-            errorName += ` -> ${revertError.data?.errorName}` ?? ''
-          }
-          return errorName
+    await performTransaction({
+      transactionName: 'Register Validator',
+      transaction: async () => {
+        return {
+          abi: ValidatorPassContract.abi,
+          address: ValidatorPassContract.address,
+          functionName: 'setValidator',
+          args: [selectedNft, validatorAddress],
         }
-        return 'Simulation failed.'
-      })
-    if (typeof transactionRequest === 'string') {
-      alert(transactionRequest)
-      return
-    }
-    const transactionHash = await walletClient
-      .writeContract(transactionRequest.request)
-      .catch((err) => {
-        console.error(err)
-        return undefined
-      })
-    if (!transactionHash) {
-      alert('Transaction rejected.')
-      return
-    }
-
-    const receipt = await publicClient.waitForTransactionReceipt({
-      hash: transactionHash,
+      },
     })
-
-    alert(`Success: ${receipt.transactionHash}`)
   }
 
   return (
@@ -81,7 +49,7 @@ const SetValidator = () => {
 
         <button
           className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
-          disabled={selectedNft === undefined}
+          disabled={selectedNft === undefined || performingTransaction}
           onClick={() => setValidator().catch(console.error)}
         >
           Register Validator
