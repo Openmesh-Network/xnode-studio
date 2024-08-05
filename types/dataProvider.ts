@@ -121,19 +121,15 @@ export type DeploymentConfiguration = {
 
   // An array to all the service ids being looked at.
   services: ServiceData[]
-  xnodeConfig : XnodeConfig
+  xnodeConfig: XnodeConfig
 }
 
-
 export type XnodeConfig = {
-  "services" : ServiceData[]
-  "users.users" : ServiceData[]
+  services: ServiceData[]
+  'users.users': ServiceData[]
   // Can add any other modules available in nix following the Module and Option format.
   // "ModuleType" : ModuleData[]
 }
-
-
-
 
 export type ServiceOption = {
   name: string
@@ -147,7 +143,7 @@ export type ServiceOption = {
   value?: string
 
   // Suboptions for nested options.
-  options?: ServiceOption[];
+  options?: ServiceOption[]
 }
 
 export type Specs = {
@@ -161,7 +157,7 @@ export type ServiceData = {
   tags?: string[]
   specs?: Specs
   desc?: string
-  website?:string
+  website?: string
   // Url to the logo.
   logo?: string
   implmented?: boolean
@@ -169,7 +165,6 @@ export type ServiceData = {
   nixName: string
   options: ServiceOption[]
 }
-
 
 export type TemplateData = {
   id: string

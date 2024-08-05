@@ -1,11 +1,12 @@
-import axios from 'axios'
-import { hashObject } from '@/utils/functions'
-import { wagmiConfig } from '@/app/providers'
 import { useContext, useEffect, useState } from 'react'
-import { useUser } from '@/hooks/useUser'
+import { hashObject } from '@/utils/functions'
+import axios from 'axios'
 import { AccountContext } from 'contexts/AccountContext'
-import { signMessage } from '@wagmi/core'
 import nookies, { destroyCookie, setCookie } from 'nookies'
+import { signMessage } from 'wagmi/actions'
+
+import { useUser } from '@/hooks/useUser'
+import { wagmiConfig } from '@/app/providers'
 
 async function getUserNonce(userAddress: string) {
   const config = {
@@ -53,10 +54,10 @@ export async function getWeb3Login(address) {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'Strict',
       })
-      return res;
+      return res
     } catch (err) {
       console.error(err)
-      throw err;
+      throw err
     }
   }
 }
@@ -87,4 +88,3 @@ async function loginWeb3User(userAddress: string, signature: string) {
 
   return dado
 }
-

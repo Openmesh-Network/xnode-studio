@@ -4,7 +4,6 @@ import Image from 'next/image'
 import cardBackImage from '@/assets/silvercard-back.svg'
 import cardFrontImage from '@/assets/silvercard-front.svg'
 
-import Activate from './Activate'
 import Claim from './Claim'
 
 const Units = ({ chainId }: { chainId: number }) => {

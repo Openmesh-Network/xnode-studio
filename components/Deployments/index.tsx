@@ -83,8 +83,8 @@ const Deployments = () => {
     <>
       <div className="m-20 flex-1">
         <section>
-          <div className="flex justify-between items-center">
-            <h1 className="text-4xl font-semibold text-black flex-1">Deployments</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="flex-1 text-4xl font-semibold text-black">Deployments</h1>
             <Signup />
           </div>
         <div className="my-12" />

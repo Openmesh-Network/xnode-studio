@@ -40,7 +40,6 @@
     "@types/pako": "^2.0.3",
     "@types/react-google-recaptcha": "^2.1.9",
     "@uidotdev/usehooks": "^2.4.1",
-    "@wagmi/core": "^2.10.5",
     "@web3modal/wagmi": "^4.2.3",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
