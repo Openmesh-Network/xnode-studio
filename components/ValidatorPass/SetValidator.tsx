@@ -45,8 +45,6 @@ const SetValidator = () => {
   return (
     <div className="mx-auto flex w-fit justify-center rounded-[8px] p-[10px] md:border md:border-[#cacaca] md:p-[50px] lg:p-[100px]">
       <div className="space-y-5">
-        <w3m-button />
-
         <button
           className="cursor-pointer items-center rounded-[5px] border border-black bg-transparent px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-[#575757] hover:bg-[#ececec] lg:text-[16px]"
           disabled={selectedNft === undefined || performingTransaction}
