@@ -5,7 +5,6 @@
         "File Transfer - Peer-to-peer Filesharing"
     ],
     "website": "https://deluge-torrent.org",
-    "implmented": false,
     "logo": "https://deluge-torrent.org/images/deluge-icon.png",
     "specs": {
         "ram": 0,

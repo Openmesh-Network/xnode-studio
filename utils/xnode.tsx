@@ -3,6 +3,7 @@ import { ServiceData } from '@/types/dataProvider'
 import {
   ServiceFromName,
   ServiceOption,
+  defaultOptionFromServiceOption
 } from '@/types/dataProvider'
 
 export async function getDataXnodeValidatorsInfo() {
@@ -71,8 +72,10 @@ export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData
           targetOptions.push(option)
         } else {
           // XXX: Revise this! Might be too much or too little actually. Also null might not be the default value in some cases for example.
-
-          if ((option.value !== "" && option.value !== "null" && option.value !== null) || option.type == "boolean") {
+          let defaultOption = defaultOptionFromServiceOption(service.nixName, option)
+          console.log("Default option:", defaultOption.value, "and set to:", option.value)
+          if ((option.value !== "" && option.value !== "null" && option.value !== null && defaultOption.value !== option.value) || option.type == "boolean") {
+            console.log("Pushed", option.nixName)
             targetOptions.push(option)
           }
         }

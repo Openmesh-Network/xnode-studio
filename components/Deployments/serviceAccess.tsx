@@ -42,9 +42,9 @@ export function sshUserData(inputSshKey) {
 }
 
 // 
-const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }: 
-    { currentService: ServiceData[], ip: string, startingUserData: ServiceData, updatedUserData: any}) => {
-        const services = currentService
+const ServiceAccess = ({ currentServices, ip, startingUserData, updatedUserData }: 
+    { currentServices: ServiceData[], ip: string, startingUserData: ServiceData, updatedUserData: any}) => {
+        const services = currentServices
 
         function portFromService(service: ServiceData) {
             // Ports may differ if the user has updated the value but not pushed changes.
@@ -73,6 +73,7 @@ const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }
 
                 <p> Your xnode is running at {ip}</p>
 
+                <p> To access your services via a public web interface, you can use the following links: </p>
                 <ul className="flex flex-wrap">
                 {services.map((service) => (
                     <li key={service.nixName} className="mb-2 mr-2">
@@ -86,8 +87,20 @@ const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }
                     </li>
                 ))}
                 </ul>
-                
+                <p> To access your services via an ssh tunnel, configure your keys and connect using one of the following commands: </p>
+                <ul className="list-none">
+                    {services.map((service) => {
+                        const port = portFromService(service);
+                        return port !== undefined && (
+                            <li key={service.nixName} className="mb-2 mr-2">
+                                <p>{service.nixName}</p>
+                                <code>ssh -i path/to/key -L {port}:localhost:{port} xnode@{ip} </code>
+                            </li>
+                        );
+                    })}
+                </ul>
 
+                
                 <p> The following openssh public keys are whitelisted on the xnode user: </p>
                 {
                     sshKey && (
@@ -95,6 +108,7 @@ const ServiceAccess = ({ currentService, ip, startingUserData, updatedUserData }
                     )   
                 }
                 <br></br>
+                {/* TODO: Add a way to edit the ssh key path for easier copy-paste after modification / tweaks (QoL) */}
                 <code> ssh -i path/to/key xnode@{ip} </code>
                 <Dialog>
                     <div className="flex items-center space-x-4">

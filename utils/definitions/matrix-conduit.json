@@ -1,0 +1,112 @@
+{
+    "name": "matrix-conduit",
+    "desc": "Matrix homeserver written in Rust",
+    "nixName": "matrix-conduit",
+    "specs": {
+        "ram": 0,
+        "storage": 0
+    },
+    "tags": [],
+    "website": "https://conduit.rs/",
+    "logo": "",
+    "options": [
+        {
+            "name": "enable",
+            "desc": "Whether to enable matrix-conduit.",
+            "nixName": "enable",
+            "type": "boolean",
+            "value": "true"
+        },
+        {
+            "name": "extraEnvironment",
+            "desc": "Extra Environment variables to pass to the conduit server.",
+            "nixName": "extraEnvironment",
+            "type": "attribute set of string",
+            "value": "{ }"
+        },
+        {
+            "name": "package",
+            "desc": "The matrix-conduit package to use.",
+            "nixName": "package",
+            "type": "package",
+            "value": "pkgs.matrix-conduit"
+        },
+        {
+            "name": "settings",
+            "desc": "Generates the conduit.toml configuration file. Refer to https://docs.conduit.rs/configuration.html for details on supported values. Note that database_path can not be edited because the service\u2019s reliance on systemd StateDir.",
+            "nixName": "settings",
+            "type": "TOML value",
+            "value": "{ }"
+        },
+        {
+            "name": "settings.global.address",
+            "desc": "Address to listen on for connections by the reverse proxy/tls terminator.",
+            "nixName": "settings.global.address",
+            "type": "string",
+            "value": "::1"
+        },
+        {
+            "name": "settings.global.allow_check_for_updates",
+            "desc": "Whether to allow Conduit to automatically contact https://conduit.rs hourly to check for important Conduit news. Disabled by default because nixpkgs handles updates.",
+            "nixName": "settings.global.allow_check_for_updates",
+            "type": "boolean",
+            "value": "false"
+        },
+        {
+            "name": "settings.global.allow_encryption",
+            "desc": "Whether new encrypted rooms can be created. Note: existing rooms will continue to work.",
+            "nixName": "settings.global.allow_encryption",
+            "type": "boolean",
+            "value": "true"
+        },
+        {
+            "name": "settings.global.allow_federation",
+            "desc": "Whether this server federates with other servers.",
+            "nixName": "settings.global.allow_federation",
+            "type": "boolean",
+            "value": "true"
+        },
+        {
+            "name": "settings.global.allow_registration",
+            "desc": "Whether new users can register on this server.",
+            "nixName": "settings.global.allow_registration",
+            "type": "boolean",
+            "value": "false"
+        },
+        {
+            "name": "settings.global.database_backend",
+            "desc": "The database backend for the service. Switching it on an existing instance will require manual migration of data.",
+            "nixName": "settings.global.database_backend",
+            "type": "one of \"sqlite\", \"rocksdb\"",
+            "value": "\"sqlite\""
+        },
+        {
+            "name": "settings.global.max_request_size",
+            "desc": "Max request size in bytes. Don\u2019t forget to also change it in the proxy.",
+            "nixName": "settings.global.max_request_size",
+            "type": "positive integer, meaning >0",
+            "value": "20000000"
+        },
+        {
+            "name": "settings.global.port",
+            "desc": "The port Conduit will be running on. You need to set up a reverse proxy in your web server (e.g. apache or nginx), so all requests to /_matrix on port 443 and 8448 will be forwarded to the Conduit instance running on this port",
+            "nixName": "settings.global.port",
+            "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+            "value": "6167"
+        },
+        {
+            "name": "settings.global.server_name",
+            "desc": "The server_name is the name of this server. It is used as a suffix for user # and room ids.",
+            "nixName": "settings.global.server_name",
+            "type": "string",
+            "value": ""
+        },
+        {
+            "name": "settings.global.trusted_servers",
+            "desc": "Servers trusted with signing server keys.",
+            "nixName": "settings.global.trusted_servers",
+            "type": "list of string",
+            "value": "[\n  \"matrix.org\"\n]"
+        }
+    ]
+}

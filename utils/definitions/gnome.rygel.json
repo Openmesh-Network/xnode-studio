@@ -5,7 +5,6 @@
         "Media Streaming - Multimedia Streaming"
     ],
     "website": "https://gitlab.gnome.org/GNOME/rygel",
-    "implmented": false,
     "logo": "https://gitlab.gnome.org/uploads/-/system/appearance/favicon/1/GnomeLogoVertical.svg.png",
     "specs": {
         "ram": 0,

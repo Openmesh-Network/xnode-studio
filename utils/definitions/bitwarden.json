@@ -5,7 +5,6 @@
         "Password Managers\r"
     ],
     "website": "https://bitwarden.com",
-    "implmented": false,
     "logo": "https://bitwarden.com/favicon-32x32.png?v=1abf57d1154002a9fac426a2c5c04d85",
     "specs": {
         "ram": 0,

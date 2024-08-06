@@ -5,7 +5,6 @@
         "Search Engines\r"
     ],
     "website": "https://github.com/searxng/searxng",
-    "implmented": false,
     "logo": "https://github.githubassets.com/favicons/favicon.png",
     "specs": {
         "ram": 0,

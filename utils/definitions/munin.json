@@ -5,7 +5,6 @@
         "Monitoring"
     ],
     "website": "https://munin-monitoring.org/",
-    "implmented": false,
     "logo": "https://munin-monitoring.org/assets/favicons/favicon-32x32.png",
     "specs": {
         "ram": 0,

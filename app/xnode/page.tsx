@@ -142,40 +142,36 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
               let remoteServices = thisXnodeConfig["services"]
               let newServices = [] as ServiceData[]
 
-              for (let i = 0; i < remoteServices.length; i++) {
-                let service = remoteServices[i] as ServiceData
+              for (const savedService of remoteServices) {
+                const defaultService = ServiceFromName(savedService.nixName)
+                if (defaultService === undefined) {
+                  console.error("No definition for", savedService.nixName)
+                  continue
+                }
+                let savedOptions = defaultService.options
 
                 const processOption = (option: ServiceOption, parentOptions: ServiceOption[], targetOptions: ServiceOption[]) => {
                   const defaultOption = parentOptions?.find(defOption => defOption.nixName === option.nixName);
 
                   if (option.options) {
                     let newSubOptions = []
-                    for (let j = 0; j < option.options.length; j++) {
+                    for (const element of option.options) {
                       console.error("No default options for: ", option.nixName, " ", defaultOption)
-                      processOption(option.options[j], defaultOption.options, newSubOptions)
+                      processOption(element, defaultOption.options, newSubOptions)
                     }
 
                     option.options = newSubOptions
                   }
-
-                  if (defaultOption) {
-                    option.name = defaultOption.name
-                    option.desc = defaultOption.desc
-                  } else {
-                    console.error("No default options for service: ", option.nixName)
-                  }
-
-                  targetOptions.push(option)
+                  
+                  targetOptions.find(targetOption => targetOption.nixName === option.nixName).value = option.value
                 }
 
-                let newOptions = []
-                const defaultService = ServiceFromName(service.nixName)
-                for (let j = 0; j < service.options.length; j++) {
-                  processOption(service.options[j], defaultService?.options, newOptions)
+                for (const element of savedService.options) {
+                  processOption(element, defaultService?.options, savedOptions)
                 }
 
-                service.options = newOptions
-                newServices.push(service)
+                savedService.options = savedOptions
+                newServices.push(savedService)
               }
 
               setServices(newServices)
@@ -212,7 +208,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   const updateChanges = async () => {
     let newServices = servicesCompressedForAdmin(services);
 
-    if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[]") {
+    if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[\"\"]") {
       newServices.push(opensshconfig as ServiceData)
     }
 
@@ -471,7 +467,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                     <ServiceEditor startingServices={services} updateServices={setServices} />
                   </div>
                   <div className="mt-3 h-fit w-full border p-8 shadow-md">
-                    <ServiceAccess currentService={services} ip={xnodeData.ipAddress} startingUserData={userData} updatedUserData={setUserData}/>
+                    <ServiceAccess currentServices={services} ip={xnodeData.ipAddress} startingUserData={userData} updatedUserData={setUserData}/>
                   </div>
                   <div className="mt-3 h-fit w-full border p-8 shadow-md">
                     <p>Actions</p>

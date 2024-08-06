@@ -164,7 +164,6 @@ export type ServiceData = {
   website?:string
   // Url to the logo.
   logo?: string
-  implmented?: boolean
 
   nixName: string
   options: ServiceOption[]
@@ -194,14 +193,14 @@ export function ServiceFromName(name: string): ServiceData | undefined {
   if (serviceMap == null) {
     serviceMap = new Map<string, ServiceData>()
 
-    for (let i = 0; i < ServiceDefinitions.length; i++) {
-      const service = ServiceDefinitions[i]
+    for (const element of ServiceDefinitions) {
+      const service = element
       if (service === undefined) continue
-      serviceMap.set(ServiceDefinitions[i].nixName, service)
+      serviceMap.set(element.nixName, service)
     }
   }
 
-  return serviceMap.get(name)
+  return structuredClone(serviceMap.get(name))
 }
 
 let templateMap: Map<string, TemplateData> = null
@@ -209,44 +208,44 @@ export function TemplateFromId(id: string): TemplateData | undefined {
   if (templateMap == null) {
     templateMap = new Map<string, TemplateData>()
 
-    for (let i = 0; i < TemplateDefinitions.length; i++) {
-      templateMap.set(TemplateDefinitions[i].id, TemplateDefinitions[i])
+    for (const element of TemplateDefinitions) {
+      templateMap.set(element.id, element)
     }
   }
 
-  return templateMap.get(id)
+  return structuredClone(templateMap.get(id))
 }
 
 export function TemplateGetSpecs(template: TemplateData): Specs {
   let specs: Specs = { ram: 0, storage: 0 }
 
-  for (let i = 0; i < template.serviceNames.length; i++) {
+  for (const element of template.serviceNames) {
     // Get service id from .
-    const service = ServiceFromName(template.serviceNames[i])
+    const service = ServiceFromName(element)
     if (service) {
       // specs.cores += service.specs.cores
       specs.ram += service.specs.ram
       specs.storage += service.specs.storage
     } else {
-      console.log(template.serviceNames[i])
+      console.log(element)
       // XXX: Need a test to quality check all templates ahead of time.
       console.log("This shouldn't run")
     }
   }
 
-  return specs
+  return structuredClone(specs)
 }
 
 export function TemplateGetTags(template: TemplateData): string[] {
   let ret: string[] = []
 
-  for (let i = 0; i < template.serviceNames.length; i++) {
+  for (const element of template.serviceNames) {
     // Get service id from .
-    const service = ServiceFromName(template.serviceNames[i])
+    const service = ServiceFromName(element)
     if (service) {
       // specs.cores += service.specs.cores
-      for (let j = 0; j < service.tags.length; j++) {
-        ret.push(service.tags[j])
+      for (const element of service.tags) {
+        ret.push(element)
       }
     } else {
       // XXX: Need a test to quality check all templates ahead of time.
@@ -254,5 +253,17 @@ export function TemplateGetTags(template: TemplateData): string[] {
     }
   }
 
-  return ret
+  return structuredClone(ret)
+}
+
+export function defaultOptionFromServiceOption(name: string, option: ServiceOption): ServiceOption {
+  let service = ServiceFromName(name)
+  if (service != undefined) {
+    const findOption = service.options.find(opt => opt.nixName === option.nixName)
+    if (findOption){
+      console.log("Found option", findOption)
+      return structuredClone(findOption)
+    }
+  } 
+  return undefined
 }

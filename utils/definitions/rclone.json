@@ -5,7 +5,6 @@
         "Backup"
     ],
     "website": "https://rclone.org",
-    "implmented": false,
     "logo": "https://rclone.org/img/rclone-32x32.png",
     "specs": {
         "ram": 0,

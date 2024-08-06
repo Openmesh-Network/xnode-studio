@@ -5,7 +5,6 @@
         "Task Management & To-do Lists\r"
     ],
     "website": "https://taskwarrior.org",
-    "implmented": false,
     "logo": "https://taskwarrior.org/images/favicon.ico",
     "specs": {
         "ram": 0,

@@ -7,9 +7,8 @@
         "storage":0
     },
     "tags": [],
-    "website": [
-        "https://github.com/haiwen/seahub"
-    ],
+    "website": "https://github.com/haiwen/seahub",
+        
     "logo": "",
     "options": [
         {
