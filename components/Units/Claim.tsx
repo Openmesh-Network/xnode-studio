@@ -4,29 +4,14 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { XnodeUnitEntitlementClaimerContract } from '@/contracts/XnodeUnitEntitlementClaimer'
-import { chain } from '@/utils/chain'
 import { reviver } from '@/utils/json'
 import { prefix } from '@/utils/prefix'
 import { useWindowSize } from '@uidotdev/usehooks'
 import axios from 'axios'
 import ReactConfetti from 'react-confetti'
 import ReCAPTCHA from 'react-google-recaptcha'
-import {
-  Address,
-  BaseError,
-  ContractFunctionRevertedError,
-  Hex,
-  keccak256,
-  Signature,
-  toBytes,
-  zeroAddress,
-} from 'viem'
-import {
-  useAccount,
-  useDisconnect,
-  usePublicClient,
-  useWalletClient,
-} from 'wagmi'
+import { Address, Hex, keccak256, Signature, toBytes, zeroAddress } from 'viem'
+import { useDisconnect, usePublicClient, useWalletClient } from 'wagmi'
 
 import { usePerformTransaction } from '@/hooks/usePerformTransaction'
 import {
@@ -45,9 +30,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-
-import { ToastAction } from '../ui/toast'
-import { useToast } from '../ui/use-toast'
+import { useToast } from '@/components/ui/use-toast'
 
 const codeRegex = new RegExp('^.{3}-.{3}-.{3}$')
 

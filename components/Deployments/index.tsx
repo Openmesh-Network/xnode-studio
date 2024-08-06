@@ -1,40 +1,29 @@
 'use client'
 
 /* eslint-disable no-unused-vars */
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { timeSince } from '@/utils/time'
 import { useRouter } from 'next/navigation'
-import { XnodeUnitContract } from '@/contracts/XnodeUnit'
 import { prefix } from '@/utils/prefix'
+import { timeSince } from '@/utils/time'
 import axios from 'axios'
 import { useUser } from 'hooks/useUser'
-import { useXuNfts } from 'utils/nft'
-import { BaseError, ContractFunctionRevertedError } from 'viem'
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
+import { useAccount } from 'wagmi'
 
 import Signup from '@/components/Signup'
 
 import { Xnode } from '../../types/node'
-import { ToastAction } from '../ui/toast'
-import { useToast } from '../ui/use-toast'
 
 const Deployments = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [activateWarnOpen, setActivateWarnOpen] = useState<boolean>(false)
-  const [waitOpen, setWaitOpen] = useState<boolean>(false)
-  const [successOpen, setSuccessOpen] = useState<boolean>(false)
-  const [submitting, setSubmitting] = useState<boolean>(false)
   const [xnodesData, setXnodesData] = useState<Xnode[] | []>([])
-  const [isSSHPopupOpen, setSSHIsPopupOpen] = useState(false);
   const account = useAccount()
 
-  const [ user, isUserLoading ] = useUser()
+  const [user, isUserLoading] = useUser()
 
   const { push } = useRouter()
-  const { toast } = useToast()
 
   const getData = useCallback(async () => {
     setIsLoading(true)
@@ -65,7 +54,7 @@ const Deployments = () => {
         //   variant: 'destructive',
         // })
 
-        console.error("Couldnt get Xnode list: ", err)
+        console.error('Couldnt get Xnode list: ', err)
         setIsLoading(false)
       }
     }
@@ -77,60 +66,72 @@ const Deployments = () => {
 
   useEffect(() => {
     getData()
-  }, [ user?.sessionToken, user?.updatedAt, user, isUserLoading ])
+  }, [user?.sessionToken, user?.updatedAt, user, isUserLoading])
 
   return (
     <>
       <div className="m-20 flex-1">
         <section>
           <div className="flex items-center justify-between">
-            <h1 className="flex-1 text-4xl font-semibold text-black">Deployments</h1>
+            <h1 className="flex-1 text-4xl font-semibold text-black">
+              Deployments
+            </h1>
             <Signup />
           </div>
-        <div className="my-12" />
+          <div className="my-12" />
           <br />
-          { xnodesData ? (
+          {xnodesData ? (
             <div className="border-1 border-solid/20 border-black">
               <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
-                {xnodesData?.sort((a: Xnode, b: Xnode) => { 
-                  if (b.createdAt > a.createdAt) 
-                    return 1
-                  else
-                    return -1
-                }).map((node: Xnode, index) => (
-                  <li key={index} className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]">
-                    <div>
-                      <ul>
-                        <li>
-                          {' '}
-                          <b> XU ID: {node.deploymentAuth.substring(0, 6)}... </b>{'   '}
-                        </li>
+                {xnodesData
+                  ?.sort((a: Xnode, b: Xnode) => {
+                    if (b.createdAt > a.createdAt) return 1
+                    else return -1
+                  })
+                  .map((node: Xnode, index) => (
+                    <li
+                      key={index}
+                      className="flex w-fit max-w-[800px] items-start gap-12 rounded-lg border border-black/20 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
+                    >
+                      <div>
+                        <ul>
+                          <li>
+                            {' '}
+                            <b>
+                              {' '}
+                              XU ID: {node.deploymentAuth.substring(
+                                0,
+                                6
+                              )}...{' '}
+                            </b>
+                            {'   '}
+                          </li>
 
-                        <li> {node.name} </li>
-                      </ul>
-                    </div>
+                          <li> {node.name} </li>
+                        </ul>
+                      </div>
 
-                    <div>
-                      <ul>
-                        <li>
-                          <b> Created { timeSince(node.createdAt) } ago </b>{' '}
-                        </li>
-                      </ul>
-                    </div>
+                      <div>
+                        <ul>
+                          <li>
+                            <b> Created {timeSince(node.createdAt)} ago </b>{' '}
+                          </li>
+                        </ul>
+                      </div>
 
-                     <div className="align-center flex h-full justify-center">
-                       <button
-                         className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                         onClick={() => push(prefix + '/xnode?uuid=' + node.id)}
-                       >
-                         Manage
-                       </button>
-                     </div>
-                     <div >
-                       Last heard from {timeSince(node.updatedAt) } ago
-                     </div>
-                  </li>
-                ))}
+                      <div className="align-center flex h-full justify-center">
+                        <button
+                          className="inline-flex h-9 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                          onClick={() =>
+                            push(prefix + '/xnode?uuid=' + node.id)
+                          }
+                        >
+                          Manage
+                        </button>
+                      </div>
+                      <div>Last heard from {timeSince(node.updatedAt)} ago</div>
+                    </li>
+                  ))}
               </ul>
             </div>
           ) : (

@@ -8,12 +8,13 @@ import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { chain } from '@/utils/chain'
 import { prefix } from '@/utils/prefix'
 import { useWindowSize } from '@uidotdev/usehooks'
+import axios from 'axios'
 import { useUser } from 'hooks/useUser'
 import ReactConfetti from 'react-confetti'
 import { getXueNfts, useXuNfts } from 'utils/nft'
-import { Address, BaseError, ContractFunctionRevertedError } from 'viem'
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
 
+import { usePerformTransaction } from '@/hooks/usePerformTransaction'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,13 +28,10 @@ import {
 } from '@/components/ui/alert-dialog'
 
 import { Xnode } from '../../types/node'
-import { ToastAction } from '../ui/toast'
 import { useToast } from '../ui/use-toast'
-import axios from 'axios'
 
 const Dashboard = () => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [xnodesData, setXnodesData] = useState<Xnode[]>([]);
+  const [xnodesData, setXnodesData] = useState<Xnode[]>([])
   const [activateWarnOpen, setActivateWarnOpen] = useState<boolean>(false)
   const [waitOpen, setWaitOpen] = useState<boolean>(false)
   const [successOpen, setSuccessOpen] = useState<boolean>(false)
@@ -42,21 +40,21 @@ const Dashboard = () => {
   )
   const [xueNfts, setXueNfts] = useState<BigInt[]>(undefined)
   const [selectedNft, setSelectedNft] = useState<BigInt>(undefined)
-  const [submitting, setSubmitting] = useState<boolean>(false)
   const account = useAccount()
 
-  const { address, isConnecting, isDisconnected, isConnected } = account
+  const { address } = account
 
   const { data: xuNfts, refetch: refetchXuNFTs } = useXuNfts(address)
-
-  const publicClient = usePublicClient()
-  const { data: walletClient } = useWalletClient()
 
   const [user] = useUser()
 
   const { push } = useRouter()
   const { toast } = useToast()
   const { width, height } = useWindowSize()
+  const { performingTransaction, performTransaction, loggers } =
+    usePerformTransaction({
+      chainId: chain.id,
+    })
 
   const tryActivateNFT = () => {
     // We check if the user is whitelisted since we don't want users to activate machines that can't be deployed yet.
@@ -144,127 +142,35 @@ const Dashboard = () => {
         //   variant: 'destructive',
         // })
 
-        console.error("Couldnt get Xnode list: ", err)
-
+        console.error('Couldnt get Xnode list: ', err)
       }
     }
   }
   const activateNFT = async () => {
-    if (submitting) {
-      toast({
-        title: 'Please wait',
-        description: 'The past submission is still running.',
-        variant: 'destructive',
-      })
-      return
-    }
+    await performTransaction({
+      transactionName: 'Claim',
+      transaction: async () => {
+        if (selectedNft === undefined) {
+          loggers?.onError({
+            title: 'No NFT selected',
+            description: 'Please select which NFT you want to activate.',
+          })
+          return undefined
+        }
 
-    const submit = async () => {
-      setSubmitting(true)
-
-      if (selectedNft === undefined) {
-        toast({
-          title: 'No NFT selected',
-          description: 'Please select which NFT you want to activate.',
-          variant: 'destructive',
-        })
-        return
-      }
-
-      let { dismiss } = toast({
-        title: 'Generating transaction',
-        description: 'Please sign the transaction in your wallet...',
-      })
-
-      if (!publicClient || !walletClient?.account) {
-        dismiss()
-        toast({
-          title: 'Claim failed',
-          description: `${publicClient ? 'Wallet' : 'Public'}Client is undefined.`,
-          variant: 'destructive',
-        })
-        return
-      }
-
-      const transactionRequest = await publicClient
-        .simulateContract({
-          account: walletClient.account,
+        return {
           abi: XnodeUnitEntitlementContract.abi,
           address: XnodeUnitEntitlementContract.address,
           functionName: 'activate',
           args: [selectedNft as bigint],
-        })
-        .catch((err) => {
-          console.error(err)
-          if (err instanceof BaseError) {
-            let errorName = err.shortMessage ?? 'Simulation failed.'
-            const revertError = err.walk(
-              (err) => err instanceof ContractFunctionRevertedError
-            )
-            if (revertError instanceof ContractFunctionRevertedError) {
-              errorName += ` -> ${revertError.data?.errorName}` ?? ''
-            }
-            return errorName
-          }
-          return 'Simulation failed.'
-        })
+        }
+      },
+      onConfirmed: (receipt) => {
+        setSuccessOpen(true)
 
-      if (typeof transactionRequest === 'string') {
-        dismiss()
-        dismiss = toast({
-          title: 'Transaction failed',
-          description: 'Please sign the transaction in your wallet...',
-        }).dismiss
-        return
-      }
-
-      const transactionHash = await walletClient
-        .writeContract(transactionRequest.request)
-        .catch((err) => {
-          console.error(err)
-          return undefined
-        })
-      if (!transactionHash) {
-        dismiss()
-        dismiss = toast({
-          title: 'Transaction rejected',
-          description: transactionHash,
-        }).dismiss
-        return
-      }
-
-      dismiss = toast({
-        duration: 120_000, // 2 minutes
-        title: 'Activate transaction submitted',
-        description: 'Waiting until confirmed on the blockchain...',
-        action: (
-          <ToastAction
-            altText="View on explorer"
-            onClick={() => {
-              window.open(
-                `${chain.blockExplorers.default.url}/tx/${transactionHash}`,
-                '_blank'
-              )
-            }}
-          >
-            View on explorer
-          </ToastAction>
-        ),
-      }).dismiss
-
-      const receipt = await publicClient.waitForTransactionReceipt({
-        hash: transactionHash,
-      })
-
-      dismiss()
-      setSuccessOpen(true)
-
-      await findXueForAccount()
-      await refetchXuNFTs()
-    }
-
-    await submit().catch(console.error)
-    setSubmitting(false)
+        Promise.all([findXueForAccount(), refetchXuNFTs()]).catch(console.error)
+      },
+    })
   }
 
   const startCountdown = () => {
@@ -278,7 +184,7 @@ const Dashboard = () => {
       const days = Math.floor((total / 1000 / 60 / 60 / 24) % 900)
 
       if (total < 0) {
-        newTime = "Coming soon, stay posted on social media..."
+        newTime = 'Coming soon, stay posted on social media...'
       } else {
         newTime = days + ' day' + (days != 1 ? 's' : '')
         newTime += ' ' + hours + ' hour' + (hours != 1 ? 's' : '')
@@ -304,7 +210,6 @@ const Dashboard = () => {
       findXueForAccount()
       refetchXuNFTs()
       getData()
-
     }
 
     if (!user) {
@@ -316,11 +221,10 @@ const Dashboard = () => {
       // getData()
       // alert('User has a cookie.')
     }
-  }, [account?.isConnected, setSuccessOpen, submitting, setSubmitting])
+  }, [account?.address])
 
   useEffect(() => {
     startCountdown()
-    
   }, [])
 
   const commonClasses =
@@ -478,8 +382,12 @@ const Dashboard = () => {
                               <b>Xnode Entitlement NFT</b>{' '}
                             </li>
                             <li> 12 months CPU </li>
-                            <li> 
-                              <b> XUE ID: {String(xueNfts[index]).substring(0, 6)}... </b>
+                            <li>
+                              <b>
+                                {' '}
+                                XUE ID: {String(xueNfts[index]).substring(0, 6)}
+                                ...{' '}
+                              </b>
                             </li>
                           </ul>
                         </div>
@@ -491,8 +399,9 @@ const Dashboard = () => {
                               setSelectedNft(xueId)
                               tryActivateNFT()
                             }}
+                            disabled={performingTransaction}
                           >
-                            {xueId == selectedNft && submitting
+                            {xueId == selectedNft && performingTransaction
                               ? 'Activating...'
                               : 'Activate Now'}
                           </button>
@@ -526,9 +435,11 @@ const Dashboard = () => {
 
                 <ul className="mt-4 flex flex-col items-center gap-8 overflow-y-auto text-black">
                   {xuNfts.reverse().map((xuId, index) => {
-                    const isDeployed = xnodesData.some(item => item.deploymentAuth.toString() == xuId.toString());
+                    const isDeployed = xnodesData.some(
+                      (item) =>
+                        item.deploymentAuth.toString() == xuId.toString()
+                    )
                     return (
-
                       <li
                         key={index}
                         className="flex w-[500px] items-start gap-12 rounded-lg border-2 border-primary/30 p-6 shadow-[0_0.75rem_0.75rem_hsl(0_0_0/0.05)]"
@@ -539,10 +450,14 @@ const Dashboard = () => {
                               {' '}
                               <b> Xnode </b>{' '}
                             </li>
-                           
+
                             <li> 12 months CPU </li>
-                            <li> 
-                              <b> XU ID: {String(xuNfts[index]).substring(0, 6)}... </b>
+                            <li>
+                              <b>
+                                {' '}
+                                XU ID: {String(xuNfts[index]).substring(0, 6)}
+                                ...{' '}
+                              </b>
                             </li>
                           </ul>
                         </div>
@@ -550,15 +465,22 @@ const Dashboard = () => {
                         <div className="flex h-full w-fit flex-col items-center justify-center">
                           <button
                             disabled={isDeployed}
-                            className={`inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border  px-4 text-sm font-medium text-primary transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${isDeployed
+                            className={`inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border px-4 text-sm font-medium text-primary transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
+                              isDeployed
                                 ? 'cursor-not-allowed border-gray-400 text-gray-400'
                                 : 'border-primary text-primary hover:bg-primary/10'
-                              }`}
+                            }`}
                             onClick={() =>
-                              push(`${prefix}/templates?nftId=${xuId.toString()}`)
+                              push(
+                                `${prefix}/templates?nftId=${xuId.toString()}`
+                              )
                             }
                           >
-                            {isDeployed ? <span className="text-gray-400">Deployed</span> : 'Deploy'}
+                            {isDeployed ? (
+                              <span className="text-gray-400">Deployed</span>
+                            ) : (
+                              'Deploy'
+                            )}
                           </button>
 
                           <p className="mt-5">

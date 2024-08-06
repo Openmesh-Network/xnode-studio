@@ -1,24 +1,17 @@
 'use client'
 
-import { useState } from 'react'
 import { XnodeUnitsOPENVestingContract } from '@/contracts/XnodeUnitsOPENVesting'
 import { chain } from '@/utils/chain'
 import { useXuNfts } from '@/utils/nft'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { RefreshCcw } from 'lucide-react'
-import { BaseError, ContractFunctionRevertedError, formatUnits } from 'viem'
-import {
-  useAccount,
-  usePublicClient,
-  useReadContract,
-  useWalletClient,
-} from 'wagmi'
+import { formatUnits } from 'viem'
+import { useAccount, useReadContract } from 'wagmi'
 
 import { cn } from '@/lib/utils'
+import { usePerformTransaction } from '@/hooks/usePerformTransaction'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { ToastAction } from '@/components/ui/toast'
-import { useToast } from '@/components/ui/use-toast'
 
 export function ClaimCard() {
   const { open } = useWeb3Modal()
@@ -42,126 +35,42 @@ export function ClaimCard() {
     functionName: 'releasable',
     args: [XuNFTs?.at(0) ?? BigInt(0)],
   })
+  const { performingTransaction, performTransaction, loggers } =
+    usePerformTransaction({ chainId: chain.id })
 
-  const publicClient = usePublicClient()
-  const { data: walletClient } = useWalletClient()
-  const { toast } = useToast()
+  const hasXuNFT = XuNFTs !== undefined && XuNFTs.length !== 0
 
-  const hasXuNFT = XuNFTs !== undefined && XuNFTs.length > 0
-
-  const [submitting, setSubmitting] = useState<boolean>(false)
   const onClick = async () => {
-    if (!account.address) return open()
-    if (!isConnected) return open()
-    if (!hasXuNFT) return alert('No XuNFT found')
-    if (submitting) {
-      toast({
-        title: 'Please wait',
-        description: 'The past submission is still running.',
-        variant: 'destructive',
-      })
-      return
-    }
-    const submit = async () => {
-      setSubmitting(true)
-      let { dismiss } = toast({
-        title: 'Generating transaction',
-        description: 'Please sign the transaction in your wallet...',
-      })
-      if (!publicClient || !walletClient?.account) {
-        dismiss()
-        toast({
-          title: 'Claim failed',
-          description: `${publicClient ? 'Wallet' : 'Public'}Client is undefined.`,
-          variant: 'destructive',
-        })
-        return
-      }
+    await performTransaction({
+      transactionName: 'Claim',
+      transaction: async () => {
+        if (!account.address) {
+          open()
+          return undefined
+        }
+        if (!isConnected) {
+          open()
+          return undefined
+        }
+        if (!hasXuNFT) {
+          loggers?.onError?.({
+            title: 'Error',
+            description: 'No XuNFT found.',
+          })
+          return undefined
+        }
 
-      const transactionRequest = await publicClient
-        .simulateContract({
-          account: walletClient.account,
+        return {
           abi: XnodeUnitsOPENVestingContract.abi,
           address: XnodeUnitsOPENVestingContract.address,
           functionName: 'release',
-          args: [XuNFTs?.at(0) ?? BigInt(0)],
-          chain: chain,
-        })
-        .catch((err) => {
-          console.error(err)
-          if (err instanceof BaseError) {
-            let errorName = err.shortMessage ?? 'Simulation failed.'
-            const revertError = err.walk(
-              (err) => err instanceof ContractFunctionRevertedError
-            )
-            if (revertError instanceof ContractFunctionRevertedError) {
-              errorName += ` -> ${revertError.data?.errorName}` ?? ''
-            }
-            return errorName
-          }
-          return 'Simulation failed.'
-        })
-      if (typeof transactionRequest === 'string') {
-        dismiss()
-        toast({
-          title: 'Claim failed',
-          description: transactionRequest,
-          variant: 'destructive',
-        })
-        return
-      }
-      const transactionHash = await walletClient
-        .writeContract(transactionRequest.request)
-        .catch((err) => {
-          console.error(err)
-          return undefined
-        })
-      if (!transactionHash) {
-        dismiss()
-        toast({
-          title: 'Claim failed',
-          description: 'Transaction rejected.',
-          variant: 'destructive',
-        })
-        return
-      }
-
-      dismiss()
-      dismiss = toast({
-        duration: 120_000, // 2 minutes
-        title: 'Claim transaction submitted',
-        description: 'Waiting until confirmed on the blockchain...',
-        action: (
-          <ToastAction
-            altText="View on explorer"
-            onClick={() => {
-              window.open(
-                `${chain.blockExplorers.default.url}/tx/${transactionHash}`,
-                '_blank'
-              )
-            }}
-          >
-            View on explorer
-          </ToastAction>
-        ),
-      }).dismiss
-
-      const receipt = await publicClient.waitForTransactionReceipt({
-        hash: transactionHash,
-      })
-
-      dismiss()
-      dismiss = toast({
-        title: 'Success!',
-        description: 'Rewards claimed',
-        variant: 'success',
-      }).dismiss
-
-      await refetchReleasable()
-    }
-
-    await submit().catch(console.error)
-    setSubmitting(false)
+          args: [XuNFTs[0]],
+        }
+      },
+      onConfirmed: (receipt) => {
+        refetchReleasable().catch(console.error)
+      },
+    })
   }
 
   return (
@@ -199,7 +108,7 @@ export function ClaimCard() {
             size="xl"
             className="w-full"
             onClick={() => onClick().catch(console.error)}
-            disabled={isConnected && !hasXuNFT}
+            disabled={(isConnected && !hasXuNFT) || performingTransaction}
           >
             {isConnecting ? 'Connecting...' : isConnected ? 'Claim' : 'Connect'}
           </Button>
