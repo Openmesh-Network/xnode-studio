@@ -41,7 +41,8 @@ export function sshUserData(inputSshKey) {
     return userData
 }
 
-// 
+// TODO: Some options should be required, such as password for jupyter notebook and initialAdminPassword for Seafile server.
+
 const ServiceAccess = ({ currentServices, ip, startingUserData, updatedUserData }: 
     { currentServices: ServiceData[], ip: string, startingUserData: ServiceData, updatedUserData: any}) => {
         const services = currentServices
