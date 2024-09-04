@@ -69,7 +69,7 @@ const Dashboard = () => {
       '0xA45712c2724b059289F1bf5Cf098441a8e6D195c',
     ]
 
-    let isWhitelisted = false
+    let isWhitelisted = true
     for (let i = 0; i < whitelist.length; i++) {
       if (whitelist[i].toLowerCase() == address.toLowerCase()) {
         isWhitelisted = true
