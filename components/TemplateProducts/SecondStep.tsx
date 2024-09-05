@@ -358,7 +358,7 @@ const Configuration = () => {
                 className={``}
               />
               <div className="text-[16px] font-semibold leading-[36px] text-[#959595]">
-                Select a template
+                Configure template
               </div>
             </div>
             <div className="mt-[31px] flex items-center gap-x-[20px] px-[32px] py-[10px]">

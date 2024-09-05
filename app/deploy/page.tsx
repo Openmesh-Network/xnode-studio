@@ -59,11 +59,6 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
         .map((service) => ServiceFromName(service))
         .filter(Boolean)
 
-      // let services = []
-      // for (let i = 0; i < template.serviceNames.length; i++) {
-      //   services.push(ServiceFromName(template.serviceNames[i]))
-      // }
-
       const specs = TemplateGetSpecs(template)
       return {
         name: template.name,

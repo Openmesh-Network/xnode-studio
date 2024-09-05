@@ -17,6 +17,7 @@ import { optionsFeature } from '@/utils/constants'
 
 import { DeploymentConfiguration, ServiceFromName } from '@/types/dataProvider'
 import { useDraft } from '@/hooks/useDraftDeploy'
+import { servicesCompressedForAdmin } from '@/utils/xnode'
 
 export function findServerDefaultType(array) {
   const serverObject = array.find((item) => item.type === 'server')
@@ -106,7 +107,7 @@ const ReviewYourBuild = () => {
     xnodeType,
   } = useContext(AccountContext)
 
-  const [ draft, setDraft ] = useDraft()
+  const [draft, setDraft] = useDraft()
 
   const { push } = useRouter()
 
@@ -123,7 +124,10 @@ const ReviewYourBuild = () => {
 
         // XXX: Actually include correct one here.
         deploymentAuth: config.deploymentAuth,
-        services: JSON.stringify(config.services),
+        services: Buffer.from(JSON.stringify({
+          "services": servicesCompressedForAdmin(config.services),
+          "users.users": []
+        })).toString('base64'),
       }
 
       console.log('Payload: ')
@@ -198,7 +202,7 @@ const ReviewYourBuild = () => {
       >
         {' '}
         {/* <div className="mx-auto size-[200px] animate-spin rounded-full border-b-2 border-[#0354EC]"></div> */}
-        <p onClick={ () => createXnode(draft) }>DEPLOY</p>
+        <p onClick={() => createXnode(draft)}>DEPLOY</p>
       </section>
     )
   }
@@ -215,7 +219,7 @@ const ReviewYourBuild = () => {
           </div>
           <div className="mt-[25px] text-[18px] font-normal tracking-[-2%] text-[#C8C8C8] md:text-[19px] lg:text-[22px] lg:!leading-[39px] xl:text-[25px] 2xl:mt-[32px] 2xl:text-[32px]">
             {/* XXX: Incorrect! */}
-            Average deployment time ~ 2 mins
+            Average deployment time 10 mins
           </div>
 
           <div className="mt-[15px] grid gap-y-[10px] md:mt-[18px] md:gap-y-[12px] lg:mt-[21px] lg:gap-y-[14px] 2xl:mt-[30px] 2xl:gap-y-[20px]">

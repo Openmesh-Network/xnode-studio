@@ -72,7 +72,7 @@ export const DeploymentProgress = ({ isUnit = false }) => {
                   indexerDeployerStep === -1 ? 'text-black' : 'text-black/50'
                 )}
               >
-                Select a Template
+                Configure Template
               </p>
             </button>
           </div>

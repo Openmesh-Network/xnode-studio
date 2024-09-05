@@ -10,7 +10,10 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { useUser } from 'hooks/useUser'
-
+import {
+  ServiceFromName,
+  ServiceOption,
+} from '@/types/dataProvider'
 import Signup from '@/components/Signup'
 import { HeartbeatData, Xnode } from '../../types/node'
 
@@ -19,10 +22,13 @@ import { useDraft } from '@/hooks/useDraftDeploy'
 import Loading from '@/components/Loading'
 import SectionHeader from '@/components/SectionHeader'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
-import { ServiceData } from '@/types/dataProvider'
+import ServiceAccess from '@/components/Deployments/serviceAccess'
+import { sshUserData } from '@/components/Deployments/serviceAccess'
+import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
-
 import stackIcon from '@/assets/stack.svg'
+import { optionsCreator } from '@/components/TemplateProducts/TemplateStep'
+import { servicesCompressedForAdmin } from '@/utils/xnode'
 
 type XnodePageProps = {
   searchParams: {
@@ -30,7 +36,7 @@ type XnodePageProps = {
   }
 }
 
-const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercent}: {used: number, available: number, usedPercent: number, unit: string, name: string, isAvailable: boolean}) => {
+const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercent }: { used: number, available: number, usedPercent: number, unit: string, name: string, isAvailable: boolean }) => {
 
   const upperCaseFirstLetter = (str: string) => {
 
@@ -43,29 +49,29 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
 
   return (
     <div className="flex-1">
-      <p className="font-medium"> { upperCaseFirstLetter(name) } </p>
-      <div className="w-full flex">
-        { /* TODO: Add icon */ }
-        <div className="w-10 h-10 mr-2">
+      <p className="font-medium"> {upperCaseFirstLetter(name)} </p>
+      <div className="flex w-full">
+        { /* TODO: Add icon */}
+        <div className="mr-2 size-10">
           <Image src={stackIcon} alt={"Stack icon"} />
         </div>
 
-        <div className="bg-gray-200 flex-1 flex align-middle min-h-5">
+        <div className="flex min-h-5 flex-1 bg-gray-200 align-middle">
 
           {
             isAvailable ? (
               <>
-                <div className="bg-blue-500 h-full" style={{width: usedPercent + "%"}}>
+                <div className="h-full bg-blue-500" style={{ width: usedPercent + "%" }}>
                 </div>
 
                 <div className="w-fit p-2">
-                  <p> { available + unit + " " } left </p>
+                  <p> {available + unit + " "} left </p>
                 </div>
               </>
             ) : (
               <>
                 <div className="w-fit p-2">
-                  <p> No { name } data available. </p>
+                  <p> No {name} data available. </p>
                 </div>
               </>
             )
@@ -74,7 +80,7 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
       </div>
       {
         isAvailable && (
-          <p className="ml-12"> { used + unit } </p>
+          <p className="ml-12"> {used + unit} </p>
         )
       }
     </div>
@@ -82,20 +88,27 @@ const XnodeMeasurement = ({ name, unit, isAvailable, used, available, usedPercen
 }
 
 export default function XnodePage({ searchParams }: XnodePageProps) {
-  const { indexerDeployerStep, setIndexerDeployerStep } = useContext(AccountContext)
-  const [ draft, setDraft ] = useDraft()
-  const [ isLoading, setIsLoading ] = useState<boolean>(true)
-  const [ xnodeData, setXnodeData ] = useState<Xnode | undefined>(undefined)
-
+  const opensshconfig = {
+    "nixName": "openssh",
+    "options": [{ "nixName": "enable", "type": "boolean", "value": "true" }, { "nixName": "settings.PasswordAuthentication", "value": "false", "type": "boolean" }, { "nixName": "settings.KbdInteractiveAuthentication", "value": "false", "type": "boolean" }]
+  }
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [xnodeData, setXnodeData] = useState<Xnode | undefined>(undefined)
+  
   const id = z.coerce
     .string()
     .parse(String(searchParams.uuid))
 
   const [user] = useUser()
-  const [services, setServices] = useState<ServiceData[]>()
+  const [services, setServices] = useState<ServiceData[]>([])
+  const [userData, setUserData] = useState<ServiceData>(sshUserData("")) // Always relates to the xnode user for now.
 
-  const getData = useCallback(async () => {
-    setIsLoading(true)
+  const [timeSinceHeartbeat, setTimeSinceHeartbeat] = useState<string>("")
+
+  const getData = useCallback(async (isInitialLoad:Boolean) => {
+    if (isInitialLoad) {
+      setIsLoading(true)
+    }
 
     if (user?.sessionToken) {
       const config = {
@@ -110,32 +123,101 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
           "id": id
         }
       }
-
       try {
-        await axios(config).then(function (response) {
-          console.log("Got response: ", response)
-          if (response.data) {
-            console.log('Got the Xnode data')
-            let node = response.data as Xnode
-            node.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
-            setXnodeData(node)
-            setServices(JSON.parse(node.services))
-            setIsLoading(false)
-          }
-        })
-      } catch (err) {
-        console.log(config)
+        const response = await axios(config);
+        // console.log("Got response: ", response)
 
+        if (response.data) {
+          let remoteNode = response.data as Xnode
+          remoteNode.heartbeatData = JSON.parse(response.data.heartbeatData) as HeartbeatData
+          setXnodeData(remoteNode)
+
+          let thisXnodeConfig = JSON.parse(Buffer.from(response.data.services, 'base64').toString('utf-8')) as XnodeConfig
+
+          if (Object.keys(thisXnodeConfig).includes("services")) {
+            console.log("The XnodeConfig: ", thisXnodeConfig)
+
+            if (isInitialLoad) {
+              // Process options
+              let remoteServices = thisXnodeConfig["services"]
+              let newServices = [] as ServiceData[]
+
+              for (let i = 0; i < remoteServices.length; i++) {
+                let service = remoteServices[i] as ServiceData
+
+                const processOption = (option: ServiceOption, parentOptions: ServiceOption[], targetOptions: ServiceOption[]) => {
+                  const defaultOption = parentOptions?.find(defOption => defOption.nixName === option.nixName);
+
+                  if (option.options) {
+                    let newSubOptions = []
+                    for (let j = 0; j < option.options.length; j++) {
+                      console.error("No default options for: ", option.nixName, " ", defaultOption)
+                      processOption(option.options[j], defaultOption.options, newSubOptions)
+                    }
+
+                    option.options = newSubOptions
+                  }
+
+                  if (defaultOption) {
+                    option.name = defaultOption.name
+                    option.desc = defaultOption.desc
+                  } else {
+                    console.error("No default options for service: ", option.nixName)
+                  }
+
+                  targetOptions.push(option)
+                }
+
+                let newOptions = []
+                const defaultService = ServiceFromName(service.nixName)
+                for (let j = 0; j < service.options.length; j++) {
+                  processOption(service.options[j], defaultService?.options, newOptions)
+                }
+
+                service.options = newOptions
+                newServices.push(service)
+              }
+
+              setServices(newServices)
+            } else {
+              console.log("Not changing services as they've already been downloaded and might have been edited.")
+            }
+
+            const usersArray = thisXnodeConfig["users.users"]
+            if (Array.isArray(usersArray)) {
+              const user = thisXnodeConfig["users.users"]?.find(user => user?.nixName.includes("xnode")); // Use find instead of get
+              if (user) { // If there's no users.users data then this condition will error.
+                console.log("The xnode's userdata:", user["options"])
+
+                setUserData(user)
+              }
+            }
+          }
+        }
+        setIsLoading(false)
+
+      } catch (error) {
+        console.log(config)
         toast.error(
-          `Error getting the Xnode list: ${err.response.data.message}`
+          `Error getting the Xnode list: ${error}`
         )
         setIsLoading(false)
       }
+    } else {
+      setIsLoading(false)
     }
 
-  }, [user?.sessionToken, user ])
+  }, [user, id])
 
-  const updateServices = async () => {
+  const updateChanges = async () => {
+    let newServices = servicesCompressedForAdmin(services);
+
+    if (userData?.options?.find(option => option.nixName == "openssh.authorizedKeys.keys").value != "[]") {
+      newServices.push(opensshconfig as ServiceData)
+    }
+
+    console.log("Final services: ", newServices)
+
     const config = {
       method: 'post' as 'post',
       url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/pushXnodeServices`,
@@ -146,20 +228,26 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       },
       data: {
         "id": id,
-        "services": JSON.stringify(services)
+        "services": Buffer.from(JSON.stringify({
+          "services": newServices,
+          "users.users": [userData]
+        })).toString('base64')
       }
     }
-
-    await axios(config).then((response) => {
-      console.log(response)
-      setIsLoading(true)
-      getData()
-    })
+    try {
+      const response = await axios(config);
+      console.log(response);
+      setIsLoading(true);
+      getData(true);
+    } catch (error) {
+      toast.error(`Error updating the Xnode services: ${error}`);
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
-    getData()
-  }, [user?.sessionToken])
+    getData(true)
+  }, [user?.sessionToken, getData])
 
   useEffect(() => {
     console.log(xnodeData)
@@ -170,24 +258,51 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     }
   }, [xnodeData])
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getData(false);
+    }, 10000); // 1000 ms = 1 second
+
+    return () => clearInterval(interval);
+  }, [getData]);
+
+  useEffect(() => {
+    if (xnodeData) {
+      setTimeSinceHeartbeat(timeSince(xnodeData.updatedAt)) 
+    } else {
+      setTimeSinceHeartbeat('...')
+    }
+
+    const interval = setInterval(() => {
+      if (xnodeData) {
+        setTimeSinceHeartbeat(timeSince(xnodeData.updatedAt)) 
+      } else {
+        setTimeSinceHeartbeat('...')
+      }
+    }, 1000); // 1000 ms = 1 second
+
+    return () => clearInterval(interval);
+  }, [timeSinceHeartbeat, xnodeData]);
+
   function timeSince(startDate: Date) {
     let d = new Date(startDate)
 
     const today = new Date()
     const total = today.getTime() - (d.getTime())
 
+    const seconds = (Math.floor((total / 1000) % 60))
     const minutes = (Math.floor((total / 1000 / 60) % 60))
-    const hours   = (Math.floor((total / 1000 / 60 / 60) % 24))
-    const days    = (Math.floor((total / 1000 / 60 / 60 / 24) % 1000000))
+    const hours = (Math.floor((total / 1000 / 60 / 60) % 24))
+    const days = (Math.floor((total / 1000 / 60 / 60 / 24) % 1000000))
 
     let result = ""
     if (days > 0) {
       result += days
 
       if (days == 1) {
-        result += " day, " 
+        result += " day, "
       } else {
-        result += " days, " 
+        result += " days, "
       }
     }
 
@@ -195,25 +310,57 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
       result += hours
 
       if (hours == 1) {
-        result += " hour, " 
+        result += " hour, "
       } else {
-        result += " hours, " 
+        result += " hours, "
       }
     }
 
-    result += minutes
-    if (minutes == 1) {
-      result += " minute"
+    if (minutes > 0) {
+      result += minutes
+
+      if (minutes == 1) {
+        result += " minute, "
+      } else {
+        result += " minutes, "
+      }
+    }
+
+    result += seconds
+    if (seconds == 1) {
+      result += " second"
     } else {
-      result += " minutes"
+      result += " seconds"
     }
 
     return result
   }
 
+  async function allowUpdate() {
+    const config = {
+      method: 'post' as 'post',
+      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/allowXnodeGenerationUpdate`,
+      headers: {
+        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+        'X-Parse-Session-Token': user.sessionToken,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        "id": id,
+        "generation": xnodeData.updateGenerationWant + 1
+      }
+    }
+
+    const response = await axios(config);
+    console.log(response)
+
+    setIsLoading(true);
+    getData(true);
+  }
+
   function getExpirationDays(startDate: Date) {
     let d = new Date(startDate)
-    console.error(d.getTime())
+    //console.error(d.getTime())
 
     const today = new Date()
     const total = today.getTime() - (d.getTime())
@@ -227,100 +374,122 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
     return Math.floor(x * 100) / 100
   }
 
+  function styleFromStatus(status: string) {
+    if (status == "online") {
+      return "bg-green-800"
+    } else if (status == "offline") {
+      return "bg-gray-400"
+    } else {
+      return "bg-amber-200 animate-pulse "
+    }
+  }
 
   return (
-    <div className="m-20 flex-1">
+    <div className="w-full flex-1 p-20">
       <section>
         <div className="flex h-full">
-          {
-            isLoading && (
-              <Loading />
-            )
-          }
+          {isLoading && <Loading />}
+          {!isLoading && user?.sessionToken ? (
+            <>
+              {xnodeData ? (
+                <div className="w-full">
 
-          {
-            !isLoading && user?.sessionToken ? (
-              <>
-                {
-                  xnodeData ? (
-                    <div className="w-full">
+                  { // XXX: Make this prettier:
+                    xnodeData.heartbeatData && (
+                      <>
+                        {
+                          (
+                            // Only show update banner if the admin service reports an update is available, 
+                            //  and the latest wanted update generation is already applied on the machine.
+                            xnodeData.heartbeatData.wantUpdate &&
+                            xnodeData.updateGenerationHave == xnodeData.updateGenerationWant &&
+                            xnodeData.status === "online"
+                          ) && (
+                            <div className="flex h-fit w-full justify-between bg-amber-300 p-2 align-middle">
+                              <div className="h-fit align-middle"> There is an update available. </div>
+                              <Button onClick={allowUpdate}> Update </Button>
+                            </div>
+                          )
+                        }
+                      </>
+                    )
+                  }
 
-                      <SectionHeader> Your Xnode </SectionHeader>
+                  <SectionHeader> 
+                    Your Xnode {xnodeData.id}
+                  </SectionHeader>
 
-                      <p> { xnodeData.name } </p>
-                      <p> { xnodeData.id } </p>
-
-                      { xnodeData.isUnit && (
-                        <p> { getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine." } </p>
+                  <div className="flex items-center">
+                    <div className={"inline-block size-3 rounded-full mr-2 " + 
+                      (
+                      xnodeData.status ? (
+                        styleFromStatus(xnodeData.status)   
+                      ) : (
+                        "offline"
                       )
-                      }
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">  
-                        <p> Last update { timeSince(xnodeData.updatedAt) } ago </p>
-
-                        <div className="mt-4 flex w-full space-x-14">
-
-                          <XnodeMeasurement 
-                            name="CPU" 
-                            unit="%"
-                            isAvailable={xnodeData.heartbeatData != null} 
-                            used={round(xnodeData.heartbeatData?.cpuPercent)}
-                            available={round(100 - xnodeData.heartbeatData?.cpuPercent)}
-                            usedPercent={round(xnodeData.heartbeatData?.cpuPercent)}
-                          />
-
-                          <XnodeMeasurement 
-                            name="RAM" 
-                            unit="GB"
-                            isAvailable={xnodeData.heartbeatData != null} 
-                            used={round(xnodeData.heartbeatData?.ramMbUsed / 1024)}
-                            available={round((xnodeData.heartbeatData?.ramMbTotal - xnodeData.heartbeatData?.ramMbUsed) / 1024)}
-                            usedPercent={xnodeData.heartbeatData?.ramMbUsed / xnodeData.heartbeatData?.ramMbTotal * 100}
-                          />
-
-                          <XnodeMeasurement 
-                            name="storage" 
-                            unit="GB"
-                            isAvailable={xnodeData.heartbeatData != null} 
-                            used={round(xnodeData.heartbeatData?.storageMbUsed / 1024)}
-                            available={round((xnodeData.heartbeatData?.storageMbTotal - xnodeData.heartbeatData?.storageMbUsed) / 1024)}
-                            usedPercent={xnodeData.heartbeatData?.storageMbUsed / xnodeData.heartbeatData?.storageMbTotal * 100}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <ServiceEditor startingServices={services} updateServices={setServices}/>
-
-                        <p> Running on { xnodeData.ipAddress } </p>
-                      </div>
-
-                      <div className="w-full mt-3 shadow-md p-8 h-fit border">
-                        <p> Actions </p>
-
-                        <Button onClick={() => updateServices()}> Push new services </Button>
-                      </div>
-
+                    )
+                    }/>
+                    <div>
+                      Status: {xnodeData.status ? xnodeData.status : "offline"}
                     </div>
-                  ) : (
-                    <>
-                      <p> No Xnode for that UUID found. </p>
-                    </>
-                  )
-                }
-              </>
-            ) : (
-              <>
-                {
-                  !isLoading && (
-                    <Signup/>
-                  )
-                }
-              </>
-            )
-                }
+                  </div>
+
+                  <p>Template: {xnodeData.name}</p>
+                  <p>{xnodeData.deploymentAuth}</p>
+                  {xnodeData.isUnit && <p>{getExpirationDays(xnodeData.unitClaimTime) + " Days Left with Machine."}</p>}
+
+                  <div className="mt-3 h-fit w-full border p-8 shadow-md">
+                    <p>Last update { timeSinceHeartbeat } ago</p>
+                    <div className="mt-4 flex w-full space-x-14">
+                      <XnodeMeasurement
+                        name="CPU"
+                        unit="%"
+                        isAvailable={xnodeData.heartbeatData != null}
+                        used={round(xnodeData.heartbeatData?.cpuPercent)}
+                        available={round(100 - xnodeData.heartbeatData?.cpuPercent)}
+                        usedPercent={round(xnodeData.heartbeatData?.cpuPercent)}
+                      />
+                      <XnodeMeasurement
+                        name="RAM"
+                        unit="GB"
+                        isAvailable={xnodeData.heartbeatData != null}
+                        used={round(xnodeData.heartbeatData?.ramMbUsed / 1024)}
+                        available={round((xnodeData.heartbeatData?.ramMbTotal - xnodeData.heartbeatData?.ramMbUsed) / 1024)}
+                        usedPercent={xnodeData.heartbeatData?.ramMbUsed / xnodeData.heartbeatData?.ramMbTotal * 100}
+                      />
+                      <XnodeMeasurement
+                        name="storage"
+                        unit="GB"
+                        isAvailable={xnodeData.heartbeatData != null}
+                        used={round(xnodeData.heartbeatData?.storageMbUsed / 1024)}
+                        available={round((xnodeData.heartbeatData?.storageMbTotal - xnodeData.heartbeatData?.storageMbUsed) / 1024)}
+                        usedPercent={xnodeData.heartbeatData?.storageMbUsed / xnodeData.heartbeatData?.storageMbTotal * 100}
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-3 h-fit w-full border p-8 shadow-md">
+                    <ServiceEditor startingServices={services} updateServices={setServices} />
+                  </div>
+                  <div className="mt-3 h-fit w-full border p-8 shadow-md">
+                    <ServiceAccess currentService={services} ip={xnodeData.ipAddress} startingUserData={userData} updatedUserData={setUserData}/>
+                  </div>
+                  <div className="mt-3 h-fit w-full border p-8 shadow-md">
+                    <p>Actions</p>
+                    <div className="flex ">
+                      <Button onClick={() => { updateChanges() }}> Push changes </Button>
+                      <Button onClick={() => { allowUpdate() } }> Force update </Button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <p>No Xnode for that UUID found.</p>
+              )}
+            </>
+          ) : (
+            !isLoading && <Signup />
+          )}
         </div>
       </section>
     </div>
-  )
+  );
 }

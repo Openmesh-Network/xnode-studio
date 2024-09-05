@@ -36,7 +36,7 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <body
         className={cn(
-          'max-w-screen h-screen overflow-x-hidden bg-background font-sans text-foreground antialiased',
+          'max-w-screen h-screen w-full bg-background font-sans text-foreground antialiased',
           inter.variable
         )}
       >

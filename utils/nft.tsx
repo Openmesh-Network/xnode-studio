@@ -15,7 +15,7 @@ export async function getXueNfts(account) {
     .get(url)
     .then((res) => res.data as { ownedNfts: { tokenId: string }[] })
 
-  return response.ownedNfts.map((nft) => BigInt(nft.tokenId))
+  return response.ownedNfts.map((nft) => BigInt(nft.tokenId)).sort()
 }
 
 // Define the function to fetch the NFTs
@@ -25,7 +25,7 @@ export async function getXuNfts(address: Address) {
     .get(url)
     .then((res) => res.data as { ownedNfts: { tokenId: string }[] })
 
-  return response.ownedNfts.map((nft) => BigInt(nft.tokenId))
+  return response.ownedNfts.map((nft) => BigInt(nft.tokenId)).sort()
 }
 
 // Create a custom hook to use the getXuNfts function
