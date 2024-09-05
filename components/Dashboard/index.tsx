@@ -555,7 +555,7 @@ const Dashboard = () => {
                                 : 'border-primary text-primary hover:bg-primary/10'
                               }`}
                             onClick={() =>
-                              push(`${prefix}/templates?nftId=${xuId.toString()}`)
+                              push(`/templates?nftId=${xuId.toString()}`)
                             }
                           >
                             {isDeployed ? <span className="text-gray-400">Deployed</span> : 'Deploy'}
