@@ -87,7 +87,7 @@ export function HomeAdvantages() {
               )
             })}
           </div>
-          <div className="w-full h-32"/>
+          <div className="h-32 w-full"/>
         </div>
       </div>
     </section>

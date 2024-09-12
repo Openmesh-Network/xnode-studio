@@ -1,3 +1,4 @@
+import { ValidatorPassContract } from '@/contracts/ValidatorPass'
 import { XnodeUnitContract } from '@/contracts/XnodeUnit'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { useQuery } from '@tanstack/react-query'
@@ -34,5 +35,28 @@ export const useXuNfts = (address: Address) => {
     queryKey: ['xuNfts', address],
     queryFn: () => getXuNfts(address),
     enabled: !!address,
+  })
+}
+
+export async function getEVPNfts(address: Address) {
+  const url = `https://${alchemyPrefix}.g.alchemy.com/nft/v3/wxMZwmicJOsN0zsmfqSN2-nc8vovL3LP/getNFTsForOwner?owner=${address}&contractAddresses[]=${ValidatorPassContract.address}&withMetadata=false`
+  const response = await axios
+    .get(url)
+    .then((res) => res.data as { ownedNfts: { tokenId: string }[] })
+
+  return response.ownedNfts.map((nft) => BigInt(nft.tokenId)).sort()
+}
+
+export const useEVPNfts = (address?: Address) => {
+  return useQuery({
+    initialData: [],
+    queryKey: ['EVPNfts', address],
+    queryFn: async () => {
+      if (!address) {
+        return []
+      }
+
+      return await getXuNfts(address)
+    },
   })
 }

@@ -25,7 +25,6 @@ import ReviewYourBuild from '@/components/FinalBuild'
 import { Icons } from '@/components/Icons'
 import Signup from '@/components/Signup'
 import NewIntegrationConn from '@/components/Signup/NewIntegrationConn'
-import Activate from '@/components/Units/Activate'
 
 import DeploymentTemplatePage from './deployment-overview'
 import DeploymentProvider from './deployment-provider'
@@ -119,15 +118,15 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
               description={templateData.description}
               minSpecs={templateData.minSpecs}
               defaultServices={templateData.services}
-              nftId={ nftId ? nftId.toString() : "" }
+              nftId={nftId ? nftId.toString() : ''}
             />
           ) : null}
           {indexerDeployerStep === 0 ? (
-            <DeploymentProvider specs={ templateData.minSpecs } />
+            <DeploymentProvider specs={templateData.minSpecs} />
           ) : null}
-          { indexerDeployerStep === 1 ? <Signup /> : null }
+          {indexerDeployerStep === 1 ? <Signup /> : null}
 
-          { indexerDeployerStep === 2 ? (
+          {indexerDeployerStep === 2 ? (
             isUnit ? (
               <></>
             ) : (
@@ -135,7 +134,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
                 <NewIntegrationConn />
               </div>
             )
-          ) : null }
+          ) : null}
 
           {indexerDeployerStep === 3 ? <ReviewYourBuild /> : null}
         </Section>

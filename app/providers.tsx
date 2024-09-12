@@ -12,7 +12,7 @@ import { cookieStorage, createStorage, State, WagmiProvider } from 'wagmi'
 import { Toaster } from '@/components/ui/toaster'
 import ScreenProvider from '@/components/screen-provider'
 
-const chains = [chain] as const
+export const chains = [chain] as const
 const queryClient = new QueryClient()
 
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
