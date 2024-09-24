@@ -1,12 +1,11 @@
 import { useContext, useEffect } from 'react'
-import { AccountContext } from '@/contexts/AccountContext'
+import { AccountContext, UserProps } from '@/contexts/AccountContext'
+import Loading from 'components/Loading'
 import nookies, { parseCookies, setCookie } from 'nookies'
+import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { getWeb3Login } from 'utils/auth'
-import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
-import { UserProps } from '@/contexts/AccountContext'
-import Loading from 'components/Loading'
 
 import {
   Dialog,
@@ -15,28 +14,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog'
 
 import 'react-toastify/dist/ReactToastify.css'
 
+import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
-import { useAccount } from 'wagmi'
 import { Eye, EyeSlash } from 'phosphor-react'
+import { useAccount } from 'wagmi'
 
-import { useState } from 'react'
 import { useUser } from '@/hooks/useUser'
 
 const Signup = () => {
-  const {
-    setFinalBuild,
-    indexerDeployerStep,
-    setIndexerDeployerStep,
-  } = useContext(AccountContext)
+  const { setFinalBuild, indexerDeployerStep, setIndexerDeployerStep } =
+    useContext(AccountContext)
 
-  const [ user, isUserLoading, setUser ] = useUser()
+  const [user, isUserLoading, setUser] = useUser()
 
-  const [ isLoading, setIsLoading ] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(true)
   type LoginForm = {
     email: string
@@ -93,12 +89,11 @@ const Signup = () => {
       let res = await axios(config)
       setUser(res.data as UserProps)
       return res.data
-    } catch(err) {
-      toast.error("Error logging in: ", err)
+    } catch (err) {
+      toast.error('Error logging in: ', err)
       return null
     }
   }
-
 
   async function onSubmit(data: LoginForm) {
     setIsLoading(true)
@@ -137,34 +132,35 @@ const Signup = () => {
 
   return (
     <>
-    <div className="flex flex-row">
+      <div className="flex flex-row">
+        {isUserLoading && <Loading />}
 
-      {
-        isUserLoading && (
-          <Loading />
-        )
-      }
-
-      {
-        !isUserLoading && (
-          user ? (
+        {!isUserLoading &&
+          (user ? (
             <>
               <div>
-                { /* XXX: Show some account info? Possibly make into component later. */ }
-                <p> Logged in </p>
+                {/* XXX: Show some account info? Possibly make into component later. */}
+                <p>
+                  {' '}
+                  Logged in{' '}
+                  {account?.address
+                    ? `${account.address.substring(0, 7)}...${account.address.substring(account.address.length - 5)}`
+                    : ''}
+                </p>
 
-                { /* XXX: Add better sign out button. */ }
+                {/* XXX: Add better sign out button. */}
 
-                <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                  onClick={ () => { setUser(null) }}
+                <button
+                  className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                  onClick={() => {
+                    setUser(null)
+                  }}
                 >
                   Log out
                 </button>
-
               </div>
             </>
-          )
-          : (
+          ) : (
             <>
               <div className="w-full">
                 <div className="mx-auto w-fit">
@@ -172,24 +168,22 @@ const Signup = () => {
                     Connect your wallet to continue
                   </h3>
 
-                  <div className="mt-5"/>
+                  <div className="mt-5" />
 
                   <w3m-button />
-                  {
-                    account?.isConnected && (
-                      <div>
-                        {
-                          <button
-                            className="cursor-pointer items-center rounded-[5px] border border-blue-500 bg-blue-500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-white hover:bg-[#064DD2] lg:text-[16px]"
-                            onClick={() => tryLogin()}
-                          >
-                            {' '}
-                            Verify wallet{' '}
-                          </button>
-                        }
-                      </div>
-                    )
-                  }
+                  {account?.isConnected && (
+                    <div>
+                      {
+                        <button
+                          className="cursor-pointer items-center rounded-[5px] border border-blue-500 bg-blue-500 px-[25px] py-[8px] text-[13px] font-bold !leading-[19px] text-white hover:bg-[#064DD2] lg:text-[16px]"
+                          onClick={() => tryLogin()}
+                        >
+                          {' '}
+                          Verify wallet{' '}
+                        </button>
+                      }
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -271,18 +265,16 @@ const Signup = () => {
               {/*       href={`https://www.openmesh.network/oec/register`} */}
               {/*       className="border-b-1 cursor-pointer text-[#3253FE]" */}
               {/*     > */}
-              {/*       <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> */} 
+              {/*       <button className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"> */}
               {/*         Register */}
               {/*       </button> */}
               {/*     </a> */}
               {/*   </div> */}
               {/* </div> */}
             </>
-          )
-        )
-      }
-    </div>
-      </>
+          ))}
+      </div>
+    </>
   )
 }
 
