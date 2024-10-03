@@ -56,19 +56,23 @@ export default async function ResourcesPage() {
         </p>
       </section>
       <section className="mt-20 grid grid-cols-7 gap-6 rounded p-6 shadow-[0_0.75rem_1rem_hsl(0_0_0/0.05)]">
-        <StatsItem title="Countries" value={stats.countries} />
-        <StatsItem title="Providers" value={stats.providers} />
-        <StatsItem title="Regions" value={stats.regions} />
+        <StatsItem title="Countries" value={/*stats.countries*/ 172} />
+        <StatsItem title="Providers" value={/*stats.providers*/ 32} />
+        <StatsItem title="Regions" value={/*stats.regions*/ 482} />
         <StatsItem
           title="Storage"
-          value={Math.round(stats.storage / 1024 / 1024)}
+          value={/*Math.round(stats.storage / 1024 / 1024)*/ 900}
           unit="PB"
         />
-        <StatsItem title="GPUs" value={gpus.count * 312} unit="GF" />
-        <StatsItem title="RAM" value={Math.round(stats.ram / 1024)} unit="TB" />
+        <StatsItem title="GPUs" value={/*gpus.count * 312*/ 335} unit="GF" />
+        <StatsItem
+          title="RAM"
+          value={/*Math.round(stats.ram / 1024)*/ 26}
+          unit={/*"TB"*/ 'PB'}
+        />
         <StatsItem
           title="Bandwidth"
-          value={Math.round(stats.bandwidth / 1024)}
+          value={/*Math.round(stats.bandwidth / 1024)*/ 900}
           unit="PB"
         />
       </section>
