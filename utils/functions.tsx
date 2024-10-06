@@ -1,9 +1,8 @@
 'use client'
 
 import { createHash } from 'crypto'
-import { double, float } from 'drizzle-orm/mysql-core'
 
-export function formatAddress(address) {
+export function formatAddress(address: string) {
   return `${address.slice(0, 4)}...${address.slice(-4)}`
 }
 
@@ -14,19 +13,16 @@ export function hashObject(obj: any) {
   return hash.digest('hex')
 }
 
-
-export function convertSize(mb:any) {
-  mb =  parseInt(mb)
+export function convertSize(mb: any) {
+  mb = parseInt(mb)
   console.log(mb)
   if (mb < 1) {
-      return (mb * 1024).toFixed(2) + ' KB';
+    return (mb * 1024).toFixed(2) + ' KB'
   } else if (mb >= 1 && mb <= 1024) {
-      return mb.toFixed(2) + ' MB';
+    return mb.toFixed(2) + ' MB'
   } else if (mb > 1024 && mb <= 1024 * 1024) {
-      return (mb / 1024).toFixed(2) + ' GB';
+    return (mb / 1024).toFixed(2) + ' GB'
   } else {
-      return (mb / (1024 * 1024)).toFixed(2) + ' TB';
+    return (mb / (1024 * 1024)).toFixed(2) + ' TB'
   }
 }
-
-

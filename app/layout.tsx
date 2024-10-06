@@ -36,14 +36,12 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <body
         className={cn(
-          'max-w-screen h-screen w-full bg-background font-sans text-foreground antialiased',
+          'max-w-screen h-screen w-full overflow-x-hidden bg-background font-sans text-foreground antialiased',
           inter.variable
         )}
       >
         <Providers>
-          <div className="absolute inset-x-0 z-50">
-            <Header />
-          </div>
+          <Header />
           <NavLayout>
             {children}
             <ScrollToTop />

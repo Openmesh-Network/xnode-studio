@@ -1,39 +1,89 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import thunderIcon from '@/assets/thunderIcon.svg'
-import xNodeLogo from '@/assets/xnode_logo.svg'
+import { formatAddress } from '@/utils/functions'
+import {
+  BellDot,
+  HelpCircle,
+  PanelLeft,
+  Plus,
+  Search,
+  Settings,
+  User2,
+} from 'lucide-react'
+
+import { Popover, PopoverTrigger } from '../ui/popover'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select'
 
 export function Header() {
-  const headerItems = [
-    // {
-    //   label: 'Xnode Innovation',
-    //   href: `https://docs.openmesh.network/products/xnode`,
-    // },
-    {
-      label: 'About',
-      href: `https://open-mesh.gitbook.io/l3a-v3-documentation-2.0/openmesh/openmesh-overview`,
-    },
-    {
-      label: 'Use cases',
-      href: `https://docs.openmesh.network/products/xnode`,
-    },
-    {
-      label: 'Innovation',
-      href: `https://docs.openmesh.network/products/xnode`,
-    },
-    {
-      label: 'Docs',
-      href: `https://openmesh.network/xnode/docs`,
-    },
-  ]
-
   return (
-    <header className="fixed z-50 flex h-16 w-full items-center justify-between gap-x-32 bg-[#1F1F1F] pl-6">
-      <Image src={xNodeLogo} alt="XNode Logo" />
-
-      <div className="hidden h-full items-center gap-x-20 lg:flex">
+    <header className="sticky inset-x-0 top-0 z-50 flex h-20 items-center justify-between gap-x-32 bg-foreground px-6">
+      <div className="flex items-center gap-6">
+        <div className="shrink-0 text-2xl font-medium text-background">
+          Xnode Studio
+        </div>
+        <Select defaultValue="xnodeo-001">
+          <SelectTrigger className="h-9 min-w-56 border-background/15 bg-background/10 text-background">
+            <div className="inline-flex shrink-0 items-center gap-1.5">
+              <PanelLeft className="size-3.5" />
+              <SelectValue />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="xnodeo-001">XnodeO 001</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <button
+        type="button"
+        className="flex h-9 min-w-56 max-w-lg grow items-center gap-3 rounded border border-background/15 bg-background/10 px-3 text-muted transition-colors hover:bg-background/15"
+      >
+        <Search className="size-4" />
+        <span className="text-sm">Search & Run Commands</span>
+      </button>
+      <div className="flex items-center gap-6">
+        <button
+          type="button"
+          className="flex size-9 items-center justify-center rounded bg-primary text-background transition-colors hover:bg-primary/90"
+        >
+          <Plus className="size-5" strokeWidth={1.5} />
+        </button>
+        <div className="flex items-center gap-2 text-background">
+          <button
+            type="button"
+            className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
+          >
+            <span className="sr-only">Notifications</span>
+            <BellDot className="size-5" strokeWidth={1.5} />
+          </button>
+          <button
+            type="button"
+            className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
+          >
+            <span className="sr-only">Help</span>
+            <HelpCircle className="size-5" strokeWidth={1.5} />
+          </button>
+          <button
+            type="button"
+            className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
+          >
+            <span className="sr-only">Settings</span>
+            <Settings className="size-5" strokeWidth={1.5} />
+          </button>
+        </div>
+        <Popover>
+          <PopoverTrigger className="flex h-9 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background">
+            <User2 className="size-4" />
+            {formatAddress('0xF0dF6d08604B94F3942bb2C8aA579e67DE9f8d13')}
+          </PopoverTrigger>
+        </Popover>
+      </div>
+      {/* <div className="hidden h-full items-center gap-x-20 lg:flex">
         <nav className="flex items-center gap-x-12">
           {headerItems.map((option, index) => (
             <Link
@@ -58,7 +108,7 @@ export function Header() {
             Create service and deploy
           </span>
         </Link>
-      </div>
+      </div> */}
     </header>
   )
 }

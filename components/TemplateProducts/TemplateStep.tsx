@@ -45,7 +45,7 @@ export const providerNameToLogo = {
   },
 }
 
-const TemplateStep = ({nftId = ""}) => {
+const TemplateStep = ({ nftId = '' }) => {
   const [templatesData, setTemplatesData] = useState<TemplateData[]>([])
   const [filteredTemplatesData, setFilteredTemplatesData] = useState<
     TemplateData[]
@@ -77,7 +77,7 @@ const TemplateStep = ({nftId = ""}) => {
 
     if (nftId) {
       // Only include templates that can be run by a unit.
-      let newFilteredTemplate = [];
+      let newFilteredTemplate = []
 
       for (let i = 0; i < data.length; i++) {
         if (data[i].isUnitRunnable) {
@@ -127,7 +127,7 @@ const TemplateStep = ({nftId = ""}) => {
   }, [])
 
   return (
-    <section className="relative z-10 pb-[200px] pt-16">
+    <section className="relative z-10 pb-[200px]">
       <div className="mx-auto max-w-[1380px] px-[20px] text-[12px] font-normal text-black 2xl:text-[14px]">
         <div className="flex justify-between gap-x-[95px]">
           <div className="w-full text-center">
@@ -157,26 +157,30 @@ const TemplateStep = ({nftId = ""}) => {
                       } cursor-pointer transition-all duration-300`}
                     />
                   </div>
-                  <div className={`${!categoryOpen && 'hidden'} mt-[30px] flex flex-col gap-x-[6px] `}>
-                    {Array.from(categoryMap.keys()).slice(0, 10).map((category) => (
-                      <div key={category} className="mt-6 flex items-center">
-                        <img
-                          src={`${prefix}/images/template/xnode-circle.svg`}
-                          alt="image"
-                          className="mr-2" // Adjust margin as needed
-                        />
-                        <div
-                          onClick={() => handleCategoryFilter(category)}
-                          className={`cursor-pointer select-none text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes(category) ? 'font-semibold text-black' : 'text-[#959595]'}`}
-                        >
-                          {category.length > 20 ? `${category.slice(0, 10)}..` : category}
+                  <div
+                    className={`${!categoryOpen && 'hidden'} mt-[30px] flex flex-col gap-x-[6px]`}
+                  >
+                    {Array.from(categoryMap.keys())
+                      .slice(0, 10)
+                      .map((category) => (
+                        <div key={category} className="mt-6 flex items-center">
+                          <img
+                            src={`${prefix}/images/template/xnode-circle.svg`}
+                            alt="image"
+                            className="mr-2" // Adjust margin as needed
+                          />
+                          <div
+                            onClick={() => handleCategoryFilter(category)}
+                            className={`cursor-pointer select-none text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes(category) ? 'font-semibold text-black' : 'text-[#959595]'}`}
+                          >
+                            {category.length > 20
+                              ? `${category.slice(0, 10)}..`
+                              : category}
 
-                          { 
-                            /* TODO: Consider readding this, it's a nice UI feature that shows the count, but if we filter by more than category it will add some more complication to the code. */ 
-                          }
-                          {/* {category.length > 20 ? `${category.slice(0, 10)}..` : category} ({categoryMap.get(category)}) */}
+                            {/* TODO: Consider readding this, it's a nice UI feature that shows the count, but if we filter by more than category it will add some more complication to the code. */}
+                            {/* {category.length > 20 ? `${category.slice(0, 10)}..` : category} ({categoryMap.get(category)}) */}
+                          </div>
                         </div>
-                      </div>
                       ))}
                   </div>
                 </div>
@@ -197,14 +201,20 @@ const TemplateStep = ({nftId = ""}) => {
 
                 <div className="flex size-full flex-wrap">
                   {filteredTemplatesData.map((element, index) => (
-                    <a key={index} href={
-                      element.implementation
-                      ? `${prefix}/deploy?tId=${element.id}${nftId ? `&nftId=${nftId}` : ''}`
-                      : '#'
-                      
-                      }className={element.implementation ? '' : 'pointer-events-none'}>
-                      <div className={`mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200
-                       ${element.implementation ? '' : 'opacity-50'}`}>
+                    <a
+                      key={index}
+                      href={
+                        element.implementation
+                          ? `${prefix}/deploy?tId=${element.id}${nftId ? `&nftId=${nftId}` : ''}`
+                          : '#'
+                      }
+                      className={
+                        element.implementation ? '' : 'pointer-events-none'
+                      }
+                    >
+                      <div
+                        className={`mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200 ${element.implementation ? '' : 'opacity-50'}`}
+                      >
                         <div className="flex gap-x-[35px]">
                           <img
                             src={
