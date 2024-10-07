@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 //TODO: These colors are not set up properly, but I would recommend just setting up shadcn for the whole app and then installing the button component again.
 // Currently our (Piros and Jeyprox) job is not to impelement the button or any reusable component, but to fix the existing bugs.
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center whitespace-nowrap rounded text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
@@ -25,9 +25,9 @@ const buttonVariants = cva(
       },
       size: {
         default: 'h-9 px-3 py-2',
-        sm: 'h-8 rounded-md px-2 text-xs',
-        lg: 'h-10 rounded-md px-4',
-        xl: 'h-12 rounded-md px-5 font-semibold',
+        sm: 'h-8 px-2 text-xs',
+        lg: 'h-10 px-4',
+        xl: 'h-12 px-5 font-semibold',
         icon: 'size-9',
         iconSm: 'size-7',
       },

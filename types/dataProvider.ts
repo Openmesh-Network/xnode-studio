@@ -1,5 +1,6 @@
 import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
+import { z } from 'zod'
 
 export type DataProvider = {
   id: string
@@ -154,9 +155,9 @@ export type Specs = {
 
 export type ServiceData = {
   name: string
-  tags?: string[]
+  tags: string[]
   specs?: Specs
-  desc?: string
+  desc: string
   website?: string
   // Url to the logo.
   logo?: string
@@ -184,8 +185,20 @@ export type TemplateData = {
   serviceNames: string[]
 }
 
+export const appStorePageType = z.enum(['templates', 'use-cases'])
+export type AppStorePageType = z.infer<typeof appStorePageType>
+export type AppStoreData = {
+  id: string
+  name: string
+  desc: string
+  tags: string[]
+  implemented?: boolean
+  logo?: string
+  category?: string
+}
+
 let serviceMap: Map<string, ServiceData> = null
-export function ServiceFromName(name: string): ServiceData | undefined {
+export function serviceByName(name: string): ServiceData | undefined {
   if (serviceMap == null) {
     serviceMap = new Map<string, ServiceData>()
 
@@ -200,7 +213,7 @@ export function ServiceFromName(name: string): ServiceData | undefined {
 }
 
 let templateMap: Map<string, TemplateData> = null
-export function TemplateFromId(id: string): TemplateData | undefined {
+export function usecaseById(id: string): TemplateData | undefined {
   if (templateMap == null) {
     templateMap = new Map<string, TemplateData>()
 
@@ -212,12 +225,12 @@ export function TemplateFromId(id: string): TemplateData | undefined {
   return templateMap.get(id)
 }
 
-export function TemplateGetSpecs(template: TemplateData): Specs {
+export function getSpecsByTemplate(template: TemplateData): Specs {
   let specs: Specs = { ram: 0, storage: 0 }
 
   for (let i = 0; i < template.serviceNames.length; i++) {
     // Get service id from .
-    const service = ServiceFromName(template.serviceNames[i])
+    const service = serviceByName(template.serviceNames[i])
     if (service) {
       // specs.cores += service.specs.cores
       specs.ram += service.specs.ram
@@ -232,12 +245,12 @@ export function TemplateGetSpecs(template: TemplateData): Specs {
   return specs
 }
 
-export function TemplateGetTags(template: TemplateData): string[] {
+export function tagsByTemplate(template: TemplateData): string[] {
   let ret: string[] = []
 
   for (let i = 0; i < template.serviceNames.length; i++) {
     // Get service id from .
-    const service = ServiceFromName(template.serviceNames[i])
+    const service = serviceByName(template.serviceNames[i])
     if (service) {
       // specs.cores += service.specs.cores
       for (let j = 0; j < service.tags.length; j++) {

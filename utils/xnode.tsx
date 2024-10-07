@@ -1,9 +1,6 @@
 import axios from 'axios'
-import { ServiceData } from '@/types/dataProvider'
-import {
-  ServiceFromName,
-  ServiceOption,
-} from '@/types/dataProvider'
+
+import { serviceByName, ServiceData, ServiceOption } from '@/types/dataProvider'
 
 export async function getDataXnodeValidatorsInfo() {
   const config = {
@@ -48,13 +45,17 @@ export async function getXnodeWithNodesValidatorsStats(id: any) {
   return dado
 }
 
-export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData[] {
+export function servicesCompressedForAdmin(
+  services: ServiceData[]
+): ServiceData[] {
   let newServices = []
 
   for (const service of services) {
-    if (service.nixName != "openssh") {
-
-      const processOption = (option: ServiceOption, targetOptions: ServiceOption[]) => {
+    if (service.nixName != 'openssh') {
+      const processOption = (
+        option: ServiceOption,
+        targetOptions: ServiceOption[]
+      ) => {
         delete option.name
         delete option.desc
 
@@ -72,7 +73,12 @@ export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData
         } else {
           // XXX: Revise this! Might be too much or too little actually. Also null might not be the default value in some cases for example.
 
-          if ((option.value !== "" && option.value !== "null" && option.value !== null) || option.type == "boolean") {
+          if (
+            (option.value !== '' &&
+              option.value !== 'null' &&
+              option.value !== null) ||
+            option.type == 'boolean'
+          ) {
             targetOptions.push(option)
           }
         }
@@ -81,17 +87,17 @@ export function servicesCompressedForAdmin(services: ServiceData[]): ServiceData
       console.log(service)
 
       let newServiceOptions = []
-      console.log("Service length: ", service.options.length)
+      console.log('Service length: ', service.options.length)
       for (let i = 0; i < service.options.length; i++) {
         // Process all the top level options at least once.
         // If they have options then we recurse.
         processOption(service.options[i], newServiceOptions)
-        console.log("Processing option: ", i)
+        console.log('Processing option: ', i)
       }
 
-      service.options = newServiceOptions;
+      service.options = newServiceOptions
       newServices.push(service)
-      console.warn("Final options again: ", service.options)
+      console.warn('Final options again: ', service.options)
     }
   }
 

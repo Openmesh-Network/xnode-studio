@@ -14,10 +14,10 @@ import YourCore from './YourCore'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { optionsFeature } from '@/utils/constants'
-
-import { DeploymentConfiguration, ServiceFromName } from '@/types/dataProvider'
-import { useDraft } from '@/hooks/useDraftDeploy'
 import { servicesCompressedForAdmin } from '@/utils/xnode'
+
+import { DeploymentConfiguration, serviceByName } from '@/types/dataProvider'
+import { useDraft } from '@/hooks/useDraftDeploy'
 
 export function findServerDefaultType(array) {
   const serverObject = array.find((item) => item.type === 'server')
@@ -124,10 +124,12 @@ const ReviewYourBuild = () => {
 
         // XXX: Actually include correct one here.
         deploymentAuth: config.deploymentAuth,
-        services: Buffer.from(JSON.stringify({
-          "services": servicesCompressedForAdmin(config.services),
-          "users.users": []
-        })).toString('base64'),
+        services: Buffer.from(
+          JSON.stringify({
+            services: servicesCompressedForAdmin(config.services),
+            'users.users': [],
+          })
+        ).toString('base64'),
       }
 
       console.log('Payload: ')
@@ -156,7 +158,7 @@ const ReviewYourBuild = () => {
           toast.error(
             `Error during Xnode deployment: ${err.response.data.message}`
           )
-          console.error("Failed to deploy")
+          console.error('Failed to deploy')
           console.error(err)
         }
       } else {

@@ -12,8 +12,7 @@ import CategoryDefinitions from 'utils/category.json'
 import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
 
-import { TemplateData } from '@/types/dataProvider'
-import { type AppStorePageType } from '@/app/app-store/page'
+import { type AppStoreData, type AppStorePageType } from '@/types/dataProvider'
 
 import {
   Accordion,
@@ -55,27 +54,20 @@ export const providerNameToLogo = {
   },
 }
 
-type AppStoreData = {
-  id: string
-  name: string
-  desc: string
-  tags: string[]
-  implemented?: boolean
-  logo?: string
-  category?: string
-}
-type TemplateCardProps = {
+type AppStoreItemProps = {
   data: AppStoreData
-  nftId?: string
+  type: AppStorePageType
 }
-function TemplateCard({ data, nftId }: TemplateCardProps) {
+function AppStoreItem({ data, type }: AppStoreItemProps) {
+  const params = useMemo(() => {
+    const newParams = new URLSearchParams()
+    if (type === 'templates') newParams.set('templateId', data.id)
+    if (type === 'use-cases') newParams.set('useCaseId', data.id)
+    return newParams
+  }, [])
   return (
     <Link
-      href={
-        data.implemented
-          ? `${prefix}/deploy?tId=${data.id}${nftId ? `&nftId=${nftId}` : ''}`
-          : '#'
-      }
+      href={data.implemented ? `${prefix}/deploy-new?${params}` : '#'}
       aria-disabled={!data.implemented}
       className="flex shrink-0 basis-1/4 flex-col rounded border p-4 hover:bg-muted aria-disabled:pointer-events-none aria-disabled:opacity-50"
     >
@@ -284,7 +276,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                 <h2 className="text-lg font-bold">Featured</h2>
                 <div className="grid grid-cols-4 gap-6">
                   {filteredData.slice(0, 4).map((data) => (
-                    <TemplateCard data={data} nftId={nftId} />
+                    <AppStoreItem key={data.id} data={data} type={type} />
                   ))}
                 </div>
               </div>
@@ -293,7 +285,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
               <h2 className="text-lg font-bold">All Apps</h2>
               <div className="grid grid-cols-4 gap-6">
                 {filteredData.map((data) => (
-                  <TemplateCard data={data} nftId={nftId} />
+                  <AppStoreItem key={data.id} data={data} type={type} />
                 ))}
               </div>
             </div>

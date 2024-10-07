@@ -7,9 +7,9 @@ import { Node } from 'reactflow'
 import { z } from 'zod'
 
 import {
-  ServiceFromName,
-  TemplateFromId,
-  TemplateGetSpecs,
+  getSpecsByTemplate,
+  serviceByName,
+  usecaseById,
   type DeploymentTemplate,
 } from '@/types/dataProvider'
 import { useDraft } from '@/hooks/useDraftDeploy'
@@ -53,12 +53,12 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
 
   const templateData: DeploymentTemplate | null = useMemo(() => {
     if (tId) {
-      const template = TemplateFromId(tId)
+      const template = usecaseById(tId)
       const services = template.serviceNames
-        .map((service) => ServiceFromName(service))
+        .map((service) => serviceByName(service))
         .filter(Boolean)
 
-      const specs = TemplateGetSpecs(template)
+      const specs = getSpecsByTemplate(template)
       return {
         name: template.name,
         description: template.desc,

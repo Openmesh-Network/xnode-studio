@@ -7,15 +7,16 @@ import { Provider } from '@/db/schema'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
 import { Check, ChevronsUpDown, Loader, Search, X } from 'lucide-react'
-import { z } from 'zod'
 import { prefix } from 'utils/prefix'
+import { z } from 'zod'
 
 import {
-  TemplateFromId,
-  TemplateGetSpecs,
+  getSpecsByTemplate,
+  useCaseById,
   type Specs,
 } from '@/types/dataProvider'
 import { cn, formatPrice } from '@/lib/utils'
+import { useDraft } from '@/hooks/useDraftDeploy'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -32,10 +33,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
+import SectionHeader from '@/components/SectionHeader'
 
 import { Slider } from '../../components/ui/slider'
-import { useDraft } from '@/hooks/useDraftDeploy'
-import SectionHeader from '@/components/SectionHeader'
 
 const STEP_MIN = 1
 const STEP_MAX = 1000
@@ -63,7 +63,7 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
   const [region, setRegion] = useState<string | null>()
   const [priceRange, setPriceRange] = useState<[number, number]>([1, 1000])
   const debouncedPriceRange = useDebounce(priceRange, 500)
-  const [ draft, setDraft ] = useDraft()
+  const [draft, setDraft] = useDraft()
 
   const { data: providerData, isFetching: providersFetching } = useQuery({
     queryKey: [
@@ -127,7 +127,7 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
     }
   }, [providersFetching])
 
-  useEffect(() =>  {
+  useEffect(() => {
     if (templateSelected) {
       let newDraft = draft
       newDraft.location = templateSelected.location
@@ -346,7 +346,8 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
                   let config = ''
                   if (provider.cpuGHZ) config += `${provider.cpuGHZ}GHz `
                   if (provider.cpuCores) config += `${provider.cpuCores}-Core `
-                  if (provider.cpuThreads) config += `(${provider.cpuThreads} threads)`
+                  if (provider.cpuThreads)
+                    config += `(${provider.cpuThreads} threads)`
                   if (provider.ram) config += `, ${provider.ram}GB RAM`
                   if (provider.storageTotal)
                     config += `, ${provider.storageTotal} GB`

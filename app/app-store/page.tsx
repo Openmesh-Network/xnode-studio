@@ -1,11 +1,9 @@
 import { z } from 'zod'
 
+import { appStorePageType } from '@/types/dataProvider'
 import AppStore from '@/components/AppStore/app-store'
 
-const appStorePageType = z.enum(['templates', 'use-cases'])
-export type AppStorePageType = z.infer<typeof appStorePageType>
-
-type TemplatesPageProps = {
+type AppStorePageProps = {
   searchParams: {
     type: string
     nftId: string
@@ -13,9 +11,7 @@ type TemplatesPageProps = {
   }
 }
 
-export default function TemplateProductsPage({
-  searchParams,
-}: TemplatesPageProps) {
+export default function AppStorePage({ searchParams }: AppStorePageProps) {
   const type = appStorePageType
     .optional()
     .default('templates')

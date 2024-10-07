@@ -15,8 +15,8 @@ import axios from 'axios'
 import { useUser } from 'hooks/useUser'
 
 import {
+  serviceByName,
   ServiceData,
-  ServiceFromName,
   ServiceOption,
   XnodeConfig,
 } from '@/types/dataProvider'
@@ -212,7 +212,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                   }
 
                   let newOptions = []
-                  const defaultService = ServiceFromName(service.nixName)
+                  const defaultService = serviceByName(service.nixName)
                   for (let j = 0; j < service.options.length; j++) {
                     processOption(
                       service.options[j],
