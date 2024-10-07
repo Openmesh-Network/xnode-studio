@@ -1,18 +1,34 @@
 'use client'
 
-import { useContext, useEffect, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useOptimistic,
+  useState,
+  useTransition,
+} from 'react'
 
 import 'react-toastify/dist/ReactToastify.css'
 
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { AccountContext } from '@/contexts/AccountContext'
 import { prefix } from '@/utils/prefix'
+import { X } from 'lucide-react'
 import CategoryDefinitions from 'utils/category.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
 
 import { TemplateData } from '@/types/dataProvider'
 
-import Dropdown, { ValueObject } from './Dropdown'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '../ui/accordion'
+import { Button } from '../ui/button'
+import { ScrollArea, ScrollBar } from '../ui/scroll-area'
+import { ValueObject } from './Dropdown'
 
 export const optionsNetwork = [
   {
@@ -45,212 +61,189 @@ export const providerNameToLogo = {
   },
 }
 
-const TemplateStep = ({ nftId = '' }) => {
-  const [templatesData, setTemplatesData] = useState<TemplateData[]>([])
-  const [filteredTemplatesData, setFilteredTemplatesData] = useState<
-    TemplateData[]
-  >([])
-  const [selectedTemplate, setSelectedTemplate] = useState<string>('')
-  const [displayToggle, setDisplayToggle] = useState<string>('square')
-  const [categoryFilter, setCategoryFilter] = useState<string[]>([])
-  const categoryMap: Map<string, number> = new Map(
-    Object.entries(CategoryDefinitions)
-  )
+type AppStoreProps = {
+  categories: string[]
+  nftId?: string
+}
 
-  const [categoryOpen, setCategoryOpen] = useState<boolean>(true)
-  const [page, setPage] = useState<number>(1)
-  const [searchInput, setSearchInput] = useState<string>()
-  const [filterSelection, setFilterSelection] =
-    useState<string>('All Templates')
-  const [isLoading, setIsLoading] = useState(true)
-  const [selected, setSelected] = useState<ValueObject | null>(null)
-  const [selectedCreator, setSelectedCreator] = useState<ValueObject | null>(
-    null
-  )
-
-  async function getData() {
-    let data: TemplateData[]
-    data = TemplateDefinitions
-
-    setTemplatesData(data)
-    setFilteredTemplatesData(data)
-
-    if (nftId) {
-      // Only include templates that can be run by a unit.
-      let newFilteredTemplate = []
-
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].isUnitRunnable) {
-          newFilteredTemplate.push(data[i])
-        }
-      }
-
-      setFilteredTemplatesData(newFilteredTemplate)
-    }
-  }
-
-  function handleCategoryFilter(ct: string) {
-    let newFilter = [...categoryFilter]
-    if (newFilter.includes(ct)) {
-      newFilter = newFilter.filter((data) => data !== ct)
-    } else {
-      newFilter.push(ct)
-    }
-    setCategoryFilter(newFilter)
-    handleNewFilteredTemplatesData(newFilter, filterSelection)
-  }
-
-  function handleNewFilteredTemplatesData(
-    categories: string[],
-    source: string
-  ) {
-    // first filtering by the source
-    let newFilteredTemplate = [...templatesData]
-    if (source !== 'All Templates') {
-      newFilteredTemplate = newFilteredTemplate.filter(
-        (vl) => vl.source === source
-      )
-    }
-
-    if (categories.length > 0) {
-      newFilteredTemplate = newFilteredTemplate.filter((ft) =>
-        categories.includes(ft.category)
-      )
-    }
-
-    setFilteredTemplatesData(newFilteredTemplate)
-  }
-  const { push } = useRouter()
-
-  useEffect(() => {
-    getData()
-  }, [])
-
+type TemplateCardProps = {
+  template: TemplateData
+  nftId?: string
+}
+function TemplateCard({ template, nftId }: TemplateCardProps) {
   return (
-    <section className="relative z-10 pb-[200px]">
-      <div className="mx-auto max-w-[1380px] px-[20px] text-[12px] font-normal text-black 2xl:text-[14px]">
-        <div className="flex justify-between gap-x-[95px]">
-          <div className="w-full text-center">
-            <div className="mx-auto mb-[12.5px] text-[42px] font-semibold leading-[64px] 2xl:text-[48px]">
-              Find your <span className="text-[#0059ff]">Template</span>
-            </div>
-            <div className="mt-[7px] text-[14px] font-normal leading-[32px] text-[#4d4d4d] 2xl:text-[16px]">
-              Jumpstart your development process with our pre-built templates
-            </div>
-
-            <div className="mt-[34px] h-px w-full bg-[#E6E8EC]"></div>
-            <div className="mt-[30px] flex gap-x-[70px]">
-              <div>
-                <div className="w-[256px] rounded-[5px] border border-[#d1d5da] px-[16px] pb-[25px] pt-[15px]">
-                  <div className="flex items-center justify-between gap-x-[4px]">
-                    <div className="text-[14px] font-medium leading-[24px] text-black 2xl:text-[16px]">
-                      Category
-                    </div>
-                    <img
-                      onClick={() => {
-                        setCategoryOpen(!categoryOpen)
-                      }}
-                      src={`${prefix}/images/template/arrow-top.svg`}
-                      alt="image"
-                      className={`${
-                        !categoryOpen && 'rotate-180'
-                      } cursor-pointer transition-all duration-300`}
-                    />
-                  </div>
-                  <div
-                    className={`${!categoryOpen && 'hidden'} mt-[30px] flex flex-col gap-x-[6px]`}
-                  >
-                    {Array.from(categoryMap.keys())
-                      .slice(0, 10)
-                      .map((category) => (
-                        <div key={category} className="mt-6 flex items-center">
-                          <img
-                            src={`${prefix}/images/template/xnode-circle.svg`}
-                            alt="image"
-                            className="mr-2" // Adjust margin as needed
-                          />
-                          <div
-                            onClick={() => handleCategoryFilter(category)}
-                            className={`cursor-pointer select-none text-[14px] font-normal leading-[20px] 2xl:text-[16px] ${categoryFilter.includes(category) ? 'font-semibold text-black' : 'text-[#959595]'}`}
-                          >
-                            {category.length > 20
-                              ? `${category.slice(0, 10)}..`
-                              : category}
-
-                            {/* TODO: Consider readding this, it's a nice UI feature that shows the count, but if we filter by more than category it will add some more complication to the code. */}
-                            {/* {category.length > 20 ? `${category.slice(0, 10)}..` : category} ({categoryMap.get(category)}) */}
-                          </div>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-                <div className="mt-[29px] h-px w-full bg-[#E6E8EC]"></div>
-              </div>
-              <div className="w-full">
-                {/* <div className="flex justify-end gap-x-[20px]"> */}
-                {/*   <Dropdown */}
-                {/*     optionSelected={selected} */}
-                {/*     options={optionsNetwork} */}
-                {/*     placeholder="Sort By" */}
-                {/*     onValueChange={(value) => { */}
-                {/*       setSelected(value) */}
-                {/*       handleSortByFilter(value.value) */}
-                {/*     }} */}
-                {/*   /> */}
-                {/* </div> */}
-
-                <div className="flex size-full flex-wrap">
-                  {filteredTemplatesData.map((element, index) => (
-                    <a
-                      key={index}
-                      href={
-                        element.implementation
-                          ? `${prefix}/deploy?tId=${element.id}${nftId ? `&nftId=${nftId}` : ''}`
-                          : '#'
-                      }
-                      className={
-                        element.implementation ? '' : 'pointer-events-none'
-                      }
-                    >
-                      <div
-                        className={`mx-5 mt-[17px] min-h-[250px] w-full max-w-[270px] cursor-pointer rounded-[8px] border-2 border-[#fafafa] px-[22px] py-[27px] text-start shadow-md hover:border-[#0059ff] hover:bg-gray200 ${element.implementation ? '' : 'opacity-50'}`}
-                      >
-                        <div className="flex gap-x-[35px]">
-                          <img
-                            src={
-                              element.logo.startsWith('https://')
-                                ? element.logo
-                                : `${prefix}${element.logo}`
-                            }
-                            alt="image"
-                            className="size-[33px] max-h-[33px] max-w-[33px]"
-                          ></img>
-                          <div className="flex w-full items-center gap-x-[9px] rounded-[16px] bg-gray200 px-[12px] py-[4px]">
-                            <div className="size-[10px] rounded-full bg-[#0059ff]"></div>
-                            <div className="w-min-fit text-[12px] font-bold leading-[24px] text-[#0059ff]">
-                              {element.category}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="mt-[20px]">
-                          <div className="line-clamp-1 overflow-hidden text-[16px] font-medium text-black 2xl:text-[18px]">
-                            {element.name}
-                          </div>
-                          <div className="mt-[6px] line-clamp-3 overflow-hidden text-[14px] font-normal leading-[20px] text-[#959595] 2xl:text-[16px]">
-                            {element.desc}
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <Link
+      href={
+        template.implementation
+          ? `${prefix}/deploy?tId=${template.id}${nftId ? `&nftId=${nftId}` : ''}`
+          : '#'
+      }
+      className="flex shrink-0 basis-1/4 flex-col rounded border p-4 hover:bg-muted"
+    >
+      <div className="flex items-center justify-between">
+        <img
+          src={
+            template.logo.startsWith('https://')
+              ? template.logo
+              : `${prefix}${template.logo}`
+          }
+          alt={`${template.name} logo`}
+          width={32}
+          height={32}
+        />
+        <div className="flex"></div>
       </div>
-    </section>
+      <div className="flex-1">
+        <h3 className="mt-2 text-lg font-semibold text-primary">
+          {template.name}
+        </h3>
+        <p className="mt-1 line-clamp-4 text-sm text-muted-foreground">
+          {template.desc}
+        </p>
+      </div>
+      <div className="mt-6 flex flex-wrap gap-2">
+        {template.tags.map((tag) => (
+          <span
+            key={tag}
+            className="rounded bg-primary/5 px-2 py-0.5 text-xs text-primary"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </Link>
   )
 }
 
-export default TemplateStep
+export default function TemplateStep({ categories, nftId }: AppStoreProps) {
+  const router = useRouter()
+  const templates = useMemo(() => {
+    if (!nftId) return TemplateDefinitions
+    return TemplateDefinitions.filter((template) => template.isUnitRunnable)
+  }, [nftId])
+  const [optimisticCategories, setOptimisticCategories] =
+    useOptimistic(categories)
+  const [, startTransition] = useTransition()
+
+  const filteredTemplates = useMemo<TemplateData[]>(() => {
+    if (!optimisticCategories.length) return templates
+    const filteredTemplates: TemplateData[] = []
+    for (const template of templates) {
+      if (
+        !optimisticCategories.includes(
+          template.category.toLowerCase().replace(/\s/g, '-')
+        )
+      )
+        continue
+      filteredTemplates.push(template)
+    }
+    return filteredTemplates
+  }, [optimisticCategories, templates])
+
+  const updateCategories = useCallback(
+    (newCategory: string) => {
+      const newParams = new URLSearchParams()
+      console.log(optimisticCategories, newCategory)
+
+      const newCategories = optimisticCategories.includes(newCategory)
+        ? optimisticCategories.filter((c) => c !== newCategory)
+        : [...optimisticCategories, newCategory]
+      newCategories.forEach((category) =>
+        newParams.append('category', category)
+      )
+      startTransition(() => {
+        setOptimisticCategories(newCategories)
+        router.push(`?${newParams}`)
+      })
+    },
+    [optimisticCategories, router, setOptimisticCategories]
+  )
+
+  const resetFilter = useCallback(() => {
+    startTransition(() => {
+      setOptimisticCategories([])
+      router.push('?')
+    })
+  }, [router, setOptimisticCategories])
+
+  return (
+    <>
+      <section className="flex flex-col items-center justify-center bg-gradient-to-r from-[#3C20D8] to-[#9F14BB] py-6 text-background">
+        <h1 className="text-3xl font-bold">
+          Explore and launch ready made apps and solutions
+        </h1>
+        <div className="mt-2 text-muted">
+          Openmesh App store lets you quickly deploy software on you Xnode
+        </div>
+      </section>
+      <section className="container my-20 flex max-w-none gap-12">
+        <div className="flex w-56 flex-col gap-3">
+          <Button
+            disabled={optimisticCategories.length === 0}
+            variant="outline"
+            className="gap-1.5"
+            onClick={() => resetFilter()}
+          >
+            <X className="size-4" />
+            Reset
+          </Button>
+          <Accordion type="multiple">
+            <AccordionItem value="category">
+              <AccordionTrigger className="data-[state=open]:text-primary">
+                Category
+              </AccordionTrigger>
+              <AccordionContent>
+                <ul>
+                  {Object.entries(CategoryDefinitions).map(
+                    ([category, amount]) => {
+                      const categoryFilterName = category
+                        .toLowerCase()
+                        .replace(/\s/g, '-')
+                      return (
+                        <button
+                          data-active={optimisticCategories.includes(
+                            categoryFilterName
+                          )}
+                          role="listitem"
+                          type="button"
+                          key={category}
+                          className="group flex w-full items-center justify-between gap-3 px-3 py-1.5 text-muted-foreground"
+                          onClick={() => updateCategories(categoryFilterName)}
+                        >
+                          <span className="flex-1 truncate text-start transition-colors group-hover:text-primary group-data-[active=true]:text-primary">
+                            {category}
+                          </span>
+                          <span className="shrink-0">({amount})</span>
+                        </button>
+                      )
+                    }
+                  )}
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+        <div className="flex-1 space-y-12">
+          {filteredTemplates.length > 0 ? (
+            <div className="space-y-2">
+              <h2 className="text-lg font-bold">Featured</h2>
+              <div className="grid grid-cols-4 gap-6">
+                {filteredTemplates.slice(0, 5).map((template) => (
+                  <TemplateCard template={template} nftId={nftId} />
+                ))}
+              </div>
+            </div>
+          ) : null}
+          <div className="space-y-2">
+            <h2 className="text-lg font-bold">All Apps</h2>
+            <div className="grid grid-cols-4 gap-6">
+              {filteredTemplates.map((template) => (
+                <TemplateCard template={template} nftId={nftId} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
