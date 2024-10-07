@@ -182,9 +182,10 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
   const changeType = useCallback(
     (type: AppStorePageType) => {
       startTransition(() => {
-        setOptimisticType(type)
+        const newType: AppStorePageType = type.length === 0 ? 'templates' : type
+        setOptimisticType(newType)
         const newParams = new URLSearchParams(params)
-        newParams.set('type', type)
+        newParams.set('type', newType)
         router.push(`?${newParams}`)
       })
     },
@@ -208,7 +209,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
             size="lg"
             variant="underline"
             type="single"
-            value={type}
+            value={optimisticType}
             onValueChange={(type: AppStorePageType) => changeType(type)}
           >
             <ToggleGroupItem value="templates" className="h-9">
