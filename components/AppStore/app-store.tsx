@@ -76,7 +76,8 @@ function TemplateCard({ data, nftId }: TemplateCardProps) {
           ? `${prefix}/deploy?tId=${data.id}${nftId ? `&nftId=${nftId}` : ''}`
           : '#'
       }
-      className="flex shrink-0 basis-1/4 flex-col rounded border p-4 hover:bg-muted"
+      aria-disabled={!data.implemented}
+      className="flex shrink-0 basis-1/4 flex-col rounded border p-4 hover:bg-muted aria-disabled:pointer-events-none aria-disabled:opacity-50"
     >
       <div className="flex items-center justify-between">
         {data.logo && data.logo !== '' ? (
