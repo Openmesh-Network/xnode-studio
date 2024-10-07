@@ -175,7 +175,7 @@ export type TemplateData = {
   isUnitRunnable?: boolean
   source?: string
   website?: string
-  implementation?: boolean
+  implemented?: boolean
   // Url to image.
   logo: string
   category: string

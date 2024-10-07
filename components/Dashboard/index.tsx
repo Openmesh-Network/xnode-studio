@@ -471,7 +471,7 @@ const Dashboard = () => {
                                 : 'border-primary text-primary hover:bg-primary/10'
                             }`}
                             onClick={() =>
-                              push(`/templates?nftId=${xuId.toString()}`)
+                              push(`/app-store?nftId=${xuId.toString()}`)
                             }
                           >
                             {isDeployed ? (

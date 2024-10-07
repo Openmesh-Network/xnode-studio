@@ -21,7 +21,7 @@ export default function Home() {
             </p>
             <div className="mt-12 flex items-center gap-6">
               <Link
-                href="/templates"
+                href="/app-store"
                 className="flex h-14 items-center rounded bg-primary px-8 font-medium text-background transition-colors hover:bg-primary/90"
               >
                 Explore Xnode Power

@@ -11,7 +11,7 @@ import { prefix } from '@/utils/prefix'
 
 import { TemplatesProducts } from '@/types/dataProvider'
 
-import { ValueObject } from '../TemplateProducts/Dropdown'
+import { ValueObject } from '../AppStore/Dropdown'
 import DropdownWithLabel from './DropdownWithLabel'
 
 export const optionsNetwork = [

@@ -151,7 +151,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
               </DialogHeader>
               <div className="flex gap-4">
                 <Link
-                  href="/templates"
+                  href="/app-store"
                   className="flex flex-1 items-center gap-3 rounded-lg border bg-card p-4 shadow-sm transition-colors hover:bg-accent"
                 >
                   <Icons.Templates className="size-6" />

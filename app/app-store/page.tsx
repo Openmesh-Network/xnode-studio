@@ -1,9 +1,13 @@
 import { z } from 'zod'
 
-import TemplateStep from '@/components/TemplateProducts/TemplateStep'
+import AppStore from '@/components/AppStore/app-store'
+
+const appStorePageType = z.enum(['templates', 'use-cases'])
+export type AppStorePageType = z.infer<typeof appStorePageType>
 
 type TemplatesPageProps = {
   searchParams: {
+    type: string
     nftId: string
     category: string[]
   }
@@ -12,6 +16,10 @@ type TemplatesPageProps = {
 export default function TemplateProductsPage({
   searchParams,
 }: TemplatesPageProps) {
+  const type = appStorePageType
+    .optional()
+    .default('templates')
+    .safeParse(searchParams.type)
   const nftId = z.string().optional().parse(searchParams.nftId)
   const categories = z
     .string()
@@ -24,11 +32,14 @@ export default function TemplateProductsPage({
           ? [searchParams.category]
           : []
     )
-  console.log(categories)
 
   return (
     <>
-      <TemplateStep nftId={nftId} categories={categories} />
+      <AppStore
+        nftId={nftId}
+        categories={categories}
+        type={type.success ? type.data : 'templates'}
+      />
     </>
   )
 }
