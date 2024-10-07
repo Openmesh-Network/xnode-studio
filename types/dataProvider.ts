@@ -160,7 +160,7 @@ export type ServiceData = {
   website?: string
   // Url to the logo.
   logo?: string
-  implmented?: boolean
+  implemented?: boolean
 
   nixName: string
   options: ServiceOption[]
