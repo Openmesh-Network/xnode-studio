@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { prefix } from '@/utils/prefix'
-import { X } from 'lucide-react'
+import { AppWindow, X } from 'lucide-react'
 import CategoryDefinitions from 'utils/category.json'
 import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
@@ -79,16 +79,23 @@ function TemplateCard({ data, nftId }: TemplateCardProps) {
       className="flex shrink-0 basis-1/4 flex-col rounded border p-4 hover:bg-muted"
     >
       <div className="flex items-center justify-between">
-        <img
-          src={
-            data.logo.startsWith('https://')
-              ? data.logo
-              : `${prefix}${data.logo}`
-          }
-          alt={`${data.name} logo`}
-          width={32}
-          height={32}
-        />
+        {data.logo && data.logo !== '' ? (
+          <img
+            src={
+              data.logo.startsWith('https://')
+                ? data.logo
+                : `${prefix}${data.logo}`
+            }
+            alt={`${data.name} logo`}
+            width={32}
+            height={32}
+          />
+        ) : (
+          <AppWindow
+            className="size-8 text-muted-foreground"
+            strokeWidth={1.5}
+          />
+        )}
         <div className="flex"></div>
       </div>
       <div className="flex-1">
