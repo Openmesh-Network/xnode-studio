@@ -1,16 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { formatAddress } from '@/utils/functions'
 import { prefix } from '@/utils/prefix'
-import {
-  AppWindow,
-  Cpu,
-  Database,
-  HardDrive,
-  IdCard,
-  MemoryStick,
-  ServerCog,
-} from 'lucide-react'
+import { AppWindow, Cpu, HardDrive, MemoryStick } from 'lucide-react'
 import { z } from 'zod'
 
 import {
@@ -20,23 +11,7 @@ import {
   type AppStoreData,
   type Specs,
 } from '@/types/dataProvider'
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import {
-  RadioGroup,
-  RadioGroupCard,
-  RadioGroupItem,
-} from '@/components/ui/radio-group'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import DeploymentFlow from './deployment-flow'
@@ -58,8 +33,6 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
     let specs: Specs
     if (useCaseId) {
       const useCase = usecaseById(useCaseId)
-      console.log(useCase)
-
       if (useCase === undefined || useCase.implemented === false)
         redirect('/app-store')
       data = useCase

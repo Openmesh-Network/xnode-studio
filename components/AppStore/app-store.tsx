@@ -64,7 +64,7 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
     if (type === 'templates') newParams.set('templateId', data.id)
     if (type === 'use-cases') newParams.set('useCaseId', data.id)
     return newParams
-  }, [])
+  }, [type])
   return (
     <Link
       href={data.implemented ? `${prefix}/deploy-new?${params}` : '#'}
@@ -276,7 +276,11 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                 <h2 className="text-lg font-bold">Featured</h2>
                 <div className="grid grid-cols-4 gap-6">
                   {filteredData.slice(0, 4).map((data) => (
-                    <AppStoreItem key={data.id} data={data} type={type} />
+                    <AppStoreItem
+                      key={`featured-${data.id}`}
+                      data={data}
+                      type={optimisticType}
+                    />
                   ))}
                 </div>
               </div>
@@ -285,7 +289,11 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
               <h2 className="text-lg font-bold">All Apps</h2>
               <div className="grid grid-cols-4 gap-6">
                 {filteredData.map((data) => (
-                  <AppStoreItem key={data.id} data={data} type={type} />
+                  <AppStoreItem
+                    key={`all-${data.id}`}
+                    data={data}
+                    type={optimisticType}
+                  />
                 ))}
               </div>
             </div>

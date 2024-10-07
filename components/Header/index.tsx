@@ -1,6 +1,7 @@
 'use client'
 
 import { formatAddress } from '@/utils/functions'
+import { useXuNfts } from '@/utils/nft'
 import {
   BellDot,
   HelpCircle,
@@ -10,6 +11,9 @@ import {
   Settings,
   User2,
 } from 'lucide-react'
+import { useAccount } from 'wagmi'
+
+import useSelectedXNode from '@/hooks/useSelectedXNode'
 
 import { Popover, PopoverTrigger } from '../ui/popover'
 import {
@@ -21,21 +25,35 @@ import {
 } from '../ui/select'
 
 export function Header() {
+  const { address, status } = useAccount()
+  const { data: xNodes } = useXuNfts(address)
+
+  const [selectedXNode, selectXNode] = useSelectedXNode(
+    xNodes?.at(0)?.toString()
+  )
+
   return (
     <header className="sticky inset-x-0 top-0 z-50 flex h-20 items-center justify-between gap-x-32 bg-foreground px-6">
       <div className="flex items-center gap-6">
         <div className="shrink-0 text-2xl font-medium text-background">
           Xnode Studio
         </div>
-        <Select defaultValue="xnodeo-001">
+        <Select
+          value={selectedXNode ?? ''}
+          onValueChange={(val) => selectXNode(val)}
+        >
           <SelectTrigger className="h-9 min-w-56 border-background/15 bg-background/10 text-background">
             <div className="inline-flex shrink-0 items-center gap-1.5">
               <PanelLeft className="size-3.5" />
-              <SelectValue />
+              <SelectValue placeholder="Select your xNode..." />
             </div>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="xnodeo-001">XnodeO 001</SelectItem>
+            {xNodes?.map((xNode, index) => (
+              <SelectItem key={xNode} value={xNode.toString()}>
+                {`XnodeO ${(index + 1).toLocaleString('en-US', { minimumIntegerDigits: 3 })}`}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
@@ -79,7 +97,11 @@ export function Header() {
         <Popover>
           <PopoverTrigger className="flex h-9 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background">
             <User2 className="size-4" />
-            {formatAddress('0xF0dF6d08604B94F3942bb2C8aA579e67DE9f8d13')}
+            {address && status === 'connected' ? (
+              formatAddress(address)
+            ) : (
+              <span className="h-6 w-20 animate-pulse rounded bg-white/20" />
+            )}
           </PopoverTrigger>
         </Popover>
       </div>

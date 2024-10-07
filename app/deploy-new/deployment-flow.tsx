@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { formatAddress } from '@/utils/functions'
+import { useXuNfts } from '@/utils/nft'
 import { Database, IdCard, ServerCog } from 'lucide-react'
+import { useAccount } from 'wagmi'
 
+import useSelectedXNode from '@/hooks/useSelectedXNode'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -20,6 +22,10 @@ import { RadioGroup, RadioGroupCard } from '@/components/ui/radio-group'
 type FlowType = 'xnode-current' | 'xnode-new' | 'baremetal' | 'evp'
 
 export default function DeploymentFlow() {
+  const { address } = useAccount()
+  const { data: xNodes } = useXuNfts(address)
+  const [selectedXNode] = useSelectedXNode()
+
   const [flowType, setFlowType] = useState<FlowType | undefined>()
 
   const [step, setStep] = useState(0)
@@ -43,25 +49,27 @@ export default function DeploymentFlow() {
           onValueChange={(type: FlowType) => setFlowType(type)}
           className="flex flex-col gap-4"
         >
-          <RadioGroupCard
-            disabled
-            value="xnode-current"
-            className="rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 data-[state=checked]:text-inherit enabled:data-[state=unchecked]:hover:bg-muted"
-          >
-            <div className="flex items-center gap-3">
-              <IdCard className="size-8 text-primary" strokeWidth={1.25} />
-              <h3 className="text-xl font-semibold">
-                XNodeO One{' '}
-                <span className="ml-1 text-base font-medium text-muted-foreground">
-                  ({formatAddress('0xF0dF6d08604B94F3942bb2C8aA579e67DE9f8d13')}
-                  )
-                </span>
-              </h3>
-            </div>
-            <p className="mt-2 text-sm text-muted-foreground">
-              You have an existing Xnode attached to with your wallet
-            </p>
-          </RadioGroupCard>
+          {xNodes?.length ? (
+            <RadioGroupCard
+              value="xnode-current"
+              className="rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 data-[state=checked]:text-inherit enabled:data-[state=unchecked]:hover:bg-muted"
+            >
+              <div className="flex items-center gap-3">
+                <IdCard className="size-8 text-primary" strokeWidth={1.25} />
+                <h3 className="text-xl font-semibold">
+                  XNodeO One{' '}
+                  {selectedXNode ? (
+                    <span className="ml-1 font-mono text-base font-medium text-muted-foreground">
+                      ({selectedXNode.slice(0, 12)}…)
+                    </span>
+                  ) : null}
+                </h3>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">
+                You have an existing Xnode attached to with your wallet
+              </p>
+            </RadioGroupCard>
+          ) : null}
           <RadioGroupCard
             value="xnode-new"
             className="rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 data-[state=checked]:text-inherit enabled:data-[state=unchecked]:hover:bg-muted"
@@ -119,7 +127,11 @@ export default function DeploymentFlow() {
               size="lg"
               className="h-10 min-w-40"
             >
-              Deploy
+              {flowType === 'xnode-current' || flowType === undefined
+                ? 'Deploy'
+                : null}
+              {flowType === 'xnode-new' ? 'Claim XNode One' : null}
+              {flowType === 'baremetal' ? 'Select Provider' : null}
             </Button>
           ) : null}
         </AlertDialogFooter>

@@ -1090,31 +1090,5 @@
     "quality": false,
     "implemented": false,
     "isUnitRunnable": true
-  },
-  {
-    "id": "87",
-    "logo": "https://miro.medium.com/v2/resize:fit:2400/1*mTPfm7CwU31-tLhtLNkyJw.png",
-    "name": "Radicale",
-    "category": "Productivity",
-    "tags": ["Productivity", "Note-taking", "Open-source"],
-    "dateAdded": "2024-07-29T12:00:00Z",
-    "desc": "Radicale is a calendar application that lets you self-host your schedule and share it with others.",
-    "serviceNames": ["radicale"],
-    "quality": false,
-    "implemented": true,
-    "isUnitRunnable": true
-  },
-  {
-    "id": "88",
-    "logo": "https://radicle.xyz/assets/images/radicle.svg",
-    "name": "Radicle",
-    "category": "Version Control",
-    "tags": ["Version Control", "Distributed", "Open-source"],
-    "dateAdded": "2024-07-30T12:00:00Z",
-    "desc": "Radicle is an open source, peer-to-peer code collaboration stack built on Git. Unlike centralized code hosting platforms, there is no single entity controlling the network. Repositories are replicated across peers in a decentralized manner, and users are in full control of their data and workflow.",
-    "serviceNames": ["radicle"],
-    "quality": false,
-    "implemented": true,
-    "isUnitRunnable": true
   }
 ]

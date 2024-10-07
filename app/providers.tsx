@@ -44,8 +44,8 @@ createWeb3Modal({
   enableOnramp: true, // Optional - false as default
   themeMode: 'light',
   themeVariables: {
-    '--w3m-border-radius-master': '0px',
-    '--w3m-accent': '#000000',
+    '--w3m-border-radius-master': '0.375px',
+    '--w3m-accent': 'hsl(var(--primary))',
   },
 })
 
