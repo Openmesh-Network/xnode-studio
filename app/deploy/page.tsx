@@ -103,7 +103,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
     if (indexerDeployerStep == 2 && isUnit) {
       setIndexerDeployerStep(3)
     }
-  }, [indexerDeployerStep, setIndexerDeployerStep])
+  }, [indexerDeployerStep, isUnit, setIndexerDeployerStep])
 
   return (
     <div className="flex h-full">

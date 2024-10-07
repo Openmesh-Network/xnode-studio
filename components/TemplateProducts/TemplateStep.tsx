@@ -187,7 +187,7 @@ export default function TemplateStep({ categories, nftId }: AppStoreProps) {
             <X className="size-4" />
             Reset
           </Button>
-          <Accordion type="multiple">
+          <Accordion type="multiple" defaultValue={['category']}>
             <AccordionItem value="category">
               <AccordionTrigger className="data-[state=open]:text-primary">
                 Category

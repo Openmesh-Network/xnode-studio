@@ -12,7 +12,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx}\" --cache",
     "typecheck": "tsc --noEmit",
     "db:push": "pnpm drizzle-kit push",
-    "db:studio": "pnpm drizzle-kit studio"
+    "db:studio": "pnpm drizzle-kit studio",
+    "knip": "knip"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -101,6 +102,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-tailwindcss": "^3.17.0",
+    "knip": "^5.32.0",
     "postcss": "^8.4.38",
     "prettier": "^3.3.0",
     "prettier-plugin-tailwindcss": "^0.6.1",
