@@ -1,7 +1,16 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { formatAddress } from '@/utils/functions'
 import { prefix } from '@/utils/prefix'
-import { AppWindow, Cpu, Database, MemoryStick } from 'lucide-react'
+import {
+  AppWindow,
+  Cpu,
+  Database,
+  HardDrive,
+  IdCard,
+  MemoryStick,
+  ServerCog,
+} from 'lucide-react'
 import { z } from 'zod'
 
 import {
@@ -11,8 +20,26 @@ import {
   type AppStoreData,
   type Specs,
 } from '@/types/dataProvider'
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import {
+  RadioGroup,
+  RadioGroupCard,
+  RadioGroupItem,
+} from '@/components/ui/radio-group'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+
+import DeploymentFlow from './deployment-flow'
 
 type DeployPageProps = {
   searchParams: {
@@ -30,14 +57,18 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
     let data: AppStoreData | undefined
     let specs: Specs
     if (useCaseId) {
-      const template = usecaseById(useCaseId)
-      if (!template || !template.implemented) redirect('/app-store')
-      data = template
-      specs = getSpecsByTemplate(template)
+      const useCase = usecaseById(useCaseId)
+      console.log(useCase)
+
+      if (useCase === undefined || useCase.implemented === false)
+        redirect('/app-store')
+      data = useCase
+      specs = getSpecsByTemplate(useCase)
     }
     if (templateId) {
       const service = serviceByName(templateId)
-      if (!service || !service.implemented) redirect('/app-store')
+      if (service === undefined || service.implemented === false)
+        redirect('/app-store')
       data = { ...service, id: service.nixName }
 
       specs = service.specs
@@ -82,10 +113,12 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
             </div>
           </div>
           <div className="mt-6 flex gap-3">
-            <Button size="lg" className="h-9 min-w-40">
-              Deploy
-            </Button>
-            <Button size="lg" className="h-9 min-w-40" variant="outlinePrimary">
+            <DeploymentFlow />
+            <Button
+              size="lg"
+              className="h-10 min-w-40"
+              variant="outlinePrimary"
+            >
               Edit
             </Button>
           </div>
@@ -110,7 +143,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <Database className="size-6 text-muted-foreground" />
+              <HardDrive className="size-6 text-muted-foreground" />
               <div>
                 <p className="text-xs text-muted-foreground">Storage</p>
                 <p className="font-mono leading-none">

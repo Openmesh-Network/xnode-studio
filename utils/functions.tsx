@@ -1,5 +1,3 @@
-'use client'
-
 import { createHash } from 'crypto'
 
 export function formatAddress(address: string) {

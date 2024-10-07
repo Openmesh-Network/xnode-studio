@@ -50,7 +50,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
   return (
     <NavContainer className={className}>
       {/* <NavHeader isMobile={isMobile}></NavHeader> */}
-      <NavContent className="mt-0 h-full overflow-x-clip overflow-y-scroll p-2">
+      <NavContent className="mt-0 h-full overflow-y-auto overflow-x-clip p-2">
         <NavCategory>
           <NavLink href="/" icon={Home} label="Home" isMobile={isMobile} />
           <NavLink
