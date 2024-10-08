@@ -12,7 +12,7 @@ import CategoryDefinitions from 'utils/category.json'
 import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
 
-import { type AppStoreData, type AppStorePageType } from '@/types/dataProvider'
+import { type AppStoreItem, type AppStorePageType } from '@/types/dataProvider'
 
 import {
   Accordion,
@@ -55,7 +55,7 @@ export const providerNameToLogo = {
 }
 
 type AppStoreItemProps = {
-  data: AppStoreData
+  data: AppStoreItem
   type: AppStorePageType
 }
 function AppStoreItem({ data, type }: AppStoreItemProps) {
@@ -64,7 +64,7 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
     if (type === 'templates') newParams.set('templateId', data.id)
     if (type === 'use-cases') newParams.set('useCaseId', data.id)
     return newParams
-  }, [type])
+  }, [data.id, type])
   return (
     <Link
       href={data.implemented ? `${prefix}/deploy-new?${params}` : '#'}
@@ -136,11 +136,11 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
 
   const [, startTransition] = useTransition()
 
-  const filteredData = useMemo<AppStoreData[]>(() => {
-    let data: AppStoreData[] = []
+  const filteredData = useMemo<AppStoreItem[]>(() => {
+    let data: AppStoreItem[] = []
     if (type === 'templates') data = templates
     if (type === 'use-cases') data = useCases
-    let filteredData: AppStoreData[] = []
+    let filteredData: AppStoreItem[] = []
     if (!optimisticCategories.length || type === 'templates') return data
     for (const dataItem of data) {
       if (

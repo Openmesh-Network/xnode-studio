@@ -1,9 +1,12 @@
 'use client'
 
+import { useState } from 'react'
 import { formatAddress } from '@/utils/functions'
-import { useXuNfts } from '@/utils/nft'
+import { useXueNfts, useXuNfts } from '@/utils/nft'
 import {
   BellDot,
+  Check,
+  ChevronsUpDown,
   HelpCircle,
   PanelLeft,
   Plus,
@@ -13,110 +16,163 @@ import {
 } from 'lucide-react'
 import { useAccount } from 'wagmi'
 
+import { cn, formatXNodeName } from '@/lib/utils'
 import useSelectedXNode from '@/hooks/useSelectedXNode'
 
-import { Popover, PopoverTrigger } from '../ui/popover'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select'
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '../ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import ActivateXNodeDialog from '../xnode/activate-dialog'
 
 export function Header() {
   const { address, status } = useAccount()
-  const { data: xNodes } = useXuNfts(address)
+  const { data: activeXNodes } = useXuNfts(address)
+  const { data: inactiveXNodes } = useXueNfts(address)
 
   const [selectedXNode, selectXNode] = useSelectedXNode(
-    xNodes?.length ? xNodes.at(0)?.toString() : null
+    activeXNodes?.length ? activeXNodes.at(0)?.toString() : null
   )
 
+  const totalNodes = activeXNodes?.length + inactiveXNodes?.length
+
+  const [activationOpen, setActivationOpen] = useState<string | null>()
+
   return (
-    <header className="sticky inset-x-0 top-0 z-50 flex h-20 items-center justify-between gap-x-32 bg-foreground px-6">
-      <div className="flex items-center gap-6">
-        <div className="shrink-0 text-2xl font-medium text-background">
-          Xnode Studio
+    <>
+      <ActivateXNodeDialog
+        address={address}
+        open={!!activationOpen}
+        onOpenChange={() => setActivationOpen(null)}
+        entitlementNft={activationOpen ? BigInt(activationOpen) : undefined}
+      />
+      <header className="sticky inset-x-0 top-0 z-50 flex h-20 items-center justify-between gap-x-32 bg-foreground px-6">
+        <div className="flex items-center gap-6">
+          <div className="shrink-0 text-2xl font-medium text-background">
+            Xnode Studio
+          </div>
+          <Popover>
+            <PopoverTrigger className="flex h-9 min-w-56 items-center justify-between rounded border border-background/15 bg-background/10 px-3 text-sm text-background">
+              <span className="flex items-center gap-1.5">
+                <PanelLeft className="size-3.5" />
+                {selectedXNode
+                  ? formatXNodeName(selectedXNode)
+                  : 'Select your Xnode...'}
+              </span>
+              <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
+            </PopoverTrigger>
+            <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+              <Command>
+                {totalNodes > 4 ? (
+                  <CommandInput placeholder="Search your Xnode" />
+                ) : null}
+                <CommandList>
+                  <CommandEmpty>No Xnode found.</CommandEmpty>
+                  <CommandGroup heading="Active">
+                    {activeXNodes?.map((xNode) => {
+                      const name = formatXNodeName(xNode.toString())
+                      return (
+                        <CommandItem
+                          key={xNode}
+                          value={xNode.toString()}
+                          keywords={[name]}
+                          onSelect={(val) => selectXNode(val)}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 size-4 transition-transform',
+                              selectedXNode === xNode.toString()
+                                ? 'scale-100'
+                                : 'scale-0'
+                            )}
+                          />
+                          {name}
+                        </CommandItem>
+                      )
+                    })}
+                  </CommandGroup>
+                  <CommandGroup heading="Inactive">
+                    {inactiveXNodes?.map((xNode) => {
+                      const name = formatXNodeName(xNode.toString())
+                      return (
+                        <CommandItem
+                          key={xNode}
+                          value={xNode.toString()}
+                          keywords={[name]}
+                          className="justify-between"
+                          onSelect={(val) => setActivationOpen(val)}
+                        >
+                          {name}
+                          <span className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary">
+                            activate
+                          </span>
+                        </CommandItem>
+                      )
+                    })}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
         </div>
-        <Select
-          value={
-            xNodes
-              ?.find((xNode) => xNode.toString() === selectedXNode)
-              .toString() ?? ''
-          }
-          onValueChange={(val) => selectXNode(val)}
-        >
-          <SelectTrigger
-            className="h-9 min-w-56 border-background/15 bg-background/10 text-background"
-            disabled={!xNodes?.length}
-          >
-            <div className="inline-flex shrink-0 items-center gap-1.5">
-              <PanelLeft className="size-3.5" />
-              <SelectValue placeholder="Select your xNode..." />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            {xNodes?.map((xNode, index) => (
-              <SelectItem key={xNode} value={xNode.toString()}>
-                {`XnodeO ${(index + 1).toLocaleString('en-US', { minimumIntegerDigits: 3 })}`}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <button
-        type="button"
-        className="flex h-9 min-w-56 max-w-lg grow items-center gap-3 rounded border border-background/15 bg-background/10 px-3 text-muted transition-colors hover:bg-background/15"
-      >
-        <Search className="size-4" />
-        <span className="text-sm">Search & Run Commands</span>
-      </button>
-      <div className="flex items-center gap-6">
         <button
           type="button"
-          className="flex size-9 items-center justify-center rounded bg-primary text-background transition-colors hover:bg-primary/90"
+          className="flex h-9 min-w-56 max-w-lg grow items-center gap-3 rounded border border-background/15 bg-background/10 px-3 text-muted transition-colors hover:bg-background/15"
         >
-          <Plus className="size-5" strokeWidth={1.5} />
+          <Search className="size-4" />
+          <span className="text-sm">Search & Run Commands</span>
         </button>
-        <div className="flex items-center gap-2 text-background">
+        <div className="flex items-center gap-6">
           <button
             type="button"
-            className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
+            className="flex size-9 items-center justify-center rounded bg-primary text-background transition-colors hover:bg-primary/90"
           >
-            <span className="sr-only">Notifications</span>
-            <BellDot className="size-5" strokeWidth={1.5} />
+            <Plus className="size-5" strokeWidth={1.5} />
           </button>
-          <button
-            type="button"
-            className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
-          >
-            <span className="sr-only">Help</span>
-            <HelpCircle className="size-5" strokeWidth={1.5} />
-          </button>
-          <button
-            type="button"
-            className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
-          >
-            <span className="sr-only">Settings</span>
-            <Settings className="size-5" strokeWidth={1.5} />
-          </button>
+          <div className="flex items-center gap-2 text-background">
+            <button
+              type="button"
+              className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
+            >
+              <span className="sr-only">Notifications</span>
+              <BellDot className="size-5" strokeWidth={1.5} />
+            </button>
+            <button
+              type="button"
+              className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
+            >
+              <span className="sr-only">Help</span>
+              <HelpCircle className="size-5" strokeWidth={1.5} />
+            </button>
+            <button
+              type="button"
+              className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
+            >
+              <span className="sr-only">Settings</span>
+              <Settings className="size-5" strokeWidth={1.5} />
+            </button>
+          </div>
+          {!address && status === 'disconnected' ? (
+            <w3m-connect-button />
+          ) : (
+            <Popover>
+              <PopoverTrigger className="flex h-9 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background">
+                <User2 className="size-4" />
+                {address && status === 'connected' ? (
+                  formatAddress(address)
+                ) : (
+                  <span className="h-6 w-20 animate-pulse rounded bg-white/20" />
+                )}
+              </PopoverTrigger>
+            </Popover>
+          )}
         </div>
-        {!address && status === 'disconnected' ? (
-          <w3m-connect-button />
-        ) : (
-          <Popover>
-            <PopoverTrigger className="flex h-9 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background">
-              <User2 className="size-4" />
-              {address && status === 'connected' ? (
-                formatAddress(address)
-              ) : (
-                <span className="h-6 w-20 animate-pulse rounded bg-white/20" />
-              )}
-            </PopoverTrigger>
-          </Popover>
-        )}
-      </div>
-      {/* <div className="hidden h-full items-center gap-x-20 lg:flex">
+        {/* <div className="hidden h-full items-center gap-x-20 lg:flex">
         <nav className="flex items-center gap-x-12">
           {headerItems.map((option, index) => (
             <Link
@@ -142,6 +198,7 @@ export function Header() {
           </span>
         </Link>
       </div> */}
-    </header>
+      </header>
+    </>
   )
 }

@@ -8,7 +8,8 @@ import {
   getSpecsByTemplate,
   serviceByName,
   usecaseById,
-  type AppStoreData,
+  type AppStoreItem,
+  type AppStorePageType,
   type Specs,
 } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
@@ -29,27 +30,29 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
 
   function getData() {
     if (!templateId && !useCaseId) redirect('/app-store')
-    let data: AppStoreData | undefined
+    let data: AppStoreItem | undefined
     let specs: Specs
+    let type: AppStorePageType
     if (useCaseId) {
       const useCase = usecaseById(useCaseId)
       if (useCase === undefined || useCase.implemented === false)
         redirect('/app-store')
       data = useCase
       specs = getSpecsByTemplate(useCase)
+      type = 'use-cases'
     }
     if (templateId) {
       const service = serviceByName(templateId)
       if (service === undefined || service.implemented === false)
         redirect('/app-store')
       data = { ...service, id: service.nixName }
-
       specs = service.specs
+      type = 'templates'
     }
 
-    return { data, specs }
+    return { data, specs, type }
   }
-  const { data, specs } = getData()
+  const { data, specs, type } = getData()
 
   return (
     <div className="container my-8">
@@ -86,8 +89,9 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
             </div>
           </div>
           <div className="mt-6 flex gap-3">
-            <DeploymentFlow />
+            <DeploymentFlow item={data} type={type} />
             <Button
+              disabled
               size="lg"
               className="h-10 min-w-40"
               variant="outlinePrimary"

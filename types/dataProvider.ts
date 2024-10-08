@@ -187,7 +187,7 @@ export type TemplateData = {
 
 export const appStorePageType = z.enum(['templates', 'use-cases'])
 export type AppStorePageType = z.infer<typeof appStorePageType>
-export type AppStoreData = {
+export type AppStoreItem = {
   id: string
   name: string
   desc: string
@@ -195,6 +195,7 @@ export type AppStoreData = {
   implemented?: boolean
   logo?: string
   category?: string
+  serviceNames?: string[]
 }
 
 let serviceMap: Map<string, ServiceData> = null

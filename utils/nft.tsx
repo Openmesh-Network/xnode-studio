@@ -9,9 +9,9 @@ const alchemyPrefix = process.env.NEXT_PUBLIC_TESTNET
   ? 'eth-sepolia'
   : 'eth-mainnet'
 
-export async function getXueNfts(account) {
+export async function getXueNfts(address: Address) {
   // XXX: This should be replaced with an server rewrite, so the server can do the request and keep the API key secret.
-  const url = `https://${alchemyPrefix}.g.alchemy.com/nft/v3/wxMZwmicJOsN0zsmfqSN2-nc8vovL3LP/getNFTsForOwner?owner=${account.address}&contractAddresses[]=${XnodeUnitEntitlementContract.address}&withMetadata=false`
+  const url = `https://${alchemyPrefix}.g.alchemy.com/nft/v3/wxMZwmicJOsN0zsmfqSN2-nc8vovL3LP/getNFTsForOwner?owner=${address}&contractAddresses[]=${XnodeUnitEntitlementContract.address}&withMetadata=false`
   const response = await axios
     .get(url)
     .then((res) => res.data as { ownedNfts: { tokenId: string }[] })
@@ -27,6 +27,14 @@ export async function getXuNfts(address: Address) {
     .then((res) => res.data as { ownedNfts: { tokenId: string }[] })
 
   return response.ownedNfts.map((nft) => BigInt(nft.tokenId)).sort()
+}
+
+export const useXueNfts = (address: Address) => {
+  return useQuery({
+    queryKey: ['xueNfts', address],
+    queryFn: () => getXueNfts(address),
+    enabled: !!address,
+  })
 }
 
 // Create a custom hook to use the getXuNfts function

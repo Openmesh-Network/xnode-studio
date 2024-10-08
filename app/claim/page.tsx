@@ -2,12 +2,13 @@
 
 import { useRef, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { XnodeUnitEntitlementClaimerContract } from '@/contracts/XnodeUnitEntitlementClaimer'
 import { chain } from '@/utils/chain'
 import { reviver } from '@/utils/json'
 import { prefix } from '@/utils/prefix'
+import { type CheckedState } from '@radix-ui/react-checkbox'
+import { useQueryClient } from '@tanstack/react-query'
 import { useWindowSize } from '@uidotdev/usehooks'
 import axios from 'axios'
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp'
@@ -15,7 +16,15 @@ import { Check, MoveRight, X } from 'lucide-react'
 import ReactConfetti from 'react-confetti'
 import { FlipTilt } from 'react-flip-tilt'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { Address, Hex, keccak256, Signature, toBytes, zeroAddress } from 'viem'
+import {
+  Address,
+  decodeEventLog,
+  Hex,
+  keccak256,
+  Signature,
+  toBytes,
+  zeroAddress,
+} from 'viem'
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
 
 import { usePerformTransaction } from '@/hooks/usePerformTransaction'
@@ -42,10 +51,12 @@ import {
 import { Label } from '@/components/ui/label'
 import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/Icons'
+import ActivateXNodeDialog from '@/components/xnode/activate-dialog'
 
 export default function ClaimXNodePage() {
   const captchaRef = useRef<ReCAPTCHA>()
   const formRef = useRef<HTMLFormElement>()
+  const [tocChecked, setTocChecked] = useState<CheckedState>(false)
 
   const { width, height } = useWindowSize()
 
@@ -57,10 +68,13 @@ export default function ClaimXNodePage() {
     usePerformTransaction({
       chainId,
     })
+  const queryClient = useQueryClient()
 
   const [pinInput, setPinInput] = useState<string | null>()
 
   const [successOpen, setSuccessOpen] = useState(false)
+  const [claimedNft, setClaimedNft] = useState<bigint | null>()
+  const [activationOpen, setActivationOpen] = useState<boolean>(false)
 
   return (
     <>
@@ -80,6 +94,12 @@ export default function ClaimXNodePage() {
           }}
         />
       </div>
+      <ActivateXNodeDialog
+        address={address}
+        open={activationOpen}
+        onOpenChange={setActivationOpen}
+        entitlementNft={claimedNft ?? undefined}
+      />
       <section className="container my-12 grid max-w-none grid-cols-5 gap-20">
         <div className="col-span-3">
           <h1 className="text-4xl font-bold">Claim your Xnode One</h1>
@@ -226,8 +246,36 @@ export default function ClaimXNodePage() {
                     ],
                   }
                 },
-                onConfirmed: () => {
+                onConfirmed: (receipt) => {
+                  let mintedNft: bigint | undefined
+                  receipt.logs.forEach((log) => {
+                    try {
+                      if (
+                        log.address.toLowerCase() !==
+                        XnodeUnitEntitlementContract.address.toLowerCase()
+                      ) {
+                        // Only interested in logs originating from the tasks contract
+                        return
+                      }
+
+                      const mintEvent = decodeEventLog({
+                        abi: XnodeUnitEntitlementContract.abi,
+                        eventName: 'Transfer',
+                        topics: (log as any).topics,
+                        data: log.data,
+                      })
+                      mintedNft = mintEvent.args.tokenId
+                    } catch {}
+                  })
+                  if (mintedNft === undefined) {
+                    loggers.onError?.({
+                      title: 'Error retrieving nft id',
+                      description: 'Mint possibly failed.',
+                    })
+                  }
+                  setClaimedNft(mintedNft)
                   setSuccessOpen(true)
+                  queryClient.invalidateQueries({ queryKey: [address] })
                 },
               })
             }}
@@ -293,7 +341,12 @@ export default function ClaimXNodePage() {
             </div>
             <div className="mt-12 space-y-4">
               <div className="flex items-center gap-1.5">
-                <Checkbox required id="xnode-toc" />
+                <Checkbox
+                  checked={tocChecked}
+                  onCheckedChange={setTocChecked}
+                  required
+                  id="xnode-toc"
+                />
                 <Label htmlFor="xnode-toc" className="text-muted-foreground">
                   I accept the Terms & Conditions
                 </Label>
@@ -305,6 +358,7 @@ export default function ClaimXNodePage() {
                     disabled={
                       !address ||
                       pinInput?.length !== 9 ||
+                      !tocChecked ||
                       performingTransaction
                     }
                     size="lg"
@@ -374,8 +428,15 @@ export default function ClaimXNodePage() {
                 >
                   Close
                 </Button>
-                <Button size="lg" asChild className="flex-1 basis-3/5">
-                  <Link href="/app-store">Deploy</Link>
+                <Button
+                  size="lg"
+                  className="flex-1 basis-3/5"
+                  onClick={() => {
+                    setSuccessOpen(false)
+                    setActivationOpen(true)
+                  }}
+                >
+                  Activate
                 </Button>
               </DialogFooter>
             </DialogContent>

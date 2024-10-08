@@ -86,7 +86,7 @@ const Dashboard = () => {
   }
 
   const findXueForAccount = async () => {
-    let nfts = await getXueNfts(account).catch(console.error)
+    let nfts = await getXueNfts(account.address).catch(console.error)
     if (nfts) {
       // Only update XueNfts if the nfts don't match. Don't want to trigger pointless updates.
 
