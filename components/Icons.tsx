@@ -4,6 +4,25 @@ export type Icon = (props: IconProps) => React.JSX.Element
 type IconProps = React.HTMLAttributes<SVGElement>
 
 export const Icons = {
+  PrettyCheck: (props: IconProps) => (
+    <svg
+      viewBox="0 0 156 171"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <ellipse cx="79.8602" cy="81" rx="68.8665" ry="70.5" />
+      <ellipse cx="148.238" cy="17" rx="7.32623" ry="7.5" />
+      <ellipse cx="19.7851" cy="15.5" rx="8.79147" ry="9" />
+      <ellipse cx="60.3235" cy="166" rx="4.39574" ry="4.5" />
+      <ellipse cx="144.82" cy="144.5" rx="2.93049" ry="3" />
+      <ellipse cx="151.169" cy="106" rx="2.44208" ry="2.5" />
+      <ellipse cx="13.4358" cy="143" rx="4.39574" ry="4.5" />
+      <ellipse cx="114.049" cy="153" rx="1.46525" ry="1.5" />
+      <ellipse cx="107.7" cy="3.5" rx="2.93049" ry="3" />
+      <ellipse cx="2.2022" cy="86.5" rx="1.95366" ry="2" />
+    </svg>
+  ),
   AnalyticsIcon: (props: IconProps) => (
     <svg
       width="20"

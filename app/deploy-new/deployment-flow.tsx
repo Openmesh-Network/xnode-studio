@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useXuNfts } from '@/utils/nft'
 import { Database, IdCard, ServerCog } from 'lucide-react'
 import { useAccount } from 'wagmi'
@@ -19,16 +20,27 @@ import {
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupCard } from '@/components/ui/radio-group'
 
+type Step = 0 | 1 | 2
 type FlowType = 'xnode-current' | 'xnode-new' | 'baremetal' | 'evp'
 
 export default function DeploymentFlow() {
+  const router = useRouter()
   const { address } = useAccount()
   const { data: xNodes } = useXuNfts(address)
   const [selectedXNode] = useSelectedXNode()
 
   const [flowType, setFlowType] = useState<FlowType | undefined>()
 
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState<[Step, FlowType | undefined]>([0, undefined])
+
+  function handleNextStep() {
+    switch (step[0]) {
+      case 0:
+        if (flowType === 'xnode-current') setStep([1, 'xnode-current'])
+        if (flowType === 'xnode-new') router.push('/claim')
+        break
+    }
+  }
 
   return (
     <AlertDialog>
@@ -121,11 +133,12 @@ export default function DeploymentFlow() {
           <AlertDialogCancel className="h-10 min-w-28">
             Cancel
           </AlertDialogCancel>
-          {step === 0 ? (
+          {step[0] == 0 ? (
             <Button
               disabled={flowType === undefined}
               size="lg"
               className="h-10 min-w-40"
+              onClick={() => handleNextStep()}
             >
               {flowType === 'xnode-current' || flowType === undefined
                 ? 'Deploy'

@@ -29,7 +29,7 @@ export function Header() {
   const { data: xNodes } = useXuNfts(address)
 
   const [selectedXNode, selectXNode] = useSelectedXNode(
-    xNodes?.at(0)?.toString()
+    xNodes?.length ? xNodes.at(0)?.toString() : null
   )
 
   return (
@@ -39,10 +39,17 @@ export function Header() {
           Xnode Studio
         </div>
         <Select
-          value={selectedXNode ?? ''}
+          value={
+            xNodes
+              ?.find((xNode) => xNode.toString() === selectedXNode)
+              .toString() ?? ''
+          }
           onValueChange={(val) => selectXNode(val)}
         >
-          <SelectTrigger className="h-9 min-w-56 border-background/15 bg-background/10 text-background">
+          <SelectTrigger
+            className="h-9 min-w-56 border-background/15 bg-background/10 text-background"
+            disabled={!xNodes?.length}
+          >
             <div className="inline-flex shrink-0 items-center gap-1.5">
               <PanelLeft className="size-3.5" />
               <SelectValue placeholder="Select your xNode..." />
@@ -94,16 +101,20 @@ export function Header() {
             <Settings className="size-5" strokeWidth={1.5} />
           </button>
         </div>
-        <Popover>
-          <PopoverTrigger className="flex h-9 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background">
-            <User2 className="size-4" />
-            {address && status === 'connected' ? (
-              formatAddress(address)
-            ) : (
-              <span className="h-6 w-20 animate-pulse rounded bg-white/20" />
-            )}
-          </PopoverTrigger>
-        </Popover>
+        {!address && status === 'disconnected' ? (
+          <w3m-connect-button />
+        ) : (
+          <Popover>
+            <PopoverTrigger className="flex h-9 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background">
+              <User2 className="size-4" />
+              {address && status === 'connected' ? (
+                formatAddress(address)
+              ) : (
+                <span className="h-6 w-20 animate-pulse rounded bg-white/20" />
+              )}
+            </PopoverTrigger>
+          </Popover>
+        )}
       </div>
       {/* <div className="hidden h-full items-center gap-x-20 lg:flex">
         <nav className="flex items-center gap-x-12">
