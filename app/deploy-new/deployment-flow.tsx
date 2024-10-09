@@ -130,7 +130,7 @@ export default function DeploymentFlow({ type, item }: DeploymentFlowProps) {
                 <div className="flex items-center gap-3">
                   <IdCard className="size-8 text-primary" strokeWidth={1.25} />
                   <h3 className="text-xl font-semibold">
-                    XNodeO One{' '}
+                    XnodeO One{' '}
                     {selectedXNode ? (
                       <span className="ml-1 font-mono text-base font-medium text-muted-foreground">
                         ({selectedXNode.slice(0, 12)}…)
@@ -312,7 +312,7 @@ export default function DeploymentFlow({ type, item }: DeploymentFlowProps) {
               {flowType === 'xnode-current' || flowType === undefined
                 ? 'Deploy'
                 : null}
-              {flowType === 'xnode-new' ? 'Claim XNode One' : null}
+              {flowType === 'xnode-new' ? 'Claim Xnode One' : null}
               {flowType === 'baremetal' ? 'Select Provider' : null}
             </Button>
           ) : null}
