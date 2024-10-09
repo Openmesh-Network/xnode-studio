@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useXuNfts } from '@/utils/nft'
+import { format } from 'date-fns'
 import {
   Check,
   Database,
@@ -30,6 +31,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupCard } from '@/components/ui/radio-group'
+import { Icons } from '@/components/Icons'
 
 type Step = 0 | 1 | 2
 type FlowType = 'xnode-current' | 'xnode-new' | 'baremetal' | 'evp'
@@ -84,8 +86,11 @@ export default function DeploymentFlow({ type, item }: DeploymentFlowProps) {
             setActiveDeploymentStep(2)
             setTimeout(() => {
               setActiveDeploymentStep(3)
-            }, 3000)
-          }, 10000)
+              setTimeout(() => {
+                router.push('/deployments')
+              }, 30 * 1000)
+            }, 3 * 1000)
+          }, 10 * 1000)
         }
         if (flowType === 'xnode-new') router.push('/claim')
         break
@@ -139,7 +144,8 @@ export default function DeploymentFlow({ type, item }: DeploymentFlowProps) {
                   </h3>
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  You have an existing Xnode attached to with your wallet
+                  You have an existing Xnode selected that is attached to your
+                  wallet
                 </p>
               </RadioGroupCard>
             ) : null}
@@ -256,13 +262,17 @@ export default function DeploymentFlow({ type, item }: DeploymentFlowProps) {
               </div>
             </div>
             {activeDeploymentStep === 1 ? (
-              <div className="mb-4 mt-8 flex flex-col items-center">
-                <h2 className="text-lg font-semibold">{item.name}</h2>
-                <p className="line-clamp-2 max-w-prose text-center text-sm text-muted-foreground">
-                  {item.desc}
+              <div className="mb-4 mt-8">
+                <p className="rounded border bg-muted-foreground px-3 py-1.5 font-mono text-muted">
+                  <span className="opacity-75">
+                    [{format(new Date(), 'HH:mm:ss')}]
+                  </span>{' '}
+                  Transfering all the deployment information to our Xnode
+                  servers...
                 </p>
+                <h2 className="mt-4 text-lg font-semibold">{item.name}</h2>
                 {item.serviceNames ? (
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-1 flex flex-wrap gap-2">
                     {item.serviceNames.map((service) => (
                       <span className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary">
                         {service}
@@ -282,18 +292,55 @@ export default function DeploymentFlow({ type, item }: DeploymentFlowProps) {
                     <p className="text-sm text-muted-foreground">
                       Your selected Xnode
                     </p>
-                    <p className="text-xl font-bold">
-                      {formatXNodeName(selectedXNode)}
-                    </p>
+                    {selectedXNode ? (
+                      <p className="text-xl font-bold">
+                        {formatXNodeName(selectedXNode)}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
               </div>
             ) : null}
             {activeDeploymentStep === 2 ? (
-              <p className="mb-4 mt-8 text-center text-muted-foreground">
-                We are currently contacting our Xnode servers to start your
-                deployment...
-              </p>
+              <div className="mb-4 mt-8">
+                <p className="rounded border bg-muted-foreground px-3 py-1.5 font-mono text-muted">
+                  <span className="opacity-75">
+                    [{format(new Date(), 'HH:mm:ss')}]
+                  </span>{' '}
+                  Contacting Xnode servers to start off your deployment
+                  process...
+                </p>
+              </div>
+            ) : null}
+            {activeDeploymentStep === 3 ? (
+              <>
+                <div className="mt-8 flex flex-col items-center">
+                  <div className="relative">
+                    <Check className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 text-background" />
+                    <Icons.PrettyCheck className="size-32 text-primary" />
+                  </div>
+                  <p className="text-xl font-bold text-primary">Success</p>
+                </div>
+                <p className="my-4 rounded border bg-muted-foreground px-3 py-1.5 font-mono text-muted">
+                  <span className="opacity-75">
+                    [{format(new Date(), 'HH:mm:ss')}]
+                  </span>{' '}
+                  Your deployment is now running on our servers. This process
+                  might take some time to finish.
+                </p>
+                <p className="mt-4 text-center text-xs text-muted-foreground">
+                  Estimated time
+                </p>
+                <p className="text-center text-3xl font-bold">10 Minutes</p>
+                <p className="mt-2 text-center text-sm text-muted-foreground">
+                  To check back on the status, navigate to your deployments
+                  page.
+                  <br />
+                  Otherwise we will automatically redirect you to deployments
+                  page after{' '}
+                  <strong className="font-semibold">30 seconds</strong>
+                </p>
+              </>
             ) : null}
           </div>
         ) : null}
