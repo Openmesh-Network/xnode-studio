@@ -100,7 +100,7 @@ export function Header() {
                       )
                     })}
                   </CommandGroup>
-                  {inactiveXNodes.length > 0 ? (
+                  {inactiveXNodes?.length > 0 ? (
                     <CommandGroup heading="Inactive">
                       {inactiveXNodes?.map((xNode) => {
                         const name = formatXNodeName(xNode.toString())
