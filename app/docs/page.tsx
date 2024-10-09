@@ -1,5 +1,3 @@
-import Footer from '@/components/Homepage/Footer'
-
 import IndividualModules from './docs-components/individualModules'
 
 export default function Tasks() {

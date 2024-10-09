@@ -1,4 +1,5 @@
-import { XnodeConfig } from "./dataProvider"
+import { XnodeConfig } from './dataProvider'
+
 export type CoreServices = {
   name: string
   isFree: boolean
@@ -7,17 +8,17 @@ export type CoreServices = {
 }
 
 export type HeartbeatData = {
- id: string
- cpuPercent: number
- cpuPercentPeek: number
- ramMbUsed: number
- ramMbPeek: number
- ramMbTotal: number
+  id: string
+  cpuPercent: number
+  cpuPercentPeek: number
+  ramMbUsed: number
+  ramMbPeek: number
+  ramMbTotal: number
 
- storageMbUsed: number
- storageMbTotal: number
+  storageMbUsed: number
+  storageMbTotal: number
 
- wantUpdate?: boolean
+  wantUpdate?: boolean
 }
 
 export type Xnode = {
@@ -44,7 +45,6 @@ export type Xnode = {
   configGenerationWant: number
   configGenerationHave: number
 
-  nftId: string
   location: string
   createdAt: Date
   updatedAt: Date

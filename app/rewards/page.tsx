@@ -80,7 +80,7 @@ const tableColumns = [
   'Actions',
 ]
 
-const tableData = [
+export const rewardsMockData = [
   {
     rewardId: '8267353',
     wallet: '0x73554...4745',
@@ -88,22 +88,25 @@ const tableData = [
     amount: '725 OPEN',
     statusTx: '4 Days left to claim',
     action: 'Claim',
+    node: 'EVP 001',
   },
   {
-    rewardId: '8267353',
+    rewardId: '8267354',
     wallet: '0x73554...4745',
     dateOfClaim: '12:00:00 UTC, Nov 10, 2023',
     amount: '725 OPEN',
     statusTx: '0x83735...244',
     action: 'You claimed',
+    node: 'EVP 002',
   },
   {
-    rewardId: '8267353',
+    rewardId: '8267355',
     wallet: '0x73554...4745',
     dateOfClaim: '12:00:00 UTC, Nov 3, 2023',
     amount: '725 OPEN',
     statusTx: '0x83735...244',
     action: 'You claimed',
+    node: 'EVP 012',
   },
 ]
 
@@ -123,7 +126,7 @@ function NodeActivityTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tableData.map((item, index) => (
+        {rewardsMockData.map((item, index) => (
           <TableRow
             key={index}
             className="h-14 border-none text-sm odd:rounded-lg"

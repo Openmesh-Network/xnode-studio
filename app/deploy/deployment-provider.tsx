@@ -1,20 +1,14 @@
 'use client'
 
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { AccountContext } from '@/contexts/AccountContext'
 import { Provider } from '@/db/schema'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
 import { Check, ChevronsUpDown, Loader, Search, X } from 'lucide-react'
 import { prefix } from 'utils/prefix'
-import { z } from 'zod'
 
-import {
-  getSpecsByTemplate,
-  useCaseById,
-  type Specs,
-} from '@/types/dataProvider'
+import { type Specs } from '@/types/dataProvider'
 import { cn, formatPrice } from '@/lib/utils'
 import { useDraft } from '@/hooks/useDraftDeploy'
 import { Button } from '@/components/ui/button'

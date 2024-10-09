@@ -126,6 +126,7 @@ const Dashboard = () => {
           'Content-Type': 'application/json',
         },
       }
+      console.log(config)
 
       try {
         await axios(config).then(function (response) {
