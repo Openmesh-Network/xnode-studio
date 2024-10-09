@@ -9,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import Dashboard from '@/components/Dashboard'
 
 import { rewardsMockData } from '../rewards/page'
 import { HealthSummary, XNodesApps, XNodesHealth } from './health-data'

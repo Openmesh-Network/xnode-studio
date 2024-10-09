@@ -33,7 +33,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-function useXnodes(sessionToken: string) {
+export function useXnodes(sessionToken: string) {
   return useQuery<Xnode[]>({
     queryKey: ['xnodes', sessionToken],
     queryFn: async () =>
