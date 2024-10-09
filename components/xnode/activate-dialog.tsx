@@ -11,8 +11,6 @@ import { type Address } from 'viem'
 import { cn } from '@/lib/utils'
 import { usePerformTransaction } from '@/hooks/usePerformTransaction'
 import useSelectedXNode from '@/hooks/useSelectedXNode'
-
-import { Icons } from '../Icons'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,7 +20,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '../ui/alert-dialog'
+} from '@/components/ui/alert-dialog'
+
+import { Icons } from '../Icons'
 
 type ActivateXNodeDialogProps = {
   address: Address

@@ -13,15 +13,14 @@ import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
 
 import { type AppStoreItem, type AppStorePageType } from '@/types/dataProvider'
-
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '../ui/accordion'
-import { Button } from '../ui/button'
-import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
+} from '@/components/ui/accordion'
+import { Button } from '@/components/ui/button'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 export const optionsNetwork = [
   {

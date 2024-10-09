@@ -18,7 +18,6 @@ import { useAccount } from 'wagmi'
 
 import { cn, formatXNodeName } from '@/lib/utils'
 import useSelectedXNode from '@/hooks/useSelectedXNode'
-
 import {
   Command,
   CommandEmpty,
@@ -26,8 +25,13 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '../ui/command'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+} from '@/components/ui/command'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+
 import ActivateXNodeDialog from '../xnode/activate-dialog'
 
 export function Header() {

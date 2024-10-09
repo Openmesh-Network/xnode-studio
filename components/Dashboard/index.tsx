@@ -26,9 +26,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { useToast } from '@/components/ui/use-toast'
 
 import { Xnode } from '../../types/node'
-import { useToast } from '../ui/use-toast'
 
 const Dashboard = () => {
   const [xnodesData, setXnodesData] = useState<Xnode[]>([])

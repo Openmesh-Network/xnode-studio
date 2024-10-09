@@ -7,8 +7,6 @@ import {
   XnodeConfig,
 } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'
-import Header from '@/components/ui/header'
-
 import {
   Dialog,
   DialogClose,
@@ -18,7 +16,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog'
+} from '@/components/ui/dialog'
+import Header from '@/components/ui/header'
 
 export function formatSSHKeys(keys: string): string {
   if (keys.includes('[]')) {
