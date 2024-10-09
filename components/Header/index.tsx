@@ -96,25 +96,27 @@ export function Header() {
                       )
                     })}
                   </CommandGroup>
-                  <CommandGroup heading="Inactive">
-                    {inactiveXNodes?.map((xNode) => {
-                      const name = formatXNodeName(xNode.toString())
-                      return (
-                        <CommandItem
-                          key={xNode}
-                          value={xNode.toString()}
-                          keywords={[name]}
-                          className="justify-between"
-                          onSelect={(val) => setActivationOpen(val)}
-                        >
-                          {name}
-                          <span className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary">
-                            activate
-                          </span>
-                        </CommandItem>
-                      )
-                    })}
-                  </CommandGroup>
+                  {inactiveXNodes.length > 0 ? (
+                    <CommandGroup heading="Inactive">
+                      {inactiveXNodes?.map((xNode) => {
+                        const name = formatXNodeName(xNode.toString())
+                        return (
+                          <CommandItem
+                            key={xNode}
+                            value={xNode.toString()}
+                            keywords={[name]}
+                            className="justify-between"
+                            onSelect={(val) => setActivationOpen(val)}
+                          >
+                            {name}
+                            <span className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary">
+                              activate
+                            </span>
+                          </CommandItem>
+                        )
+                      })}
+                    </CommandGroup>
+                  ) : null}
                 </CommandList>
               </Command>
             </PopoverContent>
