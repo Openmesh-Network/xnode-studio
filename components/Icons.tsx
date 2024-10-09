@@ -4,6 +4,47 @@ export type Icon = (props: IconProps) => React.JSX.Element
 type IconProps = React.HTMLAttributes<SVGElement>
 
 export const Icons = {
+  OpenMesh: (props: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      strokeMiterlimit={10}
+      strokeWidth={4}
+      viewBox="0 0 79.95 79.95"
+      {...props}
+      fill="none"
+    >
+      <ellipse
+        stroke="#c02471"
+        cx="36.96"
+        cy="40.03"
+        rx="27.97"
+        ry="35.04"
+        transform="translate(-7.37 8.35) rotate(-11.73)"
+      />
+      <circle stroke="#0059ff" cx="39.97" cy="39.97" r="37.97" />
+      <ellipse
+        stroke="#ffda31"
+        cx="37.94"
+        cy="39.92"
+        rx="22.53"
+        ry="35.24"
+        transform="translate(-16.45 31.26) rotate(-37.41)"
+      />
+      <circle fill="#22ae05" cx="38.53" cy="46.77" r="7.53" />
+      <ellipse
+        stroke="#22ae05"
+        cx="40.88"
+        cy="39.06"
+        rx="22.5"
+        ry="35.09"
+        transform="translate(-15.32 32.87) rotate(-37.41)"
+      />
+      <path
+        fill="#22ae05"
+        d="M13.08,27.17s6.35,11.84,19.33,19.6l.77-4.11s-9.14-1.96-19.26-22.78l-.84,7.29Z"
+      />
+    </svg>
+  ),
   PrettyCheck: (props: IconProps) => (
     <svg
       viewBox="0 0 156 171"

@@ -51,9 +51,13 @@ export function useXnodes(sessionToken: string) {
           },
         }
       ).then((res) => res.json())
+
       return data.map((xNode) => ({
         ...xNode,
-        heartbeatData: JSON.parse(xNode.heartbeatData as any as string),
+        heartbeatData:
+          xNode.status !== 'booting'
+            ? JSON.parse(xNode.heartbeatData as any as string)
+            : null,
       }))
     },
     refetchInterval: 30 * 1000,
@@ -161,8 +165,6 @@ type HealthComponentProps = {
 }
 export function HealthSummary({ sessionToken }: HealthComponentProps) {
   const { data: xNodes, isPending } = useXnodes(sessionToken)
-  console.log(xNodes)
-
   const healthSummaryData = useMemo<HealthSummary | null>(() => {
     if (isPending) return null
     let avgHealth: Pick<
@@ -175,12 +177,13 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
     > = {
       cpuPercent: 0,
       ramMbUsed: 0,
-      ramMbTotal: 0,
+      ramMbTotal: 1,
       storageMbUsed: 0,
-      storageMbTotal: 0,
+      storageMbTotal: 1,
     }
 
     for (const xNode of xNodes) {
+      if (xNode.status === 'booting') continue
       const newData = xNode.heartbeatData
       avgHealth = {
         cpuPercent: avgHealth.cpuPercent + newData.cpuPercent,
@@ -198,7 +201,7 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
       storageMbTotal: avgHealth.storageMbTotal / xNodes.length,
     }
     return {
-      cpu: avgHealth.cpuPercent * 100,
+      cpu: avgHealth.cpuPercent,
       ram: (avgHealth.ramMbUsed / avgHealth.ramMbTotal) * 100,
       storage: (avgHealth.storageMbUsed / avgHealth.storageMbTotal) * 100,
     }
@@ -261,7 +264,6 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
 
 export function XNodesHealth({ sessionToken }: HealthComponentProps) {
   const { data: xNodes, isPending } = useXnodes(sessionToken)
-
   return (
     <div className="grid grid-cols-4 gap-6">
       {!isPending ? (
@@ -271,11 +273,18 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
               key={`xNode-deployment-${xNode.id}`}
               className="rounded border px-4 py-2.5"
             >
-              <h3 className="text-lg font-bold">
-                {xNode.isUnit
-                  ? formatXNodeName(xNode.deploymentAuth)
-                  : `Xnode ${index}`}
-              </h3>
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="text-lg font-bold">
+                  {xNode.isUnit
+                    ? formatXNodeName(xNode.deploymentAuth)
+                    : `Xnode ${index}`}
+                </h3>
+                {xNode.status === 'booting' ? (
+                  <span className="rounded bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
+                    Booting
+                  </span>
+                ) : null}
+              </div>
               <div className="mt-2 space-y-2">
                 <div className="flex w-full items-center gap-4">
                   <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
@@ -287,7 +296,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                     <div
                       className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
                       style={{
-                        width: `${xNode.heartbeatData.cpuPercent * 100}%`,
+                        width: `${Math.min(xNode.heartbeatData?.cpuPercent, 100)}%`,
                       }}
                     />
                   </div>
@@ -302,7 +311,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                     <div
                       className="absolute left-0 top-0 h-2 rounded bg-primary transition-all duration-300 ease-out"
                       style={{
-                        width: `${(xNode.heartbeatData.ramMbUsed / xNode.heartbeatData.ramMbTotal) * 100}%`,
+                        width: `${Math.min((xNode.heartbeatData?.ramMbUsed / xNode.heartbeatData?.ramMbTotal) * 100, 100)}%`,
                       }}
                     />
                   </div>
@@ -317,7 +326,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                     <div
                       className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
                       style={{
-                        width: `${(xNode.heartbeatData.storageMbUsed / xNode.heartbeatData.storageMbTotal) * 100}%`,
+                        width: `${Math.min((xNode.heartbeatData?.storageMbUsed / xNode.heartbeatData?.storageMbTotal) * 100, 100)}%`,
                       }}
                     />
                   </div>
@@ -374,7 +383,6 @@ export function XNodesApps({ sessionToken }: HealthComponentProps) {
     }
     return allServices
   }, [isPending, xNodes])
-  console.log(services)
 
   return (
     // eslint-disable-next-line tailwindcss/migration-from-tailwind-2
@@ -390,7 +398,7 @@ export function XNodesApps({ sessionToken }: HealthComponentProps) {
       <TableBody>
         {isPending ? (
           Array.from({ length: 5 }).map((_, index) => (
-            <TableRow>
+            <TableRow key={`loading-apps-${index}`}>
               <TableCell colSpan={4}>
                 <Skeleton key={`deployment-app-${index}`} className="h-5" />
               </TableCell>

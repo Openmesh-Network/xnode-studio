@@ -1,11 +1,17 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ListTree } from 'lucide-react'
-import { useEffect, useState } from 'react'
 
-import { DeploymentConfiguration, ServiceData, type DeploymentTemplate } from '@/types/dataProvider'
+import {
+  DeploymentConfiguration,
+  ServiceData,
+  type DeploymentTemplate,
+} from '@/types/dataProvider'
+import { useDraft } from '@/hooks/useDraftDeploy'
+import EditHeader from '@/components/ui/editableHeader'
 import Header from '@/components/ui/header'
 import {
   Table,
@@ -15,12 +21,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
-import { convertSize } from "../../utils/functions"
-
-import { useDraft } from '@/hooks/useDraftDeploy'
 import ServiceEditor from '@/components/Deployments/serviceEditor'
-import EditHeader from '@/components/ui/editableHeader'
+
+import { convertSize } from '../../utils/functions'
+
 type DeploymentTemplateProps = DeploymentTemplate
 export default function DeploymentTemplate({
   custom,
@@ -30,30 +34,26 @@ export default function DeploymentTemplate({
   minSpecs,
   defaultServices,
   isUnit = false,
-  nftId = ""
+  nftId = '',
 }) {
-
-
   const [services, setServices] = useState<ServiceData[]>(defaultServices)
   const [draft, setDraft] = useDraft()
   const [templatename, setTemlatename] = useState<string>(name)
 
-
   useEffect(() => {
-
     let newDraft = {
       name: name,
-      desc: description,
+      description: description,
       services: services,
       isUnit: isUnit,
-      location: "",
-      provider: "",
-      deploymentAuth: "",
+      location: '',
+      provider: '',
+      deploymentAuth: '',
     }
 
     if (isUnit) {
-      newDraft.location = "NYC1"
-      newDraft.provider = "Unit"
+      newDraft.location = 'NYC1'
+      newDraft.provider = 'Unit'
       newDraft.deploymentAuth = nftId
     }
 
@@ -63,7 +63,7 @@ export default function DeploymentTemplate({
   useEffect(() => {
     if (draft) {
       draft.name = templatename
-      console.log("this draft is deployed")
+      console.log('this draft is deployed')
       setDraft(draft)
     }
   }, [templatename])
@@ -73,7 +73,12 @@ export default function DeploymentTemplate({
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <ListTree className="size-10 stroke-1 text-primary" />
-          <EditHeader level={1} editable={true} input={templatename} State={setTemlatename}></EditHeader>
+          <EditHeader
+            level={1}
+            editable={true}
+            input={templatename}
+            State={setTemlatename}
+          ></EditHeader>
         </div>
         {custom ? (
           <Link href="/workspace" className="text-primary underline">
@@ -97,7 +102,9 @@ export default function DeploymentTemplate({
           <TableBody>
             <TableRow>
               <TableCell>RAM</TableCell>
-              <TableCell>{minSpecs?.ram ? `${convertSize(minSpecs.ram)}` : '-'}</TableCell>
+              <TableCell>
+                {minSpecs?.ram ? `${convertSize(minSpecs.ram)}` : '-'}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Storage</TableCell>
@@ -110,11 +117,12 @@ export default function DeploymentTemplate({
       </div>
 
       <div className="mt-12 space-y-2">
-        {
-          draft && (
-            <ServiceEditor startingServices={services} updateServices={setServices} />
-          )
-        }
+        {draft && (
+          <ServiceEditor
+            startingServices={services}
+            updateServices={setServices}
+          />
+        )}
       </div>
       {/* <div className="mt-12 space-y-2">
         <Header level={2}>Technical Diagram</Header>

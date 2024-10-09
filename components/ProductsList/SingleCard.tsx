@@ -192,7 +192,7 @@ const SingleCard = ({
           />
         ) : (
           <img
-            src={`${prefix}/openmesh-ico-logo.png`}
+            src={`${prefix}/openmesh.svg`}
             alt="image"
             className={`mx-auto flex size-[25px] rounded-[5px] p-[3px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] lg:size-[30px] lg:p-[7px] xl:size-[40px]`}
           />

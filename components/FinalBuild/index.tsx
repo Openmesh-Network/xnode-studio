@@ -118,7 +118,7 @@ const ReviewYourBuild = () => {
       const payload = {
         name: config.name,
         location: config.location,
-        description: config.desc,
+        description: config.description,
         provider: config.provider,
         isUnit: config.isUnit,
 

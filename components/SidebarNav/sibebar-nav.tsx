@@ -20,7 +20,7 @@ import {
   Gauge,
   Globe,
   Home,
-  LayoutPanelLeft,
+  PackageOpen,
   Rocket,
   Star,
   Users,
@@ -36,7 +36,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Icon, Icons } from '@/components/Icons'
+import { Icon } from '@/components/Icons'
 
 interface SidebarNav {
   isMobile?: boolean
@@ -67,7 +67,7 @@ const SidebarNav: React.FC<SidebarNav> = ({
           />
           <NavLink
             href="/app-store"
-            icon={LayoutPanelLeft}
+            icon={PackageOpen}
             label="App Store"
             isMobile={isMobile}
           />

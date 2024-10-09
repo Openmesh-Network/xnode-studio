@@ -5,18 +5,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useXuNfts } from '@/utils/nft'
+import { servicesCompressedForAdmin } from '@/utils/xnode'
+import axios from 'axios'
 import { format } from 'date-fns'
-import {
-  Check,
-  Database,
-  IdCard,
-  RotateCcw,
-  RotateCw,
-  ServerCog,
-} from 'lucide-react'
+import { Check, Database, IdCard, RotateCw, ServerCog } from 'lucide-react'
 import { useAccount } from 'wagmi'
 
-import { AppStoreItem, type AppStorePageType } from '@/types/dataProvider'
+import {
+  AppStoreItem,
+  Specs,
+  type AppStorePageType,
+} from '@/types/dataProvider'
 import { cn, formatXNodeName } from '@/lib/utils'
 import useSelectedXNode from '@/hooks/useSelectedXNode'
 import {
@@ -31,7 +30,11 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupCard } from '@/components/ui/radio-group'
+import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/Icons'
+
+import DeploymentProvider from '../deploy/deployment-provider'
+import { useDeploymentContext } from './deployment-context'
 
 type Step = 0 | 1 | 2
 type FlowType = 'xnode-current' | 'xnode-new' | 'baremetal' | 'evp'
@@ -60,14 +63,23 @@ const evpDeploymentFlow: DeploymentFlow = [
 ]
 
 type DeploymentFlowProps = {
+  sessionToken: string
   item: AppStoreItem
+  specs: Specs
   type: AppStorePageType
 }
-export default function DeploymentFlow({ type, item }: DeploymentFlowProps) {
+export default function DeploymentFlow({
+  sessionToken,
+  type,
+  item,
+  specs,
+}: DeploymentFlowProps) {
   const router = useRouter()
   const { address } = useAccount()
   const { data: xNodes } = useXuNfts(address)
   const [selectedXNode] = useSelectedXNode()
+
+  const [flowOpen, setFlowOpen] = useState(false)
 
   const [flowType, setFlowType] = useState<FlowType | undefined>()
 
@@ -76,40 +88,105 @@ export default function DeploymentFlow({ type, item }: DeploymentFlowProps) {
   const [deploymentSteps, setDeploymentSteps] =
     useState<DeploymentFlow | null>()
 
+  const { config } = useDeploymentContext()
+
+  function handlePreviousStep() {
+    switch (step[0]) {
+      case 1:
+        if (flowType === 'baremetal') setStep([0, undefined])
+    }
+  }
+
   function handleNextStep() {
     switch (step[0]) {
       case 0:
         if (flowType === 'xnode-current') {
           setDeploymentSteps(xnodeDeploymentFlow)
           setStep([1, 'xnode-current'])
-          setTimeout(() => {
-            setActiveDeploymentStep(2)
+          try {
+            createXNodeDeployment()
             setTimeout(() => {
-              setActiveDeploymentStep(3)
+              setActiveDeploymentStep(2)
               setTimeout(() => {
-                router.push('/deployments')
-              }, 30 * 1000)
-            }, 3 * 1000)
-          }, 10 * 1000)
+                setActiveDeploymentStep(3)
+                setTimeout(() => {
+                  router.push('/deployments')
+                }, 30 * 1000)
+              }, 3 * 1000)
+            }, 10 * 1000)
+          } catch (err) {
+            console.log(err)
+
+            setFlowOpen(false)
+            toast({
+              title: 'Failed to deploy the Xnode',
+              description: 'Please try to redeploy or contact us.',
+              variant: 'destructive',
+            })
+          }
+        }
+        if (flowType === 'baremetal') {
+          setStep([1, 'baremetal'])
         }
         if (flowType === 'xnode-new') router.push('/claim')
         break
     }
   }
 
+  async function createXNodeDeployment() {
+    if (!selectedXNode) {
+      toast({
+        title: "Couldn't find a Xnode to deploy to",
+        variant: 'destructive',
+      })
+      throw new Error("Couldn't find a Xnode to deploy to")
+    }
+
+    await axios({
+      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/createXnode`,
+      method: 'post',
+      headers: {
+        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+        'X-Parse-Session-Token': sessionToken,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        ...config,
+        isUnit: true,
+        location: 'NYC1',
+        provider: 'Unit',
+        deploymentAuth: selectedXNode,
+        services: Buffer.from(
+          JSON.stringify({
+            services: servicesCompressedForAdmin(config.services),
+            'users.users': [],
+          })
+        ).toString('base64'),
+      },
+    })
+  }
+
   return (
-    <AlertDialog>
+    <AlertDialog open={flowOpen} onOpenChange={setFlowOpen}>
       <AlertDialogTrigger asChild>
         <Button size="lg" className="h-10 min-w-40">
           Deploy
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="max-w-screen-md transition-all">
+      <AlertDialogContent
+        className={cn(
+          'max-w-screen-md transition-all',
+          step[0] === 1 && step[1] === 'baremetal' && 'max-w-screen-2xl'
+        )}
+      >
         <AlertDialogHeader>
           <AlertDialogTitle>
             {step[0] === 0 ? 'Choose your deployment server' : null}
             {step[0] === 1 && step[1] === 'xnode-current'
               ? 'Deploying...'
+              : null}
+            {step[0] === 1 && step[1] === 'baremetal'
+              ? 'Select a provider'
               : null}
           </AlertDialogTitle>
           <AlertDialogDescription>
@@ -118,6 +195,9 @@ export default function DeploymentFlow({ type, item }: DeploymentFlowProps) {
               : null}
             {step[0] === 1 && step[1] === 'xnode-current'
               ? `We're currently deploying your pre-configured ${type === 'templates' ? 'template' : 'use case'}.`
+              : null}
+            {step[0] === 1 && step[1] === 'baremetal'
+              ? `Chose a baremetal provider to deploy your ${type === 'templates' ? 'template' : 'use case'} to.`
               : null}
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -344,7 +424,20 @@ export default function DeploymentFlow({ type, item }: DeploymentFlowProps) {
             ) : null}
           </div>
         ) : null}
-        <AlertDialogFooter>
+        {step[0] === 1 && step[1] === 'baremetal' ? (
+          <DeploymentProvider specs={specs} />
+        ) : null}
+        <AlertDialogFooter className={cn()}>
+          {step[0] === 1 && step[1] === 'baremetal' ? (
+            <Button
+              size="lg"
+              variant="outline"
+              className="h-10 min-w-28"
+              onClick={() => handlePreviousStep()}
+            >
+              Back
+            </Button>
+          ) : null}
           <AlertDialogCancel className="h-10 min-w-28">
             {step[0] === 0 ? 'Cancel' : null}
             {step[0] === 1 ? 'Close' : null}

@@ -113,16 +113,15 @@ export type DeploymentTemplate = {
 
 export type DeploymentConfiguration = {
   name: string
-  desc: string
-  location: string
-  isUnit: boolean
-  provider: string
+  description: string
+  location?: string
+  provider?: string
+  isUnit?: boolean
   // Either the api key or the NFT id.
-  deploymentAuth: string
+  deploymentAuth?: string
 
   // An array to all the service ids being looked at.
   services: ServiceData[]
-  xnodeConfig: XnodeConfig
 }
 
 export type XnodeConfig = {
@@ -140,7 +139,7 @@ export type ServiceOption = {
   nixName: string
 
   // One of: "string", "int", "float", "bool"
-  type: string
+  type: 'string' | 'int' | 'float' | 'bool' | string
   value?: string
 
   // Suboptions for nested options.

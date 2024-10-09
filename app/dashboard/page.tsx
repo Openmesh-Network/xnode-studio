@@ -26,7 +26,7 @@ export default async function DashboardPage() {
         <h2 className="text-xl font-bold">Individual Nodes</h2>
         <XNodesHealth sessionToken={sessionToken} />
       </section>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="mt-6 grid grid-cols-2 gap-6">
         <section className="space-y-4 rounded border p-6">
           <h2 className="text-xl font-bold">Rewards</h2>
           {/* eslint-disable-next-line tailwindcss/migration-from-tailwind-2 */}

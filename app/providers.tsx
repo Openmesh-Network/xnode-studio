@@ -24,7 +24,7 @@ const metadata = {
   description:
     'Your Gateway to Building Personalized Data Ecosystems in minutes, instead of weeks.',
   url: 'https://www.openmesh.network/xnode',
-  icons: ['https://www.openmesh.network/xnode/openmesh-blue.png'],
+  icons: ['https://www.openmesh.network/xnode/openmesh.svg'],
 }
 
 export const wagmiConfig = defaultWagmiConfig({

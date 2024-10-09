@@ -299,7 +299,7 @@ const DataProduct = (id: any) => {
                   />
                 ) : (
                   <img
-                    src={`${prefix}/openmesh-ico-logo.png`}
+                    src={`${prefix}/openmesh.svg`}
                     alt="image"
                     className={`mx-auto flex size-[30px] rounded-[5px] p-[3px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] lg:size-[40px] lg:p-[7px] 2xl:size-[77px]`}
                   />
@@ -682,7 +682,7 @@ const DataProduct = (id: any) => {
                       <div className="flex gap-x-[6px] lg:gap-x-[8px] 2xl:gap-x-[12px]">
                         <div className="">
                           <img
-                            src={`${prefix}/openmesh-ico-logo.png`}
+                            src={`${prefix}/openmesh.svg`}
                             alt="image"
                             className={`mx-auto flex size-[25px] rounded-[5px] p-[3px] shadow-[0_4px_4px_0px_rgba(0,0,0,0.25)] lg:size-[30px] lg:p-[7px] xl:size-[40px] 2xl:size-[48px]`}
                           />
