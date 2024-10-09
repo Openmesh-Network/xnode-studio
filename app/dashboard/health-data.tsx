@@ -23,6 +23,7 @@ import {
 import { Xnode, type HeartbeatData } from '@/types/node'
 import { formatXNodeName } from '@/lib/utils'
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -238,6 +239,14 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
           </div>
         </>
       ) : null}
+      {isPending ? (
+        <>
+          <Skeleton className="h-[22rem] border" />
+          <Skeleton className="h-[22rem] border" />
+          <Skeleton className="h-[22rem] border" />
+          <Skeleton className="h-[22rem] border" />
+        </>
+      ) : null}
     </div>
   )
 }
@@ -247,95 +256,99 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
 
   return (
     <div className="grid grid-cols-4 gap-6">
-      {!isPending
-        ? xNodes.map((xNode, index) => {
-            const heartbeatData = JSON.parse(
-              xNode.heartbeatData as any as string
-            ) as HeartbeatData
-            return (
-              <div
-                key={`xNode-deployment-${xNode.id}`}
-                className="rounded border px-4 py-2.5"
-              >
-                <h3 className="text-lg font-bold">
-                  {xNode.isUnit
-                    ? formatXNodeName(xNode.deploymentAuth)
-                    : `Xnode ${index}`}
-                </h3>
-                <div className="mt-2 space-y-2">
-                  <div className="flex w-full items-center gap-4">
-                    <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
-                      <Cpu className="size-4" />
-                      <p className="text-sm">CPU</p>
-                    </div>
-                    <div className="relative grow">
-                      <div className="h-2 w-full rounded bg-border" />
-                      <div
-                        className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
-                        style={{
-                          width: `${heartbeatData.cpuPercent * 100}%`,
-                        }}
-                      />
-                    </div>
+      {!isPending ? (
+        xNodes.map((xNode, index) => {
+          const heartbeatData = JSON.parse(
+            xNode.heartbeatData as any as string
+          ) as HeartbeatData
+          return (
+            <div
+              key={`xNode-deployment-${xNode.id}`}
+              className="rounded border px-4 py-2.5"
+            >
+              <h3 className="text-lg font-bold">
+                {xNode.isUnit
+                  ? formatXNodeName(xNode.deploymentAuth)
+                  : `Xnode ${index}`}
+              </h3>
+              <div className="mt-2 space-y-2">
+                <div className="flex w-full items-center gap-4">
+                  <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                    <Cpu className="size-4" />
+                    <p className="text-sm">CPU</p>
                   </div>
-                  <div className="flex w-full items-center gap-4">
-                    <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
-                      <MemoryStick className="size-4" />
-                      <p className="text-sm">RAM</p>
-                    </div>
-                    <div className="relative grow">
-                      <div className="h-2 w-full rounded bg-border" />
-                      <div
-                        className="absolute left-0 top-0 h-2 rounded bg-primary transition-all duration-300 ease-out"
-                        style={{
-                          width: `${(heartbeatData.ramMbUsed / heartbeatData.ramMbTotal) * 100}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex w-full items-center gap-4">
-                    <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
-                      <HardDrive className="size-4" />
-                      <p className="text-sm">Storage</p>
-                    </div>
-                    <div className="relative grow">
-                      <div className="h-2 w-full rounded bg-border" />
-                      <div
-                        className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
-                        style={{
-                          width: `${(heartbeatData.storageMbUsed / heartbeatData.storageMbTotal) * 100}%`,
-                        }}
-                      />
-                    </div>
+                  <div className="relative grow">
+                    <div className="h-2 w-full rounded bg-border" />
+                    <div
+                      className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
+                      style={{
+                        width: `${heartbeatData.cpuPercent * 100}%`,
+                      }}
+                    />
                   </div>
                 </div>
-                <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-1 text-muted-foreground">
-                    <CalendarDays className="size-4" />
-                    <p className="text-xs">
-                      {formatDistanceToNow(xNode.updatedAt)} ago
-                    </p>
+                <div className="flex w-full items-center gap-4">
+                  <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                    <MemoryStick className="size-4" />
+                    <p className="text-sm">RAM</p>
                   </div>
-                  <Image
-                    src="/images/xnode-card/silvercard-front.webp"
-                    alt="Xnode Card"
-                    width={48}
-                    height={28}
-                    className="rounded object-contain"
-                  />
+                  <div className="relative grow">
+                    <div className="h-2 w-full rounded bg-border" />
+                    <div
+                      className="absolute left-0 top-0 h-2 rounded bg-primary transition-all duration-300 ease-out"
+                      style={{
+                        width: `${(heartbeatData.ramMbUsed / heartbeatData.ramMbTotal) * 100}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="flex w-full items-center gap-4">
+                  <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                    <HardDrive className="size-4" />
+                    <p className="text-sm">Storage</p>
+                  </div>
+                  <div className="relative grow">
+                    <div className="h-2 w-full rounded bg-border" />
+                    <div
+                      className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
+                      style={{
+                        width: `${(heartbeatData.storageMbUsed / heartbeatData.storageMbTotal) * 100}%`,
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-            )
-          })
-        : null}
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-1 text-muted-foreground">
+                  <CalendarDays className="size-4" />
+                  <p className="text-xs">
+                    {formatDistanceToNow(xNode.updatedAt)} ago
+                  </p>
+                </div>
+                <Image
+                  src="/images/xnode-card/silvercard-front.webp"
+                  alt="Xnode Card"
+                  width={48}
+                  height={28}
+                  className="rounded object-contain"
+                />
+              </div>
+            </div>
+          )
+        })
+      ) : (
+        <>
+          <Skeleton className="h-44 border" />
+          <Skeleton className="h-44 border" />
+          <Skeleton className="h-44 border" />
+          <Skeleton className="h-44 border" />
+        </>
+      )}
     </div>
   )
 }
 
 export function XNodesApps({ sessionToken }: HealthComponentProps) {
-  const { data: xNodes } = useXnodes(sessionToken)
-  console.log(xNodes)
-
   return (
     // eslint-disable-next-line tailwindcss/migration-from-tailwind-2
     <Table className="w-full overflow-clip rounded">

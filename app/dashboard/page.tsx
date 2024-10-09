@@ -57,7 +57,7 @@ export default async function DashboardPage() {
           <XNodesApps sessionToken={sessionToken} />
         </section>
       </div>
-      <Dashboard />
+      {/* <Dashboard /> */}
     </div>
   )
 }
