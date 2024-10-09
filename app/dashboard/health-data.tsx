@@ -2,11 +2,13 @@
 
 import { useMemo } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import {
   CalendarDays,
   Cpu,
+  Globe,
   HardDrive,
   Hourglass,
   MemoryStick,
@@ -20,6 +22,7 @@ import {
   RadialBarChart,
 } from 'recharts'
 
+import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Xnode, type HeartbeatData } from '@/types/node'
 import { formatXNodeName } from '@/lib/utils'
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart'
@@ -36,8 +39,8 @@ import {
 export function useXnodes(sessionToken: string) {
   return useQuery<Xnode[]>({
     queryKey: ['xnodes', sessionToken],
-    queryFn: async () =>
-      await fetch(
+    queryFn: async () => {
+      const data: Xnode[] = await fetch(
         `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/getXnodes`,
         {
           method: 'GET',
@@ -47,7 +50,12 @@ export function useXnodes(sessionToken: string) {
             'Content-Type': 'application/json',
           },
         }
-      ).then((res) => res.json()),
+      ).then((res) => res.json())
+      return data.map((xNode) => ({
+        ...xNode,
+        heartbeatData: JSON.parse(xNode.heartbeatData as any as string),
+      }))
+    },
     refetchInterval: 30 * 1000,
   })
 }
@@ -153,6 +161,8 @@ type HealthComponentProps = {
 }
 export function HealthSummary({ sessionToken }: HealthComponentProps) {
   const { data: xNodes, isPending } = useXnodes(sessionToken)
+  console.log(xNodes)
+
   const healthSummaryData = useMemo<HealthSummary | null>(() => {
     if (isPending) return null
     let avgHealth: Pick<
@@ -171,9 +181,7 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
     }
 
     for (const xNode of xNodes) {
-      const newData = JSON.parse(
-        xNode.heartbeatData as any as string
-      ) as HeartbeatData
+      const newData = xNode.heartbeatData
       avgHealth = {
         cpuPercent: avgHealth.cpuPercent + newData.cpuPercent,
         ramMbUsed: avgHealth.ramMbUsed + newData.ramMbUsed,
@@ -258,9 +266,6 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
     <div className="grid grid-cols-4 gap-6">
       {!isPending ? (
         xNodes.map((xNode, index) => {
-          const heartbeatData = JSON.parse(
-            xNode.heartbeatData as any as string
-          ) as HeartbeatData
           return (
             <div
               key={`xNode-deployment-${xNode.id}`}
@@ -282,7 +287,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                     <div
                       className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
                       style={{
-                        width: `${heartbeatData.cpuPercent * 100}%`,
+                        width: `${xNode.heartbeatData.cpuPercent * 100}%`,
                       }}
                     />
                   </div>
@@ -297,7 +302,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                     <div
                       className="absolute left-0 top-0 h-2 rounded bg-primary transition-all duration-300 ease-out"
                       style={{
-                        width: `${(heartbeatData.ramMbUsed / heartbeatData.ramMbTotal) * 100}%`,
+                        width: `${(xNode.heartbeatData.ramMbUsed / xNode.heartbeatData.ramMbTotal) * 100}%`,
                       }}
                     />
                   </div>
@@ -312,7 +317,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                     <div
                       className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
                       style={{
-                        width: `${(heartbeatData.storageMbUsed / heartbeatData.storageMbTotal) * 100}%`,
+                        width: `${(xNode.heartbeatData.storageMbUsed / xNode.heartbeatData.storageMbTotal) * 100}%`,
                       }}
                     />
                   </div>
@@ -322,7 +327,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                 <div className="flex items-center gap-1 text-muted-foreground">
                   <CalendarDays className="size-4" />
                   <p className="text-xs">
-                    {formatDistanceToNow(xNode.updatedAt)} ago
+                    {formatDistanceToNow(xNode.unitClaimTime)} ago
                   </p>
                 </div>
                 <Image
@@ -349,6 +354,28 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
 }
 
 export function XNodesApps({ sessionToken }: HealthComponentProps) {
+  const { data: xNodes, isPending } = useXnodes(sessionToken)
+
+  const services = useMemo(() => {
+    const allServices: Record<
+      Xnode['id'],
+      (ServiceData & { xNodeNft: Xnode['deploymentAuth']; updatedAt: Date })[]
+    > = {}
+    if (isPending) return allServices
+    for (const xNode of xNodes) {
+      const services = JSON.parse(
+        Buffer.from(xNode.services, 'base64').toString('utf-8')
+      )['services'] as ServiceData[]
+      allServices[xNode.id] = services.map((service) => ({
+        ...service,
+        xNodeNft: xNode.deploymentAuth,
+        updatedAt: xNode.updatedAt,
+      }))
+    }
+    return allServices
+  }, [isPending, xNodes])
+  console.log(services)
+
   return (
     // eslint-disable-next-line tailwindcss/migration-from-tailwind-2
     <Table className="w-full overflow-clip rounded">
@@ -361,19 +388,54 @@ export function XNodesApps({ sessionToken }: HealthComponentProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell
-            colSpan={4}
-            className="py-8 text-center font-semibold text-muted-foreground"
-          >
-            No apps currently running.
-          </TableCell>
-        </TableRow>
-        {/* {xNodes.flatMap(({deploymentAuth, services}) => ([deploymentAuth])).map(
-          <TableRow key={deploymentAuth}>
-            {services}
+        {isPending ? (
+          Array.from({ length: 5 }).map((_, index) => (
+            <TableRow>
+              <TableCell colSpan={4}>
+                <Skeleton key={`deployment-app-${index}`} className="h-5" />
+              </TableCell>
+            </TableRow>
+          ))
+        ) : Object.values(services).some((services) => services.length > 0) ? (
+          Object.entries(services).map(([xNodeId, services]) =>
+            services.map((service) => (
+              <TableRow key={`deployment-app-${service.nixName}`}>
+                <TableCell className="inline-flex items-center gap-2">
+                  {service.logo ? (
+                    <img
+                      src={service.logo}
+                      alt={`${service.name} logo`}
+                      width={20}
+                      height={20}
+                    />
+                  ) : null}
+                  {service.name}
+                </TableCell>
+                <TableCell>{formatXNodeName(service.xNodeNft)}</TableCell>
+                <TableCell>
+                  {formatDistanceToNow(service.updatedAt)} ago
+                </TableCell>
+                <TableCell>
+                  <Link href={`/xnode?uuid=${xNodeId}`}>
+                    <Globe
+                      className="size-5 text-muted-foreground"
+                      strokeWidth={1.5}
+                    />
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))
+          )
+        ) : (
+          <TableRow>
+            <TableCell
+              colSpan={4}
+              className="py-8 text-center font-semibold text-muted-foreground"
+            >
+              No apps currently running.
+            </TableCell>
           </TableRow>
-        ))} */}
+        )}
       </TableBody>
     </Table>
   )
