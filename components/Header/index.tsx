@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { formatAddress } from '@/utils/functions'
 import { useXueNfts, useXuNfts } from '@/utils/nft'
+import { useWeb3Modal } from '@web3modal/wagmi/react'
 import {
   BellDot,
   Check,
@@ -38,6 +39,8 @@ export function Header() {
   const { address, status } = useAccount()
   const { data: activeXNodes } = useXuNfts(address)
   const { data: inactiveXNodes } = useXueNfts(address)
+
+  const { open } = useWeb3Modal()
 
   const [selectedXNode, selectXNode] = useSelectedXNode(
     activeXNodes?.length ? activeXNodes.at(0)?.toString() : null
@@ -135,29 +138,33 @@ export function Header() {
         </button>
         <div className="flex items-center gap-6">
           <button
+            disabled
             type="button"
-            className="flex size-9 items-center justify-center rounded bg-primary text-background transition-colors hover:bg-primary/90"
+            className="flex size-9 items-center justify-center rounded bg-primary text-background transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
           >
             <Plus className="size-5" strokeWidth={1.5} />
           </button>
           <div className="flex items-center gap-2 text-background">
             <button
+              disabled
               type="button"
-              className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
+              className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10 disabled:pointer-events-none disabled:opacity-50"
             >
               <span className="sr-only">Notifications</span>
               <BellDot className="size-5" strokeWidth={1.5} />
             </button>
             <button
+              disabled
               type="button"
-              className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
+              className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10 disabled:pointer-events-none disabled:opacity-50"
             >
               <span className="sr-only">Help</span>
               <HelpCircle className="size-5" strokeWidth={1.5} />
             </button>
             <button
+              disabled
               type="button"
-              className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10"
+              className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10 disabled:pointer-events-none disabled:opacity-50"
             >
               <span className="sr-only">Settings</span>
               <Settings className="size-5" strokeWidth={1.5} />
@@ -166,16 +173,18 @@ export function Header() {
           {!address && status === 'disconnected' ? (
             <w3m-connect-button />
           ) : (
-            <Popover>
-              <PopoverTrigger className="flex h-9 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background">
-                <User2 className="size-4" />
-                {address && status === 'connected' ? (
-                  formatAddress(address)
-                ) : (
-                  <span className="h-6 w-20 animate-pulse rounded bg-white/20" />
-                )}
-              </PopoverTrigger>
-            </Popover>
+            <button
+              type="button"
+              className="flex h-9 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background"
+              onClick={() => open()}
+            >
+              <User2 className="size-4" />
+              {address && status === 'connected' ? (
+                formatAddress(address)
+              ) : (
+                <span className="h-6 w-20 animate-pulse rounded bg-white/20" />
+              )}
+            </button>
           )}
         </div>
         {/* <div className="hidden h-full items-center gap-x-20 lg:flex">

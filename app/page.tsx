@@ -41,7 +41,7 @@ export default function Home() {
         <h2 className="text-2xl font-bold">Quick Access</h2>
         <div className="grid grid-cols-4 gap-6">
           <Link
-            href="/"
+            href="/claim"
             className="flex items-center gap-4 rounded border px-8 py-6 font-semibold transition-colors hover:bg-foreground/5"
           >
             <IdCard className="size-8" strokeWidth={1.5} />

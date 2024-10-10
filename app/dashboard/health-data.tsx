@@ -24,7 +24,7 @@ import {
 
 import { ServiceData, XnodeConfig } from '@/types/dataProvider'
 import { Xnode, type HeartbeatData } from '@/types/node'
-import { formatXNodeName } from '@/lib/utils'
+import { cn, formatXNodeName } from '@/lib/utils'
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -55,7 +55,7 @@ export function useXnodes(sessionToken: string) {
       return data.map((xNode) => ({
         ...xNode,
         heartbeatData:
-          xNode.status !== 'booting'
+          xNode.heartbeatData !== null
             ? JSON.parse(xNode.heartbeatData as any as string)
             : null,
       }))
@@ -165,6 +165,7 @@ type HealthComponentProps = {
 }
 export function HealthSummary({ sessionToken }: HealthComponentProps) {
   const { data: xNodes, isPending } = useXnodes(sessionToken)
+
   const healthSummaryData = useMemo<HealthSummary | null>(() => {
     if (isPending) return null
     let avgHealth: Pick<
@@ -264,6 +265,7 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
 
 export function XNodesHealth({ sessionToken }: HealthComponentProps) {
   const { data: xNodes, isPending } = useXnodes(sessionToken)
+
   return (
     <div className="grid grid-cols-4 gap-6">
       {!isPending ? (
@@ -279,9 +281,16 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                     ? formatXNodeName(xNode.deploymentAuth)
                     : `Xnode ${index}`}
                 </h3>
-                {xNode.status === 'booting' ? (
-                  <span className="rounded bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
-                    Booting
+                {xNode.status !== 'online' ? (
+                  <span
+                    className={cn(
+                      'rounded px-2 py-0.5 text-xs font-medium capitalize',
+                      xNode.status === 'booting'
+                        ? 'bg-destructive/10 text-destructive'
+                        : 'bg-orange-500/10 text-orange-500'
+                    )}
+                  >
+                    {xNode.status}
                   </span>
                 ) : null}
               </div>
@@ -296,7 +305,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                     <div
                       className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
                       style={{
-                        width: `${Math.min(xNode.heartbeatData?.cpuPercent, 100)}%`,
+                        width: `${Math.min(Math.round(xNode.heartbeatData?.cpuPercent), 100)}%`,
                       }}
                     />
                   </div>
@@ -417,7 +426,7 @@ export function XNodesApps({ sessionToken }: HealthComponentProps) {
                       height={20}
                     />
                   ) : null}
-                  {service.name}
+                  {service.name ?? service.nixName}
                 </TableCell>
                 <TableCell>{formatXNodeName(service.xNodeNft)}</TableCell>
                 <TableCell>

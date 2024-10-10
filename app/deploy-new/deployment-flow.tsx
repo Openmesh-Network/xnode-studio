@@ -13,6 +13,7 @@ import { useAccount } from 'wagmi'
 
 import {
   AppStoreItem,
+  ServiceData,
   Specs,
   type AppStorePageType,
 } from '@/types/dataProvider'
@@ -33,6 +34,7 @@ import { RadioGroup, RadioGroupCard } from '@/components/ui/radio-group'
 import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/Icons'
 
+import { useXnodes } from '../dashboard/health-data'
 import DeploymentProvider from '../deploy/deployment-provider'
 import { useDeploymentContext } from './deployment-context'
 
@@ -76,8 +78,9 @@ export default function DeploymentFlow({
 }: DeploymentFlowProps) {
   const router = useRouter()
   const { address } = useAccount()
-  const { data: xNodes } = useXuNfts(address)
+  const { data: allXNodeNfts } = useXuNfts(address)
   const [selectedXNode] = useSelectedXNode()
+  const { data: deployedXNodes } = useXnodes(sessionToken)
 
   const [flowOpen, setFlowOpen] = useState(false)
 
@@ -142,28 +145,65 @@ export default function DeploymentFlow({
       throw new Error("Couldn't find a Xnode to deploy to")
     }
 
-    await axios({
-      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/createXnode`,
-      method: 'post',
-      headers: {
-        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-        'X-Parse-Session-Token': sessionToken,
-        'Content-Type': 'application/json',
-      },
-      data: {
-        ...config,
-        isUnit: true,
-        location: 'NYC1',
-        provider: 'Unit',
-        deploymentAuth: selectedXNode,
-        services: Buffer.from(
-          JSON.stringify({
-            services: servicesCompressedForAdmin(config.services),
-            'users.users': [],
-          })
-        ).toString('base64'),
-      },
-    })
+    const deployedXNode = deployedXNodes.find(
+      (xNode) => xNode.deploymentAuth === selectedXNode
+    )
+
+    if (deployedXNode) {
+      const deployedServices = JSON.parse(
+        Buffer.from(deployedXNode.services, 'base64').toString('utf-8')
+      )['services'] as ServiceData[]
+      const newServiceMap = new Map<ServiceData['nixName'], ServiceData>()
+      deployedServices.forEach((service) =>
+        newServiceMap.set(service.nixName, service)
+      )
+      config.services.forEach((service) =>
+        newServiceMap.set(service.nixName, service)
+      )
+      await axios({
+        url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/pushXnodeServices`,
+        method: 'post',
+        headers: {
+          'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+          'X-Parse-Session-Token': sessionToken,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          id: deployedXNode.id,
+          services: Buffer.from(
+            JSON.stringify({
+              services: servicesCompressedForAdmin(
+                Array.from(newServiceMap.values())
+              ),
+              'users.users': [],
+            })
+          ).toString('base64'),
+        },
+      })
+    } else {
+      await axios({
+        url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/createXnode`,
+        method: 'post',
+        headers: {
+          'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+          'X-Parse-Session-Token': sessionToken,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          ...config,
+          isUnit: true,
+          location: 'NYC1',
+          provider: 'Unit',
+          deploymentAuth: selectedXNode,
+          services: Buffer.from(
+            JSON.stringify({
+              services: servicesCompressedForAdmin(config.services),
+              'users.users': [],
+            })
+          ).toString('base64'),
+        },
+      })
+    }
   }
 
   return (
@@ -207,7 +247,7 @@ export default function DeploymentFlow({
             onValueChange={(type: FlowType) => setFlowType(type)}
             className="flex flex-col gap-4"
           >
-            {xNodes?.length ? (
+            {allXNodeNfts?.length ? (
               <RadioGroupCard
                 value="xnode-current"
                 className="rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 data-[state=checked]:text-inherit enabled:data-[state=unchecked]:hover:bg-muted"
@@ -461,7 +501,7 @@ export default function DeploymentFlow({
           activeDeploymentStep === 3 ? (
             <Link href={`/deployments/${selectedXNode}`}>
               <Button size="lg" className="h-10 min-w-40">
-                Zum Deployment
+                Go to Deployment
               </Button>
             </Link>
           ) : null}

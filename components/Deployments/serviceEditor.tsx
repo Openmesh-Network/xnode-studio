@@ -226,7 +226,7 @@ const ServiceEditor = ({
     } else {
       console.error('Option not saved')
     }
-
+    updateServices(newServices)
     setServices(newServices)
   }
 
@@ -236,6 +236,7 @@ const ServiceEditor = ({
         let newServices = services
         newServices[i] = serviceByName(serviceNixName)
 
+        updateServices(newServices)
         setServices(newServices)
         return
       }

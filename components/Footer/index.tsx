@@ -26,7 +26,7 @@ export function Footer() {
     },
   ]
   return (
-    <footer className="z-50 flex h-16 w-full items-center justify-between bg-[#19161C] px-6 py-3 md:pr-0">
+    <footer className="z-50 flex h-16 w-full items-center justify-between bg-foreground px-6 py-3 md:pr-0">
       <div className="flex items-center">
         <Image src={logo} alt="Openmesh Logo" width={160} height={40} />
         <div className="ml-6 hidden items-center text-sm text-gray-300 md:flex">

@@ -7,9 +7,15 @@ import { Cloud, EllipsisVertical, Hourglass, Star } from 'lucide-react'
 
 import { type ServiceData } from '@/types/dataProvider'
 import { type Xnode } from '@/types/node'
-import { formatXNodeName } from '@/lib/utils'
+import { cn, formatXNodeName } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { Icons } from '@/components/Icons'
 
 import { useXnodes } from '../dashboard/health-data'
@@ -52,38 +58,72 @@ export default function DeploymentsList({
               <p className="text-sm text-muted-foreground">
                 {formatDistanceToNow(xNode.unitClaimTime)} ago
               </p>
-              <h3 className="basis-2/12 text-lg font-semibold">
-                {xNode.isUnit
-                  ? formatXNodeName(xNode.deploymentAuth)
-                  : `Xnode ${index}`}
-              </h3>
-              <div className="basis-2/12 space-y-1 text-muted-foreground">
+              <div className="flex basis-2/12 items-center gap-2">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span
+                        className={cn(
+                          'size-2.5 rounded-full bg-primary hover:animate-pulse',
+                          xNode.status !== 'online' && 'bg-orange-500',
+                          xNode.status === 'booting' && 'bg-destructive'
+                        )}
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="text-sm text-muted-foreground">
+                        Server Status
+                      </p>
+                      <p className="font-semibold capitalize">{xNode.status}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <h3 className="text-lg font-semibold">
+                  {xNode.isUnit
+                    ? formatXNodeName(xNode.deploymentAuth)
+                    : `Xnode ${index}`}
+                </h3>
+              </div>
+              <div className="basis-1/12 space-y-1 text-muted-foreground">
                 <p className="text-xs font-medium">Installation</p>
                 <div className="flex items-center gap-1">
                   <Icons.XNodeIcon className="size-4" />
                   <Cloud className="size-4" />
                 </div>
               </div>
-              <div className="basis-2/12 space-y-1 text-muted-foreground">
+              <div className="basis-4/12 space-y-1 text-muted-foreground">
                 <p className="text-xs font-medium">Services</p>
                 <div className="flex items-center gap-1">
                   {services.get(xNode.id) !== null ? (
-                    services.get(xNode.id).map((service) => (
-                      <span
-                        key={`${xNode.id}-service-${service.nixName}`}
-                        className="flex items-center gap-1.5 rounded bg-primary/10 px-2 py-1 text-xs font-medium text-foreground"
-                      >
-                        {service.logo ? (
-                          <img
-                            src={service.logo}
-                            alt={`${service.name} logo`}
-                            width={16}
-                            height={16}
-                          />
-                        ) : null}
-                        {service.name}
-                      </span>
-                    ))
+                    <>
+                      {services
+                        .get(xNode.id)
+                        .slice(0, 3)
+                        .map((service) => (
+                          <span
+                            key={`${xNode.id}-service-${service.nixName}`}
+                            className="flex items-center gap-1.5 rounded bg-primary/10 px-2 py-1 text-xs font-medium text-foreground"
+                          >
+                            {service.logo ? (
+                              <img
+                                src={service.logo}
+                                alt={`${service.nixName} logo`}
+                                width={16}
+                                height={16}
+                              />
+                            ) : null}
+                            {service.name ?? service.nixName}
+                          </span>
+                        ))}
+                      {services.get(xNode.id).length > 3 ? (
+                        <span
+                          key={`${xNode.id}-more-services`}
+                          className="flex items-center gap-1.5 rounded bg-primary/10 px-2 py-1 text-xs font-medium text-foreground"
+                        >
+                          +{services.get(xNode.id).length - 3}
+                        </span>
+                      ) : null}
+                    </>
                   ) : (
                     <Hourglass className="size-4" />
                   )}
