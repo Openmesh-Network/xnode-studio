@@ -157,9 +157,7 @@ export default function DeploymentFlow({
               }, 3 * 1000)
             }, 10 * 1000)
           } catch (err) {
-            console.log(err)
-
-            setFlowOpen(false)
+            onFlowOpenToggle(false)
             toast({
               title: 'Failed to deploy the Xnode',
               description: 'Please try to redeploy or contact us.',
@@ -255,8 +253,19 @@ export default function DeploymentFlow({
     }
   }
 
+  function onFlowOpenToggle(newVal: boolean) {
+    if (newVal === true) {
+      setFlowOpen(newVal)
+      return
+    }
+    setFlowOpen(newVal)
+    setStep([0, undefined])
+    setActiveDeploymentStep(1)
+    setFlowType(undefined)
+  }
+
   return (
-    <AlertDialog open={flowOpen} onOpenChange={setFlowOpen}>
+    <AlertDialog open={flowOpen} onOpenChange={onFlowOpenToggle}>
       <AlertDialogTrigger asChild>
         <Button size="lg" className="h-10 min-w-40">
           Deploy

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { formatAddress } from '@/utils/functions'
 import { useXueNfts, useXuNfts } from '@/utils/nft'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
@@ -32,6 +32,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { GlobalSearch } from '@/components/global-search'
 
 import ActivateXNodeDialog from '../xnode/activate-dialog'
 
@@ -49,6 +50,20 @@ export function Header() {
   const totalNodes = activeXNodes?.length + inactiveXNodes?.length
 
   const [activationOpen, setActivationOpen] = useState<string | null>()
+
+  const [globalSearchOpen, setGlobalSearchOpen] = useState(false)
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setGlobalSearchOpen(true)
+      }
+    }
+
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
+  }, [])
 
   return (
     <>
@@ -129,13 +144,18 @@ export function Header() {
             </PopoverContent>
           </Popover>
         </div>
-        <button
-          type="button"
-          className="flex h-9 min-w-56 max-w-lg grow items-center gap-3 rounded border border-background/15 bg-background/10 px-3 text-muted transition-colors hover:bg-background/15"
-        >
-          <Search className="size-4" />
-          <span className="text-sm">Search & Run Commands</span>
-        </button>
+        <Popover open={globalSearchOpen} onOpenChange={setGlobalSearchOpen}>
+          <PopoverTrigger className="flex h-9 min-w-56 max-w-lg grow items-center justify-between gap-3 rounded border border-background/15 bg-background/10 px-3 text-muted transition-colors hover:bg-background/15">
+            <span className="flex items-center gap-3">
+              <Search className="size-4" />
+              <span className="text-sm">Search & Run Commands</span>
+            </span>
+            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-muted-foreground/50 bg-foreground/50 px-1.5 font-mono text-[10px] font-medium text-muted opacity-100">
+              <span className="text-xs">⌘</span>K
+            </kbd>
+          </PopoverTrigger>
+          <GlobalSearch onSelect={() => setGlobalSearchOpen(false)} />
+        </Popover>
         <div className="flex items-center gap-6">
           <button
             disabled

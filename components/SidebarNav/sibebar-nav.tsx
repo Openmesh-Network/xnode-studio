@@ -11,22 +11,9 @@ import {
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
 import { motion } from 'framer-motion'
-import {
-  BookText,
-  ChevronDown,
-  Cloud,
-  Cpu,
-  DatabaseZap,
-  Gauge,
-  Globe,
-  Home,
-  PackageOpen,
-  Rocket,
-  Star,
-  Users,
-  type LucideIcon,
-} from 'lucide-react'
+import { ChevronDown, type LucideIcon } from 'lucide-react'
 
+import { navItems } from '@/config/nav'
 import { cn } from '@/lib/utils'
 import { Button, ButtonProps } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -52,62 +39,31 @@ const SidebarNav: React.FC<SidebarNav> = ({
       {/* <NavHeader isMobile={isMobile}></NavHeader> */}
       <NavContent className="mt-0 h-full overflow-y-auto overflow-x-clip p-2">
         <NavCategory>
-          <NavLink href="/" icon={Home} label="Home" isMobile={isMobile} />
-          <NavLink
-            href="/dashboard"
-            icon={Gauge}
-            label="Dashboard"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="/deployments"
-            icon={Rocket}
-            label="Deployments"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="/app-store"
-            icon={PackageOpen}
-            label="App Store"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="/rewards"
-            icon={Star}
-            label="Rewards"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="/resources"
-            icon={DatabaseZap}
-            label="Resources"
-            isMobile={isMobile}
-          />
-          <NavCollapsable
-            label="Compute"
-            icon={Cpu}
-            links={[
-              {
-                label: 'Overview',
-                href: '/compute',
-              },
-              {
-                label: 'Deploy',
-                href: '/compute/deploy',
-              },
-            ]}
-          />
-          <NavCollapsable
-            label="Storage"
-            icon={Cloud}
-            disabled
-            links={[
-              {
-                label: 'Storage',
-                href: '/storage',
-              },
-            ]}
-          />
+          {navItems.main.map((navItem) =>
+            navItem.type === 'item' ? (
+              <NavLink
+                label={navItem.name}
+                href={navItem.href}
+                icon={navItem.icon}
+              />
+            ) : (
+              <NavCollapsable
+                label={navItem.name}
+                icon={navItem.icon}
+                disabled={navItem.disabled}
+                links={navItem.items
+                  .map((subItem) =>
+                    subItem.type === 'item'
+                      ? {
+                          label: subItem.name,
+                          href: subItem.href,
+                        }
+                      : null
+                  )
+                  .filter((item) => item !== null)}
+              />
+            )
+          )}
         </NavCategory>
         {/* <NavCategory>
           <NavLink
@@ -279,24 +235,31 @@ const SidebarNav: React.FC<SidebarNav> = ({
           />
         </NavCategory> */}
         <NavCategory label="Support">
-          <NavLink
-            href="/docs"
-            icon={BookText}
-            label="Documentation"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="https://discord.com/invite/openmesh"
-            icon={Users}
-            label="Commmunity"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="https://circle.openmesh.network/"
-            icon={Globe}
-            label="OpenCircle"
-            isMobile={isMobile}
-          />
+          {navItems.support.map((navItem) =>
+            navItem.type === 'item' ? (
+              <NavLink
+                label={navItem.name}
+                href={navItem.href}
+                icon={navItem.icon}
+              />
+            ) : (
+              <NavCollapsable
+                label={navItem.name}
+                icon={navItem.icon}
+                disabled={navItem.disabled}
+                links={navItem.items
+                  .map((subItem) =>
+                    subItem.type === 'item'
+                      ? {
+                          label: subItem.name,
+                          href: subItem.href,
+                        }
+                      : null
+                  )
+                  .filter((item) => item !== null)}
+              />
+            )
+          )}
         </NavCategory>
       </NavContent>
     </NavContainer>
