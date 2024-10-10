@@ -52,7 +52,11 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
             {navItems.main
               .filter((navItem) => navItem.type === 'item')
               .map((navItem) => (
-                <CommandItem asChild onSelect={onSelect}>
+                <CommandItem
+                  key={`globalSearch-nav-${navItem.name}`}
+                  asChild
+                  onSelect={onSelect}
+                >
                   <Link href={navItem.href}>
                     <navItem.icon className="mr-2 size-4" />
                     <span>{navItem.name}</span>
@@ -64,7 +68,11 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
             {navItems.support
               .filter((navItem) => navItem.type === 'item')
               .map((navItem) => (
-                <CommandItem asChild onSelect={onSelect}>
+                <CommandItem
+                  key={`globalSearch-nav-${navItem.name}`}
+                  asChild
+                  onSelect={onSelect}
+                >
                   <Link href={navItem.href}>
                     <navItem.icon className="mr-2 size-4" />
                     <span>{navItem.name}</span>

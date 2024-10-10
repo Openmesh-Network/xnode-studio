@@ -42,12 +42,14 @@ const SidebarNav: React.FC<SidebarNav> = ({
           {navItems.main.map((navItem) =>
             navItem.type === 'item' ? (
               <NavLink
+                key={`navItem-${navItem.name}`}
                 label={navItem.name}
                 href={navItem.href}
                 icon={navItem.icon}
               />
             ) : (
               <NavCollapsable
+                key={`navCategory-${navItem.name}`}
                 label={navItem.name}
                 icon={navItem.icon}
                 disabled={navItem.disabled}
@@ -238,12 +240,14 @@ const SidebarNav: React.FC<SidebarNav> = ({
           {navItems.support.map((navItem) =>
             navItem.type === 'item' ? (
               <NavLink
+                key={`navItem-${navItem.name}`}
                 label={navItem.name}
                 href={navItem.href}
                 icon={navItem.icon}
               />
             ) : (
               <NavCollapsable
+                key={`navCategory-${navItem.name}`}
                 label={navItem.name}
                 icon={navItem.icon}
                 disabled={navItem.disabled}

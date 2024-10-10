@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { ComponentProps, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
@@ -70,11 +70,19 @@ type HealthSummary = {
   storage: number
 }
 
-type HealthSummaryItemProps = {
+type HealthChartItemProps = Omit<
+  ComponentProps<typeof ChartContainer>,
+  'config' | 'children'
+> & {
   type: 'cpu' | 'ram' | 'storage'
   healthData: number
 }
-function HealthSummaryItem({ type, healthData }: HealthSummaryItemProps) {
+export function HealthChartItem({
+  type,
+  healthData,
+  className,
+  ...props
+}: HealthChartItemProps) {
   const chartData = [
     {
       name: type,
@@ -91,7 +99,11 @@ function HealthSummaryItem({ type, healthData }: HealthSummaryItemProps) {
   } satisfies ChartConfig
 
   return (
-    <ChartContainer config={chartConfig} className="size-64 min-h-48">
+    <ChartContainer
+      config={chartConfig}
+      className={cn('size-64 min-h-48', className)}
+      {...props}
+    >
       <RadialBarChart
         accessibilityLayer
         data={chartData}
@@ -217,7 +229,7 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
             <p className="text-sm text-muted-foreground">
               Avg. CPU utilization
             </p>
-            <HealthSummaryItem type="cpu" healthData={healthSummaryData.cpu} />
+            <HealthChartItem type="cpu" healthData={healthSummaryData.cpu} />
           </div>
           <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
             <h4 className="text-lg font-semibold">GPU</h4>
@@ -237,14 +249,14 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
             <p className="text-sm text-muted-foreground">
               Avg. RAM utilization
             </p>
-            <HealthSummaryItem type="ram" healthData={healthSummaryData.ram} />
+            <HealthChartItem type="ram" healthData={healthSummaryData.ram} />
           </div>
           <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
             <h4 className="text-lg font-semibold">Storage</h4>
             <p className="text-sm text-muted-foreground">
               Avg. Storage utilization
             </p>
-            <HealthSummaryItem
+            <HealthChartItem
               type="storage"
               healthData={healthSummaryData.storage}
             />
