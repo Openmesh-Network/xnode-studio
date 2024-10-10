@@ -40,6 +40,8 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupCard } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -608,6 +610,46 @@ export default function DeploymentFlow({
             </div>
           </div>
         ) : null}
+        {step[0] === 2 &&
+        step[1] === 'baremetal' &&
+        activeDeploymentStep === 2 ? (
+          <div className="mt-4">
+            <h4 className="text-2xl font-bold">Setup your server</h4>
+            <p className="text-muted-foreground">
+              To setup your baremetal server, you first need to connect to the
+              provider through an API key.
+            </p>
+            <p className="mt-2">
+              {config.name}
+              {selectedBaremetalServer
+                ? ` | $${selectedBaremetalServer.priceSale ?? selectedBaremetalServer.priceMonth}/mo`
+                : null}
+            </p>
+            <div
+              className={cn(
+                'mt-2 flex flex-col rounded border p-4',
+                // TODO: Reactivate once we allow for baremetal deployments
+                'pointer-events-none border-destructive opacity-50'
+              )}
+            >
+              {/* TODO: Reactivate once we allow for baremetal deployments */}
+              <p className="mb-4 font-semibold uppercase text-destructive">
+                coming soon
+              </p>
+              <p className="text-lg font-semibold">{config.provider}</p>
+              <div className="mt-2 space-y-0.5">
+                <Label htmlFor="apiKey">API Key</Label>
+                <Input id="apiKey" name="apiKey" />
+              </div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Don&apos;t have an API key yet?{' '}
+                <Link href="#" className="underline underline-offset-2">
+                  Get one here.
+                </Link>
+              </p>
+            </div>
+          </div>
+        ) : null}
         <AlertDialogFooter className={cn()}>
           {step[0] === 1 && step[1] === 'baremetal' ? (
             <Button
@@ -651,8 +693,11 @@ export default function DeploymentFlow({
               size="lg"
               className="h-10 min-w-40"
               onClick={handleNextStep}
+              // TODO: Reactivate once we allow for baremetal deployments
+              disabled={activeDeploymentStep === 2}
             >
-              Deploy
+              {activeDeploymentStep === 1 ? 'Deploy' : null}
+              {activeDeploymentStep === 2 ? 'Connect' : null}
             </Button>
           ) : null}
         </AlertDialogFooter>

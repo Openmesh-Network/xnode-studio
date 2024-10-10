@@ -69,7 +69,7 @@ export default function DeploymentProvider({
   const [page, setPage] = useState<number>(0)
   const [searchInput, setSearchInput] = useState<string>('')
   const debouncedSearchInput = useDebounce(searchInput, 500)
-  const [region, setRegion] = useState<string | null>()
+  const [region, setRegion] = useState<string | null>(null)
   const [priceRange, setPriceRange] = useState<
     [number | undefined, number | undefined]
   >([undefined, undefined])
@@ -222,6 +222,7 @@ export default function DeploymentProvider({
       <div className="mt-8 flex gap-12">
         <div className="flex flex-col gap-3">
           <Button
+            type="button"
             disabled={
               region === null &&
               searchInput === '' &&
@@ -248,7 +249,7 @@ export default function DeploymentProvider({
               <Input
                 id="search"
                 type="text"
-                placeholder="Filter provider and item names"
+                placeholder="Providers and servers..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 className="pl-10"

@@ -1,31 +1,20 @@
 'use client'
 
-import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
-import {
-  Calculator,
-  Calendar,
-  CreditCard,
-  LogOut,
-  Settings,
-  Smile,
-  User,
-} from 'lucide-react'
+import { LogOut, User } from 'lucide-react'
 import { useDisconnect } from 'wagmi'
 
 import { navItems } from '@/config/nav'
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
 } from '@/components/ui/command'
 
 import { PopoverContent } from './ui/popover'
