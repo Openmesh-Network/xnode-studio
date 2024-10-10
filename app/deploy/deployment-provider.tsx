@@ -60,8 +60,12 @@ const FETCHING_TEXTS = [
 
 type DeploymentProviderProps = {
   specs?: Specs
+  onSelect: () => void
 }
-export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
+export default function DeploymentProvider({
+  specs,
+  onSelect,
+}: DeploymentProviderProps) {
   const [page, setPage] = useState<number>(0)
   const [searchInput, setSearchInput] = useState<string>('')
   const debouncedSearchInput = useDebounce(searchInput, 500)
@@ -557,9 +561,11 @@ export default function DeploymentProvider({ specs }: DeploymentProviderProps) {
                                 setConfig((prev) => ({
                                   ...prev,
                                   name: provider.productName,
+                                  provider: provider.providerName,
                                   location: provider.location,
                                   isUnit: false,
                                 }))
+                                onSelect()
                               }}
                             >
                               Select

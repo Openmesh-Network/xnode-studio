@@ -1,14 +1,24 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { Provider } from '@/db/schema'
 import { useXuNfts } from '@/utils/nft'
 import { servicesCompressedForAdmin } from '@/utils/xnode'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { format } from 'date-fns'
-import { Check, Database, IdCard, RotateCw, ServerCog } from 'lucide-react'
+import {
+  Check,
+  Database,
+  Dot,
+  IdCard,
+  MapPin,
+  RotateCw,
+  ServerCog,
+} from 'lucide-react'
 import { useAccount } from 'wagmi'
 
 import {
@@ -31,6 +41,8 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupCard } from '@/components/ui/radio-group'
+import { Separator } from '@/components/ui/separator'
+import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/Icons'
 
@@ -93,6 +105,33 @@ export default function DeploymentFlow({
 
   const { config } = useDeploymentContext()
 
+  const { data: selectedBaremetalServer } = useQuery<Provider>({
+    queryKey: ['provider', config.name],
+    queryFn: async () => {
+      return await fetch(`/api/providers/${config.name}`, {
+        method: 'GET',
+      }).then((res) => res.json())
+    },
+    enabled: step[0] === 2 && step[1] === 'baremetal',
+  })
+  const baremetalConfig = useMemo(() => {
+    if (!selectedBaremetalServer) return null
+    let config = ''
+    if (selectedBaremetalServer.cpuGHZ)
+      config += `${selectedBaremetalServer.cpuGHZ}GHz `
+    if (selectedBaremetalServer.cpuCores)
+      config += `${selectedBaremetalServer.cpuCores}-Core `
+    if (selectedBaremetalServer.cpuThreads)
+      config += `(${selectedBaremetalServer.cpuThreads} threads)`
+    if (selectedBaremetalServer.ram)
+      config += `, ${selectedBaremetalServer.ram}GB RAM`
+    if (selectedBaremetalServer.storageTotal)
+      config += `, ${selectedBaremetalServer.storageTotal} GB`
+    if (selectedBaremetalServer.network)
+      config += `, ${selectedBaremetalServer.network} Gbps`
+    return config
+  }, [selectedBaremetalServer])
+
   function handlePreviousStep() {
     switch (step[0]) {
       case 1:
@@ -133,6 +172,16 @@ export default function DeploymentFlow({
         }
         if (flowType === 'xnode-new') router.push('/claim')
         break
+      case 1:
+        if (flowType === 'baremetal') {
+          setDeploymentSteps(baremetalDeploymentFlow)
+          setStep([2, 'baremetal'])
+        }
+        break
+      case 2:
+        if (flowType === 'baremetal') {
+          setActiveDeploymentStep(2)
+        }
     }
   }
 
@@ -228,6 +277,9 @@ export default function DeploymentFlow({
             {step[0] === 1 && step[1] === 'baremetal'
               ? 'Select a provider'
               : null}
+            {step[0] === 2 && step[1] === 'baremetal'
+              ? 'Check configuration'
+              : null}
           </AlertDialogTitle>
           <AlertDialogDescription>
             {step[0] === 0
@@ -238,6 +290,9 @@ export default function DeploymentFlow({
               : null}
             {step[0] === 1 && step[1] === 'baremetal'
               ? `Chose a baremetal provider to deploy your ${type === 'templates' ? 'template' : 'use case'} to.`
+              : null}
+            {step[0] === 2 && step[1] === 'baremetal'
+              ? `Check your deployment configuration for your ${type === 'templates' ? 'template' : 'use case'}.`
               : null}
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -317,70 +372,79 @@ export default function DeploymentFlow({
             </RadioGroupCard>
           </RadioGroup>
         ) : null}
+        {(step[0] === 1 && step[1] === 'xnode-current') ||
+        (step[0] > 1 && step[1] === 'baremetal') ? (
+          <div className="isolate mt-2 flex justify-center">
+            <div className="flex min-w-44 flex-col items-center gap-2">
+              <div
+                className={cn(
+                  'flex size-10 items-center justify-center rounded-full border-2 border-primary transition-colors',
+                  activeDeploymentStep > 1
+                    ? 'bg-primary'
+                    : 'border-primary/25 bg-background'
+                )}
+              >
+                {step[1] === 'xnode-current' && activeDeploymentStep === 1 ? (
+                  <RotateCw className="size-5 animate-spin text-primary" />
+                ) : null}
+                {step[1] === 'baremetal' && activeDeploymentStep === 1 ? (
+                  <span className="size-3 animate-pulse rounded-full bg-primary" />
+                ) : null}
+                {activeDeploymentStep > 1 ? (
+                  <Check className="size-6 text-background" />
+                ) : null}
+              </div>
+              <p>{deploymentSteps[0]}</p>
+            </div>
+            <div
+              className={cn(
+                '-z-10 -mx-20 mt-5 h-0.5 w-56',
+                activeDeploymentStep >= 2 ? 'bg-primary' : 'bg-primary/25'
+              )}
+            />
+            <div className="flex min-w-44 flex-col items-center gap-2">
+              <div
+                className={cn(
+                  'flex size-10 items-center justify-center rounded-full border-2 border-primary transition-colors',
+                  activeDeploymentStep > 2
+                    ? 'bg-primary'
+                    : 'border-primary/25 bg-background'
+                )}
+              >
+                {step[1] === 'xnode-current' && activeDeploymentStep === 2 ? (
+                  <RotateCw className="size-5 animate-spin text-primary" />
+                ) : null}
+                {step[1] === 'baremetal' && activeDeploymentStep === 2 ? (
+                  <span className="size-3 animate-pulse rounded-full bg-primary" />
+                ) : null}
+                {activeDeploymentStep > 2 ? (
+                  <Check className="size-6 text-background" />
+                ) : null}
+              </div>
+              <p>{deploymentSteps[1]}</p>
+            </div>
+            <div
+              className={cn(
+                '-z-10 -mx-20 mt-5 h-0.5 w-56',
+                activeDeploymentStep === 3 ? 'bg-primary' : 'bg-primary/25'
+              )}
+            />
+            <div className="flex min-w-44 flex-col items-center gap-2">
+              <div
+                className={cn(
+                  'flex size-10 items-center justify-center rounded-full border-2 border-primary/25 bg-background transition-colors'
+                )}
+              >
+                {activeDeploymentStep === 3 ? (
+                  <RotateCw className="size-5 animate-spin text-primary" />
+                ) : null}
+              </div>
+              <p>{deploymentSteps[2]}</p>
+            </div>
+          </div>
+        ) : null}
         {step[0] === 1 && step[1] === 'xnode-current' ? (
           <div>
-            <div className="isolate mt-4 flex justify-center">
-              <div className="flex flex-col items-center gap-2">
-                <div
-                  className={cn(
-                    'flex size-10 items-center justify-center rounded-full border-2 border-primary transition-colors',
-                    activeDeploymentStep > 1
-                      ? 'bg-primary'
-                      : 'border-primary/25 bg-background'
-                  )}
-                >
-                  {activeDeploymentStep === 1 ? (
-                    <RotateCw className="size-5 animate-spin text-primary" />
-                  ) : null}
-                  {activeDeploymentStep > 1 ? (
-                    <Check className="size-6 text-background" />
-                  ) : null}
-                </div>
-                <p>{deploymentSteps[0]}</p>
-              </div>
-              <div
-                className={cn(
-                  '-z-10 -mx-16 mt-5 h-0.5 w-48',
-                  activeDeploymentStep >= 2 ? 'bg-primary' : 'bg-primary/25'
-                )}
-              />
-              <div className="flex flex-col items-center gap-2">
-                <div
-                  className={cn(
-                    'flex size-10 items-center justify-center rounded-full border-2 border-primary transition-colors',
-                    activeDeploymentStep > 2
-                      ? 'bg-primary'
-                      : 'border-primary/25 bg-background'
-                  )}
-                >
-                  {activeDeploymentStep === 2 ? (
-                    <RotateCw className="size-5 animate-spin text-primary" />
-                  ) : null}
-                  {activeDeploymentStep > 2 ? (
-                    <Check className="size-6 text-background" />
-                  ) : null}
-                </div>
-                <p>{deploymentSteps[1]}</p>
-              </div>
-              <div
-                className={cn(
-                  '-z-10 -mx-16 mt-5 h-0.5 w-48',
-                  activeDeploymentStep === 3 ? 'bg-primary' : 'bg-primary/25'
-                )}
-              />
-              <div className="flex flex-col items-center gap-2">
-                <div
-                  className={cn(
-                    'flex size-10 items-center justify-center rounded-full border-2 border-primary/25 bg-background transition-colors'
-                  )}
-                >
-                  {activeDeploymentStep === 3 ? (
-                    <RotateCw className="size-5 animate-spin text-primary" />
-                  ) : null}
-                </div>
-                <p>{deploymentSteps[2]}</p>
-              </div>
-            </div>
             {activeDeploymentStep === 1 ? (
               <div className="mb-4 mt-8">
                 <p className="rounded border bg-muted-foreground px-3 py-1.5 font-mono text-muted">
@@ -465,7 +529,75 @@ export default function DeploymentFlow({
           </div>
         ) : null}
         {step[0] === 1 && step[1] === 'baremetal' ? (
-          <DeploymentProvider specs={specs} />
+          <DeploymentProvider specs={specs} onSelect={handleNextStep} />
+        ) : null}
+        {step[0] === 2 &&
+        step[1] === 'baremetal' &&
+        activeDeploymentStep === 1 ? (
+          <div className="mt-4">
+            <div className="flex items-center gap-6">
+              <p>{config.provider}</p>
+              <h4 className="text-2xl font-bold">{config.name}</h4>
+            </div>
+            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+              <MapPin className="size-3.5" />
+              {config.location}
+            </div>
+            <div className="mt-2">
+              {selectedBaremetalServer ? (
+                <p className="text-muted-foreground">{baremetalConfig}</p>
+              ) : (
+                <Skeleton className="h-7 w-48" />
+              )}
+            </div>
+            <div className="mt-4 flex items-center gap-6 text-sm text-muted-foreground">
+              <div className="flex items-center gap-1.5">
+                <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
+                  <Check className="size-3.5 text-background" />
+                </div>
+                <p>No license</p>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
+                  <Check className="size-3.5 text-background" />
+                </div>
+                <p>Connect to all our apps</p>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
+                  <Check className="size-3.5 text-background" />
+                </div>
+                <p>No hidden setup fees</p>
+              </div>
+            </div>
+            <Separator className="my-4" />
+            <div>
+              <p className="text-sm font-medium">Estimated monthly price</p>
+              {selectedBaremetalServer ? (
+                <>
+                  <p className="mt-1 text-5xl font-bold text-primary">
+                    $
+                    {selectedBaremetalServer.priceSale ??
+                      selectedBaremetalServer.priceMonth}
+                    <span className="text-2xl">/mo</span>
+                  </p>
+                  <p className="mt-0.5 text-xs font-medium text-muted-foreground">
+                    or ~{selectedBaremetalServer.priceHour}/hour
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Skeleton className="mt-1 h-12 w-20" />
+                  <Skeleton className="mt-0.5 h-5 w-16" />
+                </>
+              )}
+            </div>
+            <div className="flex justify-end">
+              <p className="-mb-4 min-w-40 text-center text-primary">
+                $200 Cashback
+              </p>
+            </div>
+          </div>
         ) : null}
         <AlertDialogFooter className={cn()}>
           {step[0] === 1 && step[1] === 'baremetal' ? (
@@ -480,14 +612,14 @@ export default function DeploymentFlow({
           ) : null}
           <AlertDialogCancel className="h-10 min-w-28">
             {step[0] === 0 ? 'Cancel' : null}
-            {step[0] === 1 ? 'Close' : null}
+            {step[0] >= 1 ? 'Close' : null}
           </AlertDialogCancel>
           {step[0] === 0 ? (
             <Button
               disabled={flowType === undefined}
               size="lg"
               className="h-10 min-w-40"
-              onClick={() => handleNextStep()}
+              onClick={handleNextStep}
             >
               {flowType === 'xnode-current' || flowType === undefined
                 ? 'Deploy'
@@ -499,11 +631,20 @@ export default function DeploymentFlow({
           {step[0] === 1 &&
           step[1] === 'xnode-current' &&
           activeDeploymentStep === 3 ? (
-            <Link href={`/deployments/${selectedXNode}`}>
+            <Link href={`/deployments`}>
               <Button size="lg" className="h-10 min-w-40">
                 Go to Deployment
               </Button>
             </Link>
+          ) : null}
+          {step[0] === 2 && step[1] === 'baremetal' ? (
+            <Button
+              size="lg"
+              className="h-10 min-w-40"
+              onClick={handleNextStep}
+            >
+              Deploy
+            </Button>
           ) : null}
         </AlertDialogFooter>
       </AlertDialogContent>

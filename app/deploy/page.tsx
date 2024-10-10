@@ -122,7 +122,10 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
             />
           ) : null}
           {indexerDeployerStep === 0 ? (
-            <DeploymentProvider specs={templateData.minSpecs} />
+            <DeploymentProvider
+              specs={templateData.minSpecs}
+              onSelect={() => null}
+            />
           ) : null}
           {indexerDeployerStep === 1 ? <Signup /> : null}
 
