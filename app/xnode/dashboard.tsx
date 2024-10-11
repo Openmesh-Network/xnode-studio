@@ -8,6 +8,7 @@ import axios from 'axios'
 import { addYears, formatDistanceToNowStrict } from 'date-fns'
 import { useUser } from 'hooks/useUser'
 import {
+  ChevronRight,
   ExternalLink,
   HelpCircle,
   MoveRight,
@@ -119,6 +120,99 @@ function ServiceOptionInput({
   )
 }
 
+type ServiceOptionRowProps = {
+  option: ServiceOption
+  value?: (
+    option: ServiceOption['nixName'],
+    parentOption: ServiceOption['nixName']
+  ) => ServiceOption['value']
+  onUpdate: (
+    newVal: ServiceOption['value'],
+    option: ServiceOption['nixName'],
+    parentOption?: ServiceOption['nixName']
+  ) => void
+  canReset: (option: ServiceOption['nixName']) => boolean
+  onReset: (
+    option: ServiceOption['nixName'],
+    parentOption?: ServiceOption['nixName']
+  ) => void
+  parentOption?: ServiceOption['nixName']
+}
+function ServiceOptionRow({
+  option,
+  value,
+  onUpdate,
+  canReset,
+  onReset,
+  parentOption,
+}: ServiceOptionRowProps) {
+  const [collapsed, setCollapsed] = useState(true)
+  return (
+    <>
+      <TableRow key={option.nixName}>
+        <TableCell
+          className={cn(option.options && 'font-bold', parentOption && 'pl-6')}
+          colSpan={option.options?.length ? 3 : 1}
+        >
+          <span className="inline-flex items-center gap-2.5">
+            {option.options?.length ? (
+              <Button size="iconSm" className="size-6" variant="outline">
+                <span className="sr-only">
+                  {collapsed ? 'Expand' : 'Collapse'}
+                </span>
+                <ChevronRight
+                  className={cn(
+                    'size-3.5 transition-transform',
+                    collapsed ? 'rotate-0' : 'rotate-90'
+                  )}
+                  onClick={() => setCollapsed(!collapsed)}
+                />
+              </Button>
+            ) : null}
+            {option.name ?? option.nixName}
+          </span>
+        </TableCell>
+        {/* <TableCell>{option.desc}</TableCell> */}
+        {!option.options?.length ? (
+          <>
+            <ServiceOptionInput
+              value={value(option.nixName, parentOption) ?? option.value}
+              option={option}
+              updateOption={(newVal) =>
+                onUpdate(newVal, option.nixName, parentOption)
+              }
+            />
+            <TableCell>
+              <span className="flex justify-end">
+                <Button
+                  disabled={canReset(option.nixName)}
+                  size="iconSm"
+                  variant="outline"
+                  onClick={() => onReset(option.nixName, parentOption)}
+                >
+                  <RefreshCcw className="size-3.5" />
+                </Button>
+              </span>
+            </TableCell>
+          </>
+        ) : null}
+      </TableRow>
+      {!collapsed &&
+        option.options?.map((subOption) => (
+          <ServiceOptionRow
+            key={`${option.nixName}-${subOption.nixName}`}
+            value={value}
+            option={subOption}
+            onUpdate={onUpdate}
+            canReset={canReset}
+            onReset={onReset}
+            parentOption={option.nixName}
+          />
+        ))}
+    </>
+  )
+}
+
 export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   const {
     data: xNode,
@@ -127,7 +221,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     isFetching,
     dataUpdatedAt,
     refetch,
-    error,
   } = useQuery<Xnode>({
     queryKey: ['xnodes', xNodeId],
     queryFn: async () => {
@@ -375,6 +468,8 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     await refetch()
   }
 
+  console.log(serviceChanges)
+
   return (
     <div className="container my-12 max-w-none">
       {isLoading ? (
@@ -537,193 +632,91 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                   </TableHeader>
                   <TableBody>
                     {serviceInEdit?.options?.map((option) => (
-                      <>
-                        <TableRow key={option.nixName}>
-                          <TableCell
-                            className={cn(option.options && 'font-bold')}
-                          >
-                            {option.name ?? option.nixName}
-                          </TableCell>
-                          {/* <TableCell>{option.desc}</TableCell> */}
-                          {!option.options?.length ? (
-                            <>
-                              <ServiceOptionInput
-                                value={
-                                  serviceChanges
-                                    .get(serviceInEdit.nixName)
-                                    ?.find(
-                                      (opt) => opt.nixName === option.nixName
-                                    )?.value ?? option.value
+                      <ServiceOptionRow
+                        key={option.nixName}
+                        option={option}
+                        value={(nixName, parentOption) => {
+                          return parentOption
+                            ? serviceChanges
+                                .get(serviceInEdit.nixName)
+                                ?.find((opt) => opt.nixName === parentOption)
+                                ?.options?.find(
+                                  (opt) => opt.nixName === nixName
+                                )?.value
+                            : serviceChanges
+                                .get(serviceInEdit.nixName)
+                                ?.find((opt) => opt.nixName === nixName)?.value
+                        }}
+                        onUpdate={(newVal, currentOption, parentOption) => {
+                          setServiceChanges((prev) => {
+                            const newMap = new Map(prev)
+                            const existingChanges = newMap.get(
+                              serviceInEdit.nixName
+                            )
+                            const newChanges = (
+                              existingChanges ?? serviceInEdit.options
+                            )?.map((opt) => {
+                              if (
+                                opt.nixName === (parentOption ?? currentOption)
+                              ) {
+                                if (parentOption && opt.options) {
+                                  opt.options = opt.options.map((subOpt) =>
+                                    subOpt.nixName === currentOption
+                                      ? { ...subOpt, value: newVal }
+                                      : subOpt
+                                  )
+                                } else {
+                                  return { ...opt, value: newVal }
                                 }
-                                option={option}
-                                updateOption={(newVal) => {
-                                  setServiceChanges((prev) => {
-                                    const newMap = new Map(prev)
-                                    const existingChanges = newMap.get(
-                                      serviceInEdit.nixName
-                                    )
-                                    newMap.set(
-                                      serviceInEdit.nixName,
-                                      (
-                                        existingChanges ?? serviceInEdit.options
-                                      )?.map((opt) =>
-                                        opt.nixName === option.nixName
-                                          ? { ...opt, value: newVal }
-                                          : opt
-                                      )
-                                    )
-                                    return newMap
-                                  })
-                                }}
-                              />
-                              <TableCell>
-                                <span className="flex justify-end">
-                                  <Button
-                                    disabled={
-                                      !changedOptions[
-                                        serviceInEdit.nixName
-                                      ]?.includes(option.nixName)
-                                    }
-                                    size="iconSm"
-                                    variant="outline"
-                                    onClick={() => {
-                                      setServiceChanges((prev) => {
-                                        const newMap = new Map(prev)
-                                        const existingChanges = newMap.get(
-                                          serviceInEdit.nixName
-                                        )
-                                        newMap.set(
-                                          serviceInEdit.nixName,
-                                          (
-                                            existingChanges ??
-                                            serviceInEdit.options
-                                          )?.map((opt) =>
-                                            opt.nixName === option.nixName
-                                              ? {
-                                                  ...opt,
-                                                  value: defaultOptions.get(
-                                                    `${serviceInEdit.nixName}_${option.nixName}`
-                                                  ),
-                                                }
-                                              : opt
-                                          )
-                                        )
-                                        return newMap
-                                      })
-                                    }}
-                                  >
-                                    <RefreshCcw className="size-3.5" />
-                                  </Button>
-                                </span>
-                              </TableCell>
-                            </>
-                          ) : null}
-                        </TableRow>
-                        {option.options?.map((subOption) => (
-                          <TableRow
-                            key={`${option.nixName}-${subOption.nixName}`}
-                          >
-                            <TableCell className="pl-4">
-                              <span className="inline-flex items-center gap-1">
-                                <MoveRight className="size-3.5" />
-                                {subOption.name ?? subOption.nixName}
-                              </span>
-                            </TableCell>
-                            {/* <TableCell>{subOption.desc}</TableCell> */}
-                            <ServiceOptionInput
-                              value={
-                                serviceChanges
-                                  .get(serviceInEdit.nixName)
-                                  ?.find(
-                                    (opt) => opt.nixName === option.nixName
-                                  )
-                                  ?.options?.find(
-                                    (opt) => opt.nixName === subOption.nixName
-                                  )?.value ?? subOption.value
                               }
-                              option={subOption}
-                              updateOption={(newVal) => {
-                                setServiceChanges((prev) => {
-                                  const newMap = new Map(prev)
-                                  const existingChanges = newMap.get(
-                                    serviceInEdit.nixName
+                              return opt
+                            })
+                            newMap.set(serviceInEdit.nixName, newChanges)
+                            return newMap
+                          })
+                        }}
+                        canReset={(nixName) =>
+                          !changedOptions[serviceInEdit.nixName]?.includes(
+                            nixName
+                          )
+                        }
+                        onReset={(option, parentOption) => {
+                          setServiceChanges((prev) => {
+                            const newMap = new Map(prev)
+                            const existingChanges = newMap.get(
+                              serviceInEdit.nixName
+                            )
+                            const newChanges = (
+                              existingChanges ?? serviceInEdit.options
+                            )?.map((opt) => {
+                              if (opt.nixName === (parentOption ?? option)) {
+                                if (parentOption && opt.options) {
+                                  opt.options = opt.options.map((subOpt) =>
+                                    subOpt.nixName === option
+                                      ? {
+                                          ...subOpt,
+                                          value: defaultOptions.get(
+                                            `${serviceInEdit.nixName}_${option}`
+                                          ),
+                                        }
+                                      : subOpt
                                   )
-                                  newMap.set(
-                                    serviceInEdit.nixName,
-                                    (
-                                      existingChanges ?? serviceInEdit.options
-                                    )?.map((opt) =>
-                                      opt.nixName === option.nixName
-                                        ? {
-                                            ...opt,
-                                            options: opt.options?.map(
-                                              (subOpt) =>
-                                                subOpt.nixName ===
-                                                subOption.nixName
-                                                  ? { ...subOpt, value: newVal }
-                                                  : subOpt
-                                            ),
-                                          }
-                                        : opt
-                                    )
-                                  )
-                                  return newMap
-                                })
-                              }}
-                            />
-                            <TableCell>
-                              <span className="flex justify-end">
-                                <Button
-                                  disabled={
-                                    !changedOptions[
-                                      serviceInEdit.nixName
-                                    ]?.includes(subOption.nixName)
+                                } else {
+                                  return {
+                                    ...opt,
+                                    value: defaultOptions.get(
+                                      `${serviceInEdit.nixName}_${option}`
+                                    ),
                                   }
-                                  size="iconSm"
-                                  variant="outline"
-                                  onClick={() => {
-                                    setServiceChanges((prev) => {
-                                      const newMap = new Map(prev)
-                                      const existingChanges = newMap.get(
-                                        serviceInEdit.nixName
-                                      )
-                                      newMap.set(
-                                        serviceInEdit.nixName,
-                                        (
-                                          existingChanges ??
-                                          serviceInEdit.options
-                                        )?.map((opt) =>
-                                          opt.nixName === option.nixName
-                                            ? {
-                                                ...opt,
-                                                options: opt.options?.map(
-                                                  (subOpt) =>
-                                                    subOpt.nixName ===
-                                                    subOption.nixName
-                                                      ? {
-                                                          ...subOpt,
-                                                          value:
-                                                            defaultOptions.get(
-                                                              `${serviceInEdit.nixName}_${subOption.nixName}`
-                                                            ),
-                                                        }
-                                                      : subOpt
-                                                ),
-                                              }
-                                            : opt
-                                        )
-                                      )
-                                      return newMap
-                                    })
-                                  }}
-                                >
-                                  <RefreshCcw className="size-3.5" />
-                                </Button>
-                              </span>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </>
+                                }
+                              }
+                              return opt
+                            })
+                            newMap.set(serviceInEdit.nixName, newChanges)
+                            return newMap
+                          })
+                        }}
+                      />
                     ))}
                   </TableBody>
                 </Table>
