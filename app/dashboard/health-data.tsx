@@ -3,6 +3,7 @@
 import { ComponentProps, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { prefix } from '@/utils/prefix'
 import { useQuery } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import {
@@ -361,7 +362,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                   </p>
                 </div>
                 <Image
-                  src="/images/xnode-card/silvercard-front.webp"
+                  src={`${prefix}/images/xnode-card/silvercard-front.webp`}
                   alt="Xnode Card"
                   width={48}
                   height={28}

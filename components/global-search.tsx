@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { prefix } from '@/utils/prefix'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { LogOut, User } from 'lucide-react'
 import { useDisconnect } from 'wagmi'
@@ -38,7 +39,7 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
             <CommandItem onSelect={onSelect} asChild>
               <Link href="/claim">
                 <Image
-                  src="/images/xnode-card/silvercard-front.webp"
+                  src={`${prefix}/images/xnode-card/silvercard-front.webp`}
                   alt="Xnode Card"
                   width={16}
                   height={16}

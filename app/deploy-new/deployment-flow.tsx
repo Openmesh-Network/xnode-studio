@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Provider } from '@/db/schema'
 import { useXuNfts } from '@/utils/nft'
+import { prefix } from '@/utils/prefix'
 import { servicesCompressedForAdmin } from '@/utils/xnode'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
@@ -477,7 +478,7 @@ export default function DeploymentFlow({
                 ) : null}
                 <div className="mt-4 flex items-center gap-3">
                   <Image
-                    src="/images/xnode-card/silvercard-front.webp"
+                    src={`${prefix}/images/xnode-card/silvercard-front.webp`}
                     alt="Xnode Card"
                     width={96}
                     height={64}

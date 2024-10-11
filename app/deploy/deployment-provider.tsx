@@ -437,7 +437,7 @@ export default function DeploymentProvider({
             <li className="grid grid-cols-12 items-center gap-12 rounded border border-primary/25 bg-primary/[0.01] px-6 py-4">
               <div className="col-span-7 flex items-center gap-4">
                 <Image
-                  src="/images/xnode-card/silvercard-front.webp"
+                  src={`${prefix}/images/xnode-card/silvercard-front.webp`}
                   alt="Xnode Card"
                   width={56}
                   height={40}
@@ -506,7 +506,7 @@ export default function DeploymentProvider({
                       >
                         <div className="col-span-5 flex items-center gap-4">
                           <Image
-                            src={`/images/providers/${provider.providerName}.svg`}
+                            src={`${prefix}/images/providers/${provider.providerName}.svg`}
                             alt={provider.providerName}
                             width={64}
                             height={64}

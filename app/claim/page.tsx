@@ -479,7 +479,7 @@ export default function ClaimXNodePage() {
                 <tr className="border-b">
                   <td title="Xnode" className="h-14 border-r px-6">
                     <Image
-                      src={'/images/xnode-card/silvercard-front.webp'}
+                      src={`${prefix}/images/xnode-card/silvercard-front.webp`}
                       alt="xnode card"
                       width={48}
                       height={28}
@@ -496,7 +496,7 @@ export default function ClaimXNodePage() {
                 <tr className="border-b">
                   <td title="AWS" className="h-14 border-r px-6">
                     <Image
-                      src={'/images/cloudLogo/aws.png'}
+                      src={`${prefix}/images/cloudLogo/aws.png`}
                       alt="aws logo"
                       width={48}
                       height={28}
@@ -513,7 +513,7 @@ export default function ClaimXNodePage() {
                 <tr className="border-b">
                   <td title="GCP" className="h-14 border-r px-6">
                     <Image
-                      src={'/images/subNavBarServers/gcp.svg'}
+                      src={`${prefix}/images/subNavBarServers/gcp.svg`}
                       alt="gcp logo"
                       width={48}
                       height={28}
@@ -530,7 +530,7 @@ export default function ClaimXNodePage() {
                 <tr className="border-b">
                   <td title="Azure" className="h-14 border-r px-6">
                     <Image
-                      src={'/images/subNavBarServers/azure.svg'}
+                      src={`${prefix}/images/subNavBarServers/azure.svg`}
                       alt="azure logo"
                       width={48}
                       height={28}

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
+import { prefix } from '@/utils/prefix'
 import { AnimatePresence, domAnimation, LazyMotion, m } from 'framer-motion'
 import { User, X } from 'lucide-react'
 
@@ -61,7 +62,7 @@ export default function CTAHelp() {
                   </div>
                 </div>
                 <Image
-                  src="/open-circle.png"
+                  src={`${prefix}/open-circle.png`}
                   alt="open-circle"
                   width={96}
                   height={32}
