@@ -1,13 +1,18 @@
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 import DeploymentsList from './deployments-list'
 
 export default function DeploymentsPage() {
-  const { value: sessionToken } = cookies().get('userSessionToken')
+  const sessionCookie = cookies().get('userSessionToken')
+  if (!sessionCookie) {
+    redirect('/login')
+  }
+
   return (
     <div className="container my-12 max-w-none space-y-4">
       <h1 className="text-xl font-bold">Deployed Nodes</h1>
-      <DeploymentsList sessionToken={sessionToken} />
+      <DeploymentsList sessionToken={sessionCookie.value} />
       {/* <Deployments /> */}
     </div>
   )

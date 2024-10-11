@@ -15,20 +15,20 @@ import { rewardsMockData } from '../rewards/page'
 import { HealthSummary, XNodesApps, XNodesHealth } from './health-data'
 
 export default async function DashboardPage() {
-  const tokenCookie = cookies().get('userSessionToken')
-  if (!tokenCookie) {
-    redirect('/')
+  const sessionCookie = cookies().get('userSessionToken')
+  if (!sessionCookie) {
+    redirect('/login')
   }
 
   return (
     <div className="container my-12 max-w-none">
       <section className="space-y-4 rounded border p-6">
         <h2 className="text-xl font-bold">Resources</h2>
-        <HealthSummary sessionToken={tokenCookie.value} />
+        <HealthSummary sessionToken={sessionCookie.value} />
       </section>
       <section className="mt-6 space-y-4 rounded border p-6">
         <h2 className="text-xl font-bold">Individual Nodes</h2>
-        <XNodesHealth sessionToken={tokenCookie.value} />
+        <XNodesHealth sessionToken={sessionCookie.value} />
       </section>
       <div className="mt-6 grid grid-cols-2 gap-6">
         <section className="space-y-4 rounded border p-6">
@@ -57,7 +57,7 @@ export default async function DashboardPage() {
         </section>
         <section className="space-y-4 rounded border p-6">
           <h2 className="text-xl font-bold">Running Apps</h2>
-          <XNodesApps sessionToken={tokenCookie.value} />
+          <XNodesApps sessionToken={sessionCookie.value} />
         </section>
       </div>
       {/* <Dashboard /> */}
