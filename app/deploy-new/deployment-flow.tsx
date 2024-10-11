@@ -682,7 +682,9 @@ export default function DeploymentFlow({
           {step[0] === 1 &&
           step[1] === 'xnode-current' &&
           activeDeploymentStep === 3 ? (
-            <Link href={`/deployments`}>
+            <Link
+              href={`/xnode?uuid=${deployedXNodes.find(({ deploymentAuth }) => deploymentAuth === selectedXNode).id}`}
+            >
               <Button size="lg" className="h-10 min-w-40">
                 Go to Deployment
               </Button>
