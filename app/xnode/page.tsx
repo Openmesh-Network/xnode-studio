@@ -135,6 +135,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
   const {
     data: xNode,
     isPending,
+    isFetching,
     dataUpdatedAt,
     refetch,
     error,
@@ -779,7 +780,11 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                   Last updated {lastUpdated} ago
                 </p>
               </div>
-              <Button variant="outlinePrimary" onClick={() => updateXNode()}>
+              <Button
+                disabled={isFetching}
+                variant="outlinePrimary"
+                onClick={() => updateXNode()}
+              >
                 Force Update
               </Button>
             </div>
@@ -890,7 +895,11 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                     </DialogContent>
                   </Dialog>
                 ) : (
-                  <Button variant="outline" onClick={() => addOpenSSH()}>
+                  <Button
+                    disabled={isFetching}
+                    variant="outline"
+                    onClick={() => addOpenSSH()}
+                  >
                     Add OpenSSH
                   </Button>
                 )}
@@ -951,7 +960,7 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                           {service.tags?.map((tag) => (
                             <span
                               key={tag}
-                              className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary"
+                              className="rounded bg-primary/10 px-2 py-0.5 text-xs capitalize text-primary"
                             >
                               {tag}
                             </span>
@@ -986,20 +995,6 @@ export default function XnodePage({ searchParams }: XnodePageProps) {
                 })}
               </TableBody>
             </Table>
-          </div>
-          <div className="mt-3 h-fit w-full border p-8 shadow-md">
-            <ServiceEditor
-              startingServices={services.services}
-              updateServices={setServiceChanges}
-            />
-          </div>
-          <div className="mt-3 h-fit w-full border p-8 shadow-md">
-            <ServiceAccess
-              currentService={services.services}
-              ip={xNode.ipAddress}
-              startingUserData={userData}
-              updatedUserData={setUserData}
-            />
           </div>
         </>
       ) : (
