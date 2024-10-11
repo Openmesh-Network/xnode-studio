@@ -345,7 +345,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   >(null)
 
   const updateServices = useCallback(async () => {
-    const servicesWithChanges = services.services.map((service) => {
+    const servicesWithChanges = services?.services.map((service) => {
       const changes = serviceChanges.get(service.nixName)
       if (!changes) return service
       return {
@@ -361,7 +361,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
         method: 'POST',
         headers: {
           'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-          'X-Parse-Session-Token': user.sessionToken,
+          'X-Parse-Session-Token': user?.sessionToken,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -375,7 +375,9 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
         }),
       }
     )
+    await refetch()
   }, [
+    refetch,
     serviceChanges,
     services?.services,
     user?.sessionToken,
@@ -467,8 +469,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     await axios(config)
     await refetch()
   }
-
-  console.log(serviceChanges)
 
   return (
     <div className="container my-12 max-w-none">
