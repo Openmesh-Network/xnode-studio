@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { format } from 'date-fns'
 
 import {
@@ -14,17 +15,20 @@ import { rewardsMockData } from '../rewards/page'
 import { HealthSummary, XNodesApps, XNodesHealth } from './health-data'
 
 export default async function DashboardPage() {
-  const { value: sessionToken } = cookies().get('userSessionToken')
+  const tokenCookie = cookies().get('userSessionToken')
+  if (!tokenCookie) {
+    redirect('/')
+  }
 
   return (
     <div className="container my-12 max-w-none">
       <section className="space-y-4 rounded border p-6">
         <h2 className="text-xl font-bold">Resources</h2>
-        <HealthSummary sessionToken={sessionToken} />
+        <HealthSummary sessionToken={tokenCookie.value} />
       </section>
       <section className="mt-6 space-y-4 rounded border p-6">
         <h2 className="text-xl font-bold">Individual Nodes</h2>
-        <XNodesHealth sessionToken={sessionToken} />
+        <XNodesHealth sessionToken={tokenCookie.value} />
       </section>
       <div className="mt-6 grid grid-cols-2 gap-6">
         <section className="space-y-4 rounded border p-6">
@@ -53,7 +57,7 @@ export default async function DashboardPage() {
         </section>
         <section className="space-y-4 rounded border p-6">
           <h2 className="text-xl font-bold">Running Apps</h2>
-          <XNodesApps sessionToken={sessionToken} />
+          <XNodesApps sessionToken={tokenCookie.value} />
         </section>
       </div>
       {/* <Dashboard /> */}
