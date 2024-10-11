@@ -49,7 +49,7 @@ export default function DeploymentsList({
               className="h-16 border"
             />
           ))
-        : xNodes.map((xNode, index) => (
+        : xNodes?.map((xNode, index) => (
             <Link
               key={xNode.deploymentAuth}
               href={`/xnode?uuid=${xNode.id}`}

@@ -8,6 +8,7 @@ import { Inter } from 'next/font/google'
 import { prefix } from '@/utils/prefix'
 
 import { cn } from '@/lib/utils'
+import CTAHelp from '@/components/cta-help'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { NavLayout } from '@/components/SidebarNav/sibebar-nav'
@@ -47,6 +48,7 @@ export default function RootLayout({
             <ScrollToTop />
           </NavLayout>
           <Footer />
+          <CTAHelp />
         </Providers>
       </body>
     </html>

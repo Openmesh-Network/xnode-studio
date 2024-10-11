@@ -2,6 +2,8 @@ import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
 import { z } from 'zod'
 
+import { opensshConfig } from '@/config/openssh'
+
 export type DataProvider = {
   id: string
   name?: string
@@ -208,7 +210,7 @@ export function serviceByName(name: string): ServiceData | undefined {
       serviceMap.set(ServiceDefinitions[i].nixName, service)
     }
   }
-
+  serviceMap.set(opensshConfig.nixName, opensshConfig)
   return serviceMap.get(name)
 }
 
