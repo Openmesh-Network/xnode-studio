@@ -375,8 +375,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     await refetch()
   }
 
-  console.log(isFetching, isSuccess)
-
   return (
     <div className="container my-12 max-w-none">
       {isLoading ? (

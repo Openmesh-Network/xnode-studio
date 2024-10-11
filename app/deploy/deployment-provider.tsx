@@ -505,12 +505,13 @@ export default function DeploymentProvider({
                         className="grid grid-cols-12 items-center gap-12 rounded border px-6 py-4"
                       >
                         <div className="col-span-5 flex items-center gap-4">
-                          {/* <Image
-                      src={`/images/template/${provider.providerName}.png`}
-                      alt={provider.providerName}
-                      width={50}
-                      height={50}
-                    /> */}
+                          <Image
+                            src={`/images/providers/${provider.providerName}.svg`}
+                            alt={provider.providerName}
+                            width={64}
+                            height={64}
+                            className="text-xs"
+                          />
                           <div>
                             <p className="font-bold">{provider.productName}</p>
                             <p className="text-sm text-muted-foreground">
