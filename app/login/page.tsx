@@ -1,11 +1,9 @@
-import ScrollUp from '@/components/Common/ScrollUp'
-import Login from '@/components/Login'
+import LoginProcess from './process'
 
 export default function Tasks() {
   return (
-    <>
-      <ScrollUp />
-      <Login />
-    </>
+    <section className="container my-20">
+      <LoginProcess />
+    </section>
   )
 }

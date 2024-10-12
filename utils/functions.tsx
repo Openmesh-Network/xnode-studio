@@ -1,7 +1,11 @@
 import { createHash } from 'crypto'
 
-export function formatAddress(address: string) {
-  return `${address.slice(0, 4)}...${address.slice(-4)}`
+export function formatAddress(address: string, length = 12) {
+  if (address.length <= length) {
+    return address
+  }
+  const partLength = Math.floor((length - 3) / 2)
+  return `${address.slice(0, partLength)}...${address.slice(-partLength)}`
 }
 
 export function hashObject(obj: any) {

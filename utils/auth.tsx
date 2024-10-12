@@ -3,6 +3,7 @@ import { hashObject } from '@/utils/functions'
 import axios from 'axios'
 import { AccountContext } from 'contexts/AccountContext'
 import nookies, { destroyCookie, setCookie } from 'nookies'
+import { Address } from 'viem'
 import { signMessage } from 'wagmi/actions'
 
 import { useUser } from '@/hooks/useUser'
@@ -30,35 +31,33 @@ async function getUserNonce(userAddress: string) {
   return dado
 }
 
-export async function getWeb3Login(address) {
-  if (address) {
-    // trying web3 login
-    try {
-      console.log('Getting user nonce')
-      let nonceUser = await getUserNonce(address)
-      nonceUser = nonceUser || '0'
-      console.log('hashing object')
-      const hash = hashObject(`${address}-${nonceUser}`)
-      console.log('message to hash')
-      console.log(hash)
-      const finalHash = `0x${hash}`
-      const signature = await signMessage(wagmiConfig, {
-        account: address,
-        message: finalHash,
-      })
+export async function getWeb3Login(address: Address) {
+  // trying web3 login
+  try {
+    console.log('Getting user nonce')
+    let nonceUser = await getUserNonce(address)
+    nonceUser = nonceUser || '0'
+    console.log('hashing object')
+    const hash = hashObject(`${address}-${nonceUser}`)
+    console.log('message to hash')
+    console.log(hash)
+    const finalHash = `0x${hash}`
+    const signature = await signMessage(wagmiConfig, {
+      account: address,
+      message: finalHash,
+    })
 
-      const res = await loginWeb3User(address, signature)
-      nookies.set(null, 'userSessionToken', res.sessionToken, {
-        maxAge: 10 * 24 * 60 * 60,
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Strict',
-      })
-      return res
-    } catch (err) {
-      console.error(err)
-      throw err
-    }
+    const res = await loginWeb3User(address, signature)
+    nookies.set(null, 'userSessionToken', res.sessionToken, {
+      maxAge: 10 * 24 * 60 * 60,
+      path: '/',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Strict',
+    })
+    return res
+  } catch (err) {
+    console.error(err)
+    throw err
   }
 }
 
