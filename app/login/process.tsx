@@ -1,5 +1,6 @@
 'use client'
 
+import { get } from 'http'
 import { getWeb3Login } from '@/utils/auth'
 import { MoveRight } from 'lucide-react'
 import { useAccount } from 'wagmi'
@@ -12,6 +13,13 @@ export default function LoginProcess() {
   const { address, isConnected } = useAccount()
 
   const [user, , setUser] = useUser()
+
+  async function getSession() {
+    const res = await getWeb3Login(address)
+    if (res) {
+      setUser(res)
+    }
+  }
 
   return (
     <div className="flex items-center gap-12">
@@ -48,7 +56,7 @@ export default function LoginProcess() {
               disabled={!isConnected}
               size="lg"
               className="min-w-56"
-              onClick={() => getWeb3Login(address)}
+              onClick={() => getSession()}
             >
               Create Session
             </Button>
