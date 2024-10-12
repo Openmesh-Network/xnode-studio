@@ -25,7 +25,7 @@ import {
 import { Icons } from '../Icons'
 
 type ActivateXNodeDialogProps = {
-  address: Address
+  address?: Address
   open: boolean
   onOpenChange: (val: boolean) => void
   entitlementNft?: bigint
@@ -48,10 +48,11 @@ export default function ActivateXNodeDialog({
       transactionName: 'Claim',
       transaction: async () => {
         if (entitlementNft === undefined) {
-          loggers?.onError({
-            title: 'No NFT selected',
-            description: 'Please select which NFT you want to activate.',
-          })
+          loggers.onError &&
+            loggers.onError({
+              title: 'No NFT selected',
+              description: 'Please select which NFT you want to activate.',
+            })
           return undefined
         }
 
@@ -64,11 +65,12 @@ export default function ActivateXNodeDialog({
       },
       onConfirmed: () => {
         setSuccess(true)
-        selectXNode(entitlementNft.toString())
+        entitlementNft && selectXNode(entitlementNft.toString())
         queryClient.invalidateQueries({ queryKey: [address] })
       },
     })
   }
+
   return (
     <AlertDialog open={open || success === true} onOpenChange={onOpenChange}>
       <AlertDialogContent>

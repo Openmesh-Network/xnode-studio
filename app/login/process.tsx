@@ -14,7 +14,8 @@ export default function LoginProcess() {
 
   const [user, , setUser] = useUser()
 
-  async function getSession() {
+  async function createSession() {
+    if (!address) return
     const res = await getWeb3Login(address)
     if (res) {
       setUser(res)
@@ -56,7 +57,7 @@ export default function LoginProcess() {
               disabled={!isConnected}
               size="lg"
               className="min-w-56"
-              onClick={() => getSession()}
+              onClick={() => createSession()}
             >
               Create Session
             </Button>

@@ -33,7 +33,7 @@ export default function AppStorePage({ searchParams }: AppStorePageProps) {
     <>
       <AppStore
         nftId={nftId}
-        categories={categories}
+        categories={categories ?? []}
         type={type.success ? type.data : 'templates'}
       />
     </>

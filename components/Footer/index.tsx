@@ -7,7 +7,7 @@ import linkedin from '@/assets/linkedin.svg'
 import twitter from '@/assets/twitter.svg'
 import logo from '@/public/openmesh-large.svg'
 
-export function Footer() {
+export default function Footer() {
   const footerItems = [
     {
       label: 'Discord',
@@ -61,5 +61,3 @@ export function Footer() {
     </footer>
   )
 }
-
-export default Footer

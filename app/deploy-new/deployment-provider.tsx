@@ -94,11 +94,11 @@ export default function DeploymentProvider({
       if (region) {
         params.append('r', region)
       }
-      if (specs?.ram > 0) {
+      if (specs?.ram && specs.ram > 0) {
         const ramGB = specs.ram / 1024
         params.append('minRAM', String(ramGB))
       }
-      if (specs?.storage > 0) {
+      if (specs?.storage && specs.storage > 0) {
         const storageGB = specs.storage / 1024
         params.append('minStorage', String(storageGB))
       }
@@ -151,9 +151,9 @@ export default function DeploymentProvider({
   const histogramPriceData = useMemo(() => {
     if (!providerData?.data) return []
     const BINS = 32
-    const prices = providerData.data.map(
-      (provider) => provider.priceSale ?? provider.priceMonth
-    )
+    const prices = providerData.data
+      .map((provider) => provider.priceSale ?? provider.priceMonth)
+      .filter((price) => price !== null)
 
     const minPrice = Math.min(...prices)
     const maxPrice = Math.max(...prices)
@@ -305,9 +305,9 @@ export default function DeploymentProvider({
                     if (newValue < STEP_MIN) {
                       setPriceRange([STEP_MIN, priceRange[1]])
                     }
-                    if (newValue >= priceRange[1]) {
+                    if (newValue >= (priceRange?.[1] ?? PRICE_MAX)) {
                       setPriceRange([
-                        Math.max(priceRange[1] - 20, 0),
+                        Math.max((priceRange?.[1] ?? PRICE_MAX) - 20, 0),
                         priceRange[1],
                       ])
                     }
@@ -507,7 +507,7 @@ export default function DeploymentProvider({
                         <div className="col-span-5 flex items-center gap-4">
                           <Image
                             src={`${prefix}/images/providers/${provider.providerName}.svg`}
-                            alt={provider.providerName}
+                            alt={provider.providerName + ' logo'}
                             width={64}
                             height={64}
                             className="text-xs"
@@ -539,7 +539,7 @@ export default function DeploymentProvider({
                                   : 'text-xl font-bold'
                               )}
                             >
-                              {formatPrice(provider.priceMonth)}
+                              {formatPrice(provider.priceMonth ?? 0)}
                             </span>
                             /mo
                           </p>
@@ -562,9 +562,9 @@ export default function DeploymentProvider({
                               onClick={() => {
                                 setConfig((prev) => ({
                                   ...prev,
-                                  name: provider.productName,
-                                  provider: provider.providerName,
-                                  location: provider.location,
+                                  name: provider.productName!,
+                                  provider: provider.providerName!,
+                                  location: provider.location!,
                                   isUnit: false,
                                 }))
                                 onSelect()
@@ -575,7 +575,8 @@ export default function DeploymentProvider({
                             {provider.priceSale !== null ? (
                               <p className="text-sm text-primary">
                                 {formatPrice(
-                                  provider.priceMonth - provider.priceSale
+                                  (provider.priceMonth ?? 0) -
+                                    provider.priceSale
                                 )}{' '}
                                 Cashback
                               </p>

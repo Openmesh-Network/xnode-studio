@@ -50,7 +50,7 @@ import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/Icons'
 
 import { useXnodes } from '../dashboard/health-data'
-import DeploymentProvider from '../deploy/deployment-provider'
+import DeploymentProvider from '../deploy-new/deployment-provider'
 import { useDeploymentContext } from './deployment-context'
 
 type Step = 0 | 1 | 2
@@ -82,7 +82,7 @@ const evpDeploymentFlow: DeploymentFlow = [
 type DeploymentFlowProps = {
   sessionToken: string
   item: AppStoreItem
-  specs: Specs
+  specs?: Specs
   type: AppStorePageType
 }
 export default function DeploymentFlow({
@@ -195,7 +195,7 @@ export default function DeploymentFlow({
       throw new Error("Couldn't find a Xnode to deploy to")
     }
 
-    const deployedXNode = deployedXNodes.find(
+    const deployedXNode = deployedXNodes?.find(
       (xNode) => xNode.deploymentAuth === selectedXNode
     )
 
@@ -406,7 +406,7 @@ export default function DeploymentFlow({
                   <Check className="size-6 text-background" />
                 ) : null}
               </div>
-              <p>{deploymentSteps[0]}</p>
+              <p>{deploymentSteps?.[0]}</p>
             </div>
             <div
               className={cn(
@@ -433,7 +433,7 @@ export default function DeploymentFlow({
                   <Check className="size-6 text-background" />
                 ) : null}
               </div>
-              <p>{deploymentSteps[1]}</p>
+              <p>{deploymentSteps?.[1]}</p>
             </div>
             <div
               className={cn(
@@ -451,7 +451,7 @@ export default function DeploymentFlow({
                   <RotateCw className="size-5 animate-spin text-primary" />
                 ) : null}
               </div>
-              <p>{deploymentSteps[2]}</p>
+              <p>{deploymentSteps?.[2]}</p>
             </div>
           </div>
         ) : null}
@@ -684,7 +684,7 @@ export default function DeploymentFlow({
           step[1] === 'xnode-current' &&
           activeDeploymentStep === 3 ? (
             <Link
-              href={`/xnode?uuid=${deployedXNodes.find(({ deploymentAuth }) => deploymentAuth === selectedXNode).id}`}
+              href={`/xnode?uuid=${deployedXNodes?.find(({ deploymentAuth }) => deploymentAuth === selectedXNode)?.id}`}
             >
               <Button size="lg" className="h-10 min-w-40">
                 Go to Deployment

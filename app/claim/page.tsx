@@ -54,8 +54,8 @@ import { Icons } from '@/components/Icons'
 import ActivateXNodeDialog from '@/components/xnode/activate-dialog'
 
 export default function ClaimXNodePage() {
-  const captchaRef = useRef<ReCAPTCHA>()
-  const formRef = useRef<HTMLFormElement>()
+  const captchaRef = useRef<ReCAPTCHA | null>(null)
+  const formRef = useRef<HTMLFormElement | null>(null)
   const [tocChecked, setTocChecked] = useState<CheckedState>(false)
 
   const { width, height } = useWindowSize()
@@ -70,7 +70,7 @@ export default function ClaimXNodePage() {
     })
   const queryClient = useQueryClient()
 
-  const [pinInput, setPinInput] = useState<string | null>()
+  const [pinInput, setPinInput] = useState<string>('')
 
   const [successOpen, setSuccessOpen] = useState(false)
   const [claimedNft, setClaimedNft] = useState<bigint | null>()
@@ -85,12 +85,12 @@ export default function ClaimXNodePage() {
       />
       <div className="pointer-events-none fixed inset-0 z-[999]">
         <ReactConfetti
-          width={width}
-          height={height}
+          width={width ?? 0}
+          height={height ?? 0}
           recycle={false}
           numberOfPieces={successOpen ? 500 : 0}
           onConfettiComplete={(confetti) => {
-            confetti.reset()
+            confetti?.reset()
           }}
         />
       </div>
@@ -162,7 +162,7 @@ export default function ClaimXNodePage() {
 
               const nftId = BigInt(keccak256(toBytes(code)))
               const owner = await publicClient
-                .readContract({
+                ?.readContract({
                   abi: XnodeUnitEntitlementContract.abi,
                   address: XnodeUnitEntitlementContract.address,
                   functionName: 'ownerOf',
@@ -189,10 +189,10 @@ export default function ClaimXNodePage() {
                   })
 
                   console.log('recaptcha request')
-                  const recaptchaToken: string = await captchaRef.current
-                    .executeAsync()
+                  const recaptchaToken = await captchaRef.current
+                    ?.executeAsync()
                     .finally(() => {
-                      captchaRef.current.reset()
+                      captchaRef.current?.reset()
                     })
                   console.log('recaptcha solved', recaptchaToken)
 
@@ -204,7 +204,7 @@ export default function ClaimXNodePage() {
                   const response = await axios
                     .post(`${prefix}/xue-signer/getSig`, {
                       code: code,
-                      receiver: walletClient.account.address,
+                      receiver: walletClient?.account.address,
                       recaptcha: recaptchaToken,
                     })
                     .then(
@@ -390,7 +390,7 @@ export default function ClaimXNodePage() {
                         size="lg"
                         className="min-w-48"
                         onClick={() => {
-                          formRef.current.requestSubmit()
+                          formRef.current?.requestSubmit()
                         }}
                       >
                         Claim

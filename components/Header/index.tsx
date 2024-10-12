@@ -36,7 +36,7 @@ import { GlobalSearch } from '@/components/global-search'
 
 import ActivateXNodeDialog from '../xnode/activate-dialog'
 
-export function Header() {
+export default function Header() {
   const { address, status } = useAccount()
   const { data: activeXNodes } = useXuNfts(address)
   const { data: inactiveXNodes } = useXueNfts(address)
@@ -44,10 +44,10 @@ export function Header() {
   const { open } = useWeb3Modal()
 
   const [selectedXNode, selectXNode] = useSelectedXNode(
-    activeXNodes?.length ? activeXNodes.at(0)?.toString() : null
+    activeXNodes?.length ? activeXNodes.at(0)?.toString() : undefined
   )
 
-  const totalNodes = activeXNodes?.length + inactiveXNodes?.length
+  const totalNodes = (activeXNodes?.length ?? 0) + (inactiveXNodes?.length ?? 0)
 
   const [activationOpen, setActivationOpen] = useState<string | null>()
 
@@ -118,7 +118,7 @@ export function Header() {
                       )
                     })}
                   </CommandGroup>
-                  {inactiveXNodes?.length > 0 ? (
+                  {(inactiveXNodes?.length ?? 0) > 0 ? (
                     <CommandGroup heading="Inactive">
                       {inactiveXNodes?.map((xNode) => {
                         const name = formatXNodeName(xNode.toString())
@@ -207,32 +207,6 @@ export function Header() {
             </button>
           )}
         </div>
-        {/* <div className="hidden h-full items-center gap-x-20 lg:flex">
-        <nav className="flex items-center gap-x-12">
-          {headerItems.map((option, index) => (
-            <Link
-              key={index}
-              href={`${option.href}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span className="text-white transition-colors duration-300 hover:text-gray200">
-                {option.label}
-              </span>
-            </Link>
-          ))}
-        </nav>
-
-        <Link
-          href="/workspace"
-          className="flex h-full items-center gap-x-[10px] bg-blue500 px-9 transition-colors duration-300 hover:bg-blue500/80"
-        >
-          <Image src={thunderIcon} alt="Thunder icon" />
-          <span className="text-sm font-medium text-white">
-            Create service and deploy
-          </span>
-        </Link>
-      </div> */}
       </header>
     </>
   )

@@ -124,7 +124,7 @@ type ServiceOptionRowProps = {
   option: ServiceOption
   value?: (
     option: ServiceOption['nixName'],
-    parentOption: ServiceOption['nixName']
+    parentOption?: ServiceOption['nixName']
   ) => ServiceOption['value']
   onUpdate: (
     newVal: ServiceOption['value'],
@@ -176,7 +176,7 @@ function ServiceOptionRow({
         {!option.options?.length ? (
           <>
             <ServiceOptionInput
-              value={value(option.nixName, parentOption) ?? option.value}
+              value={value ? value(option.nixName, parentOption) : option.value}
               option={option}
               updateOption={(newVal) =>
                 onUpdate(newVal, option.nixName, parentOption)
@@ -214,6 +214,8 @@ function ServiceOptionRow({
 }
 
 export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
+  const [user] = useUser()
+
   const {
     data: xNode,
     isSuccess,
@@ -224,6 +226,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   } = useQuery<Xnode>({
     queryKey: ['xnodes', xNodeId],
     queryFn: async () => {
+      if (!user?.sessionToken) return null
       const data = await fetch(
         `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/getXnode`,
         {
@@ -247,6 +250,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
       }
     },
     refetchInterval: 30 * 1000,
+    enabled: !!user?.sessionToken,
   })
   const [lastUpdated, setLastUpdated] = useState<string>('0 seconds')
 
@@ -329,7 +333,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     return changes
   }, [defaultOptions, serviceChanges, services?.services])
 
-  const [user] = useUser()
   const [userData, setUserData] = useState<ServiceData>(sshUserData('')) // Always relates to the xnode user for now.
 
   const [openSshKeysOpen, setOpenSshKeysOpen] = useState(false)
@@ -338,14 +341,18 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   )
   const serviceInEdit = useMemo<ServiceData | null>(() => {
     if (!editService || !services) return null
-    return services.services.find((service) => service.nixName === editService)
+    return (
+      services.services.find((service) => service.nixName === editService) ??
+      null
+    )
   }, [editService, services])
   const [deleteServiceOpen, setDeleteServiceOpen] = useState<
     ServiceData['nixName'] | null
   >(null)
 
   const updateServices = useCallback(async () => {
-    const servicesWithChanges = services?.services.map((service) => {
+    if (!services?.services || !user?.sessionToken) return
+    const servicesWithChanges = services.services.map((service) => {
       const changes = serviceChanges.get(service.nixName)
       if (!changes) return service
       return {
@@ -361,7 +368,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
         method: 'POST',
         headers: {
           'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-          'X-Parse-Session-Token': user?.sessionToken,
+          'X-Parse-Session-Token': user.sessionToken,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -386,7 +393,8 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   ])
 
   const deleteService = useCallback(async () => {
-    const servicesWithChanges = services?.services.filter(
+    if (!services?.services || !user?.sessionToken) return
+    const servicesWithChanges = services.services.filter(
       (service) => service.nixName !== deleteServiceOpen
     )
     const formattedServices = servicesCompressedForAdmin(servicesWithChanges)
@@ -397,7 +405,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
         method: 'POST',
         headers: {
           'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-          'X-Parse-Session-Token': user?.sessionToken,
+          'X-Parse-Session-Token': user.sessionToken,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -424,7 +432,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
 
   const addOpenSSH = useCallback(async () => {
     let servicesWithChanges = services?.services
-    if (!servicesWithChanges) return
+    if (!servicesWithChanges || !user?.sessionToken) return
     servicesWithChanges.push(opensshConfig)
     const formattedServices = servicesCompressedForAdmin(servicesWithChanges)
 
@@ -434,7 +442,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
         method: 'POST',
         headers: {
           'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-          'X-Parse-Session-Token': user?.sessionToken,
+          'X-Parse-Session-Token': user.sessionToken,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -452,6 +460,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   }, [refetch, services?.services, user?.sessionToken, userData, xNodeId])
 
   async function updateXNode() {
+    if (!user?.sessionToken || !xNode) return
     const config = {
       method: 'post' as 'post',
       url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/allowXnodeGenerationUpdate`,
@@ -578,12 +587,17 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                       <TableHead className="h-8">Value</TableHead>
                       <TableHead className="h-8 w-16">
                         <Button
-                          disabled={!changedOptions[serviceInEdit?.nixName]}
+                          disabled={
+                            serviceInEdit
+                              ? !changedOptions[serviceInEdit.nixName]
+                              : true
+                          }
                           size="sm"
                           variant="outlinePrimary"
                           className="h-7 gap-1"
                           onClick={() => {
                             setServiceChanges((prev) => {
+                              if (!serviceInEdit) return prev
                               const newMap = new Map(prev)
                               const existingChanges = newMap.get(
                                 serviceInEdit.nixName
@@ -860,18 +874,19 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                 <HealthChartItem
                   className="size-48"
                   type="cpu"
-                  healthData={xNode.heartbeatData?.cpuPercent}
+                  healthData={xNode.heartbeatData?.cpuPercent ?? 0}
                 />
               </div>
               <div className="flex flex-col items-center gap-4 rounded border bg-muted/50 px-4 py-2.5">
                 <div className="text-center">
                   <p className="font-bold">RAM</p>
                   <p className="text-sm text-muted-foreground">
-                    {Math.round((xNode.heartbeatData?.ramMbUsed / 1024) * 100) /
-                      100}
+                    {Math.round(
+                      ((xNode.heartbeatData?.ramMbUsed ?? 0) / 1024) * 100
+                    ) / 100}
                     GB/
                     {Math.round(
-                      (xNode.heartbeatData?.ramMbTotal / 1024) * 100
+                      ((xNode.heartbeatData?.ramMbTotal ?? 0) / 1024) * 100
                     ) / 100}
                     GB
                   </p>
@@ -880,8 +895,8 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                   className="size-48"
                   type="ram"
                   healthData={
-                    (xNode.heartbeatData?.ramMbUsed /
-                      xNode.heartbeatData?.ramMbTotal) *
+                    ((xNode.heartbeatData?.ramMbUsed ?? 0) /
+                      (xNode.heartbeatData?.ramMbTotal ?? 1)) *
                     100
                   }
                 />
@@ -891,11 +906,11 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                   <p className="font-bold">CPU</p>
                   <p className="text-sm text-muted-foreground">
                     {Math.round(
-                      (xNode.heartbeatData?.storageMbUsed / 1024) * 100
+                      ((xNode.heartbeatData?.storageMbUsed ?? 0) / 1024) * 100
                     ) / 100}
                     GB/
                     {Math.round(
-                      (xNode.heartbeatData?.storageMbTotal / 1024) * 100
+                      ((xNode.heartbeatData?.storageMbTotal ?? 1) / 1024) * 100
                     ) / 100}
                     GB
                   </p>
@@ -904,8 +919,8 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                   className="size-48"
                   type="storage"
                   healthData={
-                    (xNode.heartbeatData?.storageMbUsed /
-                      xNode.heartbeatData?.storageMbTotal) *
+                    ((xNode.heartbeatData?.storageMbUsed ?? 0) /
+                      (xNode.heartbeatData?.storageMbTotal ?? 1)) *
                     100
                   }
                 />

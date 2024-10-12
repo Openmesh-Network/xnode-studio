@@ -143,6 +143,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
     if (!optimisticCategories.length || type === 'templates') return data
     for (const dataItem of data) {
       if (
+        dataItem.category &&
         !optimisticCategories.includes(
           dataItem.category.toLowerCase().replace(/\s/g, '-')
         )
@@ -156,7 +157,8 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
   const updateCategories = useCallback(
     (newCategory: string) => {
       const newParams = new URLSearchParams()
-      if (params.get('type')) newParams.set('type', params.get('type'))
+      const type = params.get('type')
+      if (type) newParams.set('type', type)
       const newCategories = optimisticCategories.includes(newCategory)
         ? optimisticCategories.filter((c) => c !== newCategory)
         : [...optimisticCategories, newCategory]

@@ -28,7 +28,8 @@ type DeployPageProps = {
 }
 
 export default function DeployPage({ searchParams }: DeployPageProps) {
-  const { value: sessionToken } = cookies().get('userSessionToken')
+  const sessionCookie = cookies().get('userSessionToken')
+  if (!sessionCookie) redirect('/login')
 
   const templateId = z.string().optional().parse(searchParams.templateId)
   const useCaseId = z.string().optional().parse(searchParams.useCaseId)
@@ -36,9 +37,9 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
   function getData() {
     if (!templateId && !useCaseId) redirect('/app-store')
     let data: AppStoreItem | undefined
-    let specs: Specs
-    let type: AppStorePageType
-    let services: ServiceData[]
+    let specs: Specs | undefined
+    let type: AppStorePageType | undefined
+    let services: ServiceData[] | undefined
     if (useCaseId) {
       const useCase = usecaseById(useCaseId)
       if (useCase === undefined || useCase.implemented === false)
@@ -63,6 +64,9 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
     return { data, services, specs, type }
   }
   const { data, services, specs, type } = getData()
+
+  if (data === undefined || type === undefined || services === undefined)
+    redirect('/app-store')
 
   return (
     <DeploymentContextProvider
@@ -103,7 +107,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
             </div>
             <div className="mt-6 flex gap-3">
               <DeploymentFlow
-                sessionToken={sessionToken}
+                sessionToken={sessionCookie.value}
                 item={data}
                 type={type}
                 specs={specs}
@@ -133,7 +137,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
                 <div>
                   <p className="text-xs text-muted-foreground">RAM</p>
                   <p className="font-mono leading-none">
-                    ~{Math.round(specs.ram / 1024)} GB
+                    ~{Math.round((specs?.ram ?? 0) / 1024)} GB
                   </p>
                 </div>
               </div>
@@ -142,7 +146,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
                 <div>
                   <p className="text-xs text-muted-foreground">Storage</p>
                   <p className="font-mono leading-none">
-                    ~{Math.round(specs.storage / 1024)} GB
+                    ~{Math.round((specs?.storage ?? 0) / 1024)} GB
                   </p>
                 </div>
               </div>

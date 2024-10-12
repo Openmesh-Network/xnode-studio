@@ -3,12 +3,9 @@
 import Link from 'next/link'
 import { Blocks, Cloud, IdCard, Server } from 'lucide-react'
 
-import ScrollUp from '@/components/Common/ScrollUp'
-
 export default function Home() {
   return (
     <>
-      <ScrollUp />
       <section className="container mb-12 mt-24 w-full">
         <div className="flex gap-12">
           <div className="flex-1 basis-3/5">

@@ -36,9 +36,7 @@ export function DeploymentContextProvider({
   children,
   initialData,
 }: DeploymentContextProviderProps) {
-  const [config, setConfig] = useState<DeploymentConfiguration | null>(
-    initialData
-  )
+  const [config, setConfig] = useState<DeploymentConfiguration>(initialData)
 
   return (
     <DeploymentContext.Provider value={{ config, setConfig }}>

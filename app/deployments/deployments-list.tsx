@@ -30,7 +30,7 @@ export default function DeploymentsList({
 
   const services = useMemo(() => {
     const allServices: Map<Xnode['id'], ServiceData[]> = new Map()
-    if (isPending) return allServices
+    if (isPending || !xNodes) return allServices
     for (const xNode of xNodes) {
       const services = JSON.parse(
         Buffer.from(xNode.services, 'base64').toString('utf-8')
@@ -98,7 +98,7 @@ export default function DeploymentsList({
                     <>
                       {services
                         .get(xNode.id)
-                        .slice(0, 3)
+                        ?.slice(0, 3)
                         .map((service) => (
                           <span
                             key={`${xNode.id}-service-${service.nixName}`}
@@ -115,12 +115,12 @@ export default function DeploymentsList({
                             {service.name ?? service.nixName}
                           </span>
                         ))}
-                      {services.get(xNode.id).length > 3 ? (
+                      {(services.get(xNode.id)?.length ?? 0) > 3 ? (
                         <span
                           key={`${xNode.id}-more-services`}
                           className="flex items-center gap-1.5 rounded bg-primary/10 px-2 py-1 text-xs font-medium text-foreground"
                         >
-                          +{services.get(xNode.id).length - 3}
+                          +{(services.get(xNode.id)?.length ?? 0) - 3}
                         </span>
                       ) : null}
                     </>

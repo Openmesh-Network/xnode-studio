@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 import { db } from '@/db'
-import { Providers } from '@/db/schema'
+import { Provider, Providers } from '@/db/schema'
 import { and, asc, count, desc, eq, gte, like, lte, or, SQL } from 'drizzle-orm'
 import { z } from 'zod'
 
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     .nullable()
     .parse(params.get('minStorage'))
 
-  let filters: SQL[] = []
+  let filters: (SQL | undefined)[] = []
   if (searchQuery !== null && searchQuery !== '') {
     const q = `%${searchQuery.trim()}%`
     filters.push(
@@ -58,9 +58,9 @@ export async function GET(req: NextRequest) {
   let sortOrder: SQL[] = []
   if (sort && order) {
     if (order === 'asc') {
-      sortOrder.push(asc(Providers[sort]))
+      sortOrder.push(asc(Providers[sort as keyof Provider]))
     } else {
-      sortOrder.push(desc(Providers[sort]))
+      sortOrder.push(desc(Providers[sort as keyof Provider]))
     }
   }
 

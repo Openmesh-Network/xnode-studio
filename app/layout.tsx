@@ -1,6 +1,5 @@
 import ScrollToTop from '@/components/ScrollToTop'
 
-import 'node_modules/react-modal-video/css/modal-video.css'
 import '../styles/index.css'
 
 import { type Metadata } from 'next'
@@ -9,8 +8,8 @@ import { prefix } from '@/utils/prefix'
 
 import { cn } from '@/lib/utils'
 import CTAHelp from '@/components/cta-help'
-import { Footer } from '@/components/Footer'
-import { Header } from '@/components/Header'
+import Footer from '@/components/Footer'
+import Header from '@/components/Header'
 import { NavLayout } from '@/components/SidebarNav/sibebar-nav'
 
 import { Providers } from './providers'

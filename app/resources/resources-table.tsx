@@ -252,7 +252,7 @@ export default function ResourcesTable() {
         setPage={setPage}
         pageSize={pageSize}
         setPageSize={setPageSize}
-        totalPages={data?.totalPages}
+        totalPages={data?.totalPages ?? 0}
       />
     </div>
   )
