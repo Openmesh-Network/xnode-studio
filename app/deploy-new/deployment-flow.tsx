@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Provider } from '@/db/schema'
+import { type Provider } from '@/db/schema'
 import { useXuNfts } from '@/utils/nft'
 import { prefix } from '@/utils/prefix'
 import { servicesCompressedForAdmin } from '@/utils/xnode'
@@ -23,10 +23,10 @@ import {
 import { useAccount } from 'wagmi'
 
 import {
-  AppStoreItem,
-  ServiceData,
-  Specs,
+  type AppStoreItem,
   type AppStorePageType,
+  type ServiceData,
+  type Specs,
 } from '@/types/dataProvider'
 import { cn, formatXNodeName } from '@/lib/utils'
 import useSelectedXNode from '@/hooks/useSelectedXNode'

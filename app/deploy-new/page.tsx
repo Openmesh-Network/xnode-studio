@@ -8,10 +8,10 @@ import { z } from 'zod'
 import {
   getSpecsByTemplate,
   serviceByName,
-  ServiceData,
   usecaseById,
   type AppStoreItem,
   type AppStorePageType,
+  type ServiceData,
   type Specs,
 } from '@/types/dataProvider'
 import { Button } from '@/components/ui/button'

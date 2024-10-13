@@ -14,7 +14,7 @@ import Header from '@/components/ui/header'
 import { InfoCard } from '@/components/ui/info-card'
 import { Input } from '@/components/ui/input'
 import { Section } from '@/components/ui/section'
-import { Icon, Icons } from '@/components/Icons'
+import { Icons } from '@/components/Icons'
 
 export default function PythiaX() {
   return (

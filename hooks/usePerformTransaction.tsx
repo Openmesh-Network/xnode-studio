@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import {
-  Loggers,
   performTransaction as performTransactionInternal,
-  PerformTransactionParameters,
   UpdateDuration,
+  type Loggers,
+  type PerformTransactionParameters,
 } from '@plopmenz/viem-extensions'
 import {
   type Abi,
@@ -23,7 +23,7 @@ import {
   useWalletClient,
 } from 'wagmi'
 
-import { ToastAction, ToastActionElement } from '@/components/ui/toast'
+import { ToastAction, type ToastActionElement } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { chains } from '@/app/providers'
 

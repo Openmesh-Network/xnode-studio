@@ -1,12 +1,9 @@
-import { useContext, useEffect, useState } from 'react'
 import { hashObject } from '@/utils/functions'
 import axios from 'axios'
-import { AccountContext } from 'contexts/AccountContext'
-import nookies, { destroyCookie, setCookie } from 'nookies'
-import { Address } from 'viem'
+import nookies from 'nookies'
+import { type Address } from 'viem'
 import { signMessage } from 'wagmi/actions'
 
-import { useUser } from '@/hooks/useUser'
 import { wagmiConfig } from '@/app/providers'
 
 async function getUserNonce(userAddress: string) {

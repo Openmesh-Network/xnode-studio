@@ -11,7 +11,6 @@ import {
   ChevronRight,
   ExternalLink,
   HelpCircle,
-  MoveRight,
   Pencil,
   RefreshCcw,
   Trash2,
@@ -19,10 +18,11 @@ import {
 
 import {
   serviceByName,
-  ServiceData,
-  ServiceOption,
-  XnodeConfig,
+  type ServiceData,
+  type ServiceOption,
+  type XnodeConfig,
 } from '@/types/dataProvider'
+import { type Xnode } from '@/types/node'
 import { opensshConfig } from '@/config/openssh'
 import { cn, formatXNodeName } from '@/lib/utils'
 import {
@@ -66,7 +66,6 @@ import {
 import { sshUserData } from '@/components/Deployments/serviceAccess'
 import Signup from '@/components/Signup'
 
-import { Xnode } from '../../types/node'
 import { HealthChartItem } from '../dashboard/health-data'
 
 type XnodePageProps = {

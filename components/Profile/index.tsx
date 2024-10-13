@@ -1,12 +1,12 @@
 'use client'
 
 import {
-  ChangeEvent,
-  FC,
   useCallback,
   useContext,
   useEffect,
   useState,
+  type ChangeEvent,
+  type FC,
 } from 'react'
 import { useRouter } from 'next/navigation'
 import { yupResolver } from '@hookform/resolvers/yup'

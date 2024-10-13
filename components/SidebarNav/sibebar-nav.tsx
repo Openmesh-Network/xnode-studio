@@ -15,7 +15,7 @@ import { ChevronDown, type LucideIcon } from 'lucide-react'
 
 import { navItems } from '@/config/nav'
 import { cn } from '@/lib/utils'
-import { Button, ButtonProps } from '@/components/ui/button'
+import { Button, type ButtonProps } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import {
   Tooltip,
@@ -23,7 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Icon } from '@/components/Icons'
+import { type Icon } from '@/components/Icons'
 
 interface SidebarNav {
   isMobile?: boolean

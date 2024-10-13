@@ -2,14 +2,14 @@
 
 import {
   createContext,
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
   useContext,
   useState,
+  type Dispatch,
+  type PropsWithChildren,
+  type SetStateAction,
 } from 'react'
 
-import { DeploymentConfiguration } from '@/types/dataProvider'
+import { type DeploymentConfiguration } from '@/types/dataProvider'
 
 export type DeploymentContext = {
   config: DeploymentConfiguration

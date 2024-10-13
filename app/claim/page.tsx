@@ -17,13 +17,13 @@ import ReactConfetti from 'react-confetti'
 import { FlipTilt } from 'react-flip-tilt'
 import ReCAPTCHA from 'react-google-recaptcha'
 import {
-  Address,
   decodeEventLog,
-  Hex,
   keccak256,
-  Signature,
   toBytes,
   zeroAddress,
+  type Address,
+  type Hex,
+  type Signature,
 } from 'viem'
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
 

@@ -1,4 +1,4 @@
-import { UserProps } from '@/contexts/AccountContext'
+import { type UserProps } from '@/contexts/AccountContext'
 import axios from 'axios'
 import Loading from 'components/Loading'
 import { getWeb3Login } from 'utils/auth'

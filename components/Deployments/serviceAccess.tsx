@@ -1,4 +1,4 @@
-import { ServiceData } from '@/types/dataProvider'
+import { type ServiceData } from '@/types/dataProvider'
 
 export function formatSSHKeys(keys: string): string {
   if (keys.includes('[]')) {

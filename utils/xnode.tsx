@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { serviceByName, ServiceData, ServiceOption } from '@/types/dataProvider'
+import { type ServiceData, type ServiceOption } from '@/types/dataProvider'
 
 export async function getDataXnodeValidatorsInfo() {
   const config = {

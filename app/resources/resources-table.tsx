@@ -1,16 +1,16 @@
 'use client'
 
-import { Dispatch, SetStateAction, useState } from 'react'
-import { Provider } from '@/db/schema'
+import { useState, type Dispatch, type SetStateAction } from 'react'
+import { type Provider } from '@/db/schema'
 import { prefix } from '@/utils/prefix'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
+  type ColumnDef,
+  type SortingState,
 } from '@tanstack/react-table'
 import type { Column, Row, Table as TableType } from '@tanstack/react-table'
 import { useDebounce } from '@uidotdev/usehooks'

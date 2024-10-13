@@ -3,7 +3,7 @@ import { XnodeUnitContract } from '@/contracts/XnodeUnit'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { Address } from 'viem'
+import { type Address } from 'viem'
 
 const alchemyPrefix = process.env.NEXT_PUBLIC_TESTNET
   ? 'eth-sepolia'

@@ -1,6 +1,6 @@
 'use client'
 
-import { ComponentProps, useMemo } from 'react'
+import { useMemo, type ComponentProps } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { prefix } from '@/utils/prefix'
@@ -23,8 +23,8 @@ import {
   RadialBarChart,
 } from 'recharts'
 
-import { ServiceData, XnodeConfig } from '@/types/dataProvider'
-import { Xnode, type HeartbeatData } from '@/types/node'
+import { type ServiceData } from '@/types/dataProvider'
+import { type HeartbeatData, type Xnode } from '@/types/node'
 import { cn, formatXNodeName } from '@/lib/utils'
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart'
 import { Skeleton } from '@/components/ui/skeleton'

@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 import { db } from '@/db'
-import { Provider, Providers } from '@/db/schema'
+import { Providers, type Provider } from '@/db/schema'
 import { and, asc, count, desc, eq, gte, like, lte, or, SQL } from 'drizzle-orm'
 import { z } from 'zod'
 

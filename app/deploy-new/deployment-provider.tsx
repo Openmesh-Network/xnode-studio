@@ -1,10 +1,9 @@
 'use client'
 
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { AccountContext } from '@/contexts/AccountContext'
-import { Provider } from '@/db/schema'
+import { type Provider } from '@/db/schema'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
 import {
@@ -20,7 +19,6 @@ import { prefix } from 'utils/prefix'
 
 import { type Specs } from '@/types/dataProvider'
 import { cn, formatPrice } from '@/lib/utils'
-import { useDraft } from '@/hooks/useDraftDeploy'
 import { Button } from '@/components/ui/button'
 import {
   Command,

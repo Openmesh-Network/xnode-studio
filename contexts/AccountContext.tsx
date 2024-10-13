@@ -1,8 +1,8 @@
 import React, { createContext, useState } from 'react'
 
 import {
-  DeploymentConfiguration,
-  TemplatesProducts,
+  type DeploymentConfiguration,
+  type TemplatesProducts,
 } from '@/types/dataProvider'
 
 export interface UserProps {

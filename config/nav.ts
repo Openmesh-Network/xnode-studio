@@ -6,14 +6,14 @@ import {
   Gauge,
   Globe,
   Home,
-  LucideIcon,
   PackageOpen,
   Rocket,
   Star,
   Users,
+  type LucideIcon,
 } from 'lucide-react'
 
-import { Icon } from '@/components/Icons'
+import { type Icon } from '@/components/Icons'
 
 export type NavCategory = 'main' | 'support'
 export type NavItem = {

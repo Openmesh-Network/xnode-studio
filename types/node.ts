@@ -1,12 +1,3 @@
-import { XnodeConfig } from './dataProvider'
-
-export type CoreServices = {
-  name: string
-  isFree: boolean
-  chain: string
-  description: string
-}
-
 export type HeartbeatData = {
   id: string
   cpuPercent: number
@@ -48,22 +39,4 @@ export type Xnode = {
   location: string
   createdAt: Date
   updatedAt: Date
-}
-
-type Stats = {
-  totalValidators: number
-  totalStakeAmount: number
-  totalAverageReward: number
-  averagePayoutPeriod: string
-}
-
-export type XnodeValidatorsStats = {
-  stats: Stats
-  nodes: Xnode[]
-}
-
-export type XnodeWithValidatorsStats = {
-  node: Xnode
-  stats: Stats
-  nodes: Xnode[]
 }

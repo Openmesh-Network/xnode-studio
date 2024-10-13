@@ -7,7 +7,7 @@ import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import { ThemeProvider } from 'next-themes'
 import { ToastContainer } from 'react-toastify'
-import { cookieStorage, createStorage, State, WagmiProvider } from 'wagmi'
+import { cookieStorage, createStorage, WagmiProvider, type State } from 'wagmi'
 
 import { Toaster } from '@/components/ui/toaster'
 import ScreenProvider from '@/components/screen-provider'
