@@ -1,6 +1,6 @@
 'use client'
 
-import { get } from 'http'
+import { useState } from 'react'
 import { getWeb3Login } from '@/utils/auth'
 import { MoveRight } from 'lucide-react'
 import { useAccount } from 'wagmi'
@@ -8,15 +8,27 @@ import { useAccount } from 'wagmi'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/useUser'
 import { Button } from '@/components/ui/button'
+import { useToast } from '@/components/ui/use-toast'
 
 export default function LoginProcess() {
   const { address, isConnected } = useAccount()
 
   const [user, , setUser] = useUser()
+  const { toast } = useToast()
+  const [creatingSession, setCreatingSession] = useState<boolean>()
 
   async function createSession() {
     if (!address) return
-    const res = await getWeb3Login(address)
+
+    toast({
+      title: 'Session Request Created',
+      description: 'Please sign the request in your wallet to confirm',
+    })
+
+    setCreatingSession(true)
+    const res = await getWeb3Login(address).finally(() =>
+      setCreatingSession(false)
+    )
     if (res) {
       setUser(res)
     }
@@ -32,7 +44,7 @@ export default function LoginProcess() {
       >
         <h2 className="text-xl font-bold">Connect your Wallet</h2>
         <p className="text-sm text-muted-foreground">
-          Login to OpenMesh Xnode with a wallet address
+          Login to Xnode Studio with your web3 wallet
         </p>
         <div className="mt-4">
           {!isConnected ? <w3m-connect-button /> : <w3m-account-button />}
@@ -54,7 +66,7 @@ export default function LoginProcess() {
         <div className="mt-4">
           {!user ? (
             <Button
-              disabled={!isConnected}
+              disabled={!isConnected || creatingSession}
               size="lg"
               className="min-w-56"
               onClick={() => createSession()}
