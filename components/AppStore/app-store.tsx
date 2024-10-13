@@ -66,7 +66,7 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
   }, [data.id, type])
   return (
     <Link
-      href={data.implemented ? `${prefix}/deploy-new?${params}` : '#'}
+      href={data.implemented ? `${prefix}/deploy?${params}` : '#'}
       aria-disabled={!data.implemented}
       className="flex shrink-0 basis-1/4 flex-col rounded border p-4 hover:bg-muted aria-disabled:pointer-events-none aria-disabled:opacity-50"
     >
