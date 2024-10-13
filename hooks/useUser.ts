@@ -26,7 +26,9 @@ export function useUser(): [
         sameSite: 'Strict',
       })
     } else {
-      nookies.destroy(null, 'userSessionToken')
+      nookies.destroy(null, 'userSessionToken', {
+        path: '/',
+      })
     }
     setIsLoading(false)
   }

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node combineService.js && next dev --turbo -p 3334",
+    "dev": "node combineService.js && next dev --turbo",
     "build": "node combineService.js && next build",
     "start": "node combineService.js && next start",
     "lint": "next lint",

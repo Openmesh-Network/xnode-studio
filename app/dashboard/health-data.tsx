@@ -285,92 +285,94 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
       {!isPending ? (
         xNodes?.map((xNode, index) => {
           return (
-            <div
-              key={`xNode-deployment-${xNode.id}`}
-              className="rounded border px-4 py-2.5"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <h3 className="text-lg font-bold">
-                  {xNode.isUnit
-                    ? formatXNodeName(xNode.deploymentAuth)
-                    : `Xnode ${index}`}
-                </h3>
-                {xNode.status !== 'online' ? (
-                  <span
-                    className={cn(
-                      'rounded px-2 py-0.5 text-xs font-medium capitalize',
-                      xNode.status === 'booting'
-                        ? 'bg-destructive/10 text-destructive'
-                        : 'bg-orange-500/10 text-orange-500'
-                    )}
-                  >
-                    {xNode.status}
-                  </span>
-                ) : null}
+            <Link key={index} href={`/xnode?uuid=${xNode.id}`}>
+              <div
+                key={`xNode-deployment-${xNode.id}`}
+                className="rounded border px-4 py-2.5"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="text-lg font-bold">
+                    {xNode.isUnit
+                      ? formatXNodeName(xNode.deploymentAuth)
+                      : `Xnode ${index}`}
+                  </h3>
+                  {xNode.status !== 'online' ? (
+                    <span
+                      className={cn(
+                        'rounded px-2 py-0.5 text-xs font-medium capitalize',
+                        xNode.status === 'booting'
+                          ? 'bg-destructive/10 text-destructive'
+                          : 'bg-orange-500/10 text-orange-500'
+                      )}
+                    >
+                      {xNode.status}
+                    </span>
+                  ) : null}
+                </div>
+                <div className="mt-2 space-y-2">
+                  <div className="flex w-full items-center gap-4">
+                    <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                      <Cpu className="size-4" />
+                      <p className="text-sm">CPU</p>
+                    </div>
+                    <div className="relative grow">
+                      <div className="h-2 w-full rounded bg-border" />
+                      <div
+                        className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
+                        style={{
+                          width: `${Math.min(Math.round(xNode.heartbeatData?.cpuPercent ?? 0), 100)}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-full items-center gap-4">
+                    <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                      <MemoryStick className="size-4" />
+                      <p className="text-sm">RAM</p>
+                    </div>
+                    <div className="relative grow">
+                      <div className="h-2 w-full rounded bg-border" />
+                      <div
+                        className="absolute left-0 top-0 h-2 rounded bg-primary transition-all duration-300 ease-out"
+                        style={{
+                          width: `${Math.min(((xNode.heartbeatData?.ramMbUsed ?? 0) / (xNode.heartbeatData?.ramMbTotal ?? 1)) * 100, 100)}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-full items-center gap-4">
+                    <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                      <HardDrive className="size-4" />
+                      <p className="text-sm">Storage</p>
+                    </div>
+                    <div className="relative grow">
+                      <div className="h-2 w-full rounded bg-border" />
+                      <div
+                        className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
+                        style={{
+                          width: `${Math.min(((xNode.heartbeatData?.storageMbUsed ?? 0) / (xNode.heartbeatData?.storageMbTotal ?? 1)) * 100, 100)}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-1 text-muted-foreground">
+                    <CalendarDays className="size-4" />
+                    <p className="text-xs">
+                      {formatDistanceToNow(xNode.unitClaimTime)} ago
+                    </p>
+                  </div>
+                  <Image
+                    src={`${prefix}/images/xnode-card/silvercard-front.webp`}
+                    alt="Xnode Card"
+                    width={48}
+                    height={28}
+                    className="rounded object-contain"
+                  />
+                </div>
               </div>
-              <div className="mt-2 space-y-2">
-                <div className="flex w-full items-center gap-4">
-                  <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
-                    <Cpu className="size-4" />
-                    <p className="text-sm">CPU</p>
-                  </div>
-                  <div className="relative grow">
-                    <div className="h-2 w-full rounded bg-border" />
-                    <div
-                      className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
-                      style={{
-                        width: `${Math.min(Math.round(xNode.heartbeatData?.cpuPercent ?? 0), 100)}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="flex w-full items-center gap-4">
-                  <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
-                    <MemoryStick className="size-4" />
-                    <p className="text-sm">RAM</p>
-                  </div>
-                  <div className="relative grow">
-                    <div className="h-2 w-full rounded bg-border" />
-                    <div
-                      className="absolute left-0 top-0 h-2 rounded bg-primary transition-all duration-300 ease-out"
-                      style={{
-                        width: `${Math.min(((xNode.heartbeatData?.ramMbUsed ?? 0) / (xNode.heartbeatData?.ramMbTotal ?? 1)) * 100, 100)}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="flex w-full items-center gap-4">
-                  <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
-                    <HardDrive className="size-4" />
-                    <p className="text-sm">Storage</p>
-                  </div>
-                  <div className="relative grow">
-                    <div className="h-2 w-full rounded bg-border" />
-                    <div
-                      className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
-                      style={{
-                        width: `${Math.min(((xNode.heartbeatData?.storageMbUsed ?? 0) / (xNode.heartbeatData?.storageMbTotal ?? 1)) * 100, 100)}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <CalendarDays className="size-4" />
-                  <p className="text-xs">
-                    {formatDistanceToNow(xNode.unitClaimTime)} ago
-                  </p>
-                </div>
-                <Image
-                  src={`${prefix}/images/xnode-card/silvercard-front.webp`}
-                  alt="Xnode Card"
-                  width={48}
-                  height={28}
-                  className="rounded object-contain"
-                />
-              </div>
-            </div>
+            </Link>
           )
         })
       ) : (

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { getWeb3Login } from '@/utils/auth'
 import { MoveRight } from 'lucide-react'
 import { useAccount } from 'wagmi'
@@ -16,6 +17,7 @@ export default function LoginProcess() {
   const [user, , setUser] = useUser()
   const { toast } = useToast()
   const [creatingSession, setCreatingSession] = useState<boolean>()
+  const { refresh } = useRouter()
 
   async function createSession() {
     if (!address) return
@@ -32,6 +34,12 @@ export default function LoginProcess() {
     if (res) {
       setUser(res)
     }
+    refresh() //destroy routing cache
+  }
+
+  async function deleteSession() {
+    setUser(null)
+    refresh() //destroy routing cache
   }
 
   return (
@@ -77,7 +85,7 @@ export default function LoginProcess() {
             <Button
               size="lg"
               className="min-w-56"
-              onClick={() => setUser(null)}
+              onClick={() => deleteSession()}
             >
               Logout
             </Button>
