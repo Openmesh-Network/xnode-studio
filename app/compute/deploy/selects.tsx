@@ -15,7 +15,7 @@ const nameData = [
 ]
 
 export function NameDropdown() {
-  const [name, setName] = useState<string>(nameData[0])
+  const [name, setName] = useState<string | null>(nameData[0])
   return (
     <div>
       <Label>Name</Label>
@@ -39,7 +39,7 @@ const regions = [
 ]
 
 export function RegionDropdown() {
-  const [region, setRegion] = useState<string>(regions[0])
+  const [region, setRegion] = useState<string | null>(regions[0])
   return (
     <div className="w-full">
       <Label>Region*</Label>
@@ -63,7 +63,7 @@ const zones = [
 ]
 
 export function ZoneDropdown() {
-  const [zone, setZone] = useState<string>(zones[0])
+  const [zone, setZone] = useState<string | null>(zones[0])
   return (
     <div className="w-full">
       <Label className="">Zone*</Label>

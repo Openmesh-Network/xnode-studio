@@ -107,7 +107,7 @@ function OpenmeshNode({ id, data, handleNodeRemove }) {
         </button>
         <div className="flex items-center gap-x-[5px]">
           <img
-            src={`${prefix}/images/nodesFlow/openmesh-new.svg`}
+            src={`${prefix}/openmesh.svg`}
             alt="image"
             className={
               'w-[16px] md:w-[20px] lg:w-[22.5px] xl:w-[25.5px] 2xl:w-[32px]'

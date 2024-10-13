@@ -10,7 +10,14 @@ import { useWindowSize } from '@uidotdev/usehooks'
 import axios from 'axios'
 import ReactConfetti from 'react-confetti'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { Address, Hex, keccak256, Signature, toBytes, zeroAddress } from 'viem'
+import {
+  keccak256,
+  toBytes,
+  zeroAddress,
+  type Address,
+  type Hex,
+  type Signature,
+} from 'viem'
 import { useDisconnect, usePublicClient, useWalletClient } from 'wagmi'
 
 import { usePerformTransaction } from '@/hooks/usePerformTransaction'

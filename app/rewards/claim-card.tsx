@@ -38,7 +38,7 @@ export function ClaimCard() {
   const { performingTransaction, performTransaction, loggers } =
     usePerformTransaction({ chainId: chain.id })
 
-  const hasXuNFT = XuNFTs !== undefined && XuNFTs.length !== 0
+  const hasXuNFT = XuNFTs !== undefined && XuNFTs?.length !== 0
 
   const onClick = async () => {
     await performTransaction({
@@ -64,7 +64,7 @@ export function ClaimCard() {
           abi: XnodeUnitsOPENVestingContract.abi,
           address: XnodeUnitsOPENVestingContract.address,
           functionName: 'release',
-          args: [XuNFTs[0]],
+          args: [XuNFTs?.[0] ?? BigInt(0)],
         }
       },
       onConfirmed: (receipt) => {

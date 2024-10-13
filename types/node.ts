@@ -1,23 +1,15 @@
-import { XnodeConfig } from "./dataProvider"
-export type CoreServices = {
-  name: string
-  isFree: boolean
-  chain: string
-  description: string
-}
-
 export type HeartbeatData = {
- id: string
- cpuPercent: number
- cpuPercentPeek: number
- ramMbUsed: number
- ramMbPeek: number
- ramMbTotal: number
+  id: string
+  cpuPercent: number
+  cpuPercentPeek: number
+  ramMbUsed: number
+  ramMbPeek: number
+  ramMbTotal: number
 
- storageMbUsed: number
- storageMbTotal: number
+  storageMbUsed: number
+  storageMbTotal: number
 
- wantUpdate?: boolean
+  wantUpdate?: boolean
 }
 
 export type Xnode = {
@@ -44,26 +36,7 @@ export type Xnode = {
   configGenerationWant: number
   configGenerationHave: number
 
-  nftId: string
   location: string
   createdAt: Date
   updatedAt: Date
-}
-
-type Stats = {
-  totalValidators: number
-  totalStakeAmount: number
-  totalAverageReward: number
-  averagePayoutPeriod: string
-}
-
-export type XnodeValidatorsStats = {
-  stats: Stats
-  nodes: Xnode[]
-}
-
-export type XnodeWithValidatorsStats = {
-  node: Xnode
-  stats: Stats
-  nodes: Xnode[]
 }

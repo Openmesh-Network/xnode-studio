@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react'
+import { type ComponentProps } from 'react'
 import Link from 'next/link'
 
 import { cn } from '@/lib/utils'
@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Icon } from '@/components/Icons'
+import { type Icon } from '@/components/Icons'
 
 export interface InfoCardProps extends ComponentProps<typeof Card> {
   title: string

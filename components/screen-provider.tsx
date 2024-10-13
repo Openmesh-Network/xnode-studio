@@ -1,14 +1,6 @@
 'use client'
 
-import { PropsWithChildren, useEffect, useState } from 'react'
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from './ui/dialog'
+import { useEffect, useState, type PropsWithChildren } from 'react'
 
 const MOBILE_BREAKPOINT = 1024
 
@@ -32,9 +24,5 @@ export default function ScreenProvider({ children }: ScreenProviderProps) {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  return (
-    <>
-      {children}
-    </>
-  )
+  return <>{children}</>
 }

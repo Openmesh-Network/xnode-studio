@@ -1,48 +1,8 @@
 import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
+import { z } from 'zod'
 
-export type DataProvider = {
-  id: string
-  name?: string
-  description?: string
-  createdAt?: Date
-  updatedAt?: Date
-  tags?: string[]
-  useCases?: string[]
-  live: boolean
-  download: boolean
-  isThirdParty: boolean
-  free: boolean
-  dataGithubName?: string
-  dataGithubLink?: string
-  dataCloudLink?: string
-  dataCloudName?: string
-  category?: string
-  dataSpace?: string
-  location?: string
-  foundingYear?: string
-  addToXnodeMessage?: string
-  relevantDocs?: string
-  logoURL?: string
-  specification?: string
-  details?: string
-  website?: string
-  downloadCSVLink?: string
-  type?: string
-  liveLink?: string
-  company?: string
-  popularity?: number
-  sql?: string
-  linkDevelopersDocs?: string
-  linkProducts?: string
-  linkCareers?: string
-  linkTwitter?: string
-  linkContact?: string
-  linkAboutUs?: string
-  linkMedium?: string
-  linkLinkedin?: string
-  linkGithub?: string
-}
+import { opensshConfig } from '@/config/openssh'
 
 // NOTE: A "template product" is a baremetal offering from a provider.
 export type TemplatesProducts = {
@@ -70,58 +30,17 @@ export type TemplatesProducts = {
   unit?: string
 }
 
-export type IncludedProducts = {
-  name?: string
-  description?: string
-  tags?: string
-  infraId?: string
-}
-
-export type IncludedIntegrations = {
-  name?: string
-  description?: string
-}
-
-export type OldTemplatesData = {
-  id: string
-  name?: string
-  description?: string
-  price?: string
-  logoUrl?: string
-  tags?: string[]
-  systemMinRequirements?: string
-  systemRecommendedRequirements?: string
-  productsIncluded?: any[]
-  techDiagrams?: string
-  source?: string
-  featured?: boolean
-  category?: string
-  createdAt?: string
-  includedProducts?: IncludedProducts[]
-  includedIntegrations?: IncludedIntegrations[]
-}
-
-export type DeploymentTemplate = {
-  name: string
-  description: string
-  tags?: string[]
-  minSpecs?: Specs
-  services?: ServiceData[]
-  custom?: boolean
-}
-
 export type DeploymentConfiguration = {
   name: string
-  desc: string
-  location: string
-  isUnit: boolean
-  provider: string
+  description: string
+  location?: string
+  provider?: string
+  isUnit?: boolean
   // Either the api key or the NFT id.
-  deploymentAuth: string
+  deploymentAuth?: string
 
   // An array to all the service ids being looked at.
   services: ServiceData[]
-  xnodeConfig: XnodeConfig
 }
 
 export type XnodeConfig = {
@@ -139,7 +58,7 @@ export type ServiceOption = {
   nixName: string
 
   // One of: "string", "int", "float", "bool"
-  type: string
+  type: 'string' | 'int' | 'float' | 'bool' | string
   value?: string
 
   // Suboptions for nested options.
@@ -154,19 +73,19 @@ export type Specs = {
 
 export type ServiceData = {
   name: string
-  tags?: string[]
+  tags: string[]
   specs?: Specs
-  desc?: string
+  desc: string
   website?: string
   // Url to the logo.
   logo?: string
-  implmented?: boolean
+  implemented?: boolean
 
   nixName: string
   options: ServiceOption[]
 }
 
-export type TemplateData = {
+type TemplateData = {
   id: string
   name: string
   desc: string
@@ -175,7 +94,7 @@ export type TemplateData = {
   isUnitRunnable?: boolean
   source?: string
   website?: string
-  implementation?: boolean
+  implemented?: boolean
   // Url to image.
   logo: string
   category: string
@@ -184,8 +103,21 @@ export type TemplateData = {
   serviceNames: string[]
 }
 
+export const appStorePageType = z.enum(['templates', 'use-cases'])
+export type AppStorePageType = z.infer<typeof appStorePageType>
+export type AppStoreItem = {
+  id: string
+  name: string
+  desc: string
+  tags: string[]
+  implemented?: boolean
+  logo?: string
+  category?: string
+  serviceNames?: string[]
+}
+
 let serviceMap: Map<string, ServiceData> = null
-export function ServiceFromName(name: string): ServiceData | undefined {
+export function serviceByName(name: string): ServiceData | undefined {
   if (serviceMap == null) {
     serviceMap = new Map<string, ServiceData>()
 
@@ -195,12 +127,12 @@ export function ServiceFromName(name: string): ServiceData | undefined {
       serviceMap.set(ServiceDefinitions[i].nixName, service)
     }
   }
-
+  serviceMap.set(opensshConfig.nixName, opensshConfig)
   return serviceMap.get(name)
 }
 
 let templateMap: Map<string, TemplateData> = null
-export function TemplateFromId(id: string): TemplateData | undefined {
+export function usecaseById(id: string): TemplateData | undefined {
   if (templateMap == null) {
     templateMap = new Map<string, TemplateData>()
 
@@ -212,12 +144,12 @@ export function TemplateFromId(id: string): TemplateData | undefined {
   return templateMap.get(id)
 }
 
-export function TemplateGetSpecs(template: TemplateData): Specs {
+export function getSpecsByTemplate(template: TemplateData): Specs {
   let specs: Specs = { ram: 0, storage: 0 }
 
   for (let i = 0; i < template.serviceNames.length; i++) {
     // Get service id from .
-    const service = ServiceFromName(template.serviceNames[i])
+    const service = serviceByName(template.serviceNames[i])
     if (service) {
       // specs.cores += service.specs.cores
       specs.ram += service.specs.ram
@@ -232,12 +164,12 @@ export function TemplateGetSpecs(template: TemplateData): Specs {
   return specs
 }
 
-export function TemplateGetTags(template: TemplateData): string[] {
+export function tagsByTemplate(template: TemplateData): string[] {
   let ret: string[] = []
 
   for (let i = 0; i < template.serviceNames.length; i++) {
     // Get service id from .
-    const service = ServiceFromName(template.serviceNames[i])
+    const service = serviceByName(template.serviceNames[i])
     if (service) {
       // specs.cores += service.specs.cores
       for (let j = 0; j < service.tags.length; j++) {

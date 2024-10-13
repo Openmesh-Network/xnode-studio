@@ -1,176 +1,195 @@
-'use client'
-
-import { useContext, useEffect, useMemo } from 'react'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
-import { AccountContext } from '@/contexts/AccountContext'
-import { Node } from 'reactflow'
+import { redirect } from 'next/navigation'
+import { prefix } from '@/utils/prefix'
+import { AppWindow, Cpu, HardDrive, MemoryStick } from 'lucide-react'
 import { z } from 'zod'
 
 import {
-  ServiceFromName,
-  TemplateFromId,
-  TemplateGetSpecs,
-  type DeploymentTemplate,
+  getSpecsByTemplate,
+  serviceByName,
+  usecaseById,
+  type AppStoreItem,
+  type AppStorePageType,
+  type ServiceData,
+  type Specs,
 } from '@/types/dataProvider'
-import { useDraft } from '@/hooks/useDraftDeploy'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { Section } from '@/components/ui/section'
-import ReviewYourBuild from '@/components/FinalBuild'
-import { Icons } from '@/components/Icons'
-import Signup from '@/components/Signup'
-import NewIntegrationConn from '@/components/Signup/NewIntegrationConn'
+import { Button } from '@/components/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-import DeploymentTemplatePage from './deployment-overview'
-import DeploymentProvider from './deployment-provider'
-import DeploymentProgress from './progress-sidebar'
+import { DeploymentContextProvider } from './deployment-context'
+import DeploymentFlow from './deployment-flow'
 
 type DeployPageProps = {
   searchParams: {
-    tId: string
-    workspace: string
-    nftId: string
+    templateId?: string
+    useCaseId?: string
   }
 }
+
 export default function DeployPage({ searchParams }: DeployPageProps) {
-  const { indexerDeployerStep, setIndexerDeployerStep } =
-    useContext(AccountContext)
-  const [draft, setDraft] = useDraft()
+  const sessionCookie = cookies().get('userSessionToken')
+  if (!sessionCookie) redirect('/login')
 
-  const tId = z.string().optional().parse(searchParams.tId)
-  const nftId = z.string().optional().parse(searchParams.nftId)
-  const isUnit = nftId != '' && nftId != undefined
+  const templateId = z.string().optional().parse(searchParams.templateId)
+  const useCaseId = z.string().optional().parse(searchParams.useCaseId)
 
-  const workspace = z.coerce
-    .boolean()
-    .optional()
-    .parse(Number(searchParams.workspace))
-
-  const templateData: DeploymentTemplate | null = useMemo(() => {
-    if (tId) {
-      const template = TemplateFromId(tId)
-      const services = template.serviceNames
-        .map((service) => ServiceFromName(service))
-        .filter(Boolean)
-
-      const specs = TemplateGetSpecs(template)
-      return {
-        name: template.name,
-        description: template.desc,
-        tags: template.tags,
-        minSpecs: specs,
-        services: services,
-      } satisfies DeploymentTemplate
+  function getData() {
+    if (!templateId && !useCaseId) redirect('/app-store')
+    let data: AppStoreItem | undefined
+    let specs: Specs | undefined
+    let type: AppStorePageType | undefined
+    let services: ServiceData[] | undefined
+    if (useCaseId) {
+      const useCase = usecaseById(useCaseId)
+      if (useCase === undefined || useCase.implemented === false)
+        redirect('/app-store')
+      data = useCase
+      specs = getSpecsByTemplate(useCase)
+      services = useCase.serviceNames
+        .map((service) => serviceByName(service))
+        .filter((s) => s !== undefined)
+      type = 'use-cases'
     }
-    if (workspace) {
-      const nodes: Node[] = JSON.parse(localStorage.getItem('nodes'))
-      return {
-        custom: true,
-        name: 'Custom Build',
-        description: 'Based on your design',
-        services: nodes
-          .filter(({ type }) => type !== 'server')
-          .flatMap((node) => {
-            if (node.data.lists?.length) {
-              return node.data.lists.map((item) => {
-                return {
-                  name: item.title,
-                  description: '-',
-                  tags: [node.type],
-                  nixName: '-',
-                }
-              })
-            } else {
-              return {
-                name: node.data.name,
-                description: '-',
-                tags: [node.type],
-                nixName: '-',
-              }
-            }
-          }),
-      } satisfies DeploymentTemplate
+    if (templateId) {
+      const service = serviceByName(templateId)
+      if (service === undefined || service.implemented === false)
+        redirect('/app-store')
+      data = { ...service, id: service.nixName }
+      specs = service.specs
+      services = [service]
+      type = 'templates'
     }
-    return null
-  }, [tId, workspace])
 
-  useEffect(() => {
-    if (indexerDeployerStep == 2 && isUnit) {
-      setIndexerDeployerStep(3)
-    }
-  }, [indexerDeployerStep, setIndexerDeployerStep])
+    return { data, services, specs, type }
+  }
+  const { data, services, specs, type } = getData()
+
+  if (data === undefined || type === undefined || services === undefined)
+    redirect('/app-store')
 
   return (
-    <div className="flex h-full">
-      {templateData ? (
-        <Section className="my-20 flex-1">
-          {indexerDeployerStep === -1 ? (
-            <DeploymentTemplatePage
-              isUnit={isUnit}
-              custom={templateData.custom}
-              name={templateData.name}
-              tags={templateData.tags}
-              description={templateData.description}
-              minSpecs={templateData.minSpecs}
-              defaultServices={templateData.services}
-              nftId={nftId ? nftId.toString() : ''}
-            />
-          ) : null}
-          {indexerDeployerStep === 0 ? (
-            <DeploymentProvider specs={templateData.minSpecs} />
-          ) : null}
-          {indexerDeployerStep === 1 ? <Signup /> : null}
-
-          {indexerDeployerStep === 2 ? (
-            isUnit ? (
-              <></>
-            ) : (
+    <DeploymentContextProvider
+      initialData={{ name: data.name, description: data.desc, services }}
+    >
+      <div className="container my-8">
+        <div className="flex items-center gap-2 text-muted-foreground/75">
+          <Link href="/app-store">App Store</Link>
+          <span>/</span>
+          <span className="text-primary/75">{data.name}</span>
+        </div>
+        <section className="mt-8 flex justify-between gap-12">
+          <div className="flex flex-1 flex-col rounded border p-6">
+            <div className="flex flex-1 items-start gap-3">
+              {data.logo && data.logo !== '' ? (
+                <img
+                  src={
+                    data.logo.startsWith('https://')
+                      ? data.logo
+                      : `${prefix}${data.logo}`
+                  }
+                  alt={`${data.name} logo`}
+                  width={48}
+                  height={48}
+                />
+              ) : (
+                <AppWindow
+                  className="size-12 text-muted-foreground"
+                  strokeWidth={1.5}
+                />
+              )}
               <div>
-                <NewIntegrationConn />
+                <h2 className="text-xl font-bold text-primary">{data.name}</h2>
+                <p className="mt-2 line-clamp-2 max-w-prose text-muted-foreground">
+                  {data.desc}
+                </p>
               </div>
-            )
-          ) : null}
-
-          {indexerDeployerStep === 3 ? <ReviewYourBuild /> : null}
-        </Section>
-      ) : (
-        <>
-          <span className="flex-1" />
-          <Dialog open>
-            <DialogContent canClose={false}>
-              <DialogHeader>
-                <DialogTitle>Template not found.</DialogTitle>
-                <DialogDescription>
-                  Please go back and select a valid template.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="flex gap-4">
-                <Link
-                  href="/templates"
-                  className="flex flex-1 items-center gap-3 rounded-lg border bg-card p-4 shadow-sm transition-colors hover:bg-accent"
-                >
-                  <Icons.Templates className="size-6" />
-                  <span className="text-lg font-medium">Templates</span>
-                </Link>
-                <Link
-                  href="/workspace"
-                  className="flex flex-1 items-center gap-3 rounded-lg border bg-card p-4 shadow-sm transition-colors hover:bg-accent"
-                >
-                  <Icons.DesignAndBuildIcon className="size-6" />
-                  <span className="text-lg font-medium">Design & Build</span>
-                </Link>
+            </div>
+            <div className="mt-6 flex gap-3">
+              <DeploymentFlow
+                sessionToken={sessionCookie.value}
+                item={data}
+                type={type}
+                specs={specs}
+              />
+              <Button
+                disabled
+                size="lg"
+                className="h-10 min-w-40"
+                variant="outlinePrimary"
+              >
+                Edit
+              </Button>
+            </div>
+          </div>
+          <div className="rounded border px-12 py-6">
+            <h2>Minimum Requirements</h2>
+            <div className="mt-3 flex flex-col gap-3">
+              <div className="flex items-center gap-4">
+                <Cpu className="size-6 text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">CPU</p>
+                  <p className="font-mono leading-none">-</p>
+                </div>
               </div>
-            </DialogContent>
-          </Dialog>
-        </>
-      )}
-
-      <DeploymentProgress isUnit={isUnit} />
-    </div>
+              <div className="flex items-center gap-4">
+                <MemoryStick className="size-6 text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">RAM</p>
+                  <p className="font-mono leading-none">
+                    ~{Math.round((specs?.ram ?? 0) / 1024)} GB
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <HardDrive className="size-6 text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">Storage</p>
+                  <p className="font-mono leading-none">
+                    ~{Math.round((specs?.storage ?? 0) / 1024)} GB
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="mt-12 rounded border p-6">
+          <Tabs defaultValue="overview">
+            <TabsList className="bg-transparent">
+              <TabsTrigger
+                value="overview"
+                className="rounded-none border-b-2 border-transparent hover:border-muted data-[state=active]:border-primary data-[state=active]:shadow-none"
+              >
+                Overview
+              </TabsTrigger>
+              <TabsTrigger
+                disabled
+                value="requirements"
+                className="rounded-none border-b-2 border-transparent hover:border-muted data-[state=active]:border-primary data-[state=active]:shadow-none"
+              >
+                Requirements
+              </TabsTrigger>
+              <TabsTrigger
+                disabled
+                value="documentation"
+                className="rounded-none border-b-2 border-transparent hover:border-muted data-[state=active]:border-primary data-[state=active]:shadow-none"
+              >
+                Documentation
+              </TabsTrigger>
+              <TabsTrigger
+                disabled
+                value="support"
+                className="rounded-none border-b-2 border-transparent hover:border-muted data-[state=active]:border-primary data-[state=active]:shadow-none"
+              >
+                Support
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="overview" className="text-muted-foreground">
+              {data.desc}
+            </TabsContent>
+          </Tabs>
+        </section>
+      </div>
+    </DeploymentContextProvider>
   )
 }

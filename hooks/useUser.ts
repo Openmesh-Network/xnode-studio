@@ -1,13 +1,16 @@
-import { useEffect, useState, useContext } from 'react';
-import { AccountContext } from '@/contexts/AccountContext'
-import { UserProps } from '@/contexts/AccountContext'
+import { useContext, useEffect, useState } from 'react'
+import { AccountContext, type UserProps } from '@/contexts/AccountContext'
 import axios from 'axios'
 import nookies, { parseCookies } from 'nookies'
 
-export function useUser(): [ UserProps | null, boolean, (user: UserProps | null) => void ] {
+export function useUser(): [
+  UserProps | null,
+  boolean,
+  (user: UserProps | null) => void,
+] {
   const { user, setUser } = useContext(AccountContext)
-  const [ localUser, setLocalUser ] = useState<UserProps | null>(user);
-  const [ isLoading, setIsLoading ] = useState<boolean>(true);
+  const [localUser, setLocalUser] = useState<UserProps | null>(user)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const setUserGlobal = (user: UserProps | null) => {
     setLocalUser(user)
@@ -38,7 +41,7 @@ export function useUser(): [ UserProps | null, boolean, (user: UserProps | null)
       if (sessionToken) {
         const fetchUser = async () => {
           setIsLoading(true)
-          console.log("Fetching user")
+          console.log('Fetching user')
 
           const config = {
             method: 'post' as 'post',
@@ -50,23 +53,26 @@ export function useUser(): [ UserProps | null, boolean, (user: UserProps | null)
           }
 
           try {
-            console.log('app-id: ', `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`)
+            console.log(
+              'app-id: ',
+              `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`
+            )
             console.log('sessionToken: ', sessionToken)
-            const res = await axios(config);
+            const res = await axios(config)
 
             if (res.data) {
-              console.log("Got user: ", res.data)
+              console.log('Got user: ', res.data)
               setUser(res.data)
               setLocalUser(res.data)
               setIsLoading(false)
             }
           } catch (err) {
-            console.error("Couldnt fetch user: ", err)
+            console.error('Couldnt fetch user: ', err)
             setIsLoading(false)
           }
         }
 
-        console.log("Running async fetch")
+        console.log('Running async fetch')
         fetchUser()
       } else {
         setIsLoading(false)
@@ -74,9 +80,9 @@ export function useUser(): [ UserProps | null, boolean, (user: UserProps | null)
     } else {
       setLocalUser(user)
       setIsLoading(false)
-      console.log("Found user")
+      console.log('Found user')
     }
   }, [setUser, user])
 
-  return [ localUser, isLoading, setUserGlobal ];
+  return [localUser, isLoading, setUserGlobal]
 }

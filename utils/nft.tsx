@@ -3,15 +3,16 @@ import { XnodeUnitContract } from '@/contracts/XnodeUnit'
 import { XnodeUnitEntitlementContract } from '@/contracts/XnodeUnitEntitlement'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { Address } from 'viem'
+import { type Address } from 'viem'
 
 const alchemyPrefix = process.env.NEXT_PUBLIC_TESTNET
   ? 'eth-sepolia'
   : 'eth-mainnet'
 
-export async function getXueNfts(account) {
+export async function getXueNfts(address?: Address) {
+  if (!address) return null
   // XXX: This should be replaced with an server rewrite, so the server can do the request and keep the API key secret.
-  const url = `https://${alchemyPrefix}.g.alchemy.com/nft/v3/wxMZwmicJOsN0zsmfqSN2-nc8vovL3LP/getNFTsForOwner?owner=${account.address}&contractAddresses[]=${XnodeUnitEntitlementContract.address}&withMetadata=false`
+  const url = `https://${alchemyPrefix}.g.alchemy.com/nft/v3/wxMZwmicJOsN0zsmfqSN2-nc8vovL3LP/getNFTsForOwner?owner=${address}&contractAddresses[]=${XnodeUnitEntitlementContract.address}&withMetadata=false`
   const response = await axios
     .get(url)
     .then((res) => res.data as { ownedNfts: { tokenId: string }[] })
@@ -20,7 +21,8 @@ export async function getXueNfts(account) {
 }
 
 // Define the function to fetch the NFTs
-export async function getXuNfts(address: Address) {
+export async function getXuNfts(address?: Address) {
+  if (!address) return null
   const url = `https://${alchemyPrefix}.g.alchemy.com/nft/v3/wxMZwmicJOsN0zsmfqSN2-nc8vovL3LP/getNFTsForOwner?owner=${address}&contractAddresses[]=${XnodeUnitContract.address}&withMetadata=false`
   const response = await axios
     .get(url)
@@ -29,8 +31,16 @@ export async function getXuNfts(address: Address) {
   return response.ownedNfts.map((nft) => BigInt(nft.tokenId)).sort()
 }
 
+export const useXueNfts = (address?: Address) => {
+  return useQuery({
+    queryKey: ['xueNfts', address],
+    queryFn: () => getXueNfts(address),
+    enabled: !!address,
+  })
+}
+
 // Create a custom hook to use the getXuNfts function
-export const useXuNfts = (address: Address) => {
+export const useXuNfts = (address?: Address) => {
   return useQuery({
     queryKey: ['xuNfts', address],
     queryFn: () => getXuNfts(address),

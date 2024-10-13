@@ -1,6 +1,5 @@
 import ScrollToTop from '@/components/ScrollToTop'
 
-import 'node_modules/react-modal-video/css/modal-video.css'
 import '../styles/index.css'
 
 import { type Metadata } from 'next'
@@ -8,8 +7,9 @@ import { Inter } from 'next/font/google'
 import { prefix } from '@/utils/prefix'
 
 import { cn } from '@/lib/utils'
-import { Footer } from '@/components/Footer'
-import { Header } from '@/components/Header'
+import CTAHelp from '@/components/cta-help'
+import Footer from '@/components/Footer'
+import Header from '@/components/Header'
 import { NavLayout } from '@/components/SidebarNav/sibebar-nav'
 
 import { Providers } from './providers'
@@ -23,7 +23,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Openmesh Xnode',
   icons: {
-    icon: `${prefix}/openmesh-latest.svg`,
+    icon: `${prefix}/openmesh.svg`,
   },
 }
 
@@ -36,19 +36,18 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <body
         className={cn(
-          'max-w-screen h-screen w-full bg-background font-sans text-foreground antialiased',
+          'max-w-screen h-screen w-full overflow-x-hidden bg-background font-sans text-foreground antialiased',
           inter.variable
         )}
       >
         <Providers>
-          <div className="absolute inset-x-0 z-50">
-            <Header />
-          </div>
+          <Header />
           <NavLayout>
             {children}
             <ScrollToTop />
           </NavLayout>
           <Footer />
+          <CTAHelp />
         </Providers>
       </body>
     </html>

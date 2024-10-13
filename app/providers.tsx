@@ -7,7 +7,7 @@ import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import { ThemeProvider } from 'next-themes'
 import { ToastContainer } from 'react-toastify'
-import { cookieStorage, createStorage, State, WagmiProvider } from 'wagmi'
+import { cookieStorage, createStorage, WagmiProvider, type State } from 'wagmi'
 
 import { Toaster } from '@/components/ui/toaster'
 import ScreenProvider from '@/components/screen-provider'
@@ -24,7 +24,7 @@ const metadata = {
   description:
     'Your Gateway to Building Personalized Data Ecosystems in minutes, instead of weeks.',
   url: 'https://www.openmesh.network/xnode',
-  icons: ['https://www.openmesh.network/xnode/openmesh-blue.png'],
+  icons: ['https://www.openmesh.network/xnode/openmesh.svg'],
 }
 
 export const wagmiConfig = defaultWagmiConfig({
@@ -44,8 +44,8 @@ createWeb3Modal({
   enableOnramp: true, // Optional - false as default
   themeMode: 'light',
   themeVariables: {
-    '--w3m-border-radius-master': '0px',
-    '--w3m-accent': '#000000',
+    '--w3m-border-radius-master': '0.375px',
+    '--w3m-accent': 'hsl(var(--primary))',
   },
 })
 

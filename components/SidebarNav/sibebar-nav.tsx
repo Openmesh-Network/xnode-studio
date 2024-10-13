@@ -1,10 +1,8 @@
 'use client'
 
 import React, { useContext, useEffect, useState } from 'react'
-import { Herr_Von_Muellerhoff } from 'next/font/google'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { prefix } from '@/utils/prefix'
 import {
   Accordion,
   AccordionContent,
@@ -13,10 +11,11 @@ import {
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
 import { motion } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, type LucideIcon } from 'lucide-react'
 
+import { navItems } from '@/config/nav'
 import { cn } from '@/lib/utils'
-import { Button, ButtonProps } from '@/components/ui/button'
+import { Button, type ButtonProps } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import {
   Tooltip,
@@ -24,7 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Icon, Icons } from '@/components/Icons'
+import { type Icon } from '@/components/Icons'
 
 interface SidebarNav {
   isMobile?: boolean
@@ -38,44 +37,47 @@ const SidebarNav: React.FC<SidebarNav> = ({
   return (
     <NavContainer className={className}>
       {/* <NavHeader isMobile={isMobile}></NavHeader> */}
-      <NavContent className="mt-0 overflow-y-scroll py-2">
-        <NavCategory label="Studio">
-          <NavLink
-            href="/"
-            icon={Icons.HomeIcon}
-            label="Home"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="/dashboard"
-            icon={Icons.DashboardIcon}
-            label="Dashboard"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="/deployments"
-            icon={Icons.DeploymentsIcon}
-            label="Deployments"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="/resources"
-            icon={Icons.ResourcesIcon}
-            label="Resources"
-            isMobile={isMobile}
-          />
-        </NavCategory>
+      <NavContent className="mt-0 h-full overflow-y-auto overflow-x-clip p-2">
         <NavCategory>
+          {navItems.main.map((navItem) =>
+            navItem.type === 'item' ? (
+              <NavLink
+                key={`navItem-${navItem.name}`}
+                label={navItem.name}
+                href={navItem.href}
+                icon={navItem.icon}
+              />
+            ) : (
+              <NavCollapsable
+                key={`navCategory-${navItem.name}`}
+                label={navItem.name}
+                icon={navItem.icon}
+                disabled={navItem.disabled}
+                links={navItem.items
+                  .map((subItem) =>
+                    subItem.type === 'item'
+                      ? {
+                          label: subItem.name,
+                          href: subItem.href,
+                        }
+                      : null
+                  )
+                  .filter((item) => item !== null)}
+              />
+            )
+          )}
+        </NavCategory>
+        {/* <NavCategory>
           <NavLink
             href="/units"
             icon={Icons.XNodeIcon}
             label="Xnode"
             isMobile={isMobile}
           />
-        </NavCategory>
-        <NavCategory>
+        </NavCategory> */}
+        {/* <NavCategory>
           <NavLink
-            href="/templates"
+            href="/app-store"
             icon={Icons.Templates}
             label="Templates"
             isMobile={isMobile}
@@ -87,8 +89,8 @@ const SidebarNav: React.FC<SidebarNav> = ({
             isMobile={isMobile}
             tag="Beta"
           />
-        </NavCategory>
-        <NavCategory>
+        </NavCategory> */}
+        {/* <NavCategory>
           <NavCollapsable
             label="Data"
             icon={Icons.DataIcon}
@@ -195,8 +197,8 @@ const SidebarNav: React.FC<SidebarNav> = ({
             isMobile={isMobile}
             tag="Soon"
           />
-        </NavCategory>
-        <NavCategory label="Data Management">
+        </NavCategory> */}
+        {/* <NavCategory label="Data Management">
           <NavLink
             href="/trading"
             icon={Icons.TradingIcon}
@@ -211,8 +213,8 @@ const SidebarNav: React.FC<SidebarNav> = ({
             isMobile={isMobile}
             tag="Soon"
           />
-        </NavCategory>
-        <NavCategory label="Pages">
+        </NavCategory> */}
+        {/* <NavCategory label="Pages">
           <NavLink
             href="/rewards"
             icon={Icons.StakingIcon}
@@ -233,26 +235,35 @@ const SidebarNav: React.FC<SidebarNav> = ({
             isMobile={isMobile}
             tag="Soon"
           />
-        </NavCategory>
+        </NavCategory> */}
         <NavCategory label="Support">
-          <NavLink
-            href="/docs"
-            icon={Icons.DocumentationIcon}
-            label="Documentation"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="https://discord.com/invite/openmesh"
-            icon={Icons.CommunityIcon}
-            label="Commmunity"
-            isMobile={isMobile}
-          />
-          <NavLink
-            href="https://circle.openmesh.network/"
-            icon={Icons.CircleIcon}
-            label="Circle"
-            isMobile={isMobile}
-          />
+          {navItems.support.map((navItem) =>
+            navItem.type === 'item' ? (
+              <NavLink
+                key={`navItem-${navItem.name}`}
+                label={navItem.name}
+                href={navItem.href}
+                icon={navItem.icon}
+              />
+            ) : (
+              <NavCollapsable
+                key={`navCategory-${navItem.name}`}
+                label={navItem.name}
+                icon={navItem.icon}
+                disabled={navItem.disabled}
+                links={navItem.items
+                  .map((subItem) =>
+                    subItem.type === 'item'
+                      ? {
+                          label: subItem.name,
+                          href: subItem.href,
+                        }
+                      : null
+                  )
+                  .filter((item) => item !== null)}
+              />
+            )
+          )}
         </NavCategory>
       </NavContent>
     </NavContainer>
@@ -267,7 +278,7 @@ const NavLayout: React.FC<React.HTMLAttributes<HTMLElement>> = ({
     <TooltipProvider>
       <div className={cn('flex w-full', className)}>
         <SidebarNav className="z-40 hidden lg:block" />
-        <main className="mt-16" style={{ width: "calc(100% - 17rem)" }}>{children}</main>
+        <main className="flex-1">{children}</main>
       </div>
     </TooltipProvider>
   )
@@ -320,8 +331,8 @@ const NavContainer = React.forwardRef<
     >
       <aside
         className={cn(
-          'duration-plico sticky top-0 flex h-screen shrink-0 flex-col justify-between border-r bg-card pt-16 text-card-foreground transition-[width] ease-in-out',
-          collapsed ? 'w-14' : 'w-[17rem]',
+          'duration-plico sticky top-20 flex h-[calc(100svh-5rem)] shrink-0 flex-col justify-between border-r bg-card text-card-foreground transition-[width] ease-in-out',
+          collapsed ? 'w-14' : 'w-64',
           className
         )}
         ref={ref}
@@ -351,7 +362,7 @@ interface Links {
 interface NavCollapsableProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string
   href?: string
-  icon?: Icon
+  icon?: Icon | LucideIcon
   notifications?: number
   disabled?: boolean
   links?: Links[]
@@ -379,9 +390,9 @@ const NavCollapsable: React.FC<NavCollapsableProps> = ({
       {...props}
     >
       <AccordionHeader>
-        <AccordionTrigger className="flex h-10 w-full items-center justify-between px-4 py-2 text-foreground hover:bg-primary/5 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&[data-state=open]>svg]:rotate-180">
+        <AccordionTrigger className="flex h-10 w-full items-center justify-between rounded-sm px-4 py-2 text-foreground hover:bg-primary/5 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&[data-state=open]>svg]:rotate-180">
           <div className="relative flex grow items-center gap-3">
-            <Icon className="z-10 size-5 shrink-0" />
+            <Icon className="z-10 size-5 shrink-0" strokeWidth={1.5} />
             <span
               className={cn(
                 'duration-plico relative z-10 max-w-full truncate text-sm font-medium text-neutral-700 opacity-100 transition-[margin,max-width,opacity] ease-in-out',
@@ -417,7 +428,7 @@ const NavCollapsable: React.FC<NavCollapsableProps> = ({
                 key={i}
                 href={link.href}
                 className={cn(
-                  'flex items-center py-1.5 pl-12 font-semibold text-foreground/70 hover:bg-primary/5',
+                  'flex items-center rounded-sm py-1.5 pl-12 font-semibold text-foreground/70 hover:bg-primary/5',
                   isActive && 'text-primary'
                 )}
               >
@@ -633,7 +644,7 @@ const NavButton: React.FC<NavButtonProps> = ({
 
 interface NavLinkProps {
   href: string
-  icon: Icon
+  icon: Icon | LucideIcon
   label: string
   isMobile?: boolean
   tag?: 'Beta' | 'New' | 'Soon'
@@ -665,7 +676,7 @@ const NavLink: React.FC<NavLinkProps> = ({
         <motion.span
           layoutId={`${isMobile} bubble`}
           className={
-            'absolute inset-0 z-10 w-full border-l-4 border-primary bg-primary/10'
+            'absolute inset-0 z-10 w-full rounded-sm border-l-4 border-primary bg-primary/10'
           }
           transition={{
             duration: transitionDuration,
@@ -678,12 +689,19 @@ const NavLink: React.FC<NavLinkProps> = ({
           <Link
             href={href}
             target={href.startsWith('https://') ? '_blank' : undefined}
-            className="flex h-10 items-center px-4 py-2 text-foreground hover:bg-primary/5 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed"
+            className="flex h-10 items-center rounded-sm px-4 py-2 text-foreground transition-colors aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed data-[active=false]:hover:bg-primary/5"
             aria-disabled={tag === 'Soon'}
+            data-active={isActive}
           >
             <div className="relative flex items-center gap-3">
               <div className="relative">
-                <Icon className="relative z-10 size-5 shrink-0" />
+                <Icon
+                  className={cn(
+                    'relative z-10 size-5 shrink-0 transition-colors',
+                    isActive && 'text-primary'
+                  )}
+                  strokeWidth={1.5}
+                />
               </div>
               <span
                 className={cn(
