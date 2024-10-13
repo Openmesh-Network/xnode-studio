@@ -4,49 +4,6 @@ import { z } from 'zod'
 
 import { opensshConfig } from '@/config/openssh'
 
-export type DataProvider = {
-  id: string
-  name?: string
-  description?: string
-  createdAt?: Date
-  updatedAt?: Date
-  tags?: string[]
-  useCases?: string[]
-  live: boolean
-  download: boolean
-  isThirdParty: boolean
-  free: boolean
-  dataGithubName?: string
-  dataGithubLink?: string
-  dataCloudLink?: string
-  dataCloudName?: string
-  category?: string
-  dataSpace?: string
-  location?: string
-  foundingYear?: string
-  addToXnodeMessage?: string
-  relevantDocs?: string
-  logoURL?: string
-  specification?: string
-  details?: string
-  website?: string
-  downloadCSVLink?: string
-  type?: string
-  liveLink?: string
-  company?: string
-  popularity?: number
-  sql?: string
-  linkDevelopersDocs?: string
-  linkProducts?: string
-  linkCareers?: string
-  linkTwitter?: string
-  linkContact?: string
-  linkAboutUs?: string
-  linkMedium?: string
-  linkLinkedin?: string
-  linkGithub?: string
-}
-
 // NOTE: A "template product" is a baremetal offering from a provider.
 export type TemplatesProducts = {
   id: string
@@ -71,46 +28,6 @@ export type TemplatesProducts = {
   availability?: string
   source?: string
   unit?: string
-}
-
-export type IncludedProducts = {
-  name?: string
-  description?: string
-  tags?: string
-  infraId?: string
-}
-
-export type IncludedIntegrations = {
-  name?: string
-  description?: string
-}
-
-export type OldTemplatesData = {
-  id: string
-  name?: string
-  description?: string
-  price?: string
-  logoUrl?: string
-  tags?: string[]
-  systemMinRequirements?: string
-  systemRecommendedRequirements?: string
-  productsIncluded?: any[]
-  techDiagrams?: string
-  source?: string
-  featured?: boolean
-  category?: string
-  createdAt?: string
-  includedProducts?: IncludedProducts[]
-  includedIntegrations?: IncludedIntegrations[]
-}
-
-export type DeploymentTemplate = {
-  name: string
-  description: string
-  tags?: string[]
-  minSpecs?: Specs
-  services?: ServiceData[]
-  custom?: boolean
 }
 
 export type DeploymentConfiguration = {
@@ -168,7 +85,7 @@ export type ServiceData = {
   options: ServiceOption[]
 }
 
-export type TemplateData = {
+type TemplateData = {
   id: string
   name: string
   desc: string

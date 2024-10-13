@@ -11,7 +11,7 @@ import {
 
 import { type DeploymentConfiguration } from '@/types/dataProvider'
 
-export type DeploymentContext = {
+type DeploymentContext = {
   config: DeploymentConfiguration
   setConfig: Dispatch<SetStateAction<DeploymentConfiguration>>
 }

@@ -15,8 +15,8 @@ import {
 
 import { type Icon } from '@/components/Icons'
 
-export type NavCategory = 'main' | 'support'
-export type NavItem = {
+type NavCategory = 'main' | 'support'
+type NavItem = {
   name: string
   icon?: LucideIcon | Icon
 } & (
