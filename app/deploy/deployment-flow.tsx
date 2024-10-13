@@ -50,7 +50,7 @@ import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/Icons'
 
 import { useXnodes } from '../dashboard/health-data'
-import DeploymentProvider from '../deploy-new/deployment-provider'
+import DeploymentProvider from '../deploy/deployment-provider'
 import { useDeploymentContext } from './deployment-context'
 
 type Step = 0 | 1 | 2

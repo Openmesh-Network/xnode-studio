@@ -40,7 +40,7 @@ import { Separator } from '@/components/ui/separator'
 import { Icons } from '@/components/Icons'
 
 import { Slider } from '../../components/ui/slider'
-import { useDeploymentContext } from '../deploy-new/deployment-context'
+import { useDeploymentContext } from '../deploy/deployment-context'
 
 const STEP_MIN = 1
 const STEP_MAX = 1000
