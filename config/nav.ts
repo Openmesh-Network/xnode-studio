@@ -72,6 +72,7 @@ export const navItems: Record<NavCategory, NavItem[]> = {
       type: 'category',
       name: 'Compute',
       icon: Cpu,
+      disabled: true,
       items: [
         {
           type: 'item',
