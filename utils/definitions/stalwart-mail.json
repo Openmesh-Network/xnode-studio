@@ -9,7 +9,7 @@
   "tags": ["Server", "Communication - Email - Mail Delivery Agents"],
   "website": "https://github.com/stalwartlabs/mail-server",
   "implemented": false,
-  "logo": "https://github.githubassets.com/favicons/favicon.png",
+  "logo": "",
   "options": [
     {
       "name": "enable",

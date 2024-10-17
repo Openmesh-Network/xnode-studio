@@ -9,7 +9,7 @@
   "tags": ["Monitoring"],
   "website": "https://github.com/healthchecks/healthchecks",
   "implemented": false,
-  "logo": "https://github.githubassets.com/favicons/favicon.png",
+  "logo": "",
   "options": [
     {
       "name": "dataDir",

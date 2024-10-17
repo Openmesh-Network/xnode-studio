@@ -9,7 +9,7 @@
   "tags": ["Automation"],
   "website": "https://github.com/rembo10/headphones",
   "implemented": false,
-  "logo": "https://github.githubassets.com/favicons/favicon.png",
+  "logo": "",
   "options": [
     {
       "name": "configFile",

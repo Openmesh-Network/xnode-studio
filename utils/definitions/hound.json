@@ -9,7 +9,7 @@
   "tags": ["Search Engines"],
   "website": "https://github.com/hound-search/hound",
   "implemented": false,
-  "logo": "https://github.githubassets.com/favicons/favicon.png",
+  "logo": "",
   "options": [
     {
       "name": "enable",

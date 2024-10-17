@@ -4,7 +4,7 @@
   "tags": ["Search Engines"],
   "website": "https://github.com/searxng/searxng",
   "implemented": false,
-  "logo": "https://github.githubassets.com/favicons/favicon.png",
+  "logo": "",
   "specs": {
     "ram": 0,
     "storage": 0

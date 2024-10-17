@@ -9,7 +9,7 @@
   "tags": ["Automation"],
   "website": "https://github.com/dgtlmoon/changedetection.io",
   "implemented": false,
-  "logo": "https://github.githubassets.com/favicons/favicon.png",
+  "logo": "",
   "options": [
     {
       "name": "baseURL",

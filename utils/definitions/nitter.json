@@ -9,7 +9,7 @@
   "tags": ["Communication - Social Networks and Forums"],
   "website": "https://github.com/zedeus/nitter",
   "implemented": false,
-  "logo": "https://github.githubassets.com/favicons/favicon.png",
+  "logo": "",
   "options": [
     {
       "name": "cache.listMinutes",

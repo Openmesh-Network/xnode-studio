@@ -9,7 +9,7 @@
   "tags": ["Software Development - Project Management"],
   "website": "https://www.gerritcodereview.com/index.md",
   "implemented": false,
-  "logo": "https://github.githubassets.com/favicons/favicon.png",
+  "logo": "",
   "options": [
     {
       "name": "builtinPlugins",
