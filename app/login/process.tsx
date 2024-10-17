@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getWeb3Login } from '@/utils/auth'
 import { MoveRight } from 'lucide-react'
@@ -41,6 +41,19 @@ export default function LoginProcess() {
     setUser(null)
     refresh() //destroy routing cache
   }
+
+  useEffect(() => {
+    if (!user?.web3Address || !address) {
+      return
+    }
+
+    if (user.web3Address.toLowerCase() === address.toLowerCase()) {
+      return
+    }
+
+    // We connected with a different address, destroy session
+    setUser(null)
+  }, [address, user, setUser])
 
   return (
     <div className="flex items-center gap-12">

@@ -8,6 +8,7 @@ import { LogOut, User } from 'lucide-react'
 import { useDisconnect } from 'wagmi'
 
 import { navItems } from '@/config/nav'
+import { useUser } from '@/hooks/useUser'
 import {
   Command,
   CommandEmpty,
@@ -24,8 +25,9 @@ type GlobalSearchProps = {
   onSelect: () => void
 }
 export function GlobalSearch({ onSelect }: GlobalSearchProps) {
-  const { disconnect } = useDisconnect()
-  const { open } = useWeb3Modal()
+  // const { disconnect } = useDisconnect()
+  // const { open } = useWeb3Modal()
+  const [user, , setUser] = useUser()
   return (
     <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
       <Command>
@@ -87,24 +89,23 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Settings">
-            <CommandItem
-              onSelect={() => {
-                onSelect()
-                open()
-              }}
-            >
-              <User className="mr-2 size-4" />
-              <span>Profile</span>
+            <CommandItem onSelect={onSelect} asChild>
+              <Link href="/login">
+                <User className="mr-2 size-4" />
+                <span>Profile</span>
+              </Link>
             </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                onSelect()
-                disconnect()
-              }}
-            >
-              <LogOut className="mr-2 size-4" />
-              <span>Log out</span>
-            </CommandItem>
+            {user && (
+              <CommandItem
+                onSelect={() => {
+                  onSelect()
+                  setUser(null)
+                }}
+              >
+                <LogOut className="mr-2 size-4" />
+                <span>Log out</span>
+              </CommandItem>
+            )}
           </CommandGroup>
         </CommandList>
       </Command>

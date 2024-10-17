@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { Blocks, Cloud, IdCard, Rocket, Server } from 'lucide-react'
+import { Blocks, Cloud, IdCard, Server } from 'lucide-react'
+import Youtube from 'react-youtube'
 
 import { SimpleTooltip } from '@/components/Common/SimpleTooltip'
 
@@ -33,7 +34,9 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="aspect-square flex-1 basis-2/5 rounded-xl bg-foreground/10 bg-transparent"></div>
+          <div className="flex-1 flex-shrink basis-2/5 content-center rounded-xl">
+            <Youtube className="p-2" videoId="dYM_hg6PkcY" />
+          </div>
         </div>
       </section>
       <section className="container my-12 space-y-4">

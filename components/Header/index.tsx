@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { formatAddress } from '@/utils/functions'
 import { useXueNfts, useXuNfts } from '@/utils/nft'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
@@ -42,6 +43,7 @@ export default function Header() {
   const { data: inactiveXNodes } = useXueNfts(address)
 
   const { open } = useWeb3Modal()
+  const { push } = useRouter()
 
   const [selectedXNode, selectXNode] = useSelectedXNode(
     activeXNodes?.length ? activeXNodes.at(0)?.toString() : undefined
@@ -64,6 +66,16 @@ export default function Header() {
     document.addEventListener('keydown', down)
     return () => document.removeEventListener('keydown', down)
   }, [])
+
+  const pressWalletButton = () => {
+    if (window.location.pathname.endsWith('login')) {
+      // If we are already on the login page, they probably want the wallet popup
+      open()
+      return
+    }
+
+    push('/login')
+  }
 
   return (
     <>
@@ -191,12 +203,19 @@ export default function Header() {
             </button>
           </div>
           {!address && status === 'disconnected' ? (
-            <w3m-connect-button />
+            // <w3m-connect-button />
+            <button
+              type="button"
+              className="flex h-10 items-center gap-1.5 rounded bg-primary px-4 text-base font-semibold tracking-tighter text-background"
+              onClick={pressWalletButton}
+            >
+              Connect Wallet
+            </button>
           ) : (
             <button
               type="button"
-              className="flex h-9 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background"
-              onClick={() => open()}
+              className="flex h-10 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background"
+              onClick={pressWalletButton}
             >
               <User2 className="size-4" />
               {address && status === 'connected' ? (
