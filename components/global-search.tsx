@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { prefix } from '@/utils/prefix'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { LogOut, User } from 'lucide-react'
@@ -28,6 +29,7 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
   // const { disconnect } = useDisconnect()
   // const { open } = useWeb3Modal()
   const [user, , setUser] = useUser()
+  const { refresh } = useRouter()
   return (
     <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
       <Command>
@@ -100,6 +102,7 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
                 onSelect={() => {
                   onSelect()
                   setUser(null)
+                  refresh()
                 }}
               >
                 <LogOut className="mr-2 size-4" />

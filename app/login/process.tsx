@@ -43,16 +43,23 @@ export default function LoginProcess() {
   }
 
   useEffect(() => {
-    if (!user?.web3Address || !address) {
+    if (!user || address) {
+      // Logged in and wallet connected, user doesnt return address...
       return
     }
+    // if (!user?.web3Address) {
+    //   // No session
+    //   return
+    // }
 
-    if (user.web3Address.toLowerCase() === address.toLowerCase()) {
-      return
-    }
+    // if (user.web3Address.toLowerCase() === address?.toLowerCase()) {
+    //   // Session is equal to currently connected address
+    //   return
+    // }
 
-    // We connected with a different address, destroy session
+    // We connected with a different address (or not connected), destroy session
     setUser(null)
+    refresh() //destroy routing cache
   }, [address, user, setUser])
 
   return (
