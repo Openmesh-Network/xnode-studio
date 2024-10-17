@@ -154,11 +154,8 @@ export default function DeploymentFlow({
               setActiveDeploymentStep(2)
               setTimeout(() => {
                 setActiveDeploymentStep(3)
-                setTimeout(() => {
-                  router.push('/deployments')
-                }, 30 * 1000)
               }, 3 * 1000)
-            }, 10 * 1000)
+            }, 3 * 1000)
           } catch (err) {
             onFlowOpenToggle(false)
             toast({
@@ -463,7 +460,7 @@ export default function DeploymentFlow({
                   <span className="opacity-75">
                     [{format(new Date(), 'HH:mm:ss')}]
                   </span>{' '}
-                  Transfering all the deployment information to your Xnode
+                  Transferring all the deployment information to your Xnode
                   server...
                 </p>
                 <h2 className="mt-4 text-lg font-semibold">{item.name}</h2>
@@ -527,14 +524,16 @@ export default function DeploymentFlow({
                 <p className="mt-4 text-center text-xs text-muted-foreground">
                   Estimated time
                 </p>
-                <p className="text-center text-3xl font-bold">10 Minutes</p>
+                <p className="text-center text-3xl font-bold">
+                  {deployedXNodes?.find(
+                    (xNode) => xNode.deploymentAuth === selectedXNode
+                  )
+                    ? '1 Minute'
+                    : '10 Minutes'}{' '}
+                </p>
                 <p className="mt-2 text-center text-sm text-muted-foreground">
                   To check back on the status, navigate to your deployments
                   page.
-                  <br />
-                  Otherwise we will automatically redirect you to deployments
-                  page after{' '}
-                  <strong className="font-semibold">30 seconds</strong>
                 </p>
               </>
             ) : null}
