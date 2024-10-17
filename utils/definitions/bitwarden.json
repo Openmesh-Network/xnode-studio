@@ -1,7 +1,7 @@
 {
   "name": "Bitwarden",
   "desc": "A secure and free password manager for all of your devices",
-  "tags": ["Password Managers\r"],
+  "tags": ["Password Managers"],
   "website": "https://bitwarden.com",
   "implemented": false,
   "logo": "https://bitwarden.com/favicon-32x32.png?v=1abf57d1154002a9fac426a2c5c04d85",

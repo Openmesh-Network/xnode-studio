@@ -1,7 +1,7 @@
 {
   "name": "RustDesk",
   "desc": "Virtual / remote desktop infrastructure for everyone! Open source TeamViewer / Citrix alternative",
-  "tags": ["Remote Access\r"],
+  "tags": ["Remote Access"],
   "website": "https://rustdesk.com",
   "implemented": false,
   "logo": "https://rustdesk.com/images/favicon.png?v2",

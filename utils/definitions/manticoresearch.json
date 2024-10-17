@@ -1,7 +1,7 @@
 {
   "name": "Manticore Search",
   "desc": "Easy to use open source fast database for search",
-  "tags": ["Search Engines\r"],
+  "tags": ["Search Engines"],
   "website": "https://manticoresearch.com",
   "implemented": false,
   "logo": "https://manticoresearch.com/images/favicon_huef5b6b9b4667cfcb07efebc9f11841a5_5793_32x0_resize_box_3.png",

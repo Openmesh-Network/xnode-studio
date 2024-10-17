@@ -8,7 +8,6 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { prefix } from '@/utils/prefix'
 import { AppWindow, X } from 'lucide-react'
-import CategoryDefinitions from 'utils/category.json'
 import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
 
@@ -33,12 +32,6 @@ export const optionsNetwork = [
   },
 ]
 
-const obj = {
-  name: 'Openmesh Core',
-  desc: 'CPU, 8-Core (16-Thread)',
-  tags: 'Core app',
-  infraId: '#262343',
-}
 export const optionsCreator = [
   {
     name: 'Openmesh',
@@ -66,7 +59,7 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
   }, [data.id, type])
   return (
     <Link
-      href={data.implemented ? `${prefix}/deploy?${params}` : '#'}
+      href={data.implemented ? `/deploy?${params}` : '#'}
       aria-disabled={!data.implemented}
       className="flex shrink-0 basis-1/4 flex-col rounded border p-4 hover:bg-muted aria-disabled:pointer-events-none aria-disabled:opacity-50"
     >
@@ -74,7 +67,8 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
         {data.logo && data.logo !== '' ? (
           <img
             src={
-              data.logo.startsWith('https://')
+              data.logo.startsWith('https://') ||
+              data.logo.startsWith('http://')
                 ? data.logo
                 : `${prefix}${data.logo}`
             }
@@ -120,13 +114,35 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
   const params = useSearchParams()
   const useCases = useMemo(() => {
     if (!nftId) return TemplateDefinitions
-    return TemplateDefinitions.filter((template) => template.isUnitRunnable)
+    return TemplateDefinitions.filter(
+      (template) => template.isUnitRunnable
+    ).sort((t1, t2) => {
+      if (t1.implemented && !t2.implemented) {
+        return -1
+      }
+
+      if (t2.implemented && !t1.implemented) {
+        return 1
+      }
+
+      return 0
+    })
   }, [nftId])
   const templates = useMemo(() => {
-    return ServiceDefinitions.map((def, index) => ({
+    return ServiceDefinitions.map((def) => ({
       ...def,
-      id: String(index),
-    }))
+      id: def.nixName,
+    })).sort((s1, s2) => {
+      if (s1.implemented && !s2.implemented) {
+        return -1
+      }
+
+      if (s2.implemented && !s1.implemented) {
+        return 1
+      }
+
+      return 0
+    })
   }, [])
 
   const [optimisticCategories, setOptimisticCategories] =
@@ -140,12 +156,14 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
     if (type === 'templates') data = templates
     if (type === 'use-cases') data = useCases
     let filteredData: AppStoreItem[] = []
-    if (!optimisticCategories.length || type === 'templates') return data
+    if (!optimisticCategories.length) return data
     for (const dataItem of data) {
       if (
-        dataItem.category &&
-        !optimisticCategories.includes(
-          dataItem.category.toLowerCase().replace(/\s/g, '-')
+        dataItem.tags &&
+        !optimisticCategories.some((c) =>
+          dataItem.tags
+            .map((t) => t.toLowerCase().replace(/\s/g, '-'))
+            .includes(c)
         )
       )
         continue
@@ -200,7 +218,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
           Explore and launch ready made apps and solutions
         </h1>
         <div className="mt-2 text-muted">
-          Openmesh App store lets you quickly deploy software on you Xnode
+          Openmesh App store lets you quickly deploy software on your Xnode
         </div>
       </section>
       <div className="container my-20 max-w-none space-y-8">
@@ -242,37 +260,45 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                 </AccordionTrigger>
                 <AccordionContent>
                   <ul>
-                    {Object.entries(CategoryDefinitions).map(
-                      ([category, amount]) => {
-                        const categoryFilterName = category
-                          .toLowerCase()
-                          .replace(/\s/g, '-')
-                        return (
-                          <button
-                            data-active={optimisticCategories.includes(
-                              categoryFilterName
-                            )}
-                            role="listitem"
-                            type="button"
-                            key={category}
-                            className="group flex w-full items-center justify-between gap-3 px-3 py-1.5 text-muted-foreground"
-                            onClick={() => updateCategories(categoryFilterName)}
-                          >
-                            <span className="flex-1 truncate text-start transition-colors group-hover:text-primary group-data-[active=true]:text-primary">
-                              {category}
-                            </span>
-                            <span className="shrink-0">({amount})</span>
-                          </button>
-                        )
-                      }
-                    )}
+                    {Object.entries(
+                      (templates as AppStoreItem[]).concat(useCases).reduce(
+                        (acc, item) => {
+                          item.tags?.forEach((tag) => {
+                            acc[tag] = (acc[tag] ?? 0) + 1
+                          })
+                          return acc
+                        },
+                        {} as { [tag: string]: number }
+                      )
+                    ).map(([category, amount]) => {
+                      const categoryFilterName = category
+                        .toLowerCase()
+                        .replace(/\s/g, '-')
+                      return (
+                        <button
+                          data-active={optimisticCategories.includes(
+                            categoryFilterName
+                          )}
+                          role="listitem"
+                          type="button"
+                          key={category}
+                          className="group flex w-full items-center justify-between gap-3 px-3 py-1.5 text-muted-foreground"
+                          onClick={() => updateCategories(categoryFilterName)}
+                        >
+                          <span className="flex-1 truncate text-start transition-colors group-hover:text-primary group-data-[active=true]:text-primary">
+                            {category}
+                          </span>
+                          <span className="shrink-0">({amount})</span>
+                        </button>
+                      )
+                    })}
                   </ul>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
           </div>
           <div className="flex-1 space-y-12">
-            {filteredData.length > 0 ? (
+            {/* {filteredData.length > 0 ? (
               <div className="space-y-2">
                 <h2 className="text-lg font-bold">Featured</h2>
                 <div className="grid grid-cols-4 gap-6">
@@ -285,7 +311,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                   ))}
                 </div>
               </div>
-            ) : null}
+            ) : null} */}
             <div className="space-y-2">
               <h2 className="text-lg font-bold">All Apps</h2>
               <div className="grid grid-cols-4 gap-6">

@@ -6,8 +6,9 @@
     "ram": 0,
     "storage": 0
   },
-  "tags": ["Software Development - IDE & Tools\r"],
+  "tags": ["Software Development - IDE & Tools"],
   "website": "https://www.rstudio.com/",
+  "implemented": false,
   "logo": "https://posit.co/wp-content/themes/Posit/dist/images/favicon/favicon-32x32.png",
   "options": [
     {

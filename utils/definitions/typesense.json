@@ -1,65 +1,64 @@
 {
-    "name": "Typesense",
-    "desc": "Typesense is a fast, typo-tolerant search engine for building delightful search experiences",
-    "nixName": "typesense",
-    "specs": {
-        "ram": 0,
-        "storage": 0
+  "name": "Typesense",
+  "desc": "Typesense is a fast, typo-tolerant search engine for building delightful search experiences",
+  "nixName": "typesense",
+  "specs": {
+    "ram": 0,
+    "storage": 0
+  },
+  "tags": ["Search Engines"],
+  "website": "https://typesense.org",
+  "implemented": false,
+  "logo": "https://typesense.org/favicon.png",
+  "options": [
+    {
+      "name": "apiKeyFile",
+      "desc": "Sets the admin api key for typesense. Always use this option instead of settings.server.api-key to prevent the key from being written to the world-readable nix store.",
+      "nixName": "apiKeyFile",
+      "type": "path",
+      "value": ""
     },
-    "tags": [
-        "Search Engines\r"
-    ],
-    "website": "https://typesense.org",
-    "logo": "https://typesense.org/favicon.png",
-    "options": [
-        {
-            "name": "apiKeyFile",
-            "desc": "Sets the admin api key for typesense. Always use this option instead of settings.server.api-key to prevent the key from being written to the world-readable nix store.",
-            "nixName": "apiKeyFile",
-            "type": "path",
-            "value": ""
-        },
-        {
-            "name": "enable",
-            "desc": "Whether to enable typesense.",
-            "nixName": "enable",
-            "type": "boolean",
-            "value": "true"
-        },
-        {
-            "name": "package",
-            "desc": "The typesense package to use.",
-            "nixName": "package",
-            "type": "package",
-            "value": "pkgs.typesense"
-        },
-        {
-            "name": "settings",
-            "desc": "Typesense configuration. Refer to the documentation for supported values.",
-            "nixName": "settings",
-            "type": "attribute set of section of an INI file (attrs of INI atom (null, bool, int, float or string) or a non-empty list of them)",
-            "value": "{ }"
-        },
-        {
-            "name": "settings.server.api-address",
-            "desc": "Address to which Typesense API service binds.",
-            "nixName": "settings.server.api-address",
-            "type": "string",
-            "value": ""
-        },
-        {
-            "name": "settings.server.api-port",
-            "desc": "Port on which the Typesense API service listens.",
-            "nixName": "settings.server.api-port",
-            "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-            "value": "8108"
-        },
-        {
-            "name": "settings.server.data-dir",
-            "desc": "Path to the directory where data will be stored on disk.",
-            "nixName": "settings.server.data-dir",
-            "type": "string",
-            "value": "/var/lib/typesense"
-        }
-    ]
+    {
+      "name": "enable",
+      "desc": "Whether to enable typesense.",
+      "nixName": "enable",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "package",
+      "desc": "The typesense package to use.",
+      "nixName": "package",
+      "type": "package",
+      "value": "pkgs.typesense"
+    },
+    {
+      "name": "settings",
+      "desc": "Typesense configuration. Refer to the documentation for supported values.",
+      "nixName": "settings",
+      "type": "attribute set of section of an INI file (attrs of INI atom (null, bool, int, float or string) or a non-empty list of them)",
+      "value": "{ }"
+    },
+    {
+      "name": "settings.server.api-address",
+      "desc": "Address to which Typesense API service binds.",
+      "nixName": "settings.server.api-address",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "settings.server.api-port",
+      "desc": "Port on which the Typesense API service listens.",
+      "nixName": "settings.server.api-port",
+      "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+      "value": "8108"
+    },
+    {
+      "name": "settings.server.data-dir",
+      "desc": "Path to the directory where data will be stored on disk.",
+      "nixName": "settings.server.data-dir",
+      "type": "string",
+      "value": "/var/lib/typesense"
+    }
+  ]
 }

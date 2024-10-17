@@ -1,7 +1,7 @@
 {
   "name": "SearXNG",
   "desc": "A fork of Searx, a privacy-respecting, hackable metasearch engine",
-  "tags": ["Search Engines\r"],
+  "tags": ["Search Engines"],
   "website": "https://github.com/searxng/searxng",
   "implemented": false,
   "logo": "https://github.githubassets.com/favicons/favicon.png",

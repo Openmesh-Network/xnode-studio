@@ -9,6 +9,7 @@ import { addYears, formatDistanceToNowStrict } from 'date-fns'
 import { useUser } from 'hooks/useUser'
 import {
   ChevronRight,
+  Copy,
   ExternalLink,
   HelpCircle,
   Pencil,
@@ -61,6 +62,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { useToast } from '@/components/ui/use-toast'
+import { SimpleTooltip } from '@/components/Common/SimpleTooltip'
 import { sshUserData } from '@/components/Deployments/serviceAccess'
 import Signup from '@/components/Signup'
 
@@ -212,6 +215,7 @@ function ServiceOptionRow({
 
 export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   const [user] = useUser()
+  const { toast } = useToast()
 
   const {
     data: xNode,
@@ -800,6 +804,40 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             >
               {xNode.status}
             </span>
+            {xNode.ipAddress && (
+              <div className="flex gap-1.5 rounded border px-2.5 py-1 text-sm font-medium text-muted-foreground">
+                <span>IP address</span>
+                <div className="my-0.5">
+                  <Separator orientation="vertical" />
+                </div>
+                <span>{xNode.ipAddress}</span>
+                <SimpleTooltip tooltip="Copy to clipboard">
+                  <Button
+                    onClick={() => {
+                      navigator.clipboard
+                        .writeText(`${xNode.ipAddress}`)
+                        .then(() => {
+                          toast({
+                            title: 'Success',
+                            description: 'IP address copied to clipboard.',
+                          })
+                        })
+                        .catch((err) => {
+                          toast({
+                            title: 'Error',
+                            description:
+                              err?.message ??
+                              'Could not copy IP address to clipboard.',
+                          })
+                        })
+                    }}
+                    className="h-auto w-auto bg-transparent p-0 text-primary hover:bg-transparent"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </SimpleTooltip>
+              </div>
+            )}
             {xNode.isUnit && (
               <div className="flex gap-1.5 rounded border px-2.5 py-1 text-sm font-medium text-muted-foreground">
                 <span>Remaining Xnode Time</span>
@@ -925,15 +963,38 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               </TableHeader>
               <TableBody>
                 {services?.services.map((service) => {
-                  const servicePort = service.options?.find(
-                    (option) => option.nixName === 'port'
-                  )?.value
+                  const servicePort = service.options
+                    ?.flatMap((o) => {
+                      const nestedOptions = [o]
+                      let index = 0
+                      while (nestedOptions[index].options?.length) {
+                        nestedOptions.push(...nestedOptions[index].options)
+                        index++
+                      }
+                      return nestedOptions
+                    })
+                    .find(
+                      (option) =>
+                        option.nixName === 'port' ||
+                        option.nixName === 'server-port'
+                    )?.value
+                  const serviceEnabled =
+                    service.options?.find(
+                      (option) => option.nixName === 'enable'
+                    )?.value === 'true'
+                  const serviceFirewall =
+                    service.options?.find(
+                      (option) => option.nixName === 'openFirewall'
+                    )?.value === 'true'
+
                   return (
                     <TableRow key={service.nixName}>
                       <TableCell>
                         <Link
                           href={`http://${xNode.ipAddress}:${servicePort}`}
-                          aria-disabled={!servicePort}
+                          aria-disabled={
+                            !servicePort || !serviceEnabled || !serviceFirewall
+                          }
                           target="_blank"
                           rel="noreferrer noopener"
                           className="aria-disabled:pointer-events-none aria-disabled:opacity-50"

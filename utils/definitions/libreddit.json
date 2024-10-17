@@ -1,13 +1,14 @@
 {
-  "name": "Libreddit ",
+  "name": "Libreddit",
   "desc": "Private front-end for Reddit (Continued fork of Libreddit)",
   "nixName": "libreddit",
   "specs": {
-    "ram": 0,
-    "storage": 0
+    "ram": 1024,
+    "storage": 1024
   },
   "tags": ["Communication - Social Networks and Forums"],
   "website": "https://github.com/redlib-org/redlib",
+  "implemented": false,
   "logo": "https://github.githubassets.com/favicons/favicon.png",
   "options": [
     {
@@ -29,7 +30,7 @@
       "desc": "Open ports in the firewall for the libreddit web interface",
       "nixName": "openFirewall",
       "type": "boolean",
-      "value": "false"
+      "value": "true"
     },
     {
       "name": "package",
