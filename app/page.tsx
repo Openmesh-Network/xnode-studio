@@ -47,7 +47,7 @@ export default function Home() {
             className="flex items-center gap-4 rounded border px-8 py-6 font-semibold transition-colors hover:bg-foreground/5"
           >
             <IdCard className="size-8" strokeWidth={1.5} />
-            Redeem an XnodeO
+            Redeem an Xnode DVM
           </Link>
           <Link
             href="/app-store"

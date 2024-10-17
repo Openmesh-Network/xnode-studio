@@ -28,5 +28,5 @@ export function formatXNodeName(input: string) {
     result += chars[index]
   }
 
-  return `XnodeO ${result}`
+  return `XnodeDVM ${result}`
 }
