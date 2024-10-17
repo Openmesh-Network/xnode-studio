@@ -1,4 +1,3 @@
-import { getXuNfts } from '@/utils/nft'
 import { z } from 'zod'
 
 import XNodeDashboard from './dashboard'

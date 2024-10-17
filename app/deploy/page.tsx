@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { DeploymentContextProvider } from './deployment-context'
+import { DeploymentEdit } from './deployment-edit'
 import DeploymentFlow from './deployment-flow'
 
 type DeployPageProps = {
@@ -112,14 +113,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
                 type={type}
                 specs={specs}
               />
-              <Button
-                disabled
-                size="lg"
-                className="h-10 min-w-40"
-                variant="outlinePrimary"
-              >
-                Edit
-              </Button>
+              <DeploymentEdit />
             </div>
           </div>
           <div className="rounded border px-12 py-6">

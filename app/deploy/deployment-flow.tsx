@@ -322,7 +322,7 @@ export default function DeploymentFlow({
                 <div className="flex items-center gap-3">
                   <IdCard className="size-8 text-primary" strokeWidth={1.25} />
                   <h3 className="text-xl font-semibold">
-                    XnodeO One{' '}
+                    Xnode DVM{' '}
                     {selectedXNode ? (
                       <span className="ml-1 font-mono text-base font-medium text-muted-foreground">
                         ({selectedXNode.slice(0, 12)}…)
@@ -342,10 +342,10 @@ export default function DeploymentFlow({
             >
               <div className="flex items-center gap-3">
                 <IdCard className="size-8 text-primary" strokeWidth={1.25} />
-                <h3 className="text-xl font-semibold">XNodeO One</h3>
+                <h3 className="text-xl font-semibold">Xnode DVM</h3>
               </div>
               <p className="mt-2 text-sm text-muted-foreground">
-                Activate a powerful VPS with Xnode One. Use it as a
+                Activate a powerful VPS with Xnode DVM. Use it as a
                 high-performance virtual computer to deploy apps like Ollama and
                 Microsoft Visual Studio. No KYC required.
               </p>
@@ -379,7 +379,7 @@ export default function DeploymentFlow({
                 Activate a powerful baremetal server with your Early Node
                 Validator Pass purchased during the sale. Run Web3 validator
                 nodes like Chainlink and Avalanche, validate the network, and
-                earn $OPEN rewards. Visit [insert URL] to purchase.
+                earn $OPEN rewards.
               </p>
             </RadioGroupCard>
           </RadioGroup>
@@ -463,8 +463,8 @@ export default function DeploymentFlow({
                   <span className="opacity-75">
                     [{format(new Date(), 'HH:mm:ss')}]
                   </span>{' '}
-                  Transfering all the deployment information to our Xnode
-                  servers...
+                  Transfering all the deployment information to your Xnode
+                  server...
                 </p>
                 <h2 className="mt-4 text-lg font-semibold">{item.name}</h2>
                 {item.serviceNames ? (
@@ -503,7 +503,7 @@ export default function DeploymentFlow({
                   <span className="opacity-75">
                     [{format(new Date(), 'HH:mm:ss')}]
                   </span>{' '}
-                  Contacting Xnode servers to start off your deployment
+                  Contacting Xnode server to start off your deployment
                   process...
                 </p>
               </div>
@@ -521,8 +521,8 @@ export default function DeploymentFlow({
                   <span className="opacity-75">
                     [{format(new Date(), 'HH:mm:ss')}]
                   </span>{' '}
-                  Your deployment is now running on our servers. This process
-                  might take some time to finish.
+                  Your deployment is now running. This process might take some
+                  time to finish.
                 </p>
                 <p className="mt-4 text-center text-xs text-muted-foreground">
                   Estimated time
