@@ -231,7 +231,17 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
             <p className="text-sm text-muted-foreground">
               Avg. CPU utilization
             </p>
-            <HealthChartItem type="cpu" healthData={healthSummaryData.cpu} />
+            {isNaN(healthSummaryData.cpu) ? (
+              <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
+                <Hourglass
+                  className="size-10 text-muted-foreground"
+                  strokeWidth={1.25}
+                />
+                <p className="font-mono text-xl font-bold">No Data</p>
+              </div>
+            ) : (
+              <HealthChartItem type="cpu" healthData={healthSummaryData.cpu} />
+            )}
           </div>
           <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
             <h4 className="text-lg font-semibold">GPU</h4>
@@ -251,17 +261,37 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
             <p className="text-sm text-muted-foreground">
               Avg. RAM utilization
             </p>
-            <HealthChartItem type="ram" healthData={healthSummaryData.ram} />
+            {isNaN(healthSummaryData.ram) ? (
+              <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
+                <Hourglass
+                  className="size-10 text-muted-foreground"
+                  strokeWidth={1.25}
+                />
+                <p className="font-mono text-xl font-bold">No Data</p>
+              </div>
+            ) : (
+              <HealthChartItem type="ram" healthData={healthSummaryData.ram} />
+            )}
           </div>
           <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
             <h4 className="text-lg font-semibold">Storage</h4>
             <p className="text-sm text-muted-foreground">
               Avg. Storage utilization
             </p>
-            <HealthChartItem
-              type="storage"
-              healthData={healthSummaryData.storage}
-            />
+            {isNaN(healthSummaryData.storage) ? (
+              <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
+                <Hourglass
+                  className="size-10 text-muted-foreground"
+                  strokeWidth={1.25}
+                />
+                <p className="font-mono text-xl font-bold">No Data</p>
+              </div>
+            ) : (
+              <HealthChartItem
+                type="storage"
+                healthData={healthSummaryData.storage}
+              />
+            )}
           </div>
         </>
       ) : null}

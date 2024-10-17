@@ -1,7 +1,9 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { format } from 'date-fns'
+import { AlertTriangle } from 'lucide-react'
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
   Table,
   TableBody,
@@ -33,6 +35,13 @@ export default async function DashboardPage() {
       <div className="mt-6 grid grid-cols-2 gap-6">
         <section className="space-y-4 rounded border p-6">
           <h2 className="text-xl font-bold">Rewards</h2>
+          <Alert className="bg-yellow/70 hover:bg-yellow/80">
+            <AlertTriangle className="h-5 w-5" />
+            <AlertTitle>Showcase</AlertTitle>
+            <AlertDescription>
+              This section contains mock information for demo purposes.
+            </AlertDescription>
+          </Alert>
           {/* eslint-disable-next-line tailwindcss/migration-from-tailwind-2 */}
           <Table className="w-full overflow-clip rounded">
             <TableHeader>

@@ -23,7 +23,6 @@ import {
   type XnodeConfig,
 } from '@/types/dataProvider'
 import { type Xnode } from '@/types/node'
-import { opensshConfig } from '@/config/openssh'
 import { cn, formatXNodeName } from '@/lib/utils'
 import {
   AlertDialog,
@@ -44,7 +43,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
@@ -175,7 +173,7 @@ function ServiceOptionRow({
         {!option.options?.length ? (
           <>
             <ServiceOptionInput
-              value={value ? value(option.nixName, parentOption) : option.value}
+              value={value?.(option.nixName, parentOption) ?? option.value}
               option={option}
               updateOption={(newVal) =>
                 onUpdate(newVal, option.nixName, parentOption)
@@ -334,7 +332,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
 
   const [userData, setUserData] = useState<ServiceData>(sshUserData('')) // Always relates to the xnode user for now.
 
-  const [openSshKeysOpen, setOpenSshKeysOpen] = useState(false)
   const [editService, setEditService] = useState<ServiceData['nixName'] | null>(
     null
   )
@@ -428,35 +425,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     userData,
     xNodeId,
   ])
-
-  const addOpenSSH = useCallback(async () => {
-    let servicesWithChanges = services?.services
-    if (!servicesWithChanges || !user?.sessionToken) return
-    servicesWithChanges.push(opensshConfig)
-    const formattedServices = servicesCompressedForAdmin(servicesWithChanges)
-
-    await fetch(
-      `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/pushXnodeServices`,
-      {
-        method: 'POST',
-        headers: {
-          'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-          'X-Parse-Session-Token': user.sessionToken,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: xNodeId,
-          services: Buffer.from(
-            JSON.stringify({
-              services: formattedServices,
-              'users.users': [userData],
-            })
-          ).toString('base64'),
-        }),
-      }
-    )
-    await refetch()
-  }, [refetch, services?.services, user?.sessionToken, userData, xNodeId])
 
   async function updateXNode() {
     if (!user?.sessionToken || !xNode) return
@@ -935,49 +903,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                {services?.services.some(
-                  ({ nixName }) => nixName === 'openssh'
-                ) ? (
-                  <Dialog
-                    open={openSshKeysOpen}
-                    onOpenChange={setOpenSshKeysOpen}
-                  >
-                    <DialogTrigger asChild>
-                      <Button variant="outline">Edit OpenSSH</Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Edit OpenSSH</DialogTitle>
-                        <DialogDescription>
-                          Edit the whitelisted public keys for the OpenSSH
-                          server.
-                        </DialogDescription>
-                        {/* TODO: render openssh keys */}
-                        <DialogFooter>
-                          <Button
-                            size="lg"
-                            variant="outline"
-                            onClick={() => setOpenSshKeysOpen(false)}
-                            className="min-w-28"
-                          >
-                            Cancel
-                          </Button>
-                          <Button disabled size="lg" className="min-w-48">
-                            Save
-                          </Button>
-                        </DialogFooter>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog>
-                ) : (
-                  <Button
-                    disabled={isFetching}
-                    variant="outline"
-                    onClick={() => addOpenSSH()}
-                  >
-                    Add OpenSSH
-                  </Button>
-                )}
                 <Link href="/app-store">
                   <Button variant="outlinePrimary">Add App</Button>
                 </Link>

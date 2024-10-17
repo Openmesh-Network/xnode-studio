@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react'
-import type { Address } from 'viem'
 
 import {
   type DeploymentConfiguration,
@@ -32,7 +31,6 @@ export interface UserProps {
   sessionToken: string
   createdAt: string
   updatedAt: string
-  web3Address?: Address
 }
 
 interface CreateContextProps {

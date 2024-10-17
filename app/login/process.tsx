@@ -44,7 +44,7 @@ export default function LoginProcess() {
 
   useEffect(() => {
     if (!user || address) {
-      // Logged in and wallet connected, user doesnt return address...
+      // Logged in and wallet connected, user doesnt return address, so we cannot check if they match...
       return
     }
     // if (!user?.web3Address) {
