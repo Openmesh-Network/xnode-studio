@@ -1,4 +1,4 @@
-import { CloudLightningIcon } from 'lucide-react'
+import { CloudLightningIcon, TriangleAlert } from 'lucide-react'
 
 export type Icon = (props: IconProps) => React.JSX.Element
 type IconProps = React.HTMLAttributes<SVGElement>

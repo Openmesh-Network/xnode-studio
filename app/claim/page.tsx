@@ -50,6 +50,7 @@ import {
 } from '@/components/ui/input-otp'
 import { Label } from '@/components/ui/label'
 import { toast } from '@/components/ui/use-toast'
+import { SimpleTooltip } from '@/components/Common/SimpleTooltip'
 import { Icons } from '@/components/Icons'
 import ActivateXNodeDialog from '@/components/xnode/activate-dialog'
 
@@ -102,13 +103,11 @@ export default function ClaimXNodePage() {
       />
       <section className="container my-12 grid max-w-none grid-cols-5 gap-20">
         <div className="col-span-3">
-          <h1 className="text-4xl font-bold">Claim your Xnode One</h1>
+          <h1 className="text-4xl font-bold">Claim your Xnode DVM</h1>
           <p className="mt-2">
             Unleash the Power of Xnode: Your Gateway to Building Personalized
-            Data Ecosystems in minutes, instead of weeks. Claim you. Build 1000s
-            of apps. Trade. Rent.
-            <br />
-            <span className="text-primary underline">Show me how</span>
+            Servers in minutes, instead of weeks. Claim your Xnode DVM now and
+            access 1000s of apps seamlessly.
           </p>
           <div className="mt-8">
             <div className="flex gap-12 text-muted-foreground">
@@ -137,19 +136,19 @@ export default function ClaimXNodePage() {
                 <div className="flex size-6 items-center justify-center rounded-full bg-green-600">
                   <Check className="size-4 text-background" />
                 </div>
-                No license, no setup fees.
+                No one-time or ongoing fees.
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex size-6 items-center justify-center rounded-full bg-green-600">
                   <Check className="size-4 text-background" />
                 </div>
-                Pay only for bare metal servers.
+                Decentralized Ownership through Ethereum.
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex size-6 items-center justify-center rounded-full bg-green-600">
                   <Check className="size-4 text-background" />
                 </div>
-                Connect to hundreds of apps
+                Easy deployment of 1000s of apps.
               </div>
             </div>
           </div>
@@ -291,9 +290,6 @@ export default function ClaimXNodePage() {
                   ) : (
                     <w3m-account-button />
                   )}
-                  <p className="mt-2 text-sm text-muted-foreground underline underline-offset-2">
-                    How to get a web3 wallet
-                  </p>
                 </div>
               </div>
               <MoveRight
@@ -302,7 +298,9 @@ export default function ClaimXNodePage() {
               />
               <div className="flex-1">
                 <h3 className="text-xl font-bold">Step 2</h3>
-                <p className="text-muted-foreground">Enter PIN for the Xnode</p>
+                <p className="text-muted-foreground">
+                  Enter your Activation PIN
+                </p>
                 <div className="mt-4">
                   <InputOTP
                     name="pin"
@@ -334,9 +332,11 @@ export default function ClaimXNodePage() {
                     </InputOTPGroup>
                   </InputOTP>
                 </div>
-                <p className="mt-2 text-sm text-muted-foreground underline underline-offset-2">
-                  I don&apos;t have one
-                </p>
+                <SimpleTooltip tooltip="Xnode DVM codes are distributed during Openmesh events. They cannot be acquire otherwise.">
+                  <p className="mt-2 text-sm text-muted-foreground underline underline-offset-2">
+                    I don&apos;t have one
+                  </p>
+                </SimpleTooltip>
               </div>
             </div>
             <div className="mt-12 space-y-4">
@@ -348,7 +348,10 @@ export default function ClaimXNodePage() {
                   id="xnode-toc"
                 />
                 <Label htmlFor="xnode-toc" className="text-muted-foreground">
-                  I accept the Terms & Conditions
+                  I accept the{' '}
+                  <SimpleTooltip tooltip="In case of illegal content or activities your Xnode machine can be suspend.">
+                    <span className="underline">Terms & Conditions</span>
+                  </SimpleTooltip>
                 </Label>
               </div>
               <AlertDialog>

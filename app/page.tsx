@@ -1,7 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { Blocks, Cloud, IdCard, Server } from 'lucide-react'
+import { Blocks, Cloud, IdCard, Rocket, Server } from 'lucide-react'
+
+import { SimpleTooltip } from '@/components/Common/SimpleTooltip'
 
 export default function Home() {
   return (
@@ -24,14 +26,14 @@ export default function Home() {
                 Explore Xnode Power
               </Link>
               <Link
-                href="/"
+                href="/app-store"
                 className="flex h-14 items-center rounded px-8 font-medium transition-colors hover:bg-foreground/10"
               >
                 Build your first dApp
               </Link>
             </div>
           </div>
-          <div className="aspect-square flex-1 basis-2/5 rounded-xl bg-foreground/10"></div>
+          <div className="aspect-square flex-1 basis-2/5 rounded-xl bg-foreground/10 bg-transparent"></div>
         </div>
       </section>
       <section className="container my-12 space-y-4">
@@ -45,26 +47,28 @@ export default function Home() {
             Redeem an XnodeO
           </Link>
           <Link
-            href="/"
+            href="/app-store"
             className="flex items-center gap-4 rounded border px-8 py-6 font-semibold transition-colors hover:bg-foreground/5"
           >
             <Server className="size-8" strokeWidth={1.5} />
             Configure an Instance
           </Link>
           <Link
-            href="/"
+            href="/app-store"
             className="flex items-center gap-4 rounded border px-8 py-6 font-semibold transition-colors hover:bg-foreground/5"
           >
             <Blocks className="size-8" strokeWidth={1.5} />
             Run a Node
           </Link>
-          <Link
-            href="/"
-            className="flex items-center gap-4 rounded border px-8 py-6 font-semibold transition-colors hover:bg-foreground/5"
-          >
-            <Cloud className="size-8" strokeWidth={1.5} />
-            Provide Resources
-          </Link>
+          <SimpleTooltip tooltip="Coming Soon!">
+            <Link
+              href="/"
+              className="flex cursor-default items-center gap-4 rounded border bg-foreground/10 px-8 py-6 font-semibold text-gray-400 transition-colors"
+            >
+              <Cloud className="size-8" strokeWidth={1.5} />
+              Provide Resources
+            </Link>
+          </SimpleTooltip>
         </div>
       </section>
     </>

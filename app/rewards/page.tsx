@@ -1,9 +1,13 @@
 import React from 'react'
+import { AlertTriangle } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import Header from '@/components/ui/header'
+import { InfoCard } from '@/components/ui/info-card'
 import { Section } from '@/components/ui/section'
 import {
   Table,
@@ -23,6 +27,13 @@ export default function RewardsPage() {
       <Section className="flex justify-between pt-20">
         <div className="space-y-8">
           <Header level={1}>Rewards</Header>
+          <Alert className="bg-yellow/70 hover:bg-yellow/80">
+            <AlertTriangle className="h-5 w-5" />
+            <AlertTitle>Showcase</AlertTitle>
+            <AlertDescription>
+              This page contains mock information for demo purposes.
+            </AlertDescription>
+          </Alert>
           <div className="flex w-fit items-center justify-center gap-x-4">
             <Card className="w-fit p-2">
               <Icons.BoxIcon className="size-10" />
