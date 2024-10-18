@@ -98,7 +98,7 @@ export const navItems: Record<NavCategory, NavItem[]> = {
     {
       type: 'item',
       name: 'Documentation',
-      href: '/docs',
+      href: 'https://docs.openmesh.network/products/xnode',
       icon: BookText,
     },
     {
