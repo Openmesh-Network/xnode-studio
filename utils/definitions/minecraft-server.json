@@ -54,13 +54,6 @@
       "value": "true"
     },
     {
-      "name": "package",
-      "desc": "The minecraft-server package to use.",
-      "nixName": "package",
-      "type": "package",
-      "value": "pkgs.minecraft-server"
-    },
-    {
       "name": "serverProperties",
       "desc": "Minecraft server properties for the server.properties file. Only has an effect when services.minecraft-server.declarative is set to true. See https://minecraft.gamepedia.com/Server.properties#Java_Edition_3 for documentation on these values.",
       "nixName": "serverProperties",

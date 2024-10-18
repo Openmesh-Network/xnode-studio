@@ -68,13 +68,6 @@
       "value": "false"
     },
     {
-      "name": "package",
-      "desc": "The ollama package to use.",
-      "nixName": "package",
-      "type": "package",
-      "value": "pkgs.ollama"
-    },
-    {
       "name": "port",
       "desc": "Which port the ollama server listens to.",
       "nixName": "port",
@@ -87,20 +80,6 @@
       "nixName": "rocmOverrideGfx",
       "type": "null or string",
       "value": "null"
-    },
-    {
-      "name": "sandbox",
-      "desc": "Whether to enable systemd\u2019s sandboxing capabilities. This sets DynamicUser, which runs the server as a unique user with read-only access to most of the filesystem. See also services.ollama.writablePaths.",
-      "nixName": "sandbox",
-      "type": "boolean",
-      "value": "true"
-    },
-    {
-      "name": "writablePaths",
-      "desc": "Paths that the server should have write access to. This sets ReadWritePaths, which allows specified paths to be written to through the default sandboxing. See also services.ollama.sandbox.",
-      "nixName": "writablePaths",
-      "type": "list of string",
-      "value": "[ ]"
     }
   ]
 }

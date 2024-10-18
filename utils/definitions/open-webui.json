@@ -40,13 +40,6 @@
       "value": "true"
     },
     {
-      "name": "package",
-      "desc": "The open-webui package to use.",
-      "nixName": "package",
-      "type": "package",
-      "value": "pkgs.open-webui"
-    },
-    {
       "name": "port",
       "desc": "Which port the Open-WebUI server listens to.",
       "nixName": "port",
