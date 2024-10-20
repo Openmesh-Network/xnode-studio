@@ -11,6 +11,7 @@ import CTAHelp from '@/components/cta-help'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import { NavLayout } from '@/components/SidebarNav/sibebar-nav'
+import TestMode from '@/components/test-mode'
 
 import { Providers } from './providers'
 
@@ -41,13 +42,15 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <Header />
-          <NavLayout>
-            {children}
-            <ScrollToTop />
-          </NavLayout>
-          <Footer />
-          <CTAHelp />
+          <TestMode>
+            <Header />
+            <NavLayout>
+              {children}
+              <ScrollToTop />
+            </NavLayout>
+            <Footer />
+            <CTAHelp />
+          </TestMode>
         </Providers>
       </body>
     </html>

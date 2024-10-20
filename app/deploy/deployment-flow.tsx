@@ -48,6 +48,7 @@ import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/Icons'
+import { useTestModeContext } from '@/components/test-mode'
 
 import { useXnodes } from '../dashboard/health-data'
 import DeploymentProvider from '../deploy/deployment-provider'
@@ -91,6 +92,8 @@ export default function DeploymentFlow({
   item,
   specs,
 }: DeploymentFlowProps) {
+  const { active: testMode } = useTestModeContext()
+
   const router = useRouter()
   const { address } = useAccount()
   const { data: allXNodeNfts } = useXuNfts(address)
@@ -149,7 +152,7 @@ export default function DeploymentFlow({
           setDeploymentSteps(xnodeDeploymentFlow)
           setStep([1, 'xnode-current'])
           try {
-            createXNodeDeployment()
+            if (!testMode) createXNodeDeployment()
             setTimeout(() => {
               setActiveDeploymentStep(2)
               setTimeout(() => {

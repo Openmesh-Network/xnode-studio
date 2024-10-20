@@ -35,8 +35,8 @@ export default async function DashboardPage() {
       <div className="mt-6 grid grid-cols-2 gap-6">
         <section className="space-y-4 rounded border p-6">
           <h2 className="text-xl font-bold">Rewards</h2>
-          <Alert className="bg-yellow/70 hover:bg-yellow/80">
-            <AlertTriangle className="h-5 w-5" />
+          <Alert variant="alert">
+            <AlertTriangle className="size-5" />
             <AlertTitle>Showcase</AlertTitle>
             <AlertDescription>
               This section contains mock information for demo purposes.
