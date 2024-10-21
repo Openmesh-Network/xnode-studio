@@ -35,7 +35,10 @@ export default function Home() {
             </div>
           </div>
           <div className="flex-1 shrink basis-2/5 content-center rounded-xl">
-            <Youtube className="p-2" videoId="dYM_hg6PkcY" />
+            <Youtube
+              className="hdplus:block hidden p-2"
+              videoId="dYM_hg6PkcY"
+            />
           </div>
         </div>
       </section>

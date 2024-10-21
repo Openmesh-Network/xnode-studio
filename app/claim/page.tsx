@@ -280,7 +280,7 @@ export default function ClaimXNodePage() {
             }}
             className="mt-16 rounded border p-6"
           >
-            <div className="flex items-center gap-12">
+            <div className="hdplus:flex-row flex flex-col items-center gap-x-12 gap-y-6">
               <div>
                 <h3 className="text-xl font-bold">Step 1</h3>
                 <p className="text-muted-foreground">Connect your wallet</p>

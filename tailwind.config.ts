@@ -70,6 +70,7 @@ const config = {
         115: '1.15',
       },
       screens: {
+        hdplus: '1800px',
         '3xl': '1920px',
         '4xl': '2560px',
       },
