@@ -4,7 +4,6 @@ import {
   Cloud,
   Cpu,
   DatabaseZap,
-  DollarSign,
   Gauge,
   Globe,
   Home,
@@ -18,7 +17,7 @@ import {
 import { type Icon } from '@/components/Icons'
 
 type NavCategory = 'main' | 'support'
-type NavItem = {
+export type NavItem = {
   name: string
   icon?: LucideIcon | Icon
 } & (

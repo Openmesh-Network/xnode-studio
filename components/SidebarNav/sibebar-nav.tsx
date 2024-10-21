@@ -11,9 +11,9 @@ import {
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
 import { motion } from 'framer-motion'
-import { ChevronDown, type LucideIcon } from 'lucide-react'
+import { ChevronDown, PencilRuler, type LucideIcon } from 'lucide-react'
 
-import { navItems } from '@/config/nav'
+import { navItems, type NavItem } from '@/config/nav'
 import { cn } from '@/lib/utils'
 import { Button, type ButtonProps } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -25,6 +25,8 @@ import {
 } from '@/components/ui/tooltip'
 import { type Icon } from '@/components/Icons'
 
+import { useDemoModeContext } from '../demo-mode'
+
 interface SidebarNav {
   isMobile?: boolean
   className?: string
@@ -34,12 +36,28 @@ const SidebarNav: React.FC<SidebarNav> = ({
   isMobile = false,
   className = '',
 }) => {
+  const { demoMode } = useDemoModeContext()
+
+  const demoMainNavItems = navItems.main.flatMap((item) =>
+    item.name === 'App Store'
+      ? [
+          item,
+          {
+            type: 'item',
+            name: 'Design & Build',
+            href: '/workspace',
+            icon: PencilRuler,
+          } as NavItem,
+        ]
+      : [item]
+  )
+
   return (
     <NavContainer className={className}>
       {/* <NavHeader isMobile={isMobile}></NavHeader> */}
       <NavContent className="mt-0 h-full overflow-y-auto overflow-x-clip p-2">
         <NavCategory>
-          {navItems.main.map((navItem) =>
+          {(demoMode ? demoMainNavItems : navItems.main).map((navItem) =>
             navItem.type === 'item' ? (
               <NavLink
                 key={`navItem-${navItem.name}`}

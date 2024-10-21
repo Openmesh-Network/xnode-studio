@@ -4,7 +4,7 @@ export type Icon = (props: IconProps) => React.JSX.Element
 type IconProps = React.HTMLAttributes<SVGElement>
 
 export const Icons = {
-  OpenMesh: (props: IconProps) => (
+  Openmesh: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       strokeMiterlimit={10}

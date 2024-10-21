@@ -40,7 +40,7 @@ export function useUser(): [
       const cookies = parseCookies()
       const sessionToken = cookies.userSessionToken
 
-      if (sessionToken) {
+      if (sessionToken && sessionToken !== 'DEMO') {
         const fetchUser = async () => {
           setIsLoading(true)
           console.log('Fetching user')

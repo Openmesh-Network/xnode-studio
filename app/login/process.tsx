@@ -43,8 +43,10 @@ export default function LoginProcess() {
     refresh() //destroy routing cache
   }
 
+  const { demoMode, setDemoMode } = useDemoModeContext()
+
   useEffect(() => {
-    if (!user || address) {
+    if (!user || address || demoMode) {
       // Logged in and wallet connected, user doesnt return address, so we cannot check if they match...
       return
     }
@@ -61,9 +63,7 @@ export default function LoginProcess() {
     // We connected with a different address (or not connected), destroy session
     setUser(null)
     refresh() //destroy routing cache
-  }, [address, user, setUser])
-
-  const { demoMode, setDemoMode } = useDemoModeContext()
+  }, [address, user, setUser, demoMode])
 
   return (
     <div className="flex flex-col gap-5">
@@ -134,10 +134,17 @@ export default function LoginProcess() {
           <div className="mt-4">
             {!demoMode ? (
               <Button
-                disabled={!isConnected || creatingSession}
                 size="lg"
                 className="min-w-56"
-                onClick={() => setDemoMode(true)}
+                onClick={() => {
+                  setDemoMode(true)
+                  if (!user) {
+                    setUser({
+                      sessionToken: 'DEMO',
+                    } as any)
+                    refresh()
+                  }
+                }}
               >
                 Enter Demo Mode
               </Button>

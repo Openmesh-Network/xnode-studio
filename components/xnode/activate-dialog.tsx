@@ -22,6 +22,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 
+import { useDemoModeContext } from '../demo-mode'
 import { Icons } from '../Icons'
 
 type ActivateXNodeDialogProps = {
@@ -44,8 +45,17 @@ export default function ActivateXNodeDialog({
     chainId: chain.id,
   })
   async function activateXNode() {
+    if (demoMode) {
+      loggers?.onSuccess?.({
+        title: 'Success!',
+        description: 'Activate performed successfully.',
+      })
+      setSuccess(true)
+      return
+    }
+
     await performTransaction({
-      transactionName: 'Claim',
+      transactionName: 'Activate',
       transaction: async () => {
         if (entitlementNft === undefined) {
           loggers.onError &&
@@ -70,6 +80,8 @@ export default function ActivateXNodeDialog({
       },
     })
   }
+
+  const { demoMode } = useDemoModeContext()
 
   return (
     <AlertDialog open={open || success === true} onOpenChange={onOpenChange}>

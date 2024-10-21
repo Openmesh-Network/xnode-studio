@@ -51,6 +51,7 @@ import {
 import { Label } from '@/components/ui/label'
 import { toast } from '@/components/ui/use-toast'
 import { SimpleTooltip } from '@/components/Common/SimpleTooltip'
+import { useDemoModeContext } from '@/components/demo-mode'
 import { Icons } from '@/components/Icons'
 import ActivateXNodeDialog from '@/components/xnode/activate-dialog'
 
@@ -71,7 +72,8 @@ export default function ClaimXNodePage() {
     })
   const queryClient = useQueryClient()
 
-  const [pinInput, setPinInput] = useState<string>('')
+  const { demoMode } = useDemoModeContext()
+  const [pinInput, setPinInput] = useState<string>(demoMode ? 'DEMODEMO0' : '')
 
   const [successOpen, setSuccessOpen] = useState(false)
   const [claimedNft, setClaimedNft] = useState<bigint | null>()
@@ -155,6 +157,16 @@ export default function ClaimXNodePage() {
           <form
             ref={formRef}
             action={async () => {
+              if (demoMode) {
+                loggers?.onSuccess?.({
+                  title: 'Success!',
+                  description: 'Claim performed successfully.',
+                })
+                setClaimedNft(BigInt(0))
+                setSuccessOpen(true)
+                return
+              }
+
               const code = pinInput
                 .toUpperCase()
                 .replace(/(.{3})(.{3})(.{3})/, '$1-$2-$3')
@@ -280,7 +292,7 @@ export default function ClaimXNodePage() {
             }}
             className="mt-16 rounded border p-6"
           >
-            <div className="hdplus:flex-row flex flex-col items-center gap-x-12 gap-y-6">
+            <div className="flex flex-col items-center gap-x-12 gap-y-6 hdplus:flex-row">
               <div>
                 <h3 className="text-xl font-bold">Step 1</h3>
                 <p className="text-muted-foreground">Connect your wallet</p>
@@ -359,7 +371,7 @@ export default function ClaimXNodePage() {
                   <Button
                     type="button"
                     disabled={
-                      !address ||
+                      (!address && !demoMode) ||
                       pinInput?.length !== 9 ||
                       !tocChecked ||
                       performingTransaction

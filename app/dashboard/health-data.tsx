@@ -40,9 +40,14 @@ import {
 import { useDemoModeContext } from '@/components/demo-mode'
 
 export function useXnodes(sessionToken: string) {
+  const { demoMode } = useDemoModeContext()
   return useQuery<Xnode[]>({
-    queryKey: ['xnodes', sessionToken],
+    queryKey: ['xnodes', sessionToken, demoMode, mockXNodes],
     queryFn: async () => {
+      if (demoMode) {
+        return mockXNodes
+      }
+
       const data: Xnode[] = await fetch(
         `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/getXnodes`,
         {
@@ -441,9 +446,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
 }
 
 export function XNodesApps({ sessionToken }: HealthComponentProps) {
-  const { demoMode } = useDemoModeContext()
-  const { data: xNodesData, isPending } = useXnodes(sessionToken)
-  const xNodes = demoMode ? mockXNodes : xNodesData
+  const { data: xNodes, isPending } = useXnodes(sessionToken)
 
   const services = useMemo(() => {
     const allServices: Record<

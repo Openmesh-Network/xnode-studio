@@ -403,10 +403,10 @@ export default function DeploymentProvider({
         <ScrollArea className="h-[40rem] w-full flex-1 pr-3" type="auto">
           <div className="grid grid-cols-12 items-center gap-12 rounded border border-primary bg-gradient-to-r from-primary/5 to-[#FFFED9] px-6 py-4">
             <div className="col-span-7 flex items-center gap-4">
-              <Icons.OpenMesh className="size-14 p-1" />
+              <Icons.Openmesh className="size-14 p-1" />
               <div>
                 <div className="flex items-start gap-1">
-                  <p className="text-lg font-bold">OpenMesh Cloud</p>
+                  <p className="text-lg font-bold">Openmesh Cloud</p>
                   <span className="rounded bg-primary px-1.5 py-px text-xs font-medium text-background">
                     Beta
                   </span>

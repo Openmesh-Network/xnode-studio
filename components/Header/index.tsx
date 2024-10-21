@@ -88,10 +88,8 @@ export default function Header() {
       ? mockXNodes.map((x) => BigInt(x.deploymentAuth))
       : activeXNodes
 
-    if (!nodes) return
-
-    if (!selectedXNode || !nodes.includes(BigInt(selectedXNode))) {
-      selectXNode(nodes.at(0)?.toString() ?? undefined)
+    if (!selectedXNode || !nodes || !nodes.includes(BigInt(selectedXNode))) {
+      selectXNode(nodes?.at(0)?.toString() ?? undefined)
     }
   }, [selectedXNode, activeXNodes, demoMode, mockXNodes])
 
@@ -247,8 +245,7 @@ export default function Header() {
                 <Settings className="size-5" strokeWidth={1.5} />
               </button>
             </div>
-            {!address && status === 'disconnected' ? (
-              // <w3m-connect-button />
+            {!address && status === 'disconnected' && !demoMode ? (
               <button
                 type="button"
                 className="flex h-10 items-center gap-1.5 rounded bg-primary px-4 text-base font-semibold tracking-tighter text-background"

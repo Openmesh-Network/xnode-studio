@@ -218,7 +218,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
           Explore and launch ready made apps and solutions
         </h1>
         <div className="mt-2 text-muted">
-          Openmesh App store lets you quickly deploy software on your Xnode
+          Openmesh App Store lets you quickly deploy software on your Xnode
         </div>
       </section>
       <div className="container my-20 max-w-none space-y-8">

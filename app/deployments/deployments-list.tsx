@@ -7,7 +7,6 @@ import { Cloud, EllipsisVertical, Star } from 'lucide-react'
 
 import { type ServiceData } from '@/types/dataProvider'
 import { type Xnode } from '@/types/node'
-import { mockXNodes } from '@/config/demo-mode'
 import { cn, formatXNodeName } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -17,7 +16,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { useDemoModeContext } from '@/components/demo-mode'
 import { Icons } from '@/components/Icons'
 
 import { useXnodes } from '../dashboard/health-data'
@@ -115,7 +113,6 @@ type DeploymentsListProps = {
 export default function DeploymentsList({
   sessionToken,
 }: DeploymentsListProps) {
-  const { demoMode } = useDemoModeContext()
   const { data: xNodes, isPending } = useXnodes(sessionToken)
 
   const services = useMemo(() => {
@@ -139,25 +136,13 @@ export default function DeploymentsList({
               className="h-16 border"
             />
           ))
-        : demoMode
-          ? mockXNodes.map((xNode) => (
-              <DeploymentItem
-                key={xNode.deploymentAuth}
-                xNode={xNode}
-                services={
-                  JSON.parse(
-                    Buffer.from(xNode.services, 'base64').toString('utf-8')
-                  )['services']
-                }
-              />
-            ))
-          : xNodes?.map((xNode) => (
-              <DeploymentItem
-                key={xNode.deploymentAuth}
-                xNode={xNode}
-                services={services.get(xNode.id) ?? []}
-              />
-            ))}
+        : xNodes?.map((xNode) => (
+            <DeploymentItem
+              key={xNode.deploymentAuth}
+              xNode={xNode}
+              services={services.get(xNode.id) ?? []}
+            />
+          ))}
     </div>
   )
 }

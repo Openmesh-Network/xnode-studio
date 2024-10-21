@@ -295,7 +295,7 @@ export default function DeploymentFlow({
           </AlertDialogTitle>
           <AlertDialogDescription>
             {step[0] === 0
-              ? 'Decide where you want to deploy your OpenMesh Node'
+              ? 'Decide where you want to deploy your Openmesh Node'
               : null}
             {step[0] === 1 && step[1] === 'xnode-current'
               ? `We're currently deploying your pre-configured ${type === 'templates' ? 'template' : 'use case'}.`
@@ -314,7 +314,7 @@ export default function DeploymentFlow({
             onValueChange={(type: FlowType) => setFlowType(type)}
             className="flex flex-col gap-4"
           >
-            {allXNodeNfts?.length ? (
+            {selectedXNode ? (
               <RadioGroupCard
                 value="xnode-current"
                 className="rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 data-[state=checked]:text-inherit enabled:data-[state=unchecked]:hover:bg-muted"
@@ -323,11 +323,9 @@ export default function DeploymentFlow({
                   <IdCard className="size-8 text-primary" strokeWidth={1.25} />
                   <h3 className="text-xl font-semibold">
                     Xnode DVM{' '}
-                    {selectedXNode ? (
-                      <span className="ml-1 font-mono text-base font-medium text-muted-foreground">
-                        ({selectedXNode.slice(0, 12)}…)
-                      </span>
-                    ) : null}
+                    <span className="ml-1 font-mono text-base font-medium text-muted-foreground">
+                      ({selectedXNode.slice(0, 12)}…)
+                    </span>
                   </h3>
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -372,7 +370,7 @@ export default function DeploymentFlow({
               <div className="flex items-center gap-3">
                 <Database className="size-8 text-primary" strokeWidth={1.25} />
                 <h3 className="text-xl font-semibold">
-                  OpenMesh Early Validator
+                  Openmesh Early Validator
                 </h3>
               </div>
               <p className="mt-2 text-sm text-muted-foreground">
