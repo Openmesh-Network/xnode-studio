@@ -25,7 +25,7 @@ import {
 
 import { type ServiceData } from '@/types/dataProvider'
 import { type HeartbeatData, type Xnode } from '@/types/node'
-import { mockXNodes } from '@/config/test-mode'
+import { mockXNodes } from '@/config/demo-mode'
 import { cn, formatXNodeName } from '@/lib/utils'
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -37,7 +37,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useTestModeContext } from '@/components/test-mode'
+import { useDemoModeContext } from '@/components/demo-mode'
 
 export function useXnodes(sessionToken: string) {
   return useQuery<Xnode[]>({
@@ -179,9 +179,9 @@ type HealthComponentProps = {
   sessionToken: string
 }
 export function HealthSummary({ sessionToken }: HealthComponentProps) {
-  const { active: testMode } = useTestModeContext()
+  const { demoMode } = useDemoModeContext()
   const { data: xNodesData, isPending } = useXnodes(sessionToken)
-  const xNodes = testMode ? mockXNodes : xNodesData
+  const xNodes = demoMode ? mockXNodes : xNodesData
 
   const healthSummaryData = useMemo<HealthSummary | null>(() => {
     if (isPending || !xNodes) return null
@@ -312,9 +312,9 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
 }
 
 export function XNodesHealth({ sessionToken }: HealthComponentProps) {
-  const { active: testMode } = useTestModeContext()
+  const { demoMode } = useDemoModeContext()
   const { data: xNodesData, isPending } = useXnodes(sessionToken)
-  const xNodes = testMode ? mockXNodes : xNodesData
+  const xNodes = demoMode ? mockXNodes : xNodesData
 
   return (
     <div className="grid grid-cols-4 gap-6">
@@ -441,9 +441,9 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
 }
 
 export function XNodesApps({ sessionToken }: HealthComponentProps) {
-  const { active: testMode } = useTestModeContext()
+  const { demoMode } = useDemoModeContext()
   const { data: xNodesData, isPending } = useXnodes(sessionToken)
-  const xNodes = testMode ? mockXNodes : xNodesData
+  const xNodes = demoMode ? mockXNodes : xNodesData
 
   const services = useMemo(() => {
     const allServices: Record<

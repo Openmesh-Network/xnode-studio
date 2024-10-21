@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/useUser'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
+import { useDemoModeContext } from '@/components/demo-mode'
 
 export default function LoginProcess() {
   const { address, isConnected } = useAccount()
@@ -62,54 +63,94 @@ export default function LoginProcess() {
     refresh() //destroy routing cache
   }, [address, user, setUser])
 
+  const { demoMode, setDemoMode } = useDemoModeContext()
+
   return (
-    <div className="flex items-center gap-12">
-      <div
-        className={cn(
-          'grow rounded border p-6 transition-colors',
-          isConnected && 'border-green-500/50 bg-green-500/5'
-        )}
-      >
-        <h2 className="text-xl font-bold">Connect your Wallet</h2>
-        <p className="text-sm text-muted-foreground">
-          Login to Xnode Studio with your web3 wallet
-        </p>
-        <div className="mt-4">
-          {!isConnected ? <w3m-connect-button /> : <w3m-account-button />}
+    <div className="flex flex-col gap-5">
+      <div className="flex items-center gap-12">
+        <div
+          className={cn(
+            'grow rounded border p-6 transition-colors',
+            isConnected && 'border-green-500/50 bg-green-500/5'
+          )}
+        >
+          <h2 className="text-xl font-bold">Connect your Wallet</h2>
+          <p className="text-sm text-muted-foreground">
+            Login to Xnode Studio with your web3 wallet
+          </p>
+          <div className="mt-4">
+            {!isConnected ? <w3m-connect-button /> : <w3m-account-button />}
+          </div>
+        </div>
+        <div>
+          <MoveRight
+            className="size-8 text-muted-foreground"
+            strokeWidth={1.5}
+          />
+        </div>
+        <div
+          className={cn(
+            'grow rounded border p-6 transition-colors',
+            user && 'border-green-500/50 bg-green-500/5'
+          )}
+        >
+          <h2 className="text-xl font-bold">Create Login Session</h2>
+          <p className="text-sm text-muted-foreground">
+            Create a session to access your account
+          </p>
+          <div className="mt-4">
+            {!user ? (
+              <Button
+                disabled={!isConnected || creatingSession}
+                size="lg"
+                className="min-w-56"
+                onClick={() => createSession()}
+              >
+                Create Session
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="min-w-56"
+                onClick={() => deleteSession()}
+              >
+                Logout
+              </Button>
+            )}
+          </div>
         </div>
       </div>
       <div>
-        <MoveRight className="size-8 text-muted-foreground" strokeWidth={1.5} />
-      </div>
-      <div
-        className={cn(
-          'grow rounded border p-6 transition-colors',
-          user && 'border-green-500/50 bg-green-500/5'
-        )}
-      >
-        <h2 className="text-xl font-bold">Create Login Session</h2>
-        <p className="text-sm text-muted-foreground">
-          Create a session to access your account
-        </p>
-        <div className="mt-4">
-          {!user ? (
-            <Button
-              disabled={!isConnected || creatingSession}
-              size="lg"
-              className="min-w-56"
-              onClick={() => createSession()}
-            >
-              Create Session
-            </Button>
-          ) : (
-            <Button
-              size="lg"
-              className="min-w-56"
-              onClick={() => deleteSession()}
-            >
-              Logout
-            </Button>
+        <div
+          className={cn(
+            'grow rounded border p-6 transition-colors',
+            demoMode && 'border-green-500/50 bg-green-500/5'
           )}
+        >
+          <h2 className="text-xl font-bold">Demo Mode</h2>
+          <p className="text-sm text-muted-foreground">
+            Try out the Xnode Studio interface without making any API calls.
+          </p>
+          <div className="mt-4">
+            {!demoMode ? (
+              <Button
+                disabled={!isConnected || creatingSession}
+                size="lg"
+                className="min-w-56"
+                onClick={() => setDemoMode(true)}
+              >
+                Enter Demo Mode
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="min-w-56"
+                onClick={() => setDemoMode(false)}
+              >
+                Exit Demo Mode
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>

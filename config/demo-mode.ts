@@ -9,8 +9,10 @@ export const mockXNodes: Xnode[] = [
     services: Buffer.from(
       JSON.stringify({
         services: [
+          serviceDefinitons.find((service) => service.nixName === 'ollama') ??
+            serviceDefinitons[0]!,
           serviceDefinitons.find(
-            (service) => service.nixName === 'minecraft-server'
+            (service) => service.nixName === 'open-webui'
           ) ?? serviceDefinitons[0]!,
         ],
         'users.users': [],
@@ -26,8 +28,8 @@ export const mockXNodes: Xnode[] = [
       storageMbUsed: 1024,
       storageMbTotal: 10240,
     },
-    name: 'MOCK: Minecraft Server',
-    description: 'A mock Minecraft server',
+    name: 'DEMO Xnode',
+    description: 'Fictional Xnode for showcasing information and interactions.',
     status: 'online',
     deploymentAuth:
       '17827232184123519446329250419182865457105292133342177219703170160523741091636',

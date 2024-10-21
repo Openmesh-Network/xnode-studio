@@ -23,7 +23,7 @@ import {
   type XnodeConfig,
 } from '@/types/dataProvider'
 import { type Xnode } from '@/types/node'
-import { mockXNodes } from '@/config/test-mode'
+import { mockXNodes } from '@/config/demo-mode'
 import { cn, formatXNodeName } from '@/lib/utils'
 import {
   AlertDialog,
@@ -62,9 +62,9 @@ import {
 } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/use-toast'
 import { SimpleTooltip } from '@/components/Common/SimpleTooltip'
+import { useDemoModeContext } from '@/components/demo-mode'
 import { sshUserData } from '@/components/Deployments/serviceAccess'
 import Signup from '@/components/Signup'
-import { useTestModeContext } from '@/components/test-mode'
 
 import { HealthChartItem } from '../dashboard/health-data'
 import { ServiceOptionRow } from './service-options'
@@ -74,11 +74,11 @@ type XnodePageProps = {
 }
 
 export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
-  const { active: testMode } = useTestModeContext()
+  const { demoMode } = useDemoModeContext()
   const testXNode = useMemo<Xnode | null>(() => {
-    if (!testMode) return null
+    if (!demoMode) return null
     return mockXNodes.find((node) => node.id === xNodeId) ?? null
-  }, [testMode, xNodeId])
+  }, [demoMode, xNodeId])
 
   const [user] = useUser()
   const { toast } = useToast()
@@ -117,7 +117,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
       }
     },
     refetchInterval: 30 * 1000,
-    enabled: !!user?.sessionToken && !testMode,
+    enabled: !!user?.sessionToken && !demoMode,
   })
   const xNode = testXNode ?? xNodeData
 
@@ -219,7 +219,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   >(null)
 
   const updateServices = useCallback(async () => {
-    if (testMode) return
+    if (demoMode) return
     if (!services?.services || !user?.sessionToken) return
     const servicesWithChanges = services.services.map((service) => {
       const changes = serviceChanges.get(service.nixName)
@@ -253,7 +253,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     )
     await refetch()
   }, [
-    testMode,
+    demoMode,
     refetch,
     serviceChanges,
     services?.services,
@@ -263,7 +263,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   ])
 
   const deleteService = useCallback(async () => {
-    if (testMode) return
+    if (demoMode) return
     if (!services?.services || !user?.sessionToken) return
     const servicesWithChanges = services.services.filter(
       (service) => service.nixName !== deleteServiceOpen
@@ -293,7 +293,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     setDeleteServiceOpen(null)
     refetch()
   }, [
-    testMode,
+    demoMode,
     deleteServiceOpen,
     refetch,
     services?.services,
@@ -303,7 +303,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   ])
 
   async function updateXNode() {
-    if (testMode) return
+    if (demoMode) return
     if (!user?.sessionToken || !xNode) return
     const config = {
       method: 'post' as 'post',
@@ -325,7 +325,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
 
   return (
     <div className="container my-12 max-w-none">
-      {isLoading && !testMode ? (
+      {isLoading && !demoMode ? (
         <div>
           <Skeleton className="h-5 w-28" />
           <Skeleton className="mt-2 h-9 w-64" />
@@ -406,7 +406,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
           </div>
         </div>
       ) : null}
-      {(isSuccess || testMode) && user?.sessionToken ? (
+      {(isSuccess || demoMode) && user?.sessionToken ? (
         <>
           <Dialog
             open={!!editService}
@@ -932,7 +932,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
           </div>
         </>
       ) : null}
-      {!isFetching && !isSuccess && !testMode ? <Signup /> : null}
+      {!isFetching && !isSuccess && !demoMode ? <Signup /> : null}
     </div>
   )
 }
