@@ -26,7 +26,7 @@ export function ServiceOptionInput({
           value={value}
           onChange={(e) => {
             const newVal = e.target.value
-            updateOption(newVal.trim())
+            updateOption(newVal)
           }}
           className="h-8 px-2.5"
         />

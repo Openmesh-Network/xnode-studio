@@ -1,0 +1,63 @@
+{
+  "name": "Chainlink Data Dashboard",
+  "desc": "Selfhosted website to trustlessly show Chainlink price feed and CCIP information.",
+  "flakes": [
+    {
+      "name": "openmesh-chainlink-data-dashboard-flake",
+      "url": "github:Openmesh-Network/chainlink-data-dashboard"
+    }
+  ],
+  "nixName": "openmesh-chainlink-data-dashboard",
+  "specs": {
+    "ram": 400,
+    "storage": 10
+  },
+  "tags": ["Blockchain", "Chainlink"],
+  "website": "https://github.com/Openmesh-Network/chainlink-data-dashboard",
+  "implemented": true,
+  "logo": "https://cdn.prod.website-files.com/5f6b7190899f41fb70882d08/6657084f0e022fd363426fc4_favicon.png",
+  "options": [
+    {
+      "name": "enable",
+      "desc": "Enable the nextjs app",
+      "nixName": "enable",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "hostname",
+      "desc": "The hostname under which the app should be accessible.",
+      "nixName": "hostname",
+      "type": "string",
+      "value": "0.0.0.0"
+    },
+    {
+      "name": "port",
+      "desc": "The port under which the app should be accessible.",
+      "nixName": "port",
+      "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+      "value": "3000"
+    },
+    {
+      "name": "openFirewall",
+      "desc": "Whether to open ports in the firewall for this application.",
+      "nixName": "openFirewall",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "siteName",
+      "desc": "Title of the webpage.",
+      "nixName": "siteName",
+      "type": "string",
+      "value": "Openmesh Chainlink Data Dashboard"
+    },
+    {
+      "name": "siteDescription",
+      "desc": "Description of the webpage.",
+      "nixName": "siteDescription",
+      "type": "string",
+      "value": "Trustless access to Chainlink price feed and CCIP data."
+    }
+  ]
+}

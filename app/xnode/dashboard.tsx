@@ -109,7 +109,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             : null,
       }
     },
-    refetchInterval: 30 * 1000,
+    refetchInterval: 15 * 1000,
     enabled: !!user?.sessionToken,
   })
   const [lastUpdated, setLastUpdated] = useState<string>('0 seconds')
@@ -122,7 +122,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       reloadLastUpdated(dataUpdatedAt)
-    }, 2.5 * 1000)
+    }, 1000)
     return () => clearInterval(interval)
   }, [dataUpdatedAt])
 
@@ -279,7 +279,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
       }
     )
     setDeleteServiceOpen(null)
-    refetch()
+    new Promise((resolve) => setTimeout(resolve, 1000)).then(() => refetch())
   }, [
     deleteServiceOpen,
     refetch,
