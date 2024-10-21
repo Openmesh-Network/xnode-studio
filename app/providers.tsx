@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import { cookieStorage, createStorage, WagmiProvider, type State } from 'wagmi'
 
 import { Toaster } from '@/components/ui/toaster'
+import DemoModeProvider from '@/components/demo-mode'
 import ScreenProvider from '@/components/screen-provider'
 
 export const chains = [chain] as const
@@ -61,11 +62,13 @@ export function Providers({
       <WagmiProvider config={wagmiConfig} initialState={initialState}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider attribute="class" enableSystem={false}>
-            <ScreenProvider>
-              {children}
-              <ToastContainer />
-              <Toaster />
-            </ScreenProvider>
+            <DemoModeProvider>
+              <ScreenProvider>
+                {children}
+                <ToastContainer />
+                <Toaster />
+              </ScreenProvider>
+            </DemoModeProvider>
           </ThemeProvider>
         </QueryClientProvider>
       </WagmiProvider>

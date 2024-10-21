@@ -25,6 +25,7 @@ import {
 
 import { type ServiceData } from '@/types/dataProvider'
 import { type HeartbeatData, type Xnode } from '@/types/node'
+import { mockXNodes } from '@/config/demo-mode'
 import { cn, formatXNodeName } from '@/lib/utils'
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -36,6 +37,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useDemoModeContext } from '@/components/demo-mode'
 
 export function useXnodes(sessionToken: string) {
   return useQuery<Xnode[]>({
@@ -177,7 +179,9 @@ type HealthComponentProps = {
   sessionToken: string
 }
 export function HealthSummary({ sessionToken }: HealthComponentProps) {
-  const { data: xNodes, isPending } = useXnodes(sessionToken)
+  const { demoMode } = useDemoModeContext()
+  const { data: xNodesData, isPending } = useXnodes(sessionToken)
+  const xNodes = demoMode ? mockXNodes : xNodesData
 
   const healthSummaryData = useMemo<HealthSummary | null>(() => {
     if (isPending || !xNodes) return null
@@ -308,117 +312,138 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
 }
 
 export function XNodesHealth({ sessionToken }: HealthComponentProps) {
-  const { data: xNodes, isPending } = useXnodes(sessionToken)
+  const { demoMode } = useDemoModeContext()
+  const { data: xNodesData, isPending } = useXnodes(sessionToken)
+  const xNodes = demoMode ? mockXNodes : xNodesData
 
   return (
     <div className="grid grid-cols-4 gap-6">
-      {!isPending ? (
-        xNodes?.map((xNode, index) => {
-          return (
-            <Link key={index} href={`/xnode?uuid=${xNode.id}`}>
-              <div
-                key={`xNode-deployment-${xNode.id}`}
-                className="rounded border px-4 py-2.5"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className="text-lg font-bold">
-                    {xNode.isUnit
-                      ? formatXNodeName(xNode.deploymentAuth)
-                      : `Xnode ${index}`}
-                  </h3>
-                  {xNode.status !== 'online' ? (
-                    <span
-                      className={cn(
-                        'rounded px-2 py-0.5 text-xs font-medium capitalize',
-                        xNode.status === 'booting'
-                          ? 'bg-destructive/10 text-destructive'
-                          : 'bg-orange-500/10 text-orange-500'
-                      )}
-                    >
-                      {xNode.status}
-                    </span>
-                  ) : null}
-                </div>
-                <div className="mt-2 space-y-2">
-                  <div className="flex w-full items-center gap-4">
-                    <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
-                      <Cpu className="size-4" />
-                      <p className="text-sm">CPU</p>
-                    </div>
-                    <div className="relative grow">
-                      <div className="h-2 w-full rounded bg-border" />
-                      <div
-                        className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
-                        style={{
-                          width: `${Math.min(Math.round(xNode.heartbeatData?.cpuPercent ?? 0), 100)}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex w-full items-center gap-4">
-                    <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
-                      <MemoryStick className="size-4" />
-                      <p className="text-sm">RAM</p>
-                    </div>
-                    <div className="relative grow">
-                      <div className="h-2 w-full rounded bg-border" />
-                      <div
-                        className="absolute left-0 top-0 h-2 rounded bg-primary transition-all duration-300 ease-out"
-                        style={{
-                          width: `${Math.min(((xNode.heartbeatData?.ramMbUsed ?? 0) / (xNode.heartbeatData?.ramMbTotal ?? 1)) * 100, 100)}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex w-full items-center gap-4">
-                    <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
-                      <HardDrive className="size-4" />
-                      <p className="text-sm">Storage</p>
-                    </div>
-                    <div className="relative grow">
-                      <div className="h-2 w-full rounded bg-border" />
-                      <div
-                        className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
-                        style={{
-                          width: `${Math.min(((xNode.heartbeatData?.storageMbUsed ?? 0) / (xNode.heartbeatData?.storageMbTotal ?? 1)) * 100, 100)}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-1 text-muted-foreground">
-                    <CalendarDays className="size-4" />
-                    <p className="text-xs">
-                      {formatDistanceToNow(xNode.unitClaimTime)} ago
-                    </p>
-                  </div>
-                  <Image
-                    src={`${prefix}/images/xnode-card/silvercard-front.webp`}
-                    alt="Xnode Card"
-                    width={48}
-                    height={28}
-                    className="rounded object-contain"
-                  />
-                </div>
-              </div>
-            </Link>
-          )
-        })
-      ) : (
+      {isPending ? (
         <>
           <Skeleton className="h-44 border" />
           <Skeleton className="h-44 border" />
           <Skeleton className="h-44 border" />
           <Skeleton className="h-44 border" />
         </>
-      )}
+      ) : null}
+      {!isPending && xNodes.length
+        ? xNodes?.map((xNode, index) => {
+            return (
+              <Link key={index} href={`/xnode?uuid=${xNode.id}`}>
+                <div
+                  key={`xNode-deployment-${xNode.id}`}
+                  className="rounded border px-4 py-2.5"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="text-lg font-bold">
+                      {xNode.isUnit
+                        ? formatXNodeName(xNode.deploymentAuth)
+                        : `Xnode ${index}`}
+                    </h3>
+                    {xNode.status !== 'online' ? (
+                      <span
+                        className={cn(
+                          'rounded px-2 py-0.5 text-xs font-medium capitalize',
+                          xNode.status === 'booting'
+                            ? 'bg-destructive/10 text-destructive'
+                            : 'bg-orange-500/10 text-orange-500'
+                        )}
+                      >
+                        {xNode.status}
+                      </span>
+                    ) : null}
+                  </div>
+                  <div className="mt-2 space-y-2">
+                    <div className="flex w-full items-center gap-4">
+                      <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                        <Cpu className="size-4" />
+                        <p className="text-sm">CPU</p>
+                      </div>
+                      <div className="relative grow">
+                        <div className="h-2 w-full rounded bg-border" />
+                        <div
+                          className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
+                          style={{
+                            width: `${Math.min(Math.round(xNode.heartbeatData?.cpuPercent ?? 0), 100)}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center gap-4">
+                      <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                        <MemoryStick className="size-4" />
+                        <p className="text-sm">RAM</p>
+                      </div>
+                      <div className="relative grow">
+                        <div className="h-2 w-full rounded bg-border" />
+                        <div
+                          className="absolute left-0 top-0 h-2 rounded bg-primary transition-all duration-300 ease-out"
+                          style={{
+                            width: `${Math.min(((xNode.heartbeatData?.ramMbUsed ?? 0) / (xNode.heartbeatData?.ramMbTotal ?? 1)) * 100, 100)}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center gap-4">
+                      <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                        <HardDrive className="size-4" />
+                        <p className="text-sm">Storage</p>
+                      </div>
+                      <div className="relative grow">
+                        <div className="h-2 w-full rounded bg-border" />
+                        <div
+                          className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
+                          style={{
+                            width: `${Math.min(((xNode.heartbeatData?.storageMbUsed ?? 0) / (xNode.heartbeatData?.storageMbTotal ?? 1)) * 100, 100)}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+                    <div className="flex items-center gap-1 text-muted-foreground">
+                      <CalendarDays className="size-4" />
+                      <p className="text-xs">
+                        {formatDistanceToNow(xNode.unitClaimTime)} ago
+                      </p>
+                    </div>
+                    <Image
+                      src={`${prefix}/images/xnode-card/silvercard-front.webp`}
+                      alt="Xnode Card"
+                      width={48}
+                      height={28}
+                      className="rounded object-contain"
+                    />
+                  </div>
+                </div>
+              </Link>
+            )
+          })
+        : null}
+      {!isPending && !xNodes.length ? (
+        <div className="col-span-4 flex items-center justify-center gap-4">
+          <div className="flex flex-col items-center gap-2">
+            <Image
+              src={`${prefix}/images/xnode-card/silvercard-front.webp`}
+              alt="Xnode Card"
+              width={64}
+              height={32}
+              className="rounded object-contain"
+            />
+            <p className="text-sm text-muted-foreground">
+              No nodes currently running.
+            </p>
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
 
 export function XNodesApps({ sessionToken }: HealthComponentProps) {
-  const { data: xNodes, isPending } = useXnodes(sessionToken)
+  const { demoMode } = useDemoModeContext()
+  const { data: xNodesData, isPending } = useXnodes(sessionToken)
+  const xNodes = demoMode ? mockXNodes : xNodesData
 
   const services = useMemo(() => {
     const allServices: Record<

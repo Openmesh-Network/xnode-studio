@@ -47,6 +47,7 @@ import { RadioGroup, RadioGroupCard } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from '@/components/ui/use-toast'
+import { useDemoModeContext } from '@/components/demo-mode'
 import { Icons } from '@/components/Icons'
 
 import { useXnodes } from '../dashboard/health-data'
@@ -91,6 +92,8 @@ export default function DeploymentFlow({
   item,
   specs,
 }: DeploymentFlowProps) {
+  const { demoMode } = useDemoModeContext()
+
   const router = useRouter()
   const { address } = useAccount()
   const { data: allXNodeNfts } = useXuNfts(address)
@@ -149,7 +152,7 @@ export default function DeploymentFlow({
           setDeploymentSteps(xnodeDeploymentFlow)
           setStep([1, 'xnode-current'])
           try {
-            createXNodeDeployment()
+            if (!demoMode) createXNodeDeployment()
             setTimeout(() => {
               setActiveDeploymentStep(2)
               setTimeout(() => {

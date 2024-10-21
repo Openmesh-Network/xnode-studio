@@ -2,11 +2,12 @@
 
 import { useMemo } from 'react'
 import Link from 'next/link'
-import { formatDistanceToNow } from 'date-fns'
-import { Cloud, EllipsisVertical, Hourglass, Star } from 'lucide-react'
+import { formatDistanceToNowStrict } from 'date-fns'
+import { Cloud, EllipsisVertical, Star } from 'lucide-react'
 
 import { type ServiceData } from '@/types/dataProvider'
 import { type Xnode } from '@/types/node'
+import { mockXNodes } from '@/config/demo-mode'
 import { cn, formatXNodeName } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -16,9 +17,97 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { useDemoModeContext } from '@/components/demo-mode'
 import { Icons } from '@/components/Icons'
 
 import { useXnodes } from '../dashboard/health-data'
+
+type DeploymentItemProps = {
+  xNode: Xnode
+  services: ServiceData[]
+}
+function DeploymentItem({ xNode, services }: DeploymentItemProps) {
+  return (
+    <Link
+      href={`/xnode?uuid=${xNode.id}`}
+      className="flex h-16 items-center gap-6 rounded border px-6 py-3 transition-colors hover:bg-muted/50"
+    >
+      <p className="text-sm text-muted-foreground">
+        {formatDistanceToNowStrict(xNode.unitClaimTime)} ago
+      </p>
+      <div className="flex basis-2/12 items-center gap-2">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span
+                className={cn(
+                  'size-2.5 rounded-full bg-primary hover:animate-pulse',
+                  xNode.status !== 'online' && 'bg-orange-500',
+                  xNode.status === 'booting' && 'bg-destructive'
+                )}
+              />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-sm text-muted-foreground">Server Status</p>
+              <p className="font-semibold capitalize">{xNode.status}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <h3 className="text-lg font-semibold">
+          {xNode.isUnit
+            ? formatXNodeName(xNode.deploymentAuth)
+            : `Xnode ${xNode.id}`}
+        </h3>
+      </div>
+      <div className="basis-1/12 space-y-1 text-muted-foreground">
+        <p className="text-xs font-medium">Installation</p>
+        <div className="flex items-center gap-1">
+          <Icons.XNodeIcon className="size-4" />
+          <Cloud className="size-4" />
+        </div>
+      </div>
+      <div className="basis-4/12 space-y-1 text-muted-foreground">
+        <p className="text-xs font-medium">Services</p>
+        <div className="flex items-center gap-1">
+          {services.slice(0, 3).map((service) => (
+            <span
+              key={`${xNode.id}-service-${service.nixName}`}
+              className="flex items-center gap-1.5 rounded bg-primary/10 px-2 py-1 text-xs font-medium text-foreground"
+            >
+              {service.logo ? (
+                <img
+                  src={service.logo}
+                  alt={`${service.nixName} logo`}
+                  width={16}
+                  height={16}
+                />
+              ) : null}
+              {service.name ?? service.nixName}
+            </span>
+          ))}
+          {services.length > 3 ? (
+            <span
+              key={`${xNode.id}-more-services`}
+              className="flex items-center gap-1.5 rounded bg-primary/10 px-2 py-1 text-xs font-medium text-foreground"
+            >
+              +{services.length - 3}
+            </span>
+          ) : null}
+        </div>
+      </div>
+      <div className="flex grow items-center justify-end">
+        <Button disabled variant="ghost" size="icon">
+          <span className="sr-only">Mark as favourite</span>
+          <Star className="size-5 text-muted-foreground" />
+        </Button>
+        <Button disabled variant="ghost" size="icon">
+          <span className="sr-only">More</span>
+          <EllipsisVertical className="size-5 text-muted-foreground" />
+        </Button>
+      </div>
+    </Link>
+  )
+}
 
 type DeploymentsListProps = {
   sessionToken: string
@@ -26,6 +115,7 @@ type DeploymentsListProps = {
 export default function DeploymentsList({
   sessionToken,
 }: DeploymentsListProps) {
+  const { demoMode } = useDemoModeContext()
   const { data: xNodes, isPending } = useXnodes(sessionToken)
 
   const services = useMemo(() => {
@@ -49,98 +139,25 @@ export default function DeploymentsList({
               className="h-16 border"
             />
           ))
-        : xNodes?.map((xNode, index) => (
-            <Link
-              key={xNode.deploymentAuth}
-              href={`/xnode?uuid=${xNode.id}`}
-              className="flex h-16 items-center gap-6 rounded border px-6 py-3 transition-colors hover:bg-muted/50"
-            >
-              <p className="text-sm text-muted-foreground">
-                {formatDistanceToNow(xNode.unitClaimTime)} ago
-              </p>
-              <div className="flex basis-2/12 items-center gap-2">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <span
-                        className={cn(
-                          'size-2.5 rounded-full bg-primary hover:animate-pulse',
-                          xNode.status !== 'online' && 'bg-orange-500',
-                          xNode.status === 'booting' && 'bg-destructive'
-                        )}
-                      />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p className="text-sm text-muted-foreground">
-                        Server Status
-                      </p>
-                      <p className="font-semibold capitalize">{xNode.status}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <h3 className="text-lg font-semibold">
-                  {xNode.isUnit
-                    ? formatXNodeName(xNode.deploymentAuth)
-                    : `Xnode ${index}`}
-                </h3>
-              </div>
-              <div className="basis-1/12 space-y-1 text-muted-foreground">
-                <p className="text-xs font-medium">Installation</p>
-                <div className="flex items-center gap-1">
-                  <Icons.XNodeIcon className="size-4" />
-                  <Cloud className="size-4" />
-                </div>
-              </div>
-              <div className="basis-4/12 space-y-1 text-muted-foreground">
-                <p className="text-xs font-medium">Services</p>
-                <div className="flex items-center gap-1">
-                  {services.get(xNode.id) !== null ? (
-                    <>
-                      {services
-                        .get(xNode.id)
-                        ?.slice(0, 3)
-                        .map((service) => (
-                          <span
-                            key={`${xNode.id}-service-${service.nixName}`}
-                            className="flex items-center gap-1.5 rounded bg-primary/10 px-2 py-1 text-xs font-medium text-foreground"
-                          >
-                            {service.logo ? (
-                              <img
-                                src={service.logo}
-                                alt={`${service.nixName} logo`}
-                                width={16}
-                                height={16}
-                              />
-                            ) : null}
-                            {service.name ?? service.nixName}
-                          </span>
-                        ))}
-                      {(services.get(xNode.id)?.length ?? 0) > 3 ? (
-                        <span
-                          key={`${xNode.id}-more-services`}
-                          className="flex items-center gap-1.5 rounded bg-primary/10 px-2 py-1 text-xs font-medium text-foreground"
-                        >
-                          +{(services.get(xNode.id)?.length ?? 0) - 3}
-                        </span>
-                      ) : null}
-                    </>
-                  ) : (
-                    <Hourglass className="size-4" />
-                  )}
-                </div>
-              </div>
-              <div className="flex grow items-center justify-end">
-                <Button disabled variant="ghost" size="icon">
-                  <span className="sr-only">Mark as favourite</span>
-                  <Star className="size-5 text-muted-foreground" />
-                </Button>
-                <Button disabled variant="ghost" size="icon">
-                  <span className="sr-only">More</span>
-                  <EllipsisVertical className="size-5 text-muted-foreground" />
-                </Button>
-              </div>
-            </Link>
-          ))}
+        : demoMode
+          ? mockXNodes.map((xNode) => (
+              <DeploymentItem
+                key={xNode.deploymentAuth}
+                xNode={xNode}
+                services={
+                  JSON.parse(
+                    Buffer.from(xNode.services, 'base64').toString('utf-8')
+                  )['services']
+                }
+              />
+            ))
+          : xNodes?.map((xNode) => (
+              <DeploymentItem
+                key={xNode.deploymentAuth}
+                xNode={xNode}
+                services={services.get(xNode.id) ?? []}
+              />
+            ))}
     </div>
   )
 }

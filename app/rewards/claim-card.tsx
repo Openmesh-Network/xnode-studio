@@ -1,17 +1,19 @@
 'use client'
 
+import { useState } from 'react'
 import { XnodeUnitsOPENVestingContract } from '@/contracts/XnodeUnitsOPENVesting'
 import { chain } from '@/utils/chain'
 import { useXuNfts } from '@/utils/nft'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { RefreshCcw } from 'lucide-react'
-import { formatUnits } from 'viem'
+import { formatUnits, parseUnits, zeroAddress } from 'viem'
 import { useAccount, useReadContract } from 'wagmi'
 
 import { cn } from '@/lib/utils'
 import { usePerformTransaction } from '@/hooks/usePerformTransaction'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { useDemoModeContext } from '@/components/demo-mode'
 
 export function ClaimCard() {
   const { open } = useWeb3Modal()
@@ -25,7 +27,7 @@ export function ClaimCard() {
     refetch: refetchXuNFTs,
   } = useXuNfts(address)
   const {
-    data,
+    data: tokensReleasable,
     error,
     isFetching: isFetchingReleasable,
     refetch: refetchReleasable,
@@ -41,6 +43,15 @@ export function ClaimCard() {
   const hasXuNFT = XuNFTs !== undefined && XuNFTs?.length !== 0
 
   const onClick = async () => {
+    if (demoMode) {
+      loggers?.onSuccess({
+        title: 'Success!',
+        description: 'Claim performed successfully.',
+      })
+      setDemoReleasable(BigInt(0))
+      return
+    }
+
     await performTransaction({
       transactionName: 'Claim',
       transaction: async () => {
@@ -73,6 +84,11 @@ export function ClaimCard() {
     })
   }
 
+  const { demoMode } = useDemoModeContext()
+  const [demoReleasable, setDemoReleasable] = useState<bigint>(
+    parseUnits('123.456789', 18)
+  )
+
   return (
     <Card className="max-w-xs p-2 px-3">
       <CardHeader className="space-y-4">
@@ -83,11 +99,13 @@ export function ClaimCard() {
             </p>
           </span>
           <p className="w-full rounded-lg border bg-slate-50 px-3 py-1.5 text-center text-lg shadow-inner">
-            {!isConnected || !hasXuNFT
-              ? '-'
-              : data !== undefined
-                ? formatUnits(data, 18)
-                : 'loading..'}
+            {demoMode
+              ? formatUnits(demoReleasable, 18)
+              : !isConnected || !hasXuNFT
+                ? '-'
+                : tokensReleasable !== undefined
+                  ? formatUnits(tokensReleasable, 18)
+                  : 'loading..'}
           </p>
         </div>
         <p className="text-center text-sm">Your Xnode rewards</p>
@@ -95,10 +113,10 @@ export function ClaimCard() {
       <CardContent className="space-y-6">
         <div className="space-y-2 text-center text-sm">
           <p className="truncate font-semibold text-green-500 underline">
-            {!address ? 'Not connected.' : address}
+            {demoMode ? zeroAddress : !address ? 'Not connected.' : address}
           </p>
           <p>
-            {!hasXuNFT
+            {!hasXuNFT && !demoMode
               ? 'This wallet does not hold an Xnode Unit NFT. Did you activate your Xnode Unit Entitlement NFT?'
               : 'Success! Your wallet has a valid Xnode Unit NFT!'}
           </p>
@@ -108,9 +126,15 @@ export function ClaimCard() {
             size="xl"
             className="w-full"
             onClick={() => onClick().catch(console.error)}
-            disabled={(isConnected && !hasXuNFT) || performingTransaction}
+            disabled={
+              (isConnected && !hasXuNFT && !demoMode) || performingTransaction
+            }
           >
-            {isConnecting ? 'Connecting...' : isConnected ? 'Claim' : 'Connect'}
+            {isConnecting
+              ? 'Connecting...'
+              : isConnected || demoMode
+                ? 'Claim'
+                : 'Connect'}
           </Button>
           <Button
             onClick={() => {

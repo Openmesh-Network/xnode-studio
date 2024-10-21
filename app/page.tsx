@@ -34,7 +34,7 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="flex-1 flex-shrink basis-2/5 content-center rounded-xl">
+          <div className="flex-1 shrink basis-2/5 content-center rounded-xl">
             <Youtube className="p-2" videoId="dYM_hg6PkcY" />
           </div>
         </div>

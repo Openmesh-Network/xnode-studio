@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { db } from '@/db'
 import { Providers } from '@/db/schema'
+import ResourceMap from '@/public/images/resource-map.png'
 import { prefix } from '@/utils/prefix'
 import { count, countDistinct, like, sum } from 'drizzle-orm'
 
@@ -45,17 +46,14 @@ export default async function ResourcesPage() {
     .limit(1)
 
   return (
-    <div className="container mt-24 p-2">
+    <div className="container mt-12 p-2">
       <section className="flex flex-col justify-center gap-4 text-center">
-        <h1 className="text-6xl font-semibold text-black">
-          Full resource list
+        <h1 className="text-4xl font-semibold text-black">
+          A large network of data centres, all around the world
         </h1>
-        <p className="text-darkGray">
-          Discover how our advanced consensus mechanisms ensure reliability and
-          scalability for the Openmesh network
-        </p>
+        <Image alt="Resource map" src={ResourceMap} />
       </section>
-      <section className="mt-20 grid grid-cols-7 gap-6 rounded p-6 shadow-[0_0.75rem_1rem_hsl(0_0_0/0.05)]">
+      <section className="mt-10 grid grid-cols-7 gap-6 rounded p-6 shadow-[0_0.75rem_1rem_hsl(0_0_0/0.05)]">
         <StatsItem title="Countries" value={/*stats.countries*/ 172} />
         <StatsItem title="Providers" value={/*stats.providers*/ 32} />
         <StatsItem title="Regions" value={/*stats.regions*/ 482} />

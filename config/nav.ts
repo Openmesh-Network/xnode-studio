@@ -1,8 +1,10 @@
 import {
   BookText,
+  ChartLine,
   Cloud,
   Cpu,
   DatabaseZap,
+  DollarSign,
   Gauge,
   Globe,
   Home,
@@ -100,6 +102,12 @@ export const navItems: Record<NavCategory, NavItem[]> = {
       name: 'Documentation',
       href: 'https://docs.openmesh.network/products/xnode',
       icon: BookText,
+    },
+    {
+      type: 'item',
+      name: 'Node Viability',
+      href: 'https://www.openmesh.network/naas',
+      icon: ChartLine,
     },
     {
       type: 'item',
