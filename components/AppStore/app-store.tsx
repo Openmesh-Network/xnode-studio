@@ -64,7 +64,7 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
     <Link
       href={data.implemented ? `/deploy?${params}` : '#'}
       aria-disabled={!data.implemented && !demoMode}
-      className="flex shrink-0 basis-1/4 flex-col rounded border p-4 hover:bg-muted aria-disabled:pointer-events-none aria-disabled:opacity-50"
+      className="flex basis-1/4 flex-col rounded border p-4 hover:bg-muted aria-disabled:pointer-events-none aria-disabled:opacity-50"
     >
       <div className="flex items-center justify-between">
         {data.logo && data.logo !== '' ? (
@@ -89,7 +89,7 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
       </div>
       <div className="flex-1">
         <h3 className="mt-2 text-lg font-semibold text-primary">{data.name}</h3>
-        <p className="mt-1 line-clamp-4 text-sm text-muted-foreground">
+        <p className="mt-1 line-clamp-3 text-sm text-muted-foreground">
           {data.desc}
         </p>
       </div>
@@ -215,14 +215,14 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
   return (
     <>
       <section className="flex flex-col items-center justify-center bg-gradient-to-r from-[#3C20D8] to-[#9F14BB] py-6 text-background">
-        <h1 className="text-3xl font-bold">
+        <h1 className="text-2xl font-bold">
           Explore and launch ready made apps and solutions
         </h1>
         <div className="mt-2 text-muted">
           Openmesh App Store lets you quickly deploy software on your Xnode
         </div>
       </section>
-      <div className="container my-20 max-w-none space-y-8">
+      <div className="container my-14 max-w-none space-y-8 px-8">
         <div className="flex gap-12">
           <div className="w-56" />
           <ToggleGroup
@@ -298,7 +298,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
               </AccordionItem>
             </Accordion>
           </div>
-          <div className="flex-1 space-y-12">
+          <div className="flex-1 grow space-y-12">
             {/* {filteredData.length > 0 ? (
               <div className="space-y-2">
                 <h2 className="text-lg font-bold">Featured</h2>

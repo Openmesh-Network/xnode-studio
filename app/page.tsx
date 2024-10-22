@@ -12,7 +12,7 @@ export default function Home() {
       <section className="container mb-12 mt-24 w-full">
         <div className="flex gap-12">
           <div className="flex-1 basis-3/5">
-            <h1 className="text-balance text-3xl font-black lg:text-7xl">
+            <h1 className="text-balance text-3xl font-bold lg:text-6xl">
               Accelerate Your Infrastructure Development.
             </h1>
             <p className="mt-4 text-pretty text-sm font-medium text-muted-foreground lg:text-lg">
@@ -28,7 +28,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/app-store"
-                className="flex h-14 items-center rounded px-8 font-medium transition-colors hover:bg-foreground/10"
+                className="flex h-14 items-center rounded px-8 font-medium underline transition-colors hover:bg-foreground/10"
               >
                 Build your first dApp
               </Link>
@@ -36,32 +36,33 @@ export default function Home() {
           </div>
           <div className="flex-1 shrink basis-2/5 content-center rounded-xl">
             <Youtube
-              className="hdplus:block hidden p-2"
+              className="rounded-xl bg-foreground/10 p-3"
+              opts={{ width: '500', height: '280' }}
               videoId="dYM_hg6PkcY"
             />
           </div>
         </div>
       </section>
-      <section className="container my-12 space-y-4">
-        <h2 className="text-2xl font-bold">Quick Access</h2>
+      <section className="container my-20 space-y-4">
+        <h2 className="text-xl font-bold">Quick Access</h2>
         <div className="grid grid-cols-4 gap-6">
           <Link
             href="/claim"
-            className="flex items-center gap-4 rounded border px-8 py-6 font-semibold transition-colors hover:bg-foreground/5"
+            className="flex items-center gap-2 rounded border px-4 py-4 text-sm font-semibold transition-colors hover:bg-foreground/5"
           >
             <IdCard className="size-8" strokeWidth={1.5} />
             Redeem an Xnode DVM
           </Link>
           <Link
             href="/app-store"
-            className="flex items-center gap-4 rounded border px-8 py-6 font-semibold transition-colors hover:bg-foreground/5"
+            className="flex items-center gap-2 rounded border px-4 py-4 text-sm font-semibold transition-colors hover:bg-foreground/5"
           >
             <Server className="size-8" strokeWidth={1.5} />
             Configure an Instance
           </Link>
           <Link
             href="/app-store"
-            className="flex items-center gap-4 rounded border px-8 py-6 font-semibold transition-colors hover:bg-foreground/5"
+            className="flex items-center gap-2 rounded border px-4 py-4 text-sm font-semibold transition-colors hover:bg-foreground/5"
           >
             <Blocks className="size-8" strokeWidth={1.5} />
             Run a Node
@@ -69,7 +70,7 @@ export default function Home() {
           <SimpleTooltip tooltip="Coming Soon!">
             <Link
               href="/"
-              className="flex cursor-default items-center gap-4 rounded border bg-foreground/10 px-8 py-6 font-semibold text-gray-400 transition-colors"
+              className="flex cursor-default items-center gap-2 rounded border bg-foreground/10 px-4 py-4 text-sm font-semibold text-gray-400 transition-colors"
             >
               <Cloud className="size-8" strokeWidth={1.5} />
               Provide Resources

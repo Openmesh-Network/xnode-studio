@@ -7,6 +7,7 @@ import {
   Gauge,
   Globe,
   Home,
+  IdCard,
   PackageOpen,
   Rocket,
   Star,
@@ -56,6 +57,12 @@ export const navItems: Record<NavCategory, NavItem[]> = {
       name: 'App Store',
       href: '/app-store',
       icon: PackageOpen,
+    },
+    {
+      type: 'item',
+      name: 'Xnode DVM',
+      href: '/claim',
+      icon: IdCard,
     },
     {
       type: 'item',

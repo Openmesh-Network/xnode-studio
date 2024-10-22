@@ -39,7 +39,7 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
         />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Actions">
+          {/* <CommandGroup heading="Actions">
             <CommandItem onSelect={onSelect} asChild>
               <Link href="/claim">
                 <Image
@@ -52,7 +52,7 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
                 Claim Xnode
               </Link>
             </CommandItem>
-          </CommandGroup>
+          </CommandGroup> */}
           <CommandGroup heading="Navigation">
             {navItems.main
               .filter((navItem) => navItem.type === 'item')
