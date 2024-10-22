@@ -504,7 +504,7 @@ export default function DeploymentProvider({
                       >
                         <div className="col-span-5 flex items-center gap-4">
                           <Image
-                            src={`${prefix}/images/providers/${provider.providerName}.svg`}
+                            src={`${prefix}/images/providers/${provider.providerName.toLowerCase()}.svg`}
                             alt={provider.providerName + ' logo'}
                             width={64}
                             height={64}

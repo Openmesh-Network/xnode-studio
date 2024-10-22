@@ -49,6 +49,7 @@ import {
   InputOTPSlot,
 } from '@/components/ui/input-otp'
 import { Label } from '@/components/ui/label'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { toast } from '@/components/ui/use-toast'
 import { SimpleTooltip } from '@/components/Common/SimpleTooltip'
 import { useDemoModeContext } from '@/components/demo-mode'
@@ -135,19 +136,19 @@ export default function ClaimXNodePage() {
             </div>
             <div className="mt-8 flex items-center justify-between gap-6">
               <div className="flex items-center gap-2">
-                <div className="flex size-6 items-center justify-center rounded-full bg-green-600">
+                <div className="flex size-6 shrink-0 grow-0 items-center justify-center rounded-full bg-green-600">
                   <Check className="size-4 text-background" />
                 </div>
                 No one-time or ongoing fees.
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex size-6 items-center justify-center rounded-full bg-green-600">
+                <div className="flex size-6 shrink-0 grow-0 items-center justify-center rounded-full bg-green-600">
                   <Check className="size-4 text-background" />
                 </div>
                 Decentralized Ownership through Ethereum.
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex size-6 items-center justify-center rounded-full bg-green-600">
+                <div className="flex size-6 shrink-0 grow-0 items-center justify-center rounded-full bg-green-600">
                   <Check className="size-4 text-background" />
                 </div>
                 Easy deployment of 1000s of apps.
@@ -469,113 +470,116 @@ export default function ClaimXNodePage() {
             <h3 className="text-xl text-muted-foreground">
               Why is it different?
             </h3>
-            {/* eslint-disable-next-line tailwindcss/migration-from-tailwind-2 */}
-            <table className="mt-4 w-full overflow-clip rounded">
-              <thead>
-                <tr className="bg-muted">
-                  <th className="h-8 px-6 text-start text-sm font-medium">
-                    Node
-                  </th>
-                  <th className="h-8 px-4 text-start text-sm font-medium">
-                    Price
-                  </th>
-                  <th className="h-8 px-4 text-start text-sm font-medium">
-                    KYC
-                  </th>
-                  <th className="h-8 px-4 text-start text-sm font-medium">
-                    Web3
-                  </th>
-                  <th className="h-8 px-4 text-start text-sm font-medium">
-                    Ownership
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="text-sm">
-                <tr className="border-b">
-                  <td title="Xnode" className="h-14 border-r px-6">
-                    <Image
-                      src={`${prefix}/images/xnode-card/silvercard-front.webp`}
-                      alt="xnode card"
-                      width={48}
-                      height={28}
-                      className="object-contain"
-                    />
-                  </td>
-                  <td className="h-14 border-r px-4 font-bold">Free</td>
-                  <td className="h-14 border-r px-4">No</td>
-                  <td className="h-14 border-r px-4">
-                    <Check className="size-4 text-green-500" />
-                  </td>
-                  <td className="h-14 px-4">Decentralized</td>
-                </tr>
-                <tr className="border-b">
-                  <td title="AWS" className="h-14 border-r px-6">
-                    <Image
-                      src={`${prefix}/images/cloudLogo/aws.png`}
-                      alt="aws logo"
-                      width={48}
-                      height={28}
-                      className="object-contain"
-                    />
-                  </td>
-                  <td className="h-14 border-r px-4 font-bold">$2,500</td>
-                  <td className="h-14 border-r px-4">Mandatory</td>
-                  <td className="h-14 border-r px-4">
-                    <X className="size-4 text-red-500" />
-                  </td>
-                  <td className="h-14 px-4">Centralized</td>
-                </tr>
-                <tr className="border-b">
-                  <td title="GCP" className="h-14 border-r px-6">
-                    <Image
-                      src={`${prefix}/images/subNavBarServers/gcp.svg`}
-                      alt="gcp logo"
-                      width={48}
-                      height={28}
-                      className="object-contain"
-                    />
-                  </td>
-                  <td className="h-14 border-r px-4 font-bold">$3,100</td>
-                  <td className="h-14 border-r px-4">Mandatory</td>
-                  <td className="h-14 border-r px-4">
-                    <X className="size-4 text-red-500" />
-                  </td>
-                  <td className="h-14 px-4">Centralized</td>
-                </tr>
-                <tr className="border-b">
-                  <td title="Azure" className="h-14 border-r px-6">
-                    <Image
-                      src={`${prefix}/images/subNavBarServers/azure.svg`}
-                      alt="azure logo"
-                      width={48}
-                      height={28}
-                      className="object-contain"
-                    />
-                  </td>
-                  <td className="h-14 border-r px-4 font-bold">$3,500</td>
-                  <td className="h-14 border-r px-4">Mandatory</td>
-                  <td className="h-14 border-r px-4">
-                    <X className="size-4 text-red-500" />
-                  </td>
-                  <td className="h-14 px-4">Centralized</td>
-                </tr>
-                <tr>
-                  <td
-                    title="Azure"
-                    className="h-14 border-r px-6 font-semibold leading-tight text-muted-foreground"
-                  >
-                    Other
-                    <br /> Providers
-                  </td>
-                  <td className="h-14 border-r px-4 font-bold">$1,900</td>
-                  <td className="h-14 border-r px-4">No</td>
-                  <td className="h-14 border-r px-4">
-                    <X className="size-4 text-red-500" />
-                  </td>
-                  <td className="h-14 px-4">Depends</td>
-                </tr>
-              </tbody>
-            </table>
+            <ScrollArea>
+              {/* eslint-disable-next-line tailwindcss/migration-from-tailwind-2 */}
+              <table className="mt-4 w-full overflow-clip rounded">
+                <thead>
+                  <tr className="bg-muted">
+                    <th className="h-8 px-6 text-start text-sm font-medium">
+                      Node
+                    </th>
+                    <th className="h-8 px-4 text-start text-sm font-medium">
+                      Price
+                    </th>
+                    <th className="h-8 px-4 text-start text-sm font-medium">
+                      KYC
+                    </th>
+                    <th className="h-8 px-4 text-start text-sm font-medium">
+                      Web3
+                    </th>
+                    <th className="h-8 px-4 text-start text-sm font-medium">
+                      Ownership
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm">
+                  <tr className="border-b">
+                    <td title="Xnode" className="h-14 border-r px-6">
+                      <Image
+                        src={`${prefix}/images/xnode-card/silvercard-front.webp`}
+                        alt="xnode card"
+                        width={48}
+                        height={28}
+                        className="object-contain"
+                      />
+                    </td>
+                    <td className="h-14 border-r px-4 font-bold">Free</td>
+                    <td className="h-14 border-r px-4">No</td>
+                    <td className="h-14 border-r px-4">
+                      <Check className="size-4 text-green-500" />
+                    </td>
+                    <td className="h-14 px-4">Decentralized</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td title="AWS" className="h-14 border-r px-6">
+                      <Image
+                        src={`${prefix}/images/cloudLogo/aws.png`}
+                        alt="aws logo"
+                        width={48}
+                        height={28}
+                        className="object-contain"
+                      />
+                    </td>
+                    <td className="h-14 border-r px-4 font-bold">$2,500</td>
+                    <td className="h-14 border-r px-4">Mandatory</td>
+                    <td className="h-14 border-r px-4">
+                      <X className="size-4 text-red-500" />
+                    </td>
+                    <td className="h-14 px-4">Centralized</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td title="GCP" className="h-14 border-r px-6">
+                      <Image
+                        src={`${prefix}/images/subNavBarServers/gcp.svg`}
+                        alt="gcp logo"
+                        width={48}
+                        height={28}
+                        className="object-contain"
+                      />
+                    </td>
+                    <td className="h-14 border-r px-4 font-bold">$3,100</td>
+                    <td className="h-14 border-r px-4">Mandatory</td>
+                    <td className="h-14 border-r px-4">
+                      <X className="size-4 text-red-500" />
+                    </td>
+                    <td className="h-14 px-4">Centralized</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td title="Azure" className="h-14 border-r px-6">
+                      <Image
+                        src={`${prefix}/images/subNavBarServers/azure.svg`}
+                        alt="azure logo"
+                        width={48}
+                        height={28}
+                        className="object-contain"
+                      />
+                    </td>
+                    <td className="h-14 border-r px-4 font-bold">$3,500</td>
+                    <td className="h-14 border-r px-4">Mandatory</td>
+                    <td className="h-14 border-r px-4">
+                      <X className="size-4 text-red-500" />
+                    </td>
+                    <td className="h-14 px-4">Centralized</td>
+                  </tr>
+                  <tr>
+                    <td
+                      title="Azure"
+                      className="h-14 border-r px-6 font-semibold leading-tight text-muted-foreground"
+                    >
+                      Other
+                      <br /> Providers
+                    </td>
+                    <td className="h-14 border-r px-4 font-bold">$1,900</td>
+                    <td className="h-14 border-r px-4">No</td>
+                    <td className="h-14 border-r px-4">
+                      <X className="size-4 text-red-500" />
+                    </td>
+                    <td className="h-14 px-4">Depends</td>
+                  </tr>
+                </tbody>
+              </table>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
           </div>
         </div>
       </section>
