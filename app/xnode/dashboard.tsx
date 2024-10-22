@@ -849,8 +849,11 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                     .find(
                       (option) =>
                         option.nixName === 'port' ||
-                        option.nixName === 'server-port'
-                    )?.value
+                        option.nixName === 'server-port' ||
+                        option.nixName === 'guiAddress'
+                    )
+                    ?.value?.split(':')
+                    .at(-1)
                   const serviceEnabled =
                     service.options?.find(
                       (option) => option.nixName === 'enable'
@@ -873,7 +876,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                           className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
                         >
                           <span className="sr-only">Open</span>
-                          <ExternalLink className="size-4 text-muted-foreground" />
+                          <ExternalLink className="size-6 text-muted-foreground" />
                         </Link>
                       </TableCell>
                       <TableCell className="min-w-40">

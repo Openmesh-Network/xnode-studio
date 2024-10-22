@@ -1,0 +1,315 @@
+{
+  "name": "Bor (Polygon)",
+  "desc": "Bor is the Ethereum-compatible client of the Polygon network.",
+  "flakes": [
+    {
+      "name": "openmesh-polygon-package",
+      "url": "github:CheesecakeLabs/openmesh-polygon-package"
+    }
+  ],
+  "nixName": "bor",
+  "specs": {
+    "ram": 16384,
+    "storage": 4194304
+  },
+  "tags": ["RPC", "Validator", "Blockchain", "Polygon"],
+  "website": "https://polygon.technology/",
+  "implemented": false,
+  "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/28321.png",
+  "options": [
+    {
+      "name": "devfakeauthor",
+      "desc": "Run miner without validator set authorization [dev mode].",
+      "nixName": "devfakeauthor",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "heimdall",
+      "desc": "URL of Heimdall service.",
+      "nixName": "heimdall",
+      "type": "string",
+      "value": "http://localhost:1317"
+    },
+    {
+      "name": "heimdallgRPC",
+      "desc": "Address of Heimdall gRPC service.",
+      "nixName": "heimdallgRPC",
+      "type": "string",
+      "value": null
+    },
+    {
+      "name": "logs",
+      "desc": "Enables Bor log retrieval.",
+      "nixName": "logs",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "runheimdall",
+      "desc": "Run Heimdall service as a child process.",
+      "nixName": "runheimdall",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "runheimdallargs",
+      "desc": "Arguments to pass to Heimdall service.",
+      "nixName": "runheimdallargs",
+      "type": "null or (list of string)",
+      "value": null
+    },
+    {
+      "name": "useheimdallapp",
+      "desc": "Use child heimdall process to fetch data, only works when runheimdall is true.",
+      "nixName": "useheimdallapp",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "withoutheimdall",
+      "desc": "Run without Heimdall service (for testing purpose).",
+      "nixName": "withoutheimdall",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "chain",
+      "desc": "Name of the chain to sync ('amoy', 'mumbai', 'mainnet') or path to a genesis file.",
+      "nixName": "chain",
+      "type": "string",
+      "value": "mainnet"
+    },
+    {
+      "name": "config",
+      "desc": "Path to the TOML configuration file.",
+      "nixName": "config",
+      "type": "string",
+      "value": "/path/to/config.toml"
+    },
+    {
+      "name": "datadir",
+      "desc": "Path of the data directory to store information.",
+      "nixName": "datadir",
+      "type": "string",
+      "value": "/var/lib/bor"
+    },
+    {
+      "name": "datadirAncient",
+      "desc": "Data directory for ancient chain segments.",
+      "nixName": "datadirAncient",
+      "type": "string",
+      "value": "/var/lib/bor/ancient"
+    },
+    {
+      "name": "dbEngine",
+      "desc": "Backing database implementation to use ('leveldb' or 'pebble').",
+      "nixName": "dbEngine",
+      "type": "string",
+      "value": "leveldb"
+    },
+    {
+      "name": "dev",
+      "desc": "Enable developer mode with ephemeral proof-of-authority network.",
+      "nixName": "dev",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "devGasLimit",
+      "desc": "Initial block gas limit in developer mode.",
+      "nixName": "devGasLimit",
+      "type": "integer",
+      "value": "11500000"
+    },
+    {
+      "name": "devPeriod",
+      "desc": "Block period to use in developer mode (0 = mine only if transaction pending).",
+      "nixName": "devPeriod",
+      "type": "integer",
+      "value": "0"
+    },
+    {
+      "name": "disableBorWallet",
+      "desc": "Disable the personal wallet endpoints.",
+      "nixName": "disableBorWallet",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "ethRequiredBlocks",
+      "desc": "Comma separated block number-to-hash mappings to require for peering.",
+      "nixName": "ethRequiredBlocks",
+      "type": "string",
+      "value": null
+    },
+    {
+      "name": "ethstats",
+      "desc": "Reporting URL of an ethstats service.",
+      "nixName": "ethstats",
+      "type": "string",
+      "value": null
+    },
+    {
+      "name": "gcmode",
+      "desc": "Blockchain garbage collection mode.",
+      "nixName": "gcmode",
+      "type": "string",
+      "value": "full"
+    },
+    {
+      "name": "gpoBlocks",
+      "desc": "Number of recent blocks to check for gas prices.",
+      "nixName": "gpoBlocks",
+      "type": "integer",
+      "value": "20"
+    },
+    {
+      "name": "gpoIgnorePrice",
+      "desc": "Gas price below which gpo will ignore transactions.",
+      "nixName": "gpoIgnorePrice",
+      "type": "integer",
+      "value": "25000000000"
+    },
+    {
+      "name": "gpoMaxBlockHistory",
+      "desc": "Maximum block history of gas price oracle.",
+      "nixName": "gpoMaxBlockHistory",
+      "type": "integer",
+      "value": "1024"
+    },
+    {
+      "name": "gpoMaxHeaderHistory",
+      "desc": "Maximum header history of gas price oracle.",
+      "nixName": "gpoMaxHeaderHistory",
+      "type": "integer",
+      "value": "1024"
+    },
+    {
+      "name": "gpoMaxPrice",
+      "desc": "Maximum gas price will be recommended by gpo.",
+      "nixName": "gpoMaxPrice",
+      "type": "integer",
+      "value": "500000000000"
+    },
+    {
+      "name": "gpoPercentile",
+      "desc": "Suggested gas price is the given percentile of a set of recent transaction gas prices.",
+      "nixName": "gpoPercentile",
+      "type": "integer",
+      "value": "60"
+    },
+    {
+      "name": "grpcAddr",
+      "desc": "Address and port to bind the GRPC server.",
+      "nixName": "grpcAddr",
+      "type": "string",
+      "value": ":3131"
+    },
+    {
+      "name": "identity",
+      "desc": "Name/Identity of the node.",
+      "nixName": "identity",
+      "type": "string",
+      "value": "PolygonNode"
+    },
+    {
+      "name": "keystore",
+      "desc": "Path of the directory where keystores are located.",
+      "nixName": "keystore",
+      "type": "string",
+      "value": "/var/lib/bor/keystore"
+    },
+    {
+      "name": "logLevel",
+      "desc": "Log level for the server (trace|debug|info|warn|error|crit).",
+      "nixName": "logLevel",
+      "type": "string",
+      "value": "info"
+    },
+    {
+      "name": "parallelevmEnable",
+      "desc": "Enable Block STM.",
+      "nixName": "parallelevmEnable",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "parallelevmProcs",
+      "desc": "Number of speculative processes (cores) in Block STM.",
+      "nixName": "parallelevmProcs",
+      "type": "integer",
+      "value": "8"
+    },
+    {
+      "name": "pprof",
+      "desc": "Enable the pprof HTTP server.",
+      "nixName": "pprof",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "pprofAddr",
+      "desc": "pprof HTTP server listening interface.",
+      "nixName": "pprofAddr",
+      "type": "string",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "pprofBlockProfileRate",
+      "desc": "Turn on block profiling with the given rate.",
+      "nixName": "pprofBlockProfileRate",
+      "type": "integer",
+      "value": "0"
+    },
+    {
+      "name": "pprofMemProfileRate",
+      "desc": "Turn on memory profiling with the given rate.",
+      "nixName": "pprofMemProfileRate",
+      "type": "integer",
+      "value": "524288"
+    },
+    {
+      "name": "pprofPort",
+      "desc": "pprof HTTP server listening port.",
+      "nixName": "pprofPort",
+      "type": "integer",
+      "value": "6060"
+    },
+    {
+      "name": "snapshot",
+      "desc": "Enables the snapshot-database mode.",
+      "nixName": "snapshot",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "stateScheme",
+      "desc": "Scheme to use for storing ethereum state ('hash' or 'path').",
+      "nixName": "stateScheme",
+      "type": "string",
+      "value": "hash"
+    },
+    {
+      "name": "syncmode",
+      "desc": "Blockchain sync mode (only 'full' sync supported by Bor).",
+      "nixName": "syncmode",
+      "type": "string",
+      "value": "full"
+    },
+    {
+      "name": "verbosity",
+      "desc": "Logging verbosity for the server (5=trace|4=debug|3=info|2=warn|1=error|0=crit).",
+      "nixName": "verbosity",
+      "type": "integer",
+      "value": "3"
+    },
+    {
+      "name": "vmdebug",
+      "desc": "Record information useful for VM and contract debugging.",
+      "nixName": "vmdebug",
+      "type": "boolean",
+      "value": "false"
+    }
+  ]
+}

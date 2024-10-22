@@ -11,5 +11,31 @@
     "quality": true,
     "implemented": true,
     "isUnitRunnable": true
+  },
+  {
+    "id": "1",
+    "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+    "name": "Ethereum Node",
+    "category": "Blockchain",
+    "tags": ["Blockchain", "Ethereum"],
+    "dateAdded": "2024-10-22T12:00:00Z",
+    "desc": "A template that contains both an Ethereum execution client, as well as an Ethereum consensus client. Providing an easy setup to get your Ethereum node or validator up and running.",
+    "serviceNames": ["geth", "lighthouse"],
+    "quality": true,
+    "implemented": false,
+    "isUnitRunnable": false
+  },
+  {
+    "id": "2",
+    "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/28321.png",
+    "name": "Polygon Node",
+    "category": "Blockchain",
+    "tags": ["Blockchain", "Polygon"],
+    "dateAdded": "2024-10-22T12:00:00Z",
+    "desc": "A template that contains both an Polygon execution client, as well as an Polygon consensus client. Providing an easy setup to get your Polygon node or validator up and running.",
+    "serviceNames": ["heimdall", "bor"],
+    "quality": true,
+    "implemented": false,
+    "isUnitRunnable": false
   }
 ]

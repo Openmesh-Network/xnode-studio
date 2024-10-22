@@ -3,12 +3,12 @@
   "desc": "Open Source Continuous File Synchronization",
   "nixName": "syncthing",
   "specs": {
-    "ram": 0,
+    "ram": 512,
     "storage": 10240
   },
-  "tags": ["File Transfer & Synchronization"],
+  "tags": ["Files", "NAS", "Drive"],
   "website": "https://syncthing.net/",
-  "implemented": false,
+  "implemented": true,
   "logo": "https://syncthing.net/img/favicon.png",
   "options": [
     {
@@ -72,7 +72,7 @@
       "desc": "The address to serve the web interface at.",
       "nixName": "guiAddress",
       "type": "string",
-      "value": "127.0.0.1:8384"
+      "value": "0.0.0.0:8384"
     },
     {
       "name": "key",
@@ -101,13 +101,6 @@
       "nixName": "overrideFolders",
       "type": "boolean",
       "value": "true"
-    },
-    {
-      "name": "package",
-      "desc": "The syncthing package to use.",
-      "nixName": "package",
-      "type": "package",
-      "value": "pkgs.syncthing"
     },
     {
       "name": "relay.enable",
@@ -180,118 +173,6 @@
       "value": "22070"
     },
     {
-      "name": "settings",
-      "desc": "Extra configuration options for Syncthing. See https://docs.syncthing.net/users/config.html. Note that this attribute set does not exactly match the documented xml format. Instead, this is the format of the json rest api. There are slight differences. For example, this xml: <options>  <listenAddress>default</listenAddress>  <minHomeDiskFree unit=\"%\">1</minHomeDiskFree> </options> corresponds to the json: {  options: {   listenAddresses = [    \"default\"   ];   minHomeDiskFree = {    unit = \"%\";    value = 1;   };  }; }",
-      "nixName": "settings",
-      "type": "JSON value",
-      "value": "{ }"
-    },
-    {
-      "name": "settings.devices",
-      "desc": "Peers/devices which Syncthing should communicate with. Note that you can still add devices manually, but those changes will be reverted on restart if overrideDevices is enabled.",
-      "nixName": "settings.devices",
-      "type": "attribute set of (JSON value)",
-      "value": "{ }"
-    },
-    {
-      "name": "settings.devices.<name>.autoAcceptFolders",
-      "desc": "Automatically create or share folders that this device advertises at the default path. See https://docs.syncthing.net/users/config.html?highlight=autoaccept#config-file-format.",
-      "nixName": "settings.devices.<name>.autoAcceptFolders",
-      "type": "boolean",
-      "value": "false"
-    },
-    {
-      "name": "settings.devices.<name>.id",
-      "desc": "The device ID. See https://docs.syncthing.net/dev/device-ids.html.",
-      "nixName": "settings.devices.<name>.id",
-      "type": "string",
-      "value": ""
-    },
-    {
-      "name": "settings.devices.<name>.name",
-      "desc": "The name of the device.",
-      "nixName": "settings.devices.<name>.name",
-      "type": "string",
-      "value": "\u2039name\u203a"
-    },
-    {
-      "name": "settings.folders",
-      "desc": "Folders which should be shared by Syncthing. Note that you can still add folders manually, but those changes will be reverted on restart if overrideFolders is enabled.",
-      "nixName": "settings.folders",
-      "type": "attribute set of (JSON value)",
-      "value": "{ }"
-    },
-    {
-      "name": "settings.folders.<name>.copyOwnershipFromParent",
-      "desc": "On Unix systems, tries to copy file/folder ownership from the parent directory (the directory it\u2019s located in). Requires running Syncthing as a privileged user, or granting it additional capabilities (e.g. CAP_CHOWN on Linux).",
-      "nixName": "settings.folders.<name>.copyOwnershipFromParent",
-      "type": "boolean",
-      "value": "false"
-    },
-    {
-      "name": "settings.folders.<name>.devices",
-      "desc": "The devices this folder should be shared with. Each device must be defined in the devices option.",
-      "nixName": "settings.folders.<name>.devices",
-      "type": "list of string",
-      "value": "[ ]"
-    },
-    {
-      "name": "settings.folders.<name>.enable",
-      "desc": "Whether to share this folder. This option is useful when you want to define all folders in one place, but not every machine should share all folders.",
-      "nixName": "settings.folders.<name>.enable",
-      "type": "boolean",
-      "value": "true"
-    },
-    {
-      "name": "settings.folders.<name>.id",
-      "desc": "The ID of the folder. Must be the same on all devices.",
-      "nixName": "settings.folders.<name>.id",
-      "type": "string",
-      "value": "\u2039name\u203a"
-    },
-    {
-      "name": "settings.folders.<name>.label",
-      "desc": "The label of the folder.",
-      "nixName": "settings.folders.<name>.label",
-      "type": "string",
-      "value": "\u2039name\u203a"
-    },
-    {
-      "name": "settings.folders.<name>.path",
-      "desc": "The path to the folder which should be shared. Only absolute paths (starting with /) and paths relative to the user\u2019s home directory (starting with ~/) are allowed.",
-      "nixName": "settings.folders.<name>.path",
-      "type": "string starting with / or ~/",
-      "value": "\"\u2039name\u203a\""
-    },
-    {
-      "name": "settings.folders.<name>.type",
-      "desc": "Controls how the folder is handled by Syncthing. See https://docs.syncthing.net/users/config.html#config-option-folder.type.",
-      "nixName": "settings.folders.<name>.type",
-      "type": "one of \"sendreceive\", \"sendonly\", \"receiveonly\", \"receiveencrypted\"",
-      "value": "\"sendreceive\""
-    },
-    {
-      "name": "settings.folders.<name>.versioning",
-      "desc": "How to keep changed/deleted files with Syncthing. There are 4 different types of versioning with different parameters. See https://docs.syncthing.net/users/versioning.html.",
-      "nixName": "settings.folders.<name>.versioning",
-      "type": "null or (JSON value)",
-      "value": "null"
-    },
-    {
-      "name": "settings.folders.<name>.versioning.type",
-      "desc": "The type of versioning. See https://docs.syncthing.net/users/versioning.html.",
-      "nixName": "settings.folders.<name>.versioning.type",
-      "type": "one of \"external\", \"simple\", \"staggered\", \"trashcan\"",
-      "value": ""
-    },
-    {
-      "name": "settings.options",
-      "desc": "The options element contains all other global configuration options",
-      "nixName": "settings.options",
-      "type": "JSON value",
-      "value": "{ }"
-    },
-    {
       "name": "settings.options.limitBandwidthInLan",
       "desc": "Whether to apply bandwidth limits to devices in the same broadcast domain as the local device.",
       "nixName": "settings.options.limitBandwidthInLan",
@@ -346,6 +227,13 @@
       "nixName": "user",
       "type": "string",
       "value": "syncthing"
+    },
+    {
+      "name": "openFirewall",
+      "desc": "Whether to open ports in the firewall for this application.",
+      "nixName": "openFirewall",
+      "type": "boolean",
+      "value": "true"
     }
   ]
 }

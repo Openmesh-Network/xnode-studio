@@ -21,6 +21,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
+import { useDemoModeContext } from '../demo-mode'
+
 export const optionsNetwork = [
   {
     name: 'Date Created',
@@ -57,10 +59,11 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
     if (type === 'use-cases') newParams.set('useCaseId', data.id)
     return newParams
   }, [data.id, type])
+  const { demoMode } = useDemoModeContext()
   return (
     <Link
       href={data.implemented ? `/deploy?${params}` : '#'}
-      aria-disabled={!data.implemented}
+      aria-disabled={!data.implemented && !demoMode}
       className="flex shrink-0 basis-1/4 flex-col rounded border p-4 hover:bg-muted aria-disabled:pointer-events-none aria-disabled:opacity-50"
     >
       <div className="flex items-center justify-between">
@@ -114,9 +117,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
   const params = useSearchParams()
   const useCases = useMemo(() => {
     if (!nftId) return TemplateDefinitions
-    return TemplateDefinitions.filter(
-      (template) => template.isUnitRunnable
-    ).sort((t1, t2) => {
+    return TemplateDefinitions.sort((t1, t2) => {
       if (t1.implemented && !t2.implemented) {
         return -1
       }

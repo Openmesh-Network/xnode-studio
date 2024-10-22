@@ -9,7 +9,7 @@
   "tags": [],
   "website": "https://nextcloud.com",
   "implemented": false,
-  "logo": "",
+  "logo": "https://nextcloud.com/c/uploads/2022/08/nextcloud-logo-icon.svg",
   "options": [
     {
       "name": "appstoreEnable",
@@ -121,7 +121,7 @@
       "desc": "Create the objectstore if it does not exist.",
       "nixName": "config.objectstore.s3.autocreate",
       "type": "boolean",
-      "value": ""
+      "value": "false"
     },
     {
       "name": "config.objectstore.s3.bucket",
@@ -261,7 +261,7 @@
       "desc": "FQDN for the nextcloud instance.",
       "nixName": "hostName",
       "type": "string",
-      "value": ""
+      "value": "localhost"
     },
     {
       "name": "https",
@@ -355,32 +355,11 @@
       "value": "\"error\""
     },
     {
-      "name": "notify_push.package",
-      "desc": "Which package to use for notify_push",
-      "nixName": "notify_push.package",
-      "type": "package",
-      "value": "<rendered-html><p>pkgs.nextcloud-notify_push</p>\n</rendered-html>"
-    },
-    {
       "name": "notify_push.socketPath",
       "desc": "Socket path to use for notify_push",
       "nixName": "notify_push.socketPath",
       "type": "string",
       "value": "/run/nextcloud-notify_push/sock"
-    },
-    {
-      "name": "occ",
-      "desc": "The nextcloud-occ program preconfigured to target this Nextcloud instance.",
-      "nixName": "occ",
-      "type": "package",
-      "value": "<rendered-html><p>generated script</p>\n</rendered-html>"
-    },
-    {
-      "name": "package",
-      "desc": "Which package to use for the Nextcloud instance.",
-      "nixName": "package",
-      "type": "package",
-      "value": ""
     },
     {
       "name": "phpExtraExtensions",
@@ -395,13 +374,6 @@
       "nixName": "phpOptions",
       "type": "attribute set of (string or signed integer)",
       "value": "{\n  catch_workers_output = \"yes\";\n  display_errors = \"stderr\";\n  error_reporting = \"E_ALL & ~E_DEPRECATED & ~E_STRICT\";\n  expose_php = \"Off\";\n  \"opcache.fast_shutdown\" = \"1\";\n  \"opcache.interned_strings_buffer\" = \"8\";\n  \"opcache.max_accelerated_files\" = \"10000\";\n  \"opcache.memory_consumption\" = \"128\";\n  \"opcache.revalidate_freq\" = \"1\";\n  \"openssl.cafile\" = \"/etc/ssl/certs/ca-certificates.crt\";\n  output_buffering = \"0\";\n  short_open_tag = \"Off\";\n}"
-    },
-    {
-      "name": "phpPackage",
-      "desc": "The php package to use.",
-      "nixName": "phpPackage",
-      "type": "package",
-      "value": "pkgs.php"
     },
     {
       "name": "poolConfig",
@@ -423,13 +395,6 @@
       "nixName": "secretFile",
       "type": "null or string",
       "value": "null"
-    },
-    {
-      "name": "settings",
-      "desc": "Extra options which should be appended to Nextcloud\u2019s config.php file.",
-      "nixName": "settings",
-      "type": "JSON value",
-      "value": "{ }"
     },
     {
       "name": "settings.default_phone_region",

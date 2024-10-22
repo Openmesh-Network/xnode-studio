@@ -1,15 +1,15 @@
 {
-  "name": "code-server",
+  "name": "VSCode",
   "desc": "Run upstream VS Code on a remote machine with access through a modern web browser from any device, anywhere.",
   "nixName": "openvscode-server",
   "specs": {
-    "ram": 0,
-    "storage": 0
+    "ram": 2048,
+    "storage": 100
   },
-  "tags": ["Software Development - IDE & Tools"],
+  "tags": ["IDE", "Development", "Code", "Programming"],
   "website": "https://github.com/gitpod-io/openvscode-server",
-  "implemented": false,
-  "logo": "",
+  "implemented": true,
+  "logo": "https://code.visualstudio.com/assets/images/code-stable.png",
   "options": [
     {
       "name": "connectionToken",
@@ -79,21 +79,14 @@
       "desc": "The host name or IP address the server should listen to.",
       "nixName": "host",
       "type": "string",
-      "value": "localhost"
-    },
-    {
-      "name": "package",
-      "desc": "The openvscode-server package to use.",
-      "nixName": "package",
-      "type": "package",
-      "value": "pkgs.openvscode-server"
+      "value": "0.0.0.0"
     },
     {
       "name": "port",
       "desc": "The port the server should listen to. If 0 is passed a random free port is picked. If a range in the format num-num is passed, a free port from the range (end inclusive) is selected.",
       "nixName": "port",
       "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-      "value": "3000"
+      "value": "4000"
     },
     {
       "name": "serverDataDir",
@@ -135,7 +128,14 @@
       "desc": "Run without a connection token. Only use this if the connection is secured by other means.",
       "nixName": "withoutConnectionToken",
       "type": "boolean",
-      "value": "false"
+      "value": "true"
+    },
+    {
+      "name": "openFirewall",
+      "desc": "Whether to open ports in the firewall for this application.",
+      "nixName": "openFirewall",
+      "type": "boolean",
+      "value": "true"
     }
   ]
 }

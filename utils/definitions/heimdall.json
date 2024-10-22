@@ -1,0 +1,175 @@
+{
+  "name": "Heimdall (Polygon)",
+  "desc": "Heimdall is the consensus layer of the Polygon network, working with Bor to provide validators and consensus management.",
+  "flakes": [
+    {
+      "name": "openmesh-polygon-package",
+      "url": "github:CheesecakeLabs/openmesh-polygon-package"
+    }
+  ],
+  "nixName": "heimdall",
+  "specs": {
+    "ram": 8192,
+    "storage": 2097152
+  },
+  "tags": ["RPC", "Validator", "Consensus", "Polygon"],
+  "website": "https://polygon.technology/",
+  "implemented": false,
+  "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/28321.png",
+  "options": [
+    {
+      "name": "enable",
+      "desc": "Enable Heimdall node.",
+      "nixName": "enable",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "chain-id",
+      "desc": "Chain ID of the Polygon network (e.g., 137 for mainnet, 80001 for mumbai testnet).",
+      "nixName": "chain-id",
+      "type": "integer",
+      "value": "137"
+    },
+    {
+      "name": "config",
+      "desc": "Path to the TOML configuration file for Heimdall.",
+      "nixName": "config",
+      "type": "string",
+      "value": "/path/to/heimdall-config.toml"
+    },
+    {
+      "name": "datadir",
+      "desc": "Path to the Heimdall data directory.",
+      "nixName": "datadir",
+      "type": "string",
+      "value": "/var/lib/heimdall"
+    },
+    {
+      "name": "db-backend",
+      "desc": "Database backend used by Heimdall ('leveldb' or 'pebble').",
+      "nixName": "db-backend",
+      "type": "string",
+      "value": "leveldb"
+    },
+    {
+      "name": "rpc-address",
+      "desc": "Listen address for Heimdall RPC API.",
+      "nixName": "rpc-address",
+      "type": "string",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "rpc-port",
+      "desc": "Port for Heimdall RPC API.",
+      "nixName": "rpc-port",
+      "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+      "value": "1317"
+    },
+    {
+      "name": "grpc-address",
+      "desc": "Address for Heimdall gRPC API.",
+      "nixName": "grpc-address",
+      "type": "string",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "grpc-port",
+      "desc": "Port for Heimdall gRPC API.",
+      "nixName": "grpc-port",
+      "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+      "value": "9090"
+    },
+    {
+      "name": "validator",
+      "desc": "Public address of the validator on the Polygon network.",
+      "nixName": "validator",
+      "type": "string",
+      "value": "0xValidatorAddress"
+    },
+    {
+      "name": "keystore",
+      "desc": "Path to the keystore directory containing the validator key.",
+      "nixName": "keystore",
+      "type": "string",
+      "value": "/var/lib/heimdall/keystore"
+    },
+    {
+      "name": "seeds",
+      "desc": "Seed nodes for connecting Heimdall to the Polygon network.",
+      "nixName": "seeds",
+      "type": "string",
+      "value": "seed1.polygon.io:26656,seed2.polygon.io:26656"
+    },
+    {
+      "name": "pprof",
+      "desc": "Enable the pprof HTTP server.",
+      "nixName": "pprof",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "pprof-addr",
+      "desc": "pprof HTTP server listening interface.",
+      "nixName": "pprof-addr",
+      "type": "string",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "pprof-port",
+      "desc": "pprof HTTP server listening port.",
+      "nixName": "pprof-port",
+      "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+      "value": "6060"
+    },
+    {
+      "name": "max-open-connections",
+      "desc": "Maximum number of simultaneous RPC connections.",
+      "nixName": "max-open-connections",
+      "type": "integer",
+      "value": "100"
+    },
+    {
+      "name": "log-level",
+      "desc": "Log level for Heimdall (trace|debug|info|warn|error|crit).",
+      "nixName": "log-level",
+      "type": "string",
+      "value": "info"
+    },
+    {
+      "name": "verbosity",
+      "desc": "Logging verbosity for Heimdall (5=trace|4=debug|3=info|2=warn|1=error|0=crit).",
+      "nixName": "verbosity",
+      "type": "integer",
+      "value": "3"
+    },
+    {
+      "name": "snapshot",
+      "desc": "Enables snapshot-database mode for fast sync.",
+      "nixName": "snapshot",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "network",
+      "desc": "The network type (e.g., 'mainnet', 'mumbai').",
+      "nixName": "network",
+      "type": "string",
+      "value": "mainnet"
+    },
+    {
+      "name": "tx-index",
+      "desc": "Enable transaction indexing.",
+      "nixName": "tx-index",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "fast-sync",
+      "desc": "Enable fast sync mode.",
+      "nixName": "fast-sync",
+      "type": "boolean",
+      "value": "true"
+    }
+  ]
+}

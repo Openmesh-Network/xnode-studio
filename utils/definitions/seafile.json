@@ -9,7 +9,7 @@
   "tags": [],
   "website": "https://github.com/haiwen/seahub",
   "implemented": false,
-  "logo": "",
+  "logo": "https://www.seafile.com/media/img/seafile-logo.png",
   "options": [
     {
       "name": "adminEmail",
@@ -44,14 +44,7 @@
       "desc": "Seafile Seahub Admin Account initial password. Should be change viaSeahub web front-end.",
       "nixName": "initialAdminPassword",
       "type": "string",
-      "value": null
-    },
-    {
-      "name": "seafilePackage",
-      "desc": "The seafile-server package to use.",
-      "nixName": "seafilePackage",
-      "type": "package",
-      "value": "pkgs.seafile-server"
+      "value": "xnode"
     },
     {
       "name": "seafileSettings",
@@ -65,7 +58,7 @@
       "desc": "The binding address used by seafile fileserver.",
       "nixName": "seafileSettings.fileserver.host",
       "type": "string",
-      "value": "\"127.0.0.1\""
+      "value": "127.0.0.1"
     },
     {
       "name": "seafileSettings.fileserver.port",
@@ -79,7 +72,7 @@
       "desc": "Extra config to append to  seahub_settings.py  file. Referto  https://manual.seafile.com/config/seahub_settings_py/ for all available options.",
       "nixName": "seahubExtraConf",
       "type": "strings concatenated with \"\\n\"",
-      "value": "\"\""
+      "value": ""
     },
     {
       "name": "workers",
