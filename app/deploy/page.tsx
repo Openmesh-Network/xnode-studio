@@ -29,12 +29,31 @@ type DeployPageProps = {
 }
 
 export default function DeployPage({ searchParams }: DeployPageProps) {
-  const sessionCookie = cookies().get('userSessionToken')
-  if (!sessionCookie) redirect('/login')
-
   const templateId = z.string().optional().parse(searchParams.templateId)
   const useCaseId = z.string().optional().parse(searchParams.useCaseId)
   const advanced = z.string().optional().parse(searchParams.advanced)
+
+  const sessionCookie = cookies().get('userSessionToken')
+  if (!sessionCookie) {
+    const params = [
+      {
+        name: 'templateId',
+        value: templateId,
+      },
+      {
+        name: 'useCaseId',
+        value: useCaseId,
+      },
+      {
+        name: 'advanced',
+        value: advanced,
+      },
+    ]
+      .filter((param) => param.value)
+      .map((param) => `${param.name}=${param.value}`)
+      .join('&')
+    redirect(`/login?redirect=/deploy?${params}`)
+  }
 
   function getData() {
     if (!templateId && !useCaseId && !advanced) redirect('/app-store')

@@ -19,7 +19,7 @@ import { HealthSummary, XNodesApps, XNodesHealth } from './health-data'
 export default async function DashboardPage() {
   const sessionCookie = cookies().get('userSessionToken')
   if (!sessionCookie) {
-    redirect('/login')
+    redirect('/login?redirect=/dashboard')
   }
 
   return (

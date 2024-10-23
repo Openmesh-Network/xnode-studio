@@ -6,7 +6,7 @@ import DeploymentsList from './deployments-list'
 export default function DeploymentsPage() {
   const sessionCookie = cookies().get('userSessionToken')
   if (!sessionCookie) {
-    redirect('/login')
+    redirect('/login?redirect=/deployments')
   }
 
   return (

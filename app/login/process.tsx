@@ -12,13 +12,13 @@ import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { useDemoModeContext } from '@/components/demo-mode'
 
-export default function LoginProcess() {
+export default function LoginProcess({ redirect }: { redirect?: string }) {
   const { address, isConnected } = useAccount()
 
   const [user, , setUser] = useUser()
   const { toast } = useToast()
   const [creatingSession, setCreatingSession] = useState<boolean>()
-  const { refresh } = useRouter()
+  const { refresh, push } = useRouter()
 
   async function createSession() {
     if (!address) return
@@ -64,6 +64,15 @@ export default function LoginProcess() {
     setUser(null)
     refresh() //destroy routing cache
   }, [address, user, setUser, demoMode])
+
+  useEffect(() => {
+    if (user && redirect) {
+      // Logged in and redirect was requested
+      new Promise((resolve) => setTimeout(resolve, 1000)).then(() =>
+        push(redirect)
+      )
+    }
+  }, [user, redirect])
 
   return (
     <div className="flex flex-col gap-5">
