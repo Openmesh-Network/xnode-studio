@@ -11,6 +11,7 @@ import {
   PackageOpen,
   Rocket,
   Star,
+  TestTubeDiagonal,
   Users,
   type LucideIcon,
 } from 'lucide-react'
@@ -39,6 +40,12 @@ export const navItems: Record<NavCategory, NavItem[]> = {
       name: 'Home',
       href: '/',
       icon: Home,
+    },
+    {
+      type: 'item',
+      name: 'Test Xnode',
+      href: '/explore',
+      icon: TestTubeDiagonal,
     },
     {
       type: 'item',
