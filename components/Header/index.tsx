@@ -88,8 +88,17 @@ export default function Header() {
       ? mockXNodes.map((x) => BigInt(x.deploymentAuth))
       : activeXNodes
 
-    if (!selectedXNode || !nodes || !nodes.includes(BigInt(selectedXNode))) {
-      selectXNode(nodes?.at(0)?.toString() ?? undefined)
+    if (!selectedXNode || !nodes) {
+      return
+    }
+
+    try {
+      const selectedNft = BigInt(selectedXNode)
+      if (!nodes.includes(selectedNft)) {
+        selectXNode(nodes?.at(0)?.toString() ?? undefined)
+      }
+    } catch (err) {
+      console.error(err)
     }
   }, [selectedXNode, activeXNodes, demoMode, mockXNodes])
 
