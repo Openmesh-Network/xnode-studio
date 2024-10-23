@@ -28,7 +28,7 @@ import {
 import { ServiceOptionRow } from '../xnode/service-options'
 import { useDeploymentContext } from './deployment-context'
 
-export function DeploymentEdit() {
+export function DeploymentEdit({ disabled }: { disabled?: boolean }) {
   const { config, setConfig } = useDeploymentContext()
   const [open, setOpen] = useState<boolean>(false)
 
@@ -101,6 +101,7 @@ export function DeploymentEdit() {
         className="h-10 min-w-40"
         variant="outlinePrimary"
         onClick={() => setOpen(true)}
+        disabled={disabled}
       >
         Edit
       </Button>

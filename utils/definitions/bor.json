@@ -7,7 +7,7 @@
       "url": "github:CheesecakeLabs/openmesh-polygon-package"
     }
   ],
-  "nixName": "bor",
+  "nixName": "polygon-bor",
   "specs": {
     "ram": 16384,
     "storage": 4194304

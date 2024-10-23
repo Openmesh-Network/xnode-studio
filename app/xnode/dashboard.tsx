@@ -116,7 +116,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             : null,
       }
     },
-    refetchInterval: 15 * 1000,
+    refetchInterval: 10 * 1000,
     enabled: !!user?.sessionToken && !demoMode,
   })
   const xNode = testXNode ?? xNodeData
@@ -251,7 +251,9 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
         }),
       }
     )
-    await refetch()
+    await new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
+      refetch()
+    )
   }, [
     demoMode,
     refetch,
@@ -291,7 +293,9 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
       }
     )
     setDeleteServiceOpen(null)
-    new Promise((resolve) => setTimeout(resolve, 1000)).then(() => refetch())
+    await new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
+      refetch()
+    )
   }, [
     demoMode,
     deleteServiceOpen,
@@ -320,7 +324,9 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     }
 
     await axios(config)
-    await refetch()
+    await new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
+      refetch()
+    )
   }
 
   return (

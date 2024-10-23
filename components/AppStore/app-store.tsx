@@ -1,6 +1,12 @@
 'use client'
 
-import { useCallback, useMemo, useOptimistic, useTransition } from 'react'
+import {
+  useCallback,
+  useMemo,
+  useOptimistic,
+  useState,
+  useTransition,
+} from 'react'
 
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -11,7 +17,12 @@ import { AppWindow, X } from 'lucide-react'
 import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
 
-import { type AppStoreItem, type AppStorePageType } from '@/types/dataProvider'
+import {
+  type AppStoreItem,
+  type AppStorePageType,
+  type ServiceData,
+  type Specs,
+} from '@/types/dataProvider'
 import {
   Accordion,
   AccordionContent,
@@ -22,6 +33,8 @@ import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 import { useDemoModeContext } from '../demo-mode'
+import { Input } from '../ui/input'
+import { Label } from '../ui/label'
 
 export const optionsNetwork = [
   {
@@ -212,6 +225,12 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
     [params, router, setOptimisticType]
   )
 
+  const [customApp, setCustomApp] = useState({
+    flake: 'https://github.com/Openmesh-Network/xnode-nextjs-template',
+    nixName: 'xnode-nextjs-template',
+  })
+  const { push } = useRouter()
+
   return (
     <>
       <section className="flex flex-col items-center justify-center bg-gradient-to-r from-[#3C20D8] to-[#9F14BB] py-6 text-background">
@@ -238,7 +257,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
             <ToggleGroupItem value="use-cases" className="h-9">
               Use Cases
             </ToggleGroupItem>
-            <ToggleGroupItem disabled value="advanced" className="h-9">
+            <ToggleGroupItem value="advanced" className="h-9">
               Advanced
             </ToggleGroupItem>
           </ToggleGroup>
@@ -313,18 +332,120 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                 </div>
               </div>
             ) : null} */}
-            <div className="space-y-2">
-              <h2 className="text-lg font-bold">All Apps</h2>
-              <div className="grid grid-cols-4 gap-6">
-                {filteredData.map((data) => (
-                  <AppStoreItem
-                    key={`all-${data.id}`}
-                    data={data}
-                    type={optimisticType}
-                  />
-                ))}
+            {type === 'advanced' ? (
+              <div className="space-y-2">
+                <h2 className="text-lg font-bold">Custom App</h2>
+                <div className="flex flex-col space-y-4 pt-2">
+                  <div>
+                    <Label htmlFor="custom-git-repo">GitHub Repository</Label>
+                    <Input
+                      id="custom-git-repo"
+                      value={customApp.flake}
+                      onChange={(e) =>
+                        setCustomApp({ ...customApp, flake: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="custom-nix-name">Nix Name</Label>
+                    <Input
+                      id="custom-nix-name"
+                      value={customApp.nixName}
+                      onChange={(e) =>
+                        setCustomApp({ ...customApp, nixName: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Button
+                      className="px-5"
+                      onClick={() => {
+                        const service: ServiceData = {
+                          name: customApp.nixName,
+                          desc: 'Custom App',
+                          nixName: customApp.nixName,
+                          options: [
+                            {
+                              name: 'enable',
+                              desc: 'Enable the nextjs app',
+                              nixName: 'enable',
+                              type: 'boolean',
+                              value: 'true',
+                            },
+                            {
+                              name: 'hostname',
+                              desc: 'The hostname under which the app should be accessible.',
+                              nixName: 'hostname',
+                              type: 'string',
+                              value: '0.0.0.0',
+                            },
+                            {
+                              name: 'port',
+                              desc: 'The port under which the app should be accessible.',
+                              nixName: 'port',
+                              type: '16 bit unsigned integer; between 0 and 65535 (both inclusive)',
+                              value: '3000',
+                            },
+                            {
+                              name: 'openFirewall',
+                              desc: 'Whether to open ports in the firewall for this application.',
+                              nixName: 'openFirewall',
+                              type: 'boolean',
+                              value: 'true',
+                            },
+                          ],
+                          tags: [],
+                          flakes: [
+                            {
+                              name: `${customApp.nixName}-flake`,
+                              url: customApp.flake.replace(
+                                'https://github.com/',
+                                'github:'
+                              ),
+                            },
+                          ],
+                        }
+                        const advanced: {
+                          data: AppStoreItem
+                          specs: Specs
+                          type: AppStorePageType
+                          services: ServiceData[]
+                        } = {
+                          data: { ...service, id: customApp.nixName },
+                          specs: service.specs,
+                          type: 'templates',
+                          services: [service],
+                        }
+                        push(
+                          `/deploy?advanced=${Buffer.from(
+                            JSON.stringify(advanced),
+                            'utf-8'
+                          )
+                            .toString('base64') // base64url not supported
+                            .replace(/\-/g, '+')
+                            .replace(/_/g, '/')}`
+                        )
+                      }}
+                    >
+                      Deploy
+                    </Button>
+                  </div>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="space-y-2">
+                <h2 className="text-lg font-bold">All Apps</h2>
+                <div className="grid grid-cols-4 gap-6">
+                  {filteredData.map((data) => (
+                    <AppStoreItem
+                      key={`all-${data.id}`}
+                      data={data}
+                      type={optimisticType}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </div>

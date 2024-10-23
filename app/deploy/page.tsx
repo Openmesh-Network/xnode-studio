@@ -14,7 +14,6 @@ import {
   type ServiceData,
   type Specs,
 } from '@/types/dataProvider'
-import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { DeploymentContextProvider } from './deployment-context'
@@ -25,6 +24,7 @@ type DeployPageProps = {
   searchParams: {
     templateId?: string
     useCaseId?: string
+    advanced?: string
   }
 }
 
@@ -34,9 +34,10 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
 
   const templateId = z.string().optional().parse(searchParams.templateId)
   const useCaseId = z.string().optional().parse(searchParams.useCaseId)
+  const advanced = z.string().optional().parse(searchParams.advanced)
 
   function getData() {
-    if (!templateId && !useCaseId) redirect('/app-store')
+    if (!templateId && !useCaseId && !advanced) redirect('/app-store')
     let data: AppStoreItem | undefined
     let specs: Specs | undefined
     let type: AppStorePageType | undefined
@@ -60,6 +61,15 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
       specs = service.specs
       services = [service]
       type = 'templates'
+    }
+    if (advanced) {
+      const custom = JSON.parse(
+        Buffer.from(advanced, 'base64url').toString('utf8')
+      )
+      data = custom.data
+      specs = custom.specs
+      services = custom.services
+      type = custom.type
     }
 
     return { data, services, specs, type }
@@ -113,7 +123,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
                 type={type}
                 specs={specs}
               />
-              <DeploymentEdit />
+              <DeploymentEdit disabled={advanced !== 'undefined'} />
             </div>
           </div>
           <div className="rounded border px-12 py-6">

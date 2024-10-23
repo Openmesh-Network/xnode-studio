@@ -83,6 +83,10 @@ export type ServiceData = {
 
   nixName: string
   options: ServiceOption[]
+  flakes?: {
+    name: string
+    url: string
+  }[]
 }
 
 type TemplateData = {
@@ -103,7 +107,7 @@ type TemplateData = {
   serviceNames: string[]
 }
 
-export const appStorePageType = z.enum(['templates', 'use-cases'])
+export const appStorePageType = z.enum(['templates', 'use-cases', 'advanced'])
 export type AppStorePageType = z.infer<typeof appStorePageType>
 export type AppStoreItem = {
   id: string
