@@ -63,8 +63,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
     let services: ServiceData[] | undefined
     if (useCaseId) {
       const useCase = usecaseById(useCaseId)
-      if (useCase === undefined || useCase.implemented === false)
-        redirect('/app-store')
+      if (useCase === undefined) redirect('/app-store')
       data = useCase
       specs = getSpecsByTemplate(useCase)
       services = useCase.serviceNames
@@ -74,8 +73,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
     }
     if (templateId) {
       const service = serviceByName(templateId)
-      if (service === undefined || service.implemented === false)
-        redirect('/app-store')
+      if (service === undefined) redirect('/app-store')
       data = { ...service, id: service.nixName }
       specs = service.specs
       services = [service]
