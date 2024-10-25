@@ -142,7 +142,7 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
                 type={type}
                 specs={specs}
               />
-              <DeploymentEdit disabled={advanced !== 'undefined'} />
+              <DeploymentEdit disabled={advanced !== undefined} />
             </div>
           </div>
           <div className="rounded border px-12 py-6">
