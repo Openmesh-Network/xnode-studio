@@ -75,7 +75,7 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
   const { demoMode } = useDemoModeContext()
   return (
     <Link
-      href={data.implemented ? `/deploy?${params}` : '#'}
+      href={data.implemented || demoMode ? `/deploy?${params}` : '#'}
       aria-disabled={!data.implemented && !demoMode}
       className="flex basis-1/4 flex-col rounded border p-4 hover:bg-muted aria-disabled:pointer-events-none aria-disabled:opacity-50"
     >
