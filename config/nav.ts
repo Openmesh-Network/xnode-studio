@@ -41,12 +41,12 @@ export const navItems: Record<NavCategory, NavItem[]> = {
       href: '/',
       icon: Home,
     },
-    {
-      type: 'item',
-      name: 'Test Xnode',
-      href: '/explore',
-      icon: TestTubeDiagonal,
-    },
+    // {
+    //   type: 'item',
+    //   name: 'Test Xnode',
+    //   href: '/explore',
+    //   icon: TestTubeDiagonal,
+    // },
     {
       type: 'item',
       name: 'Dashboard',
