@@ -76,6 +76,9 @@ export type ServiceData = {
   tags: string[]
   specs?: Specs
   desc: string
+  longDesc?: string
+  useCases?: string
+  support?: string
   website?: string
   // Url to the logo.
   logo?: string
@@ -93,6 +96,9 @@ type TemplateData = {
   id: string
   name: string
   desc: string
+  longDesc?: string
+  useCases?: string
+  support?: string
   tags: string[]
   quality?: boolean
   isUnitRunnable?: boolean
@@ -113,6 +119,9 @@ export type AppStoreItem = {
   id: string
   name: string
   desc: string
+  longDesc?: string
+  useCases?: string
+  support?: string
   tags: string[]
   implemented?: boolean
   logo?: string

@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { prefix } from '@/utils/prefix'
 import { AppWindow, Cpu, HardDrive, MemoryStick } from 'lucide-react'
+import { remark } from 'remark'
+import html from 'remark-html'
 import { z } from 'zod'
 
 import {
@@ -28,7 +30,7 @@ type DeployPageProps = {
   }
 }
 
-export default function DeployPage({ searchParams }: DeployPageProps) {
+export default async function DeployPage({ searchParams }: DeployPageProps) {
   const templateId = z.string().optional().parse(searchParams.templateId)
   const useCaseId = z.string().optional().parse(searchParams.useCaseId)
   const advanced = z.string().optional().parse(searchParams.advanced)
@@ -95,6 +97,29 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
 
   if (data === undefined || type === undefined || services === undefined)
     redirect('/app-store')
+
+  const [longDesc, useCases, support] = await Promise.all([
+    data.longDesc
+      ? remark()
+          .use(html)
+          .process(data.longDesc)
+          .then((file) => file.toString())
+      : undefined,
+    data.useCases
+      ? remark()
+          .use(html)
+          .process(data.useCases)
+          .then((file) => file.toString())
+      : undefined,
+    data.support
+      ? remark()
+          .use(html)
+          .process(data.support)
+          .then((file) => file.toString())
+      : undefined,
+  ])
+
+  console.log(longDesc, useCases, support)
 
   return (
     <DeploymentContextProvider
@@ -183,31 +208,49 @@ export default function DeployPage({ searchParams }: DeployPageProps) {
               >
                 Overview
               </TabsTrigger>
-              <TabsTrigger
-                disabled
-                value="requirements"
-                className="rounded-none border-b-2 border-transparent hover:border-muted data-[state=active]:border-primary data-[state=active]:shadow-none"
-              >
-                Requirements
-              </TabsTrigger>
-              <TabsTrigger
-                disabled
-                value="documentation"
-                className="rounded-none border-b-2 border-transparent hover:border-muted data-[state=active]:border-primary data-[state=active]:shadow-none"
-              >
-                Documentation
-              </TabsTrigger>
-              <TabsTrigger
-                disabled
-                value="support"
-                className="rounded-none border-b-2 border-transparent hover:border-muted data-[state=active]:border-primary data-[state=active]:shadow-none"
-              >
-                Support
-              </TabsTrigger>
+              {data.useCases && data.useCases !== '' ? (
+                <TabsTrigger
+                  value="use-cases"
+                  className="rounded-none border-b-2 border-transparent hover:border-muted data-[state=active]:border-primary data-[state=active]:shadow-none"
+                >
+                  Use Cases
+                </TabsTrigger>
+              ) : null}
+              {data.support && data.support !== '' ? (
+                <TabsTrigger
+                  value="support"
+                  className="rounded-none border-b-2 border-transparent hover:border-muted data-[state=active]:border-primary data-[state=active]:shadow-none"
+                >
+                  Support
+                </TabsTrigger>
+              ) : null}
             </TabsList>
-            <TabsContent value="overview" className="text-muted-foreground">
-              {data.desc}
+            <TabsContent
+              value="overview"
+              className="prose prose-sm text-muted-foreground"
+            >
+              {data.longDesc && data.longDesc !== '' ? (
+                <div dangerouslySetInnerHTML={{ __html: longDesc }} />
+              ) : (
+                data.desc
+              )}
             </TabsContent>
+            {data.useCases && data.useCases !== '' ? (
+              <TabsContent
+                value="use-cases"
+                className="prose prose-sm text-muted-foreground"
+              >
+                <div dangerouslySetInnerHTML={{ __html: useCases }} />
+              </TabsContent>
+            ) : null}
+            {data.support && data.support !== '' ? (
+              <TabsContent
+                value="support"
+                className="prose prose-sm text-muted-foreground"
+              >
+                <div dangerouslySetInnerHTML={{ __html: support }} />
+              </TabsContent>
+            ) : null}
           </Tabs>
         </section>
       </div>
