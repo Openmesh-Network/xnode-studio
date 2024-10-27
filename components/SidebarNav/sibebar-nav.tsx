@@ -180,7 +180,7 @@ const NavContainer = React.forwardRef<
     >
       <aside
         className={cn(
-          'duration-plico sticky top-20 flex h-[calc(100svh-5rem)] shrink-0 flex-col justify-between border-r bg-card text-card-foreground transition-[width] ease-in-out',
+          'duration-plico bg-card text-card-foreground sticky top-20 flex h-[calc(100svh-5rem)] shrink-0 flex-col justify-between border-r transition-[width] ease-in-out',
           collapsed ? 'w-14' : 'w-64',
           className
         )}
@@ -239,7 +239,7 @@ const NavCollapsable: React.FC<NavCollapsableProps> = ({
       {...props}
     >
       <AccordionHeader>
-        <AccordionTrigger className="flex h-10 w-full items-center justify-between rounded-sm px-4 py-2 text-foreground hover:bg-primary/5 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&[data-state=open]>svg]:rotate-180">
+        <AccordionTrigger className="text-foreground hover:bg-primary/5 flex h-10 w-full items-center justify-between rounded-sm px-4 py-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&[data-state=open]>svg]:rotate-180">
           <div className="relative flex grow items-center gap-3">
             <Icon className="z-10 size-5 shrink-0" strokeWidth={1.5} />
             <span
@@ -262,11 +262,11 @@ const NavCollapsable: React.FC<NavCollapsableProps> = ({
       </AccordionHeader>
       <AccordionContent
         className={cn(
-          'category group relative overflow-hidden text-sm transition-all duration-300 animate-in fade-in',
+          'category animate-in fade-in group relative overflow-hidden text-sm transition-all duration-300',
           // When sidebar collapsed, the content is absolute positioned to the right of the sidebar
           collapsed
-            ? 'data-[state=closed]:animate-accordion-left data-[state=open]:animate-accordion-right absolute left-full top-0 ml-4 w-full rounded-md border bg-card'
-            : 'w-full data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down'
+            ? 'data-[state=closed]:animate-accordion-left data-[state=open]:animate-accordion-right bg-card absolute left-full top-0 ml-4 w-full rounded-md border'
+            : 'data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down w-full'
         )}
       >
         {links &&
@@ -277,7 +277,7 @@ const NavCollapsable: React.FC<NavCollapsableProps> = ({
                 key={i}
                 href={link.href}
                 className={cn(
-                  'flex items-center rounded-sm py-1.5 pl-12 font-semibold text-foreground/70 hover:bg-primary/5',
+                  'text-foreground/70 hover:bg-primary/5 flex items-center rounded-sm py-1.5 pl-12 font-semibold',
                   isActive && 'text-primary'
                 )}
               >
@@ -345,7 +345,7 @@ const NavHeader: React.FC<
           <TooltipTrigger asChild>
             <button
               onClick={toggleCollapsed}
-              className="inline-flex h-10 items-center justify-center rounded-md p-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className="ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring inline-flex h-10 items-center justify-center rounded-md p-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
             >
               <NavCollapseIcon />
             </button>
@@ -438,7 +438,7 @@ function NavCategory({
       {label && (
         <span
           className={cn(
-            'duration-plico ml-4 truncate text-xs font-medium uppercase text-foreground/80 transition-opacity ease-in-out',
+            'duration-plico text-foreground/80 ml-4 truncate text-xs font-medium uppercase transition-opacity ease-in-out',
             collapsed ? 'opacity-0' : 'opacity-100'
           )}
         >
@@ -470,7 +470,7 @@ const NavButton: React.FC<NavButtonProps> = ({
       <Tooltip open={!collapsed ? false : undefined} delayDuration={500}>
         <TooltipTrigger asChild>
           <button
-            className="flex h-12 w-full items-center rounded-md p-3 hover:bg-accent/30"
+            className="hover:bg-accent/30 flex h-12 w-full items-center rounded-md p-3"
             {...props}
           >
             <Icon className="relative z-10 size-5 shrink-0" />
@@ -525,7 +525,7 @@ const NavLink: React.FC<NavLinkProps> = ({
         <motion.span
           layoutId={`${isMobile} bubble`}
           className={
-            'absolute inset-0 z-10 w-full rounded-sm border-l-4 border-primary bg-primary/10'
+            'border-primary bg-primary/10 absolute inset-0 z-10 w-full rounded-sm border-l-4'
           }
           transition={{
             duration: transitionDuration,
@@ -538,7 +538,7 @@ const NavLink: React.FC<NavLinkProps> = ({
           <Link
             href={href}
             target={href.startsWith('https://') ? '_blank' : undefined}
-            className="flex h-10 items-center rounded-sm px-4 py-2 text-foreground transition-colors aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed data-[active=false]:hover:bg-primary/5"
+            className="text-foreground data-[active=false]:hover:bg-primary/5 flex h-10 items-center rounded-sm px-4 py-2 transition-colors aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed"
             aria-disabled={tag === 'Soon'}
             data-active={isActive}
           >
@@ -564,7 +564,7 @@ const NavLink: React.FC<NavLinkProps> = ({
               {tag && !collapsed && (
                 <div
                   className={cn(
-                    'absolute -top-2 left-full z-10 ml-2 bg-primary px-1.5 py-1 text-[0.675rem] font-semibold leading-[0.625rem] text-white',
+                    'bg-primary absolute -top-2 left-full z-10 ml-2 px-1.5 py-1 text-[0.675rem] font-semibold leading-[0.625rem] text-white',
                     tag === 'Beta' && 'bg-primary',
                     tag === 'New' && 'bg-primary',
                     tag === 'Soon' && 'bg-[#959595]'
@@ -611,7 +611,7 @@ const NavSeperator: React.FC<SeperatorProps> = ({
       {title && (
         <p
           className={cn(
-            'duration-plico absolute inset-0 flex w-fit items-center bg-card px-4 text-xs uppercase text-card-foreground transition-[width,opacity] ease-in-out',
+            'duration-plico bg-card text-card-foreground absolute inset-0 flex w-fit items-center px-4 text-xs uppercase transition-[width,opacity] ease-in-out',
             collapsed && 'w-0 opacity-0'
           )}
         >

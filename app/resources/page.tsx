@@ -15,8 +15,8 @@ type StatsItemProps = {
 function StatsItem({ title, value, unit }: StatsItemProps) {
   return (
     <div className="flex flex-col gap-1 text-center">
-      <h1 className="text-xl font-medium text-darkGray">{title}</h1>
-      <p className="font-bold text-primary">
+      <h1 className="text-darkGray text-xl font-medium">{title}</h1>
+      <p className="text-primary font-bold">
         <span className="text-4xl">{value}</span>
         <span className="text-xl">{unit}</span>
       </p>

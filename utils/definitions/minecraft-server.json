@@ -1,6 +1,9 @@
 {
   "name": "Minecraft Server",
-  "desc": "Run your own Minecraft Server",
+  "desc": "Deploy and run your own Minecraft Server to host a multiplayer world, enabling players to connect and explore together. Customize gameplay, control server settings, and ensure uptime with decentralized infrastructure via Xnode.",
+  "longDesc": "**Overview**\n\nDeploy and run your own Minecraft Server to host a multiplayer world, enabling players to connect and explore together. Customize gameplay, control server settings, and ensure uptime with decentralized infrastructure via Xnode.\n\n**Key Features:**\n\n- **Custom Worlds:** Create unique worlds with gameplay tailored to your community's preferences.\n- **Cross-Platform Access:** Allow players from different devices (PC, console, or mobile) to connect.\n- **Mod & Plugin Support:** Integrate plugins or mods to extend functionality and add new content.\n- **Decentralized Hosting:** Leverage Xnode’s decentralized infrastructure for better uptime and cost-efficiency.\n- **Secure Access:** Protect your server with whitelists, authentication plugins, and encrypted connections.",
+  "useCases": "- **Gaming Communities:** Build private or public servers for friends, communities, or streaming.\n- **Education:** Use Minecraft for classroom engagement with educational mods.\n- **Event Hosting:** Run competitions, challenges, or events within your server.",
+  "support": "- **Community Channels:**\n   - **Official Minecraft Forums:** [Minecraft Forum](https://example.com)\n   - **Reddit Communities:** [r/Minecraft](https://example.com) and [r/admincraft](https://example.com) for technical support.\n- **FAQs & Troubleshooting:**\n   - **Minecraft Server FAQ:** [Minecraft Server FAQ](https://example.com)\n   - **Direct Assistance:**\n     - Contact Xnode support for issues with infrastructure or deployment.\n     - Use [Minecraft Help Center](https://example.com) for Minecraft-specific queries.",
   "nixName": "minecraft-server",
   "specs": {
     "ram": 1024,
@@ -23,7 +26,7 @@
       "desc": "Whether to use a declarative Minecraft server configuration. Only if set to true, the options services.minecraft-server.whitelist and services.minecraft-server.serverProperties will be applied.",
       "nixName": "declarative",
       "type": "boolean",
-      "value": "false"
+      "value": "true"
     },
     {
       "name": "enable",

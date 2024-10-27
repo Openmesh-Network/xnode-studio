@@ -45,7 +45,7 @@ export default function DataRPC() {
                   </span>
                 ) : null}
               </div>
-              <p className="text-sm text-muted-foreground">{data.summary}</p>
+              <p className="text-muted-foreground text-sm">{data.summary}</p>
             </div>
           </div>
         ))}

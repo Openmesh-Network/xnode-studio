@@ -119,8 +119,6 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
       : undefined,
   ])
 
-  console.log(longDesc, useCases, support)
-
   return (
     <DeploymentContextProvider
       initialData={{ name: data.name, description: data.desc, services }}

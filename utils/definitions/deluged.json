@@ -1,6 +1,9 @@
 {
   "name": "Deluge ",
-  "desc": "Torrent client",
+  "desc": "Deploy Deluge with a one-click setup to manage and download torrents efficiently. Deluge is a lightweight, open-source BitTorrent client that provides a flexible and powerful interface for handling torrent downloads while ensuring a smooth user experience.",
+  "longDesc": "**What is Deluge?**\n\nDeluge is a cross-platform BitTorrent client that utilizes a client-server model. It allows users to download and share files using the BitTorrent protocol while supporting various interfaces such as GTK, web UI, and console.\n\n**Key Features:**\n\n- **One-Click Deployment:** Quickly set up Deluge using Docker, enabling easy management of torrent downloads.\n- **Scalability:** Supports multiple download and upload tasks simultaneously, making it suitable for both individual users and larger groups.\n- **Privacy:** Offers encryption for secure downloading, ensuring that user activity remains private.\n- **Plugin System:** Extensible through a variety of plugins to add additional functionalities, including scheduling and notifications.\n- **Web User Interface:** Manage torrents remotely through a web interface, allowing users to control downloads from any device with internet access.",
+  "useCases": "- **Individual Users:** Efficiently download and manage torrents for personal use, including media and software.\n- **Businesses:** Use Deluge to distribute large files internally or manage data sharing across teams.\n- **Educators:** Facilitate the sharing of educational materials or large datasets among students and faculty.",
+  "support": "- **Community Forums:** Engage with the user community and seek help through the [Deluge Forums](https://example.com).\n- **Documentation:** Comprehensive installation and usage guides are available on the [Deluge User Guide](https://example.com).\n- **Troubleshooting Help:** Access troubleshooting and support resources via the [Deluge Documentation](https://example.com).",
   "tags": ["File Transfer - Peer-to-peer Filesharing"],
   "website": "https://deluge-torrent.org",
   "implemented": false,

@@ -89,11 +89,11 @@ export default function ActivateXNodeDialog({
         {success ? (
           <div className="flex flex-col items-center justify-center">
             <div className="relative">
-              <Icons.PrettyCheck className="size-32 text-primary" />
-              <Check className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 text-background" />
+              <Icons.PrettyCheck className="text-primary size-32" />
+              <Check className="text-background absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2" />
             </div>
-            <h3 className="mt-4 text-xl font-bold text-primary">Success</h3>
-            <p className="text-center text-sm text-muted-foreground">
+            <h3 className="text-primary mt-4 text-xl font-bold">Success</h3>
+            <p className="text-muted-foreground text-center text-sm">
               You successfully activated your Xnode.
             </p>
           </div>

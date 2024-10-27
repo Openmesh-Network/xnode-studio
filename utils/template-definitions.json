@@ -7,9 +7,8 @@
     "tags": ["AI", "LLM"],
     "dateAdded": "2024-06-08T12:00:00Z",
     "desc": "With this template, you can easily deploy Ollama + Open WebUI, an advanced AI platform with a web-based user interface. This setup allows you to access and interact with powerful AI capabilities directly from your web browser, effortlessly manage and configure AI tools without needing deep technical knowledge, and utilize comprehensive documentation and guides available at ollama.ai/docs to get the most out of the platform. This template streamlines the process, making it simple for you to leverage cutting-edge AI technology for your projects.",
-    "longDesc": "",
-    "useCases": "",
-    "support": "",
+    "support": "- Community Resources: Connect with other users via the Syncthing Forum for troubleshooting and advice.\n- Documentation: Access detailed setup guides and best practices in the official Syncthing documentation.\n- Development & Issues: Report bugs or contribute through the GitHub repository.\n- Help & Troubleshooting: Explore advanced settings, including relay services and file versioning, through the documentation.\nThis template highlights Syncthing’s focus on data privacy, direct synchronization, and ease of deployment through Xnode. It’s an ideal solution for users and organizations looking to retain full control over their data without relying on external cloud services.",
+
     "serviceNames": ["ollama", "open-webui"],
     "quality": true,
     "implemented": true,

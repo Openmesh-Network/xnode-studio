@@ -61,7 +61,7 @@ import argparse
           form:
         </p>
         <div
-          className="mt-4 rounded-lg bg-card p-6 text-sm"
+          className="bg-card mt-4 rounded-lg p-6 text-sm"
           dangerouslySetInnerHTML={{ __html: code1 }}
         />
         <p className="mt-4">
@@ -73,14 +73,14 @@ import argparse
           one of the following structures:
         </p>
         <div
-          className="mt-4 rounded-lg bg-card p-6 text-sm"
+          className="bg-card mt-4 rounded-lg p-6 text-sm"
           dangerouslySetInnerHTML={{ __html: code2 }}
         />
       </div>
       <div className="mt-16">
         <Header level={2}>Base Endpoint</Header>
         <div
-          className="mt-4 rounded-lg bg-card p-6 text-sm"
+          className="bg-card mt-4 rounded-lg p-6 text-sm"
           dangerouslySetInnerHTML={{ __html: code3 }}
         />
       </div>
@@ -91,7 +91,7 @@ import argparse
           API:
         </p>
         <div
-          className="mt-4 rounded-lg bg-card p-6 text-sm"
+          className="bg-card mt-4 rounded-lg p-6 text-sm"
           dangerouslySetInnerHTML={{ __html: code4 }}
         />
       </div>

@@ -97,7 +97,7 @@ export default function DataDocumentation() {
         aria-labelledby="core-docs-heading"
         className="mt-12 max-w-7xl space-y-6 pb-12"
       >
-        <p className="w-fit rounded-sm bg-primary/10 px-2 py-1.5 text-sm font-semibold text-primary">
+        <p className="bg-primary/10 text-primary w-fit rounded-sm px-2 py-1.5 text-sm font-semibold">
           Core Documentation
         </p>
         <Header level={2} id="core-docs-heading" className="">

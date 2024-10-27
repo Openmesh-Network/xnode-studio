@@ -1,6 +1,11 @@
 {
   "name": "wordpress",
-  "desc": "WordPress is open source software you can use to create a beautiful website, blog, or app",
+
+  "desc": "Deploy WordPress to create a powerful and flexible content management system (CMS) that allows users to build and manage websites with ease. WordPress is widely used for blogging, e-commerce, portfolios, and more, thanks to its extensive themes and plugins.",
+  "longDesc": "WordPress is an open-source CMS that enables users to create and manage websites without needing extensive technical knowledge. It is highly customizable and supports a wide range of functionalities through themes and plugins.\n\n**Key Features:**\n- **One-Click Deployment:** Quickly set up WordPress using various hosting providers that offer one-click installation options, or deploy using Docker for a more customized setup.\n- **Scalability:** Suitable for small personal blogs as well as large enterprise websites, handling high traffic and extensive content management needs.\n- **Privacy and Security:** Provides built-in security features, and users can enhance security further with plugins and best practices.\n- **API Compatibility:** Supports REST API, enabling developers to integrate with other applications and create custom solutions.\n- **Extensive Customization:** Offers thousands of themes and plugins, allowing users to create unique websites tailored to their needs.",
+  "useCases": "- **Bloggers:** Use WordPress to create and manage personal or professional blogs with ease.\n- **Businesses:** Implement WordPress for corporate websites, showcasing services and products, and enhancing online presence.\n- **Educators:** Create educational platforms or e-learning sites, providing resources and materials in an organized manner.",
+  "support": "- **Community Forums:** Engage with the WordPress community for support and discussions through the [WordPress Support Forums](https://wordpress.org/support/).\n- **Documentation:** Comprehensive guides and user manuals are available at the [WordPress Codex](https://codex.wordpress.org/) and the [WordPress Developer Documentation](https://developer.wordpress.org/) for detailed reference.\n- **Troubleshooting Help:** Access the issues section on the [WordPress GitHub Repository](https://github.com/WordPress/WordPress) to report bugs and find community-contributed solutions.",
+
   "nixName": "wordpress",
   "specs": {
     "ram": 0,

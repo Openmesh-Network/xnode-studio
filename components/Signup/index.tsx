@@ -67,7 +67,7 @@ const Signup = () => {
               {/* XXX: Add better sign out button. */}
 
               <button
-                className="mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border border-primary bg-primary/95 px-4 text-sm font-semibold text-white transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                className="border-primary bg-primary/95 hover:bg-primary focus-visible:ring-ring mt-5 inline-flex h-10 min-w-56 items-center justify-center whitespace-nowrap rounded-md border px-4 text-sm font-semibold text-white transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50"
                 onClick={() => {
                   setUser(null)
                 }}

@@ -10,7 +10,7 @@ import { Section } from '@/components/ui/section'
 export default function RPCOverviewPage() {
   return (
     <>
-      <section className="overflow-hidden bg-foreground text-background">
+      <section className="bg-foreground text-background overflow-hidden">
         <div className="container relative py-48">
           <div className="flex gap-16">
             <Link href="#" className="flex items-center gap-2">
@@ -46,11 +46,11 @@ export default function RPCOverviewPage() {
               height={500}
               alt="Compute Overview"
             />
-            <div className="absolute inset-0 -z-10 rounded-full bg-primary/15 blur-[5rem]" />
+            <div className="bg-primary/15 absolute inset-0 -z-10 rounded-full blur-[5rem]" />
           </div>
         </div>
       </section>
-      <section className="flex justify-between gap-12 bg-foreground px-20 py-8">
+      <section className="bg-foreground flex justify-between gap-12 px-20 py-8">
         <Image
           src={`${prefix}/images/rpc/logos/equinix.svg`}
           width={120}
@@ -111,7 +111,7 @@ export default function RPCOverviewPage() {
           <div className="mt-8 rounded-lg p-6 shadow-md">
             <Header
               level={3}
-              className="border-l border-primary pl-3 text-2xl font-bold"
+              className="border-primary border-l pl-3 text-2xl font-bold"
             >
               Innovative Solutions
             </Header>

@@ -195,12 +195,12 @@ export default function DeploymentProvider({
     <div>
       <div
         className={cn(
-          'relative w-full overflow-hidden rounded-lg bg-primary/10 transition-all',
+          'bg-primary/10 relative w-full overflow-hidden rounded-lg transition-all',
           loadingProgress > -1 ? 'h-3' : 'h-0'
         )}
       >
         <div
-          className="absolute left-0 top-0 h-full animate-pulse rounded-full bg-primary transition-all"
+          className="bg-primary absolute left-0 top-0 h-full animate-pulse rounded-full transition-all"
           style={{
             width: `${(100 / TEMP_FETCH_ENDPOINTS) * Math.max(loadingProgress, 0)}%`,
           }}
@@ -213,7 +213,7 @@ export default function DeploymentProvider({
         )}
       >
         <Loader className="size-3.5 animate-spin" />
-        <p className="text-sm font-medium text-muted-foreground">
+        <p className="text-muted-foreground text-sm font-medium">
           {FETCHING_TEXTS[loadingProgress]}
         </p>
       </div>
@@ -262,7 +262,7 @@ export default function DeploymentProvider({
               {scaledHistogramData.map((percentage, index) => (
                 <div
                   key={`histogram-bin-${index}`}
-                  className="flex-1 rounded-t-[3px] bg-border"
+                  className="bg-border flex-1 rounded-t-[3px]"
                   style={{ height: `${percentage}%` }}
                 />
               ))}
@@ -280,7 +280,7 @@ export default function DeploymentProvider({
             />
             <div className="mt-3 flex w-full items-center justify-between gap-2">
               <div className="relative">
-                <span className="pointer-events-none absolute inset-y-0 left-3 mt-px inline-flex items-center text-sm font-medium leading-10 text-muted-foreground">
+                <span className="text-muted-foreground pointer-events-none absolute inset-y-0 left-3 mt-px inline-flex items-center text-sm font-medium leading-10">
                   $
                 </span>
                 <Input
@@ -315,7 +315,7 @@ export default function DeploymentProvider({
               </div>
 
               <div className="relative">
-                <span className="pointer-events-none absolute inset-y-0 left-3 mt-px inline-flex items-center text-sm font-medium leading-10 text-muted-foreground">
+                <span className="text-muted-foreground pointer-events-none absolute inset-y-0 left-3 mt-px inline-flex items-center text-sm font-medium leading-10">
                   $
                 </span>
                 <Input
@@ -401,17 +401,17 @@ export default function DeploymentProvider({
           </div>
         </div>
         <ScrollArea className="h-[40rem] w-full flex-1 pr-3" type="auto">
-          <div className="grid grid-cols-12 items-center gap-12 rounded border border-primary bg-gradient-to-r from-primary/5 to-[#FFFED9] px-6 py-4">
+          <div className="border-primary from-primary/5 grid grid-cols-12 items-center gap-12 rounded border bg-gradient-to-r to-[#FFFED9] px-6 py-4">
             <div className="col-span-7 flex items-center gap-4">
               <Icons.Openmesh className="size-14 p-1" />
               <div>
                 <div className="flex items-start gap-1">
                   <p className="text-lg font-bold">Openmesh Cloud</p>
-                  <span className="rounded bg-primary px-1.5 py-px text-xs font-medium text-background">
+                  <span className="bg-primary text-background rounded px-1.5 py-px text-xs font-medium">
                     Beta
                   </span>
                 </div>
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="text-muted-foreground mt-1 text-sm">
                   CPU, 8-Core (16-Thread), RAM, 12GB DDR4 ; Storage, 500GB SSD
                 </p>
               </div>
@@ -427,12 +427,12 @@ export default function DeploymentProvider({
                 <Button disabled size="lg" className="min-w-48">
                   Coming Soon
                 </Button>
-                <p className="text-sm text-primary">1,000 OPEN Rewards</p>
+                <p className="text-primary text-sm">1,000 OPEN Rewards</p>
               </div>
             </div>
           </div>
           <ul className="mt-8 flex flex-col gap-2 text-black">
-            <li className="grid grid-cols-12 items-center gap-12 rounded border border-primary/25 bg-primary/[0.01] px-6 py-4">
+            <li className="border-primary/25 bg-primary/[0.01] grid grid-cols-12 items-center gap-12 rounded border px-6 py-4">
               <div className="col-span-7 flex items-center gap-4">
                 <Image
                   src={`${prefix}/images/xnode-card/silvercard-front.webp`}
@@ -443,7 +443,7 @@ export default function DeploymentProvider({
                 />
                 <div>
                   <p className="text-lg font-bold">Xnode One</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     CPU, 8-Core (16-Thread), RAM, 12GB DDR4 ; Storage, 500GB SSD
                   </p>
                 </div>
@@ -465,7 +465,7 @@ export default function DeploymentProvider({
                       Select
                     </Button>
                   </Link>
-                  <p className="text-sm text-primary">$200 Cashback</p>
+                  <p className="text-primary text-sm">$200 Cashback</p>
                 </div>
               </div>
             </li>
@@ -512,17 +512,17 @@ export default function DeploymentProvider({
                           />
                           <div>
                             <p className="font-bold">{provider.productName}</p>
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-muted-foreground text-sm">
                               {config}
                             </p>
                           </div>
                         </div>
                         <div className="col-span-2 flex flex-col gap-0.5">
-                          <div className="flex items-center gap-1 text-muted-foreground">
+                          <div className="text-muted-foreground flex items-center gap-1">
                             <MapPin className="size-3.5" />
                             <p className="text-sm">{provider.location}</p>
                           </div>
-                          <div className="flex items-center gap-1 text-muted-foreground">
+                          <div className="text-muted-foreground flex items-center gap-1">
                             <Server className="size-3.5" />
                             <p className="text-sm">{provider.providerName}</p>
                           </div>
@@ -571,7 +571,7 @@ export default function DeploymentProvider({
                               Select
                             </Button>
                             {provider.priceSale !== null ? (
-                              <p className="text-sm text-primary">
+                              <p className="text-primary text-sm">
                                 {formatPrice(
                                   (provider.priceMonth ?? 0) -
                                     provider.priceSale

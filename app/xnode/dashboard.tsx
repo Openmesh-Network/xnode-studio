@@ -635,10 +635,10 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
           xNode.updateGenerationHave == xNode.updateGenerationWant &&
           xNode.status === 'online' ? (
             <div className="fixed inset-x-0 bottom-8 z-30 flex justify-center">
-              <div className="flex flex-wrap items-center justify-between gap-12 rounded border border-primary bg-[color-mix(in_srgb,hsl(var(--background)),hsl(var(--primary))_5%)] px-6 py-4 shadow-xl">
+              <div className="border-primary flex flex-wrap items-center justify-between gap-12 rounded border bg-[color-mix(in_srgb,hsl(var(--background)),hsl(var(--primary))_5%)] px-6 py-4 shadow-xl">
                 <div>
                   <p className="text-lg font-bold">Update available</p>
-                  <p className="max-w-96 text-balance text-sm text-muted-foreground">
+                  <p className="text-muted-foreground max-w-96 text-balance text-sm">
                     There is an update available for your Xnode. Please make
                     sure to keep everything up to date, by allowing updates.
                   </p>
@@ -655,7 +655,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
           ) : null}
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger className="flex items-start gap-0.5 font-medium text-muted-foreground">
+              <TooltipTrigger className="text-muted-foreground flex items-start gap-0.5 font-medium">
                 {xNode.isUnit
                   ? formatXNodeName(xNode.deploymentAuth)
                   : `Xnode ${xNode.id}`}
@@ -663,7 +663,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               </TooltipTrigger>
               <TooltipContent className="max-w-80">
                 <p className="text-base font-semibold">Xnode NFT</p>
-                <p className="break-all text-muted-foreground">
+                <p className="text-muted-foreground break-all">
                   {xNode.deploymentAuth}
                 </p>
               </TooltipContent>
@@ -684,7 +684,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               {xNode.status}
             </span>
             {xNode.ipAddress && (
-              <div className="flex gap-1.5 rounded border px-2.5 py-1 text-sm font-medium text-muted-foreground">
+              <div className="text-muted-foreground flex gap-1.5 rounded border px-2.5 py-1 text-sm font-medium">
                 <span>IP address</span>
                 <div className="my-0.5">
                   <Separator orientation="vertical" />
@@ -710,7 +710,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                           })
                         })
                     }}
-                    className="size-auto bg-transparent p-0 text-primary hover:bg-transparent"
+                    className="text-primary size-auto bg-transparent p-0 hover:bg-transparent"
                   >
                     <Copy className="size-4" />
                   </Button>
@@ -718,7 +718,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               </div>
             )}
             {xNode.isUnit && (
-              <div className="flex gap-1.5 rounded border px-2.5 py-1 text-sm font-medium text-muted-foreground">
+              <div className="text-muted-foreground flex gap-1.5 rounded border px-2.5 py-1 text-sm font-medium">
                 <span>Remaining Xnode Time</span>
                 <div className="my-0.5">
                   <Separator orientation="vertical" />
@@ -735,7 +735,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h2 className="text-xl font-bold">Resources</h2>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   Last updated {lastUpdated} ago
                 </p>
               </div>
@@ -748,10 +748,10 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               </Button>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-6">
-              <div className="flex flex-col items-center gap-4 rounded border bg-muted/50 px-4 py-2.5">
+              <div className="bg-muted/50 flex flex-col items-center gap-4 rounded border px-4 py-2.5">
                 <div className="text-center">
                   <p className="font-bold">CPU</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Current CPU utilization
                   </p>
                 </div>
@@ -761,10 +761,10 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                   healthData={xNode.heartbeatData?.cpuPercent ?? 0}
                 />
               </div>
-              <div className="flex flex-col items-center gap-4 rounded border bg-muted/50 px-4 py-2.5">
+              <div className="bg-muted/50 flex flex-col items-center gap-4 rounded border px-4 py-2.5">
                 <div className="text-center">
                   <p className="font-bold">RAM</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {Math.round(
                       ((xNode.heartbeatData?.ramMbUsed ?? 0) / 1024) * 100
                     ) / 100}
@@ -785,10 +785,10 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                   }
                 />
               </div>
-              <div className="flex flex-col items-center gap-4 rounded border bg-muted/50 px-4 py-2.5">
+              <div className="bg-muted/50 flex flex-col items-center gap-4 rounded border px-4 py-2.5">
                 <div className="text-center">
                   <p className="font-bold">Storage</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {Math.round(
                       ((xNode.heartbeatData?.storageMbUsed ?? 0) / 1024) * 100
                     ) / 100}
@@ -815,7 +815,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h2 className="text-xl font-bold">Apps</h2>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   See and manage all the installed apps on your Xnode.
                 </p>
               </div>
@@ -882,7 +882,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                           className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
                         >
                           <span className="sr-only">Open</span>
-                          <ExternalLink className="size-6 text-muted-foreground" />
+                          <ExternalLink className="text-muted-foreground size-6" />
                         </Link>
                       </TableCell>
                       <TableCell className="min-w-40">
@@ -903,7 +903,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                           {service.tags?.map((tag) => (
                             <span
                               key={tag}
-                              className="rounded bg-primary/10 px-2 py-0.5 text-xs capitalize text-primary"
+                              className="bg-primary/10 text-primary rounded px-2 py-0.5 text-xs capitalize"
                             >
                               {tag}
                             </span>

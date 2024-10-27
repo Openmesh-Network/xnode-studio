@@ -1,93 +1,94 @@
 {
-    "name": "Privoxy",
-    "desc": "Non-caching web proxy with advanced filtering capabilities",
-    "nixName": "privoxy",
-    "specs": {
-        "ram": 0,
-        "storage": 0
+  "name": "Privoxy",
+  "desc": "Deploy Privoxy to enhance your web browsing experience by providing advanced filtering capabilities and privacy protection. Privoxy acts as a proxy server that filters unwanted web page data, allowing users to block ads, manage cookies, and protect their online privacy.",
+  "longDesc": "Privoxy is an open-source web proxy with filtering capabilities for enhancing privacy and usability. It integrates directly with any web browser and can be configured to block ads, manage cookies, and strip unwanted content from web pages.\n\n**Key Features:**\n- **One-Click Deployment:** Easily deploy Privoxy using Docker or other container technologies for quick installation and management.\n- **Scalability:** Supports multiple users and configurations, making it suitable for both personal and enterprise use.\n- **Privacy and Security:** Enhances user privacy by filtering out tracking cookies, ads, and other unwanted content.\n- **Customizable Rules:** Allows users to create and modify filtering rules based on their needs, providing flexibility in content management.\n- **HTTP/HTTPS Support:** Handles both HTTP and HTTPS traffic, ensuring comprehensive web browsing security.",
+  "useCases": "- **Individuals:** Block intrusive ads and trackers while browsing the internet, improving page load times and user experience.\n- **Families:** Set up Privoxy on home networks to provide safer browsing experiences for children by filtering unwanted content.\n- **Businesses:** Implement Privoxy as part of a broader security strategy to protect employee privacy and manage web traffic effectively.",
+  "support": "- **Community Forums:** Engage with the Privoxy community for support and discussions through the [Privoxy GitHub Repository](https://github.com/Privoxy/privoxy).\n- **Documentation:** Comprehensive guides and user manuals are available at the [Privoxy Official Documentation](https://www.privoxy.org/user-manual/) for detailed reference.\n- **Troubleshooting Help:** Access the issues section on GitHub for community-contributed solutions and to report any bugs or feature requests.\n\nThis template provides an overview of Privoxy’s functionalities and practical applications, emphasizing its importance in enhancing web browsing privacy and usability. For more detailed information, visit the [official Privoxy website](https://www.privoxy.org/).",
+  "nixName": "privoxy",
+  "specs": {
+    "ram": 0,
+    "storage": 0
+  },
+  "tags": ["Proxy"],
+  "website": "https://www.privoxy.org/",
+  "logo": "",
+  "options": [
+    {
+      "name": "certsLifetime",
+      "desc": "If inspectHttps is enabled, the time generated HTTPS certificates will be stored in a temporary directory for reuse. Once the lifetime has expired the directory will cleared and the certificate will have to be generated again, on-demand. Depending on the traffic, you may want to reduce the lifetime to limit the disk usage, since Privoxy itself never deletes the certificates.  The format is that of the tmpfiles.d(5) Age parameter.",
+      "nixName": "certsLifetime",
+      "type": "tmpfiles.d(5) age format",
+      "value": "\"10d\""
     },
-    "tags": [
-        "Proxy"
-    ],
-    "website": "https://www.privoxy.org/",
-    "logo": "",
-    "options": [
-        {
-            "name": "certsLifetime",
-            "desc": "If inspectHttps is enabled, the time generated HTTPS certificates will be stored in a temporary directory for reuse. Once the lifetime has expired the directory will cleared and the certificate will have to be generated again, on-demand. Depending on the traffic, you may want to reduce the lifetime to limit the disk usage, since Privoxy itself never deletes the certificates.  The format is that of the tmpfiles.d(5) Age parameter.",
-            "nixName": "certsLifetime",
-            "type": "tmpfiles.d(5) age format",
-            "value": "\"10d\""
-        },
-        {
-            "name": "enable",
-            "desc": "Whether to enable Privoxy, non-caching filtering proxy.",
-            "nixName": "enable",
-            "type": "boolean",
-            "value": "true"
-        },
-        {
-            "name": "enableTor",
-            "desc": "Whether to configure Privoxy to use Tor\u2019s faster SOCKS port, suitable for HTTP.",
-            "nixName": "enableTor",
-            "type": "boolean",
-            "value": "false"
-        },
-        {
-            "name": "inspectHttps",
-            "desc": "Whether to configure Privoxy to inspect HTTPS requests, meaning all encrypted traffic will be filtered as well. This works by decrypting and re-encrypting the requests using a per-domain generated certificate. To issue per-domain certificates, Privoxy must be provided with a CA certificate, using the ca-cert-file, ca-key-file settings.  The CA certificate must also be added to the system trust roots, otherwise browsers will reject all Privoxy certificates as invalid. You can do so by using the option security.pki.certificateFiles.",
-            "nixName": "inspectHttps",
-            "type": "boolean",
-            "value": "false"
-        },
-        {
-            "name": "settings",
-            "desc": "This option is mapped to the main Privoxy configuration file. Check out the Privoxy user manual at https://www.privoxy.org/user-manual/config.html for available settings and documentation.  Repeated settings can be represented by using a list.",
-            "nixName": "settings",
-            "type": "privoxy configuration type. The format consists of an attribute\nset of settings. Each setting can be either a value (integer, string,\nboolean or path) or a list of such values.\n",
-            "value": "{ }"
-        },
-        {
-            "name": "settings.actionsfile",
-            "desc": "List of paths to Privoxy action files. These paths may either be absolute or relative to the privoxy configuration directory.",
-            "nixName": "settings.actionsfile",
-            "type": "list of string",
-            "value": "[\n  \"match-all.action\"\n  \"default.action\"\n]"
-        },
-        {
-            "name": "settings.enable-edit-actions",
-            "desc": "Whether the web-based actions file editor may be used.",
-            "nixName": "settings.enable-edit-actions",
-            "type": "boolean",
-            "value": "false"
-        },
-        {
-            "name": "settings.filterfile",
-            "desc": "List of paths to Privoxy filter files. These paths may either be absolute or relative to the privoxy configuration directory.",
-            "nixName": "settings.filterfile",
-            "type": "list of string",
-            "value": "[\n  \"default.filter\"\n]"
-        },
-        {
-            "name": "settings.listen-address",
-            "desc": "Pair of address:port the proxy server is listening to.",
-            "nixName": "settings.listen-address",
-            "type": "string",
-            "value": "127.0.0.1:8118"
-        },
-        {
-            "name": "userActions",
-            "desc": "Actions to be included in a user.action file. This will have a higher priority and can be used to override all other actions.",
-            "nixName": "userActions",
-            "type": "strings concatenated with \"\\n\"",
-            "value": "\"\""
-        },
-        {
-            "name": "userFilters",
-            "desc": "Filters to be included in a user.filter file. This will have a higher priority and can be used to override all other filters definitions.",
-            "nixName": "userFilters",
-            "type": "strings concatenated with \"\\n\"",
-            "value": "\"\""
-        }
-    ]
+    {
+      "name": "enable",
+      "desc": "Whether to enable Privoxy, non-caching filtering proxy.",
+      "nixName": "enable",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "enableTor",
+      "desc": "Whether to configure Privoxy to use Tor\u2019s faster SOCKS port, suitable for HTTP.",
+      "nixName": "enableTor",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "inspectHttps",
+      "desc": "Whether to configure Privoxy to inspect HTTPS requests, meaning all encrypted traffic will be filtered as well. This works by decrypting and re-encrypting the requests using a per-domain generated certificate. To issue per-domain certificates, Privoxy must be provided with a CA certificate, using the ca-cert-file, ca-key-file settings.  The CA certificate must also be added to the system trust roots, otherwise browsers will reject all Privoxy certificates as invalid. You can do so by using the option security.pki.certificateFiles.",
+      "nixName": "inspectHttps",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "settings",
+      "desc": "This option is mapped to the main Privoxy configuration file. Check out the Privoxy user manual at https://www.privoxy.org/user-manual/config.html for available settings and documentation.  Repeated settings can be represented by using a list.",
+      "nixName": "settings",
+      "type": "privoxy configuration type. The format consists of an attribute\nset of settings. Each setting can be either a value (integer, string,\nboolean or path) or a list of such values.\n",
+      "value": "{ }"
+    },
+    {
+      "name": "settings.actionsfile",
+      "desc": "List of paths to Privoxy action files. These paths may either be absolute or relative to the privoxy configuration directory.",
+      "nixName": "settings.actionsfile",
+      "type": "list of string",
+      "value": "[\n  \"match-all.action\"\n  \"default.action\"\n]"
+    },
+    {
+      "name": "settings.enable-edit-actions",
+      "desc": "Whether the web-based actions file editor may be used.",
+      "nixName": "settings.enable-edit-actions",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "settings.filterfile",
+      "desc": "List of paths to Privoxy filter files. These paths may either be absolute or relative to the privoxy configuration directory.",
+      "nixName": "settings.filterfile",
+      "type": "list of string",
+      "value": "[\n  \"default.filter\"\n]"
+    },
+    {
+      "name": "settings.listen-address",
+      "desc": "Pair of address:port the proxy server is listening to.",
+      "nixName": "settings.listen-address",
+      "type": "string",
+      "value": "127.0.0.1:8118"
+    },
+    {
+      "name": "userActions",
+      "desc": "Actions to be included in a user.action file. This will have a higher priority and can be used to override all other actions.",
+      "nixName": "userActions",
+      "type": "strings concatenated with \"\\n\"",
+      "value": "\"\""
+    },
+    {
+      "name": "userFilters",
+      "desc": "Filters to be included in a user.filter file. This will have a higher priority and can be used to override all other filters definitions.",
+      "nixName": "userFilters",
+      "type": "strings concatenated with \"\\n\"",
+      "value": "\"\""
+    }
+  ]
 }

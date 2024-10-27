@@ -26,7 +26,7 @@ export default function RewardsPage() {
         <div className="space-y-8">
           <Header level={1}>Rewards</Header>
           <Alert className="bg-yellow/70 hover:bg-yellow/80">
-            <AlertTriangle className="h-5 w-5" />
+            <AlertTriangle className="size-5" />
             <AlertTitle>Showcase</AlertTitle>
             <AlertDescription>
               This page contains mock information for demo purposes.
@@ -126,7 +126,7 @@ function NodeActivityTable() {
         <TableRow className="text-left text-base">
           {tableColumns.map((column, index) => (
             <TableHead
-              className={cn('font-normal text-card-foreground')}
+              className={cn('text-card-foreground font-normal')}
               key={index}
             >
               {column}
@@ -253,7 +253,7 @@ function ActiveValidatorTable() {
             <TableHead
               className={cn(
                 index == validatorTableColumns.length - 1 && 'text-center',
-                'font-normal text-card-foreground'
+                'text-card-foreground font-normal'
               )}
               key={index}
             >

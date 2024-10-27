@@ -48,7 +48,7 @@ export default function DataMarketplaceItem({
           </div>
           <h1 className="mt-1.5 text-3xl font-semibold">{data.name}</h1>
         </div>
-        <p className="mt-4 text-muted-foreground">{data.summary}</p>
+        <p className="text-muted-foreground mt-4">{data.summary}</p>
         <div className="mt-2 flex items-center gap-4">
           <div className="flex items-center gap-1">
             <MapPin className="size-4" />
@@ -65,7 +65,7 @@ export default function DataMarketplaceItem({
             {data.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-primary px-3 py-1 text-sm font-medium text-primary"
+                className="border-primary text-primary rounded-full border px-3 py-1 text-sm font-medium"
               >
                 {tag}
               </span>
@@ -78,7 +78,7 @@ export default function DataMarketplaceItem({
             {data.useCases.map((useCase) => (
               <span
                 key={useCase}
-                className="rounded-full border border-primary px-3 py-1 text-sm font-medium text-primary"
+                className="border-primary text-primary rounded-full border px-3 py-1 text-sm font-medium"
               >
                 {useCase}
               </span>
@@ -89,7 +89,7 @@ export default function DataMarketplaceItem({
       <section className="w-96">
         <div className="relative w-full">
           <Input placeholder="Search Data Products" className="w-full pl-9" />
-          <Search className="absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+          <Search className="text-muted-foreground absolute left-3 top-1/2 size-3.5 -translate-y-1/2" />
         </div>
         <ul className="mt-8 flex flex-col gap-2">
           {DATA_PRODUCT_DATA.filter((d) => d.linkedIds.includes(itemId)).map(
@@ -117,13 +117,13 @@ export default function DataMarketplaceItem({
                   </div>
                 </div>
                 <p className="mt-3 font-semibold">Base Endpoint</p>
-                <div className="mt-1 flex items-center justify-between rounded bg-accent px-3 py-2">
+                <div className="bg-accent mt-1 flex items-center justify-between rounded px-3 py-2">
                   <p className="text-sm font-medium">{d.endpoint}</p>
                 </div>
                 <Separator className="my-4" />
                 <Link
                   href={`#`}
-                  className="group inline-flex items-center gap-1.5 font-semibold text-primary"
+                  className="text-primary group inline-flex items-center gap-1.5 font-semibold"
                 >
                   Free to access
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />

@@ -1,6 +1,9 @@
 {
   "name": "Forgejo",
-  "desc": "Self-hosted lightweight software forge",
+  "desc": "Deploy Forgejo with a simple setup to create a powerful, self-hosted Git service. Forgejo is designed for managing Git repositories efficiently while providing robust features for collaboration and project management.",
+  "longDesc": "**What is Forgejo?**\n\nForgejo is an open-source Git service that allows users to host and manage their repositories, similar to platforms like GitHub or GitLab. It focuses on simplicity, usability, and extensibility, making it an excellent choice for individual developers and organizations.\n\n**Key Features:**\n\n- **One-Click Deployment:** Quick installation via Docker, allowing for immediate access to Git hosting capabilities.\n- **Scalability:** Handles large numbers of repositories and users efficiently, suitable for both small projects and large teams.\n- **Privacy:** Users retain full control over their data, with no reliance on third-party hosting services.\n- **API Compatibility:** Offers a RESTful API for integrating with other applications and services, facilitating automation and custom workflows.\n- **Collaborative Tools:** Supports issue tracking, pull requests, and code reviews, enhancing teamwork and project management.",
+  "useCases": "- **Developers:** Host personal projects or open-source contributions securely and efficiently.\n- **Teams and Organizations:** Manage collaborative software development projects with tools for tracking progress and reviewing code.\n- **Educational Institutions:** Provide students with a platform for learning and practicing version control in a collaborative environment.",
+  "support": "- **Community Forums:** Engage with the Forgejo community for assistance and discussions through the [Forgejo Community](https://example.com).\n- **Documentation:** Comprehensive user guides and configuration tips are available at the [Forgejo Documentation](https://example.com) and [Administrator Guide](https://example.com).\n- **Troubleshooting Help:** Access resources for troubleshooting common issues during setup and operation.",
   "nixName": "forgejo",
   "specs": {
     "ram": 0,

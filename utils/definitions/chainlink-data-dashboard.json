@@ -1,6 +1,9 @@
 {
   "name": "Chainlink Data Dashboard",
-  "desc": "Selfhosted website to trustlessly show Chainlink price feed and CCIP information.",
+  "desc": "Deploy a self-hosted Chainlink Data Dashboard to securely display real-time price feeds and CCIP data, enabling decentralized cross-chain operations with ease.",
+  "longDesc": "**Overview**\n\nYou can seamlessly deploy a Chainlink Data Dashboard to display real-time price feeds and CCIP information without deep blockchain expertise. This dashboard enables developers to leverage decentralized data feeds and cross-chain messaging using Openmesh’s infrastructure. Deploy and manage the dashboard directly from your browser, allowing Web3 developers to build decentralized applications quickly and efficiently with minimal setup required.",
+  "useCases": "- **Cross-Chain Message Monitoring:** Track encoded messages triggering multi-chain operations, ensuring secure and transparent cross-chain communication.\n- **Token Transfer Tracking:** Monitor seamless token movements between blockchains with detailed logs, including gas metrics and transaction history.\n- **Multi-Currency Conversion Insights:** Access real-time price feeds with support for multiple tokens and currency conversions for trustless financial applications.\n- **Composability Monitoring:** Observe how smart contracts across chains interact via CCIP, enhancing interoperability in decentralized applications.",
+  "support": "- **Third-Party Links:** Relevant external links for additional resources and troubleshooting (e.g., [Chainlink CCIP Documentation](https://docs.chain.link/ccip)).\n- **Community:** Engage with the Openmesh community forums and chats for peer support.\n- **Direct Assistance:** Submit support tickets for technical help or advanced troubleshooting.\n- **Updates & Announcements:** Stay informed on product news through newsletters and forums.",
   "flakes": [
     {
       "name": "openmesh-chainlink-data-dashboard-flake",

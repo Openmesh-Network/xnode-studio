@@ -28,9 +28,9 @@ function DeploymentItem({ xNode, services }: DeploymentItemProps) {
   return (
     <Link
       href={`/xnode?uuid=${xNode.id}`}
-      className="flex h-16 items-center gap-6 rounded border px-6 py-3 transition-colors hover:bg-muted/50"
+      className="hover:bg-muted/50 flex h-16 items-center gap-6 rounded border px-6 py-3 transition-colors"
     >
-      <p className="text-sm text-muted-foreground">
+      <p className="text-muted-foreground text-sm">
         {formatDistanceToNowStrict(xNode.unitClaimTime)} ago
       </p>
       <div className="flex basis-2/12 items-center gap-2">
@@ -39,14 +39,14 @@ function DeploymentItem({ xNode, services }: DeploymentItemProps) {
             <TooltipTrigger asChild>
               <span
                 className={cn(
-                  'size-2.5 rounded-full bg-primary hover:animate-pulse',
+                  'bg-primary size-2.5 rounded-full hover:animate-pulse',
                   xNode.status !== 'online' && 'bg-orange-500',
                   xNode.status === 'booting' && 'bg-destructive'
                 )}
               />
             </TooltipTrigger>
             <TooltipContent>
-              <p className="text-sm text-muted-foreground">Server Status</p>
+              <p className="text-muted-foreground text-sm">Server Status</p>
               <p className="font-semibold capitalize">{xNode.status}</p>
             </TooltipContent>
           </Tooltip>
@@ -57,20 +57,20 @@ function DeploymentItem({ xNode, services }: DeploymentItemProps) {
             : `Xnode ${xNode.id}`}
         </h3>
       </div>
-      <div className="basis-1/12 space-y-1 text-muted-foreground">
+      <div className="text-muted-foreground basis-1/12 space-y-1">
         <p className="text-xs font-medium">Installation</p>
         <div className="flex items-center gap-1">
           <Icons.XNodeIcon className="size-4" />
           <Cloud className="size-4" />
         </div>
       </div>
-      <div className="basis-4/12 space-y-1 text-muted-foreground">
+      <div className="text-muted-foreground basis-4/12 space-y-1">
         <p className="text-xs font-medium">Services</p>
         <div className="flex items-center gap-1">
           {services.slice(0, 3).map((service) => (
             <span
               key={`${xNode.id}-service-${service.nixName}`}
-              className="flex items-center gap-1.5 rounded bg-primary/10 px-2 py-1 text-xs font-medium text-foreground"
+              className="bg-primary/10 text-foreground flex items-center gap-1.5 rounded px-2 py-1 text-xs font-medium"
             >
               {service.logo ? (
                 <img
@@ -86,7 +86,7 @@ function DeploymentItem({ xNode, services }: DeploymentItemProps) {
           {services.length > 3 ? (
             <span
               key={`${xNode.id}-more-services`}
-              className="flex items-center gap-1.5 rounded bg-primary/10 px-2 py-1 text-xs font-medium text-foreground"
+              className="bg-primary/10 text-foreground flex items-center gap-1.5 rounded px-2 py-1 text-xs font-medium"
             >
               +{services.length - 3}
             </span>
@@ -96,11 +96,11 @@ function DeploymentItem({ xNode, services }: DeploymentItemProps) {
       <div className="flex grow items-center justify-end">
         <Button disabled variant="ghost" size="icon">
           <span className="sr-only">Mark as favourite</span>
-          <Star className="size-5 text-muted-foreground" />
+          <Star className="text-muted-foreground size-5" />
         </Button>
         <Button disabled variant="ghost" size="icon">
           <span className="sr-only">More</span>
-          <EllipsisVertical className="size-5 text-muted-foreground" />
+          <EllipsisVertical className="text-muted-foreground size-5" />
         </Button>
       </div>
     </Link>

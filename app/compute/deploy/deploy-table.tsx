@@ -105,7 +105,7 @@ export function DeployTable() {
               <TableHead
                 className={cn(
                   index == 1 ? 'text-left' : 'text-center',
-                  'font-normal text-card-foreground'
+                  'text-card-foreground font-normal'
                 )}
                 key={index}
               >
@@ -118,7 +118,7 @@ export function DeployTable() {
           {products.map((product, index) => (
             <TableRow
               key={index}
-              className="h-14 border-none text-center font-semibold odd:rounded-lg odd:bg-muted/40"
+              className="odd:bg-muted/40 h-14 border-none text-center font-semibold odd:rounded-lg"
             >
               <TableCell className="">
                 <RadioGroupItem

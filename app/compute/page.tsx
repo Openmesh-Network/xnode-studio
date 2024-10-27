@@ -60,8 +60,8 @@ export default function ComputeOverviewPage() {
           {COMPUTE_DATA.map((data, index) => (
             <Card key={index} className="bg-white">
               <CardHeader>
-                <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10">
-                  <data.icon className="size-7 stroke-[1.5] text-primary" />
+                <div className="bg-primary/10 mb-4 flex size-12 items-center justify-center rounded-full">
+                  <data.icon className="text-primary size-7 stroke-[1.5]" />
                 </div>
                 <CardTitle>{data.name}</CardTitle>
                 <CardDescription>{data.description}</CardDescription>

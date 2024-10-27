@@ -112,19 +112,19 @@ export default function Header() {
       />
       <header
         className={cn(
-          'sticky inset-x-0 top-0 z-50 flex h-20 flex-col bg-foreground',
+          'bg-foreground sticky inset-x-0 top-0 z-50 flex h-20 flex-col',
           demoMode && 'h-24'
         )}
       >
         {demoMode && (
-          <div className="flex h-6 w-full place-content-center gap-x-1 bg-orange-300 text-foreground">
+          <div className="text-foreground flex h-6 w-full place-content-center gap-x-1 bg-orange-300">
             <TriangleAlert />
             <span>
               Xnode Studio is in Demo Mode. Information and interactions are for
               showcasing only.
             </span>
             <Button
-              className="m-0 h-auto w-auto bg-transparent p-0 text-black underline hover:bg-transparent"
+              className="m-0 size-auto bg-transparent p-0 text-black underline hover:bg-transparent"
               onClick={() => {
                 setDemoMode(false)
                 push('/')
@@ -136,11 +136,11 @@ export default function Header() {
         )}
         <div className="flex grow items-center justify-between gap-x-32 px-6">
           <div className="flex items-center gap-6">
-            <div className="shrink-0 text-2xl font-medium text-background">
+            <div className="text-background shrink-0 text-2xl font-medium">
               Xnode Studio
             </div>
             <Popover>
-              <PopoverTrigger className="flex h-9 min-w-56 items-center justify-between rounded border border-background/15 bg-background/10 px-3 text-sm text-background">
+              <PopoverTrigger className="border-background/15 bg-background/10 text-background flex h-9 min-w-56 items-center justify-between rounded border px-3 text-sm">
                 <span className="flex items-center gap-1.5">
                   <PanelLeft className="size-3.5" />
                   {selectedXNode
@@ -195,7 +195,7 @@ export default function Header() {
                               onSelect={(val) => setActivationOpen(val)}
                             >
                               {name}
-                              <span className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary">
+                              <span className="bg-primary/10 text-primary rounded px-2 py-0.5 text-xs">
                                 activate
                               </span>
                             </CommandItem>
@@ -209,12 +209,12 @@ export default function Header() {
             </Popover>
           </div>
           <Popover open={globalSearchOpen} onOpenChange={setGlobalSearchOpen}>
-            <PopoverTrigger className="flex h-9 min-w-56 max-w-lg grow items-center justify-between gap-3 rounded border border-background/15 bg-background/10 px-3 text-muted transition-colors hover:bg-background/15">
+            <PopoverTrigger className="border-background/15 bg-background/10 text-muted hover:bg-background/15 flex h-9 min-w-56 max-w-lg grow items-center justify-between gap-3 rounded border px-3 transition-colors">
               <span className="flex items-center gap-3">
                 <Search className="size-4" />
                 <span className="text-sm">Search & Run Commands</span>
               </span>
-              <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-muted-foreground/50 bg-foreground/50 px-1.5 font-mono text-[10px] font-medium text-muted opacity-100">
+              <kbd className="border-muted-foreground/50 bg-foreground/50 text-muted pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100">
                 <span className="text-xs">⌘</span>K
               </kbd>
             </PopoverTrigger>
@@ -224,15 +224,15 @@ export default function Header() {
             <button
               disabled
               type="button"
-              className="flex size-9 items-center justify-center rounded bg-primary text-background transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
+              className="bg-primary text-background hover:bg-primary/90 flex size-9 items-center justify-center rounded transition-colors disabled:pointer-events-none disabled:opacity-50"
             >
               <Plus className="size-5" strokeWidth={1.5} />
             </button>
-            <div className="flex items-center gap-2 text-background">
+            <div className="text-background flex items-center gap-2">
               <button
                 disabled
                 type="button"
-                className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10 disabled:pointer-events-none disabled:opacity-50"
+                className="hover:bg-background/10 flex size-9 items-center justify-center rounded transition-colors disabled:pointer-events-none disabled:opacity-50"
               >
                 <span className="sr-only">Notifications</span>
                 <BellDot className="size-5" strokeWidth={1.5} />
@@ -240,7 +240,7 @@ export default function Header() {
               <button
                 disabled
                 type="button"
-                className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10 disabled:pointer-events-none disabled:opacity-50"
+                className="hover:bg-background/10 flex size-9 items-center justify-center rounded transition-colors disabled:pointer-events-none disabled:opacity-50"
               >
                 <span className="sr-only">Help</span>
                 <HelpCircle className="size-5" strokeWidth={1.5} />
@@ -248,7 +248,7 @@ export default function Header() {
               <button
                 disabled
                 type="button"
-                className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10 disabled:pointer-events-none disabled:opacity-50"
+                className="hover:bg-background/10 flex size-9 items-center justify-center rounded transition-colors disabled:pointer-events-none disabled:opacity-50"
               >
                 <span className="sr-only">Settings</span>
                 <Settings className="size-5" strokeWidth={1.5} />
@@ -257,7 +257,7 @@ export default function Header() {
             {!address && status === 'disconnected' && !demoMode ? (
               <button
                 type="button"
-                className="flex h-10 items-center gap-1.5 rounded bg-primary px-4 text-base font-semibold tracking-tighter text-background"
+                className="bg-primary text-background flex h-10 items-center gap-1.5 rounded px-4 text-base font-semibold tracking-tighter"
                 onClick={pressWalletButton}
               >
                 Connect Wallet
@@ -265,7 +265,7 @@ export default function Header() {
             ) : (
               <button
                 type="button"
-                className="flex h-10 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background"
+                className="bg-primary text-background flex h-10 items-center gap-1.5 rounded px-3 text-sm"
                 onClick={pressWalletButton}
               >
                 <User2 className="size-4" />

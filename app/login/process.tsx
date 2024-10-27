@@ -84,7 +84,7 @@ export default function LoginProcess({ redirect }: { redirect?: string }) {
           )}
         >
           <h2 className="text-xl font-bold">Connect your Wallet</h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Login to Xnode Studio with your web3 wallet
           </p>
           <div className="mt-4">
@@ -93,7 +93,7 @@ export default function LoginProcess({ redirect }: { redirect?: string }) {
         </div>
         <div>
           <MoveRight
-            className="size-8 text-muted-foreground"
+            className="text-muted-foreground size-8"
             strokeWidth={1.5}
           />
         </div>
@@ -104,7 +104,7 @@ export default function LoginProcess({ redirect }: { redirect?: string }) {
           )}
         >
           <h2 className="text-xl font-bold">Create Login Session</h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Create a session to access your account
           </p>
           <div className="mt-4">
@@ -137,7 +137,7 @@ export default function LoginProcess({ redirect }: { redirect?: string }) {
           )}
         >
           <h2 className="text-xl font-bold">Demo Mode</h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Try out the Xnode Studio interface without making any API calls.
           </p>
           <div className="mt-4">

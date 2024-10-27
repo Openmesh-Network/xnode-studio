@@ -235,15 +235,15 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
     <div className="grid grid-cols-4 gap-6">
       {healthSummaryData ? (
         <>
-          <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
+          <div className="bg-muted/50 flex flex-col items-center justify-center rounded border p-6">
             <h4 className="text-lg font-semibold">CPU</h4>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-center text-sm">
               Avg. CPU utilization
             </p>
             {isNaN(healthSummaryData.cpu) ? (
-              <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
+              <div className="bg-background ring-muted m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full ring-8 ring-inset">
                 <Hourglass
-                  className="size-10 text-muted-foreground"
+                  className="text-muted-foreground size-10"
                   strokeWidth={1.25}
                 />
                 <p className="font-mono text-xl font-bold">No Data</p>
@@ -252,28 +252,28 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
               <HealthChartItem type="cpu" healthData={healthSummaryData.cpu} />
             )}
           </div>
-          <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
+          <div className="bg-muted/50 flex flex-col items-center justify-center rounded border p-6">
             <h4 className="text-lg font-semibold">GPU</h4>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-center text-sm">
               Avg. GPU utilization
             </p>
-            <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
+            <div className="bg-background ring-muted m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full ring-8 ring-inset">
               <Hourglass
-                className="size-10 text-muted-foreground"
+                className="text-muted-foreground size-10"
                 strokeWidth={1.25}
               />
               <p className="font-mono text-xl font-bold">No Data</p>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
+          <div className="bg-muted/50 flex flex-col items-center justify-center rounded border p-6">
             <h4 className="text-lg font-semibold">RAM</h4>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-center text-sm">
               Avg. RAM utilization
             </p>
             {isNaN(healthSummaryData.ram) ? (
-              <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
+              <div className="bg-background ring-muted m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full ring-8 ring-inset">
                 <Hourglass
-                  className="size-10 text-muted-foreground"
+                  className="text-muted-foreground size-10"
                   strokeWidth={1.25}
                 />
                 <p className="font-mono text-xl font-bold">No Data</p>
@@ -282,15 +282,15 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
               <HealthChartItem type="ram" healthData={healthSummaryData.ram} />
             )}
           </div>
-          <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
+          <div className="bg-muted/50 flex flex-col items-center justify-center rounded border p-6">
             <h4 className="text-lg font-semibold">Storage</h4>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-center text-sm">
               Avg. Storage utilization
             </p>
             {isNaN(healthSummaryData.storage) ? (
-              <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
+              <div className="bg-background ring-muted m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full ring-8 ring-inset">
                 <Hourglass
-                  className="size-10 text-muted-foreground"
+                  className="text-muted-foreground size-10"
                   strokeWidth={1.25}
                 />
                 <p className="font-mono text-xl font-bold">No Data</p>
@@ -360,14 +360,14 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                   </div>
                   <div className="mt-2 space-y-2">
                     <div className="flex w-full items-center gap-4">
-                      <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                      <div className="text-muted-foreground flex shrink-0 basis-1/4 items-center gap-1">
                         <Cpu className="size-4" />
                         <p className="text-sm">CPU</p>
                       </div>
                       <div className="relative grow">
-                        <div className="h-2 w-full rounded bg-border" />
+                        <div className="bg-border h-2 w-full rounded" />
                         <div
-                          className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
+                          className="bg-primary absolute left-0 top-0 h-2 rounded transition-all"
                           style={{
                             width: `${Math.min(Math.round(xNode.heartbeatData?.cpuPercent ?? 0), 100)}%`,
                           }}
@@ -375,14 +375,14 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                       </div>
                     </div>
                     <div className="flex w-full items-center gap-4">
-                      <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                      <div className="text-muted-foreground flex shrink-0 basis-1/4 items-center gap-1">
                         <MemoryStick className="size-4" />
                         <p className="text-sm">RAM</p>
                       </div>
                       <div className="relative grow">
-                        <div className="h-2 w-full rounded bg-border" />
+                        <div className="bg-border h-2 w-full rounded" />
                         <div
-                          className="absolute left-0 top-0 h-2 rounded bg-primary transition-all duration-300 ease-out"
+                          className="bg-primary absolute left-0 top-0 h-2 rounded transition-all duration-300 ease-out"
                           style={{
                             width: `${Math.min(((xNode.heartbeatData?.ramMbUsed ?? 0) / (xNode.heartbeatData?.ramMbTotal ?? 1)) * 100, 100)}%`,
                           }}
@@ -390,14 +390,14 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                       </div>
                     </div>
                     <div className="flex w-full items-center gap-4">
-                      <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
+                      <div className="text-muted-foreground flex shrink-0 basis-1/4 items-center gap-1">
                         <HardDrive className="size-4" />
                         <p className="text-sm">Storage</p>
                       </div>
                       <div className="relative grow">
-                        <div className="h-2 w-full rounded bg-border" />
+                        <div className="bg-border h-2 w-full rounded" />
                         <div
-                          className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
+                          className="bg-primary absolute left-0 top-0 h-2 rounded transition-all"
                           style={{
                             width: `${Math.min(((xNode.heartbeatData?.storageMbUsed ?? 0) / (xNode.heartbeatData?.storageMbTotal ?? 1)) * 100, 100)}%`,
                           }}
@@ -406,7 +406,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                     </div>
                   </div>
                   <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-                    <div className="flex items-center gap-1 text-muted-foreground">
+                    <div className="text-muted-foreground flex items-center gap-1">
                       <CalendarDays className="size-4" />
                       <p className="text-xs">
                         {formatDistanceToNow(xNode.unitClaimTime)} ago
@@ -435,7 +435,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
               height={32}
               className="rounded object-contain"
             />
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               No nodes currently running.
             </p>
           </div>
@@ -509,7 +509,7 @@ export function XNodesApps({ sessionToken }: HealthComponentProps) {
                 <TableCell>
                   <Link href={`/xnode?uuid=${xNodeId}`}>
                     <Globe
-                      className="size-5 text-muted-foreground"
+                      className="text-muted-foreground size-5"
                       strokeWidth={1.5}
                     />
                   </Link>
@@ -521,7 +521,7 @@ export function XNodesApps({ sessionToken }: HealthComponentProps) {
           <TableRow>
             <TableCell
               colSpan={4}
-              className="py-8 text-center font-semibold text-muted-foreground"
+              className="text-muted-foreground py-8 text-center font-semibold"
             >
               No apps currently running.
             </TableCell>
