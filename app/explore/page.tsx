@@ -3,7 +3,16 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { prefix } from '@/utils/prefix'
-import { LineChart, MoveRight, PackageOpen, Star } from 'lucide-react'
+import {
+  Blocks,
+  Box,
+  Computer,
+  LineChart,
+  MoveRight,
+  PackageOpen,
+  PencilRuler,
+  Star,
+} from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardDescription, CardTitle } from '@/components/ui/card'
@@ -26,7 +35,7 @@ const exploreItems = [
     href: '/claim',
   },
   {
-    image: <PackageOpen width={60} height={60} />,
+    image: <PackageOpen width={50} height={50} />,
     title: 'Deploy Your First App',
     description:
       'Pick an app from the Openmesh App Store and experience how easy it is to add new apps to your Xnode.',
@@ -34,7 +43,7 @@ const exploreItems = [
     href: '/app-store',
   },
   {
-    image: <Star width={60} height={60} />,
+    image: <Star width={50} height={50} />,
     title: 'Claim Contribution Rewards',
     description:
       'On your Xnode you are encouraged to run Openmesh Core. This will allocate a small amount of your resources to help the Openmesh Network. Contributors are able to claim OPEN tokens periodically.',
@@ -42,7 +51,31 @@ const exploreItems = [
     href: '/rewards',
   },
   {
-    image: <LineChart width={60} height={60} />,
+    image: <Blocks width={50} height={50} />,
+    title: 'Build Infrastructure like never before',
+    description:
+      'View the new experimental way Xnode Studio is working on to allow people to build and manage their infrastructure.',
+    callToAction: 'Test the platform',
+    href: '/workspace',
+  },
+  {
+    image: <Box width={50} height={50} />,
+    title: 'Run an Ethereum or Polygon node',
+    description:
+      'Effortless deployment and management of blockchain nodes, validators and applications. More nodes coming soon!',
+    callToAction: 'Access',
+    href: '/app-store?category=blockchain',
+  },
+  {
+    image: <Computer width={50} height={50} />,
+    title: 'Find & search 30,000+ Servers & data centers',
+    description:
+      'Visualize the collection of hardware that Xnode has access to.',
+    callToAction: 'Display',
+    href: '/app-store?category=blockchain',
+  },
+  {
+    image: <LineChart width={50} height={50} />,
     title: 'Node Operators Economic Viability Calculator',
     description:
       'Compare how much profit you would earn by running a blockchain node on a certain providers.',
