@@ -72,7 +72,7 @@ const exploreItems = [
     description:
       'Visualize the collection of hardware that Xnode has access to.',
     callToAction: 'Display',
-    href: '/app-store?category=blockchain',
+    href: '/resources',
   },
   {
     image: <LineChart width={50} height={50} />,

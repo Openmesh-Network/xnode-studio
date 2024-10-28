@@ -15,7 +15,7 @@
     "ram": 8192,
     "storage": 2097152
   },
-  "tags": ["RPC", "Validator", "Consensus", "Polygon"],
+  "tags": ["RPC", "Validator", "Polygon", "Blockchain"],
   "website": "https://polygon.technology/",
   "implemented": false,
   "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/28321.png",
