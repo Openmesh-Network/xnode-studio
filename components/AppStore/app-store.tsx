@@ -397,8 +397,9 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                           tags: [],
                           flakes: [
                             {
-                              name: `${customApp.nixName}-flake`,
+                              name: `${customApp.nixName.trim()}-flake`,
                               url: customApp.flake
+                                .trim()
                                 .replace('https://github.com/', 'github:')
                                 .replace('/tree/', '/'), // branches
                             },
