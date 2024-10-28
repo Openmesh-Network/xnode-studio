@@ -77,7 +77,7 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
     <Link
       href={data.implemented || demoMode ? `/deploy?${params}` : '#'}
       aria-disabled={!data.implemented && !demoMode}
-      className="hover:bg-muted flex basis-1/4 flex-col rounded border p-4 aria-disabled:pointer-events-none aria-disabled:opacity-50"
+      className="flex basis-1/4 flex-col rounded border p-4 hover:bg-muted aria-disabled:pointer-events-none aria-disabled:opacity-50"
     >
       <div className="flex items-center justify-between">
         {data.logo && data.logo !== '' ? (
@@ -94,15 +94,15 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
           />
         ) : (
           <AppWindow
-            className="text-muted-foreground size-8"
+            className="size-8 text-muted-foreground"
             strokeWidth={1.5}
           />
         )}
         <div className="flex"></div>
       </div>
       <div className="flex-1">
-        <h3 className="text-primary mt-2 text-lg font-semibold">{data.name}</h3>
-        <p className="text-muted-foreground mt-1 line-clamp-3 text-sm">
+        <h3 className="mt-2 text-lg font-semibold text-primary">{data.name}</h3>
+        <p className="mt-1 line-clamp-3 text-sm text-muted-foreground">
           {data.desc}
         </p>
       </div>
@@ -110,7 +110,7 @@ function AppStoreItem({ data, type }: AppStoreItemProps) {
         {data.tags.map((tag) => (
           <span
             key={tag}
-            className="bg-primary/5 text-primary rounded px-2 py-0.5 text-xs"
+            className="rounded bg-primary/5 px-2 py-0.5 text-xs text-primary"
           >
             {tag}
           </span>
@@ -233,11 +233,11 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
 
   return (
     <>
-      <section className="text-background flex flex-col items-center justify-center bg-gradient-to-r from-[#3C20D8] to-[#9F14BB] py-6">
+      <section className="flex flex-col items-center justify-center bg-gradient-to-r from-[#3C20D8] to-[#9F14BB] py-6 text-background">
         <h1 className="text-2xl font-bold">
           Explore and launch ready made apps and solutions
         </h1>
-        <div className="text-muted mt-2">
+        <div className="mt-2 text-muted">
           Openmesh App Store lets you quickly deploy software on your Xnode
         </div>
       </section>
@@ -302,10 +302,10 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                           role="listitem"
                           type="button"
                           key={category}
-                          className="text-muted-foreground group flex w-full items-center justify-between gap-3 px-3 py-1.5"
+                          className="group flex w-full items-center justify-between gap-3 px-3 py-1.5 text-muted-foreground"
                           onClick={() => updateCategories(categoryFilterName)}
                         >
-                          <span className="group-hover:text-primary group-data-[active=true]:text-primary flex-1 truncate text-start transition-colors">
+                          <span className="flex-1 truncate text-start transition-colors group-hover:text-primary group-data-[active=true]:text-primary">
                             {category}
                           </span>
                           <span className="shrink-0">({amount})</span>
@@ -398,10 +398,9 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                           flakes: [
                             {
                               name: `${customApp.nixName}-flake`,
-                              url: customApp.flake.replace(
-                                'https://github.com/',
-                                'github:'
-                              ),
+                              url: customApp.flake
+                                .replace('https://github.com/', 'github:')
+                                .replace('/tree/', '/'), // branches
                             },
                           ],
                         }
