@@ -104,18 +104,21 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
           .use(html)
           .process(data.longDesc)
           .then((file) => file.toString())
+          .then((html) => html.replace('href=', 'target="blank" href='))
       : undefined,
     data.useCases
       ? remark()
           .use(html)
           .process(data.useCases)
           .then((file) => file.toString())
+          .then((html) => html.replace('href=', 'target="blank" href='))
       : undefined,
     data.support
       ? remark()
           .use(html)
           .process(data.support)
           .then((file) => file.toString())
+          .then((html) => html.replace('href=', 'target="blank" href='))
       : undefined,
   ])
 
