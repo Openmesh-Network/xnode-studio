@@ -35,10 +35,12 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
       <Command>
         <CommandInput
           placeholder="Type a command or search..."
-          className="h-10"
+          className="h-10 max-hdplus:h-8 max-hdplus:text-xs"
         />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>
+            <span className="max-hdplus: text-xs">No results found.</span>
+          </CommandEmpty>
           {/* <CommandGroup heading="Actions">
             <CommandItem onSelect={onSelect} asChild>
               <Link href="/claim">
@@ -64,9 +66,9 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
                 >
                   <Link href={navItem.href}>
                     {navItem.icon ? (
-                      <navItem.icon className="mr-2 size-4" />
+                      <navItem.icon className="mr-2 size-4 max-hdplus:size-3" />
                     ) : null}
-                    <span>{navItem.name}</span>
+                    <span className="max-hdplus:text-xs">{navItem.name}</span>
                   </Link>
                 </CommandItem>
               ))}
@@ -82,9 +84,9 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
                 >
                   <Link href={navItem.href}>
                     {navItem.icon ? (
-                      <navItem.icon className="mr-2 size-4" />
+                      <navItem.icon className="mr-2 size-4 max-hdplus:size-3" />
                     ) : null}
-                    <span>{navItem.name}</span>
+                    <span className="max-hdplus:text-xs">{navItem.name}</span>
                   </Link>
                 </CommandItem>
               ))}
@@ -93,8 +95,8 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
           <CommandGroup heading="Settings">
             <CommandItem onSelect={onSelect} asChild>
               <Link href="/login">
-                <User className="mr-2 size-4" />
-                <span>Profile</span>
+                <User className="mr-2 size-4 max-hdplus:size-3" />
+                <span className="max-hdplus:text-xs">Profile</span>
               </Link>
             </CommandItem>
             {user && (
@@ -105,8 +107,8 @@ export function GlobalSearch({ onSelect }: GlobalSearchProps) {
                   refresh()
                 }}
               >
-                <LogOut className="mr-2 size-4" />
-                <span>Log out</span>
+                <LogOut className="mr-2 size-4 max-hdplus:size-3" />
+                <span className="max-hdplus:text-xs">Log out</span>
               </CommandItem>
             )}
           </CommandGroup>

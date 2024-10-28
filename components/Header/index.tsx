@@ -112,12 +112,12 @@ export default function Header() {
       />
       <header
         className={cn(
-          'bg-foreground sticky inset-x-0 top-0 z-50 flex h-20 flex-col',
-          demoMode && 'h-24'
+          'sticky inset-x-0 top-0 z-50 flex h-20 flex-col bg-foreground max-hdplus:h-16',
+          demoMode && 'h-24 max-hdplus:h-20'
         )}
       >
         {demoMode && (
-          <div className="text-foreground flex h-6 w-full place-content-center gap-x-1 bg-orange-300">
+          <div className="flex h-6 w-full place-content-center gap-x-1 bg-orange-300 text-foreground">
             <TriangleAlert />
             <span>
               Xnode Studio is in Demo Mode. Information and interactions are for
@@ -134,13 +134,13 @@ export default function Header() {
             </Button>
           </div>
         )}
-        <div className="flex grow items-center justify-between gap-x-32 px-6">
+        <div className="flex grow items-center justify-between gap-x-32 px-6 max-hdplus:gap-x-20">
           <div className="flex items-center gap-6">
-            <div className="text-background shrink-0 text-2xl font-medium">
+            <div className="shrink-0 text-2xl font-medium text-background max-hdplus:text-lg">
               Xnode Studio
             </div>
             <Popover>
-              <PopoverTrigger className="border-background/15 bg-background/10 text-background flex h-9 min-w-56 items-center justify-between rounded border px-3 text-sm">
+              <PopoverTrigger className="flex h-9 min-w-56 items-center justify-between rounded border border-background/15 bg-background/10 px-3 text-sm text-background max-hdplus:min-w-48 max-hdplus:text-xs">
                 <span className="flex items-center gap-1.5">
                   <PanelLeft className="size-3.5" />
                   {selectedXNode
@@ -155,7 +155,11 @@ export default function Header() {
                     <CommandInput placeholder="Search your Xnode" />
                   ) : null}
                   <CommandList>
-                    <CommandEmpty>No Xnode found.</CommandEmpty>
+                    <CommandEmpty>
+                      <span className="max-hdplus:text-xs">
+                        No Xnode found.
+                      </span>
+                    </CommandEmpty>
                     <CommandGroup heading="Active">
                       {(demoMode
                         ? mockXNodes.map((x) => BigInt(x.deploymentAuth))
@@ -195,7 +199,7 @@ export default function Header() {
                               onSelect={(val) => setActivationOpen(val)}
                             >
                               {name}
-                              <span className="bg-primary/10 text-primary rounded px-2 py-0.5 text-xs">
+                              <span className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary">
                                 activate
                               </span>
                             </CommandItem>
@@ -209,12 +213,14 @@ export default function Header() {
             </Popover>
           </div>
           <Popover open={globalSearchOpen} onOpenChange={setGlobalSearchOpen}>
-            <PopoverTrigger className="border-background/15 bg-background/10 text-muted hover:bg-background/15 flex h-9 min-w-56 max-w-lg grow items-center justify-between gap-3 rounded border px-3 transition-colors">
+            <PopoverTrigger className="flex h-9 min-w-56 max-w-lg grow items-center justify-between gap-3 rounded border border-background/15 bg-background/10 px-3 text-muted transition-colors hover:bg-background/15">
               <span className="flex items-center gap-3">
-                <Search className="size-4" />
-                <span className="text-sm">Search & Run Commands</span>
+                <Search className="size-4 max-hdplus:size-3" />
+                <span className="text-sm max-hdplus:text-xs">
+                  Search & Run Commands
+                </span>
               </span>
-              <kbd className="border-muted-foreground/50 bg-foreground/50 text-muted pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100">
+              <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-muted-foreground/50 bg-foreground/50 px-1.5 font-mono text-[10px] font-medium text-muted opacity-100 max-hdplus:h-4">
                 <span className="text-xs">⌘</span>K
               </kbd>
             </PopoverTrigger>
@@ -224,40 +230,49 @@ export default function Header() {
             <button
               disabled
               type="button"
-              className="bg-primary text-background hover:bg-primary/90 flex size-9 items-center justify-center rounded transition-colors disabled:pointer-events-none disabled:opacity-50"
+              className="flex size-9 items-center justify-center rounded bg-primary text-background transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50 max-hdplus:size-8"
             >
-              <Plus className="size-5" strokeWidth={1.5} />
+              <Plus className="size-5 max-hdplus:size-4" strokeWidth={1.5} />
             </button>
-            <div className="text-background flex items-center gap-2">
+            <div className="flex items-center gap-2 text-background">
               <button
                 disabled
                 type="button"
-                className="hover:bg-background/10 flex size-9 items-center justify-center rounded transition-colors disabled:pointer-events-none disabled:opacity-50"
+                className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10 disabled:pointer-events-none disabled:opacity-50 max-hdplus:size-8"
               >
                 <span className="sr-only">Notifications</span>
-                <BellDot className="size-5" strokeWidth={1.5} />
+                <BellDot
+                  className="size-5 max-hdplus:size-4"
+                  strokeWidth={1.5}
+                />
               </button>
               <button
                 disabled
                 type="button"
-                className="hover:bg-background/10 flex size-9 items-center justify-center rounded transition-colors disabled:pointer-events-none disabled:opacity-50"
+                className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10 disabled:pointer-events-none disabled:opacity-50 max-hdplus:size-8"
               >
                 <span className="sr-only">Help</span>
-                <HelpCircle className="size-5" strokeWidth={1.5} />
+                <HelpCircle
+                  className="size-5 max-hdplus:size-4"
+                  strokeWidth={1.5}
+                />
               </button>
               <button
                 disabled
                 type="button"
-                className="hover:bg-background/10 flex size-9 items-center justify-center rounded transition-colors disabled:pointer-events-none disabled:opacity-50"
+                className="flex size-9 items-center justify-center rounded transition-colors hover:bg-background/10 disabled:pointer-events-none disabled:opacity-50 max-hdplus:size-8"
               >
                 <span className="sr-only">Settings</span>
-                <Settings className="size-5" strokeWidth={1.5} />
+                <Settings
+                  className="size-5 max-hdplus:size-4"
+                  strokeWidth={1.5}
+                />
               </button>
             </div>
             {!address && status === 'disconnected' && !demoMode ? (
               <button
                 type="button"
-                className="bg-primary text-background flex h-10 items-center gap-1.5 rounded px-4 text-base font-semibold tracking-tighter"
+                className="flex h-10 items-center gap-1.5 rounded bg-primary px-4 text-base font-semibold tracking-tighter text-background max-hdplus:h-8 max-hdplus:text-sm"
                 onClick={pressWalletButton}
               >
                 Connect Wallet
@@ -265,7 +280,7 @@ export default function Header() {
             ) : (
               <button
                 type="button"
-                className="bg-primary text-background flex h-10 items-center gap-1.5 rounded px-3 text-sm"
+                className="flex h-10 items-center gap-1.5 rounded bg-primary px-3 text-sm text-background"
                 onClick={pressWalletButton}
               >
                 <User2 className="size-4" />
