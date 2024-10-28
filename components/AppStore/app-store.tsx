@@ -360,10 +360,13 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                     <Button
                       className="px-5"
                       onClick={() => {
+                        const nixName = customApp.nixName.trim()
+                        const flakeUrl = customApp.flake.trim()
+
                         const service: ServiceData = {
-                          name: customApp.nixName,
+                          name: nixName,
                           desc: 'Custom App',
-                          nixName: customApp.nixName,
+                          nixName: nixName,
                           options: [
                             {
                               name: 'enable',
@@ -397,8 +400,8 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                           tags: [],
                           flakes: [
                             {
-                              name: `${customApp.nixName.trim()}-flake`,
-                              url: customApp.flake
+                              name: `${nixName}-flake`,
+                              url: flakeUrl
                                 .trim()
                                 .replace('https://github.com/', 'github:')
                                 .replace('/tree/', '/'), // branches
@@ -411,7 +414,7 @@ export default function AppStore({ categories, nftId, type }: AppStoreProps) {
                           type: AppStorePageType
                           services: ServiceData[]
                         } = {
-                          data: { ...service, id: customApp.nixName },
+                          data: { ...service, id: nixName },
                           specs: service.specs,
                           type: 'templates',
                           services: [service],
