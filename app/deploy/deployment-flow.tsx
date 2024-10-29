@@ -317,18 +317,18 @@ export default function DeploymentFlow({
             {selectedXNode ? (
               <RadioGroupCard
                 value="xnode-current"
-                className="data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 enabled:data-[state=unchecked]:hover:bg-muted rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:text-inherit"
+                className="rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 data-[state=checked]:text-inherit enabled:data-[state=unchecked]:hover:bg-muted"
               >
                 <div className="flex items-center gap-3">
-                  <IdCard className="text-primary size-8" strokeWidth={1.25} />
+                  <IdCard className="size-8 text-primary" strokeWidth={1.25} />
                   <h3 className="text-xl font-semibold">
                     Xnode DVM{' '}
-                    <span className="text-muted-foreground ml-1 font-mono text-base font-medium">
+                    <span className="ml-1 font-mono text-base font-medium text-muted-foreground">
                       ({selectedXNode.slice(0, 12)}…)
                     </span>
                   </h3>
                 </div>
-                <p className="text-muted-foreground mt-2 text-sm">
+                <p className="mt-2 text-sm text-muted-foreground">
                   You have an existing Xnode selected that is attached to your
                   wallet
                 </p>
@@ -336,13 +336,13 @@ export default function DeploymentFlow({
             ) : null}
             <RadioGroupCard
               value="xnode-new"
-              className="data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 enabled:data-[state=unchecked]:hover:bg-muted rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:text-inherit"
+              className="rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 data-[state=checked]:text-inherit enabled:data-[state=unchecked]:hover:bg-muted"
             >
               <div className="flex items-center gap-3">
-                <IdCard className="text-primary size-8" strokeWidth={1.25} />
+                <IdCard className="size-8 text-primary" strokeWidth={1.25} />
                 <h3 className="text-xl font-semibold">Xnode DVM</h3>
               </div>
-              <p className="text-muted-foreground mt-2 text-sm">
+              <p className="mt-2 text-sm text-muted-foreground">
                 Activate a powerful VPS with Xnode DVM. Use it as a
                 high-performance virtual computer to deploy apps like Ollama and
                 Microsoft Visual Studio. No KYC required.
@@ -350,13 +350,13 @@ export default function DeploymentFlow({
             </RadioGroupCard>
             <RadioGroupCard
               value="baremetal"
-              className="data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 enabled:data-[state=unchecked]:hover:bg-muted rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:text-inherit"
+              className="rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 data-[state=checked]:text-inherit enabled:data-[state=unchecked]:hover:bg-muted"
             >
               <div className="flex items-center gap-3">
-                <ServerCog className="text-primary size-8" strokeWidth={1.25} />
+                <ServerCog className="size-8 text-primary" strokeWidth={1.25} />
                 <h3 className="text-xl font-semibold">Baremetal</h3>
               </div>
-              <p className="text-muted-foreground mt-2 text-sm">
+              <p className="mt-2 text-sm text-muted-foreground">
                 Activate a powerful baremetal server with XnodeOS. Use it as a
                 dedicated high-performance machine and manage it through Xnode
                 Studio.
@@ -365,15 +365,15 @@ export default function DeploymentFlow({
             <RadioGroupCard
               disabled
               value="evp"
-              className="data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 enabled:data-[state=unchecked]:hover:bg-muted rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:text-inherit"
+              className="rounded border bg-transparent px-6 py-4 text-start transition-colors disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10 data-[state=checked]:text-inherit enabled:data-[state=unchecked]:hover:bg-muted"
             >
               <div className="flex items-center gap-3">
-                <Database className="text-primary size-8" strokeWidth={1.25} />
+                <Database className="size-8 text-primary" strokeWidth={1.25} />
                 <h3 className="text-xl font-semibold">
                   Openmesh Early Validator
                 </h3>
               </div>
-              <p className="text-muted-foreground mt-2 text-sm">
+              <p className="mt-2 text-sm text-muted-foreground">
                 Activate a powerful baremetal server with your Early Node
                 Validator Pass purchased during the sale. Run Web3 validator
                 nodes like Chainlink and Avalanche, validate the network, and
@@ -388,20 +388,20 @@ export default function DeploymentFlow({
             <div className="flex min-w-44 flex-col items-center gap-2">
               <div
                 className={cn(
-                  'border-primary flex size-10 items-center justify-center rounded-full border-2 transition-colors',
+                  'flex size-10 items-center justify-center rounded-full border-2 border-primary transition-colors',
                   activeDeploymentStep > 1
                     ? 'bg-primary'
                     : 'border-primary/25 bg-background'
                 )}
               >
                 {step[1] === 'xnode-current' && activeDeploymentStep === 1 ? (
-                  <RotateCw className="text-primary size-5 animate-spin" />
+                  <RotateCw className="size-5 animate-spin text-primary" />
                 ) : null}
                 {step[1] === 'baremetal' && activeDeploymentStep === 1 ? (
-                  <span className="bg-primary size-3 animate-pulse rounded-full" />
+                  <span className="size-3 animate-pulse rounded-full bg-primary" />
                 ) : null}
                 {activeDeploymentStep > 1 ? (
-                  <Check className="text-background size-6" />
+                  <Check className="size-6 text-background" />
                 ) : null}
               </div>
               <p>{deploymentSteps?.[0]}</p>
@@ -415,20 +415,20 @@ export default function DeploymentFlow({
             <div className="flex min-w-44 flex-col items-center gap-2">
               <div
                 className={cn(
-                  'border-primary flex size-10 items-center justify-center rounded-full border-2 transition-colors',
+                  'flex size-10 items-center justify-center rounded-full border-2 border-primary transition-colors',
                   activeDeploymentStep > 2
                     ? 'bg-primary'
                     : 'border-primary/25 bg-background'
                 )}
               >
                 {step[1] === 'xnode-current' && activeDeploymentStep === 2 ? (
-                  <RotateCw className="text-primary size-5 animate-spin" />
+                  <RotateCw className="size-5 animate-spin text-primary" />
                 ) : null}
                 {step[1] === 'baremetal' && activeDeploymentStep === 2 ? (
-                  <span className="bg-primary size-3 animate-pulse rounded-full" />
+                  <span className="size-3 animate-pulse rounded-full bg-primary" />
                 ) : null}
                 {activeDeploymentStep > 2 ? (
-                  <Check className="text-background size-6" />
+                  <Check className="size-6 text-background" />
                 ) : null}
               </div>
               <p>{deploymentSteps?.[1]}</p>
@@ -442,11 +442,11 @@ export default function DeploymentFlow({
             <div className="flex min-w-44 flex-col items-center gap-2">
               <div
                 className={cn(
-                  'border-primary/25 bg-background flex size-10 items-center justify-center rounded-full border-2 transition-colors'
+                  'flex size-10 items-center justify-center rounded-full border-2 border-primary/25 bg-background transition-colors'
                 )}
               >
                 {activeDeploymentStep === 3 ? (
-                  <RotateCw className="text-primary size-5 animate-spin" />
+                  <RotateCw className="size-5 animate-spin text-primary" />
                 ) : null}
               </div>
               <p>{deploymentSteps?.[2]}</p>
@@ -457,7 +457,7 @@ export default function DeploymentFlow({
           <div>
             {activeDeploymentStep === 1 ? (
               <div className="mb-4 mt-8">
-                <p className="bg-muted-foreground text-muted rounded border px-3 py-1.5 font-mono">
+                <p className="rounded border bg-muted-foreground px-3 py-1.5 font-mono text-muted">
                   <span className="opacity-75">
                     [{format(new Date(), 'HH:mm:ss')}]
                   </span>{' '}
@@ -468,7 +468,7 @@ export default function DeploymentFlow({
                 {item.serviceNames ? (
                   <div className="mt-1 flex flex-wrap gap-2">
                     {item.serviceNames.map((service) => (
-                      <span className="bg-primary/10 text-primary rounded px-2 py-0.5 text-xs">
+                      <span className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary">
                         {service}
                       </span>
                     ))}
@@ -483,7 +483,7 @@ export default function DeploymentFlow({
                     className="mt-2 object-contain"
                   />
                   <div>
-                    <p className="text-muted-foreground text-sm">
+                    <p className="text-sm text-muted-foreground">
                       Your selected Xnode
                     </p>
                     {selectedXNode ? (
@@ -497,7 +497,7 @@ export default function DeploymentFlow({
             ) : null}
             {activeDeploymentStep === 2 ? (
               <div className="mb-4 mt-8">
-                <p className="bg-muted-foreground text-muted rounded border px-3 py-1.5 font-mono">
+                <p className="rounded border bg-muted-foreground px-3 py-1.5 font-mono text-muted">
                   <span className="opacity-75">
                     [{format(new Date(), 'HH:mm:ss')}]
                   </span>{' '}
@@ -510,29 +510,29 @@ export default function DeploymentFlow({
               <>
                 <div className="mt-8 flex flex-col items-center">
                   <div className="relative">
-                    <Check className="text-background absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2" />
-                    <Icons.PrettyCheck className="text-primary size-32" />
+                    <Check className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 text-background" />
+                    <Icons.PrettyCheck className="size-32 text-primary" />
                   </div>
-                  <p className="text-primary text-xl font-bold">Success</p>
+                  <p className="text-xl font-bold text-primary">Success</p>
                 </div>
-                <p className="bg-muted-foreground text-muted my-4 rounded border px-3 py-1.5 font-mono">
+                <p className="my-4 rounded border bg-muted-foreground px-3 py-1.5 font-mono text-muted">
                   <span className="opacity-75">
                     [{format(new Date(), 'HH:mm:ss')}]
                   </span>{' '}
                   Your deployment is now running. This process might take some
                   time to finish.
                 </p>
-                <p className="text-muted-foreground mt-4 text-center text-xs">
+                <p className="mt-4 text-center text-xs text-muted-foreground">
                   Estimated time
                 </p>
                 <p className="text-center text-3xl font-bold">
                   {deployedXNodes?.find(
                     (xNode) => xNode.deploymentAuth === selectedXNode
                   )
-                    ? '1 Minute'
+                    ? '2 Minutes'
                     : '10 Minutes'}{' '}
                 </p>
-                <p className="text-muted-foreground mt-2 text-center text-sm">
+                <p className="mt-2 text-center text-sm text-muted-foreground">
                   To check back on the status, navigate to your deployments
                   page.
                 </p>
@@ -551,7 +551,7 @@ export default function DeploymentFlow({
               <p>{config.provider}</p>
               <h4 className="text-2xl font-bold">{config.name}</h4>
             </div>
-            <div className="text-muted-foreground flex items-center gap-1 text-sm">
+            <div className="flex items-center gap-1 text-sm text-muted-foreground">
               <MapPin className="size-3.5" />
               {config.location}
             </div>
@@ -562,22 +562,22 @@ export default function DeploymentFlow({
                 <Skeleton className="h-7 w-48" />
               )}
             </div>
-            <div className="text-muted-foreground mt-4 flex items-center gap-6 text-sm">
+            <div className="mt-4 flex items-center gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-1.5">
                 <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
-                  <Check className="text-background size-3.5" />
+                  <Check className="size-3.5 text-background" />
                 </div>
                 <p>No license</p>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
-                  <Check className="text-background size-3.5" />
+                  <Check className="size-3.5 text-background" />
                 </div>
                 <p>Connect to all our apps</p>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
-                  <Check className="text-background size-3.5" />
+                  <Check className="size-3.5 text-background" />
                 </div>
                 <p>No hidden setup fees</p>
               </div>
@@ -587,13 +587,13 @@ export default function DeploymentFlow({
               <p className="text-sm font-medium">Estimated monthly price</p>
               {selectedBaremetalServer ? (
                 <>
-                  <p className="text-primary mt-1 text-5xl font-bold">
+                  <p className="mt-1 text-5xl font-bold text-primary">
                     $
                     {selectedBaremetalServer.priceSale ??
                       selectedBaremetalServer.priceMonth}
                     <span className="text-2xl">/mo</span>
                   </p>
-                  <p className="text-muted-foreground mt-0.5 text-xs font-medium">
+                  <p className="mt-0.5 text-xs font-medium text-muted-foreground">
                     or ~{selectedBaremetalServer.priceHour}/hour
                   </p>
                 </>
@@ -605,7 +605,7 @@ export default function DeploymentFlow({
               )}
             </div>
             <div className="flex justify-end">
-              <p className="text-primary -mb-4 min-w-40 text-center">
+              <p className="-mb-4 min-w-40 text-center text-primary">
                 $200 Cashback
               </p>
             </div>
@@ -630,11 +630,11 @@ export default function DeploymentFlow({
               className={cn(
                 'mt-2 flex flex-col rounded border p-4',
                 // TODO: Reactivate once we allow for baremetal deployments
-                'border-destructive pointer-events-none opacity-50'
+                'pointer-events-none border-destructive opacity-50'
               )}
             >
               {/* TODO: Reactivate once we allow for baremetal deployments */}
-              <p className="text-destructive mb-4 font-semibold uppercase">
+              <p className="mb-4 font-semibold uppercase text-destructive">
                 coming soon
               </p>
               <p className="text-lg font-semibold">{config.provider}</p>
@@ -642,7 +642,7 @@ export default function DeploymentFlow({
                 <Label htmlFor="apiKey">API Key</Label>
                 <Input id="apiKey" name="apiKey" />
               </div>
-              <p className="text-muted-foreground mt-1 text-sm">
+              <p className="mt-1 text-sm text-muted-foreground">
                 Don&apos;t have an API key yet?{' '}
                 <Link href="#" className="underline underline-offset-2">
                   Get one here.
