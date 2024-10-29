@@ -35,11 +35,11 @@ export default function Home() {
             </div>
           </div>
           <div className="flex-1 shrink basis-2/5 content-center rounded-xl">
-            <Youtube
+            {/* <Youtube
               className="rounded-xl bg-foreground/10 p-3"
               opts={{ width: '500', height: '280' }}
               videoId="dYM_hg6PkcY"
-            />
+            /> */}
           </div>
         </div>
       </section>
