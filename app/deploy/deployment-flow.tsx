@@ -644,7 +644,11 @@ export default function DeploymentFlow({
               </div>
               <p className="mt-1 text-sm text-muted-foreground">
                 Don&apos;t have an API key yet?{' '}
-                <Link href="#" className="underline underline-offset-2">
+                <Link
+                  href="https://developers.hivelocity.net/docs/api-keys" //should be based on provider ofc
+                  target="_blank"
+                  className="underline underline-offset-2"
+                >
                   Get one here.
                 </Link>
               </p>
