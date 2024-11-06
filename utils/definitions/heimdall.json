@@ -6,11 +6,11 @@
   "support": "- **Community Forums:** Join the Polygon community for support and discussions on Heimdall through the [Polygon Forum](https://forum.polygon.technology).\n- **Documentation:** Access comprehensive guides and setup instructions at the [Polygon Documentation](https://docs.polygon.technology/pos/architecture/heimdall/heimdall-and-bor/) for user reference.\n- **Troubleshooting Help:** Review common issues and solutions in the [Heimdall GitHub Repository](https://github.com/0xPolygon/heimdall) for community-contributed support and updates.\n\nThis template provides an overview of Heimdall’s functionalities and practical applications, emphasizing its role within the Polygon ecosystem. For more detailed information, visit the [official Heimdall documentation](https://docs.polygon.technology/pos/architecture/heimdall/heimdall-and-bor/).",
   "flakes": [
     {
-      "name": "openmesh-polygon-package",
-      "url": "github:CheesecakeLabs/openmesh-polygon-package"
+      "name": "openmesh-heimdall-package",
+      "url": "github:CheesecakeLabs/openmesh-heimdall-package"
     }
   ],
-  "nixName": "heimdall",
+  "nixName": "heimdall-polygon",
   "specs": {
     "ram": 8192,
     "storage": 2097152

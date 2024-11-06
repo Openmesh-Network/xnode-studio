@@ -6,11 +6,11 @@
   "support": "- **Community Forums:** Engage with other developers and users on the [Polygon Community Forum](https://forum.polygon.technology) for insights and assistance.\n- **Documentation:** Access comprehensive installation and configuration guides on the [Bor GitHub Repository](https://github.com/maticnetwork/bor) and [Polygon Docs](https://docs.polygon.technology).\n- **Troubleshooting Help:** Explore common issues and resolutions in the [Bharwadia Help Centre](https://bitwarden.com/help/).\n\n This template outlines the core functionalities and practical applications of Bor within the Polygon ecosystem, emphasizing its benefits for developers and enterprises. For further details, you can visit the [official Bor documentation](https://github.com/maticnetwork/bor).",
   "flakes": [
     {
-      "name": "openmesh-polygon-package",
-      "url": "github:CheesecakeLabs/openmesh-polygon-package"
+      "name": "openmesh-bor-package",
+      "url": "github:CheesecakeLabs/openmesh-bor-package"
     }
   ],
-  "nixName": "polygon-bor",
+  "nixName": "bor",
   "specs": {
     "ram": 16384,
     "storage": 4194304
