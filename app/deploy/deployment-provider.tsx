@@ -412,16 +412,11 @@ export default function DeploymentProvider({
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Peer to peer resource marketplace
+                  Peer to Peer Resource Marketplace
                 </p>
               </div>
             </div>
-            <div className="col-span-2">
-              <p className="font-medium line-through">
-                $260<span>/mo</span>
-              </p>
-              <p className="text-xl font-bold text-green-600">Free</p>
-            </div>
+            <div className="col-span-2"></div>
             <div className="col-span-3 flex flex-1 justify-end">
               <div className="flex flex-col items-center gap-2">
                 <Button disabled size="lg" className="min-w-48">

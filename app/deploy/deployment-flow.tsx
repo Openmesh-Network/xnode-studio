@@ -114,7 +114,7 @@ export default function DeploymentFlow({
   const { data: selectedBaremetalServer } = useQuery<Provider>({
     queryKey: ['provider', config.name],
     queryFn: async () => {
-      return await fetch(`/api/providers/${config.name}`, {
+      return await fetch(`${prefix}/api/providers/${config.name}`, {
         method: 'GET',
       }).then((res) => res.json())
     },
