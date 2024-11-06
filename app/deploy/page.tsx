@@ -166,7 +166,7 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
                 type={type}
                 specs={specs}
               />
-              <DeploymentEdit disabled={advanced !== undefined} />
+              <DeploymentEdit />
             </div>
           </div>
           <div className="rounded border px-12 py-6">

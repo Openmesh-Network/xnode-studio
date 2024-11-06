@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { RefreshCcw } from 'lucide-react'
 
 import {
@@ -94,6 +94,15 @@ export function DeploymentEdit({ disabled }: { disabled?: boolean }) {
 
   const [serviceInEditIndex, setServiceInEditIndex] = useState<number>(0)
   const serviceInEdit = config.services[serviceInEditIndex]
+
+  useEffect(() => {
+    config.services.forEach((service) => {
+      let newMap = new Map(serviceChanges)
+      newMap.set(service.nixName, service.options)
+      setServiceChanges(newMap)
+    })
+  }, [config.services])
+
   return (
     <>
       <Button
@@ -280,17 +289,21 @@ export function DeploymentEdit({ disabled }: { disabled?: boolean }) {
             <Button
               size="lg"
               onClick={() => {
-                setOpen(false)
-                setConfig({
-                  ...config,
-                  services: config.services.map((s, i) => {
-                    if (i === serviceInEditIndex) {
-                      return { ...s, options: serviceChanges.get(s.nixName) }
-                    }
+                try {
+                  setOpen(false)
+                  setConfig({
+                    ...config,
+                    services: config.services.map((s, i) => {
+                      if (i === serviceInEditIndex) {
+                        return { ...s, options: serviceChanges.get(s.nixName) }
+                      }
 
-                    return s
-                  }),
-                })
+                      return s
+                    }),
+                  })
+                } catch (err) {
+                  console.error(err)
+                }
               }}
               className="min-w-48"
             >
