@@ -113,7 +113,7 @@ export default function ClaimXNodePage() {
             access 1000s of apps seamlessly.
           </p>
           <div className="mt-8">
-            <div className="text-muted-foreground flex gap-12">
+            <div className="flex gap-12 text-muted-foreground">
               <p className="text-3xl">
                 27x <span className="text-base">Cheaper</span>
               </p>
@@ -137,19 +137,19 @@ export default function ClaimXNodePage() {
             <div className="mt-8 flex items-center justify-between gap-6">
               <div className="flex items-center gap-2">
                 <div className="flex size-6 shrink-0 grow-0 items-center justify-center rounded-full bg-green-600">
-                  <Check className="text-background size-4" />
+                  <Check className="size-4 text-background" />
                 </div>
                 No one-time or ongoing fees.
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex size-6 shrink-0 grow-0 items-center justify-center rounded-full bg-green-600">
-                  <Check className="text-background size-4" />
+                  <Check className="size-4 text-background" />
                 </div>
                 Decentralized Ownership through Ethereum.
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex size-6 shrink-0 grow-0 items-center justify-center rounded-full bg-green-600">
-                  <Check className="text-background size-4" />
+                  <Check className="size-4 text-background" />
                 </div>
                 Easy deployment of 1000s of apps.
               </div>
@@ -293,7 +293,7 @@ export default function ClaimXNodePage() {
             }}
             className="mt-16 rounded border p-6"
           >
-            <div className="hdplus:flex-row flex flex-col items-center gap-x-12 gap-y-6">
+            <div className="flex flex-col items-center gap-x-12 gap-y-6 hdplus:flex-row">
               <div>
                 <h3 className="text-xl font-bold">Step 1</h3>
                 <p className="text-muted-foreground">Connect your wallet</p>
@@ -306,7 +306,7 @@ export default function ClaimXNodePage() {
                 </div>
               </div>
               <MoveRight
-                className="text-muted-foreground size-8 shrink-0 grow"
+                className="size-8 shrink-0 grow text-muted-foreground"
                 strokeWidth={1.5}
               />
               <div className="flex-1">
@@ -346,7 +346,7 @@ export default function ClaimXNodePage() {
                   </InputOTP>
                 </div>
                 <SimpleTooltip tooltip="Xnode DVM codes are distributed during Openmesh events. They cannot be acquire otherwise.">
-                  <p className="text-muted-foreground mt-2 text-sm underline underline-offset-2">
+                  <p className="mt-2 text-sm text-muted-foreground underline underline-offset-2">
                     I don&apos;t have one
                   </p>
                 </SimpleTooltip>
@@ -421,16 +421,16 @@ export default function ClaimXNodePage() {
             <DialogContent>
               <div className="mb-4 mt-8 flex flex-col items-center justify-center">
                 <div className="relative">
-                  <Check className="text-background absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2" />
-                  <Icons.PrettyCheck className="text-primary size-32" />
+                  <Check className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 text-background" />
+                  <Icons.PrettyCheck className="size-32 text-primary" />
                 </div>
-                <h3 className="text-primary mt-4 text-2xl font-bold">
+                <h3 className="mt-4 text-2xl font-bold text-primary">
                   Success
                 </h3>
                 <p className="text-lg font-semibold">
-                  Your Xnode One is activated
+                  Your Xnode DVM is activated
                 </p>
-                <p className="text-muted-foreground text-center text-sm">
+                <p className="text-center text-sm text-muted-foreground">
                   You successfully redeemed the 12 month access to your own
                   Xnode. Currently there is no deployment running on your Xnode.
                 </p>
@@ -467,7 +467,7 @@ export default function ClaimXNodePage() {
             />
           </div>
           <div className="mt-12">
-            <h3 className="text-muted-foreground text-xl">
+            <h3 className="text-xl text-muted-foreground">
               Why is it different?
             </h3>
             <ScrollArea>
@@ -564,7 +564,7 @@ export default function ClaimXNodePage() {
                   <tr>
                     <td
                       title="Azure"
-                      className="text-muted-foreground h-14 border-r px-6 font-semibold leading-tight"
+                      className="h-14 border-r px-6 font-semibold leading-tight text-muted-foreground"
                     >
                       Other
                       <br /> Providers

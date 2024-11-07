@@ -680,7 +680,7 @@ export default function DeploymentFlow({
               {flowType === 'xnode-current' || flowType === undefined
                 ? 'Deploy'
                 : null}
-              {flowType === 'xnode-new' ? 'Claim Xnode One' : null}
+              {flowType === 'xnode-new' ? 'Claim Xnode DVM' : null}
               {flowType === 'baremetal' ? 'Select Provider' : null}
             </Button>
           ) : null}
