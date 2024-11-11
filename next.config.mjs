@@ -17,6 +17,11 @@ const nextConfig = {
     ],
   },
   reactStrictMode: false,
+  webpack: (webpackConfig) => {
+    // For web3modal
+    webpackConfig.externals.push('pino-pretty', 'lokijs', 'encoding')
+    return webpackConfig
+  },
 }
 
 export default nextConfig

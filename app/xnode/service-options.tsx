@@ -21,6 +21,7 @@ export function ServiceOptionInput({
   return (
     <TableCell>
       {option.type === 'string' ||
+      option.type.includes('list') ||
       (option.type !== 'boolean' && !option.type.includes('integer')) ? (
         <Input
           value={value}
@@ -40,7 +41,7 @@ export function ServiceOptionInput({
           }}
         />
       ) : null}
-      {option.type.includes('integer') ? (
+      {option.type.includes('integer') && !option.type.includes('list') ? (
         <Input
           type="number"
           value={value}
