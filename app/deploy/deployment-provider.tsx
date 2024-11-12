@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { Spectral_SC } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
 import { type Provider } from '@/db/schema'
@@ -17,7 +18,7 @@ import {
 } from 'lucide-react'
 import { prefix } from 'utils/prefix'
 
-import { type Specs } from '@/types/dataProvider'
+import { type HardwareProduct, type Specs } from '@/types/dataProvider'
 import { cn, formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -64,7 +65,6 @@ export default function DeploymentProvider({
   specs,
   onSelect,
 }: DeploymentProviderProps) {
-  const [page, setPage] = useState<number>(0)
   const [searchInput, setSearchInput] = useState<string>('')
   const debouncedSearchInput = useDebounce(searchInput, 500)
   const [region, setRegion] = useState<string | null>(null)
@@ -72,44 +72,83 @@ export default function DeploymentProvider({
     [number | undefined, number | undefined]
   >([undefined, undefined])
   const debouncedPriceRange = useDebounce(priceRange, 500)
-  const { setConfig } = useDeploymentContext()
+  const { setConfig, setProvider } = useDeploymentContext()
 
-  const { data: providerData, isFetching: providersFetching } = useQuery({
-    queryKey: [
-      'resources',
-      page,
-      debouncedSearchInput,
-      region,
-      debouncedPriceRange,
-      specs,
-    ],
+  const { data: rawProviderData, isFetching: providersFetching } = useQuery({
+    initialData: [],
+    queryKey: ['resources'],
     queryFn: async () => {
-      const params = new URLSearchParams()
-      params.append('page', String(page))
-      if (debouncedSearchInput) {
-        params.append('q', debouncedSearchInput)
-      }
-      if (region) {
-        params.append('r', region)
-      }
-      if (specs?.ram && specs.ram > 0) {
-        const ramGB = specs.ram / 1024
-        params.append('minRAM', String(ramGB))
-      }
-      if (specs?.storage && specs.storage > 0) {
-        const storageGB = specs.storage / 1024
-        params.append('minStorage', String(storageGB))
-      }
-      debouncedPriceRange[0] &&
-        params.append('min', String(debouncedPriceRange[0]))
-      debouncedPriceRange[0] &&
-        params.append('max', String(debouncedPriceRange[1]))
-      const res = await fetch(prefix + `/api/providers?${params.toString()}`)
-      return res.json() as Promise<{ data: Provider[] }>
+      const res = await fetch(prefix + '/api/hivelocity/inventory')
+      return (await res.json()) as HardwareProduct[]
     },
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   })
+  const filteredProviderData = useMemo(() => {
+    return rawProviderData
+      .filter((product) => {
+        if (
+          debouncedSearchInput &&
+          !product.productName
+            .toLowerCase()
+            .includes(debouncedSearchInput.toLowerCase()) &&
+          !product.location
+            .toLowerCase()
+            .includes(debouncedSearchInput.toLowerCase())
+        ) {
+          return false
+        }
+
+        if (region && region.toLowerCase() !== product.location.toLowerCase()) {
+          return false
+        }
+
+        if (specs?.ram && product.ram.capacity < specs.ram / 1024) {
+          return false
+        }
+
+        if (
+          specs?.storage &&
+          product.storage.reduce((prev, cur) => prev + cur.capacity, 0) <
+            specs.storage / 1024
+        ) {
+          return false
+        }
+
+        if (
+          debouncedPriceRange[0] !== undefined &&
+          product.price.monthly < debouncedPriceRange[0]
+        ) {
+          return false
+        }
+
+        if (
+          debouncedPriceRange[1] !== undefined &&
+          product.price.monthly > debouncedPriceRange[1]
+        ) {
+          return false
+        }
+
+        return true
+      })
+      .sort((p1, p2) => {
+        if (p1.available === 0 && p2.available > 0) {
+          return 1
+        }
+
+        if (p2.available === 0 && p1.available > 0) {
+          return -1
+        }
+
+        return p1.price.monthly - p2.price.monthly
+      })
+  }, [
+    rawProviderData,
+    debouncedSearchInput,
+    region,
+    specs,
+    debouncedPriceRange,
+  ])
 
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const [loadingProgress, setLoadingProgress] = useState(-1)
@@ -138,19 +177,26 @@ export default function DeploymentProvider({
     }
   }, [providersFetching])
 
-  const { data: regionData, isLoading: regionLoading } = useQuery({
-    queryKey: ['regions'],
-    queryFn: async () => {
-      const res = await fetch(prefix + '/api/providers/regions')
-      return res.json() as Promise<string[]>
-    },
-  })
+  const regionData = useMemo(() => {
+    const regionMap = new Map<string, number>()
+    rawProviderData.forEach((product) =>
+      regionMap.set(
+        product.location,
+        (regionMap.get(product.location) ?? 0) + 1
+      )
+    )
+    const regionArray = [...regionMap].map(([name, count]) => {
+      return { name, count }
+    })
+    regionArray.sort((r1, r2) => r2.count - r1.count)
+    return regionArray.map((r) => r.name)
+  }, [rawProviderData])
 
   const histogramPriceData = useMemo(() => {
-    if (!providerData?.data) return []
+    if (!rawProviderData) return []
     const BINS = 32
-    const prices = providerData.data
-      .map((provider) => provider.priceSale ?? provider.priceMonth)
+    const prices = rawProviderData
+      .map((provider) => provider.price.monthly)
       .filter((price) => price !== null)
 
     const minPrice = Math.min(...prices)
@@ -175,7 +221,7 @@ export default function DeploymentProvider({
       (count / totalCount) * 100,
     ])
     return histogram
-  }, [providerData?.data])
+  }, [rawProviderData])
 
   const scaledHistogramData = useMemo(() => {
     const MIN = 10
@@ -349,7 +395,7 @@ export default function DeploymentProvider({
           <div className="flex flex-col space-y-2">
             <Label htmlFor="region">Region</Label>
             <Popover>
-              <PopoverTrigger id="region" asChild disabled={regionLoading}>
+              <PopoverTrigger id="region" asChild disabled={providersFetching}>
                 <Button
                   size="lg"
                   variant="outline"
@@ -401,32 +447,32 @@ export default function DeploymentProvider({
           </div>
         </div>
         <ScrollArea className="h-[40rem] w-full flex-1 pr-3" type="auto">
-          <div className="grid grid-cols-12 items-center gap-12 rounded border border-primary bg-gradient-to-r from-primary/5 to-[#FFFED9] px-6 py-4">
-            <div className="col-span-7 flex items-center gap-4">
-              <Icons.Openmesh className="size-14 p-1" />
-              <div>
-                <div className="flex items-start gap-1">
-                  <p className="text-lg font-bold">Openmesh Cloud</p>
-                  <span className="rounded bg-primary px-1.5 py-px text-xs font-medium text-background">
-                    Beta
-                  </span>
+          <ul className="flex flex-col gap-2 text-black">
+            <li className="grid grid-cols-12 items-center gap-12 rounded border border-primary bg-gradient-to-r from-primary/5 to-[#FFFED9] px-6 py-4">
+              <div className="col-span-7 flex items-center gap-4">
+                <Icons.Openmesh className="size-14 p-1" />
+                <div>
+                  <div className="flex items-start gap-1">
+                    <p className="text-lg font-bold">Openmesh Cloud</p>
+                    <span className="rounded bg-primary px-1.5 py-px text-xs font-medium text-background">
+                      Beta
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Peer to Peer Resource Marketplace
+                  </p>
                 </div>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Peer to Peer Resource Marketplace
-                </p>
               </div>
-            </div>
-            <div className="col-span-2"></div>
-            <div className="col-span-3 flex flex-1 justify-end">
-              <div className="flex flex-col items-center gap-2">
-                <Button disabled size="lg" className="min-w-48">
-                  Coming Soon
-                </Button>
-                <p className="text-sm text-primary">1,000 OPEN Rewards</p>
+              <div className="col-span-2"></div>
+              <div className="col-span-3 flex flex-1 justify-end">
+                <div className="flex flex-col items-center gap-2">
+                  <Button disabled size="lg" className="min-w-48">
+                    Coming Soon
+                  </Button>
+                  <p className="text-sm text-primary">1,000 OPEN Rewards</p>
+                </div>
               </div>
-            </div>
-          </div>
-          <ul className="mt-8 flex flex-col gap-2 text-black">
+            </li>
             <li className="grid grid-cols-12 items-center gap-12 rounded border border-primary/25 bg-primary/[0.01] px-6 py-4">
               <div className="col-span-7 flex items-center gap-4">
                 <Image
@@ -439,7 +485,7 @@ export default function DeploymentProvider({
                 <div>
                   <p className="text-lg font-bold">Xnode DVM</p>
                   <p className="text-sm text-muted-foreground">
-                    CPU, 8-Core (16-Thread), RAM, 16GB DDR4 ; Storage, 320GB SSD
+                    8-Core (16 threads), 16GB RAM, 320GB SSD, 1 Gbps
                   </p>
                 </div>
               </div>
@@ -460,41 +506,48 @@ export default function DeploymentProvider({
                       Select
                     </Button>
                   </Link>
-                  <p className="text-sm text-primary">$200 Cashback</p>
                 </div>
               </div>
             </li>
-            {providerData !== undefined ? (
-              providerData.data.length === 0 ? (
+          </ul>
+          <ul className="mt-8 flex flex-col gap-2 text-black">
+            {filteredProviderData !== undefined ? (
+              filteredProviderData.length === 0 ? (
                 <li className="my-12 grid place-content-center text-xl font-bold">
                   No results found.
                 </li>
               ) : (
-                providerData.data
+                filteredProviderData
                   .slice(
                     0,
                     loadingProgress > -1
                       ? Math.round(
-                          (providerData.data.length *
+                          (filteredProviderData.length *
                             Math.max(loadingProgress, 0)) /
                             TEMP_FETCH_ENDPOINTS
                         )
                       : undefined
                   )
-                  .map((provider) => {
+                  .map((provider, i) => {
                     let config = ''
-                    if (provider.cpuGHZ) config += `${provider.cpuGHZ}GHz `
-                    if (provider.cpuCores)
-                      config += `${provider.cpuCores}-Core `
-                    if (provider.cpuThreads)
-                      config += `(${provider.cpuThreads} threads)`
-                    if (provider.ram) config += `, ${provider.ram}GB RAM`
-                    if (provider.storageTotal)
-                      config += `, ${provider.storageTotal} GB`
-                    if (provider.network) config += `, ${provider.network} Gbps`
+                    if (provider.cpu.ghz) config += `${provider.cpu.ghz}GHz `
+                    if (provider.cpu.cores)
+                      config += `${provider.cpu.cores}-Core`
+                    if (provider.cpu.threads)
+                      config += ` (${provider.cpu.threads} threads)`
+                    if (provider.ram.capacity)
+                      config += `, ${provider.ram.capacity}GB RAM`
+                    if (provider.storage.length) {
+                      config += `, ${provider.storage.reduce((prev, cur) => prev + cur.capacity, 0)} GB`
+                      if (provider.storage.at(0).type) {
+                        config += ` ${provider.storage.at(0).type}`
+                      }
+                    }
+                    if (provider.network.speed)
+                      config += `, ${provider.network.speed} Gbps`
                     return (
                       <li
-                        key={provider.id}
+                        key={i}
                         className="grid grid-cols-12 items-center gap-12 rounded border px-6 py-4"
                       >
                         <div className="col-span-5 flex items-center gap-4">
@@ -525,26 +578,11 @@ export default function DeploymentProvider({
                         <div className="col-span-2">
                           <p>
                             ~
-                            <span
-                              className={cn(
-                                provider.priceSale
-                                  ? 'line-through'
-                                  : 'text-xl font-bold'
-                              )}
-                            >
-                              {formatPrice(provider.priceMonth ?? 0)}
+                            <span className={'text-xl font-bold'}>
+                              {formatPrice(provider.price.monthly ?? 0)}
                             </span>
                             /mo
                           </p>
-                          {provider.priceSale !== null ? (
-                            <p>
-                              ~
-                              <span className="text-xl font-bold">
-                                {formatPrice(provider.priceSale)}
-                              </span>
-                              /mo
-                            </p>
-                          ) : null}
                         </div>
                         <div className="col-span-3 flex flex-1 justify-end">
                           <div className="flex flex-col items-center gap-2">
@@ -553,6 +591,7 @@ export default function DeploymentProvider({
                               size="lg"
                               className="min-w-48"
                               onClick={() => {
+                                setProvider(provider)
                                 setConfig((prev) => ({
                                   ...prev,
                                   name: provider.productName!,
@@ -562,18 +601,15 @@ export default function DeploymentProvider({
                                 }))
                                 onSelect()
                               }}
+                              disabled={provider.available === 0}
                             >
                               Select
                             </Button>
-                            {provider.priceSale !== null ? (
-                              <p className="text-sm text-primary">
-                                {formatPrice(
-                                  (provider.priceMonth ?? 0) -
-                                    provider.priceSale
-                                )}{' '}
-                                Cashback
+                            {provider.available === 0 && (
+                              <p className="text-sm text-muted-foreground">
+                                Unavailable
                               </p>
-                            ) : null}
+                            )}
                           </div>
                         </div>
                       </li>

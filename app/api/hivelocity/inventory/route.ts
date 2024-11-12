@@ -103,63 +103,72 @@ function dataCenterLocation(dataCenter: string) {
 }
 
 export async function GET(_: NextRequest) {
-  const rawInventory = await fetch(
-    'https://core.hivelocity.net/api/v2/inventory/product?location=MAIN&bonding_support=null&group_by=facility',
-    {
-      headers: [
-        ['Accept', 'application/json'],
-        ['X-API-KEY', process.env.HIVELOCITY_API_KEY],
-      ],
-    }
-  ).then((res) => res.json())
-  const inventory: HardwareProduct[] = Object.keys(rawInventory)
-    .flatMap((region) => rawInventory[region])
-    .map((product: HivelocityProduct) => {
-      return {
-        available: product.stock === 'available' ? 1_000_000_000 : 0,
-        cpu: {
-          cores: product.processor_info.cores,
-          threads: product.processor_info.threads,
-          ghz: extractNumberBeforePostfix({
-            data: product.product_cpu.toLowerCase(),
-            postfix: 'ghz',
-            isInt: false,
-          }),
-        },
-        id: product.product_id.toString(),
-        location: dataCenterLocation(product.data_center),
-        network: {
-          speed: extractNumberBeforePostfix({
-            data: product.product_bandwidth.toLowerCase(),
-            postfix: 'gbps',
-            isInt: true,
-          }),
-        },
-        price: {
-          monthly: product.product_monthly_price,
-        },
-        productName: product.product_name ?? product.product_id.toString(),
-        providerName: 'Hivelocity',
-        ram: {
+  const rawInventory: HivelocityProduct[] = []
+  await Promise.all(
+    ['MAIN', 'GPU', 'OUTLET', 'LANDING'].map(async (location) =>
+      rawInventory.push(
+        ...(await fetch(
+          `https://core.hivelocity.net/api/v2/inventory/product?location=${location}&bonding_support=null&group_by=flat`,
+          {
+            headers: [
+              ['Accept', 'application/json'],
+              ['X-API-KEY', process.env.HIVELOCITY_API_KEY],
+            ],
+          }
+        ).then((res) => res.json()))
+      )
+    )
+  )
+  const inventory: HardwareProduct[] = rawInventory.map((product) => {
+    return {
+      available: product.stock === 'available' ? 1_000_000_000 : 0,
+      cpu: {
+        cores: product.processor_info.cores,
+        threads: product.processor_info.threads,
+        ghz: extractNumberBeforePostfix({
+          data: product.product_cpu.toLowerCase(),
+          postfix: 'ghz',
+          isInt: false,
+        }),
+      },
+      id: product.product_id.toString(),
+      location: dataCenterLocation(product.data_center),
+      network: {
+        speed: extractNumberBeforePostfix({
+          data: product.product_bandwidth.toLowerCase(),
+          postfix: 'gbps',
+          isInt: true,
+        }),
+      },
+      price: {
+        monthly: product.product_monthly_price,
+      },
+      productName: product.product_name || product.product_id.toString(),
+      providerName: 'Hivelocity',
+      ram: {
+        capacity: extractNumberBeforePostfix({
+          data: product.product_memory.toLowerCase(),
+          postfix: 'gb',
+          isInt: true,
+        }),
+        ghz: 0,
+      },
+      storage: [
+        {
           capacity: extractNumberBeforePostfix({
-            data: product.product_memory.toLowerCase(),
+            data: product.product_drive.toLowerCase(),
             postfix: 'gb',
             isInt: true,
           }),
-          ghz: 0,
+          type: product.product_drive.toLowerCase().includes('ssd')
+            ? 'SSD'
+            : product.product_drive.toLowerCase().includes('sata')
+              ? 'SATA'
+              : undefined,
         },
-        storage: [
-          {
-            capacity: extractNumberBeforePostfix({
-              data: product.product_drive.toLowerCase(),
-              postfix: 'gb',
-              isInt: true,
-            }),
-            type: product.product_drive.split(' ').at(-1) ?? 'Unknown',
-          },
-        ],
-      }
-    })
+      ],
+    }
+  })
   return Response.json(inventory)
 }
 

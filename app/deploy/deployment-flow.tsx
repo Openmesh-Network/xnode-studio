@@ -95,8 +95,6 @@ export default function DeploymentFlow({
   const { demoMode } = useDemoModeContext()
 
   const router = useRouter()
-  const { address } = useAccount()
-  const { data: allXNodeNfts } = useXuNfts(address)
   const [selectedXNode] = useSelectedXNode()
   const { data: deployedXNodes } = useXnodes(sessionToken)
 
@@ -109,34 +107,24 @@ export default function DeploymentFlow({
   const [deploymentSteps, setDeploymentSteps] =
     useState<DeploymentFlow | null>()
 
-  const { config } = useDeploymentContext()
+  const { config, provider } = useDeploymentContext()
 
-  const { data: selectedBaremetalServer } = useQuery<Provider>({
-    queryKey: ['provider', config.name],
-    queryFn: async () => {
-      return await fetch(`${prefix}/api/providers/${config.name}`, {
-        method: 'GET',
-      }).then((res) => res.json())
-    },
-    enabled: step[0] === 2 && step[1] === 'baremetal',
-  })
   const baremetalConfig = useMemo(() => {
-    if (!selectedBaremetalServer) return null
+    if (!provider) return null
     let config = ''
-    if (selectedBaremetalServer.cpuGHZ)
-      config += `${selectedBaremetalServer.cpuGHZ}GHz `
-    if (selectedBaremetalServer.cpuCores)
-      config += `${selectedBaremetalServer.cpuCores}-Core `
-    if (selectedBaremetalServer.cpuThreads)
-      config += `(${selectedBaremetalServer.cpuThreads} threads)`
-    if (selectedBaremetalServer.ram)
-      config += `, ${selectedBaremetalServer.ram}GB RAM`
-    if (selectedBaremetalServer.storageTotal)
-      config += `, ${selectedBaremetalServer.storageTotal} GB`
-    if (selectedBaremetalServer.network)
-      config += `, ${selectedBaremetalServer.network} Gbps`
+    if (provider.cpu.ghz) config += `${provider.cpu.ghz}GHz `
+    if (provider.cpu.cores) config += `${provider.cpu.cores}-Core`
+    if (provider.cpu.threads) config += ` (${provider.cpu.threads} threads)`
+    if (provider.ram.capacity) config += `, ${provider.ram.capacity}GB RAM`
+    if (provider.storage.length) {
+      config += `, ${provider.storage.reduce((prev, cur) => prev + cur.capacity, 0)} GB`
+      if (provider.storage.at(0).type) {
+        config += ` ${provider.storage.at(0).type}`
+      }
+    }
+    if (provider.network.speed) config += `, ${provider.network.speed} Gbps`
     return config
-  }, [selectedBaremetalServer])
+  }, [provider])
 
   function handlePreviousStep() {
     switch (step[0]) {
@@ -554,7 +542,7 @@ export default function DeploymentFlow({
               {config.location}
             </div>
             <div className="mt-2">
-              {selectedBaremetalServer ? (
+              {provider ? (
                 <p className="text-muted-foreground">{baremetalConfig}</p>
               ) : (
                 <Skeleton className="h-7 w-48" />
@@ -582,17 +570,12 @@ export default function DeploymentFlow({
             </div>
             <Separator className="my-4" />
             <div>
-              <p className="text-sm font-medium">Estimated monthly price</p>
-              {selectedBaremetalServer ? (
+              <p className="text-sm font-medium">Estimated price</p>
+              {provider ? (
                 <>
                   <p className="mt-1 text-5xl font-bold text-primary">
-                    $
-                    {selectedBaremetalServer.priceSale ??
-                      selectedBaremetalServer.priceMonth}
+                    ${provider.price.monthly}
                     <span className="text-2xl">/mo</span>
-                  </p>
-                  <p className="mt-0.5 text-xs font-medium text-muted-foreground">
-                    or ~{selectedBaremetalServer.priceHour}/hour
                   </p>
                 </>
               ) : (
@@ -602,11 +585,11 @@ export default function DeploymentFlow({
                 </>
               )}
             </div>
-            <div className="flex justify-end">
+            {/* <div className="flex justify-end">
               <p className="-mb-4 min-w-40 text-center text-primary">
                 $200 Cashback
               </p>
-            </div>
+            </div> */}
           </div>
         ) : null}
         {step[0] === 2 &&
@@ -620,9 +603,7 @@ export default function DeploymentFlow({
             </p>
             <p className="mt-2">
               {config.name}
-              {selectedBaremetalServer
-                ? ` | $${selectedBaremetalServer.priceSale ?? selectedBaremetalServer.priceMonth}/mo`
-                : null}
+              {provider ? ` | $${provider.price.monthly}/mo` : null}
             </p>
             <div
               className={cn(

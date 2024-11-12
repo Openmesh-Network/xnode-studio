@@ -9,11 +9,16 @@ import {
   type SetStateAction,
 } from 'react'
 
-import { type DeploymentConfiguration } from '@/types/dataProvider'
+import {
+  type DeploymentConfiguration,
+  type HardwareProduct,
+} from '@/types/dataProvider'
 
 type DeploymentContext = {
   config: DeploymentConfiguration
   setConfig: Dispatch<SetStateAction<DeploymentConfiguration>>
+  provider?: HardwareProduct
+  setProvider: Dispatch<SetStateAction<HardwareProduct | undefined>>
 }
 
 const DeploymentContext = createContext<DeploymentContext | null>(null)
@@ -37,9 +42,12 @@ export function DeploymentContextProvider({
   initialData,
 }: DeploymentContextProviderProps) {
   const [config, setConfig] = useState<DeploymentConfiguration>(initialData)
+  const [provider, setProvider] = useState<HardwareProduct>(undefined)
 
   return (
-    <DeploymentContext.Provider value={{ config, setConfig }}>
+    <DeploymentContext.Provider
+      value={{ config, setConfig, provider, setProvider }}
+    >
       {children}
     </DeploymentContext.Provider>
   )
