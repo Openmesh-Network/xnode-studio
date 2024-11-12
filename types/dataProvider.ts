@@ -129,6 +129,19 @@ export type AppStoreItem = {
   serviceNames?: string[]
 }
 
+export interface HardwareProduct {
+  id: string
+  available: number
+  productName: string
+  providerName: string
+  location: string
+  price: { [duration: string]: number }
+  cpu: { cores: number; threads: number; ghz: number }
+  ram: { capacity: number; ghz: number }
+  storage: { capacity: number; type?: string }[]
+  network: { speed: number }
+}
+
 let serviceMap: Map<string, ServiceData> = null
 export function serviceByName(name: string): ServiceData | undefined {
   if (serviceMap == null) {

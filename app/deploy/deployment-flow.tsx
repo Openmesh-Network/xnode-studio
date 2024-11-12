@@ -225,7 +225,6 @@ export default function DeploymentFlow({
               services: servicesCompressedForAdmin(
                 Array.from(newServiceMap.values())
               ),
-              'users.users': [],
             })
           ).toString('base64'),
         },
@@ -248,7 +247,6 @@ export default function DeploymentFlow({
           services: Buffer.from(
             JSON.stringify({
               services: servicesCompressedForAdmin(config.services),
-              'users.users': [],
             })
           ).toString('base64'),
         },

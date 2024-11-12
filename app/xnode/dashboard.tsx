@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { servicesCompressedForAdmin } from '@/utils/xnode'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
@@ -63,7 +64,6 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { SimpleTooltip } from '@/components/Common/SimpleTooltip'
 import { useDemoModeContext } from '@/components/demo-mode'
-import { sshUserData } from '@/components/Deployments/serviceAccess'
 import Signup from '@/components/Signup'
 
 import { HealthChartItem } from '../dashboard/health-data'
@@ -82,6 +82,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
 
   const [user] = useUser()
   const { toast } = useToast()
+  const { push } = useRouter()
 
   const {
     data: xNodeData,
@@ -93,6 +94,8 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   } = useQuery<Xnode>({
     queryKey: ['xnodes', xNodeId],
     queryFn: async () => {
+      if (resetting) return xNodeData
+
       if (!user?.sessionToken) return null
       const data = await fetch(
         `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/getXnode`,
@@ -202,8 +205,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     return changes
   }, [defaultOptions, serviceChanges, services?.services])
 
-  const [userData, setUserData] = useState<ServiceData>(sshUserData('')) // Always relates to the xnode user for now.
-
   const [editService, setEditService] = useState<ServiceData['nixName'] | null>(
     null
   )
@@ -217,6 +218,8 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   const [deleteServiceOpen, setDeleteServiceOpen] = useState<
     ServiceData['nixName'] | null
   >(null)
+  const [resetMachineOpen, setResetMachineOpen] = useState<boolean>(false)
+  const [resetting, setResetting] = useState<boolean>(false)
 
   const updateServices = useCallback(async () => {
     if (demoMode) return
@@ -245,7 +248,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
           services: Buffer.from(
             JSON.stringify({
               services: formattedServices,
-              'users.users': [userData],
             })
           ).toString('base64'),
         }),
@@ -260,7 +262,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     serviceChanges,
     services?.services,
     user?.sessionToken,
-    userData,
     xNodeId,
   ])
 
@@ -286,7 +287,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
           services: Buffer.from(
             JSON.stringify({
               services: formattedServices,
-              'users.users': [userData],
             })
           ).toString('base64'),
         }),
@@ -302,7 +302,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     refetch,
     services?.services,
     user?.sessionToken,
-    userData,
     xNodeId,
   ])
 
@@ -328,6 +327,46 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
       refetch()
     )
   }
+
+  const resetMachine = useCallback(async () => {
+    if (demoMode) return
+    if (!services?.services || !user?.sessionToken) return
+
+    setResetting(true)
+    try {
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/createXnode`,
+        {
+          method: 'POST',
+          headers: {
+            'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+            'X-Parse-Session-Token': user.sessionToken,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: xNodeData.name,
+            location: xNodeData.location,
+            description: xNodeData.description,
+            provider: xNodeData.provider,
+            isUnit: xNodeData.isUnit,
+            deploymentAuth: xNodeData.deploymentAuth,
+            services: xNodeData.services,
+          }),
+        }
+      )
+
+      push('/deployments')
+    } finally {
+      setResetting(false)
+    }
+  }, [
+    demoMode,
+    refetch,
+    serviceChanges,
+    services?.services,
+    user?.sessionToken,
+    xNodeId,
+  ])
 
   return (
     <div className="container my-12 max-w-none">
@@ -631,14 +670,52 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               </AlertDialogHeader>
             </AlertDialogContent>
           </AlertDialog>
+          <AlertDialog
+            open={!!resetMachineOpen}
+            onOpenChange={() => setResetMachineOpen(false)}
+          >
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Are you sure you want to reset your machine?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will delete all data storage of your applications. The
+                  nix configuration will be migrated to a new hardware machine.
+                  This action cannot be undone.
+                </AlertDialogDescription>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-red-500 hover:bg-red-600"
+                    onClick={() => resetMachine()}
+                  >
+                    Reset
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogHeader>
+            </AlertDialogContent>
+          </AlertDialog>
+          <AlertDialog open={resetting}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Resetting...</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Please wait. You will be redirected to the deployment page.
+                  Your new server will show up once the new machine has been
+                  provisioned. This can take several minutes.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+            </AlertDialogContent>
+          </AlertDialog>
           {xNode.heartbeatData?.wantUpdate &&
           xNode.updateGenerationHave == xNode.updateGenerationWant &&
           xNode.status === 'online' ? (
             <div className="fixed inset-x-0 bottom-8 z-30 flex justify-center">
-              <div className="border-primary flex flex-wrap items-center justify-between gap-12 rounded border bg-[color-mix(in_srgb,hsl(var(--background)),hsl(var(--primary))_5%)] px-6 py-4 shadow-xl">
+              <div className="flex flex-wrap items-center justify-between gap-12 rounded border border-primary bg-[color-mix(in_srgb,hsl(var(--background)),hsl(var(--primary))_5%)] px-6 py-4 shadow-xl">
                 <div>
                   <p className="text-lg font-bold">Update available</p>
-                  <p className="text-muted-foreground max-w-96 text-balance text-sm">
+                  <p className="max-w-96 text-balance text-sm text-muted-foreground">
                     There is an update available for your Xnode. Please make
                     sure to keep everything up to date, by allowing updates.
                   </p>
@@ -655,7 +732,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
           ) : null}
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger className="text-muted-foreground flex items-start gap-0.5 font-medium">
+              <TooltipTrigger className="flex items-start gap-0.5 font-medium text-muted-foreground">
                 {xNode.isUnit
                   ? formatXNodeName(xNode.deploymentAuth)
                   : `Xnode ${xNode.id}`}
@@ -663,7 +740,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               </TooltipTrigger>
               <TooltipContent className="max-w-80">
                 <p className="text-base font-semibold">Xnode NFT</p>
-                <p className="text-muted-foreground break-all">
+                <p className="break-all text-muted-foreground">
                   {xNode.deploymentAuth}
                 </p>
               </TooltipContent>
@@ -684,7 +761,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               {xNode.status}
             </span>
             {xNode.ipAddress && (
-              <div className="text-muted-foreground flex gap-1.5 rounded border px-2.5 py-1 text-sm font-medium">
+              <div className="flex gap-1.5 rounded border px-2.5 py-1 text-sm font-medium text-muted-foreground">
                 <span>IP address</span>
                 <div className="my-0.5">
                   <Separator orientation="vertical" />
@@ -710,7 +787,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                           })
                         })
                     }}
-                    className="text-primary size-auto bg-transparent p-0 hover:bg-transparent"
+                    className="size-auto bg-transparent p-0 text-primary hover:bg-transparent"
                   >
                     <Copy className="size-4" />
                   </Button>
@@ -718,7 +795,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               </div>
             )}
             {xNode.isUnit && (
-              <div className="text-muted-foreground flex gap-1.5 rounded border px-2.5 py-1 text-sm font-medium">
+              <div className="flex gap-1.5 rounded border px-2.5 py-1 text-sm font-medium text-muted-foreground">
                 <span>Remaining Xnode Time</span>
                 <div className="my-0.5">
                   <Separator orientation="vertical" />
@@ -735,23 +812,16 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h2 className="text-xl font-bold">Resources</h2>
-                <p className="text-muted-foreground text-xs">
+                <p className="text-xs text-muted-foreground">
                   Last updated {lastUpdated} ago
                 </p>
               </div>
-              <Button
-                disabled={isFetching}
-                variant="outlinePrimary"
-                onClick={() => updateXNode()}
-              >
-                Force Update
-              </Button>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-6">
-              <div className="bg-muted/50 flex flex-col items-center gap-4 rounded border px-4 py-2.5">
+              <div className="flex flex-col items-center gap-4 rounded border bg-muted/50 px-4 py-2.5">
                 <div className="text-center">
                   <p className="font-bold">CPU</p>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-sm text-muted-foreground">
                     Current CPU utilization
                   </p>
                 </div>
@@ -761,10 +831,10 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                   healthData={xNode.heartbeatData?.cpuPercent ?? 0}
                 />
               </div>
-              <div className="bg-muted/50 flex flex-col items-center gap-4 rounded border px-4 py-2.5">
+              <div className="flex flex-col items-center gap-4 rounded border bg-muted/50 px-4 py-2.5">
                 <div className="text-center">
                   <p className="font-bold">RAM</p>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-sm text-muted-foreground">
                     {Math.round(
                       ((xNode.heartbeatData?.ramMbUsed ?? 0) / 1024) * 100
                     ) / 100}
@@ -785,10 +855,10 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                   }
                 />
               </div>
-              <div className="bg-muted/50 flex flex-col items-center gap-4 rounded border px-4 py-2.5">
+              <div className="flex flex-col items-center gap-4 rounded border bg-muted/50 px-4 py-2.5">
                 <div className="text-center">
                   <p className="font-bold">Storage</p>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-sm text-muted-foreground">
                     {Math.round(
                       ((xNode.heartbeatData?.storageMbUsed ?? 0) / 1024) * 100
                     ) / 100}
@@ -815,11 +885,25 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h2 className="text-xl font-bold">Apps</h2>
-                <p className="text-muted-foreground text-xs">
+                <p className="text-xs text-muted-foreground">
                   See and manage all the installed apps on your Xnode.
                 </p>
               </div>
               <div className="flex items-center gap-3">
+                <Button
+                  disabled={isFetching}
+                  variant="outlinePrimary"
+                  onClick={() => setResetMachineOpen(true)}
+                >
+                  Reset
+                </Button>
+                <Button
+                  disabled={isFetching}
+                  variant="outlinePrimary"
+                  onClick={() => updateXNode()}
+                >
+                  Force Update
+                </Button>
                 <Link href="/app-store">
                   <Button variant="outlinePrimary">Add App</Button>
                 </Link>
@@ -882,7 +966,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                           className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
                         >
                           <span className="sr-only">Open</span>
-                          <ExternalLink className="text-muted-foreground size-6" />
+                          <ExternalLink className="size-6 text-muted-foreground" />
                         </Link>
                       </TableCell>
                       <TableCell className="min-w-40">
@@ -903,7 +987,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                           {service.tags?.map((tag) => (
                             <span
                               key={tag}
-                              className="bg-primary/10 text-primary rounded px-2 py-0.5 text-xs capitalize"
+                              className="rounded bg-primary/10 px-2 py-0.5 text-xs capitalize text-primary"
                             >
                               {tag}
                             </span>
