@@ -26,7 +26,7 @@ import {
 import { type ServiceData } from '@/types/dataProvider'
 import { type HeartbeatData, type Xnode } from '@/types/node'
 import { mockXNodes } from '@/config/demo-mode'
-import { cn, formatXNodeName } from '@/lib/utils'
+import { cn, formatSelectedXNodeName, formatXNodeName } from '@/lib/utils'
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -38,6 +38,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useDemoModeContext } from '@/components/demo-mode'
+import type { SelectedXnode } from '@/components/selected-xnode'
 
 export function useXnodes(sessionToken: string) {
   const { demoMode } = useDemoModeContext()
@@ -235,15 +236,15 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
     <div className="grid grid-cols-4 gap-6">
       {healthSummaryData ? (
         <>
-          <div className="bg-muted/50 flex flex-col items-center justify-center rounded border p-6">
+          <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
             <h4 className="text-lg font-semibold">CPU</h4>
-            <p className="text-muted-foreground text-center text-sm">
+            <p className="text-center text-sm text-muted-foreground">
               Avg. CPU utilization
             </p>
             {isNaN(healthSummaryData.cpu) ? (
-              <div className="bg-background ring-muted m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full ring-8 ring-inset">
+              <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
                 <Hourglass
-                  className="text-muted-foreground size-10"
+                  className="size-10 text-muted-foreground"
                   strokeWidth={1.25}
                 />
                 <p className="font-mono text-xl font-bold">No Data</p>
@@ -252,28 +253,28 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
               <HealthChartItem type="cpu" healthData={healthSummaryData.cpu} />
             )}
           </div>
-          <div className="bg-muted/50 flex flex-col items-center justify-center rounded border p-6">
+          <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
             <h4 className="text-lg font-semibold">GPU</h4>
-            <p className="text-muted-foreground text-center text-sm">
+            <p className="text-center text-sm text-muted-foreground">
               Avg. GPU utilization
             </p>
-            <div className="bg-background ring-muted m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full ring-8 ring-inset">
+            <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
               <Hourglass
-                className="text-muted-foreground size-10"
+                className="size-10 text-muted-foreground"
                 strokeWidth={1.25}
               />
               <p className="font-mono text-xl font-bold">No Data</p>
             </div>
           </div>
-          <div className="bg-muted/50 flex flex-col items-center justify-center rounded border p-6">
+          <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
             <h4 className="text-lg font-semibold">RAM</h4>
-            <p className="text-muted-foreground text-center text-sm">
+            <p className="text-center text-sm text-muted-foreground">
               Avg. RAM utilization
             </p>
             {isNaN(healthSummaryData.ram) ? (
-              <div className="bg-background ring-muted m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full ring-8 ring-inset">
+              <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
                 <Hourglass
-                  className="text-muted-foreground size-10"
+                  className="size-10 text-muted-foreground"
                   strokeWidth={1.25}
                 />
                 <p className="font-mono text-xl font-bold">No Data</p>
@@ -282,15 +283,15 @@ export function HealthSummary({ sessionToken }: HealthComponentProps) {
               <HealthChartItem type="ram" healthData={healthSummaryData.ram} />
             )}
           </div>
-          <div className="bg-muted/50 flex flex-col items-center justify-center rounded border p-6">
+          <div className="flex flex-col items-center justify-center rounded border bg-muted/50 p-6">
             <h4 className="text-lg font-semibold">Storage</h4>
-            <p className="text-muted-foreground text-center text-sm">
+            <p className="text-center text-sm text-muted-foreground">
               Avg. Storage utilization
             </p>
             {isNaN(healthSummaryData.storage) ? (
-              <div className="bg-background ring-muted m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full ring-8 ring-inset">
+              <div className="m-8 flex size-48 flex-col items-center justify-center gap-1 rounded-full bg-background ring-8 ring-inset ring-muted">
                 <Hourglass
-                  className="text-muted-foreground size-10"
+                  className="size-10 text-muted-foreground"
                   strokeWidth={1.25}
                 />
                 <p className="font-mono text-xl font-bold">No Data</p>
@@ -341,9 +342,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                 >
                   <div className="flex items-center justify-between gap-2">
                     <h3 className="text-lg font-bold">
-                      {xNode.isUnit
-                        ? formatXNodeName(xNode.deploymentAuth)
-                        : `Xnode ${index}`}
+                      {formatXNodeName(xNode)}
                     </h3>
                     {xNode.status !== 'online' ? (
                       <span
@@ -360,14 +359,14 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                   </div>
                   <div className="mt-2 space-y-2">
                     <div className="flex w-full items-center gap-4">
-                      <div className="text-muted-foreground flex shrink-0 basis-1/4 items-center gap-1">
+                      <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
                         <Cpu className="size-4" />
                         <p className="text-sm">CPU</p>
                       </div>
                       <div className="relative grow">
-                        <div className="bg-border h-2 w-full rounded" />
+                        <div className="h-2 w-full rounded bg-border" />
                         <div
-                          className="bg-primary absolute left-0 top-0 h-2 rounded transition-all"
+                          className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
                           style={{
                             width: `${Math.min(Math.round(xNode.heartbeatData?.cpuPercent ?? 0), 100)}%`,
                           }}
@@ -375,14 +374,14 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                       </div>
                     </div>
                     <div className="flex w-full items-center gap-4">
-                      <div className="text-muted-foreground flex shrink-0 basis-1/4 items-center gap-1">
+                      <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
                         <MemoryStick className="size-4" />
                         <p className="text-sm">RAM</p>
                       </div>
                       <div className="relative grow">
-                        <div className="bg-border h-2 w-full rounded" />
+                        <div className="h-2 w-full rounded bg-border" />
                         <div
-                          className="bg-primary absolute left-0 top-0 h-2 rounded transition-all duration-300 ease-out"
+                          className="absolute left-0 top-0 h-2 rounded bg-primary transition-all duration-300 ease-out"
                           style={{
                             width: `${Math.min(((xNode.heartbeatData?.ramMbUsed ?? 0) / (xNode.heartbeatData?.ramMbTotal ?? 1)) * 100, 100)}%`,
                           }}
@@ -390,14 +389,14 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                       </div>
                     </div>
                     <div className="flex w-full items-center gap-4">
-                      <div className="text-muted-foreground flex shrink-0 basis-1/4 items-center gap-1">
+                      <div className="flex shrink-0 basis-1/4 items-center gap-1 text-muted-foreground">
                         <HardDrive className="size-4" />
                         <p className="text-sm">Storage</p>
                       </div>
                       <div className="relative grow">
-                        <div className="bg-border h-2 w-full rounded" />
+                        <div className="h-2 w-full rounded bg-border" />
                         <div
-                          className="bg-primary absolute left-0 top-0 h-2 rounded transition-all"
+                          className="absolute left-0 top-0 h-2 rounded bg-primary transition-all"
                           style={{
                             width: `${Math.min(((xNode.heartbeatData?.storageMbUsed ?? 0) / (xNode.heartbeatData?.storageMbTotal ?? 1)) * 100, 100)}%`,
                           }}
@@ -406,19 +405,29 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
                     </div>
                   </div>
                   <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-                    <div className="text-muted-foreground flex items-center gap-1">
+                    <div className="flex items-center gap-1 text-muted-foreground">
                       <CalendarDays className="size-4" />
                       <p className="text-xs">
-                        {formatDistanceToNow(xNode.unitClaimTime)} ago
+                        {formatDistanceToNow(xNode.createdAt)} ago
                       </p>
                     </div>
-                    <Image
-                      src={`${prefix}/images/xnode-card/silvercard-front.webp`}
-                      alt="Xnode Card"
-                      width={48}
-                      height={28}
-                      className="rounded object-contain"
-                    />
+                    {xNode.isUnit ? (
+                      <Image
+                        src={`${prefix}/images/xnode-card/silvercard-front.webp`}
+                        alt="Xnode Card"
+                        width={48}
+                        height={28}
+                        className="rounded object-contain"
+                      />
+                    ) : (
+                      <Image
+                        src={`${prefix}/images/providers/${xNode.provider.toLowerCase()}.svg`}
+                        alt={xNode.provider}
+                        width={28}
+                        height={28}
+                        className="rounded object-contain"
+                      />
+                    )}
                   </div>
                 </div>
               </Link>
@@ -435,7 +444,7 @@ export function XNodesHealth({ sessionToken }: HealthComponentProps) {
               height={32}
               className="rounded object-contain"
             />
-            <p className="text-muted-foreground text-sm">
+            <p className="text-sm text-muted-foreground">
               No nodes currently running.
             </p>
           </div>
@@ -451,7 +460,7 @@ export function XNodesApps({ sessionToken }: HealthComponentProps) {
   const services = useMemo(() => {
     const allServices: Record<
       Xnode['id'],
-      (ServiceData & { xNodeNft: Xnode['deploymentAuth']; updatedAt: Date })[]
+      (ServiceData & { xNode: SelectedXnode; updatedAt: Date })[]
     > = {}
     if (isPending || !xNodes) return allServices
     for (const xNode of xNodes) {
@@ -460,7 +469,9 @@ export function XNodesApps({ sessionToken }: HealthComponentProps) {
       )['services'] as ServiceData[]
       allServices[xNode.id] = services.map((service) => ({
         ...service,
-        xNodeNft: xNode.deploymentAuth,
+        xNode: xNode.isUnit
+          ? { type: 'Unit', id: BigInt(xNode.deploymentAuth) }
+          : { type: 'Custom', id: xNode.id },
         updatedAt: xNode.updatedAt,
       }))
     }
@@ -502,14 +513,14 @@ export function XNodesApps({ sessionToken }: HealthComponentProps) {
                   ) : null}
                   {service.name ?? service.nixName}
                 </TableCell>
-                <TableCell>{formatXNodeName(service.xNodeNft)}</TableCell>
+                <TableCell>{formatSelectedXNodeName(service.xNode)}</TableCell>
                 <TableCell>
                   {formatDistanceToNow(service.updatedAt)} ago
                 </TableCell>
                 <TableCell>
                   <Link href={`/xnode?uuid=${xNodeId}`}>
                     <Globe
-                      className="text-muted-foreground size-5"
+                      className="size-5 text-muted-foreground"
                       strokeWidth={1.5}
                     />
                   </Link>
@@ -521,7 +532,7 @@ export function XNodesApps({ sessionToken }: HealthComponentProps) {
           <TableRow>
             <TableCell
               colSpan={4}
-              className="text-muted-foreground py-8 text-center font-semibold"
+              className="py-8 text-center font-semibold text-muted-foreground"
             >
               No apps currently running.
             </TableCell>

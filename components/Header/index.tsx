@@ -20,8 +20,7 @@ import {
 import { useAccount } from 'wagmi'
 
 import { mockXNodes } from '@/config/demo-mode'
-import { cn, formatXNodeName } from '@/lib/utils'
-import useSelectedXNode from '@/hooks/useSelectedXNode'
+import { cn, formatSelectedXNodeName } from '@/lib/utils'
 import {
   Command,
   CommandEmpty,
@@ -36,22 +35,68 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { GlobalSearch } from '@/components/global-search'
+import {
+  useSelectedXNode,
+  type SelectedXnode,
+} from '@/components/selected-xnode'
+import { useXnodes } from '@/app/dashboard/health-data'
 
 import { useDemoModeContext } from '../demo-mode'
 import { Button } from '../ui/button'
 import ActivateXNodeDialog from '../xnode/activate-dialog'
 
-export default function Header() {
+export default function Header({ sessionToken }: { sessionToken?: string }) {
   const { address, status } = useAccount()
   const { data: activeXNodes } = useXuNfts(address)
   const { data: inactiveXNodes } = useXueNfts(address)
+  const { data: deployedXnodes } = useXnodes(sessionToken)
 
   const { open } = useWeb3Modal()
   const { push } = useRouter()
 
-  const [selectedXNode, selectXNode] = useSelectedXNode(
-    activeXNodes?.length ? activeXNodes.at(0)?.toString() : undefined
-  )
+  const { demoMode, setDemoMode } = useDemoModeContext()
+
+  const allXnodes: SelectedXnode[] = demoMode
+    ? mockXNodes.map((xnode) => {
+        return { type: 'Unit', id: BigInt(xnode.deploymentAuth) }
+      })
+    : (deployedXnodes ?? [])
+        .filter(
+          (xnode) =>
+            !xnode.isUnit ||
+            !activeXNodes?.includes(BigInt(xnode.deploymentAuth))
+        )
+        .map((xnode) => {
+          return { type: 'Custom', id: xnode.id } as SelectedXnode
+        })
+        .concat(
+          (activeXNodes ?? []).map((nftId) => {
+            return { type: 'Unit', id: nftId } as SelectedXnode
+          })
+        )
+
+  const { selectedXNode, selectXNode } = useSelectedXNode()
+
+  useEffect(() => {
+    if (!allXnodes.length) {
+      // No nodes
+      selectXNode(null)
+      return
+    }
+
+    if (
+      selectedXNode &&
+      allXnodes.some(
+        (xnode) =>
+          xnode.type === selectedXNode.type && xnode.id === selectedXNode.id
+      )
+    ) {
+      // There is a valid node selected
+      return
+    }
+
+    selectXNode(allXnodes.at(0))
+  }, [selectedXNode, selectXNode, allXnodes])
 
   const totalNodes = (activeXNodes?.length ?? 0) + (inactiveXNodes?.length ?? 0)
 
@@ -80,27 +125,6 @@ export default function Header() {
 
     push('/login')
   }
-
-  const { demoMode, setDemoMode } = useDemoModeContext()
-
-  useEffect(() => {
-    const nodes = demoMode
-      ? mockXNodes.map((x) => BigInt(x.deploymentAuth))
-      : activeXNodes
-
-    if (!selectedXNode || !nodes) {
-      return
-    }
-
-    try {
-      const selectedNft = BigInt(selectedXNode)
-      if (!nodes.includes(selectedNft)) {
-        selectXNode(nodes?.at(0)?.toString() ?? undefined)
-      }
-    } catch (err) {
-      console.error(err)
-    }
-  }, [selectedXNode, activeXNodes, demoMode, mockXNodes])
 
   return (
     <>
@@ -144,7 +168,7 @@ export default function Header() {
                 <span className="flex items-center gap-1.5">
                   <PanelLeft className="size-3.5" />
                   {selectedXNode
-                    ? formatXNodeName(selectedXNode)
+                    ? formatSelectedXNodeName(selectedXNode)
                     : 'Select your Xnode...'}
                 </span>
                 <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
@@ -161,22 +185,21 @@ export default function Header() {
                       </span>
                     </CommandEmpty>
                     <CommandGroup heading="Active">
-                      {(demoMode
-                        ? mockXNodes.map((x) => BigInt(x.deploymentAuth))
-                        : activeXNodes
-                      )?.map((xNode) => {
-                        const name = formatXNodeName(xNode.toString())
+                      {allXnodes.map((xNode) => {
+                        const name = formatSelectedXNodeName(xNode)
                         return (
                           <CommandItem
-                            key={xNode}
-                            value={xNode.toString()}
+                            key={name}
+                            value={name}
                             keywords={[name]}
-                            onSelect={(val) => selectXNode(val)}
+                            onSelect={(val) => selectXNode(xNode)}
                           >
                             <Check
                               className={cn(
                                 'mr-2 size-4 transition-transform',
-                                selectedXNode === xNode.toString()
+                                selectedXNode &&
+                                  formatSelectedXNodeName(selectedXNode) ===
+                                    name
                                   ? 'scale-100'
                                   : 'scale-0'
                               )}
@@ -189,11 +212,14 @@ export default function Header() {
                     {(inactiveXNodes?.length ?? 0) > 0 && !demoMode ? (
                       <CommandGroup heading="Inactive">
                         {inactiveXNodes?.map((xNode) => {
-                          const name = formatXNodeName(xNode.toString())
+                          const name = formatSelectedXNodeName({
+                            type: 'Unit',
+                            id: xNode,
+                          })
                           return (
                             <CommandItem
-                              key={xNode}
-                              value={xNode.toString()}
+                              key={name}
+                              value={name}
                               keywords={[name]}
                               className="justify-between"
                               onSelect={(val) => setActivationOpen(val)}

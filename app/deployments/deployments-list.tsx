@@ -31,7 +31,7 @@ function DeploymentItem({ xNode, services }: DeploymentItemProps) {
       className="flex h-16 items-center gap-6 rounded border px-6 py-3 transition-colors hover:bg-muted/50"
     >
       <p className="min-w-24 text-sm text-muted-foreground">
-        {formatDistanceToNowStrict(xNode.unitClaimTime)} ago
+        {formatDistanceToNowStrict(xNode.createdAt)} ago
       </p>
       <div className="flex basis-2/12 items-center gap-2">
         <TooltipProvider>
@@ -51,11 +51,7 @@ function DeploymentItem({ xNode, services }: DeploymentItemProps) {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <h3 className="text-lg font-semibold">
-          {xNode.isUnit
-            ? formatXNodeName(xNode.deploymentAuth)
-            : `Xnode ${xNode.id}`}
-        </h3>
+        <h3 className="text-lg font-semibold">{formatXNodeName(xNode)}</h3>
       </div>
       <div className="basis-1/12 space-y-1 text-muted-foreground">
         <p className="text-xs font-medium">Installation</p>

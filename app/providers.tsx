@@ -12,6 +12,7 @@ import { cookieStorage, createStorage, WagmiProvider, type State } from 'wagmi'
 import { Toaster } from '@/components/ui/toaster'
 import DemoModeProvider from '@/components/demo-mode'
 import ScreenProvider from '@/components/screen-provider'
+import SelectedXnodeProvider from '@/components/selected-xnode'
 
 export const chains = [chain] as const
 const queryClient = new QueryClient()
@@ -63,11 +64,13 @@ export function Providers({
         <QueryClientProvider client={queryClient}>
           <ThemeProvider attribute="class" enableSystem={false}>
             <DemoModeProvider>
-              <ScreenProvider>
-                {children}
-                <ToastContainer />
-                <Toaster />
-              </ScreenProvider>
+              <SelectedXnodeProvider>
+                <ScreenProvider>
+                  {children}
+                  <ToastContainer />
+                  <Toaster />
+                </ScreenProvider>
+              </SelectedXnodeProvider>
             </DemoModeProvider>
           </ThemeProvider>
         </QueryClientProvider>

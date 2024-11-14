@@ -4,6 +4,7 @@ import '../styles/index.css'
 
 import { type Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { cookies } from 'next/headers'
 import { prefix } from '@/utils/prefix'
 
 import { cn } from '@/lib/utils'
@@ -32,16 +33,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const sessionCookie = cookies().get('userSessionToken')
+
   return (
     <html suppressHydrationWarning lang="en">
       <body
         className={cn(
-          'max-w-screen bg-background text-foreground h-screen w-full overflow-x-hidden font-sans antialiased',
+          'max-w-screen h-screen w-full overflow-x-hidden bg-background font-sans text-foreground antialiased',
           inter.variable
         )}
       >
         <Providers>
-          <Header />
+          <Header sessionToken={sessionCookie?.value} />
           <NavLayout>
             {children}
             <ScrollToTop />

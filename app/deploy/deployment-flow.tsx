@@ -1,26 +1,24 @@
 'use client'
 
+import crypto from 'crypto'
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { type Provider } from '@/db/schema'
-import { useXuNfts } from '@/utils/nft'
 import { prefix } from '@/utils/prefix'
 import { servicesCompressedForAdmin } from '@/utils/xnode'
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import { useDebounce } from '@uidotdev/usehooks'
+import axios, { AxiosError } from 'axios'
 import { format } from 'date-fns'
 import {
   Check,
   Database,
-  Dot,
   IdCard,
   MapPin,
   RotateCw,
   ServerCog,
 } from 'lucide-react'
-import { useAccount } from 'wagmi'
 
 import {
   type AppStoreItem,
@@ -28,8 +26,8 @@ import {
   type ServiceData,
   type Specs,
 } from '@/types/dataProvider'
-import { cn, formatXNodeName } from '@/lib/utils'
-import useSelectedXNode from '@/hooks/useSelectedXNode'
+import { mockXNodes } from '@/config/demo-mode'
+import { cn, formatSelectedXNodeName, formatXNodeName } from '@/lib/utils'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -49,6 +47,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from '@/components/ui/use-toast'
 import { useDemoModeContext } from '@/components/demo-mode'
 import { Icons } from '@/components/Icons'
+import { useSelectedXNode } from '@/components/selected-xnode'
 
 import { useXnodes } from '../dashboard/health-data'
 import DeploymentProvider from '../deploy/deployment-provider'
@@ -95,7 +94,7 @@ export default function DeploymentFlow({
   const { demoMode } = useDemoModeContext()
 
   const router = useRouter()
-  const [selectedXNode] = useSelectedXNode()
+  const { selectedXNode } = useSelectedXNode()
   const { data: deployedXNodes } = useXnodes(sessionToken)
 
   const [flowOpen, setFlowOpen] = useState(false)
@@ -169,10 +168,54 @@ export default function DeploymentFlow({
         break
       case 2:
         if (flowType === 'baremetal') {
-          setActiveDeploymentStep(2)
+          switch (activeDeploymentStep) {
+            case 1:
+              setActiveDeploymentStep(2)
+              break
+            case 2:
+              setActiveDeploymentStep(3)
+              if (!demoMode) {
+                externalXnodeDeployment().catch((err) => {
+                  let errorMessage: string = 'An unknown error has occurred.'
+                  if (err instanceof AxiosError) {
+                    if (err.response) {
+                      errorMessage =
+                        err.response.data?.error ??
+                        JSON.stringify(err.response.data)
+                    }
+                  } else if (err?.message) {
+                    errorMessage = err.message
+                  }
+
+                  toast({
+                    title: 'Error',
+                    description: errorMessage,
+                    variant: 'destructive',
+                  })
+                  setActiveDeploymentStep(2)
+                })
+              } else {
+                new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
+                  router.push(`/xnode?uuid=${mockXNodes[0].id}`)
+                )
+              }
+              break
+          }
         }
     }
   }
+
+  const deployedXNode = useMemo(() => {
+    if (!selectedXNode || !deployedXNodes) {
+      return undefined
+    }
+
+    return selectedXNode.type === 'Custom'
+      ? deployedXNodes.find((xNode) => xNode.id === selectedXNode.id)
+      : deployedXNodes.find(
+          (xNode) => xNode.deploymentAuth === selectedXNode.id.toString()
+        )
+  }, [selectedXNode, deployedXNodes])
 
   async function createXNodeDeployment() {
     if (!selectedXNode) {
@@ -182,10 +225,6 @@ export default function DeploymentFlow({
       })
       throw new Error("Couldn't find a Xnode to deploy to")
     }
-
-    const deployedXNode = deployedXNodes?.find(
-      (xNode) => xNode.deploymentAuth === selectedXNode
-    )
 
     if (deployedXNode) {
       const deployedServices = JSON.parse(
@@ -242,6 +281,103 @@ export default function DeploymentFlow({
     }
   }
 
+  async function externalXnodeDeployment() {
+    const xnodeAccessToken = crypto.randomBytes(64).toString('base64')
+    const xnodeId = `${Math.random()
+      .toString(36)
+      .slice(2, 17)
+      .toUpperCase()}-${Math.random().toString(36).slice(2, 17).toUpperCase()}`
+    const xnodeConfigRemote = ''
+
+    let ipAddress = ''
+    let deploymentAuth = ''
+    if (provider.providerName.toLowerCase() === 'hivelocity') {
+      const init = '#cloud-config \nruncmd: \n - '
+      const pullXnodeAssimilate =
+        'curl https://raw.githubusercontent.com/Openmesh-Network/XnodeOS-assimilate/dev/xnodeos-assimilate | '
+      const acceptDestroySystem = `ACCEPT_DESTRUCTION_OF_SYSTEM="Yes, destroy my system and delete all of my data. I know what I'm doing." `
+      const KernelParams =
+        'XNODE_KERNEL_EXTRA_PARAMS=1 XNODE_UUID=' +
+        xnodeId +
+        ' XNODE_ACCESS_TOKEN=' +
+        xnodeAccessToken +
+        ' XNODE_CONFIG_REMOTE=' +
+        xnodeConfigRemote
+      const log = ` bash 2>&1 | tee /tmp/assimilate.log`
+      const script =
+        init + pullXnodeAssimilate + acceptDestroySystem + KernelParams + log
+
+      const productInfo = provider.id.split('_')
+      const productId = Number(productInfo[0])
+      const dataCenter = productInfo[1]
+      const machine = await axios
+        .get(`${prefix}/api/hivelocity/rewrite`, {
+          params: {
+            path: `v2/${provider.type === 'VPS' ? 'compute' : 'bare-metal-devices'}/`,
+            method: 'POST',
+            body: JSON.stringify({
+              osName: `Ubuntu 22.04${provider.type === 'VPS' ? ' (VPS)' : ''}`,
+              hostname: xnodeId + '.openmesh.network',
+              script: script,
+              tags: [
+                'XNODE_UUID=' + xnodeId,
+                'XNODE_CONFIG_REMOTE=' + xnodeConfigRemote,
+              ],
+              period: 'monthly',
+              locationName: dataCenter,
+              productId: productId,
+            }),
+          },
+          headers: {
+            'X-API-KEY': debouncedApiKey,
+          },
+        })
+        .then((res) => res.data as { deviceId: number; primaryIp: string })
+      ipAddress = machine.primaryIp
+      deploymentAuth = machine.deviceId.toString()
+
+      while (!ipAddress) {
+        await new Promise((resolve) => setTimeout(resolve, 500))
+        const updatedMachine = await axios
+          .get(`${prefix}/api/hivelocity/rewrite`, {
+            params: {
+              path: `v2/${provider.type === 'VPS' ? 'compute' : 'bare-metal-devices'}/${machine.deviceId}`,
+              method: 'GET',
+            },
+          })
+          .then((res) => res.data as { primaryIp: string })
+        ipAddress = updatedMachine.primaryIp
+      }
+    }
+
+    await axios({
+      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/registerXnodeDeployment`,
+      method: 'post',
+      headers: {
+        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+        'X-Parse-Session-Token': sessionToken,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        name: config.name,
+        location: provider.location,
+        description: config.description,
+        provider: provider.providerName,
+        services: Buffer.from(
+          JSON.stringify({
+            services: servicesCompressedForAdmin(config.services),
+          })
+        ).toString('base64'),
+        accessToken: xnodeAccessToken,
+        id: xnodeId,
+        ipAddress: ipAddress,
+        deploymentAuth: deploymentAuth,
+      },
+    })
+
+    router.push(`/xnode?uuid=${xnodeId}`)
+  }
+
   function onFlowOpenToggle(newVal: boolean) {
     if (newVal === true) {
       setFlowOpen(newVal)
@@ -252,6 +388,36 @@ export default function DeploymentFlow({
     setActiveDeploymentStep(1)
     setFlowType(undefined)
   }
+
+  const [apiKey, setApiKey] = useState<string>('')
+  const debouncedApiKey = useDebounce(apiKey, 500)
+  const { data: validApiKey } = useQuery({
+    queryKey: ['apiKey', debouncedApiKey, demoMode],
+    queryFn: async () => {
+      if (demoMode) {
+        return true
+      }
+
+      if (!debouncedApiKey) {
+        return undefined
+      }
+
+      try {
+        await axios.get(`${prefix}/api/hivelocity/rewrite`, {
+          params: {
+            path: 'v2/permission/',
+            method: 'GET',
+          },
+          headers: {
+            'X-API-KEY': debouncedApiKey,
+          },
+        })
+        return true
+      } catch (err) {
+        return false
+      }
+    },
+  })
 
   return (
     <AlertDialog open={flowOpen} onOpenChange={onFlowOpenToggle}>
@@ -308,15 +474,11 @@ export default function DeploymentFlow({
                 <div className="flex items-center gap-3">
                   <IdCard className="size-8 text-primary" strokeWidth={1.25} />
                   <h3 className="text-xl font-semibold">
-                    Xnode DVM{' '}
-                    <span className="ml-1 font-mono text-base font-medium text-muted-foreground">
-                      ({selectedXNode.slice(0, 12)}…)
-                    </span>
+                    {formatSelectedXNodeName(selectedXNode)}
                   </h3>
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  You have an existing Xnode selected that is attached to your
-                  wallet
+                  Add an app to your existing selected Xnode
                 </p>
               </RadioGroupCard>
             ) : null}
@@ -474,7 +636,7 @@ export default function DeploymentFlow({
                     </p>
                     {selectedXNode ? (
                       <p className="text-xl font-bold">
-                        {formatXNodeName(selectedXNode)}
+                        {formatSelectedXNodeName(selectedXNode)}
                       </p>
                     ) : null}
                   </div>
@@ -512,11 +674,7 @@ export default function DeploymentFlow({
                   Estimated time
                 </p>
                 <p className="text-center text-3xl font-bold">
-                  {deployedXNodes?.find(
-                    (xNode) => xNode.deploymentAuth === selectedXNode
-                  )
-                    ? '2 Minutes'
-                    : '10 Minutes'}{' '}
+                  {deployedXNode ? '2 Minutes' : '10 Minutes'}
                 </p>
                 <p className="mt-2 text-center text-sm text-muted-foreground">
                   To check back on the status, navigate to your deployments
@@ -596,31 +754,39 @@ export default function DeploymentFlow({
         step[1] === 'baremetal' &&
         activeDeploymentStep === 2 ? (
           <div className="mt-4">
-            <h4 className="text-2xl font-bold">Setup your server</h4>
+            <h4 className="text-2xl font-bold">
+              Link {provider.providerName} Account
+            </h4>
             <p className="text-muted-foreground">
-              To setup your baremetal server, you first need to connect to the
-              provider through an API key.
+              To setup your server, you first need to connect to the provider
+              through an API key. This allows Xnode Studio to rent the chosen
+              machine in your account.
             </p>
             <p className="mt-2">
               {config.name}
               {provider ? ` | $${provider.price.monthly}/mo` : null}
             </p>
-            <div
-              className={cn(
-                'mt-2 flex flex-col rounded border p-4',
-                // TODO: Reactivate once we allow for baremetal deployments
-                'pointer-events-none border-destructive opacity-50'
-              )}
-            >
-              {/* TODO: Reactivate once we allow for baremetal deployments */}
-              <p className="mb-4 font-semibold uppercase text-destructive">
-                coming soon
-              </p>
+            <div className={cn('mt-2 flex flex-col rounded border p-4')}>
               <p className="text-lg font-semibold">{config.provider}</p>
               <div className="mt-2 space-y-0.5">
                 <Label htmlFor="apiKey">API Key</Label>
-                <Input id="apiKey" name="apiKey" />
+                <Input
+                  id="apiKey"
+                  name="apiKey"
+                  value={apiKey}
+                  className={
+                    validApiKey === false
+                      ? 'border-red-600'
+                      : validApiKey === true
+                        ? 'border-green-500'
+                        : ''
+                  }
+                  onChange={(e) => setApiKey(e.target.value)}
+                />
               </div>
+              {validApiKey === false && (
+                <p className="text-sm text-red-700">Invalid API key</p>
+              )}
               <p className="mt-1 text-sm text-muted-foreground">
                 Don&apos;t have an API key yet?{' '}
                 <Link
@@ -634,6 +800,35 @@ export default function DeploymentFlow({
             </div>
           </div>
         ) : null}
+        {step[0] === 2 &&
+        step[1] === 'baremetal' &&
+        activeDeploymentStep === 3 ? (
+          <div>
+            <div className="mt-8 flex flex-col items-center">
+              <div className="relative">
+                <Check className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 text-background" />
+                <Icons.PrettyCheck className="size-32 text-primary" />
+              </div>
+              <p className="text-xl font-bold text-primary">Success</p>
+            </div>
+            <p className="my-4 rounded border bg-muted-foreground px-3 py-1.5 font-mono text-muted">
+              <span className="opacity-75">
+                [{format(new Date(), 'HH:mm:ss')}]
+              </span>{' '}
+              Your deployment is now running. This process might take some time
+              to finish.
+            </p>
+            <p className="mt-4 text-center text-xs text-muted-foreground">
+              Estimated time
+            </p>
+            <p className="text-center text-3xl font-bold">10 Minutes</p>
+            <p className="mt-2 text-center text-sm text-muted-foreground">
+              Please do not close this page until the server has been
+              provisioned. You will be automatically redirected once the
+              provisioning is over.
+            </p>
+          </div>
+        ) : null}
         <AlertDialogFooter className={cn()}>
           {step[0] === 1 && step[1] === 'baremetal' ? (
             <Button
@@ -645,10 +840,14 @@ export default function DeploymentFlow({
               Back
             </Button>
           ) : null}
-          <AlertDialogCancel className="h-10 min-w-28">
-            {step[0] === 0 ? 'Cancel' : null}
-            {step[0] >= 1 ? 'Close' : null}
-          </AlertDialogCancel>
+          {step[0] === 2 &&
+          step[1] === 'baremetal' &&
+          activeDeploymentStep === 3 ? null : (
+            <AlertDialogCancel className="h-10 min-w-28">
+              {step[0] === 0 ? 'Cancel' : null}
+              {step[0] >= 1 ? 'Close' : null}
+            </AlertDialogCancel>
+          )}
           {step[0] === 0 ? (
             <Button
               disabled={flowType === undefined}
@@ -667,23 +866,28 @@ export default function DeploymentFlow({
           step[1] === 'xnode-current' &&
           activeDeploymentStep === 3 ? (
             <Link
-              href={`/xnode?uuid=${deployedXNodes?.find(({ deploymentAuth }) => deploymentAuth === selectedXNode)?.id}`}
+              href={
+                deployedXNode
+                  ? `/xnode?uuid=${deployedXNode.id}`
+                  : '/deployments'
+              }
             >
               <Button size="lg" className="h-10 min-w-40">
                 Go to Deployment
               </Button>
             </Link>
           ) : null}
-          {step[0] === 2 && step[1] === 'baremetal' ? (
+          {step[0] === 2 &&
+          step[1] === 'baremetal' &&
+          activeDeploymentStep < 3 ? (
             <Button
               size="lg"
               className="h-10 min-w-40"
               onClick={handleNextStep}
-              // TODO: Reactivate once we allow for baremetal deployments
-              disabled={activeDeploymentStep === 2}
+              disabled={activeDeploymentStep === 2 && !validApiKey}
             >
-              {activeDeploymentStep === 1 ? 'Deploy' : null}
-              {activeDeploymentStep === 2 ? 'Connect' : null}
+              {activeDeploymentStep === 1 ? 'Next' : null}
+              {activeDeploymentStep === 2 ? 'Rent Server' : null}
             </Button>
           ) : null}
         </AlertDialogFooter>

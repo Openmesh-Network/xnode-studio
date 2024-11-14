@@ -120,7 +120,9 @@ export async function GET(_: NextRequest) {
     )
   )
   const inventory: HardwareProduct[] = rawInventory.map((product) => {
+    const id = `${product.product_id.toString()}_${product.data_center}`
     return {
+      type: product.is_vps ? 'VPS' : 'Bare Metal',
       available: product.stock === 'available' ? 1_000_000_000 : 0,
       cpu: {
         cores: product.processor_info.cores,
@@ -131,7 +133,7 @@ export async function GET(_: NextRequest) {
           isInt: false,
         }),
       },
-      id: product.product_id.toString(),
+      id: id,
       location: dataCenterLocation(product.data_center),
       network: {
         speed: extractNumberBeforePostfix({
@@ -141,9 +143,14 @@ export async function GET(_: NextRequest) {
         }),
       },
       price: {
-        monthly: product.product_monthly_price,
+        hourly: product.product_disabled_billing_periods.includes('hourly')
+          ? undefined
+          : product.product_hourly_price,
+        monthly: product.product_disabled_billing_periods.includes('monthly')
+          ? undefined
+          : product.product_monthly_price,
       },
-      productName: product.product_name || product.product_id.toString(),
+      productName: product.product_name || id,
       providerName: 'Hivelocity',
       ram: {
         capacity: extractNumberBeforePostfix({

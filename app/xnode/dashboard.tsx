@@ -731,12 +731,10 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             </div>
           ) : null}
           <TooltipProvider>
-            <Tooltip>
+            <Tooltip open={!xNode.isUnit ? false : undefined}>
               <TooltipTrigger className="flex items-start gap-0.5 font-medium text-muted-foreground">
-                {xNode.isUnit
-                  ? formatXNodeName(xNode.deploymentAuth)
-                  : `Xnode ${xNode.id}`}
-                <HelpCircle className="size-3.5" />
+                {formatXNodeName(xNode)}
+                {xNode.isUnit && <HelpCircle className="size-3.5" />}
               </TooltipTrigger>
               <TooltipContent className="max-w-80">
                 <p className="text-base font-semibold">Xnode NFT</p>
@@ -766,7 +764,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                 <div className="my-0.5">
                   <Separator orientation="vertical" />
                 </div>
-                <span>{xNode.ipAddress}</span>
                 <SimpleTooltip tooltip="Copy to clipboard">
                   <Button
                     onClick={() => {
@@ -787,8 +784,9 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                           })
                         })
                     }}
-                    className="size-auto bg-transparent p-0 text-primary hover:bg-transparent"
+                    className="size-auto gap-x-1 bg-transparent p-0 text-muted-foreground hover:bg-transparent"
                   >
+                    <span>{xNode.ipAddress}</span>
                     <Copy className="size-4" />
                   </Button>
                 </SimpleTooltip>
@@ -890,13 +888,15 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <Button
-                  disabled={isFetching}
-                  variant="outlinePrimary"
-                  onClick={() => setResetMachineOpen(true)}
-                >
-                  Reset
-                </Button>
+                {xNode.isUnit && (
+                  <Button
+                    disabled={isFetching}
+                    variant="outlinePrimary"
+                    onClick={() => setResetMachineOpen(true)}
+                  >
+                    Reset
+                  </Button>
+                )}
                 <Button
                   disabled={isFetching}
                   variant="outlinePrimary"

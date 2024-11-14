@@ -10,7 +10,6 @@ import { type Address } from 'viem'
 
 import { cn } from '@/lib/utils'
 import { usePerformTransaction } from '@/hooks/usePerformTransaction'
-import useSelectedXNode from '@/hooks/useSelectedXNode'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +20,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { useSelectedXNode } from '@/components/selected-xnode'
 
 import { useDemoModeContext } from '../demo-mode'
 import { Icons } from '../Icons'
@@ -40,7 +40,7 @@ export default function ActivateXNodeDialog({
   const [success, setSuccess] = useState(false)
 
   const queryClient = useQueryClient()
-  const [, selectXNode] = useSelectedXNode()
+  const { selectXNode } = useSelectedXNode()
   const { performTransaction, loggers } = usePerformTransaction({
     chainId: chain.id,
   })
@@ -75,7 +75,8 @@ export default function ActivateXNodeDialog({
       },
       onConfirmed: () => {
         setSuccess(true)
-        entitlementNft && selectXNode(entitlementNft.toString())
+        entitlementNft !== undefined &&
+          selectXNode({ type: 'Unit', id: entitlementNft })
         queryClient.invalidateQueries({ queryKey: [address] })
       },
     })
@@ -89,11 +90,11 @@ export default function ActivateXNodeDialog({
         {success ? (
           <div className="flex flex-col items-center justify-center">
             <div className="relative">
-              <Icons.PrettyCheck className="text-primary size-32" />
-              <Check className="text-background absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2" />
+              <Icons.PrettyCheck className="size-32 text-primary" />
+              <Check className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 text-background" />
             </div>
-            <h3 className="text-primary mt-4 text-xl font-bold">Success</h3>
-            <p className="text-muted-foreground text-center text-sm">
+            <h3 className="mt-4 text-xl font-bold text-primary">Success</h3>
+            <p className="text-center text-sm text-muted-foreground">
               You successfully activated your Xnode.
             </p>
           </div>

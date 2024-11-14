@@ -20,6 +20,7 @@ import { prefix } from 'utils/prefix'
 
 import { type HardwareProduct, type Specs } from '@/types/dataProvider'
 import { cn, formatPrice } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -582,6 +583,15 @@ export default function DeploymentProvider({
                               {formatPrice(provider.price.monthly ?? 0)}
                             </span>
                             /mo
+                            {/* {provider.price.hourly && (
+                              <div className="pl-1">
+                                (
+                                <span className="font-bold">
+                                  {formatPrice(provider.price.hourly)}
+                                </span>
+                                /hr)
+                              </div>
+                            )} */}
                           </p>
                         </div>
                         <div className="col-span-3 flex flex-1 justify-end">
@@ -601,7 +611,10 @@ export default function DeploymentProvider({
                                 }))
                                 onSelect()
                               }}
-                              disabled={provider.available === 0}
+                              disabled={
+                                provider.available === 0 ||
+                                provider.type !== 'VPS'
+                              }
                             >
                               Select
                             </Button>
@@ -610,6 +623,12 @@ export default function DeploymentProvider({
                                 Unavailable
                               </p>
                             )}
+                            {provider.available > 0 &&
+                              provider.type !== 'VPS' && (
+                                <p className="text-sm text-muted-foreground">
+                                  Unavailable
+                                </p>
+                              )}
                           </div>
                         </div>
                       </li>

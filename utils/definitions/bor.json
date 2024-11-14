@@ -10,14 +10,14 @@
       "url": "github:CheesecakeLabs/openmesh-bor-package"
     }
   ],
-  "nixName": "bor",
+  "nixName": "polygon-bor",
   "specs": {
     "ram": 16384,
     "storage": 4194304
   },
   "tags": ["RPC", "Validator", "Blockchain", "Polygon"],
   "website": "https://polygon.technology/",
-  "implemented": false,
+  "implemented": true,
   "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/28321.png",
   "options": [
     {
@@ -29,59 +29,155 @@
     },
     {
       "name": "chain",
-      "desc": "Name of the chain to sync ('amoy', 'mumbai', 'mainnet') or path to a genesis file.",
+      "desc": "Name of the chain to sync ('amoy', 'mumbai', 'mainnet').",
       "nixName": "chain",
       "type": "string",
       "value": "mainnet"
     },
     {
-      "name": "syncmode",
-      "desc": "Blockchain sync mode (only 'full' sync supported by Bor).",
-      "nixName": "syncmode",
+      "name": "authrpc.addr",
+      "desc": "Listening address for authenticated APIs.",
+      "nixName": "authrpc.addr",
       "type": "string",
-      "value": "full"
+      "value": "localhost"
     },
     {
-      "name": "gcmode",
-      "desc": "Blockchain garbage collection mode.",
-      "nixName": "gcmode",
-      "type": "string",
-      "value": "full"
-    },
-    {
-      "name": "grpc",
-      "desc": "Address for the GRPC API.",
-      "nixName": "grpc",
-      "type": "attribute set of (string)",
-      "value": "{ }",
-      "options": [
-        {
-          "name": "address",
-          "desc": "Address for the GRPC API.",
-          "nixName": "address",
-          "type": "string",
-          "value": "localhost:3131"
-        }
-      ]
-    },
-    {
-      "name": "verbosity",
-      "desc": "Logging verbosity for the server (5=trace|4=debug|3=info|2=warn|1=error|0=crit).",
-      "nixName": "verbosity",
+      "name": "authrpc.port",
+      "desc": "Listening port for authenticated APIs.",
+      "nixName": "authrpc.port",
       "type": "integer",
-      "value": "3"
+      "value": "8551"
     },
     {
-      "name": "heimdallUrl",
-      "desc": "URL of Heimdall service.",
-      "nixName": "heimdallUrl",
+      "name": "authrpc.vhosts",
+      "desc": "Comma separated list of virtual hostnames from which to accept requests.",
+      "nixName": "authrpc.vhosts",
       "type": "string",
-      "value": "localhost:1317"
+      "value": "localhost"
     },
     {
-      "name": "logs",
-      "desc": "Enable log retrieval.",
-      "nixName": "logs",
+      "name": "http.addr",
+      "desc": "HTTP-RPC server listening interface.",
+      "nixName": "http.addr",
+      "type": "string",
+      "value": "localhost"
+    },
+    {
+      "name": "http.api",
+      "desc": "APIs offered over the HTTP-RPC interface.",
+      "nixName": "http.api",
+      "type": "string",
+      "value": "eth,net,web3,txpool,bor"
+    },
+    {
+      "name": "http.corsdomain",
+      "desc": "Comma separated list of domains for cross-origin requests.",
+      "nixName": "http.corsdomain",
+      "type": "string",
+      "value": "localhost"
+    },
+    {
+      "name": "http.ep-requesttimeout",
+      "desc": "Request Timeout for HTTP RPC execution pool.",
+      "nixName": "http.ep-requesttimeout",
+      "type": "string",
+      "value": "0s"
+    },
+    {
+      "name": "http.ep-size",
+      "desc": "Maximum size of workers in HTTP RPC execution pool.",
+      "nixName": "http.ep-size",
+      "type": "integer",
+      "value": "40"
+    },
+    {
+      "name": "http.port",
+      "desc": "HTTP-RPC server listening port.",
+      "nixName": "http.port",
+      "type": "integer",
+      "value": "8545"
+    },
+    {
+      "name": "ws.enable",
+      "desc": "Enable the WS-RPC server.",
+      "nixName": "ws.enable",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "ws.addr",
+      "desc": "WS-RPC server listening interface.",
+      "nixName": "ws.addr",
+      "type": "string",
+      "value": "localhost"
+    },
+    {
+      "name": "ws.api",
+      "desc": "APIs offered over the WS-RPC interface.",
+      "nixName": "ws.api",
+      "type": "string",
+      "value": "net,web3"
+    },
+    {
+      "name": "ws.ep-requesttimeout",
+      "desc": "Request Timeout for WS RPC execution pool.",
+      "nixName": "ws.ep-requesttimeout",
+      "type": "string",
+      "value": "0s"
+    },
+    {
+      "name": "ws.ep-size",
+      "desc": "Maximum size of workers in WS RPC execution pool.",
+      "nixName": "ws.ep-size",
+      "type": "integer",
+      "value": "40"
+    },
+    {
+      "name": "ws.origins",
+      "desc": "Origins for WebSocket requests.",
+      "nixName": "ws.origins",
+      "type": "string",
+      "value": "localhost"
+    },
+    {
+      "name": "ws.port",
+      "desc": "WS-RPC server listening port.",
+      "nixName": "ws.port",
+      "type": "integer",
+      "value": "8546"
+    },
+    {
+      "name": "grpc.addr",
+      "desc": "Address for the GRPC API.",
+      "nixName": "grpc.addr",
+      "type": "string",
+      "value": ":3131"
+    },
+    {
+      "name": "bor.heimdall",
+      "desc": "URL of Heimdall service.",
+      "nixName": "bor.heimdall",
+      "type": "string",
+      "value": "http://0.0.0.0:1317"
+    },
+    {
+      "name": "bor.runheimdall",
+      "desc": "Run Heimdall service as a child process.",
+      "nixName": "bor.runheimdall",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "bor.runheimdallargs",
+      "desc": "Additional arguments for the Heimdall service.",
+      "nixName": "bor.runheimdallargs",
+      "type": "list of string",
+      "value": "[]"
+    },
+    {
+      "name": "bor.useheimdallapp",
+      "desc": "Use Heimdall app for data fetching (requires bor.runheimdall).",
+      "nixName": "bor.useheimdallapp",
       "type": "boolean",
       "value": "false"
     },
@@ -90,7 +186,14 @@
       "desc": "Additional arguments for the Bor executable.",
       "nixName": "extraArgs",
       "type": "list of string",
-      "value": "[ ]"
+      "value": "[]"
+    },
+    {
+      "name": "verbosity",
+      "desc": "Logging verbosity level (5=trace, 4=debug, 3=info, 2=warn, 1=error, 0=crit).",
+      "nixName": "verbosity",
+      "type": "integer",
+      "value": "3"
     },
     {
       "name": "bootNodes",

@@ -130,6 +130,7 @@ export type AppStoreItem = {
 }
 
 export interface HardwareProduct {
+  type: 'VPS' | 'Bare Metal'
   id: string
   available: number
   productName: string
