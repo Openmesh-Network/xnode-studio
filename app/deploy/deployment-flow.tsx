@@ -344,6 +344,9 @@ export default function DeploymentFlow({
               path: `v2/${provider.type === 'VPS' ? 'compute' : 'bare-metal-devices'}/${machine.deviceId}`,
               method: 'GET',
             },
+            headers: {
+              'X-API-KEY': debouncedApiKey,
+            },
           })
           .then((res) => res.data as { primaryIp: string })
         ipAddress = updatedMachine.primaryIp
