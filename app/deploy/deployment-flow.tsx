@@ -175,25 +175,7 @@ export default function DeploymentFlow({
             case 2:
               setActiveDeploymentStep(3)
               if (!demoMode) {
-                externalXnodeDeployment().catch((err) => {
-                  let errorMessage: string = 'An unknown error has occurred.'
-                  if (err instanceof AxiosError) {
-                    if (err.response) {
-                      errorMessage =
-                        err.response.data?.error ??
-                        JSON.stringify(err.response.data)
-                    }
-                  } else if (err?.message) {
-                    errorMessage = err.message
-                  }
-
-                  toast({
-                    title: 'Error',
-                    description: errorMessage,
-                    variant: 'destructive',
-                  })
-                  setActiveDeploymentStep(2)
-                })
+                externalXnodeDeployment()
               } else {
                 new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
                   router.push(`/xnode?uuid=${mockXNodes[0].id}`)
@@ -282,103 +264,121 @@ export default function DeploymentFlow({
   }
 
   async function externalXnodeDeployment() {
-    const xnodeAccessToken = crypto.randomBytes(64).toString('base64')
-    const xnodeId = `${Math.random()
-      .toString(36)
-      .slice(2, 17)
-      .toUpperCase()}-${Math.random().toString(36).slice(2, 17).toUpperCase()}`
-    const xnodeConfigRemote = ''
+    try {
+      const xnodeAccessToken = crypto.randomBytes(64).toString('base64')
+      const xnodeId = `${Math.random()
+        .toString(36)
+        .slice(2, 17)
+        .toUpperCase()}-${Math.random().toString(36).slice(2, 17).toUpperCase()}`
+      const xnodeConfigRemote = ''
 
-    let ipAddress = ''
-    let deploymentAuth = ''
-    if (provider.providerName.toLowerCase() === 'hivelocity') {
-      const init = '#cloud-config \nruncmd: \n - '
-      const pullXnodeAssimilate =
-        'curl https://raw.githubusercontent.com/Openmesh-Network/XnodeOS-assimilate/dev/xnodeos-assimilate | '
-      const acceptDestroySystem = `ACCEPT_DESTRUCTION_OF_SYSTEM="Yes, destroy my system and delete all of my data. I know what I'm doing." `
-      const KernelParams =
-        'XNODE_KERNEL_EXTRA_PARAMS=1 XNODE_UUID=' +
-        xnodeId +
-        ' XNODE_ACCESS_TOKEN=' +
-        xnodeAccessToken +
-        ' XNODE_CONFIG_REMOTE=' +
-        xnodeConfigRemote
-      const log = ` bash 2>&1 | tee /tmp/assimilate.log`
-      const script =
-        init + pullXnodeAssimilate + acceptDestroySystem + KernelParams + log
+      let ipAddress = ''
+      let deploymentAuth = ''
+      if (provider.providerName.toLowerCase() === 'hivelocity') {
+        const init = '#cloud-config \nruncmd: \n - '
+        const pullXnodeAssimilate =
+          'curl https://raw.githubusercontent.com/Openmesh-Network/XnodeOS-assimilate/dev/xnodeos-assimilate | '
+        const acceptDestroySystem = `ACCEPT_DESTRUCTION_OF_SYSTEM="Yes, destroy my system and delete all of my data. I know what I'm doing." `
+        const KernelParams =
+          'XNODE_KERNEL_EXTRA_PARAMS=1 XNODE_UUID=' +
+          xnodeId +
+          ' XNODE_ACCESS_TOKEN=' +
+          xnodeAccessToken +
+          ' XNODE_CONFIG_REMOTE=' +
+          xnodeConfigRemote
+        const log = ` bash 2>&1 | tee /tmp/assimilate.log`
+        const script =
+          init + pullXnodeAssimilate + acceptDestroySystem + KernelParams + log
 
-      const productInfo = provider.id.split('_')
-      const productId = Number(productInfo[0])
-      const dataCenter = productInfo[1]
-      const machine = await axios
-        .get(`${prefix}/api/hivelocity/rewrite`, {
-          params: {
-            path: `v2/${provider.type === 'VPS' ? 'compute' : 'bare-metal-devices'}/`,
-            method: 'POST',
-            body: JSON.stringify({
-              osName: `Ubuntu 22.04${provider.type === 'VPS' ? ' (VPS)' : ''}`,
-              hostname: xnodeId + '.openmesh.network',
-              script: script,
-              tags: [
-                'XNODE_UUID=' + xnodeId,
-                'XNODE_CONFIG_REMOTE=' + xnodeConfigRemote,
-              ],
-              period: 'monthly',
-              locationName: dataCenter,
-              productId: productId,
-            }),
-          },
-          headers: {
-            'X-API-KEY': debouncedApiKey,
-          },
-        })
-        .then((res) => res.data as { deviceId: number; primaryIp: string })
-      ipAddress = machine.primaryIp
-      deploymentAuth = machine.deviceId.toString()
-
-      while (!ipAddress) {
-        await new Promise((resolve) => setTimeout(resolve, 500))
-        const updatedMachine = await axios
+        const productInfo = provider.id.split('_')
+        const productId = Number(productInfo[0])
+        const dataCenter = productInfo[1]
+        const machine = await axios
           .get(`${prefix}/api/hivelocity/rewrite`, {
             params: {
-              path: `v2/${provider.type === 'VPS' ? 'compute' : 'bare-metal-devices'}/${machine.deviceId}`,
-              method: 'GET',
+              path: `v2/${provider.type === 'VPS' ? 'compute' : 'bare-metal-devices'}/`,
+              method: 'POST',
+              body: JSON.stringify({
+                osName: `Ubuntu 22.04${provider.type === 'VPS' ? ' (VPS)' : ''}`,
+                hostname: xnodeId + '.openmesh.network',
+                script: script,
+                tags: [
+                  'XNODE_UUID=' + xnodeId,
+                  'XNODE_CONFIG_REMOTE=' + xnodeConfigRemote,
+                ],
+                period: 'monthly',
+                locationName: dataCenter,
+                productId: productId,
+              }),
             },
             headers: {
               'X-API-KEY': debouncedApiKey,
             },
           })
-          .then((res) => res.data as { primaryIp: string })
-        ipAddress = updatedMachine.primaryIp
+          .then((res) => res.data as { deviceId: number; primaryIp: string })
+        ipAddress = machine.primaryIp
+        deploymentAuth = machine.deviceId.toString()
+
+        while (!ipAddress) {
+          await new Promise((resolve) => setTimeout(resolve, 500))
+          const updatedMachine = await axios
+            .get(`${prefix}/api/hivelocity/rewrite`, {
+              params: {
+                path: `v2/${provider.type === 'VPS' ? 'compute' : 'bare-metal-devices'}/${machine.deviceId}`,
+                method: 'GET',
+              },
+              headers: {
+                'X-API-KEY': debouncedApiKey,
+              },
+            })
+            .then((res) => res.data as { primaryIp: string })
+          ipAddress = updatedMachine.primaryIp
+        }
       }
+
+      await axios({
+        url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/registerXnodeDeployment`,
+        method: 'post',
+        headers: {
+          'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+          'X-Parse-Session-Token': sessionToken,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          name: config.name,
+          location: provider.location,
+          description: config.description,
+          provider: provider.providerName,
+          services: Buffer.from(
+            JSON.stringify({
+              services: servicesCompressedForAdmin(config.services),
+            })
+          ).toString('base64'),
+          accessToken: xnodeAccessToken,
+          id: xnodeId,
+          ipAddress: ipAddress,
+          deploymentAuth: deploymentAuth,
+        },
+      })
+
+      router.push(`/xnode?uuid=${xnodeId}`)
+    } catch (err) {
+      let errorMessage: string = 'An unknown error has occurred.'
+      if (err instanceof AxiosError) {
+        if (err.response) {
+          errorMessage = err.response.data?.error
+        }
+      } else if (err?.message) {
+        errorMessage = err.message
+      }
+
+      toast({
+        title: 'Error',
+        description: errorMessage,
+        variant: 'destructive',
+      })
+      setActiveDeploymentStep(2)
     }
-
-    await axios({
-      url: `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/registerXnodeDeployment`,
-      method: 'post',
-      headers: {
-        'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-        'X-Parse-Session-Token': sessionToken,
-        'Content-Type': 'application/json',
-      },
-      data: {
-        name: config.name,
-        location: provider.location,
-        description: config.description,
-        provider: provider.providerName,
-        services: Buffer.from(
-          JSON.stringify({
-            services: servicesCompressedForAdmin(config.services),
-          })
-        ).toString('base64'),
-        accessToken: xnodeAccessToken,
-        id: xnodeId,
-        ipAddress: ipAddress,
-        deploymentAuth: deploymentAuth,
-      },
-    })
-
-    router.push(`/xnode?uuid=${xnodeId}`)
   }
 
   function onFlowOpenToggle(newVal: boolean) {
