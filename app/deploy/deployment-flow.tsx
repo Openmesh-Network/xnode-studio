@@ -366,7 +366,10 @@ export default function DeploymentFlow({
       let errorMessage: string = 'An unknown error has occurred.'
       if (err instanceof AxiosError) {
         if (err.response) {
-          errorMessage = err.response.data?.error
+          errorMessage =
+            err.response.data?.error?.message ??
+            err.response.data?.error?.description ??
+            errorMessage
         }
       } else if (err?.message) {
         errorMessage = err.message
