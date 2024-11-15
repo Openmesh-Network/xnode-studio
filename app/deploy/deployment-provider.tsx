@@ -20,7 +20,6 @@ import { prefix } from 'utils/prefix'
 
 import { type HardwareProduct, type Specs } from '@/types/dataProvider'
 import { cn, formatPrice } from '@/lib/utils'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Command,

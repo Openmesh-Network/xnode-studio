@@ -17,7 +17,7 @@
   },
   "tags": ["RPC", "Validator", "Blockchain", "Polygon"],
   "website": "https://polygon.technology/",
-  "implemented": true,
+  "implemented": false,
   "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/28321.png",
   "options": [
     {

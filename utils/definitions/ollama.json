@@ -6,8 +6,8 @@
   "support": "- **Community Channels:**\n   - Join the [Ollama Discord](https://discord.com) for community assistance and real-time support.\n   - Explore and contribute via Ollama's GitHub repository for open-source collaboration.\n- **FAQs & Troubleshooting Resources:**\n   - [Ollama Documentation on GitHub](https://github.com/ollama/ollama)\n   - Blog updates on Docker and OpenAI API integrations: [Ollama Blog](https://ollama.com)\n- **Direct Assistance:**\n   - Contact Xnode support for infrastructure-related issues.\n   - Use the [Ollama Help Center](https://ollama.com) for documentation and community-driven solutions.\n\n This template offers a comprehensive guide for deploying and managing the Ollama server through Xnode. For more details, you can refer to the [official Ollama site](https://ollama.com) and its documentation on GitHub.",
   "nixName": "ollama",
   "specs": {
-    "ram": 8192,
-    "storage": 12280
+    "ram": 2000,
+    "storage": 12000
   },
   "tags": ["LLM", "AI"],
   "website": "https://github.com/ollama/ollama",

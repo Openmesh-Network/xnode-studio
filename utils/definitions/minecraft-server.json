@@ -6,8 +6,8 @@
   "support": "- **Community Channels:**\n   - **Official Minecraft Forums:** [Minecraft Forum](https://www.minecraftforum.net/)\n   - **Reddit Communities:** Minecraft and admincraft for technical support.\n- **FAQs & Troubleshooting:**\n   - **Minecraft Server FAQ:** [Minecraft Server FAQ](https://minecraft.fandom.com/wiki/Tutorials/Setting_up_a_server)\n   - **Direct Assistance:**\n     - Contact Xnode support for issues with infrastructure or deployment.\n     - Use [Minecraft Help Center](https://help.minecraft.net/hc/en-us) for Minecraft-specific queries.",
   "nixName": "minecraft-server",
   "specs": {
-    "ram": 1024,
-    "storage": 1024
+    "ram": 2000,
+    "storage": 4000
   },
   "tags": ["Gaming"],
   "website": "https://minecraft.net",

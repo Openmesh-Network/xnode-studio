@@ -5,8 +5,8 @@
   "support": "- **Community Forums:** Connect with other users via the [Syncthing Forum](https://forum.syncthing.net) for troubleshooting and advice.\n- **Documentation:** Access detailed setup guides and best practices in the [official Syncthing documentation](https://docs.syncthing.net).\n- **Development & Issues:** Report bugs or contribute through the [GitHub repository](https://github.com/syncthing).\n- **Help & Troubleshooting:** Explore advanced settings, including relay services and file versioning, through the documentation.\n\n This template highlights Syncthing’s focus on data privacy, direct synchronization, and ease of deployment through Xnode. It’s an ideal solution for users and organizations looking to retain full control over their data without relying on external cloud services.",
   "nixName": "syncthing",
   "specs": {
-    "ram": 512,
-    "storage": 10240
+    "ram": 500,
+    "storage": 10000
   },
   "tags": ["Files", "NAS", "Drive"],
   "website": "https://syncthing.net/",

@@ -13,7 +13,7 @@
   "nixName": "openmesh-chainlink-data-dashboard",
   "specs": {
     "ram": 400,
-    "storage": 10
+    "storage": 100
   },
   "tags": ["Blockchain", "Chainlink"],
   "website": "https://github.com/Openmesh-Network/chainlink-data-dashboard",

@@ -184,7 +184,7 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
                 <div>
                   <p className="text-xs text-muted-foreground">RAM</p>
                   <p className="font-mono leading-none">
-                    ~{Math.round((specs?.ram ?? 0) / 1024)} GB
+                    ~{((specs?.ram ?? 0) / 1000).toString()} GB
                   </p>
                 </div>
               </div>
@@ -193,7 +193,7 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
                 <div>
                   <p className="text-xs text-muted-foreground">Storage</p>
                   <p className="font-mono leading-none">
-                    ~{Math.round((specs?.storage ?? 0) / 1024)} GB
+                    ~{((specs?.storage ?? 0) / 1000).toString()} GB
                   </p>
                 </div>
               </div>
