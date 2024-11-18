@@ -252,7 +252,7 @@ export default function DeploymentFlow({
           isUnit: true,
           location: 'NYC1',
           provider: 'Unit',
-          deploymentAuth: selectedXNode,
+          deploymentAuth: selectedXNode.id.toString(),
           services: Buffer.from(
             JSON.stringify({
               services: servicesCompressedForAdmin(config.services),
@@ -320,7 +320,7 @@ export default function DeploymentFlow({
         deploymentAuth = machine.deviceId.toString()
 
         while (!ipAddress) {
-          await new Promise((resolve) => setTimeout(resolve, 500))
+          await new Promise((resolve) => setTimeout(resolve, 1000))
           const updatedMachine = await axios
             .get(`${prefix}/api/hivelocity/rewrite`, {
               params: {
