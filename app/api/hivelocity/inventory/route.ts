@@ -121,21 +121,39 @@ export async function GET(_: NextRequest) {
   )
   const inventory: HardwareProduct[] = rawInventory.map((product) => {
     const id = `${product.product_id.toString()}_${product.data_center}`
-    let storageCapacity = extractNumberBeforePostfix({
-      data: product.product_drive.toLowerCase(),
-      postfix: 'gb',
-      isInt: true,
-    })
-    if (isNaN(storageCapacity)) {
-      storageCapacity = extractNumberBeforePostfix({
-        data: product.product_drive.toLowerCase(),
-        postfix: 'tb',
-        isInt: false,
+    const drives = product.product_drive.split(', ').flatMap((drive) => {
+      const amountOfDrives = extractNumberBeforePostfix({
+        data: drive.toLowerCase(),
+        postfix: ' x',
+        isInt: true,
       })
-      if (!isNaN(storageCapacity)) {
-        storageCapacity *= 1000
+      let storageCapacity = extractNumberBeforePostfix({
+        data: drive.toLowerCase(),
+        postfix: 'gb',
+        isInt: true,
+      })
+      if (isNaN(storageCapacity)) {
+        storageCapacity = extractNumberBeforePostfix({
+          data: drive.toLowerCase(),
+          postfix: 'tb',
+          isInt: false,
+        })
+        if (!isNaN(storageCapacity)) {
+          storageCapacity *= 1000
+        }
       }
-    }
+      const storageType = drive.toLowerCase().includes('nvme')
+        ? 'NVMe'
+        : drive.toLowerCase().includes('ssd')
+          ? 'SSD'
+          : drive.toLowerCase().includes('sata')
+            ? 'SATA'
+            : undefined
+      return new Array(isNaN(amountOfDrives) ? 1 : amountOfDrives).fill({
+        capacity: storageCapacity,
+        type: storageType,
+      })
+    })
     return {
       type: product.is_vps ? 'VPS' : 'Bare Metal',
       available: product.stock === 'available' ? 1_000_000_000 : 0,
@@ -175,16 +193,7 @@ export async function GET(_: NextRequest) {
         }),
         ghz: 0,
       },
-      storage: [
-        {
-          capacity: storageCapacity,
-          type: product.product_drive.toLowerCase().includes('ssd')
-            ? 'SSD'
-            : product.product_drive.toLowerCase().includes('sata')
-              ? 'SATA'
-              : undefined,
-        },
-      ],
+      storage: drives,
     }
   })
   return Response.json(inventory)

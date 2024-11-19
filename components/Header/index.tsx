@@ -67,6 +67,12 @@ export default function Header({ sessionToken }: { sessionToken?: string }) {
             !activeXNodes?.includes(BigInt(xnode.deploymentAuth))
         )
         .map((xnode) => {
+          if (xnode.isUnit) {
+            return {
+              type: 'Unit',
+              id: BigInt(xnode.deploymentAuth),
+            } as SelectedXnode
+          }
           return { type: 'Custom', id: xnode.id } as SelectedXnode
         })
         .concat(
