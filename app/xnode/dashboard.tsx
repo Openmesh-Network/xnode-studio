@@ -10,6 +10,7 @@ import { addYears, formatDistanceToNowStrict } from 'date-fns'
 import { useUser } from 'hooks/useUser'
 import {
   Copy,
+  Edit3,
   ExternalLink,
   HelpCircle,
   Pencil,
@@ -39,12 +40,15 @@ import {
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -220,6 +224,8 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   >(null)
   const [resetMachineOpen, setResetMachineOpen] = useState<boolean>(false)
   const [resetting, setResetting] = useState<boolean>(false)
+  const [editName, setEditName] = useState<string | undefined>(undefined)
+  const [changingName, setChangingName] = useState<boolean>(false)
 
   const updateServices = useCallback(async () => {
     if (demoMode) return
@@ -330,7 +336,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
 
   const resetMachine = useCallback(async () => {
     if (demoMode) return
-    if (!services?.services || !user?.sessionToken) return
+    if (!xNodeData || !user?.sessionToken) return
 
     setResetting(true)
     try {
@@ -359,14 +365,40 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     } finally {
       setResetting(false)
     }
-  }, [
-    demoMode,
-    refetch,
-    serviceChanges,
-    services?.services,
-    user?.sessionToken,
-    xNodeId,
-  ])
+  }, [demoMode, refetch, user?.sessionToken, xNodeData])
+
+  const changeName = useCallback(
+    async (name: string) => {
+      if (demoMode) return
+      if (!xNodeData || !user?.sessionToken) return
+
+      setChangingName(true)
+      try {
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/updateXnode`,
+          {
+            method: 'PUT',
+            headers: {
+              'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+              'X-Parse-Session-Token': user.sessionToken,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              xnodeId: xNodeData.id,
+              name: name,
+            }),
+          }
+        )
+
+        await new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
+          refetch()
+        )
+      } finally {
+        setChangingName(false)
+      }
+    },
+    [demoMode, refetch, user?.sessionToken, xNodeData]
+  )
 
   return (
     <div className="container my-12 max-w-none">
@@ -708,6 +740,46 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               </AlertDialogHeader>
             </AlertDialogContent>
           </AlertDialog>
+          <Dialog
+            open={editName !== undefined}
+            onOpenChange={() => setEditName(undefined)}
+          >
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Change Xnode Name</DialogTitle>
+                <DialogDescription>
+                  This name is purely cosmetic and does not affect the running
+                  Xnode in any way.
+                </DialogDescription>
+                <div>
+                  <Label htmlFor="newXnodeName">New Xnode Name</Label>
+                  <Input
+                    id="newXnodeName"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                  />
+                </div>
+                <DialogFooter>
+                  <Button
+                    onClick={() => setEditName(undefined)}
+                    disabled={changingName}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      changeName(editName)
+                        .catch(console.error)
+                        .finally(() => setEditName(undefined))
+                    }}
+                    disabled={changingName}
+                  >
+                    Save
+                  </Button>
+                </DialogFooter>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
           {xNode.heartbeatData?.wantUpdate &&
           xNode.updateGenerationHave == xNode.updateGenerationWant &&
           xNode.status === 'online' ? (
@@ -744,7 +816,13 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <h1 className="text-4xl font-bold">{xNode.name}</h1>
+          <Button
+            className="size-auto gap-x-2 bg-transparent p-0 hover:bg-transparent"
+            onClick={() => setEditName(xNode.name)}
+          >
+            <h1 className="text-4xl font-bold text-black">{xNode.name}</h1>
+            <Edit3 className="size-7 text-muted-foreground" />
+          </Button>
           <div className="mt-2 flex items-center gap-3">
             <span
               className={cn(

@@ -20,7 +20,7 @@ export default function XnodeOnePage() {
             Owning the physical hardware is the most trustless way to run your
             Xnode applications. It allows you to have a one time purchase
             instead of paying reoccurring cloud renting costs. It also helps
-            improve the network decentralization!
+            improve network decentralization!
           </span>
         </div>
         <div className="pr-5">
@@ -41,7 +41,7 @@ export default function XnodeOnePage() {
           <CardHeader>
             <CardTitle>Step 2: Power</CardTitle>
             <CardDescription>
-              Unbox your package and connect the Xnode One to the power grind
+              Unbox your package and connect the Xnode One to the power grid
               with the included power cable. The power connector is located at
               the back of the device (opposite to the power button) on the
               bottom row.
