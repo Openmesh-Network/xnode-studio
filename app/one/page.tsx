@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Back from '@/public/images/xnode-one/back.png'
 
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -9,6 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+
+import LocalXnodes from './local-xnodes'
 
 export default function XnodeOnePage() {
   return (
@@ -75,11 +76,8 @@ export default function XnodeOnePage() {
               experiencing issues, please contact engineering@openmesh.network.
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-5">
-            <div className="flex place-items-center gap-5">
-              <div className="size-8 animate-spin rounded-full border-b-2 border-primary" />
-              <span>Searching for Xnode devices on the local network</span>
-            </div>
+          <CardContent>
+            <LocalXnodes />
           </CardContent>
         </Card>
       </div>

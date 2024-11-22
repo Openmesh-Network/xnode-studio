@@ -1,7 +1,7 @@
 'use client'
 
 import crypto from 'crypto'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -27,7 +27,7 @@ import {
   type Specs,
 } from '@/types/dataProvider'
 import { mockXNodes } from '@/config/demo-mode'
-import { cn, formatSelectedXNodeName, formatXNodeName } from '@/lib/utils'
+import { cn, formatSelectedXNodeName } from '@/lib/utils'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -39,6 +39,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import ComboBox from '@/components/ui/combobox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupCard } from '@/components/ui/radio-group'
@@ -107,6 +108,18 @@ export default function DeploymentFlow({
     useState<DeploymentFlow | null>()
 
   const { config, provider } = useDeploymentContext()
+  const [paymentPeriod, setPaymentPeriod] = useState<string>('monthly')
+
+  useEffect(() => {
+    if (!provider) {
+      return
+    }
+
+    if (!provider.price[paymentPeriod]) {
+      // Unsupported payment period, reset to default
+      setPaymentPeriod('monthly')
+    }
+  }, [paymentPeriod, provider])
 
   const baremetalConfig = useMemo(() => {
     if (!provider) return null
@@ -116,10 +129,29 @@ export default function DeploymentFlow({
     if (provider.cpu.threads) config += ` (${provider.cpu.threads} threads)`
     if (provider.ram.capacity) config += `, ${provider.ram.capacity}GB RAM`
     if (provider.storage.length) {
-      config += `, ${provider.storage.reduce((prev, cur) => prev + cur.capacity, 0)} GB`
-      if (provider.storage.at(0).type) {
-        config += ` ${provider.storage.at(0).type}`
-      }
+      config += `, ${provider.storage.reduce((prev, cur) => prev + cur.capacity, 0)} GB (`
+      const drives = provider.storage
+        .map((drive) => {
+          let driveDescription = `${drive.capacity} GB`
+          if (drive.type) {
+            driveDescription += ` ${drive.type}`
+          }
+          return driveDescription
+        })
+        .reduce(
+          (prev, cur) => {
+            prev[cur] = (prev[cur] ?? 0) + 1
+            return prev
+          },
+          {} as { [driveDescription: string]: number }
+        )
+      Object.keys(drives).forEach((driveDescription, i) => {
+        if (i > 0) {
+          config += ', '
+        }
+        config += `${drives[driveDescription]}x ${driveDescription}`
+      })
+      config += ')'
     }
     if (provider.network.speed) config += `, ${provider.network.speed} Gbps`
     return config
@@ -306,7 +338,7 @@ export default function DeploymentFlow({
                   'XNODE_UUID=' + xnodeId,
                   'XNODE_CONFIG_REMOTE=' + xnodeConfigRemote,
                 ],
-                period: 'monthly',
+                period: paymentPeriod === 'yearly' ? 'annually' : paymentPeriod,
                 locationName: dataCenter,
                 productId: productId,
               }),
@@ -317,7 +349,7 @@ export default function DeploymentFlow({
           })
           .then((res) => res.data as { deviceId: number; primaryIp: string })
         ipAddress = machine.primaryIp
-        deploymentAuth = machine.deviceId.toString()
+        deploymentAuth = `${provider.type === 'VPS' ? 'compute' : 'bare-metal-devices'}/${machine.deviceId}`
 
         while (!ipAddress) {
           await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -365,11 +397,17 @@ export default function DeploymentFlow({
     } catch (err) {
       let errorMessage: string = 'An unknown error has occurred.'
       if (err instanceof AxiosError) {
-        if (err.response) {
-          errorMessage =
-            err.response.data?.error?.message ??
-            err.response.data?.error?.description ??
-            errorMessage
+        if (err.response?.data?.error) {
+          if (typeof err.response.data.error.message === 'string') {
+            errorMessage = err.response.data.error.message
+          } else if (typeof err.response.data.error.description === 'string') {
+            errorMessage = err.response.data.error.description
+          } else if (
+            err.response.data.error.at &&
+            typeof err.response.data.error.at(0) === 'string'
+          ) {
+            errorMessage = err.response.data.error.at(0)
+          }
         }
       } else if (err?.message) {
         errorMessage = err.message
@@ -734,13 +772,34 @@ export default function DeploymentFlow({
             </div>
             <Separator className="my-4" />
             <div>
-              <p className="text-sm font-medium">Estimated price</p>
+              <p className="text-sm font-medium">
+                Estimated{' '}
+                {provider.price && (
+                  <ComboBox
+                    className="h-auto p-1"
+                    data={Object.keys(provider.price)}
+                    selectedItem={paymentPeriod}
+                    setItemSelect={setPaymentPeriod}
+                  />
+                )}{' '}
+                price
+              </p>
               {provider ? (
                 <>
-                  <p className="mt-1 text-5xl font-bold text-primary">
-                    ${provider.price.monthly}
-                    <span className="text-2xl">/mo</span>
-                  </p>
+                  {
+                    <p className="mt-1 text-5xl font-bold text-primary">
+                      ${provider.price[paymentPeriod]}
+                      <span className="text-2xl">
+                        /
+                        {
+                          paymentPeriod.substring(
+                            0,
+                            paymentPeriod.length - 2
+                          ) /* remove ly */
+                        }
+                      </span>
+                    </p>
+                  }
                 </>
               ) : (
                 <>
@@ -749,11 +808,6 @@ export default function DeploymentFlow({
                 </>
               )}
             </div>
-            {/* <div className="flex justify-end">
-              <p className="-mb-4 min-w-40 text-center text-primary">
-                $200 Cashback
-              </p>
-            </div> */}
           </div>
         ) : null}
         {step[0] === 2 &&
@@ -766,11 +820,20 @@ export default function DeploymentFlow({
             <p className="text-muted-foreground">
               To setup your server, you first need to connect to the provider
               through an API key. This allows Xnode Studio to rent the chosen
-              machine in your account.
+              machine in your account. Pressing the rent button will place an
+              order in your provider account. Please be aware that every time
+              you press this button a new machine will be ordered.
             </p>
             <p className="mt-2">
               {config.name}
-              {provider ? ` | $${provider.price.monthly}/mo` : null}
+              {provider
+                ? ` | $${provider.price[paymentPeriod]}/${
+                    paymentPeriod.substring(
+                      0,
+                      paymentPeriod.length - 2
+                    ) /* remove ly */
+                  }`
+                : null}
             </p>
             <div className={cn('mt-2 flex flex-col rounded border p-4')}>
               <p className="text-lg font-semibold">{config.provider}</p>
@@ -788,6 +851,7 @@ export default function DeploymentFlow({
                         : ''
                   }
                   onChange={(e) => setApiKey(e.target.value)}
+                  type="password"
                 />
               </div>
               {validApiKey === false && (
@@ -827,11 +891,16 @@ export default function DeploymentFlow({
             <p className="mt-4 text-center text-xs text-muted-foreground">
               Estimated time
             </p>
-            <p className="text-center text-3xl font-bold">10 Minutes</p>
+            <p className="text-center text-3xl font-bold">
+              {provider?.type === 'Bare Metal' ? '30 Minutes' : '10 Minutes'}
+            </p>
             <p className="mt-2 text-center text-sm text-muted-foreground">
-              Please do not close this page until the server has been
-              provisioned. You will be automatically redirected once the
-              provisioning is over.
+              Please do not close this page until your order has been confirmed.
+              You will be automatically redirected once the this step is
+              complete. Note that most of this time is dependent on the hardware
+              provider and not something Openmesh influences. In case you are
+              facing unexpected delays, please check your provider dashboard
+              directly.
             </p>
           </div>
         ) : null}

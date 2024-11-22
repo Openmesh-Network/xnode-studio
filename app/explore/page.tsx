@@ -51,6 +51,21 @@ const exploreItems = [
     href: '/rewards',
   },
   {
+    image: (
+      <Image
+        alt=""
+        src={`${prefix}/images/xnode-one/top.svg`}
+        width={60}
+        height={60}
+      />
+    ),
+    title: 'Activate your Xnode One local hardware',
+    description:
+      "Xnode One is the easiest way to run a local Xnode. A mini pc, built with Xnode's usecases in mind and with XnodeOS preinstalled, will be shipped to your address and can be activated in Xnode Studio.",
+    callToAction: 'Activate (~1m)',
+    href: '/one',
+  },
+  {
     image: <Blocks width={50} height={50} />,
     title: 'Build Infrastructure like never before',
     description:

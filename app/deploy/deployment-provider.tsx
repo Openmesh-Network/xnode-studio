@@ -538,10 +538,29 @@ export default function DeploymentProvider({
                     if (provider.ram.capacity)
                       config += `, ${provider.ram.capacity}GB RAM`
                     if (provider.storage.length) {
-                      config += `, ${provider.storage.reduce((prev, cur) => prev + cur.capacity, 0)} GB`
-                      if (provider.storage.at(0).type) {
-                        config += ` ${provider.storage.at(0).type}`
-                      }
+                      config += `, ${provider.storage.reduce((prev, cur) => prev + cur.capacity, 0)} GB (`
+                      const drives = provider.storage
+                        .map((drive) => {
+                          let driveDescription = `${drive.capacity} GB`
+                          if (drive.type) {
+                            driveDescription += ` ${drive.type}`
+                          }
+                          return driveDescription
+                        })
+                        .reduce(
+                          (prev, cur) => {
+                            prev[cur] = (prev[cur] ?? 0) + 1
+                            return prev
+                          },
+                          {} as { [driveDescription: string]: number }
+                        )
+                      Object.keys(drives).forEach((driveDescription, i) => {
+                        if (i > 0) {
+                          config += ', '
+                        }
+                        config += `${drives[driveDescription]}x ${driveDescription}`
+                      })
+                      config += ')'
                     }
                     if (provider.network.speed)
                       config += `, ${provider.network.speed} Gbps`
@@ -582,7 +601,7 @@ export default function DeploymentProvider({
                               {formatPrice(provider.price.monthly ?? 0)}
                             </span>
                             /mo
-                            {/* {provider.price.hourly && (
+                            {provider.price.hourly && (
                               <div className="pl-1">
                                 (
                                 <span className="font-bold">
@@ -590,7 +609,7 @@ export default function DeploymentProvider({
                                 </span>
                                 /hr)
                               </div>
-                            )} */}
+                            )}
                           </p>
                         </div>
                         <div className="col-span-3 flex flex-1 justify-end">
@@ -612,7 +631,7 @@ export default function DeploymentProvider({
                               }}
                               disabled={
                                 provider.available === 0 ||
-                                provider.type !== 'VPS'
+                                provider.type === 'Bare Metal'
                               }
                             >
                               Select
@@ -623,9 +642,9 @@ export default function DeploymentProvider({
                               </p>
                             )}
                             {provider.available > 0 &&
-                              provider.type !== 'VPS' && (
+                              provider.type === 'Bare Metal' && (
                                 <p className="text-sm text-muted-foreground">
-                                  Unavailable
+                                  Unsupported
                                 </p>
                               )}
                           </div>

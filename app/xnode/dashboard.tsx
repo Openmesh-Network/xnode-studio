@@ -3,9 +3,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { prefix } from '@/utils/prefix'
 import { servicesCompressedForAdmin } from '@/utils/xnode'
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import { useDebounce } from '@uidotdev/usehooks'
+import axios, { AxiosError } from 'axios'
 import { addYears, formatDistanceToNowStrict } from 'date-fns'
 import { useUser } from 'hooks/useUser'
 import {
@@ -334,38 +336,120 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
     )
   }
 
+  const [apiKey, setApiKey] = useState<string>('')
+  const debouncedApiKey = useDebounce(apiKey, 500)
+  const { data: validApiKey } = useQuery({
+    queryKey: ['apiKey', debouncedApiKey, demoMode],
+    queryFn: async () => {
+      if (demoMode) {
+        return true
+      }
+
+      if (!debouncedApiKey) {
+        return undefined
+      }
+
+      try {
+        await axios.get(`${prefix}/api/hivelocity/rewrite`, {
+          params: {
+            path: 'v2/permission/',
+            method: 'GET',
+          },
+          headers: {
+            'X-API-KEY': debouncedApiKey,
+          },
+        })
+        return true
+      } catch (err) {
+        return false
+      }
+    },
+  })
+
   const resetMachine = useCallback(async () => {
     if (demoMode) return
     if (!xNodeData || !user?.sessionToken) return
 
     setResetting(true)
     try {
-      await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/createXnode`,
-        {
-          method: 'POST',
-          headers: {
-            'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
-            'X-Parse-Session-Token': user.sessionToken,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: xNodeData.name,
-            location: xNodeData.location,
-            description: xNodeData.description,
-            provider: xNodeData.provider,
-            isUnit: xNodeData.isUnit,
-            deploymentAuth: xNodeData.deploymentAuth,
-            services: xNodeData.services,
-          }),
-        }
-      )
+      if (xNodeData.isUnit) {
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/createXnode`,
+          {
+            method: 'POST',
+            headers: {
+              'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+              'X-Parse-Session-Token': user.sessionToken,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: xNodeData.name,
+              location: xNodeData.location,
+              description: xNodeData.description,
+              provider: xNodeData.provider,
+              isUnit: xNodeData.isUnit,
+              deploymentAuth: xNodeData.deploymentAuth,
+              services: xNodeData.services,
+            }),
+          }
+        )
+      } else if (xNodeData.provider === 'Hivelocity') {
+        await axios
+          .get(`${prefix}/api/hivelocity/rewrite`, {
+            params: {
+              path: `v2/${xNodeData.deploymentAuth}`,
+              method: 'DELETE',
+            },
+            headers: {
+              'X-API-KEY': debouncedApiKey,
+            },
+          })
+          .catch((err) => {
+            if (err instanceof AxiosError) {
+              if (
+                err.status.toString().startsWith('2') ||
+                err.status === 409 /*Device already cancelled*/ ||
+                err.response?.data?.error ===
+                  'Response constructor: Invalid response status code 204' ||
+                err.response?.data?.error?.at(0) === 'Resource not Found.' // Already deleted
+              ) {
+                return
+              }
+            }
+
+            throw 'An unexpected error occurred, please check your provider directly if the server has been successfully deleted.'
+          })
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/removeXnodeDeployment`,
+          {
+            method: 'DELETE',
+            headers: {
+              'x-parse-application-id': `${process.env.NEXT_PUBLIC_API_BACKEND_KEY}`,
+              'X-Parse-Session-Token': user.sessionToken,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id: xNodeData.id,
+            }),
+          }
+        )
+      } else {
+        throw `Deleting servers through Xnode Studio is not yet supported for ${xNodeData.provider}`
+      }
 
       push('/deployments')
+    } catch (err) {
+      console.error(err)
+      toast({
+        title: 'Error',
+        description:
+          typeof err === 'string' ? err : 'An unknown error has occurred',
+        variant: 'destructive',
+      })
     } finally {
       setResetting(false)
     }
-  }, [demoMode, refetch, user?.sessionToken, xNodeData])
+  }, [demoMode, refetch, user?.sessionToken, xNodeData, debouncedApiKey])
 
   const changeName = useCallback(
     async (name: string) => {
@@ -709,20 +793,47 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>
-                  Are you sure you want to reset your machine?
+                  Are you sure you want to {xNode.isUnit ? 'reset' : 'delete'}{' '}
+                  your machine?
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                  This will delete all data storage of your applications. The
-                  nix configuration will be migrated to a new hardware machine.
+                  {xNode.isUnit
+                    ? 'This will delete all data storage of your applications. The nix configuration will be migrated to a new hardware machine.'
+                    : 'The underlying hardware will be deleted, which will cancel any future renting costs. This Xnode will cease to exist and cannot be restored.'}
                   This action cannot be undone.
                 </AlertDialogDescription>
+                {!xNode.isUnit && (
+                  <div>
+                    <div className="mt-2 space-y-0.5">
+                      <Label htmlFor="apiKey">API Key</Label>
+                      <Input
+                        id="apiKey"
+                        name="apiKey"
+                        value={apiKey}
+                        className={
+                          validApiKey === false
+                            ? 'border-red-600'
+                            : validApiKey === true
+                              ? 'border-green-500'
+                              : ''
+                        }
+                        onChange={(e) => setApiKey(e.target.value)}
+                        type="password"
+                      />
+                    </div>
+                    {validApiKey === false && (
+                      <p className="text-sm text-red-700">Invalid API key</p>
+                    )}
+                  </div>
+                )}
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
                     className="bg-red-500 hover:bg-red-600"
                     onClick={() => resetMachine()}
+                    disabled={!xNode.isUnit && !validApiKey}
                   >
-                    Reset
+                    {xNode.isUnit ? 'Reset' : 'Delete'}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogHeader>
@@ -731,11 +842,14 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
           <AlertDialog open={resetting}>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Resetting...</AlertDialogTitle>
+                <AlertDialogTitle>
+                  {xNode.isUnit ? 'Resetting...' : 'Deleting...'}
+                </AlertDialogTitle>
                 <AlertDialogDescription>
                   Please wait. You will be redirected to the deployment page.
-                  Your new server will show up once the new machine has been
-                  provisioned. This can take several minutes.
+                  {xNode.isUnit
+                    ? 'Your new server will show up once the new machine has been provisioned. This can take several minutes.'
+                    : ''}
                 </AlertDialogDescription>
               </AlertDialogHeader>
             </AlertDialogContent>
@@ -966,15 +1080,13 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                {xNode.isUnit && (
-                  <Button
-                    disabled={isFetching}
-                    variant="outlinePrimary"
-                    onClick={() => setResetMachineOpen(true)}
-                  >
-                    Reset
-                  </Button>
-                )}
+                <Button
+                  disabled={isFetching}
+                  variant="outlinePrimary"
+                  onClick={() => setResetMachineOpen(true)}
+                >
+                  {xNode.isUnit ? 'Reset' : 'Delete'}
+                </Button>
                 <Button
                   disabled={isFetching}
                   variant="outlinePrimary"

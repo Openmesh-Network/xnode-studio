@@ -43,8 +43,18 @@ interface HivelocityProduct {
   product_triennial_price: number
   quarterly_location_premium: number
   semi_annually_location_premium: number
-  stock: 'unavailable' | 'available'
+  stock: 'unavailable' | 'available' | 'limited'
   triennial_location_premium: number
+}
+
+interface HivelocityLocation {
+  location_option_ids: number[]
+  edge: boolean
+  location: { state: string; city: string; country: string }
+  code: string
+  title: string
+  core: boolean
+  id: number
 }
 
 function extractNumberBeforePostfix({
@@ -68,56 +78,31 @@ function extractNumberBeforePostfix({
   return isInt ? parseInt(numberString) : parseFloat(numberString)
 }
 
-function dataCenterLocation(dataCenter: string) {
-  const locationId = dataCenter.replace(/[0-9]/g, '').toUpperCase()
-  switch (locationId) {
-    case 'ALB':
-      return 'Albany'
-    case 'AMS':
-      return 'Amsterdam'
-    case 'ATL':
-      return 'Atlanta'
-    case 'ORD':
-      return 'Chicago'
-    case 'COS':
-      return 'Colorado Springs'
-    case 'DAL':
-      return 'Dalas'
-    case 'FRA':
-      return 'Frankfurt'
-    case 'LA':
-      return 'Los Angeles'
-    case 'MIA':
-      return 'Miami'
-    case 'NYC':
-      return 'New York'
-    case 'PHL':
-      return 'Philadelphia'
-    case 'SEA':
-      return 'Seattle'
-    case 'TPA':
-      return 'Tampa'
-    default:
-      return locationId
-  }
-}
-
 export async function GET(_: NextRequest) {
   const rawInventory: HivelocityProduct[] = []
+  const locations: HivelocityLocation[] = []
   await Promise.all(
-    ['MAIN', 'GPU', 'OUTLET', 'LANDING'].map(async (location) =>
-      rawInventory.push(
-        ...(await fetch(
-          `https://core.hivelocity.net/api/v2/inventory/product?location=${location}&bonding_support=null&group_by=flat`,
-          {
-            headers: [
-              ['Accept', 'application/json'],
-              ['X-API-KEY', process.env.HIVELOCITY_API_KEY],
-            ],
-          }
-        ).then((res) => res.json()))
-      )
-    )
+    ['MAIN', 'GPU', 'OUTLET', 'LANDING']
+      .map(async (location) => {
+        rawInventory.push(
+          ...(await fetch(
+            `https://core.hivelocity.net/api/v2/inventory/product?location=${location}&bonding_support=null&group_by=flat`,
+            {
+              headers: [
+                ['Accept', 'application/json'],
+                ['X-API-KEY', process.env.HIVELOCITY_API_KEY],
+              ],
+            }
+          ).then((res) => res.json()))
+        )
+      })
+      .concat([
+        fetch('https://core.hivelocity.net/api/v2/inventory/locations')
+          .then((res) => res.json())
+          .then((data) => {
+            locations.push(...data)
+          }),
+      ])
   )
   const inventory: HardwareProduct[] = rawInventory.map((product) => {
     const id = `${product.product_id.toString()}_${product.data_center}`
@@ -154,9 +139,13 @@ export async function GET(_: NextRequest) {
         type: storageType,
       })
     })
+    const location = locations.find((l) => l.code === product.data_center)
     return {
       type: product.is_vps ? 'VPS' : 'Bare Metal',
-      available: product.stock === 'available' ? 1_000_000_000 : 0,
+      available:
+        /*product.stock === 'limited'
+          ? 1_000
+          :*/ product.stock === 'available' ? 1_000_000_000 : 0,
       cpu: {
         cores: product.processor_info.cores,
         threads: product.processor_info.threads,
@@ -167,7 +156,9 @@ export async function GET(_: NextRequest) {
         }),
       },
       id: id,
-      location: dataCenterLocation(product.data_center),
+      location: location
+        ? `${location.location.city}, ${location.location.country}`
+        : product.data_center,
       network: {
         speed: extractNumberBeforePostfix({
           data: product.product_bandwidth.toLowerCase(),
@@ -178,10 +169,34 @@ export async function GET(_: NextRequest) {
       price: {
         hourly: product.product_disabled_billing_periods.includes('hourly')
           ? undefined
-          : product.product_hourly_price,
+          : product.product_hourly_price + product.hourly_location_premium,
         monthly: product.product_disabled_billing_periods.includes('monthly')
           ? undefined
-          : product.product_monthly_price,
+          : product.product_monthly_price + product.monthly_location_premium,
+        quarterly: product.product_disabled_billing_periods.includes(
+          'quarterly'
+        )
+          ? undefined
+          : (product.product_quarterly_price +
+              product.quarterly_location_premium) *
+            3,
+        // semi_annually: product.product_disabled_billing_periods.includes(
+        //   'semi_annually'
+        // )
+        //   ? undefined
+        //   : (product.product_semi_annually_price +
+        //       product.semi_annually_location_premium) *
+        //     6,
+        yearly: product.product_disabled_billing_periods.includes('annually')
+          ? undefined
+          : (product.product_annually_price +
+              product.annually_location_premium) *
+            12,
+        // biennial: product.product_disabled_billing_periods.includes('biennial')
+        //   ? undefined
+        //   : (product.product_biennial_price +
+        //       product.biennial_location_premium) *
+        //     24,
       },
       productName: product.product_name || id,
       providerName: 'Hivelocity',
@@ -256,5 +271,18 @@ Example
   semi_annually_location_premium: 0,
   stock: 'unavailable',
   triennial_location_premium: 0
+}
+
+{
+  "location_option_ids": [
+    144188, 145225, 145241, 148980, 149033, 149106, 149123, 149176, 149193,
+    149308, 149402, 149434, 142632, 144198
+  ],
+  "edge": false,
+  "location": { "state": "FL", "city": "Tampa", "country": "US" },
+  "code": "TPA1",
+  "title": "Tampa 1",
+  "core": true,
+  "id": 3
 }
   */
