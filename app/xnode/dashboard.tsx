@@ -339,7 +339,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
   const [apiKey, setApiKey] = useState<string>('')
   const debouncedApiKey = useDebounce(apiKey, 500)
   const { data: validApiKey } = useQuery({
-    queryKey: ['apiKey', debouncedApiKey, demoMode],
+    queryKey: ['apiKey', debouncedApiKey, demoMode, xNodeData?.provider ?? ''],
     queryFn: async () => {
       if (demoMode) {
         return true
@@ -350,15 +350,27 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
       }
 
       try {
-        await axios.get(`${prefix}/api/hivelocity/rewrite`, {
-          params: {
-            path: 'v2/permission/',
-            method: 'GET',
-          },
-          headers: {
-            'X-API-KEY': debouncedApiKey,
-          },
-        })
+        if (xNodeData?.provider === 'Hivelocity') {
+          await axios.get(`${prefix}/api/hivelocity/rewrite`, {
+            params: {
+              path: 'v2/profile/',
+              method: 'GET',
+            },
+            headers: {
+              'X-API-KEY': debouncedApiKey,
+            },
+          })
+        } else if (xNodeData?.provider === 'Vultr') {
+          await axios.get(`${prefix}/api/vultr/rewrite`, {
+            params: {
+              path: 'v2/users',
+              method: 'GET',
+            },
+            headers: {
+              Authorization: `Bearer ${debouncedApiKey}`,
+            },
+          })
+        }
         return true
       } catch (err) {
         return false
@@ -393,32 +405,61 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             }),
           }
         )
-      } else if (xNodeData.provider === 'Hivelocity') {
-        await axios
-          .get(`${prefix}/api/hivelocity/rewrite`, {
-            params: {
-              path: `v2/${xNodeData.deploymentAuth}`,
-              method: 'DELETE',
-            },
-            headers: {
-              'X-API-KEY': debouncedApiKey,
-            },
-          })
-          .catch((err) => {
-            if (err instanceof AxiosError) {
-              if (
-                err.status.toString().startsWith('2') ||
-                err.status === 409 /*Device already cancelled*/ ||
-                err.response?.data?.error ===
-                  'Response constructor: Invalid response status code 204' ||
-                err.response?.data?.error?.at(0) === 'Resource not Found.' // Already deleted
-              ) {
-                return
+      } else {
+        if (xNodeData.provider === 'Hivelocity') {
+          await axios
+            .get(`${prefix}/api/hivelocity/rewrite`, {
+              params: {
+                path: `v2/${xNodeData.deploymentAuth}`,
+                method: 'DELETE',
+              },
+              headers: {
+                'X-API-KEY': debouncedApiKey,
+              },
+            })
+            .catch((err) => {
+              if (err instanceof AxiosError) {
+                if (
+                  err.status.toString().startsWith('2') ||
+                  err.status === 409 /*Device already cancelled*/ ||
+                  err.response?.data?.error ===
+                    'Response constructor: Invalid response status code 204' ||
+                  err.response?.data?.error?.at(0) === 'Resource not Found.' // Already deleted
+                ) {
+                  return
+                }
               }
-            }
 
-            throw 'An unexpected error occurred, please check your provider directly if the server has been successfully deleted.'
-          })
+              throw 'An unexpected error occurred, please check your provider directly if the server has been successfully deleted.'
+            })
+        } else if (xNodeData.provider === 'Vultr') {
+          await axios
+            .get(`${prefix}/api/vultr/rewrite`, {
+              params: {
+                path: `v2/${xNodeData.deploymentAuth}`,
+                method: 'DELETE',
+              },
+              headers: {
+                Authorization: `Bearer ${debouncedApiKey}`,
+              },
+            })
+            .catch((err) => {
+              if (err instanceof AxiosError) {
+                if (
+                  err.status.toString().startsWith('2') ||
+                  err.response?.data?.error ===
+                    'Response constructor: Invalid response status code 204'
+                ) {
+                  return
+                }
+              }
+
+              throw 'An unexpected error occurred, please check your provider directly if the server has been successfully deleted.'
+            })
+        } else {
+          throw `Deleting servers through Xnode Studio is not yet supported for ${xNodeData.provider}`
+        }
+
         await fetch(
           `${process.env.NEXT_PUBLIC_API_BACKEND_BASE_URL}/xnodes/functions/removeXnodeDeployment`,
           {
@@ -433,8 +474,6 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
             }),
           }
         )
-      } else {
-        throw `Deleting servers through Xnode Studio is not yet supported for ${xNodeData.provider}`
       }
 
       push('/deployments')
@@ -799,7 +838,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                 <AlertDialogDescription>
                   {xNode.isUnit
                     ? 'This will delete all data storage of your applications. The nix configuration will be migrated to a new hardware machine.'
-                    : 'The underlying hardware will be deleted, which will cancel any future renting costs. This Xnode will cease to exist and cannot be restored.'}
+                    : 'The underlying hardware will be deleted, which will cancel any future renting costs. This Xnode will cease to exist and cannot be restored.'}{' '}
                   This action cannot be undone.
                 </AlertDialogDescription>
                 {!xNode.isUnit && (
@@ -846,7 +885,7 @@ export default function XNodeDashboard({ xNodeId }: XnodePageProps) {
                   {xNode.isUnit ? 'Resetting...' : 'Deleting...'}
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                  Please wait. You will be redirected to the deployment page.
+                  Please wait. You will be redirected to the deployment page.{' '}
                   {xNode.isUnit
                     ? 'Your new server will show up once the new machine has been provisioned. This can take several minutes.'
                     : ''}

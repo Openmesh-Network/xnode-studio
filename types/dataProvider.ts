@@ -137,10 +137,10 @@ export interface HardwareProduct {
   providerName: string
   location: string
   price: { [duration: string]: number }
-  cpu: { cores: number; threads: number; ghz: number }
-  ram: { capacity: number; ghz: number }
+  cpu: { cores: number; threads?: number; ghz?: number; name?: string }
+  ram: { capacity: number; ghz?: number }
   storage: { capacity: number; type?: string }[]
-  network: { speed: number }
+  network: { speed?: number; max_usage?: number }
 }
 
 let serviceMap: Map<string, ServiceData> = null

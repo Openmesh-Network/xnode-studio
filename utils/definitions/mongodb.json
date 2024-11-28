@@ -1,0 +1,95 @@
+{
+  "name": "MongoDB",
+  "desc": "Deploy MongoDB to create a powerful, scalable, and flexible NoSQL database solution that allows users to efficiently store and manage unstructured data. MongoDB is widely used for high-performance applications, thanks to its document-oriented storage and horizontal scalability.",
+  "longDesc": "MongoDB is an open-source NoSQL database that provides high performance, high availability, and easy scalability. It enables users to store and manage large volumes of unstructured data, making it ideal for modern applications.\n\n**Key Features:**\n- **Document-Oriented Storage:** Uses BSON format to store data as JSON-like documents, allowing for flexible and dynamic schemas.\n- **Scalability:** Supports horizontal scaling through sharding, distributing data across multiple machines to handle increased load and storage requirements.\n- **High Performance:** Delivers fast read and write operations with in-memory storage, indexing, and rich query capabilities.\n- **High Availability:** Provides replication with automatic failover and data redundancy to ensure continuous availability.\n- **Aggregation Framework:** Supports advanced data processing and analysis through powerful aggregation operations.",
+  "useCases": "- **Real-Time Analytics:** Use MongoDB for real-time data analysis and insights in applications such as social media platforms and IoT.\n- **Content Management:** Implement MongoDB for managing and storing large amounts of unstructured content, like documents, images, and videos.\n- **E-Commerce:** Utilize MongoDB for handling product catalogs, customer data, and transaction histories in online shopping platforms.",
+  "support": "- **Community Forums:** Engage with the MongoDB community for support and discussions through the [MongoDB Community Forums](https://community.mongodb.com/).\n- **Documentation:** Comprehensive guides and user manuals are available at the [MongoDB Documentation](https://docs.mongodb.com/) for detailed reference.\n- **Troubleshooting Help:** Access the issues section on the [MongoDB GitHub Repository](https://github.com/mongodb/mongo) to report bugs and find community-contributed solutions.\n This template provides an overview of MongoDB's functionalities and practical applications, emphasizing its role as a leading NoSQL database solution for modern applications. For more detailed information, visit the official [MongoDB website.](https://www.mongodb.com/) ",
+  "nixName": "mongodb",
+  "specs": {
+    "ram": 500,
+    "storage": 100
+  },
+  "tags": ["Database"],
+  "website": "https://www.mongodb.com/",
+  "implemented": true,
+  "logo": "https://www.mongodb.com/assets/images/global/favicon.ico",
+  "options": [
+    {
+      "name": "enable",
+      "desc": "Enable the MongoDB server.",
+      "nixName": "enable",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "package",
+      "desc": "Version of MongoDB server to run.",
+      "nixName": "package",
+      "type": "package",
+      "value": "pkgs.mongodb-ce"
+    },
+    {
+      "name": "user",
+      "desc": "User account under which MongoDB runs",
+      "nixName": "user",
+      "type": "string",
+      "value": "mongodb"
+    },
+    {
+      "name": "bind_ip",
+      "desc": "IP to bind to.",
+      "nixName": "bind_ip",
+      "type": "string",
+      "value": "127.0.0.1"
+    },
+    {
+      "name": "bind_ip_all",
+      "desc": "Allow connections from any ip.",
+      "nixName": "bind_ip_all",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "quiet",
+      "desc": "Quieter output.",
+      "nixName": "quiet",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "dbpath",
+      "desc": "Location where MongoDB stores its files.",
+      "nixName": "dbpath",
+      "type": "string",
+      "value": "/var/db/mongodb"
+    },
+    {
+      "name": "pidFile",
+      "desc": "Location of MongoDB pid file.",
+      "nixName": "pidFile",
+      "type": "string",
+      "value": "/run/mongodb.pid"
+    },
+    {
+      "name": "replSetName",
+      "desc": "If this instance is part of a replica set, set its name here. Otherwise, leave empty to run as single node.",
+      "nixName": "replSetName",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "extraConfig",
+      "desc": "MongoDB extra configuration in YAML format.",
+      "nixName": "extraConfig",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "openFirewall",
+      "desc": "Whether to open ports in the firewall for this application.",
+      "nixName": "openFirewall",
+      "type": "boolean",
+      "value": "true"
+    }
+  ]
+}

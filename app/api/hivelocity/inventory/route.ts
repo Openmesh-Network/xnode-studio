@@ -75,7 +75,12 @@ function extractNumberBeforePostfix({
     return undefined
   }
 
-  return isInt ? parseInt(numberString) : parseFloat(numberString)
+  const res = isInt ? parseInt(numberString) : parseFloat(numberString)
+  if (isNaN(res)) {
+    return undefined
+  }
+
+  return res
 }
 
 export async function GET(_: NextRequest) {
@@ -117,7 +122,7 @@ export async function GET(_: NextRequest) {
         postfix: 'gb',
         isInt: true,
       })
-      if (isNaN(storageCapacity)) {
+      if (storageCapacity === undefined) {
         storageCapacity = extractNumberBeforePostfix({
           data: drive.toLowerCase(),
           postfix: 'tb',
@@ -134,12 +139,27 @@ export async function GET(_: NextRequest) {
           : drive.toLowerCase().includes('sata')
             ? 'SATA'
             : undefined
-      return new Array(isNaN(amountOfDrives) ? 1 : amountOfDrives).fill({
+      return new Array(amountOfDrives === undefined ? 1 : amountOfDrives).fill({
         capacity: storageCapacity,
         type: storageType,
       })
     })
     const location = locations.find((l) => l.code === product.data_center)
+    let networkMaxUsage = extractNumberBeforePostfix({
+      data: product.product_bandwidth.split(' / ')[0].toLowerCase(),
+      postfix: 'gb',
+      isInt: true,
+    })
+    if (isNaN(networkMaxUsage)) {
+      networkMaxUsage = extractNumberBeforePostfix({
+        data: product.product_bandwidth.split(' / ')[0].toLowerCase(),
+        postfix: 'tb',
+        isInt: false,
+      })
+      if (!isNaN(networkMaxUsage)) {
+        networkMaxUsage *= 1000
+      }
+    }
     return {
       type: product.is_vps ? 'VPS' : 'Bare Metal',
       available:
@@ -154,6 +174,9 @@ export async function GET(_: NextRequest) {
           postfix: 'ghz',
           isInt: false,
         }),
+        name: product.is_vps
+          ? undefined
+          : product.product_cpu.replace('2x ', '').split(' ')[0],
       },
       id: id,
       location: location
@@ -165,6 +188,7 @@ export async function GET(_: NextRequest) {
           postfix: 'gbps',
           isInt: true,
         }),
+        max_usage: networkMaxUsage,
       },
       price: {
         hourly: product.product_disabled_billing_periods.includes('hourly')
@@ -206,7 +230,6 @@ export async function GET(_: NextRequest) {
           postfix: 'gb',
           isInt: true,
         }),
-        ghz: 0,
       },
       storage: drives,
     }

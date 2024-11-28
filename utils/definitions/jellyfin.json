@@ -1,0 +1,74 @@
+{
+  "name": "Jellyfin",
+  "desc": "Deploy Jellyfin to create a powerful and flexible media server solution that allows users to manage and stream their personal media collections. Jellyfin is an open-source alternative to Plex and Emby, offering extensive customization and privacy features.",
+  "longDesc": "Jellyfin is an open-source media server that lets you manage and stream your personal media collection from anywhere. It provides a versatile platform for movies, TV shows, music, photos, and more, with a focus on user control and privacy.\n\n**Key Features:**\n- **Media Management:** Organize and categorize your media files, including movies, TV shows, music, and photos, with metadata support for a rich media experience.\n- **Streaming:** Stream your media collection to various devices, including smart TVs, mobile devices, and web browsers, with support for multiple users and profiles.\n- **Privacy and Control:** Keep your media library private and secure, with no third-party data sharing or tracking.\n- **Extensive Customization:** Customize the interface and functionality with plugins, themes, and user-defined settings.\n- **Multi-Platform Support:** Available for various platforms, including Windows, macOS, Linux, and Docker, with clients for Android, iOS, and more.",
+  "useCases": "- **Home Media Server:** Set up Jellyfin to manage and stream your personal media collection for family and friends.\n- **Remote Access:** Access your media library from anywhere with an internet connection, ensuring you can enjoy your content on the go.\n- **Multi-User Environment:** Create multiple user profiles with individual preferences and parental controls, suitable for households with diverse media needs.",
+  "support": "- **Community Forums:** Engage with the Jellyfin community for support and discussions through the [Jellyfin Community Forums](https://forum.jellyfin.org/).\n- **Documentation:** Comprehensive guides and user manuals are available at the [Jellyfin Documentation](https://jellyfin.org/docs/) for detailed reference.\n- **Troubleshooting Help:** Access the issues section on the [Jellyfin GitHub Repository](https://github.com/jellyfin/jellyfin) to report bugs and find community-contributed solutions.\n This template provides an overview of Jellyfin’s functionalities and practical applications, emphasizing its role as a leading open-source media server solution for personal use. For more detailed information, visit the official [Jellyfin website.](https://jellyfin.org/)",
+  "nixName": "jellyfin",
+  "specs": {
+    "ram": 4000,
+    "storage": 10000
+  },
+  "tags": ["Video", "Streaming", "Media"],
+  "website": "https://jellyfin.org/",
+  "implemented": true,
+  "logo": "https://jellyfin.org/images/favicon.ico",
+  "options": [
+    {
+      "name": "enable",
+      "desc": "Enable the Jellyfin Media Server.",
+      "nixName": "enable",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "package",
+      "desc": "Version of jellyfin to run.",
+      "nixName": "package",
+      "type": "package",
+      "value": "pkgs.jellyfin"
+    },
+    {
+      "name": "user",
+      "desc": "User account under which jellyfin runs.",
+      "nixName": "user",
+      "type": "string",
+      "value": "jellyfin"
+    },
+    {
+      "name": "dataDir",
+      "desc": "Base data directory.",
+      "nixName": "dataDir",
+      "type": "string",
+      "value": "/var/lib/jellyfin"
+    },
+    {
+      "name": "configDir",
+      "desc": "Directory containing the server configuration files.",
+      "nixName": "configDir",
+      "type": "string",
+      "value": "/var/lib/jellyfin/config"
+    },
+    {
+      "name": "cacheDir",
+      "desc": "Directory containing the jellyfin server cache.",
+      "nixName": "cacheDir",
+      "type": "string",
+      "value": "/var/cache/jellyfin"
+    },
+    {
+      "name": "logDir",
+      "desc": "Directory where the Jellyfin logs will be stored,",
+      "nixName": "logDir",
+      "type": "string",
+      "value": "/var/lib/jellyfin/log"
+    },
+    {
+      "name": "openFirewall",
+      "desc": "Open the default ports in the firewall for the media server. The HTTP/HTTPS ports can be changed in the Web UI, so this option should only be used if they are unchanged",
+      "nixName": "openFirewall",
+      "type": "boolean",
+      "value": "true"
+    }
+  ]
+}

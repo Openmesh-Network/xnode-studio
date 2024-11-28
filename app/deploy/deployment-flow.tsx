@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { prefix } from '@/utils/prefix'
 import { servicesCompressedForAdmin } from '@/utils/xnode'
+import { AlertTitle } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
 import axios, { AxiosError } from 'axios'
@@ -18,6 +19,7 @@ import {
   MapPin,
   RotateCw,
   ServerCog,
+  TriangleAlert,
 } from 'lucide-react'
 
 import {
@@ -28,6 +30,7 @@ import {
 } from '@/types/dataProvider'
 import { mockXNodes } from '@/config/demo-mode'
 import { cn, formatSelectedXNodeName } from '@/lib/utils'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -123,13 +126,15 @@ export default function DeploymentFlow({
 
   const baremetalConfig = useMemo(() => {
     if (!provider) return null
-    let config = ''
-    if (provider.cpu.ghz) config += `${provider.cpu.ghz}GHz `
-    if (provider.cpu.cores) config += `${provider.cpu.cores}-Core`
-    if (provider.cpu.threads) config += ` (${provider.cpu.threads} threads)`
-    if (provider.ram.capacity) config += `, ${provider.ram.capacity}GB RAM`
+    let summary = ''
+    if (provider.cpu.name) summary += `${provider.cpu.name}: `
+    if (provider.cpu.ghz) summary += `${provider.cpu.ghz}GHz `
+    if (provider.cpu.cores) summary += `${provider.cpu.cores}-Core`
+    if (provider.cpu.threads) summary += ` (${provider.cpu.threads} threads)`
+    if (provider.ram.capacity) summary += `, ${provider.ram.capacity}GB RAM`
+    if (provider.ram.ghz) summary += ` ${provider.ram.ghz}GHz`
     if (provider.storage.length) {
-      config += `, ${provider.storage.reduce((prev, cur) => prev + cur.capacity, 0)} GB (`
+      summary += `, ${provider.storage.reduce((prev, cur) => prev + cur.capacity, 0)} GB Storage (`
       const drives = provider.storage
         .map((drive) => {
           let driveDescription = `${drive.capacity} GB`
@@ -147,14 +152,17 @@ export default function DeploymentFlow({
         )
       Object.keys(drives).forEach((driveDescription, i) => {
         if (i > 0) {
-          config += ', '
+          summary += ', '
         }
-        config += `${drives[driveDescription]}x ${driveDescription}`
+        summary += `${drives[driveDescription]}x ${driveDescription}`
       })
-      config += ')'
+      summary += ')'
     }
-    if (provider.network.speed) config += `, ${provider.network.speed} Gbps`
-    return config
+    if (provider.network.speed)
+      summary += `, ${provider.network.speed} Gbps Networking`
+    if (provider.network.max_usage)
+      summary += `, ${provider.network.max_usage} GB Bandwidth`
+    return summary
   }, [provider])
 
   function handlePreviousStep() {
@@ -306,7 +314,7 @@ export default function DeploymentFlow({
 
       let ipAddress = ''
       let deploymentAuth = ''
-      if (provider.providerName.toLowerCase() === 'hivelocity') {
+      if (provider.providerName === 'Hivelocity') {
         const init = '#cloud-config \nruncmd: \n - '
         const pullXnodeAssimilate =
           'curl https://raw.githubusercontent.com/Openmesh-Network/XnodeOS-assimilate/dev/xnodeos-assimilate | '
@@ -366,6 +374,88 @@ export default function DeploymentFlow({
             .then((res) => res.data as { primaryIp: string })
           ipAddress = updatedMachine.primaryIp
         }
+      } else if (provider.providerName === 'Vultr') {
+        const init = '#!/bin/sh \n'
+        const pullXnodeAssimilate =
+          'curl https://raw.githubusercontent.com/Openmesh-Network/XnodeOS-assimilate/dev/xnodeos-assimilate | '
+        const acceptDestroySystem = `ACCEPT_DESTRUCTION_OF_SYSTEM="Yes, destroy my system and delete all of my data. I know what I'm doing." `
+        const KernelParams =
+          'XNODE_KERNEL_EXTRA_PARAMS=1 XNODE_UUID=' +
+          xnodeId +
+          ' XNODE_ACCESS_TOKEN=' +
+          xnodeAccessToken +
+          ' XNODE_CONFIG_REMOTE=' +
+          xnodeConfigRemote
+        const log = ` bash 2>&1 | tee /tmp/assimilate.log`
+        const script =
+          init + pullXnodeAssimilate + acceptDestroySystem + KernelParams + log
+
+        const startupScriptId = await axios
+          .get(`${prefix}/api/vultr/rewrite`, {
+            params: {
+              path: 'v2/startup-scripts',
+              method: 'POST',
+              body: JSON.stringify({
+                name: `Xnode ${xnodeId} Startup Script`,
+                type: 'boot',
+                script: Buffer.from(script).toString('base64'),
+              }),
+            },
+            headers: {
+              Authorization: `Bearer ${debouncedApiKey}`,
+            },
+          })
+          .then((res) => res.data as { startup_script: { id: string } })
+          .then((res) => res.startup_script.id)
+
+        const productInfo = provider.id.split('_')
+        const planId = productInfo[0]
+        const regionId = productInfo[1]
+        const machine = await axios
+          .get(`${prefix}/api/vultr/rewrite`, {
+            params: {
+              path: `v2/${provider.type === 'VPS' ? 'instances' : 'bare-metals'}`,
+              method: 'POST',
+              body: JSON.stringify({
+                region: regionId,
+                plan: planId,
+                os_id: 1743, // {"id":1743,"name":"Ubuntu 22.04 LTS x64","arch":"x64","family":"ubuntu"}
+                script_id: startupScriptId,
+                hostname: xnodeId + '.openmesh.network',
+                label: `Xnode ${xnodeId}`,
+                tags: [
+                  'XNODE_UUID=' + xnodeId,
+                  'XNODE_CONFIG_REMOTE=' + xnodeConfigRemote,
+                ],
+              }),
+            },
+            headers: {
+              Authorization: `Bearer ${debouncedApiKey}`,
+            },
+          })
+          .then(
+            (res) => res.data as { instance: { id: number; main_ip: string } }
+          )
+          .then((res) => res.instance)
+        ipAddress = machine.main_ip
+        deploymentAuth = `${provider.type === 'VPS' ? 'instances' : 'bare-metals'}/${machine.id}`
+
+        while (ipAddress === '0.0.0.0') {
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+          const updatedMachine = await axios
+            .get(`${prefix}/api/vultr/rewrite`, {
+              params: {
+                path: `v2/${provider.type === 'VPS' ? 'instances' : 'bare-metals'}/${machine.id}`,
+                method: 'GET',
+              },
+              headers: {
+                Authorization: `Bearer ${debouncedApiKey}`,
+              },
+            })
+            .then((res) => res.data as { instance: { main_ip: string } })
+            .then((res) => res.instance)
+          ipAddress = updatedMachine.main_ip
+        }
       }
 
       await axios({
@@ -402,6 +492,8 @@ export default function DeploymentFlow({
             errorMessage = err.response.data.error.message
           } else if (typeof err.response.data.error.description === 'string') {
             errorMessage = err.response.data.error.description
+          } else if (typeof err.response.data.error.error === 'string') {
+            errorMessage = err.response.data.error.error
           } else if (
             err.response.data.error.at &&
             typeof err.response.data.error.at(0) === 'string'
@@ -436,7 +528,12 @@ export default function DeploymentFlow({
   const [apiKey, setApiKey] = useState<string>('')
   const debouncedApiKey = useDebounce(apiKey, 500)
   const { data: validApiKey } = useQuery({
-    queryKey: ['apiKey', debouncedApiKey, demoMode],
+    queryKey: [
+      'apiKey',
+      debouncedApiKey,
+      demoMode,
+      provider?.providerName ?? '',
+    ],
     queryFn: async () => {
       if (demoMode) {
         return true
@@ -447,15 +544,27 @@ export default function DeploymentFlow({
       }
 
       try {
-        await axios.get(`${prefix}/api/hivelocity/rewrite`, {
-          params: {
-            path: 'v2/permission/',
-            method: 'GET',
-          },
-          headers: {
-            'X-API-KEY': debouncedApiKey,
-          },
-        })
+        if (provider?.providerName === 'Hivelocity') {
+          await axios.get(`${prefix}/api/hivelocity/rewrite`, {
+            params: {
+              path: 'v2/profile/',
+              method: 'GET',
+            },
+            headers: {
+              'X-API-KEY': debouncedApiKey,
+            },
+          })
+        } else if (provider?.providerName === 'Vultr') {
+          await axios.get(`${prefix}/api/vultr/rewrite`, {
+            params: {
+              path: 'v2/users',
+              method: 'GET',
+            },
+            headers: {
+              Authorization: `Bearer ${debouncedApiKey}`,
+            },
+          })
+        }
         return true
       } catch (err) {
         return false
@@ -734,86 +843,99 @@ export default function DeploymentFlow({
         {step[0] === 2 &&
         step[1] === 'baremetal' &&
         activeDeploymentStep === 1 ? (
-          <div className="mt-4">
-            <div className="flex items-center gap-6">
-              <p>{config.provider}</p>
-              <h4 className="text-2xl font-bold">{config.name}</h4>
-            </div>
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              <MapPin className="size-3.5" />
-              {config.location}
-            </div>
-            <div className="mt-2">
-              {provider ? (
-                <p className="text-muted-foreground">{baremetalConfig}</p>
-              ) : (
-                <Skeleton className="h-7 w-48" />
-              )}
-            </div>
-            <div className="mt-4 flex items-center gap-6 text-sm text-muted-foreground">
-              <div className="flex items-center gap-1.5">
-                <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
-                  <Check className="size-3.5 text-background" />
-                </div>
-                <p>No license</p>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
-                  <Check className="size-3.5 text-background" />
-                </div>
-                <p>Connect to all our apps</p>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
-                  <Check className="size-3.5 text-background" />
-                </div>
-                <p>No hidden setup fees</p>
-              </div>
-            </div>
-            <Separator className="my-4" />
+          <>
+            {provider.ram.capacity <= 1 && (
+              <Alert variant="alert">
+                <TriangleAlert className="size-5" />
+                <AlertTitle>Warning: Low Spec Machine</AlertTitle>
+                <AlertDescription>
+                  Processes might take longer than expected due to the low specs
+                  of this machine. Please upgrade to a larger machine for a
+                  better experience.
+                </AlertDescription>
+              </Alert>
+            )}
             <div>
-              <p className="text-sm font-medium">
-                Estimated{' '}
-                {provider.price && (
-                  <ComboBox
-                    className="h-auto p-1"
-                    data={Object.keys(provider.price)}
-                    selectedItem={paymentPeriod}
-                    setItemSelect={setPaymentPeriod}
-                  />
-                )}{' '}
-                price
-              </p>
-              {provider ? (
-                <>
-                  {
-                    <p className="mt-1 text-5xl font-bold text-primary">
-                      ${provider.price[paymentPeriod]}
-                      <span className="text-2xl">
-                        /
-                        {
-                          paymentPeriod.substring(
-                            0,
-                            paymentPeriod.length - 2
-                          ) /* remove ly */
-                        }
-                      </span>
-                    </p>
-                  }
-                </>
-              ) : (
-                <>
-                  <Skeleton className="mt-1 h-12 w-20" />
-                  <Skeleton className="mt-0.5 h-5 w-16" />
-                </>
-              )}
+              <div className="flex items-center gap-6">
+                <p>{config.provider}</p>
+                <h4 className="text-2xl font-bold">{config.name}</h4>
+              </div>
+              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                <MapPin className="size-3.5" />
+                {config.location}
+              </div>
+              <div className="mt-2">
+                {provider ? (
+                  <p className="text-muted-foreground">{baremetalConfig}</p>
+                ) : (
+                  <Skeleton className="h-7 w-48" />
+                )}
+              </div>
+              <div className="mt-4 flex items-center gap-6 text-sm text-muted-foreground">
+                <div className="flex items-center gap-1.5">
+                  <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
+                    <Check className="size-3.5 text-background" />
+                  </div>
+                  <p>No license</p>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
+                    <Check className="size-3.5 text-background" />
+                  </div>
+                  <p>Connect to all our apps</p>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="flex size-5 items-center justify-center rounded-full bg-green-600">
+                    <Check className="size-3.5 text-background" />
+                  </div>
+                  <p>No hidden setup fees</p>
+                </div>
+              </div>
+              <Separator className="my-4" />
+              <div>
+                <p className="text-sm font-medium">
+                  Estimated{' '}
+                  {provider.price && (
+                    <ComboBox
+                      className="h-auto p-1"
+                      data={Object.keys(provider.price)}
+                      selectedItem={paymentPeriod}
+                      setItemSelect={setPaymentPeriod}
+                    />
+                  )}{' '}
+                  price
+                </p>
+                {provider ? (
+                  <>
+                    {
+                      <p className="mt-1 text-5xl font-bold text-primary">
+                        ${provider.price[paymentPeriod]}
+                        <span className="text-2xl">
+                          /
+                          {
+                            paymentPeriod.substring(
+                              0,
+                              paymentPeriod.length - 2
+                            ) /* remove ly */
+                          }
+                        </span>
+                      </p>
+                    }
+                  </>
+                ) : (
+                  <>
+                    <Skeleton className="mt-1 h-12 w-20" />
+                    <Skeleton className="mt-0.5 h-5 w-16" />
+                  </>
+                )}
+              </div>
             </div>
-          </div>
+          </>
         ) : null}
         {step[0] === 2 &&
         step[1] === 'baremetal' &&
         activeDeploymentStep === 2 ? (
-          <div className="mt-4">
+          <div>
             <h4 className="text-2xl font-bold">
               Link {provider.providerName} Account
             </h4>
@@ -860,7 +982,13 @@ export default function DeploymentFlow({
               <p className="mt-1 text-sm text-muted-foreground">
                 Don&apos;t have an API key yet?{' '}
                 <Link
-                  href="https://developers.hivelocity.net/docs/api-keys" //should be based on provider ofc
+                  href={
+                    provider?.providerName === 'Hivelocity'
+                      ? 'https://developers.hivelocity.net/docs/api-keys'
+                      : provider?.providerName === 'Vultr'
+                        ? 'https://docs.vultr.com/create-a-limited-subuser-profile-with-api-access-at-vultr'
+                        : '#'
+                  }
                   target="_blank"
                   className="underline underline-offset-2"
                 >

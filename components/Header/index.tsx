@@ -106,7 +106,9 @@ export default function Header({ sessionToken }: { sessionToken?: string }) {
 
   const totalNodes = (activeXNodes?.length ?? 0) + (inactiveXNodes?.length ?? 0)
 
-  const [activationOpen, setActivationOpen] = useState<string | null>()
+  const [activationOpen, setActivationOpen] = useState<bigint | undefined>(
+    undefined
+  )
 
   const [globalSearchOpen, setGlobalSearchOpen] = useState(false)
 
@@ -137,8 +139,8 @@ export default function Header({ sessionToken }: { sessionToken?: string }) {
       <ActivateXNodeDialog
         address={address}
         open={!!activationOpen}
-        onOpenChange={() => setActivationOpen(null)}
-        entitlementNft={activationOpen ? BigInt(activationOpen) : undefined}
+        onOpenChange={() => setActivationOpen(undefined)}
+        entitlementNft={activationOpen}
       />
       <header
         className={cn(
@@ -228,7 +230,7 @@ export default function Header({ sessionToken }: { sessionToken?: string }) {
                               value={name}
                               keywords={[name]}
                               className="justify-between"
-                              onSelect={(val) => setActivationOpen(val)}
+                              onSelect={() => setActivationOpen(xNode)}
                             >
                               {name}
                               <span className="rounded bg-primary/10 px-2 py-0.5 text-xs text-primary">

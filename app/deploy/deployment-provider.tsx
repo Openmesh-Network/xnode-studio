@@ -1,10 +1,8 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { Spectral_SC } from 'next/font/google'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { type Provider } from '@/db/schema'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
 import {
@@ -21,6 +19,8 @@ import { prefix } from 'utils/prefix'
 import { type HardwareProduct, type Specs } from '@/types/dataProvider'
 import { cn, formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import ComboBox from '@/components/ui/combobox'
 import {
   Command,
   CommandEmpty,
@@ -47,16 +47,6 @@ const STEP_MIN = 1
 const STEP_MAX = 1000
 const PRICE_MAX = 50000
 
-const TEMP_FETCH_ENDPOINTS = 5
-const FETCHING_TEXTS = [
-  'Searching Equinix...',
-  'Searching DigitalOcean...',
-  'Searching AWS...',
-  'Searching Azure...',
-  'Filtering results...',
-  'Finishing up...',
-]
-
 type DeploymentProviderProps = {
   specs?: Specs
   onSelect: () => void
@@ -70,23 +60,55 @@ export default function DeploymentProvider({
   const [region, setRegion] = useState<string | null>(null)
   const [priceRange, setPriceRange] = useState<
     [number | undefined, number | undefined]
-  >([undefined, undefined])
+  >([1, 1000])
   const debouncedPriceRange = useDebounce(priceRange, 500)
+  const [onlyAvailable, setOnlyAvailable] = useState<boolean>(true)
   const { setConfig, setProvider } = useDeploymentContext()
 
-  const { data: rawProviderData, isFetching: providersFetching } = useQuery({
-    initialData: [],
-    queryKey: ['resources'],
-    queryFn: async () => {
-      const res = await fetch(prefix + '/api/hivelocity/inventory')
-      return (await res.json()) as HardwareProduct[]
+  const { data: hivelocityData, isFetching: hivelocityFetching } = useQuery({
+    queryKey: ['resources', 'Hivelocity'],
+    queryFn: () => {
+      return fetch(prefix + '/api/hivelocity/inventory')
+        .then((res) => res.json())
+        .then((res) => res as HardwareProduct[])
     },
     placeholderData: keepPreviousData,
-    refetchOnWindowFocus: false,
+    staleTime: 60 * 1000, // 1 min
   })
+  const { data: vultrData, isFetching: vultrFetching } = useQuery({
+    queryKey: ['resources', 'Vultr'],
+    queryFn: () => {
+      return fetch(prefix + '/api/vultr/inventory')
+        .then((res) => res.json())
+        .then((res) => res as HardwareProduct[])
+    },
+    placeholderData: keepPreviousData,
+    staleTime: 60 * 1000, // 1 min
+  })
+
+  const rawProviderData = useMemo(
+    () => (hivelocityData ?? []).concat(vultrData ?? []),
+    [hivelocityData, vultrData]
+  )
+  const providersLoading = useMemo(
+    () => [
+      { name: 'Hivelocity', loaded: !hivelocityFetching },
+      { name: 'Vultr', loaded: !vultrFetching },
+    ],
+    [hivelocityFetching, vultrFetching]
+  )
+  const providersFetching = useMemo(
+    () => providersLoading.some((provider) => !provider.loaded),
+    [providersLoading]
+  )
   const filteredProviderData = useMemo(() => {
     return rawProviderData
       .filter((product) => {
+        if (!product.price.monthly) {
+          // No price or free is probably not meant to be shown
+          return false
+        }
+
         if (
           debouncedSearchInput &&
           !product.productName
@@ -129,18 +151,53 @@ export default function DeploymentProvider({
           return false
         }
 
+        if (onlyAvailable && product.available === 0) {
+          return false
+        }
+
         return true
       })
       .sort((p1, p2) => {
-        if (p1.available === 0 && p2.available > 0) {
-          return 1
-        }
-
-        if (p2.available === 0 && p1.available > 0) {
-          return -1
-        }
-
         return p1.price.monthly - p2.price.monthly
+      })
+      .map((product) => {
+        let summary = ''
+        if (product.cpu.name) summary += `${product.cpu.name}: `
+        if (product.cpu.ghz) summary += `${product.cpu.ghz}GHz `
+        if (product.cpu.cores) summary += `${product.cpu.cores}-Core`
+        if (product.cpu.threads) summary += ` (${product.cpu.threads} threads)`
+        if (product.ram.capacity) summary += `, ${product.ram.capacity}GB RAM`
+        if (product.ram.ghz) summary += ` ${product.ram.ghz}GHz`
+        if (product.storage.length) {
+          summary += `, ${product.storage.reduce((prev, cur) => prev + cur.capacity, 0)} GB Storage (`
+          const drives = product.storage
+            .map((drive) => {
+              let driveDescription = `${drive.capacity} GB`
+              if (drive.type) {
+                driveDescription += ` ${drive.type}`
+              }
+              return driveDescription
+            })
+            .reduce(
+              (prev, cur) => {
+                prev[cur] = (prev[cur] ?? 0) + 1
+                return prev
+              },
+              {} as { [driveDescription: string]: number }
+            )
+          Object.keys(drives).forEach((driveDescription, i) => {
+            if (i > 0) {
+              summary += ', '
+            }
+            summary += `${drives[driveDescription]}x ${driveDescription}`
+          })
+          summary += ')'
+        }
+        if (product.network.speed)
+          summary += `, ${product.network.speed} Gbps Networking`
+        if (product.network.max_usage)
+          summary += `, ${product.network.max_usage} GB Bandwidth`
+        return { ...product, summary }
       })
   }, [
     rawProviderData,
@@ -148,34 +205,8 @@ export default function DeploymentProvider({
     region,
     specs,
     debouncedPriceRange,
+    onlyAvailable,
   ])
-
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
-  const [loadingProgress, setLoadingProgress] = useState(-1)
-  const incrementLoading = () => {
-    setLoadingProgress((oldProgress) => {
-      if (oldProgress === TEMP_FETCH_ENDPOINTS) {
-        if (timerRef.current) clearInterval(timerRef.current)
-        return -1
-      }
-      return Math.min(oldProgress + 1, TEMP_FETCH_ENDPOINTS)
-    })
-  }
-
-  useEffect(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current)
-    }
-
-    setLoadingProgress(0)
-    timerRef.current = setInterval(incrementLoading, 900)
-
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current)
-      }
-    }
-  }, [providersFetching])
 
   const regionData = useMemo(() => {
     const regionMap = new Map<string, number>()
@@ -193,11 +224,11 @@ export default function DeploymentProvider({
   }, [rawProviderData])
 
   const histogramPriceData = useMemo(() => {
-    if (!rawProviderData) return []
+    if (!rawProviderData?.length) return []
     const BINS = 32
     const prices = rawProviderData
       .map((provider) => provider.price.monthly)
-      .filter((price) => price !== null)
+      .filter((price) => price !== undefined)
 
     const minPrice = Math.min(...prices)
     const maxPrice = Math.max(...prices)
@@ -237,30 +268,87 @@ export default function DeploymentProvider({
     })
   }, [histogramPriceData])
 
+  const [shownResults, setShownResults] = useState<number>(10)
+  useEffect(() => {
+    if (shownResults > filteredProviderData.length) {
+      return
+    }
+    // Reduce the initial load time (CPU bottleneck from all product cards)
+    const timer = setTimeout(() => setShownResults(shownResults + 100), 100)
+    return () => clearTimeout(timer)
+  }, [shownResults, setShownResults, filteredProviderData.length])
+
+  const products = useMemo(() => {
+    // Cache this (as its significantly large / slow to generate)
+    if (!filteredProviderData) {
+      return []
+    }
+
+    return Object.entries(
+      filteredProviderData
+        .slice(0, Math.min(shownResults, filteredProviderData.length))
+        .reduce(
+          (prev, cur) => {
+            const id = `${cur.providerName}_${cur.id.split('_')[0]}_${cur.available}_${cur.price.monthly}_${cur.summary}` // Products with the same id are assumed to be the same
+            if (!Object.hasOwn(prev, id)) {
+              prev[id] = {}
+            }
+
+            prev[id][cur.location] = cur
+            return prev
+          },
+          {} as {
+            [id: string]: {
+              [location: string]: (typeof filteredProviderData)[0]
+            }
+          }
+        )
+    ).map(([id, product]) => {
+      return (
+        <ProductCard
+          key={id}
+          product={product}
+          onSelect={(selectedProduct) => {
+            setProvider(selectedProduct)
+            setConfig((prev) => ({
+              ...prev,
+              name: selectedProduct.productName!,
+              provider: selectedProduct.providerName!,
+              location: selectedProduct.location!,
+              isUnit: false,
+            }))
+            onSelect()
+          }}
+        />
+      )
+    })
+  }, [filteredProviderData, shownResults])
+
   return (
     <div>
       <div
         className={cn(
           'relative w-full overflow-hidden rounded-lg bg-primary/10 transition-all',
-          loadingProgress > -1 ? 'h-3' : 'h-0'
+          providersFetching ? 'h-3' : 'h-0'
         )}
       >
         <div
           className="absolute left-0 top-0 h-full animate-pulse rounded-full bg-primary transition-all"
           style={{
-            width: `${(100 / TEMP_FETCH_ENDPOINTS) * Math.max(loadingProgress, 0)}%`,
+            width: `${(100 / providersLoading.length) * providersLoading.reduce((prev, cur) => prev + (cur.loaded ? 1 : 0), 0)}%`,
           }}
         />
       </div>
       <div
         className={cn(
           'mt-1 flex items-center gap-1 overflow-hidden transition-all',
-          loadingProgress > -1 ? 'h-auto' : 'h-0'
+          providersFetching ? 'h-auto' : 'h-0'
         )}
       >
         <Loader className="size-3.5 animate-spin" />
         <p className="text-sm font-medium text-muted-foreground">
-          {FETCHING_TEXTS[loadingProgress]}
+          Searching{' '}
+          {providersLoading.find((provider) => !provider.loaded)?.name}...
         </p>
       </div>
       <div className="mt-8 flex gap-12">
@@ -445,6 +533,20 @@ export default function DeploymentProvider({
               </PopoverContent>
             </Popover>
           </div>
+
+          <Separator className="my-3" />
+          <div className="flex place-items-center gap-2">
+            <Checkbox
+              id="onlyAvailable"
+              checked={onlyAvailable}
+              onCheckedChange={(e) => {
+                if (e !== 'indeterminate') {
+                  setOnlyAvailable(e)
+                }
+              }}
+            />
+            <Label htmlFor="onlyAvailable">Only Available</Label>
+          </div>
         </div>
         <ScrollArea className="h-[40rem] w-full flex-1 pr-3" type="auto">
           <ul className="flex flex-col gap-2 text-black">
@@ -485,7 +587,8 @@ export default function DeploymentProvider({
                 <div>
                   <p className="text-lg font-bold">Xnode DVM</p>
                   <p className="text-sm text-muted-foreground">
-                    8-Core (16 threads), 16GB RAM, 320GB SSD, 1 Gbps
+                    8-Core, 16GB RAM, 320 GB Storage (1x 320 GB), 1 Gbps
+                    Networking, 10000 GB Bandwidth
                   </p>
                 </div>
               </div>
@@ -511,152 +614,116 @@ export default function DeploymentProvider({
             </li>
           </ul>
           <ul className="mt-8 flex flex-col gap-2 text-black">
-            {filteredProviderData !== undefined ? (
-              filteredProviderData.length === 0 ? (
-                <li className="my-12 grid place-content-center text-xl font-bold">
-                  No results found.
-                </li>
-              ) : (
-                filteredProviderData
-                  .slice(
-                    0,
-                    loadingProgress > -1
-                      ? Math.round(
-                          (filteredProviderData.length *
-                            Math.max(loadingProgress, 0)) /
-                            TEMP_FETCH_ENDPOINTS
-                        )
-                      : undefined
-                  )
-                  .map((provider, i) => {
-                    let config = ''
-                    if (provider.cpu.ghz) config += `${provider.cpu.ghz}GHz `
-                    if (provider.cpu.cores)
-                      config += `${provider.cpu.cores}-Core`
-                    if (provider.cpu.threads)
-                      config += ` (${provider.cpu.threads} threads)`
-                    if (provider.ram.capacity)
-                      config += `, ${provider.ram.capacity}GB RAM`
-                    if (provider.storage.length) {
-                      config += `, ${provider.storage.reduce((prev, cur) => prev + cur.capacity, 0)} GB (`
-                      const drives = provider.storage
-                        .map((drive) => {
-                          let driveDescription = `${drive.capacity} GB`
-                          if (drive.type) {
-                            driveDescription += ` ${drive.type}`
-                          }
-                          return driveDescription
-                        })
-                        .reduce(
-                          (prev, cur) => {
-                            prev[cur] = (prev[cur] ?? 0) + 1
-                            return prev
-                          },
-                          {} as { [driveDescription: string]: number }
-                        )
-                      Object.keys(drives).forEach((driveDescription, i) => {
-                        if (i > 0) {
-                          config += ', '
-                        }
-                        config += `${drives[driveDescription]}x ${driveDescription}`
-                      })
-                      config += ')'
-                    }
-                    if (provider.network.speed)
-                      config += `, ${provider.network.speed} Gbps`
-                    return (
-                      <li
-                        key={i}
-                        className="grid grid-cols-12 items-center gap-12 rounded border px-6 py-4"
-                      >
-                        <div className="col-span-5 flex items-center gap-4">
-                          <Image
-                            src={`${prefix}/images/providers/${provider.providerName.toLowerCase()}.svg`}
-                            alt={provider.providerName + ' logo'}
-                            width={64}
-                            height={64}
-                            className="text-xs"
-                          />
-                          <div>
-                            <p className="font-bold">{provider.productName}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {config}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="col-span-2 flex flex-col gap-0.5">
-                          <div className="flex items-center gap-1 text-muted-foreground">
-                            <MapPin className="size-3.5" />
-                            <p className="text-sm">{provider.location}</p>
-                          </div>
-                          <div className="flex items-center gap-1 text-muted-foreground">
-                            <Server className="size-3.5" />
-                            <p className="text-sm">{provider.providerName}</p>
-                          </div>
-                        </div>
-                        <div className="col-span-2">
-                          <p>
-                            ~
-                            <span className={'text-xl font-bold'}>
-                              {formatPrice(provider.price.monthly ?? 0)}
-                            </span>
-                            /mo
-                            {provider.price.hourly && (
-                              <div className="pl-1">
-                                (
-                                <span className="font-bold">
-                                  {formatPrice(provider.price.hourly)}
-                                </span>
-                                /hr)
-                              </div>
-                            )}
-                          </p>
-                        </div>
-                        <div className="col-span-3 flex flex-1 justify-end">
-                          <div className="flex flex-col items-center gap-2">
-                            <Button
-                              variant={'outlinePrimary'}
-                              size="lg"
-                              className="min-w-48"
-                              onClick={() => {
-                                setProvider(provider)
-                                setConfig((prev) => ({
-                                  ...prev,
-                                  name: provider.productName!,
-                                  provider: provider.providerName!,
-                                  location: provider.location!,
-                                  isUnit: false,
-                                }))
-                                onSelect()
-                              }}
-                              disabled={
-                                provider.available === 0 ||
-                                provider.type === 'Bare Metal'
-                              }
-                            >
-                              Select
-                            </Button>
-                            {provider.available === 0 && (
-                              <p className="text-sm text-muted-foreground">
-                                Unavailable
-                              </p>
-                            )}
-                            {provider.available > 0 &&
-                              provider.type === 'Bare Metal' && (
-                                <p className="text-sm text-muted-foreground">
-                                  Unsupported
-                                </p>
-                              )}
-                          </div>
-                        </div>
-                      </li>
-                    )
-                  })
-              )
-            ) : null}
+            {products.length === 0 ? (
+              <li className="my-12 grid place-content-center text-xl font-bold">
+                No results found.
+              </li>
+            ) : (
+              products
+            )}
           </ul>
         </ScrollArea>
       </div>
     </div>
+  )
+}
+
+function ProductCard({
+  key,
+  product,
+  onSelect,
+}: {
+  key: any
+  product: {
+    [location: string]: HardwareProduct & {
+      summary: string
+    }
+  }
+  onSelect: (product: HardwareProduct) => void
+}) {
+  const locations = useMemo(() => Object.keys(product), [product])
+  const [location, setLocation] = useState<string>(locations.at(0))
+  const selectedProduct = useMemo(() => product[location], [product, location])
+
+  return (
+    <li key={key} className="flex flex-col gap-4 rounded border px-6 py-4">
+      <div className="grid grid-cols-12 items-center gap-12">
+        <div className="col-span-5 flex items-center gap-4">
+          <Image
+            src={`${prefix}/images/providers/${selectedProduct.providerName.toLowerCase()}.svg`}
+            alt={selectedProduct.providerName + ' logo'}
+            width={48}
+            height={48}
+            className="text-xs"
+          />
+          <div>
+            <p className="font-bold">{selectedProduct.productName}</p>
+            <p className="text-sm text-muted-foreground">
+              {selectedProduct.summary}
+            </p>
+          </div>
+        </div>
+        <div className="col-span-2 flex flex-col gap-0.5">
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <MapPin className="size-3.5 shrink-0" />
+            <ComboBox
+              className="h-auto w-auto p-1"
+              data={locations}
+              selectedItem={location}
+              setItemSelect={setLocation}
+            />
+          </div>
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <Server className="size-3.5" />
+            <p className="text-sm">{selectedProduct.providerName}</p>
+          </div>
+        </div>
+        <div className="col-span-2">
+          <p>
+            ~
+            <span className={'text-xl font-bold'}>
+              {formatPrice(selectedProduct.price.monthly ?? 0)}
+            </span>
+            /mo
+            {selectedProduct.price.hourly !== undefined && (
+              <div className="pl-1">
+                (
+                <span className="font-bold">
+                  {formatPrice(selectedProduct.price.hourly)}
+                </span>
+                /hr)
+              </div>
+            )}
+          </p>
+        </div>
+        <div className="col-span-3 flex flex-1 justify-end">
+          <div className="flex flex-col items-center gap-2">
+            <Button
+              variant={'outlinePrimary'}
+              size="lg"
+              className="min-w-48"
+              onClick={() => {
+                onSelect({ ...selectedProduct, location })
+              }}
+              disabled={
+                selectedProduct.available === 0 ||
+                (selectedProduct.providerName === 'Hivelocity' &&
+                  selectedProduct.type === 'Bare Metal')
+              }
+            >
+              Select
+            </Button>
+            {selectedProduct.available === 0 && (
+              <p className="text-sm text-muted-foreground">Unavailable</p>
+            )}
+            {selectedProduct.available > 0 &&
+              selectedProduct.providerName === 'Hivelocity' &&
+              selectedProduct.type === 'Bare Metal' && (
+                <p className="text-sm text-muted-foreground">Unsupported</p>
+              )}
+          </div>
+        </div>
+      </div>
+    </li>
   )
 }
