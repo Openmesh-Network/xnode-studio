@@ -197,6 +197,9 @@ export default function DeploymentProvider({
           summary += `, ${product.network.speed} Gbps Networking`
         if (product.network.max_usage)
           summary += `, ${product.network.max_usage} GB Bandwidth`
+        if (product.gpu.length) {
+          summary += `, ${product.gpu[0].vram}GB VRAM ${product.gpu[0].type ? ` (${product.gpu[0].type})` : ''}`
+        }
         return { ...product, summary }
       })
   }, [

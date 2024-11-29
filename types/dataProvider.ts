@@ -140,6 +140,7 @@ export interface HardwareProduct {
   cpu: { cores: number; threads?: number; ghz?: number; name?: string }
   ram: { capacity: number; ghz?: number }
   storage: { capacity: number; type?: string }[]
+  gpu: { vram: number; type?: string }[]
   network: { speed?: number; max_usage?: number }
 }
 

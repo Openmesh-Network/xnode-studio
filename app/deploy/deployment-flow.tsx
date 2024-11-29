@@ -162,6 +162,9 @@ export default function DeploymentFlow({
       summary += `, ${provider.network.speed} Gbps Networking`
     if (provider.network.max_usage)
       summary += `, ${provider.network.max_usage} GB Bandwidth`
+    if (provider.gpu.length) {
+      summary += `, ${provider.gpu[0].vram}GB VRAM ${provider.gpu[0].type ? ` (${provider.gpu[0].type})` : ''}`
+    }
     return summary
   }, [provider])
 

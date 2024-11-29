@@ -232,6 +232,7 @@ export async function GET(_: NextRequest) {
         }),
       },
       storage: drives,
+      gpu: [],
     }
   })
   return Response.json(inventory)

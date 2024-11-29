@@ -11,6 +11,8 @@ interface VultrBaseProduct {
   monthly_cost: number
   type: string
   locations: string[]
+  gpu_vram_gb?: number
+  gpu_type?: string
 }
 
 interface VultrPlanProduct extends VultrBaseProduct {
@@ -20,6 +22,7 @@ interface VultrPlanProduct extends VultrBaseProduct {
 
 interface VultrMetalPlanProduct extends VultrBaseProduct {
   source: 'plansmetal'
+  physical_cpus: number
   cpu_count: number
   cpu_threads: number
   cpu_model: string
@@ -38,13 +41,16 @@ interface VultrLocation {
 
 async function getVultrPaging(url: string, resultKey: string) {
   const results: any[] = []
-  let nextUrl = `${url}?per_page=500`
+  const baseUrl = `${url}?per_page=500`
+  let nextUrl = baseUrl
   while (nextUrl) {
     const res = await fetch(nextUrl, {
       headers: [['Authorization', `Bearer ${process.env.VULTR_API_KEY}`]],
     }).then((res) => res.json())
     results.push(...res[resultKey])
     nextUrl = res.meta.links.next
+      ? `${baseUrl}&cursor=${res.meta.links.next}`
+      : undefined
   }
   return results
 }
@@ -119,6 +125,14 @@ export async function GET(_: NextRequest) {
           capacity: product.ram / 1024,
         },
         storage: drives,
+        gpu: product.gpu_vram_gb
+          ? [
+              {
+                vram: product.gpu_vram_gb,
+                type: product.gpu_type.replaceAll('_', ' '),
+              },
+            ]
+          : [],
       }
     })
   })
