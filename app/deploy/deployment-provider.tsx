@@ -45,7 +45,7 @@ import { useDeploymentContext } from '../deploy/deployment-context'
 
 const STEP_MIN = 1
 const STEP_MAX = 1000
-const PRICE_MAX = 50000
+const PRICE_MAX = 10000
 
 type DeploymentProviderProps = {
   specs?: Specs
@@ -60,7 +60,7 @@ export default function DeploymentProvider({
   const [region, setRegion] = useState<string | null>(null)
   const [priceRange, setPriceRange] = useState<
     [number | undefined, number | undefined]
-  >([1, 1000])
+  >([1, PRICE_MAX])
   const debouncedPriceRange = useDebounce(priceRange, 500)
   const [onlyAvailable, setOnlyAvailable] = useState<boolean>(true)
   const { setConfig, setProvider } = useDeploymentContext()

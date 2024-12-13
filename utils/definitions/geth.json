@@ -9,178 +9,200 @@
     "ram": 16384,
     "storage": 4194304
   },
-  "tags": ["RPC", "Blockchain", "Ethereum"],
+  "tags": ["RPC", "Blockchain", "Ethereum", "Validator"],
   "website": "https://geth.ethereum.org/",
   "implemented": false,
   "logo": "https://geth.ethereum.org/favicon.ico",
   "options": [
     {
-      "name": "<name>.authrpc.address",
-      "desc": "Listen address of Go Ethereum Auth RPC API.",
-      "nixName": "<name>.authrpc.address",
-      "type": "string",
-      "value": "127.0.0.1"
+      "name": "ethnode.authrpc",
+      "desc": "RPC settings",
+      "nixName": "ethnode.authrpc",
+      "type": "attribute set",
+      "value": "{ }",
+      "options": [
+        {
+          "name": "address",
+          "desc": "Listen address of Go Ethereum Auth RPC API.",
+          "nixName": "address",
+          "type": "string",
+          "value": "127.0.0.1"
+        },
+        {
+          "name": "enable",
+          "desc": "Whether to enable Go Ethereum Auth RPC API.",
+          "nixName": "enable",
+          "type": "boolean",
+          "value": "false"
+        },
+        {
+          "name": "jwtsecret",
+          "desc": "Path to a JWT secret for authenticated RPC endpoint.",
+          "nixName": "jwtsecret",
+          "type": "string",
+          "value": ""
+        },
+        {
+          "name": "port",
+          "desc": "Port number of Go Ethereum Auth RPC API.",
+          "nixName": "port",
+          "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+          "value": "8551"
+        },
+        {
+          "name": "vhosts",
+          "desc": "List of virtual hostnames from which to accept requests.",
+          "nixName": "vhosts",
+          "type": "null or (list of string)",
+          "value": "[\n  \"localhost\"\n]"
+        }
+      ]
     },
     {
-      "name": "<name>.authrpc.enable",
-      "desc": "Whether to enable Go Ethereum Auth RPC API.",
-      "nixName": "<name>.authrpc.enable",
-      "type": "boolean",
-      "value": "false"
-    },
-    {
-      "name": "<name>.authrpc.jwtsecret",
-      "desc": "Path to a JWT secret for authenticated RPC endpoint.",
-      "nixName": "<name>.authrpc.jwtsecret",
-      "type": "string",
-      "value": ""
-    },
-    {
-      "name": "<name>.authrpc.port",
-      "desc": "Port number of Go Ethereum Auth RPC API.",
-      "nixName": "<name>.authrpc.port",
-      "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-      "value": "8551"
-    },
-    {
-      "name": "<name>.authrpc.vhosts",
-      "desc": "List of virtual hostnames from which to accept requests.",
-      "nixName": "<name>.authrpc.vhosts",
-      "type": "null or (list of string)",
-      "value": "[\n  \"localhost\"\n]"
-    },
-    {
-      "name": "<name>.enable",
+      "name": "ethnode.enable",
       "desc": "Whether to enable Go Ethereum Node.",
-      "nixName": "<name>.enable",
+      "nixName": "ethnode.enable",
       "type": "boolean",
-      "value": "false"
+      "value": "true"
     },
     {
-      "name": "<name>.extraArgs",
+      "name": "ethnode.extraArgs",
       "desc": "Additional arguments passed to Go Ethereum.",
-      "nixName": "<name>.extraArgs",
+      "nixName": "ethnode.extraArgs",
       "type": "list of string",
       "value": "[ ]"
     },
     {
-      "name": "<name>.gcmode",
+      "name": "ethnode.gcmode",
       "desc": "Blockchain garbage collection mode.",
-      "nixName": "<name>.gcmode",
+      "nixName": "ethnode.gcmode",
       "type": "one of \"full\", \"archive\"",
       "value": "\"full\""
     },
     {
-      "name": "<name>.http.address",
-      "desc": "Listen address of Go Ethereum HTTP API.",
-      "nixName": "<name>.http.address",
-      "type": "string",
-      "value": "127.0.0.1"
+      "name": "ethnode.http",
+      "desc": "HTTP settings",
+      "nixName": "ethnode.http",
+      "type": "attribute set",
+      "value": "{ }",
+      "options": [
+        {
+          "name": "address",
+          "desc": "Listen address of Go Ethereum HTTP API.",
+          "nixName": "address",
+          "type": "string",
+          "value": "127.0.0.1"
+        },
+        {
+          "name": "apis",
+          "desc": "APIs to enable over WebSocket",
+          "nixName": "apis",
+          "type": "null or (list of string)",
+          "value": "null"
+        },
+        {
+          "name": "enable",
+          "desc": "Whether to enable Go Ethereum HTTP API.",
+          "nixName": "enable",
+          "type": "boolean",
+          "value": "false"
+        },
+        {
+          "name": "port",
+          "desc": "Port number of Go Ethereum HTTP API.",
+          "nixName": "port",
+          "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+          "value": "8545"
+        }
+      ]
     },
     {
-      "name": "<name>.http.apis",
-      "desc": "APIs to enable over WebSocket",
-      "nixName": "<name>.http.apis",
-      "type": "null or (list of string)",
-      "value": "null"
-    },
-    {
-      "name": "<name>.http.enable",
-      "desc": "Whether to enable Go Ethereum HTTP API.",
-      "nixName": "<name>.http.enable",
-      "type": "boolean",
-      "value": "false"
-    },
-    {
-      "name": "<name>.http.port",
-      "desc": "Port number of Go Ethereum HTTP API.",
-      "nixName": "<name>.http.port",
-      "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-      "value": "8545"
-    },
-    {
-      "name": "<name>.maxpeers",
+      "name": "ethnode.maxpeers",
       "desc": "Maximum peers to connect to.",
-      "nixName": "<name>.maxpeers",
+      "nixName": "ethnode.maxpeers",
       "type": "signed integer",
       "value": "50"
     },
     {
-      "name": "<name>.metrics.address",
-      "desc": "Listen address of Go Ethereum metrics service.",
-      "nixName": "<name>.metrics.address",
-      "type": "string",
-      "value": "127.0.0.1"
+      "name": "ethnode.metrics",
+      "desc": "Metrics settings",
+      "nixName": "ethnode.metrics",
+      "type": "attribute set",
+      "value": "{ }",
+      "options": [
+        {
+          "name": "address",
+          "desc": "Listen address of Go Ethereum metrics service.",
+          "nixName": "address",
+          "type": "string",
+          "value": "127.0.0.1"
+        },
+        {
+          "name": "enable",
+          "desc": "Whether to enable Go Ethereum prometheus metrics.",
+          "nixName": "enable",
+          "type": "boolean",
+          "value": "false"
+        },
+        {
+          "name": "port",
+          "desc": "Port number of Go Ethereum metrics service.",
+          "nixName": "port",
+          "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+          "value": "6060"
+        }
+      ]
     },
     {
-      "name": "<name>.metrics.enable",
-      "desc": "Whether to enable Go Ethereum prometheus metrics.",
-      "nixName": "<name>.metrics.enable",
-      "type": "boolean",
-      "value": "false"
-    },
-    {
-      "name": "<name>.metrics.port",
-      "desc": "Port number of Go Ethereum metrics service.",
-      "nixName": "<name>.metrics.port",
-      "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-      "value": "6060"
-    },
-    {
-      "name": "<name>.network",
-      "desc": "The network to connect to. Mainnet (null) is the default ethereum network.",
-      "nixName": "<name>.network",
-      "type": "null or one of \"goerli\", \"rinkeby\", \"yolov2\", \"ropsten\"",
-      "value": "null"
-    },
-    {
-      "name": "<name>.package",
-      "desc": "The geth package to use.",
-      "nixName": "<name>.package",
-      "type": "package",
-      "value": "pkgs.go-ethereum.geth"
-    },
-    {
-      "name": "<name>.port",
+      "name": "ethnode.port",
       "desc": "Port number Go Ethereum will be listening on, both TCP and UDP.",
-      "nixName": "<name>.port",
+      "nixName": "ethnode.port",
       "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
       "value": "30303"
     },
     {
-      "name": "<name>.syncmode",
+      "name": "ethnode.syncmode",
       "desc": "Blockchain sync mode.",
-      "nixName": "<name>.syncmode",
+      "nixName": "ethnode.syncmode",
       "type": "one of \"snap\", \"fast\", \"full\", \"light\"",
       "value": "\"snap\""
     },
     {
-      "name": "<name>.websocket.address",
-      "desc": "Listen address of Go Ethereum WebSocket API.",
-      "nixName": "<name>.websocket.address",
-      "type": "string",
-      "value": "127.0.0.1"
-    },
-    {
-      "name": "<name>.websocket.apis",
-      "desc": "APIs to enable over WebSocket",
-      "nixName": "<name>.websocket.apis",
-      "type": "null or (list of string)",
-      "value": "null"
-    },
-    {
-      "name": "<name>.websocket.enable",
-      "desc": "Whether to enable Go Ethereum WebSocket API.",
-      "nixName": "<name>.websocket.enable",
-      "type": "boolean",
-      "value": "false"
-    },
-    {
-      "name": "<name>.websocket.port",
-      "desc": "Port number of Go Ethereum WebSocket API.",
-      "nixName": "<name>.websocket.port",
-      "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-      "value": "8546"
+      "name": "ethnode.websocket",
+      "desc": "Websocket settings",
+      "nixName": "ethnode.websocket",
+      "type": "attribute set",
+      "value": "{ }",
+      "options": [
+        {
+          "name": "address",
+          "desc": "Listen address of Go Ethereum WebSocket API.",
+          "nixName": "address",
+          "type": "string",
+          "value": "127.0.0.1"
+        },
+        {
+          "name": "apis",
+          "desc": "APIs to enable over WebSocket",
+          "nixName": "apis",
+          "type": "list of string",
+          "value": "[]"
+        },
+        {
+          "name": "enable",
+          "desc": "Whether to enable Go Ethereum WebSocket API.",
+          "nixName": "enable",
+          "type": "boolean",
+          "value": "false"
+        },
+        {
+          "name": "port",
+          "desc": "Port number of Go Ethereum WebSocket API.",
+          "nixName": "port",
+          "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+          "value": "8546"
+        }
+      ]
     }
   ]
 }

@@ -43,7 +43,7 @@
     "support": "- **Community Forums:** Engage with the Polygon community for support and discussions through the [Polygon Community Forum](https://forum.polygon.technology/).\n- **Documentation:** Comprehensive guides and resources are available at the [Polygon Developer Documentation](https://docs.polygon.technology/pos/get-started/becoming-a-validator/) and the [Moralis Polygon Node Guide](https://developers.moralis.com/polygon-node-guide-how-to-run-a-polygon-rpc-node/) for detailed setup and best practices.\n- **Troubleshooting Help:** Access the issues section on the [Polygon GitHub Repository](https://github.com/maticnetwork/matic-network/issues) to report problems and find community-contributed solutions.\n\nThis template provides an overview of Polygon node functionalities and applications, emphasizing its significance in the Polygon ecosystem. For more detailed information, visit the [official Polygon documentation](https://docs.polygon.technology/pos/get-started/becoming-a-validator/).",
     "serviceNames": ["heimdall", "bor"],
     "quality": true,
-    "implemented": false,
-    "isUnitRunnable": false
+    "implemented": true,
+    "isUnitRunnable": true
   }
 ]

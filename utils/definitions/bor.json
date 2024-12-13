@@ -12,12 +12,12 @@
   ],
   "nixName": "polygon-bor",
   "specs": {
-    "ram": 16384,
-    "storage": 4194304
+    "ram": 16000,
+    "storage": 4000000
   },
   "tags": ["RPC", "Validator", "Blockchain", "Polygon"],
   "website": "https://polygon.technology/",
-  "implemented": false,
+  "implemented": true,
   "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/28321.png",
   "options": [
     {

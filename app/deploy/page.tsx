@@ -2,7 +2,13 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { prefix } from '@/utils/prefix'
-import { AppWindow, Cpu, HardDrive, MemoryStick } from 'lucide-react'
+import {
+  AlertTriangle,
+  AppWindow,
+  Cpu,
+  HardDrive,
+  MemoryStick,
+} from 'lucide-react'
 import { remark } from 'remark'
 import html from 'remark-html'
 import { z } from 'zod'
@@ -16,6 +22,7 @@ import {
   type ServiceData,
   type Specs,
 } from '@/types/dataProvider'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { DeploymentContextProvider } from './deployment-context'
@@ -200,7 +207,20 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
             </div>
           </div>
         </section>
-        <section className="mt-12 rounded border p-6">
+        {services.some((s) => s.tags.includes('Validator')) && (
+          <section className="mt-3">
+            <Alert className="bg-orange-200/80 hover:bg-orange-200">
+              <AlertTriangle />
+              <AlertTitle>Warning!</AlertTitle>
+              <AlertDescription>
+                Blockchain nodes can take days to synchronize upon installation.
+                It can take a while before you are able to interact with your
+                node.
+              </AlertDescription>
+            </Alert>
+          </section>
+        )}
+        <section className="mt-4 rounded border p-6">
           <Tabs defaultValue="overview">
             <TabsList className="bg-transparent">
               <TabsTrigger

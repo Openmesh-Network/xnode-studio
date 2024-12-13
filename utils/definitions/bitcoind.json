@@ -1,0 +1,104 @@
+{
+  "name": "Bitcoin Daemon (bitcoind)",
+  "desc": "Deploy and run your own Bitcoin full node with bitcoind to validate transactions and blocks, support the Bitcoin network, and contribute to its security and decentralization.",
+  "longDesc": "**What is bitcoind?**\n\nbitcoind is the reference implementation of the Bitcoin protocol. It is an open-source software that allows you to run a full Bitcoin node, validating transactions and blocks, and relaying them to other nodes in the Bitcoin network. Running a full node ensures that you are following the consensus rules and supporting the network's decentralization and security.\n\n**Key Features:**\n\n- **Transaction Validation:** Fully validate transactions and blocks to support the network.\n- **Decentralization:** Contribute to the decentralized nature of Bitcoin by running a full node.\n- **Security:** Enhance network security by validating transactions and blocks.\n- **Privacy:** Maintain privacy by running your own node instead of relying on third-party services.\n- **Community Support:** Join a community of volunteers supporting the Bitcoin network.",
+  "useCases": "**Supporting the Network:** Help maintain the Bitcoin network by running a full node.\n- **Privacy-Conscious Users:** Ensure your transactions are validated by your own node for added privacy.\n- **Educational Purposes:** Learn about Bitcoin and blockchain technology by running a full node.",
+  "support": "**Community Channels:**\n  - **Bitcoin Forum:** [Bitcoin Forum](https://bitcointalk.org/)\n  - **Reddit Communities:** r/Bitcoin for general discussions and r/BitcoinMining for mining-related queries.\n- **FAQs & Troubleshooting:**\n  - **Bitcoin Full Node FAQ:** [Bitcoin Full Node FAQ](https://bitcoin.org/en/full-node",
+  "nixName": "bitcoind",
+  "specs": {
+    "ram": 2000,
+    "storage": 512000
+  },
+  "tags": ["Validator", "Blockchain", "Bitcoin"],
+  "website": "https://bitcoin.org/",
+  "implemented": true,
+  "logo": "https://bitcoin.org/img/icons/opengraph.png",
+  "options": [
+    {
+      "name": "enable",
+      "desc": "Enable Bitcoin daemon.",
+      "nixName": "btcnode.enable",
+      "type": "boolean",
+      "value": "true"
+    },
+    {
+      "name": "extraConfig",
+      "desc": "Additional configurations to be appended to {file}`bitcoin.conf`.",
+      "nixName": "btcnode.extraConfig",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "dataDir",
+      "desc": "The data directory for bitcoind.",
+      "nixName": "btcnode.dataDir",
+      "type": "string",
+      "value": "/var/lib/bitcoind"
+    },
+    {
+      "name": "user",
+      "desc": "The user as which to run bitcoind.",
+      "nixName": "btcnode.user",
+      "type": "string",
+      "value": "bitcoind"
+    },
+    {
+      "name": "group",
+      "desc": "The group as which to run bitcoind.",
+      "nixName": "btcnode.group",
+      "type": "string",
+      "value": "bitcoind"
+    },
+    {
+      "name": "rpc",
+      "desc": "RPC settings",
+      "nixName": "btcnode.rpc",
+      "type": "attribute set",
+      "value": "{ }",
+      "options": [
+        {
+          "name": "port",
+          "desc": "Override the default port on which to listen for JSON-RPC connections.",
+          "nixName": "port",
+          "type": "integer",
+          "value": "8332"
+        }
+      ]
+    },
+    {
+      "name": "pidFile",
+      "desc": "Location of bitcoind pid file.",
+      "nixName": "btcnode.pidFile",
+      "type": "string",
+      "value": "/var/lib/bitcoind/bitcoind.pid"
+    },
+    {
+      "name": "testnet",
+      "desc": "Whether to use the testnet instead of mainnet.",
+      "nixName": "btcnode.testnet",
+      "type": "boolean",
+      "value": "false"
+    },
+    {
+      "name": "port",
+      "desc": "Override the default port on which to listen for connections.",
+      "nixName": "btcnode.port",
+      "type": "integer",
+      "value": "8333"
+    },
+    {
+      "name": "prune",
+      "desc": "Reduce storage requirements by enabling pruning (deleting) of old blocks. This allows the pruneblockchain RPC to be called to delete specific blocks, and enables automatic pruning of old blocks if a target size in MiB is provided. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (\"disable\" = disable pruning blocks, \"manual\" = allow manual pruning via RPC, >=550 = automatically prune block files to stay under the specified target size in MiB).",
+      "nixName": "btcnode.prune",
+      "type": "string",
+      "value": "manual"
+    },
+    {
+      "name": "extraCmdlineOptions",
+      "desc": "Extra command line options to pass to bitcoind. Run bitcoind --help to list all available options.",
+      "nixName": "btcnode.extraCmdlineOptions",
+      "type": "list of string",
+      "value": "[ ]"
+    }
+  ]
+}
