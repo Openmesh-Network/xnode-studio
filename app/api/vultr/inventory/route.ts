@@ -47,7 +47,12 @@ async function getVultrPaging(url: string, resultKey: string) {
     const res = await fetch(nextUrl, {
       headers: [['Authorization', `Bearer ${process.env.VULTR_API_KEY}`]],
     }).then((res) => res.json())
-    results.push(...res[resultKey])
+    let resultValue = res[resultKey]
+    if (resultValue) {
+      results.push(...resultValue)
+    } else {
+      console.warn('Vultr inventory fetch page result extraction failed:', res)
+    }
     nextUrl = res.meta.links.next
       ? `${baseUrl}&cursor=${res.meta.links.next}`
       : undefined
