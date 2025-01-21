@@ -437,9 +437,11 @@ export default function DeploymentFlow({
             },
           })
           .then(
-            (res) => res.data as { instance: { id: number; main_ip: string } }
+            (res) =>
+              (provider.type === 'VPS'
+                ? res.data.instance
+                : res.data.bare_metal) as { id: number; main_ip: string }
           )
-          .then((res) => res.instance)
         ipAddress = machine.main_ip
         deploymentAuth = `${provider.type === 'VPS' ? 'instances' : 'bare-metals'}/${machine.id}`
 
@@ -455,8 +457,12 @@ export default function DeploymentFlow({
                 Authorization: `Bearer ${debouncedApiKey}`,
               },
             })
-            .then((res) => res.data as { instance: { main_ip: string } })
-            .then((res) => res.instance)
+            .then(
+              (res) =>
+                (provider.type === 'VPS'
+                  ? res.data.instance
+                  : res.data.bare_metal) as { id: number; main_ip: string }
+            )
           ipAddress = updatedMachine.main_ip
         }
       }
@@ -609,7 +615,7 @@ export default function DeploymentFlow({
               ? `We're currently deploying your pre-configured ${type === 'templates' ? 'template' : 'use case'}.`
               : null}
             {step[0] === 1 && step[1] === 'baremetal'
-              ? `Chose a baremetal provider to deploy your ${type === 'templates' ? 'template' : 'use case'} to.`
+              ? `Choose a baremetal provider to deploy your ${type === 'templates' ? 'template' : 'use case'} to. Please note that prices and availability come directly from the provider API and are not verified by Openmesh.`
               : null}
             {step[0] === 2 && step[1] === 'baremetal'
               ? `Check your deployment configuration for your ${type === 'templates' ? 'template' : 'use case'}.`

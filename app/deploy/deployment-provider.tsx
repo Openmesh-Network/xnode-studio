@@ -63,6 +63,7 @@ export default function DeploymentProvider({
   >([1, PRICE_MAX])
   const debouncedPriceRange = useDebounce(priceRange, 500)
   const [onlyAvailable, setOnlyAvailable] = useState<boolean>(true)
+  const [onlyDedicated, setOnlyDedicated] = useState<boolean>(false)
   const { setConfig, setProvider } = useDeploymentContext()
 
   const { data: hivelocityData, isFetching: hivelocityFetching } = useQuery({
@@ -155,6 +156,10 @@ export default function DeploymentProvider({
           return false
         }
 
+        if (onlyDedicated && product.type === 'VPS') {
+          return false
+        }
+
         return true
       })
       .sort((p1, p2) => {
@@ -209,6 +214,7 @@ export default function DeploymentProvider({
     specs,
     debouncedPriceRange,
     onlyAvailable,
+    onlyDedicated,
   ])
 
   const regionData = useMemo(() => {
@@ -550,6 +556,18 @@ export default function DeploymentProvider({
             />
             <Label htmlFor="onlyAvailable">Only Available</Label>
           </div>
+          <div className="invisible flex place-items-center gap-2">
+            <Checkbox
+              id="onlyDedicated"
+              checked={onlyDedicated}
+              onCheckedChange={(e) => {
+                if (e !== 'indeterminate') {
+                  setOnlyDedicated(e)
+                }
+              }}
+            />
+            <Label htmlFor="onlyDedicated">Dedicated Hardware Only</Label>
+          </div>
         </div>
         <ScrollArea className="h-[40rem] w-full flex-1 pr-3" type="auto">
           <ul className="flex flex-col gap-2 text-black">
@@ -710,6 +728,7 @@ function ProductCard({
               }}
               disabled={
                 selectedProduct.available === 0 ||
+                selectedProduct.storage.length > 1 ||
                 (selectedProduct.providerName === 'Hivelocity' &&
                   selectedProduct.type === 'Bare Metal')
               }
@@ -720,8 +739,9 @@ function ProductCard({
               <p className="text-sm text-muted-foreground">Unavailable</p>
             )}
             {selectedProduct.available > 0 &&
-              selectedProduct.providerName === 'Hivelocity' &&
-              selectedProduct.type === 'Bare Metal' && (
+              (selectedProduct.storage.length > 1 ||
+                (selectedProduct.providerName === 'Hivelocity' &&
+                  selectedProduct.type === 'Bare Metal')) && (
                 <p className="text-sm text-muted-foreground">Unsupported</p>
               )}
           </div>
