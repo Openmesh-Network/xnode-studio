@@ -219,7 +219,7 @@ export default function ResourcesTable() {
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && 'selected'}
-                      className="odd:bg-muted/30 h-12 border-none"
+                      className="h-12 border-none odd:bg-muted/30"
                     >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell className="pl-4" key={cell.id}>

@@ -670,7 +670,7 @@ function ProductCard({
           <div className="flex items-center gap-1 text-muted-foreground">
             <MapPin className="size-3.5 shrink-0" />
             <ComboBox
-              className="h-auto w-auto p-1"
+              className="size-auto p-1"
               data={locations}
               selectedItem={location}
               setItemSelect={setLocation}

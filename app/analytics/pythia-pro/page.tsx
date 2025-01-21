@@ -69,7 +69,7 @@ export default function PythiaProPage() {
           >
             Push your analytics to extreme levels
           </Header>
-          <p className="text-muted-foreground mt-6 max-w-prose text-balance text-center">
+          <p className="mt-6 max-w-prose text-balance text-center text-muted-foreground">
             Design, build, visualize, deploy, and store powerful data products
             directly in your web3 wallet
           </p>
@@ -78,30 +78,30 @@ export default function PythiaProPage() {
           </Button>
           <div className="mt-24 grid max-w-screen-xl grid-cols-4 gap-8">
             <div className="flex flex-col items-center text-center">
-              <h4 className="text-primary text-4xl font-semibold">100%</h4>
+              <h4 className="text-4xl font-semibold text-primary">100%</h4>
               <p className="mt-0.5 text-xl font-semibold">Open-source</p>
-              <p className="text-muted-foreground mt-2 text-balance">
+              <p className="mt-2 text-balance text-muted-foreground">
                 Built using Apache Superset open-source framework.
               </p>
             </div>
             <div className="flex flex-col items-center text-center">
-              <h4 className="text-primary text-4xl font-semibold">50+</h4>
+              <h4 className="text-4xl font-semibold text-primary">50+</h4>
               <p className="mt-0.5 text-xl font-semibold">Visualizations</p>
-              <p className="text-muted-foreground mt-2 text-balance">
+              <p className="mt-2 text-balance text-muted-foreground">
                 Pre-installed visualizations and charts for your needs.
               </p>
             </div>
             <div className="flex flex-col items-center text-center">
-              <h4 className="text-primary text-4xl font-semibold">100%</h4>
+              <h4 className="text-4xl font-semibold text-primary">100%</h4>
               <p className="mt-0.5 text-xl font-semibold">Ownership</p>
-              <p className="text-muted-foreground mt-2 text-balance">
+              <p className="mt-2 text-balance text-muted-foreground">
                 Save your queries & data products directly to your web3 wallet.
               </p>
             </div>
             <div className="flex flex-col items-center text-center">
-              <h4 className="text-primary text-4xl font-semibold">Free</h4>
+              <h4 className="text-4xl font-semibold text-primary">Free</h4>
               <p className="mt-0.5 text-xl font-semibold">Ecosystem</p>
-              <p className="text-muted-foreground mt-2 text-balance">
+              <p className="mt-2 text-balance text-muted-foreground">
                 Community developed data products & dashboards.
               </p>
             </div>
@@ -133,7 +133,7 @@ export default function PythiaProPage() {
             <button
               type="button"
               disabled={!canScrollPrev}
-              className="text-primary px-6 py-2 disabled:opacity-50"
+              className="px-6 py-2 text-primary disabled:opacity-50"
               onClick={scrollPrev}
             >
               <MoveLeft className="size-6" />
@@ -141,7 +141,7 @@ export default function PythiaProPage() {
             <button
               type="button"
               disabled={!canScrollNext}
-              className="text-primary px-6 py-2 disabled:opacity-50"
+              className="px-6 py-2 text-primary disabled:opacity-50"
               onClick={scrollNext}
             >
               <MoveRight className="size-6" />
@@ -165,12 +165,12 @@ export default function PythiaProPage() {
                     <Header level={3} className="mt-4">
                       {help.title}
                     </Header>
-                    <p className="text-muted-foreground mt-1 grow">
+                    <p className="mt-1 grow text-muted-foreground">
                       {help.description}
                     </p>
                     <Link
                       href="/analytics/pythia-pro"
-                      className="text-primary group mt-4 inline-flex items-center gap-1.5"
+                      className="group mt-4 inline-flex items-center gap-1.5 text-primary"
                     >
                       <span className="font-semibold">{help.linkText}</span>
                       <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

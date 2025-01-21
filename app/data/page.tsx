@@ -137,7 +137,7 @@ function Faqs() {
             key={index}
             value={`item-${index}`}
           >
-            <AccordionTrigger className="bg-accent/70 text-accent-foreground/80 rounded-md px-6">
+            <AccordionTrigger className="rounded-md bg-accent/70 px-6 text-accent-foreground/80">
               {faq.question}
             </AccordionTrigger>
             <AccordionContent className="text-pretty px-12 pt-4 text-left">

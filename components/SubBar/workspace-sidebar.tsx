@@ -20,7 +20,7 @@ type HoverItemProps = {
 }
 function HoverItem({ title, children }: HoverItemProps) {
   return (
-    <div className="hover:bg-muted group cursor-pointer rounded px-4 py-2.5">
+    <div className="group cursor-pointer rounded px-4 py-2.5 hover:bg-muted">
       <div className="flex items-center gap-1">
         <h1 className="font-medium">{title}</h1>
         <ChevronRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />

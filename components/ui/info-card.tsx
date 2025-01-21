@@ -29,13 +29,13 @@ export function InfoCard({
   const cardContent = (
     <>
       <CardHeader className="pb-4">
-        <div className="bg-primary/10 flex size-12 items-center justify-center rounded-full">
-          <Icon className="text-primary size-6" />
+        <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
+          <Icon className="size-6 text-primary" />
         </div>
       </CardHeader>
       <CardContent className="space-y-2">
         <CardTitle>{title}</CardTitle>
-        <CardDescription className="text-card-foreground/80 text-pretty">
+        <CardDescription className="text-pretty text-card-foreground/80">
           {description}
         </CardDescription>
       </CardContent>

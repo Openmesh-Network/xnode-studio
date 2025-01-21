@@ -30,11 +30,11 @@ export default function CTAHelp() {
               initial={{ x: 500, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 500, opacity: 0 }}
-              className="border-primary/25 relative max-w-sm rounded border bg-[color-mix(in_srgb,hsl(var(--background)),hsl(var(--primary))_5%)] px-6 py-4"
+              className="relative max-w-sm rounded border border-primary/25 bg-[color-mix(in_srgb,hsl(var(--background)),hsl(var(--primary))_5%)] px-6 py-4"
             >
               <button
                 onClick={dismiss}
-                className="text-primary absolute right-2 top-2 p-0.5"
+                className="absolute right-2 top-2 p-0.5 text-primary"
               >
                 <X className="size-4" />
               </button>
@@ -58,7 +58,7 @@ export default function CTAHelp() {
                     </div>
                     <div>
                       <p className="font-bold leading-none">248</p>
-                      <p className="text-muted-foreground text-xs">
+                      <p className="text-xs text-muted-foreground">
                         Growing Speakers
                       </p>
                     </div>

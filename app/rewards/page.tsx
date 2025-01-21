@@ -126,7 +126,7 @@ function NodeActivityTable() {
         <TableRow className="text-left text-base">
           {tableColumns.map((column, index) => (
             <TableHead
-              className={cn('text-card-foreground font-normal')}
+              className={cn('font-normal text-card-foreground')}
               key={index}
             >
               {column}
@@ -253,7 +253,7 @@ function ActiveValidatorTable() {
             <TableHead
               className={cn(
                 index == validatorTableColumns.length - 1 && 'text-center',
-                'text-card-foreground font-normal'
+                'font-normal text-card-foreground'
               )}
               key={index}
             >

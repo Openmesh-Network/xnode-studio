@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 //TODO: These colors are not set up properly, but I would recommend just setting up shadcn for the whole app and then installing the button component again.
 // Currently our (Piros and Jeyprox) job is not to impelement the button or any reusable component, but to fix the existing bugs.
 const buttonVariants = cva(
-  'focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center whitespace-nowrap rounded text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
@@ -16,8 +16,8 @@ const buttonVariants = cva(
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outlinePrimary:
-          'border-primary text-primary hover:bg-primary/10 border',
-        outline: 'border-border hover:bg-muted/25 border',
+          'border border-primary text-primary hover:bg-primary/10',
+        outline: 'border border-border hover:bg-muted/25',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
