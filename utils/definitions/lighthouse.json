@@ -11,7 +11,7 @@
   },
   "tags": ["Blockchain", "Ethereum", "Validator"],
   "website": "https://lighthouse.sigmaprime.io/",
-  "implemented": false,
+  "implemented": true,
   "logo": "https://lighthouse.sigmaprime.io/favicon.ico",
   "options": [
     {
@@ -22,11 +22,11 @@
       "value": "{ }",
       "options": [
         {
-          "name": "address",
-          "desc": "Listen address of Beacon node.",
-          "nixName": "address",
-          "type": "string",
-          "value": "0.0.0.0"
+          "name": "enable",
+          "desc": "Whether to enable Lightouse Beacon node.",
+          "nixName": "enable",
+          "type": "boolean",
+          "value": "true"
         },
         {
           "name": "dataDir",
@@ -36,88 +36,18 @@
           "value": "/var/lib/lighthouse-beacon"
         },
         {
-          "name": "disableDepositContractSync",
-          "desc": "Explicitly disables syncing of deposit logs from the execution node. This overrides any previous option that depends on it. Useful if you intend to run a non-validating beacon node.",
-          "nixName": "disableDepositContractSync",
-          "type": "boolean",
-          "value": "false"
-        },
-        {
-          "name": "enable",
-          "desc": "Whether to enable Lightouse Beacon node.",
-          "nixName": "enable",
-          "type": "boolean",
-          "value": "true"
-        },
-        {
-          "name": "execution.address",
-          "desc": "Listen address for the execution layer.",
-          "nixName": "execution.address",
+          "name": "address",
+          "desc": "Listen address of Beacon node.",
+          "nixName": "address",
           "type": "string",
-          "value": "127.0.0.1"
+          "value": "0.0.0.0"
         },
         {
-          "name": "execution.jwtPath",
-          "desc": "Path for the jwt secret required to connect to the execution layer.",
-          "nixName": "execution.jwtPath",
-          "type": "string",
-          "value": ""
-        },
-        {
-          "name": "execution.port",
-          "desc": "Port number the Beacon node will be listening on for the execution layer.",
-          "nixName": "execution.port",
+          "name": "port",
+          "desc": "Port number the Beacon node will be listening on.",
+          "nixName": "port",
           "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-          "value": "8551"
-        },
-        {
-          "name": "extraArgs",
-          "desc": "Additional arguments passed to the lighthouse beacon command.",
-          "nixName": "extraArgs",
-          "type": "string",
-          "value": ""
-        },
-        {
-          "name": "http.address",
-          "desc": "Listen address of Beacon node RPC service.",
-          "nixName": "http.address",
-          "type": "string",
-          "value": "127.0.0.1"
-        },
-        {
-          "name": "http.enable",
-          "desc": "Whether to enable Beacon node http api.",
-          "nixName": "http.enable",
-          "type": "boolean",
-          "value": "false"
-        },
-        {
-          "name": "http.port",
-          "desc": "Port number of Beacon node RPC service.",
-          "nixName": "http.port",
-          "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-          "value": "5052"
-        },
-        {
-          "name": "metrics.address",
-          "desc": "Listen address of Beacon node metrics service.",
-          "nixName": "metrics.address",
-          "type": "string",
-          "value": "127.0.0.1"
-        },
-        {
-          "name": "metrics.enable",
-          "desc": "Whether to enable Beacon node prometheus metrics.",
-          "nixName": "metrics.enable",
-          "type": "boolean",
-          "value": "false"
-        },
-        {
-          "name": "metrics.port",
-          "desc": "Port number of Beacon node metrics service.",
-          "nixName": "metrics.port",
-          "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-          "value": "5054"
+          "value": "9000"
         },
         {
           "name": "openFirewall",
@@ -127,27 +57,110 @@
           "value": "false"
         },
         {
-          "name": "port",
-          "desc": "Port number the Beacon node will be listening on.",
-          "nixName": "port",
-          "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-          "value": "9000"
+          "name": "disableDepositContractSync",
+          "desc": "Explicitly disables syncing of deposit logs from the execution node. This overrides any previous option that depends on it. Useful if you intend to run a non-validating beacon node.",
+          "nixName": "disableDepositContractSync",
+          "type": "boolean",
+          "value": "false"
+        },
+        {
+          "name": "execution",
+          "desc": "Execution node",
+          "nixName": "execution",
+          "type": "submodule",
+          "value": "{ }",
+          "options": [
+            {
+              "name": "address",
+              "desc": "Listen address for the execution layer.",
+              "nixName": "address",
+              "type": "string",
+              "value": "127.0.0.1"
+            },
+            {
+              "name": "port",
+              "desc": "Port number the Beacon node will be listening on for the execution layer.",
+              "nixName": "port",
+              "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+              "value": "8551"
+            },
+            {
+              "name": "jwtPath",
+              "desc": "Path for the jwt secret required to connect to the execution layer.",
+              "nixName": "jwtPath",
+              "type": "string",
+              "value": "/var/lib/goethereum/ethnode/mainnet/geth/jwtsecret"
+            }
+          ]
+        },
+        {
+          "name": "http",
+          "desc": "HTTP settings",
+          "nixName": "http",
+          "type": "submodule",
+          "value": "{ }",
+          "options": [
+            {
+              "name": "enable",
+              "desc": "Whether to enable Beacon node http api.",
+              "nixName": "enable",
+              "type": "boolean",
+              "value": "false"
+            },
+            {
+              "name": "port",
+              "desc": "Port number of Beacon node RPC service.",
+              "nixName": "port",
+              "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+              "value": "5052"
+            },
+            {
+              "name": "address",
+              "desc": "Listen address of Beacon node RPC service.",
+              "nixName": "address",
+              "type": "string",
+              "value": "127.0.0.1"
+            }
+          ]
+        },
+        {
+          "name": "metrics",
+          "desc": "Metrics settings",
+          "nixName": "metrics",
+          "type": "submodule",
+          "value": "{ }",
+          "options": [
+            {
+              "name": "enable",
+              "desc": "Whether to enable Beacon node prometheus metrics.",
+              "nixName": "enable",
+              "type": "boolean",
+              "value": "false"
+            },
+            {
+              "name": "address",
+              "desc": "Listen address of Beacon node metrics service.",
+              "nixName": "address",
+              "type": "string",
+              "value": "127.0.0.1"
+            },
+            {
+              "name": "port",
+              "desc": "Port number of Beacon node metrics service.",
+              "nixName": "port",
+              "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+              "value": "5054"
+            }
+          ]
+        },
+        {
+          "name": "extraArgs",
+          "desc": "Additional arguments passed to the lighthouse beacon command.",
+          "nixName": "extraArgs",
+          "type": "string",
+          "value": ""
         }
       ]
-    },
-    {
-      "name": "extraArgs",
-      "desc": "Additional arguments passed to every lighthouse command.",
-      "nixName": "extraArgs",
-      "type": "string",
-      "value": ""
-    },
-    {
-      "name": "network",
-      "desc": "The network to connect to. Mainnet is the default ethereum network.",
-      "nixName": "network",
-      "type": "string",
-      "value": "mainnet"
     },
     {
       "name": "validator",
@@ -157,11 +170,11 @@
       "value": "{ }",
       "options": [
         {
-          "name": "beaconNodes",
-          "desc": "Beacon nodes to connect to.",
-          "nixName": "beaconNodes",
-          "type": "list of string",
-          "value": "[\n \"http://localhost:5052\"\n]"
+          "name": "enable",
+          "desc": "Enable Lightouse Validator node.",
+          "nixName": "enable",
+          "type": "boolean",
+          "value": "false"
         },
         {
           "name": "dataDir",
@@ -171,11 +184,41 @@
           "value": "/var/lib/lighthouse-validator"
         },
         {
-          "name": "enable",
-          "desc": "Enable Lightouse Validator node.",
-          "nixName": "enable",
-          "type": "boolean",
-          "value": "false"
+          "name": "beaconNodes",
+          "desc": "Beacon nodes to connect to.",
+          "nixName": "beaconNodes",
+          "type": "list of string",
+          "value": "[\n \"http://localhost:5052\"\n]"
+        },
+        {
+          "name": "metrics",
+          "desc": "Metrics settings",
+          "nixName": "metrics",
+          "type": "submodule",
+          "value": "{ }",
+          "options": [
+            {
+              "name": "enable",
+              "desc": "Whether to enable Validator node prometheus metrics.",
+              "nixName": "enable",
+              "type": "boolean",
+              "value": "false"
+            },
+            {
+              "name": "address",
+              "desc": "Listen address of Validator node metrics service.",
+              "nixName": "address",
+              "type": "string",
+              "value": "127.0.0.1"
+            },
+            {
+              "name": "port",
+              "desc": "Port number of Validator node metrics service.",
+              "nixName": "port",
+              "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
+              "value": "5056"
+            }
+          ]
         },
         {
           "name": "extraArgs",
@@ -183,29 +226,22 @@
           "nixName": "extraArgs",
           "type": "string",
           "value": ""
-        },
-        {
-          "name": "metrics.address",
-          "desc": "Listen address of Validator node metrics service.",
-          "nixName": "metrics.address",
-          "type": "string",
-          "value": "127.0.0.1"
-        },
-        {
-          "name": "metrics.enable",
-          "desc": "Whether to enable Validator node prometheus metrics.",
-          "nixName": "metrics.enable",
-          "type": "boolean",
-          "value": "false"
-        },
-        {
-          "name": "metrics.port",
-          "desc": "Port number of Validator node metrics service.",
-          "nixName": "metrics.port",
-          "type": "16 bit unsigned integer; between 0 and 65535 (both inclusive)",
-          "value": "5056"
         }
       ]
+    },
+    {
+      "name": "network",
+      "desc": "The network to connect to. Mainnet is the default ethereum network.",
+      "nixName": "network",
+      "type": "string",
+      "value": "mainnet"
+    },
+    {
+      "name": "extraArgs",
+      "desc": "Additional arguments passed to every lighthouse command.",
+      "nixName": "extraArgs",
+      "type": "string",
+      "value": ""
     }
   ]
 }

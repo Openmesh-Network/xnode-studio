@@ -27,8 +27,8 @@
     "support": "- **Community Forums:** Engage with the Ethereum community for support and discussions via the [Ethereum Stack Exchange](https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/) or [Ethereum Community Forum](https://forum.ethereum.org/).\n- **Documentation:** Comprehensive guides and user manuals are available at the [Ethereum Developer Documentation](https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/) for detailed reference on setup and best practices.\n- **Troubleshooting Help:** Access the issues section on the [Ethereum GitHub Repository](https://github.com/ethereum/go-ethereum/issues) to report bugs and find community-contributed solutions.\n\nThis template provides a structured overview of the functionalities and applications of an Ethereum node, emphasizing its importance in the blockchain ecosystem. For more detailed information, visit the [official Ethereum documentation](https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/).",
     "serviceNames": ["geth", "lighthouse"],
     "quality": true,
-    "implemented": false,
-    "isUnitRunnable": false
+    "implemented": true,
+    "isUnitRunnable": true
   },
   {
     "id": "2",
