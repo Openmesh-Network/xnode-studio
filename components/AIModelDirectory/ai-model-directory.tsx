@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { SortDropdown } from './ai-model-dropdown'
+import { prefix } from '@/utils/prefix'
 
 type ModelData = {
   model_name: string
@@ -48,30 +49,41 @@ function parseRelativeTime(timeString: string): number {
 
 function ModelCard({ data }: { data: ModelData }) {
   const sizes = data.model_sizes.split(',')
+  const iconPath = data.model_name === 'deepseek-r1' 
+    ? `${prefix}/images/models/deepseek.png` 
+    : `${prefix}/images/models/ai-models.png`
   
   return (
     <div className="flex flex-col rounded-lg border p-4 hover:bg-muted/50">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <AppWindow className="size-8 text-muted-foreground" strokeWidth={1.5} />
+      <div className="flex items-start gap-4">
+        <img 
+          src={iconPath}
+          alt={data.model_name}
+          className="-ml-2 size-12 object-contain"
+        />
+        <div className="flex flex-col">
           <h3 className="text-lg font-semibold">{data.model_name}</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            A powerful language model for natural text generation and understanding
+          </p>
         </div>
-        <span className="text-sm text-muted-foreground">{data.last_updated}</span>
+        <span className="ml-auto text-sm text-muted-foreground">{data.last_updated}</span>
       </div>
-      
-      <p className="mt-2 text-sm text-muted-foreground">
-        {data.pulls} pulls • {data.type}
-      </p>
-      
-      <div className="mt-4 flex flex-wrap gap-2">
-        {sizes.map((size) => (
-          <span
-            key={size}
-            className="rounded bg-primary/5 px-2 py-0.5 text-xs text-primary"
-          >
-            {size.trim()}
-          </span>
-        ))}
+
+      <div className="mt-auto flex items-center justify-between pt-4">
+        <div className="flex flex-wrap gap-2">
+          {sizes.map((size) => (
+            <span
+              key={size}
+              className="rounded bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700"
+            >
+              {size.trim()}
+            </span>
+          ))}
+        </div>
+        <span className="rounded bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700">
+          {data.type}
+        </span>
       </div>
     </div>
   )

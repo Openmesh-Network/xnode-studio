@@ -22,7 +22,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Openmesh Xnode',
+  title: 'OpenxAI Studio',
   icons: {
     icon: `${prefix}/openmesh.svg`,
   },
