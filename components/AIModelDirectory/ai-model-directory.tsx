@@ -7,13 +7,7 @@ import { AppWindow, Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { SortDropdown } from './ai-model-dropdown'
 
 type ModelData = {
   model_name: string
@@ -155,7 +149,7 @@ export default function AIModelDirectory({ initialModels }: AIModelDirectoryProp
         <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center">
           {/* Search */}
           <div className="relative w-full lg:w-[300px]">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2 top-2.5 size-4 text-muted-foreground" />
             <Input
               placeholder="Search models..."
               value={searchQuery}
@@ -184,18 +178,11 @@ export default function AIModelDirectory({ initialModels }: AIModelDirectoryProp
 
           {/* Sort Dropdown */}
           <div className="flex justify-end">
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="relative">
-                {sortOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <SortDropdown 
+              value={sortBy}
+              onValueChange={setSortBy}
+              options={sortOptions}
+            />
           </div>
         </div>
       </div>
