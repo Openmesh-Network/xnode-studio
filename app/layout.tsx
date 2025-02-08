@@ -22,9 +22,9 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'OpenxAI Studio',
+  title: 'Openmesh Xnode',
   icons: {
-    icon: `${prefix}/images/old-logo.png`,
+    icon: `${prefix}/openmesh.svg`,
   },
 }
 
@@ -39,7 +39,7 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <body
         className={cn(
-          'min-h-screen w-full bg-background font-sans text-foreground antialiased',
+          'max-w-screen h-screen w-full overflow-x-hidden bg-background font-sans text-foreground antialiased',
           inter.variable
         )}
       >

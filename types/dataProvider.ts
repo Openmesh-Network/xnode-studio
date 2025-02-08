@@ -1,6 +1,5 @@
 import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
-import ModelDefinitions from 'utils/model-definitions.json'
 import { z } from 'zod'
 
 import { opensshConfig } from '@/config/openssh'
@@ -150,22 +149,13 @@ export function serviceByName(name: string): ServiceData | undefined {
   if (serviceMap == null) {
     serviceMap = new Map<string, ServiceData>()
 
-    // Comment out service definitions for now
-    /* for (let i = 0; i < ServiceDefinitions.length; i++) {
+    for (let i = 0; i < ServiceDefinitions.length; i++) {
       const service = ServiceDefinitions[i]
       if (service === undefined) continue
       serviceMap.set(ServiceDefinitions[i].nixName, service)
-    } */
-
-    // Only use model definitions
-    for (let i = 0; i < ModelDefinitions.length; i++) {
-      const model = ModelDefinitions[i]
-      if (model === undefined) continue
-      serviceMap.set(model.nixName, model)
     }
   }
-  // Comment out openssh config for now
-  // serviceMap.set(opensshConfig.nixName, opensshConfig)
+  serviceMap.set(opensshConfig.nixName, opensshConfig)
   return serviceMap.get(name)
 }
 
