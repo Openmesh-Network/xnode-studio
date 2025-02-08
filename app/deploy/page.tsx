@@ -64,7 +64,8 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
       .join('&')
     redirect(`/login?redirect=/deploy?${params}`)
   } */
-
+    const sessionToken = sessionCookie?.value || 'demo-token' // Add fallback for demo mode
+  
   function getData() {
     if (!templateId && !useCaseId && !advanced) redirect('/app-store')
     let data: AppStoreItem | undefined
@@ -169,7 +170,7 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
             </div>
             <div className="mt-6 flex gap-3">
               <DeploymentFlow
-                sessionToken={sessionCookie.value}
+                sessionToken={sessionToken}
                 item={data}
                 type={type}
                 specs={specs}

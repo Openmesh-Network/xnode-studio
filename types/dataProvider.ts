@@ -150,13 +150,22 @@ export function serviceByName(name: string): ServiceData | undefined {
   if (serviceMap == null) {
     serviceMap = new Map<string, ServiceData>()
 
-    for (let i = 0; i < ServiceDefinitions.length; i++) {
+    // Comment out service definitions for now
+    /* for (let i = 0; i < ServiceDefinitions.length; i++) {
       const service = ServiceDefinitions[i]
       if (service === undefined) continue
       serviceMap.set(ServiceDefinitions[i].nixName, service)
+    } */
+
+    // Only use model definitions
+    for (let i = 0; i < ModelDefinitions.length; i++) {
+      const model = ModelDefinitions[i]
+      if (model === undefined) continue
+      serviceMap.set(model.nixName, model)
     }
   }
-  serviceMap.set(opensshConfig.nixName, opensshConfig)
+  // Comment out openssh config for now
+  // serviceMap.set(opensshConfig.nixName, opensshConfig)
   return serviceMap.get(name)
 }
 
