@@ -17,7 +17,9 @@ import SelectedXnodeProvider from '@/components/selected-xnode'
 export const chains = [chain] as const
 const queryClient = new QueryClient()
 
-const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'demo_id'
+const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
+
+if (!projectId) throw new Error('Project ID is not defined')
 
 const metadata = {
   name: 'Xnode',

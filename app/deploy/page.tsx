@@ -43,8 +43,7 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
   const advanced = z.string().optional().parse(searchParams.advanced)
 
   const sessionCookie = cookies().get('userSessionToken')
-  // Temporarily comment out session check for demo
-  /* if (!sessionCookie) {
+  if (!sessionCookie) {
     const params = [
       {
         name: 'templateId',
@@ -63,9 +62,8 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
       .map((param) => `${param.name}=${param.value}`)
       .join('&')
     redirect(`/login?redirect=/deploy?${params}`)
-  } */
-    const sessionToken = sessionCookie?.value || 'demo-token' // Add fallback for demo mode
-  
+  }
+
   function getData() {
     if (!templateId && !useCaseId && !advanced) redirect('/app-store')
     let data: AppStoreItem | undefined
@@ -170,7 +168,7 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
             </div>
             <div className="mt-6 flex gap-3">
               <DeploymentFlow
-                sessionToken={sessionToken}
+                sessionToken={sessionCookie.value}
                 item={data}
                 type={type}
                 specs={specs}

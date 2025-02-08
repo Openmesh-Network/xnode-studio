@@ -18,7 +18,7 @@ import {
 
 import { type Icon } from '@/components/Icons'
 
-type NavCategory = 'main'
+type NavCategory = 'main' | 'support'
 export type NavItem = {
   name: string
   icon?: LucideIcon | Icon
@@ -43,9 +43,9 @@ export const navItems: Record<NavCategory, NavItem[]> = {
     },
     {
       type: 'item',
-      name: 'App Store',
-      href: '/app-store',
-      icon: PackageOpen,
+      name: 'Test Xnode',
+      href: '/explore',
+      icon: TestTubeDiagonal,
     },
     {
       type: 'item',
@@ -61,6 +61,18 @@ export const navItems: Record<NavCategory, NavItem[]> = {
     },
     {
       type: 'item',
+      name: 'App Store',
+      href: '/app-store',
+      icon: PackageOpen,
+    },
+    {
+      type: 'item',
+      name: 'Xnode DVM',
+      href: '/claim',
+      icon: IdCard,
+    },
+    {
+      type: 'item',
       name: 'Rewards',
       href: '/rewards',
       icon: Star,
@@ -72,16 +84,55 @@ export const navItems: Record<NavCategory, NavItem[]> = {
       icon: DatabaseZap,
     },
     {
+      type: 'category',
+      name: 'Compute',
+      icon: Cpu,
+      disabled: true,
+      items: [
+        {
+          type: 'item',
+          name: 'Overview',
+          href: '/compute',
+        },
+        {
+          type: 'item',
+          name: 'Deploy',
+          href: '/compute/deploy',
+        },
+      ],
+    },
+    {
+      type: 'category',
+      name: 'Storage',
+      icon: Cloud,
+      disabled: true,
+      items: [{ type: 'item', name: 'Storage', href: '/storage' }],
+    },
+  ],
+  support: [
+    {
       type: 'item',
       name: 'Documentation',
-      href: 'https://openxai-docs.vercel.app/',
+      href: 'https://docs.openmesh.network/products/xnode',
       icon: BookText,
     },
     {
       type: 'item',
+      name: 'Node Viability',
+      href: 'https://www.openmesh.network/naas',
+      icon: ChartLine,
+    },
+    {
+      type: 'item',
       name: 'Community',
-      href: 'https://openxai.discourse.group/',
+      href: 'https://discord.com/invite/openmesh',
       icon: Users,
     },
-  ]
+    {
+      type: 'item',
+      name: 'OpenCircle',
+      href: 'https://circle.openmesh.network/',
+      icon: Globe,
+    },
+  ],
 }

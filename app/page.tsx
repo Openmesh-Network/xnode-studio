@@ -13,31 +13,33 @@ export default function Home() {
         <div className="flex gap-12">
           <div className="flex-1 basis-3/5">
             <h1 className="text-balance text-3xl font-bold lg:text-6xl">
-              Build AI applications <span className="whitespace-nowrap">& agents in lightning</span> speed.             </h1>
-            <p className="mt-4 text-pretty text-3xl font-medium">
-              You own your model, data & infrastructure
+              Accelerate Your Infrastructure Development.
+            </h1>
+            <p className="mt-4 text-pretty text-sm font-medium text-muted-foreground lg:text-lg">
+              Unleash the Power of Xnode: Your Gateway to Building Personalized
+              Data Ecosystems in minutes, instead of weeks.
             </p>
             <div className="mt-12 flex items-center gap-6">
               <Link
                 href="/app-store"
                 className="flex h-14 items-center rounded bg-primary px-8 font-medium text-background transition-colors hover:bg-primary/90"
               >
-                Build for Free
+                Explore Xnode Power
               </Link>
               <Link
                 href="/explore"
                 className="flex h-14 items-center rounded px-8 font-medium underline transition-colors hover:bg-foreground/10"
               >
-                Earn free server
+                Test Xnode
               </Link>
             </div>
           </div>
           <div className="flex-1 shrink basis-2/5 content-center rounded-xl">
-            <Youtube
+            {/* <Youtube
               className="rounded-xl bg-foreground/10 p-3"
               opts={{ width: '500', height: '280' }}
-              videoId="3wy3vgErmrk"
-            />
+              videoId="dYM_hg6PkcY"
+            /> */}
           </div>
         </div>
       </section>
@@ -56,7 +58,7 @@ export default function Home() {
             className="flex items-center gap-2 rounded border p-4 text-sm font-semibold transition-colors hover:bg-foreground/5"
           >
             <Server className="size-8" strokeWidth={1.5} />
-            About Xnode One
+            Configure an Instance
           </Link>
           <Link
             href="/app-store"
