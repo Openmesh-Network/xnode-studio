@@ -28,7 +28,7 @@ export default function Home() {
                 href="/explore"
                 className="flex h-14 items-center rounded px-8 font-medium underline transition-colors hover:bg-foreground/10"
               >
-                Test Xnode
+                Earn free server
               </Link>
             </div>
           </div>
