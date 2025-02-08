@@ -9,13 +9,17 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { SortDropdown } from './ai-model-dropdown'
 import { prefix } from '@/utils/prefix'
+import ModelDefinitions from '@/utils/model-definitions.json'
 
 type ModelData = {
-  model_name: string
-  model_sizes: string
+  id: string
+  name: string
+  model_sizes?: string
   type: string
-  pulls: string
-  last_updated: string
+  desc: string
+  last_updated?: string
+  logo: string
+  nixName: string
 }
 
 const sortOptions = [
@@ -48,12 +52,10 @@ function parseRelativeTime(timeString: string): number {
 }
 
 function ModelCard({ data }: { data: ModelData }) {
-  const sizes = data.model_sizes.split(',')
-  const iconPath = data.model_name === 'deepseek-r1' 
-    ? `${prefix}/images/models/deepseek.png` 
-    : `${prefix}/images/models/ai-models.png`
+  const sizes = data.model_sizes?.split(',') || ["7b"]
+  const iconPath = data.logo
   
-  const isDeepseek = data.model_name === 'deepseek-r1'
+  const isDeepseek = data.name === 'deepseek-r1'
   const cardContent = (
     <div className={cn(
       "flex flex-col rounded-lg border p-4",
@@ -62,13 +64,13 @@ function ModelCard({ data }: { data: ModelData }) {
       <div className="flex items-start gap-4">
         <img 
           src={iconPath}
-          alt={data.model_name}
+          alt={data.name}
           className="-ml-2 size-12 object-contain"
         />
         <div className="flex flex-col">
-          <h3 className="text-lg font-semibold">{data.model_name}</h3>
+          <h3 className="text-lg font-semibold">{data.name}</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            A powerful language model for natural text generation and understanding
+            {data.desc}
           </p>
         </div>
         <span className="ml-auto text-sm text-muted-foreground">{data.last_updated}</span>
@@ -103,15 +105,17 @@ function ModelCard({ data }: { data: ModelData }) {
   return cardContent
 }
 
-type AIModelDirectoryProps = {
-  initialModels: ModelData[]
-}
-
-export default function AIModelDirectory({ initialModels }: AIModelDirectoryProps) {
-  const [sortBy, setSortBy] = useState('recently-updated')
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([])
+export default function AIModelDirectory() {
   const [searchQuery, setSearchQuery] = useState('')
-  
+  const [sortBy, setSortBy] = useState('most-popular')
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([])
+
+  const initialModels = ModelDefinitions.map(model => ({
+    ...model,
+    model_sizes: model.options?.find(opt => opt.name === "model_size")?.value || "7b",
+    type: model.tags[0] || "General"
+  }))
+
   const filteredAndSortedModels = useMemo(() => {
     let models = [...initialModels]
     
@@ -119,7 +123,7 @@ export default function AIModelDirectory({ initialModels }: AIModelDirectoryProp
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       models = models.filter(model => 
-        model.model_name.toLowerCase().includes(query)
+        model.name.toLowerCase().includes(query)
       )
     }
     
@@ -131,20 +135,20 @@ export default function AIModelDirectory({ initialModels }: AIModelDirectoryProp
     // Apply sorting
     switch (sortBy) {
       case 'most-popular':
-        models.sort((a, b) => parseFloat(b.pulls) - parseFloat(a.pulls))
+        models.sort((a, b) => (b.model_sizes?.split(',').length || 0) - (a.model_sizes?.split(',').length || 0))
         break
       case 'recently-updated':
         models.sort((a, b) => {
-          const dateA = parseRelativeTime(a.last_updated)
-          const dateB = parseRelativeTime(b.last_updated)
+          const dateA = parseRelativeTime(a.last_updated || "")
+          const dateB = parseRelativeTime(b.last_updated || "")
           return dateB - dateA
         })
         break
       case 'name-asc':
-        models.sort((a, b) => a.model_name.localeCompare(b.model_name))
+        models.sort((a, b) => a.name.localeCompare(b.name))
         break
       case 'name-desc':
-        models.sort((a, b) => b.model_name.localeCompare(a.model_name))
+        models.sort((a, b) => b.name.localeCompare(a.name))
         break
     }
     
@@ -215,7 +219,7 @@ export default function AIModelDirectory({ initialModels }: AIModelDirectoryProp
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {filteredAndSortedModels.map((model) => (
-          <ModelCard key={model.model_name} data={model} />
+          <ModelCard key={model.id} data={model} />
         ))}
       </div>
     </div>

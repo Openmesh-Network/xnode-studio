@@ -43,7 +43,8 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
   const advanced = z.string().optional().parse(searchParams.advanced)
 
   const sessionCookie = cookies().get('userSessionToken')
-  if (!sessionCookie) {
+  // Temporarily comment out session check for demo
+  /* if (!sessionCookie) {
     const params = [
       {
         name: 'templateId',
@@ -62,7 +63,7 @@ export default async function DeployPage({ searchParams }: DeployPageProps) {
       .map((param) => `${param.name}=${param.value}`)
       .join('&')
     redirect(`/login?redirect=/deploy?${params}`)
-  }
+  } */
 
   function getData() {
     if (!templateId && !useCaseId && !advanced) redirect('/app-store')

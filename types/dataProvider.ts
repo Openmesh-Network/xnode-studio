@@ -1,5 +1,6 @@
 import ServiceDefinitions from 'utils/service-definitions.json'
 import TemplateDefinitions from 'utils/template-definitions.json'
+import ModelDefinitions from 'utils/model-definitions.json'
 import { z } from 'zod'
 
 import { opensshConfig } from '@/config/openssh'
