@@ -1,6 +1,3 @@
-import { createClient } from '@libsql/client'
-import { drizzle } from 'drizzle-orm/libsql'
-
 import * as schema from './schema'
 
 const mockData = [{
@@ -33,28 +30,24 @@ const mockData = [{
   priceSale: 90
 }]
 
-const simulatedStats = [
-  {
-    count: 2,
-    countries: 172,
-    providers: 32,
-    regions: 482,
-    storage: 900,
-    ram: 26,
-    bandwidth: 900
-  }
-]
+const simulatedStats = [{
+  count: 2,
+  countries: 172,
+  providers: 32,
+  regions: 482,
+  storage: 900,
+  ram: 26,
+  bandwidth: 900
+}]
 
 const mockDb = {
   select: (params = {}) => ({
-    from: (_table: any) => {
-      return {
-        limit: (_limit?: any) => simulatedStats,
-        where: (_clause?: any) => ({
-          limit: (_limit?: any) => simulatedStats
-        })
-      }
-    }
+    from: (_table: any) => ({
+      limit: (_limit?: any) => simulatedStats,
+      where: (_clause?: any) => ({
+        limit: (_limit?: any) => simulatedStats
+      })
+    })
   }),
   query: {
     Providers: {
