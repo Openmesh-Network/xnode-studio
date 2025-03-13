@@ -22928,7 +22928,7 @@
     "tags": ["blockchain", "node", "near", "protocol", "docker"],
     "website": "https://near.org",
     "implemented": false,
-    "logo": "https://near.org/wp-content/uploads/2020/03/near_logo.png",
+    "logo": "https://cryptologos.cc/logos/near-protocol-near-logo.png",
     "repo": "https://github.com/johnforfar/near-docker-testing",
     "documentation": "https://docs.near.org/validator/running-a-node",
     "containers": ["near"],
