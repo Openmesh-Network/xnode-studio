@@ -6626,6 +6626,63 @@
     ]
   },
   {
+    "name": "Near Protocol Node",
+    "desc": "A Near Protocol node for participating in the Near network",
+    "longDesc": "The Near Protocol Node is a crucial component for participating in the Near blockchain network. By running a node, users can contribute to the network's security and decentralization. The node allows for transaction validation, block production (for validators), and provides access to the network's data for developers and users. This deployment uses Docker to simplify the setup process, making it accessible for both beginners and experienced users. Key features include:\n- **Network Participation:** Connect to mainnet, testnet, or betanet.\n- **Configurable Parameters:** Adjust settings like boot nodes, minimum peers, and RPC address.\n- **Data Persistence:** Uses a volume to store node data, ensuring continuity across restarts.\n- **Resource Requirements:** Specifies minimum CPU, memory, and storage needs for optimal performance.",
+    "useCases": "- **Validators:** Run a node to validate transactions and earn rewards.\n- **Developers:** Use a local node for testing smart contracts and applications.\n- **Enthusiasts:** Support the network by running a node and contributing to its decentralization.",
+    "support": "- **GitHub Repository:** For issues and contributions, visit [Near Docker Testing](https://github.com/johnforfar/near-docker-testing).\n- **Documentation:** Comprehensive guides are available at [Near Docs](https://docs.near.org/validator/running-a-node).\n- **Community:** Join the Near community forums and Discord for discussions and support.",
+    "nixName": "near",
+    "specs": {
+      "ram": 24000,
+      "storage": 1000000
+    },
+    "tags": [
+      "Blockchain",
+      "NEAR",
+      "Validator"
+    ],
+    "website": "https://near.org",
+    "implemented": false,
+    "logo": "https://cryptologos.cc/logos/near-protocol-near-logo.png",
+    "options": [
+      {
+        "name": "network",
+        "desc": "Network to connect to (mainnet, testnet, betanet)",
+        "nixName": "network",
+        "type": "one of \"mainnet\", \"testnet\", \"betanet\"",
+        "value": "mainnet"
+      },
+      {
+        "name": "boot_nodes",
+        "desc": "List of boot nodes to connect to",
+        "nixName": "bootNodes",
+        "type": "list of strings",
+        "value": "[]"
+      },
+      {
+        "name": "min_peers",
+        "desc": "Minimum number of peers to maintain",
+        "nixName": "minPeers",
+        "type": "integer",
+        "value": "40"
+      },
+      {
+        "name": "rpc.addr",
+        "desc": "RPC listening address",
+        "nixName": "rpc.addr",
+        "type": "string",
+        "value": "0.0.0.0:3030"
+      },
+      {
+        "name": "extraArgs",
+        "desc": "Additional arguments for the Near node",
+        "nixName": "extraArgs",
+        "type": "list of strings",
+        "value": "[]"
+      }
+    ]
+  },
+  {
     "name": "Netdata",
     "desc": "Deploy Netdata to provide real-time performance monitoring and troubleshooting for systems and applications. Netdata enables users to visualize metrics and logs with a focus on ease of use and low resource consumption.",
     "longDesc": "Netdata is an open-source monitoring solution that provides insights into system performance and resource utilization through interactive, real-time visualizations. It helps users identify bottlenecks and issues in their infrastructure.\n\n**Key Features:**\n- **One-Click Deployment:** Easily set up Netdata using Docker or other container technologies for quick installation and management.\n- **Scalability:** Capable of monitoring thousands of metrics from multiple sources in real time, suitable for small applications to large enterprise environments.\n- **Privacy and Security:** Netdata runs locally, ensuring that data remains on the user’s servers without sending sensitive information to external services.\n- **API Compatibility:** Provides a powerful API for integrating with existing tools and custom applications, allowing for extended functionality.\n- **Rich Visualizations:** Offers detailed graphs and dashboards for visualizing metrics, making it easier to understand system performance at a glance.",
@@ -22913,84 +22970,5 @@
         "value": "\"httpd\""
       }
     ]
-  },
-  {
-    "name": "Near Protocol Node",
-    "desc": "A Near Protocol node for participating in the Near network",
-    "longDesc": "The Near Protocol Node is a crucial component for participating in the Near blockchain network. By running a node, users can contribute to the network's security and decentralization. The node allows for transaction validation, block production (for validators), and provides access to the network's data for developers and users. This deployment uses Docker to simplify the setup process, making it accessible for both beginners and experienced users. Key features include:\n- **Network Participation:** Connect to mainnet, testnet, or betanet.\n- **Configurable Parameters:** Adjust settings like boot nodes, minimum peers, and RPC address.\n- **Data Persistence:** Uses a volume to store node data, ensuring continuity across restarts.\n- **Resource Requirements:** Specifies minimum CPU, memory, and storage needs for optimal performance.",
-    "useCases": "- **Validators:** Run a node to validate transactions and earn rewards.\n- **Developers:** Use a local node for testing smart contracts and applications.\n- **Enthusiasts:** Support the network by running a node and contributing to its decentralization.",
-    "support": "- **GitHub Repository:** For issues and contributions, visit [Near Docker Testing](https://github.com/johnforfar/near-docker-testing).\n- **Documentation:** Comprehensive guides are available at [Near Docs](https://docs.near.org/validator/running-a-node).\n- **Community:** Join the Near community forums and Discord for discussions and support.",
-    "nixName": "near",
-    "specs": {
-      "ram": 24000,
-      "storage": 1000000
-    },
-    "tags": ["blockchain", "node", "near", "protocol", "docker"],
-    "website": "https://near.org",
-    "implemented": false,
-    "logo": "https://cryptologos.cc/logos/near-protocol-near-logo.png",
-    "repo": "https://github.com/johnforfar/near-docker-testing",
-    "documentation": "https://docs.near.org/validator/running-a-node",
-    "containers": ["near"],
-    "ports": [
-      {
-        "port": 24567,
-        "desc": "P2P port for node communication"
-      },
-      {
-        "port": 3030,
-        "desc": "RPC/API port"
-      }
-    ],
-    "volumes": [
-      {
-        "name": "data",
-        "desc": "Near node data directory",
-        "container": "/root/.near",
-        "required": true
-      }
-    ],
-    "options": [
-      {
-        "name": "network",
-        "desc": "Network to connect to (mainnet, testnet, betanet)",
-        "nixName": "network",
-        "type": "one of \"mainnet\", \"testnet\", \"betanet\"",
-        "value": "mainnet"
-      },
-      {
-        "name": "boot_nodes",
-        "desc": "List of boot nodes to connect to",
-        "nixName": "bootNodes",
-        "type": "list of strings",
-        "value": "[]"
-      },
-      {
-        "name": "min_peers",
-        "desc": "Minimum number of peers to maintain",
-        "nixName": "minPeers",
-        "type": "integer",
-        "value": "40"
-      },
-      {
-        "name": "rpc.addr",
-        "desc": "RPC listening address",
-        "nixName": "rpc.addr",
-        "type": "string",
-        "value": "0.0.0.0:3030"
-      },
-      {
-        "name": "extraArgs",
-        "desc": "Additional arguments for the Near node",
-        "nixName": "extraArgs",
-        "type": "list of strings",
-        "value": "[]"
-      }
-    ],
-    "requirements": {
-      "cpu": 8,
-      "memory": 24000,
-      "storage": 1000000
-    }
   }
 ]
