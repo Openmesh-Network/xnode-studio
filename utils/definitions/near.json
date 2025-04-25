@@ -1,53 +1,53 @@
 {
-    "name": "Near Protocol Node",
-    "desc": "A Near Protocol node for participating in the Near network",
-    "longDesc": "The Near Protocol Node is a crucial component for participating in the Near blockchain network. By running a node, users can contribute to the network's security and decentralization. The node allows for transaction validation, block production (for validators), and provides access to the network's data for developers and users. This deployment uses Docker to simplify the setup process, making it accessible for both beginners and experienced users. Key features include:\n- **Network Participation:** Connect to mainnet, testnet, or betanet.\n- **Configurable Parameters:** Adjust settings like boot nodes, minimum peers, and RPC address.\n- **Data Persistence:** Uses a volume to store node data, ensuring continuity across restarts.\n- **Resource Requirements:** Specifies minimum CPU, memory, and storage needs for optimal performance.",
-    "useCases": "- **Validators:** Run a node to validate transactions and earn rewards.\n- **Developers:** Use a local node for testing smart contracts and applications.\n- **Enthusiasts:** Support the network by running a node and contributing to its decentralization.",
-    "support": "- **GitHub Repository:** For issues and contributions, visit [Near Docker Testing](https://github.com/johnforfar/near-docker-testing).\n- **Documentation:** Comprehensive guides are available at [Near Docs](https://docs.near.org/validator/running-a-node).\n- **Community:** Join the Near community forums and Discord for discussions and support.",
-    "nixName": "near",
-    "specs": {
-      "ram": 24000,
-      "storage": 1000000
+  "name": "Near Node",
+  "desc": "A Near Protocol node for participating in the Near network",
+  "longDesc": "The Near Protocol Node is a crucial component for participating in the Near blockchain network. By running a node, users can contribute to the network's security and decentralization. The node allows for transaction validation, block production (for validators), and provides access to the network's data for developers and users. This deployment uses Docker to simplify the setup process, making it accessible for both beginners and experienced users. Key features include:\n- **Network Participation:** Connect to mainnet, testnet, or betanet.\n- **Configurable Parameters:** Adjust settings like boot nodes, minimum peers, and RPC address.\n- **Data Persistence:** Uses a volume to store node data, ensuring continuity across restarts.\n- **Resource Requirements:** Specifies minimum CPU, memory, and storage needs for optimal performance.",
+  "useCases": "- **Validators:** Run a node to validate transactions and earn rewards.\n- **Developers:** Use a local node for testing smart contracts and applications.\n- **Enthusiasts:** Support the network by running a node and contributing to its decentralization.",
+  "support": "- **GitHub Repository:** For issues and contributions, visit [Near Docker Testing](https://github.com/johnforfar/near-docker-testing).\n- **Documentation:** Comprehensive guides are available at [Near Docs](https://docs.near.org/validator/running-a-node).\n- **Community:** Join the Near community forums and Discord for discussions and support.",
+  "nixName": "near",
+  "specs": {
+    "ram": 4000,
+    "storage": 100000
+  },
+  "tags": ["Blockchain", "NEAR", "Validator"],
+  "website": "https://near.org",
+  "implemented": true,
+  "logo": "https://near.org/favicon.ico",
+  "options": [
+    {
+      "name": "network",
+      "desc": "Network to connect to (mainnet, testnet, betanet)",
+      "nixName": "network",
+      "type": "one of \"mainnet\", \"testnet\", \"betanet\"",
+      "value": "mainnet"
     },
-    "tags": ["Blockchain", "NEAR", "Validator"],
-    "website": "https://near.org",
-    "implemented": false,
-    "logo": "https://cryptologos.cc/logos/near-protocol-near-logo.png",
-    "options": [
-      {
-        "name": "network",
-        "desc": "Network to connect to (mainnet, testnet, betanet)",
-        "nixName": "network",
-        "type": "one of \"mainnet\", \"testnet\", \"betanet\"",
-        "value": "mainnet"
-      },
-      {
-        "name": "boot_nodes",
-        "desc": "List of boot nodes to connect to",
-        "nixName": "bootNodes",
-        "type": "list of strings",
-        "value": "[]"
-      },
-      {
-        "name": "min_peers",
-        "desc": "Minimum number of peers to maintain",
-        "nixName": "minPeers",
-        "type": "integer",
-        "value": "40"
-      },
-      {
-        "name": "rpc.addr",
-        "desc": "RPC listening address",
-        "nixName": "rpc.addr",
-        "type": "string",
-        "value": "0.0.0.0:3030"
-      },
-      {
-        "name": "extraArgs",
-        "desc": "Additional arguments for the Near node",
-        "nixName": "extraArgs",
-        "type": "list of strings",
-        "value": "[]"
-      }
-    ]
-  }
+    {
+      "name": "boot_nodes",
+      "desc": "List of boot nodes to connect to",
+      "nixName": "bootNodes",
+      "type": "list of strings",
+      "value": "[]"
+    },
+    {
+      "name": "min_peers",
+      "desc": "Minimum number of peers to maintain",
+      "nixName": "minPeers",
+      "type": "integer",
+      "value": "40"
+    },
+    {
+      "name": "rpc.addr",
+      "desc": "RPC listening address",
+      "nixName": "rpc.addr",
+      "type": "string",
+      "value": "0.0.0.0:3030"
+    },
+    {
+      "name": "extraArgs",
+      "desc": "Additional arguments for the Near node",
+      "nixName": "extraArgs",
+      "type": "list of strings",
+      "value": "[]"
+    }
+  ]
+}
